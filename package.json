@@ -1,7 +1,15 @@
 {
   "name": "open-system",
+  "namespace": "@open-system",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "BSD 2-Clause \"Simplified\" License",
+  "description": "The OpenSystem application monorepo",
+  "author": "Patrick Sullivan <Patrick.Sullivan@Broadridge.com>",
+  "homepage": "https://sullivanpj.github.io/AtomFX/",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/sullivanpj/open-system.git"
+  },
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
@@ -12,7 +20,9 @@
     "core-js": "^3.6.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "regenerator-runtime": "0.13.7",
+    "react-router": "^6.4.2",
+    "react-router-dom": "^6.4.1",
+    "regenerator-runtime": "^0.13.10",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
@@ -26,10 +36,12 @@
     "@nrwl/web": "15.0.4",
     "@nrwl/workspace": "15.0.4",
     "@testing-library/react": "13.4.0",
+    "@theunderscorer/nx-semantic-release": "^1.14.0",
     "@types/jest": "28.1.1",
     "@types/node": "18.7.18",
     "@types/react": "18.0.20",
     "@types/react-dom": "18.0.6",
+    "@types/react-router-dom": "5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "babel-jest": "28.1.1",
