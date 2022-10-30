@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "BSD 2-Clause \"Simplified\" License",
   "description": "The OpenSystem application monorepo",
-  "author": "Patrick Sullivan <Patrick.Sullivan@Broadridge.com>",
+  "author": "Patrick Sullivan <Patrick.Joseph.Sullivan@ProtonMail.com>",
   "homepage": "https://sullivanpj.github.io/AtomFX/",
   "repository": {
     "type": "github",
@@ -67,3 +67,4 @@
     "typescript": "~4.8.2"
   }
 }
+

@@ -96,6 +96,15 @@
         "jestConfig": "apps/web/landing/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "web-landing-v${VERSION}"
+      }
     }
   },
   "tags": ["domain:landing", "type:apps", "target:web"]

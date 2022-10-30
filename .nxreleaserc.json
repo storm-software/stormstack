@@ -1,0 +1,8 @@
+{
+  "changelog": true,
+  "npm": true,
+  "github": true,
+  "repositoryUrl": "https://github.com/sullivanpj/open-system",
+  "branches": ["master", "main"]
+}
+
