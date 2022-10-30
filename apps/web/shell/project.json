@@ -88,6 +88,14 @@
           "buildTarget": "web-shell:build:production"
         }
       }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/web/shell/jest.config.ts",
+        "passWithNoTests": true
+      }
     }
   },
   "tags": ["domain:shared", "type:apps", "target:web"]

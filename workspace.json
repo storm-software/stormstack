@@ -1,8 +1,8 @@
 {
   "version": 2,
   "projects": {
-    "web-shell": "apps/web/shell",
+    "shared-ui-feature-routing": "libs/shared/ui/feature-routing",
     "web-landing": "apps/web/landing",
-    "shared-ui-feature-routing": "libs/shared/ui/feature-routing"
+    "web-shell": "apps/web/shell"
   }
 }
