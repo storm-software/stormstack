@@ -1,0 +1,143 @@
+{
+  "name": "@open-system/asyncapi-rabbitmq",
+  "version": "0.0.1",
+  "description": "Template package for AsyncAPI code generation",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "get-version": "echo $npm_package_version",
+    "gen-readme-toc": "markdown-toc -i README.md",
+    "lint": "eslint --max-warnings 0 --fix --config .eslintrc .",
+    "release": "semantic-release",
+    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
+    "generate:assets": "",
+    "generate:examples": ""
+  },
+  "keywords": [
+    "asyncapi",
+    "generator",
+    "template",
+    "dotnet",
+    "rabbitmq"
+  ],
+  "author": "Peter Wikström <peter@wikstrom.in> (https://github.com/mr-nuno)",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@asyncapi/generator-filters": "^1.1.0",
+    "@asyncapi/generator-hooks": "^0.1.0",
+    "@asyncapi/modelina": "^0.59.4",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@asyncapi/generator": "^1.9.6",
+    "@asyncapi/parser": "^1.15.1",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/github": "7.2.3",
+    "@semantic-release/npm": "^7.0.5",
+    "@semantic-release/release-notes-generator": "^9.0.1",
+    "all-contributors-cli": "^6.19.0",
+    "conventional-changelog-conventionalcommits": "^4.4.0",
+    "eslint": "^7.17.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "jest": "^26.4.2",
+    "jest-esm-transformer": "^1.0.0",
+    "markdown-toc": "^1.2.0",
+    "rimraf": "^3.0.2",
+    "semantic-release": "19.0.3"
+  },
+  "generator": {
+    "renderer": "react",
+    "parameters": {
+      "supportedProtocols": [
+        "amqp"
+      ],
+      "asyncapiFileDir": {
+        "description": "Custom location of the AsyncAPI file that you provided as an input in generation. By default it is located in the root of the output directory"
+      },
+      "pdf": {
+        "description": "Set to `true` to get index.pdf generated next to your index.html",
+        "default": false
+      },
+      "png": {
+        "description": "Set to `true` to get index.png generated next to your index.html",
+        "default": false
+      },
+      "svg": {
+        "description": "Set to `true` to get index.svg generated next to your index.html",
+        "default": false
+      },
+      "maxTextSize": {
+        "description": "It is possible that in case of an extremely large AsyncAPI document default mermaid recommended text size will not be enough. Then you need to explicitly make it larger",
+        "default": 50000
+      },
+      "namespace": {
+        "description": "Name of the package, this is used as the base namespace for all classes within gen code. Useful for whitelabel as well ;)",
+        "default": "Demo"
+      },
+      "user": {
+        "description": "The user to the AMQP broker",
+        "default": "user"
+      },
+      "password": {
+        "description": "The password to the AMQP broker",
+        "default": "password"
+      },
+      "server": {
+        "description": "The AMQP server host address",
+        "default": "development",
+        "required": true
+      }
+    },
+    "filters": [
+      "@asyncapi/generator-filters"
+    ],
+    "generator": ">=1.1.0 <2.0.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      [
+        "@babel/preset-react",
+        {
+          "runtime": "automatic"
+        }
+      ]
+    ]
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx"
+    ]
+  },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  }
+}

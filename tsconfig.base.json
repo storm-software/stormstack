@@ -17,6 +17,14 @@
     "paths": {
       "@open-system/shared-feature-routing": [
         "libs/shared/ui/feature-routing/src/index.ts"
+      ],
+      "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
+      "@open-system/generators-dotnet": ["tools/generators/dotnet/index.ts"],
+      "@open-system/executors-typescript": [
+        "tools/executors/typescript/index.ts"
+      ],
+      "@open-system/generators-typescript": [
+        "tools/generators/typescript/index.ts"
       ]
     }
   },

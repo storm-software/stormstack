@@ -1,23 +1,18 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.0",
   "x-stoplight": {
     "id": "cd21s8nqejpjn"
   },
   "info": {
     "title": "Message",
     "version": "1.0",
-    "summary": "A collection of message APIs used by the Open System repository",
     "description": "A collection of message APIs used by the Open System repository",
     "contact": {
       "name": "Patrick Sullivan",
       "email": "Patrick.Sullivan@broadridge.com",
       "url": "https://sullivanpj.github.io/open-system/services/message"
     },
-    "termsOfService": "https://sullivanpj.github.io/open-system/services/base",
-    "license": {
-      "name": "BSD 2-Clause License Simplified",
-      "url": "https://spdx.org/licenses/BSD-2-Clause.html"
-    }
+    "termsOfService": "https://sullivanpj.github.io/open-system/services/message"
   },
   "servers": [
     {
@@ -39,20 +34,22 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "allOf": [
+                    "$ref": "#/components/schemas/Message"
+                  }
+                },
+                "examples": {
+                  "Success Response": {
+                    "value": [
                       {
-                        "type": "object",
-                        "properties": {
-                          "guid": {
-                            "$ref": "../../shared/api-spec.json#/components/schemas/Guid"
-                          }
-                        },
-                        "required": [
-                          "guid"
-                        ]
-                      },
-                      {
-                        "$ref": "#/components/schemas/Message"
+                        "guid": "123e4567-e89b-12d3-a456-426614174000",
+                        "createdOn": "2022-03-19 04:24:02.190",
+                        "createdBy": "PSUL",
+                        "updatedOn": "2022-10-12 14:01:13.000",
+                        "updatedBy": "PSUL",
+                        "message": "This message is displayed in the application",
+                        "messageType": "FXL",
+                        "messageNumber": 338296833,
+                        "culture": "EN-US"
                       }
                     ]
                   }
@@ -106,7 +103,7 @@
             "description": "A specific message number to return"
           },
           {
-            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
@@ -123,10 +120,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
                 },
                 "examples": {
-                  "Example": {
+                  "Success Response": {
                     "value": {
                       "guid": "123e4567-e89b-12d3-a456-426614174000"
                     }
@@ -153,10 +150,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Message"
+                "$ref": "#/components/schemas/MessageRequest"
               },
               "examples": {
-                "Example": {
+                "Sample Request": {
                   "value": {
                     "message": "This message is displayed in the application",
                     "messageType": "FXL",
@@ -176,7 +173,7 @@
         },
         "parameters": [
           {
-            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
           }
         ],
         "tags": [
@@ -187,7 +184,7 @@
     "/{guid}": {
       "parameters": [
         {
-          "$ref": "../../shared/api-spec.json#/components/parameters/guid"
+          "$ref": "../../shared/shared.api-spec.json#/components/parameters/guid"
         }
       ],
       "get": {
@@ -199,27 +196,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "guid": {
-                          "$ref": "../../shared/api-spec.json#/components/schemas/Guid"
-                        }
-                      },
-                      "required": [
-                        "guid"
-                      ]
-                    },
-                    {
-                      "$ref": "#/components/schemas/Message"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/Message"
                 },
                 "examples": {
-                  "Example": {
+                  "Success Response": {
                     "value": {
                       "guid": "123e4567-e89b-12d3-a456-426614174000",
+                      "createdOn": "2022-03-19 04:24:02.190",
+                      "createdBy": "PSUL",
+                      "updatedOn": "2022-10-12 14:01:13.000",
+                      "updatedBy": "PSUL",
                       "message": "This message is displayed in the application",
                       "messageType": "FXL",
                       "messageNumber": 338296833,
@@ -245,7 +231,7 @@
         },
         "parameters": [
           {
-            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
@@ -262,10 +248,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
                 },
                 "examples": {
-                  "Example": {
+                  "Success Response": {
                     "value": {
                       "guid": "123e4567-e89b-12d3-a456-426614174000"
                     }
@@ -290,7 +276,7 @@
         "description": "Remove an existing message record",
         "parameters": [
           {
-            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
           }
         ],
         "tags": [
@@ -306,10 +292,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
                 },
                 "examples": {
-                  "Example": {
+                  "Success Response": {
                     "value": {
                       "guid": "123e4567-e89b-12d3-a456-426614174000"
                     }
@@ -336,10 +322,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Message"
+                "$ref": "#/components/schemas/MessageRequest"
               },
               "examples": {
-                "Example": {
+                "Sample Request": {
                   "value": {
                     "message": "This message is displayed in the application",
                     "messageType": "FXL",
@@ -353,7 +339,7 @@
         },
         "parameters": [
           {
-            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
           }
         ],
         "tags": [
@@ -369,9 +355,51 @@
         "x-stoplight": {
           "id": "1uit484jxisd8"
         },
-        "description": "A Message record returned from the server",
+        "description": "A `Message` record returned from the server",
         "x-examples": {
           "Sample Message": {
+            "guid": "123e4567-e89b-12d3-a456-426614174000",
+            "createdOn": "2022-03-19 04:24:02.190",
+            "createdBy": "PSUL",
+            "updatedOn": "2022-10-12 14:01:13.000",
+            "updatedBy": "PSUL",
+            "message": "This message is displayed in the application",
+            "messageType": "FXL",
+            "messageNumber": 338296833,
+            "culture": "EN-US"
+          }
+        },
+        "allOf": [
+          {
+            "$ref": "../../shared/shared.api-spec.json#/components/schemas/RecordBase"
+          },
+          {
+            "$ref": "#/components/schemas/MessageRequest"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "messageNumber": {
+                "type": "integer",
+                "example": 338296833,
+                "minimum": 0,
+                "maximum": 999999999
+              }
+            },
+            "required": [
+              "messageNumber"
+            ]
+          }
+        ]
+      },
+      "MessageRequest": {
+        "title": "Message Request",
+        "x-stoplight": {
+          "id": "1uit484jxisd8"
+        },
+        "description": "An object sent to the server in a request to add a new or edit an existing `Message`. ",
+        "x-examples": {
+          "Sample Message Request": {
             "message": "This message is displayed in the application",
             "messageType": "FXL",
             "messageNumber": 338296833,
@@ -422,13 +450,59 @@
       }
     },
     "requestBodies": {},
-    "responses": {},
+    "responses": {
+      "GetMessagesResponse": {
+        "description": "Successful response to Get Messages end point",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "../../shared/shared.api-spec.json#/components/schemas/RecordBase"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                ]
+              }
+            },
+            "examples": {
+              "Success Response": {
+                "value": [
+                  {
+                    "guid": "123e4567-e89b-12d3-a456-426614174000",
+                    "createdOn": "2022-03-19 04:24:02.190",
+                    "createdBy": "PSUL",
+                    "updatedOn": "2022-10-12 14:01:13.000",
+                    "updatedBy": "PSUL",
+                    "message": "This message is displayed in the application",
+                    "messageType": "FXL",
+                    "messageNumber": 338296833,
+                    "culture": "EN-US"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     "parameters": {},
-    "securitySchemes": {}
+    "securitySchemes": {
+      "bearer-token": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "A request header containing the JSON web token (JWT) provided by the IDM service in a cookie when the user signed into the application. This JWT contains the current user's encoded `SiteMinder` entitlements."
+      }
+    }
   },
   "tags": [
     {
       "name": "Message"
     }
-  ]
+  ],
+  "x-all-of-name": "DTO_AllOf",
+  "x-one-of-name": "DTO_OneOf"
 }

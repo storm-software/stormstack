@@ -1,0 +1,7 @@
+{
+  "name": "@open-system/executors-typescript",
+  "executors": "./executors.json",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "typings": "./index.d.ts"
+}

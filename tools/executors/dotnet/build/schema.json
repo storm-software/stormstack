@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "extends": "../../../node_modules/@nx-dotnet/core/src/executors/build/schema.json",
+  "cli": "nx",
+  "id": "Build",
+  "title": ".Net Build Executor",
+  "type": "object",
+  "description": "Builds an app via the `dotnet` cli command.",
+  "properties": {
+    "baseBuildTarget": {
+      "type": "string",
+      "description": "The path to the NuGet.Config file to use during the restore",
+      "default": "build-base"
+    },
+    "verbosity": {
+      "type": "string",
+      "enum": ["quiet", "minimal", "normal", "detailed", "diagnostic"],
+      "default": "normal"
+    },
+    "configFile": {
+      "type": "string",
+      "description": "The path to the NuGet.Config file to use during the restore"
+    }
+  },
+  "required": ["baseBuildTarget"]
+}

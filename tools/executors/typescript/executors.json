@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "client-api-async": {
+      "implementation": "../../../dist/tools/executors/typescript/client-api-async/impl",
+      "schema": "../../../dist/tools/executors/typescript/client-api-async/schema.json",
+      "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec"
+    }
+  }
+}

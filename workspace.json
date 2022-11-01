@@ -3,6 +3,13 @@
   "projects": {
     "shared-ui-feature-routing": "libs/shared/ui/feature-routing",
     "web-landing": "apps/web/landing",
-    "web-shell": "apps/web/shell"
+    "web-shell": "apps/web/shell",
+    "tools-asyncapi-rabbitmq": "tools/asyncapi/rabbitmq",
+    "tools-generators-dotnet": "tools/generators/dotnet",
+    "tools-generators-typescript": "tools/generators/typescript",
+    "tools-executors-dotnet": "tools/executors/dotnet",
+    "tools-executors-typescript": "tools/executors/typescript",
+    "apis-message": "apps/apis/message"
   }
 }
+

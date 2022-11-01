@@ -1,0 +1,101 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "apis-{{domainName}}",
+  "projectType": "application",
+  "sourceRoot": "{{sourceRoot}}",
+  "targets": {
+    "build": {
+      "executor": "@open-system/executors-dotnet:build",
+      "output": ["dist/apps/apis/{{domainName}}"],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": false
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        },
+        "docker": {
+          "configuration": "Debug",
+          "noDependencies": false,
+          "configFile": "../../../NuGet.Config"
+        }
+      }
+    },
+    "build-base": {
+      "executor": "@nx-dotnet/core:build",
+      "output": ["dist/apps/apis/{{domainName}}"],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": false
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        },
+        "docker": {
+          "configuration": "Debug"
+        }
+      }
+    },
+    "publish": {
+      "executor": "@nx-dotnet/core:publish",
+      "selfContained": true,
+      "outputs": ["dist/apps/apis/{{domainName}}/publish"],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": true
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        },
+        "docker": {
+          "configuration": "Debug",
+          "outputs": "/app/publish"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx-dotnet/core:serve",
+      "options": {
+        "configuration": "Debug"
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx-dotnet/core:format"
+    },
+   "server-api-async": {
+      "executor": "@open-system:server-api-async",
+      "options": {
+        "domainName": "{{domainName}}",
+        "serviceName": "{{serviceName}}",
+        "specJsonFile": "{{specJsonFile}}",
+        "packageName": "{{packageName}}"
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "file": "./Dockerfile",
+        "load": true,
+        "tags": ["{{dockerTag}}"]
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "apis-{{domainName}}-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["domain:{{domainName}}", "type:apps", "target:apis"]
+}

@@ -1,0 +1,155 @@
+{{>partial_header}}
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Versioning;
+{{#operationResultTask}}
+using System.Threading.Tasks;
+{{/operationResultTask}}
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+{{#useSwashbuckle}}
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
+{{/useSwashbuckle}}
+{{^isLibrary}}
+using Newtonsoft.Json;
+{{/isLibrary}}
+using {{packageName}}.Attributes;
+using {{modelPackage}};
+
+namespace {{apiPackage}}
+{ {{#operations}}
+    /// <summary>
+    /// Controller for {{classname}} service implementation(s)
+    /// </summary>
+    [Description("Controller for {{classname}} service implementation(s)")]
+    [ApiController]
+    [ApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
+    [Route("api/v{{{version}}}{{^version}}1.0{{/version}}{{{basePathWithoutHost}}}")]
+    public {{#classModifier}}{{.}} {{/classModifier}}class {{classname}}Controller : ControllerBase
+    {
+        private readonly ILogger<{{classname}}Controller> _logger;
+        private readonly string _baseUrl;
+        private readonly HttpContext _context;
+
+        /// <summary>
+        /// Constructor method for {{classname}}Controller
+        /// </summary>
+        /// <remarks>Constructor method to generate an instance of a {{classname}}Controller</remarks>
+        public {{classname}}Controller(ILogger<{{classname}}Controller> logger,
+            IHttpContextAccessor context)
+        {
+          if (context.HttpContext != null)
+          {
+            _context = context.HttpContext;
+            var request = _context.Request;
+            _baseUrl = $"{request.Scheme}://{request.Host}";
+          }
+
+          _logger = logger;
+        }
+
+        /// <summary>
+        /// An end point to indicate if the current API is running
+        /// </summary>
+        /// <remarks>Add new message record</remarks>
+        /// <response code="200">Example response</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server Error</response>
+        /// <response code="503">Service Unavailable</response>
+        [HttpGet]
+        [Route("/health-check")]
+        public {{#operationModifier}}{{.}} {{/operationModifier}}{{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} HealthCheck()
+        {
+          var msg = $"{_context.Request.Host} is healthy";
+
+          _logger.LogInformation(msg);
+          return Ok(msg);
+        }
+
+        /// <summary>
+        /// An end point to return the current API status
+        /// </summary>
+        /// <remarks>Add new message record</remarks>
+        /// <response code="200">Example response</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server Error</response>
+        /// <response code="503">Service Unavailable</response>
+        [HttpGet]
+        [Route("/status")]
+        public {{#operationModifier}}{{.}} {{/operationModifier}}{{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} Status()
+        {
+          var msg = $"Running on {_context.Request.Host}";
+
+          _logger.LogInformation(msg);
+          return Ok(msg);
+        }
+
+        {{#operation}}
+        /// <summary>
+        /// {{summary}}
+        /// </summary>{{#notes}}
+        /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
+        /// <response code="{{code}}">{{message}}</response>{{/responses}}
+        [{{httpMethod}}]
+        [Route("{{{path}}}")]
+{{#authMethods}}
+{{#isApiKey}}
+        [Authorize(Policy = "{{name}}")]
+{{/isApiKey}}
+{{#isBasicBearer}}
+        [Authorize{{#scopes}}{{#-first}}(Roles = "{{/-first}}{{scope}}{{^-last}},{{/-last}}{{#-last}}"){{/-last}}{{/scopes}}]
+{{/isBasicBearer}}
+{{/authMethods}}
+        {{#vendorExtensions.x-aspnetcore-consumes}}
+        [Consumes({{&vendorExtensions.x-aspnetcore-consumes}})]
+        {{/vendorExtensions.x-aspnetcore-consumes}}
+        {{^vendorExtensions.x-aspnetcore-consumes}}
+        [Consumes("application/json")]
+        {{/vendorExtensions.x-aspnetcore-consumes}}
+        [ValidateModelState]{{#useSwashbuckle}}
+        [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
+        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{/responses}}{{/useSwashbuckle}}{{^useSwashbuckle}}{{#responses}}{{#dataType}}
+        [ProducesResponseType(statusCode: {{code}}, type: typeof({{&dataType}}))]{{/dataType}}{{/responses}}{{/useSwashbuckle}}
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        public {{#operationModifier}}{{.}} {{/operationModifier}}{{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{/allParams}}){{^generateBody}};{{/generateBody}}
+        {{#generateBody}}
+        {
+            {{#cookieParams}}
+            var {{paramName}} = Request.Cookies["{{paramName}}"];
+            {{/cookieParams}}
+
+{{#responses}}
+{{#dataType}}
+            //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode({{code}}, default({{&dataType}}));
+{{/dataType}}
+{{^dataType}}
+            //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode({{code}});
+{{/dataType}}
+{{/responses}}
+{{#returnType}}
+            string exampleJson = null;
+            {{#examples}}
+            exampleJson = "{{{example}}}";
+            {{/examples}}
+            {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMap}}{{>mapReturn}}{{/isMap}}{{^isMap}}{{>objectReturn}}{{/isMap}}{{/isListCollection}}
+            {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}
+            //TODO: Change the data returned
+            return await {{#operationResultTask}}Task.FromResult<IActionResult>({{/operationResultTask}}new ObjectResult(example){{#operationResultTask}}){{/operationResultTask}};{{/returnType}}{{^returnType}}
+            throw new NotImplementedException();{{/returnType}}
+        }
+        {{/generateBody}}
+        {{/operation}}
+    }
+{{/operations}}
+}

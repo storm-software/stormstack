@@ -1,0 +1,69 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/generators/typescript",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/generators/typescript/**/*.ts",
+          "tools/generators/typescript/generators.json",
+          "tools/generators/typescript/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/generators/typescript",
+        "tsConfig": "tools/generators/typescript/tsconfig.json",
+        "packageJson": "tools/generators/typescript/package.json",
+        "main": "tools/generators/typescript/index.ts",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "assets": [
+          "tools/generators/typescript/*.md",
+          {
+            "input": "./tools/generators/typescript",
+            "glob": "**/*.d.ts",
+            "output": "."
+          },
+          {
+            "input": "./tools/generators/typescript",
+            "glob": "**/schema.json",
+            "output": "."
+          },
+          {
+            "input": "./tools/generators/typescript",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./tools/generators/typescript",
+            "glob": "executors.json",
+            "output": "."
+          },
+          {
+            "input": "",
+            "glob": "CHANGELOG.md",
+            "output": "/"
+          },
+          {
+            "input": "",
+            "glob": "LICENSE",
+            "output": "/"
+          },
+          {
+            "input": "./tools/generators/typescript",
+            "glob": "migrations.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  },
+  "tags": []
+}

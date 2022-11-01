@@ -1,0 +1,22 @@
+import type { IApiServiceConfiguration, IRequestContext, IResponseContext } from "@base/types";
+
+{{#imports}}
+import { {{classname}} } from "@{{libraryName}}/types";
+{{/imports}}
+{{#operations}}
+
+export abstract class Abstract{{classname}}RequestFactory {
+    {{#operation}}
+    public abstract {{methodName}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: IApiServiceConfiguration): Promise<IRequestContext>;
+
+    {{/operation}}
+}
+
+
+export abstract class Abstract{{classname}}ResponseProcessor {
+    {{#operation}}
+     public abstract {{methodName}}(response: IResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}>;
+
+    {{/operation}}
+}
+{{/operations}}

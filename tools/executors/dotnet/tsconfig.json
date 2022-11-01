@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.tools.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/tools/executors/dotnet",
+    "declaration": true,
+    "rootDir": ".",
+    "types": ["node"]
+  },
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
+  "include": ["**/*.ts", "**/*.json"]
+}

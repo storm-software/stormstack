@@ -1,0 +1,5 @@
+{
+  "name": "@open-system/generators-typescript",
+  "generators": "./generators.json",
+  "version": "1.0.0"
+}

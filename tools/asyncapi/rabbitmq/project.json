@@ -1,0 +1,68 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/asyncapi/rabbitmq",
+  "projectType": "library",
+  "targets": {
+    "server-mq": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "./tools/asyncapi/rabbitmq/output",
+        "color": true,
+        "command": "ag ./tools/asyncapi/asyncapi.yaml ./tools/asyncapi/rabbitmq -o ./tools/asyncapi/rabbitmq/output --force-write -p server=development --debug"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/asyncapi/rabbitmq/**/*.ts",
+          "tools/asyncapi/rabbitmq/generators.json",
+          "tools/asyncapi/rabbitmq/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/asyncapi/rabbitmq",
+        "tsConfig": "tools/asyncapi/rabbitmq/tsconfig.json",
+        "project": "tools/asyncapi/rabbitmq/package.json",
+        "main": "tools/asyncapi/rabbitmq/index.ts",
+        "deleteOutputPath": false,
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "assets": [
+          {
+            "input": "./tools/asyncapi/rabbitmq",
+            "glob": "**/*.md",
+            "output": "."
+          },
+          {
+            "input": "./tools/asyncapi/rabbitmq",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "",
+            "glob": "CHANGELOG.md",
+            "output": "/"
+          },
+          {
+            "input": "",
+            "glob": "LICENSE",
+            "output": "/"
+          },
+          {
+            "input": "./tools/asyncapi/rabbitmq",
+            "glob": "migrations.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  },
+  "tags": []
+}

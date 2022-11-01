@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Open System - Async API Application Executor",
+  "description": "Sync Async API application project code and Data Contracts based on an AsyncApi spec",
+  "type": "object",
+  "properties": {
+    "asyncapiFileDir": {
+      "type": "string",
+      "description": "Custom location of the AsyncAPI file that you provided as an input in generation. By default it is located in the root of the output directory",
+      "default": "C:\\Development\\open-system\\tools\\asyncapi\\asyncapi.json"
+    },
+    "templateName": {
+      "type": "string",
+      "description": "Name of the template to generate",
+      "default": "C:\\Development\\open-system\\tools\\asyncapi\\rabbitmq"
+    },
+    "targetDir": {
+      "type": "string",
+      "description": "Path to the directory where the files will be generated",
+      "default": "C:\\Development\\open-system\\tools\\asyncapi\\output"
+    },
+    "pdf": {
+      "type": "boolean",
+      "description": "Set to `true` to get index.pdf generated next to your index.html",
+      "default": false
+    },
+    "png": {
+      "type": "boolean",
+      "description": "Set to `true` to get index.png generated next to your index.html",
+      "default": false
+    },
+    "svg": {
+      "type": "boolean",
+      "description": "Set to `true` to get index.svg generated next to your index.html",
+      "default": false
+    },
+    "maxTextSize": {
+      "type": "integer",
+      "description": "It is possible that in case of an extremely large AsyncAPI document default mermaid recommended text size will not be enough. Then you need to explicitly make it larger",
+      "default": 50000
+    },
+    "namespace": {
+      "type": "string",
+      "description": "Name of the package, this is used as the base namespace for all classes within gen code. Useful for whitelabel as well ;)",
+      "default": "BroadridgeFxl.Services"
+    },
+    "user": {
+      "type": "string",
+      "description": "The user to the AMQP broker",
+      "default": "user"
+    },
+    "password": {
+      "type": "string",
+      "description": "The password to the AMQP broker",
+      "default": "password"
+    },
+    "server": {
+      "type": "string",
+      "description": "The AMQP server host address",
+      "default": "development"
+    }
+  },
+  "required": ["asyncapiFileDir", "templateName", "targetDir", "server"]
+}

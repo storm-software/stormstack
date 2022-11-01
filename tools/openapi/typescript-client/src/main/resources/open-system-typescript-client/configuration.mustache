@@ -1,0 +1,32 @@
+import { serviceInjector } from "@base/inversion";
+import { recordGetAtomCreator } from "@base/state";
+import { QueryAtom, RecordGetRequest } from "@base/types";
+import {
+  BankAccountMatrixApiServiceId,
+  BankAccountMatrixGet200Response,
+  IBankAccountMatrixApiService,
+} from "@trading/types";
+import { atomFamily } from "jotai/utils";
+
+export namespace BankAccountMatrixRepository {
+  export const getRecord = atomFamily<
+    RecordGetRequest,
+    QueryAtom<BankAccountMatrixGet200Response>
+  >(({ guid }: RecordGetRequest) =>
+    serviceInjector(
+      BankAccountMatrixApiServiceId,
+      (service: IBankAccountMatrixApiService) =>
+        recordGetAtomCreator<BankAccountMatrixGet200Response>(
+          service.getCacheKey({
+            guid: guid,
+          }),
+          service.get({
+            guid: guid,
+          }),
+          {
+            enabled: !!guid,
+          }
+        )
+    )
+  );
+}

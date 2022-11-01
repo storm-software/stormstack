@@ -1,0 +1,123 @@
+import { 
+    inject, 
+    injectable, 
+    multiInject, 
+    optional, 
+    interfaces 
+} from "inversify";
+import { 
+    IHttpClient, 
+    HttpClientId, 
+    IApiMiddleware,
+    ApiMiddlewareId, 
+    IServerConfiguration,
+    ServerConfigurationId,
+    Indexable,
+    IAuthMethod,
+    ApiServiceConfigurationId
+} from "@base/types";
+import { 
+    AxiosHttpClient,
+    ServerConfiguration,
+    ApiMiddleware,
+    authMethodServices,
+    InjectableApiServiceConfiguration
+} from "@base/utilities";
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+import { {{classname}}Service } from "./api-services";
+import { {{classname}}ServiceId } from "@{{libraryName}}/types";
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+import { servers } from "./config/servers";
+
+/**
+ * Helper class to simplify binding the services
+ */
+export class ApiServiceBinder {
+    constructor(private container: interfaces.Container) {
+        this.container.bind(ApiServiceConfigurationId).to(InjectableApiServiceConfiguration);
+    }
+
+    /**
+     * Allows you to bind a server configuration without having to import the service identifier.
+     */
+    public get bindServerConfiguration() {
+        return this.container.bind(ServerConfigurationId);
+    }
+
+    /**
+     * Use one of the predefined server configurations.
+     *
+     * To customize the server variables you can call `setVariables` on the
+     * return value;
+     */
+    public bindServerConfigurationToPredefined(idx: number) {
+        this.bindServerConfiguration.toConstantValue(servers[idx]);
+        return servers[idx];
+    }
+
+    /**
+     * Explicitly define the service base url
+     */
+    public bindServerConfigurationToURL(url: string) {
+        return this.bindServerConfiguration.toConstantValue(
+            new ServerConfiguration<{}>(url, {})
+        );
+    }
+
+    /**
+     * Allows you to bind a http library without having to import the service identifier.
+     */
+    public get bindHttpLibrary() {
+      return this.container.bind(AxiosHttpClient);
+    }
+
+    /**
+     * Allows you to bind a middleware without having to import the service identifier.
+     *
+     * You can bind multiple middlewares by calling this multiple method times.
+     */
+    public get bindMiddleware() {
+        return this.container.bind(ApiMiddleware);
+    }
+
+    /**
+     * Allows you to bind an auth method without having to import the service identifier.
+     *
+     * Note: The name of the bound auth method needs to be known in the specs,
+     * because the name is used to decide for which endpoints to apply the authentication.
+     */
+    public get bindAuthMethod() {
+        return this.container.bind(AuthMethod);
+    }
+
+    /**
+     * Use one of the predefined auth methods.
+     *
+     * Make sure that you have injected all dependencies for it.
+     */
+    public bindAuthMethodToPredefined(name: keyof Indexable<IAuthMethod>) {
+        return this.bindAuthMethod.to(authMethodServices[name]);
+    }
+
+    /**
+     * Bind all the apis to their respective service identifiers
+     *
+     * If you want to only bind some of the apis, you need to do that manually.
+     */
+    public bindAllApiServices() {
+        {{#apiInfo}}
+        {{#apis}}
+        {{#operations}}
+        
+        this.container.bind({{classname}}Service).to({{classname}}ServiceId).inSingletonScope();
+
+        {{/operations}}
+        {{/apis}}
+        {{/apiInfo}}
+    }
+}

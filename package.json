@@ -11,10 +11,13 @@
     "url": "https://github.com/sullivanpj/open-system.git"
   },
   "scripts": {
-    "start": "nx serve",
+    "prepare": "husky install && nx g @nx-dotnet/core:restore",
+    "build:tools-executors": "npx nx run tools-executors-dotnet:build:async-api-sync  --verbose && npx nx run tools-executors-dotnet:build:server-api-sync --verbose && npx nx run tools-executors-dotnet:build:build --verbose",
+    "build:tools-generators": "npx nx run tools-generators-dotnet:build:async-api --verbose && npx nx run tools-generators-dotnet:build:server-api --verbose && npx nx run tools-generators-dotnet:build:restore --verbose",
+    "build:tools": "npm run build:tools-executors && npm run build:tools-generators",
     "build": "nx build",
     "test": "nx test",
-    "prepare": "husky install && nx g @nx-dotnet/core:restore"
+    "start": "nx serve"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +30,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@asyncapi/generator": "^1.9.13",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@nrwl/cli": "15.0.4",
@@ -40,6 +44,7 @@
     "@nrwl/web": "15.0.4",
     "@nrwl/workspace": "15.0.4",
     "@nx-dotnet/core": "^1.15.0",
+    "@nx-dotnet/dotnet": "^1.15.0",
     "@testing-library/react": "13.4.0",
     "@theunderscorer/nx-semantic-release": "^1.14.0",
     "@types/jest": "28.1.1",
