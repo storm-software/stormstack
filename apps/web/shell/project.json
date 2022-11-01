@@ -22,7 +22,8 @@
         ],
         "styles": [],
         "scripts": [],
-        "webpackConfig": "apps/web/shell/webpack.config.js"
+        "webpackConfig": "apps/web/shell/webpack.config.js",
+        "postcssConfig": "apps/web/shell/postcss.config.js"
       },
       "configurations": {
         "development": {

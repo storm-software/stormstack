@@ -1,0 +1,9 @@
+@tailwind components;
+@tailwind base;
+@tailwind utilities;
+
+@layer components {
+  .grid-align {
+    @apply grid;
+  }
+}
