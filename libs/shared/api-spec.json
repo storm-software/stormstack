@@ -1,0 +1,134 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "86is8v6rhxwwh"
+  },
+  "info": {
+    "title": "Shared",
+    "version": "1.0",
+    "summary": "A collection of shared API models used by the Open System repository",
+    "description": "A collection of shared API models used by the Open System repository",
+    "contact": {
+      "name": "Patrick Sullivan",
+      "email": "Patrick.Sullivan@broadridge.com",
+      "url": "https://sullivanpj.github.io/open-system/services/base"
+    },
+    "termsOfService": "https://sullivanpj.github.io/open-system/services/base",
+    "license": {
+      "name": "BSD 2-Clause License Simplified",
+      "url": "https://spdx.org/licenses/BSD-2-Clause.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Development"
+    }
+  ],
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Guid": {
+        "type": "string",
+        "title": "Guid",
+        "x-stoplight": {
+          "id": "rxw5bcg38wwhi"
+        },
+        "format": "uuid",
+        "x-examples": {
+          "Sample Guid": "123e4567-e89b-12d3-a456-426614174000"
+        },
+        "description": "The `guid` associated with the record",
+        "example": "123e4567-e89b-12d3-a456-426614174000",
+        "examples": [
+          "123e4567-e89b-12d3-a456-426614174000"
+        ]
+      },
+      "UpdateSuccessResponse": {
+        "title": "UpdateSuccessResponse",
+        "x-stoplight": {
+          "id": "bnmwekvdvhi5z"
+        },
+        "type": "object",
+        "description": "A response returned from the server when data is successfully updated",
+        "properties": {
+          "guid": {
+            "$ref": "#/components/schemas/Guid"
+          }
+        },
+        "required": [
+          "guid"
+        ],
+        "examples": [
+          {
+            "guid": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {
+      "UpdateResponse": {
+        "description": "A response returned from the server when data is successfully updated",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "guid": {
+                  "$ref": "#/components/schemas/Guid"
+                }
+              },
+              "required": [
+                "guid"
+              ]
+            },
+            "examples": {
+              "Sample Response": {
+                "value": {
+                  "guid": "123e4567-e89b-12d3-a456-426614174000"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "guid": {
+        "name": "guid",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "example": "123e4567-e89b-12d3-a456-426614174000"
+        },
+        "description": "The record's guid"
+      },
+      "userId": {
+        "name": "userId",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "PSUL"
+        },
+        "description": "User Id sending request"
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "name": "Siteminder",
+        "type": "apiKey",
+        "in": "header",
+        "description": "A request header containing the JSON web token (JWT) provided by the IDM service in a cookie when the user signed into the application. This JWT contains the current user's encoded `SiteMinder` entitlements."
+      }
+    }
+  },
+  "security": [
+    {
+      "Authorization": []
+    }
+  ]
+}

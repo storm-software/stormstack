@@ -1,0 +1,434 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "cd21s8nqejpjn"
+  },
+  "info": {
+    "title": "Message",
+    "version": "1.0",
+    "summary": "A collection of message APIs used by the Open System repository",
+    "description": "A collection of message APIs used by the Open System repository",
+    "contact": {
+      "name": "Patrick Sullivan",
+      "email": "Patrick.Sullivan@broadridge.com",
+      "url": "https://sullivanpj.github.io/open-system/services/base"
+    },
+    "termsOfService": "https://sullivanpj.github.io/open-system/services/base",
+    "license": {
+      "name": "BSD 2-Clause License Simplified",
+      "url": "https://spdx.org/licenses/BSD-2-Clause.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Development"
+    }
+  ],
+  "paths": {
+    "/": {
+      "parameters": [],
+      "get": {
+        "summary": "Get Message List",
+        "operationId": "get-message-list",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "guid": {
+                            "$ref": "../../shared/api-spec.json#/components/schemas/Guid"
+                          }
+                        },
+                        "required": [
+                          "guid"
+                        ]
+                      },
+                      {
+                        "$ref": "#/components/schemas/Message"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "default": "FXL",
+              "enum": [
+                "FXL",
+                "24  TRADING",
+                "24 CORE",
+                "24 GENERAL",
+                "APPLICATION",
+                "CLIENT",
+                "TRADINGVALIDATION",
+                "INTERNALVALIDATION"
+              ],
+              "example": "FXL"
+            },
+            "in": "query",
+            "name": "messageType",
+            "description": "The type of message to return",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999999999
+            },
+            "in": "query",
+            "name": "messageNumber",
+            "description": "A specific message number to return"
+          },
+          {
+            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "description": "An end point that returns the system's message literals to a client",
+        "tags": [
+          "Message"
+        ]
+      },
+      "post": {
+        "summary": "Add Message",
+        "operationId": "add-message",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../shared/api-spec.json#/components/schemas/UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        },
+        "description": "Add new message record",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              },
+              "examples": {
+                "Example": {
+                  "value": {
+                    "message": "This message is displayed in the application",
+                    "messageType": "FXL",
+                    "messageNumber": 338296833,
+                    "culture": "EN-US"
+                  }
+                }
+              }
+            },
+            "application/javascript": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              }
+            }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "tags": [
+          "Message"
+        ]
+      }
+    },
+    "/{guid}": {
+      "parameters": [
+        {
+          "$ref": "../../shared/api-spec.json#/components/parameters/guid"
+        }
+      ],
+      "get": {
+        "summary": "Get Message",
+        "operationId": "get-message",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "guid": {
+                          "$ref": "../../shared/api-spec.json#/components/schemas/Guid"
+                        }
+                      },
+                      "required": [
+                        "guid"
+                      ]
+                    },
+                    {
+                      "$ref": "#/components/schemas/Message"
+                    }
+                  ]
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000",
+                      "message": "This message is displayed in the application",
+                      "messageType": "FXL",
+                      "messageNumber": 338296833,
+                      "culture": "EN-US"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "description": "An end point that returns the system's message literals to a client",
+        "tags": [
+          "Message"
+        ]
+      },
+      "delete": {
+        "summary": "Remove Message",
+        "operationId": "delete-message",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../shared/api-spec.json#/components/schemas/UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        },
+        "description": "Remove an existing message record",
+        "parameters": [
+          {
+            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "tags": [
+          "Message"
+        ]
+      },
+      "patch": {
+        "summary": "Update Message",
+        "operationId": "update-message",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../shared/api-spec.json#/components/schemas/UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        },
+        "description": "Update an existing message record",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              },
+              "examples": {
+                "Example": {
+                  "value": {
+                    "message": "This message is displayed in the application",
+                    "messageType": "FXL",
+                    "messageNumber": 338296833,
+                    "culture": "EN-US"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../shared/api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "tags": [
+          "Message"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Message": {
+        "title": "Message",
+        "x-stoplight": {
+          "id": "1uit484jxisd8"
+        },
+        "description": "A Message record returned from the server",
+        "x-examples": {
+          "Sample Message": {
+            "message": "This message is displayed in the application",
+            "messageType": "FXL",
+            "messageNumber": 338296833,
+            "culture": "EN-US"
+          }
+        },
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "This message is displayed in the application"
+          },
+          "messageType": {
+            "type": "string",
+            "enum": [
+              "FXL",
+              "24 CORE",
+              "24 GENERAL",
+              "APPLICATION",
+              "CLIENT",
+              "TRADINGVALIDATION",
+              "INTERNALVALIDATION",
+              "24 TRADING"
+            ],
+            "default": "FXL",
+            "example": "FXL"
+          },
+          "messageNumber": {
+            "type": "integer",
+            "example": 338296833,
+            "minimum": 0,
+            "maximum": 999999999
+          },
+          "culture": {
+            "type": "string",
+            "default": "EN-US",
+            "example": "EN-US",
+            "enum": [
+              "EN-US"
+            ]
+          }
+        },
+        "required": [
+          "message",
+          "messageType",
+          "culture"
+        ]
+      }
+    },
+    "requestBodies": {},
+    "responses": {},
+    "parameters": {},
+    "securitySchemes": {}
+  },
+  "tags": [
+    {
+      "name": "Message"
+    }
+  ]
+}
