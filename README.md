@@ -1,6 +1,6 @@
 # Open System
 
-<p style="text-align: center;"><img src="./assets/logo.png" width="450" altText="open-system"></p>
+<p style="text-align: center;"><img src="./assets/open-system.png" width="500" altText="open-system"></p>
 
 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries.
 
