@@ -1,0 +1,7 @@
+# 1.0.0 (2022-11-01)
+
+
+### Features
+
+* Added semantic release tools to repository ([3028658](https://github.com/sullivanpj/open-system/commit/302865825c187c6cd6d2c42a596b3e38032e8aba))
+* **landing:** Added shell and landing apps ([6e88200](https://github.com/sullivanpj/open-system/commit/6e88200bbc553bfcd1b3c1d0ac30f34de2124b2e))
