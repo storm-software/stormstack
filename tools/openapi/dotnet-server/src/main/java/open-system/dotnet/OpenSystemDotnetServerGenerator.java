@@ -421,12 +421,12 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
 
      @Override
     public String templateDir() {
-        return "C:\\Development\\open-system\\tools\\openapi\\dotnet\\src\\main\\resources\\open-system-dotnet-server";
+        return "C:\\Development\\open-system\\tools\\openapi\\dotnet-server\\src\\main\\resources\\open-system-dotnet-server";
     }
 
     @Override
     public String embeddedTemplateDir() {
-        return "C:\\Development\\open-system\\tools\\openapi\\dotnet\\src\\main\\resources\\open-system-dotnet-server";
+        return "C:\\Development\\open-system\\tools\\openapi\\dotnet-server\\src\\main\\resources\\open-system-dotnet-server";
     }
 
     /*@Override

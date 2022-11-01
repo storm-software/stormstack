@@ -10,8 +10,11 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("OpenSystem.Apis.Message")]
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("7bc64741-f4dd-4dba-be02-84ffc7724761")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Patrick Sullivan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright (c) 2022 Patrick Sullivan")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("A collection of message APIs used by the Open System repository")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("OpenSystem.Apis.Message")]
