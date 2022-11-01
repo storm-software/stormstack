@@ -14,7 +14,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "prepare": "husky install"
+    "prepare": "husky install && nx g @nx-dotnet/core:restore"
   },
   "private": true,
   "dependencies": {
@@ -33,11 +33,13 @@
     "@nrwl/cypress": "15.0.4",
     "@nrwl/eslint-plugin-nx": "15.0.4",
     "@nrwl/jest": "^15.0.4",
+    "@nrwl/js": "15.0.4",
     "@nrwl/linter": "15.0.4",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/react": "15.0.4",
     "@nrwl/web": "15.0.4",
     "@nrwl/workspace": "15.0.4",
+    "@nx-dotnet/core": "^1.15.0",
     "@testing-library/react": "13.4.0",
     "@theunderscorer/nx-semantic-release": "^1.14.0",
     "@types/jest": "28.1.1",
