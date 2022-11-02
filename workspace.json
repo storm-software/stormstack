@@ -6,6 +6,7 @@
     "shared-ui-design-tokens": "libs/shared/ui/design-tokens",
     "shared-ui-feature-routing": "libs/shared/ui/feature-routing",
     "tools-asyncapi-rabbitmq": "tools/asyncapi/rabbitmq",
+    "tools-executors-docs": "tools/executors/docs",
     "tools-executors-dotnet": "tools/executors/dotnet",
     "tools-executors-typescript": "tools/executors/typescript",
     "tools-generators-dotnet": "tools/generators/dotnet",

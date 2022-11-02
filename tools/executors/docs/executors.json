@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "design-tokens-docgen": {
+      "implementation": "../../../dist/tools/executors/docs/design-tokens-docgen/impl",
+      "schema": "../../../dist/tools/executors/docs/design-tokens-docgen/schema.json",
+      "description": "Document the latest design tokens code from the extracted figma JSON"
+    }
+  }
+}

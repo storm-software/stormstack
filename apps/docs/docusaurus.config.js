@@ -31,6 +31,27 @@ const config = {
         },
       }),
     ],
+    [
+      "redocusaurus",
+      {
+        // Plugin Options for loading OpenAPI files
+        specs: [
+          {
+            id: "Message-APIs",
+            spec: "libs/static/message/message.api-spec.json",
+            route: "/apis/message/",
+          },
+        ],
+        theme: {},
+
+        /**
+         * Options to pass to Redoc
+         *
+         * @see https://github.com/redocly/redoc#redoc-options-object
+         */
+        options: { expandResponses: "200" },
+      },
+    ],
   ],
 
   themeConfig:
@@ -53,24 +74,25 @@ const config = {
         title: "Open System",
         items: [
           {
-            type: "doc",
-            docId: "intro",
+            to: "design-system",
             position: "left",
-            label: "Tutorial",
+            label: "Design System",
           },
           {
-            to: "docs/services/introduction",
-            activeBasePath: "docs/services",
-            label: "Service End Points",
+            to: "docs/apis/introduction",
+            activeBasePath: "docs/apis",
+            label: "OpenAPI Specs",
             position: "left",
             items: [
               {
-                to: "/services/message",
-                label: "Message-Services",
+                to: "/apis/message",
+                label: "Message-APIs",
               },
             ],
           },
           {
+            type: "doc",
+            docId: "getting-started/installation",
             to: "docs/getting-started/installation",
             activeBasePath: "docs/getting-started",
             label: "Training",
@@ -92,6 +114,10 @@ const config = {
               {
                 label: "API End Points",
                 to: "docs/apis/introduction",
+              },
+              {
+                label: "Design System",
+                to: "Design System",
               },
               {
                 label: "Docs Style Guide",

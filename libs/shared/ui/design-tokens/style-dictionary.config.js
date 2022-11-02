@@ -1,5 +1,6 @@
 const StyleDictionary = require("style-dictionary");
 const version = require("./package.json").version;
+const tokens = require("./src");
 
 StyleDictionary.registerFileHeader({
   name: "openSystemHeader",
@@ -21,6 +22,52 @@ StyleDictionary.registerFileHeader({
 module.exports = {
   "source": ["libs/shared/ui/design-tokens/src/**/*.json"],
   "platforms": {
+    "esm/category": {
+      "buildPath": "build/js/esm/",
+      "transforms": ["attribute/cti", "name/cti/camel", "size/px", "color/hex"],
+      "files": tokens.map(tokenCategory => ({
+        "destination": `${tokenCategory}.js`,
+        "format": "javascript/es6",
+        "filter": {
+          "attributes": {
+            "category": tokenCategory,
+          },
+        },
+      })),
+    },
+    "esm/index": {
+      "buildPath": "build/js/esm/",
+      "transforms": ["attribute/cti", "name/cti/camel", "size/px", "color/hex"],
+      "files": [
+        {
+          "destination": `index.js`,
+          "format": "javascript/es6",
+        },
+      ],
+    },
+    "cjs/category": {
+      "buildPath": "build/js/cjs/",
+      "transforms": ["attribute/cti", "name/cti/camel", "size/px", "color/hex"],
+      "files": tokens.map(tokenCategory => ({
+        "destination": `${tokenCategory}.js`,
+        "format": "custom/cjsmodule",
+        "filter": {
+          "attributes": {
+            "category": tokenCategory,
+          },
+        },
+      })),
+    },
+    "cjs/index": {
+      "buildPath": "build/js/cjs/",
+      "transforms": ["attribute/cti", "name/cti/camel", "size/px", "color/hex"],
+      "files": [
+        {
+          "destination": `index.js`,
+          "format": "custom/cjsmodule",
+        },
+      ],
+    },
     "js": {
       "transformGroup": "js",
       "prefix": "os-",
@@ -35,20 +82,23 @@ module.exports = {
         },
       ],
     },
-    "css": {
+    "css/category": {
       "transformGroup": "css",
-      "prefix": "open-sys",
+      "prefix": "os",
       "buildPath": "dist/libs/shared/ui/design-tokens/css/",
-      "files": [
-        {
-          "destination": "variables.css",
-          "format": "css/variables",
-          "options": {
-            "outputReferences": true,
-            "fileHeader": "openSystemHeader",
+      "files": tokens.map(tokenCategory => ({
+        "destination": `${tokenCategory}.variables.js`,
+        "format": "css/variables",
+        "filter": {
+          "attributes": {
+            "category": tokenCategory,
           },
         },
-      ],
+        "options": {
+          "outputReferences": true,
+          "fileHeader": "openSystemHeader",
+        },
+      })),
       "actions": ["copy_assets"],
     },
     "scss": {
@@ -251,3 +301,12 @@ module.exports = {
     },
   },
 };
+
+StyleDictionary.registerFormat({
+  name: "custom/cjsmodule",
+  formatter: function ({ dictionary }) {
+    return `module.exports = {${dictionary.allTokens.map(
+      token => `\n\t${token.name}: "${token.value}"`
+    )}\n};`;
+  },
+});

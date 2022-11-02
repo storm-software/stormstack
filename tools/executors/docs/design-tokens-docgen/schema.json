@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Open System - Design Tokens Document Generator",
+  "description": "Create documentation for the design tokens",
+  "type": "object",
+  "properties": {
+    "tokensPath": {
+      "type": "string",
+      "description": "The path to the design tokens code"
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "The path to generate the design tokens documentation in"
+    }
+  },
+  "required": ["tokensPath", "outputPath"]
+}

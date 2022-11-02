@@ -39,6 +39,14 @@
         "jestConfig": "libs/shared/ui/design-tokens/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "docgen": {
+      "executor": "@open-system/executors-docs:design-tokens-docgen",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "apps/docs/src/components/DesignTokens/design-tokens-table.mdx",
+        "tokensPath": "dist/libs/shared/ui/design-tokens/css"
+      }
     }
   },
   "tags": []

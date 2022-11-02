@@ -20,15 +20,32 @@
   --ifm-footer-background-color: #e5e5e5;
   --ifm-footer-title-color: var(--ifm-font-color-base);
   --ifm-footer-link-color: var(--ifm-font-color-base);
+
+  /* Open System Variables */
+  --os-highlighted-bg-color: #000;
+  --os-highlighted-color: #fff;
+}
+
+html[data-theme="dark"] {
+  --ifm-hero-background-color: #e5e5e5;
+
+  /* Open System Variables */
+  --os-highlighted-bg-color: #000;
+  --os-highlighted-color: #fff;
+}
+
+::selection {
+  background: var(--os-highlighted-bg-color); /* WebKit/Blink Browsers */
+  color: var(--os-highlighted-color); /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: var(--os-highlighted-bg-color); /* Gecko Browsers */
+  color: var(--os-highlighted-color); /* Gecko Browsers */
 }
 
 [data-theme="light"] .button--secondary:not(:hover) {
   background-color: #501f98;
   color: #e5e5e5;
-}
-
-html[data-theme="dark"] {
-  --ifm-hero-background-color: #e5e5e5;
 }
 
 html[data-theme="dark"] .footer__item,
@@ -75,6 +92,10 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
   background-color: #e5e5e5;
 }
 
+.footer__item {
+  font-weight: 400;
+}
+
 .hero .button--secondary {
   margin: 10px 15px;
 }
@@ -92,12 +113,8 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
   --ifm-heading-font-family: arial black, sans-serif;
   background: linear-gradient(to right, #30cfd0, #c43ad6);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-.hero__subtitle {
-  color: var(--ifm-font-color-base);
-  text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
 }
 
 html[data-theme="dark"] .hero__title {
@@ -107,7 +124,12 @@ html[data-theme="dark"] .hero__title {
   -webkit-text-fill-color: transparent;
 }
 
-html[data-theme="dark"] .hero__subtitle {
+.text_white-glow {
+  color: var(--ifm-font-color-base);
+  text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
+}
+
+html[data-theme="dark"] .text_white-glow {
   color: white;
   text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
 }
