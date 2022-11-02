@@ -1,9 +1,19 @@
 {
   "executors": {
-    "client-api-async": {
-      "implementation": "../../../dist/tools/executors/typescript/client-api-async/impl",
-      "schema": "../../../dist/tools/executors/typescript/client-api-async/schema.json",
+    "client-api-sync": {
+      "implementation": "../../../dist/tools/executors/typescript/client-api-sync/impl",
+      "schema": "../../../dist/tools/executors/typescript/client-api-sync/schema.json",
       "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec"
+    },
+    "design-tokens-build": {
+      "implementation": "../../../dist/tools/executors/typescript/design-tokens-build/impl",
+      "schema": "../../../dist/tools/executors/typescript/design-tokens-build/schema.json",
+      "description": "Build the latest design tokens code from the extracted figma JSON"
+    },
+    "design-tokens-clean": {
+      "implementation": "../../../dist/tools/executors/typescript/design-tokens-clean/impl",
+      "schema": "../../../dist/tools/executors/typescript/design-tokens-clean/schema.json",
+      "description": "Clean the previous design token code"
     }
   }
 }

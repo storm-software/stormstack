@@ -15,7 +15,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/generators/typescript",

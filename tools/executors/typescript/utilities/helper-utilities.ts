@@ -4,13 +4,11 @@ import { promisify } from "util";
 
 export const execute = async (command: string): Promise<string | undefined> => {
   try {
-    printInfo(`${chalk.blue("i")} Executing command: "${command}"`);
+    printInfo(`Executing command: "${command}"`);
 
     const result = await promisify(exec)(command);
     if (result?.stderr) {
-      printError(
-        `${chalk.red("!")} An error occurred executing command: "${command}"`
-      );
+      printError(`An error occurred executing command: "${command}"`);
       printError(result.stderr);
 
       return result.stderr;
@@ -18,9 +16,7 @@ export const execute = async (command: string): Promise<string | undefined> => {
 
     return undefined;
   } catch (e) {
-    printError(
-      `${chalk.red("!")} An error occurred executing command: "${command}"`
-    );
+    printError(`An error occurred executing command: "${command}"`);
     printError(e);
 
     return e?.message ?? "Exception occurred while processing request ";

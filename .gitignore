@@ -44,3 +44,7 @@ libs/*/bin
 libs/*/obj
 
 tools/**/out-test/**
+
+# Generated Docusaurus files
+.docusaurus/
+.cache-loader/

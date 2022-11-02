@@ -15,13 +15,14 @@
       "outputs": ["{options.outputFile}"]
     },
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/executors/typescript",
         "tsConfig": "tools/executors/typescript/tsconfig.json",
-        "packageJson": "tools/executors/typescript/package.json",
+        "project": "tools/executors/typescript/package.json",
         "main": "tools/executors/typescript/index.ts",
+        "deleteOutputPath": false,
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
@@ -62,6 +63,86 @@
             "output": "."
           }
         ]
+      },
+      "configurations": {
+        "design-tokens-clean": {
+          "outputPath": "dist/tools/executors/typescript/design-tokens-clean",
+          "rollupConfig": "tools/executors/typescript/design-tokens-clean/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/typescript",
+              "glob": "**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/typescript/design-tokens-clean",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
+        },
+        "design-tokens-build": {
+          "outputPath": "dist/tools/executors/typescript/design-tokens-build",
+          "rollupConfig": "tools/executors/typescript/design-tokens-build/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/typescript",
+              "glob": "**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/typescript/design-tokens-build",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
+        },
+        "client-api-sync": {
+          "outputPath": "dist/tools/executors/typescript/client-api-sync",
+          "rollupConfig": "tools/executors/typescript/client-api-sync/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/typescript",
+              "glob": "**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/typescript/client-api-sync",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
+        }
       }
     }
   },

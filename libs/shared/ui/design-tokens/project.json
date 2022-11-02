@@ -1,0 +1,45 @@
+{
+  "name": "shared-ui-design-tokens",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/ui/design-tokens/src",
+  "projectType": "library",
+  "targets": {
+    "clean": {
+      "executor": "@open-system/executors-typescript:design-tokens-clean",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/ui/design-tokens",
+        "tsConfig": "libs/shared/ui/design-tokens/tsconfig.lib.json",
+        "assets": ["libs/shared/ui/design-tokens/*.md"],
+        "configFile": "libs/shared/ui/design-tokens/style-dictionary.config.js"
+      }
+    },
+    "build": {
+      "executor": "@open-system/executors-typescript:design-tokens-build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/ui/design-tokens",
+        "tsConfig": "libs/shared/ui/design-tokens/tsconfig.lib.json",
+        "assets": ["libs/shared/ui/design-tokens/*.md"],
+        "configFile": "libs/shared/ui/design-tokens/style-dictionary.config.js",
+        "clean": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/ui/design-tokens/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/shared/ui/design-tokens/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

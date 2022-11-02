@@ -1,0 +1,127 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #7330d5;
+  --ifm-color-primary-dark: #6728c3;
+  --ifm-color-primary-darker: #6125b8;
+  --ifm-color-primary-darkest: #501f98;
+  --ifm-color-primary-light: #8246d9;
+  --ifm-color-primary-lighter: #8951dc;
+  --ifm-color-primary-lightest: #9f71e2;
+  --ifm-code-font-size: 95%;
+
+  --ifm-button-background-color: #501f98;
+
+  --ifm-footer-background-color: #e5e5e5;
+  --ifm-footer-title-color: var(--ifm-font-color-base);
+  --ifm-footer-link-color: var(--ifm-font-color-base);
+}
+
+[data-theme="light"] .button--secondary:not(:hover) {
+  background-color: #501f98;
+  color: #e5e5e5;
+}
+
+html[data-theme="dark"] {
+  --ifm-hero-background-color: #e5e5e5;
+}
+
+html[data-theme="dark"] .footer__item,
+html[data-theme="dark"] .footer__title,
+html[data-theme="dark"] .footer__copyright {
+  color: var(--ifm-color-content-inverse);
+  --ifm-footer-color: var(--ifm-color-content-inverse);
+  --ifm-footer-link-color: var(--ifm-color-content-inverse);
+  --ifm-footer-title-color: var(--ifm-color-content-inverse);
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+html[data-theme="dark"] .docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.navbar__title {
+  --ifm-heading-font-family: arial black, sans-serif;
+  background: linear-gradient(to right, #30cfd0, #c43ad6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.navbar__title:hover {
+  --ifm-heading-font-family: arial black, sans-serif;
+  background: inherit;
+  background-clip: inherit;
+  -webkit-background-clip: inherit;
+  -webkit-text-fill-color: inherit;
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.footer {
+  background-color: #e5e5e5;
+}
+
+.hero .button--secondary {
+  margin: 10px 15px;
+}
+
+[data-theme="dark"] .hero {
+  --ifm-hero-background-color: #501f98;
+}
+
+.hero {
+  --ifm-hero-background-color: #e5e5e5;
+}
+
+.hero__title {
+  font-size: 5rem;
+  --ifm-heading-font-family: arial black, sans-serif;
+  background: linear-gradient(to right, #30cfd0, #c43ad6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero__subtitle {
+  color: var(--ifm-font-color-base);
+  text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
+}
+
+html[data-theme="dark"] .hero__title {
+  --ifm-heading-font-family: arial black, sans-serif;
+  background: linear-gradient(to right, #30cfd0, #c43ad6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="dark"] .hero__subtitle {
+  color: white;
+  text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
+}
+
+/*.footer {
+  background-color: var(--ifm-footer-background-color);
+  color: var(--ifm-footer-color);
+  padding: var(--ifm-footer-padding-vertical)
+    var(--ifm-footer-padding-horizontal);
+}
+
+.footer--dark {
+    --ifm-footer-background-color: #303846;
+    --ifm-footer-color: var(--ifm-footer-link-color);
+    --ifm-footer-link-color: var(--ifm-color-secondary);
+    --ifm-footer-title-color: var(--ifm-color-white);
+  }*/

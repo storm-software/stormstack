@@ -1,4 +1,4 @@
-import { Route } from "@open-system/shared-feature-routing";
+import { Route } from "@open-system/shared-ui-feature-routing";
 import React from "react";
 import { RouteObject } from "react-router-dom";
 

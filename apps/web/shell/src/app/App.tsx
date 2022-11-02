@@ -1,5 +1,5 @@
+import { Router } from "@open-system/shared-ui-feature-routing";
 import * as React from "react";
-import { Router } from "@open-system/shared-feature-routing";
 import { routes } from "../routing.config";
 
 export const App = () => {

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "title": "Broadridge Fxl - Client API Application Sync",
+  "title": "Open System - Client API Application Sync",
   "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec",
   "type": "object",
   "properties": {
