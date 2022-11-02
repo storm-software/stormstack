@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.0.0...web-shell-v1.1.0) (2022-11-02)
+
+
+### Features
+
+* Added design tokens and docs app ([5701388](https://github.com/sullivanpj/open-system/commit/57013885ad07dc9f0bced7a7a6e0f3073ded84a3))
+
 # 1.0.0 (2022-11-01)
 
 
