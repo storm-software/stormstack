@@ -1,4 +1,3 @@
-import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import clsx from "clsx";
@@ -16,13 +15,6 @@ export default function DesignSystem(): JSX.Element {
         <div className="container">
           <h1 className="hero__title title">Open System</h1>
           <h2 className="text_white-glow subtitle">Design System</h2>
-          <div className={styles.buttons}>
-            <Link
-              className="button button--secondary button--lg"
-              to="/docs/intro">
-              StoryBook 📘
-            </Link>
-          </div>
         </div>
       </header>
       <main>

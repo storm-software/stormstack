@@ -103,7 +103,7 @@ import { DisplayDesignToken } from "./DisplayDesignToken/DisplayDesignToken";
 
 ${
   colorTokens.length > 0
-    ? `## Color
+    ? `## Color {#color}
 | Token     | Value     | Display     |
 | :-------: | :-------: |:----------: |
 ${colorTokens.join("\n")}`
@@ -112,7 +112,7 @@ ${colorTokens.join("\n")}`
 
 ${
   fontFamilyTokens.length > 0
-    ? `## Font Family
+    ? `## Font Family {#font-family}
 | Token     | Value     | Display     |
 | :-------: | :-------: |:----------: |
 ${fontFamilyTokens.join("\n")}`
@@ -121,7 +121,7 @@ ${fontFamilyTokens.join("\n")}`
 
 ${
   fontSizeTokens.length > 0
-    ? `## Font Size
+    ? `## Font Size {#font-size}
 | Token     | Value     | Display     |
 | :-------: | :-------: |:----------: |
 ${fontSizeTokens.join("\n")}`
@@ -130,7 +130,7 @@ ${fontSizeTokens.join("\n")}`
 
 ${
   fontWeightTokens.length > 0
-    ? `## Font Weight
+    ? `## Font Weight {#font-weight}
 | Token     | Value     | Display     |
 | :-------: | :-------: |:----------: |
 ${fontWeightTokens.join("\n")}`
@@ -139,7 +139,7 @@ ${fontWeightTokens.join("\n")}`
 
 ${
   spacingTokens.length > 0
-    ? `## Spacing
+    ? `## Spacing {#spacing}
 | Token     | Value     | Display     |
 | :-------: | :-------: |:----------: |
 ${spacingTokens.join("\n")}`
@@ -148,7 +148,7 @@ ${spacingTokens.join("\n")}`
 
 ${
   paddingTokens.length > 0
-    ? `## Padding
+    ? `## Padding {#padding}
 | Token     | Value     | Display     |
 | :-------: | :-------: |:----------: |
 ${paddingTokens.join("\n")}`
@@ -157,7 +157,7 @@ ${paddingTokens.join("\n")}`
 
 ${
   marginTokens.length > 0
-    ? `## Margin
+    ? `## Margin {#margin}
 | Token     | Value     | Display     |
 | :-------: | :-------: |:----------: |
 ${marginTokens.join("\n")}`
@@ -166,7 +166,7 @@ ${marginTokens.join("\n")}`
 
 ${
   gapTokens.length > 0
-    ? `## Gap
+    ? `## Gap {#gap}
 | Token     | Value     | Display     |
 | :-------: | :-------: |:----------: |
 ${gapTokens.join("\n")}`
@@ -175,16 +175,12 @@ ${gapTokens.join("\n")}`
 
 ${
   miscTokens.length > 0
-    ? `## Miscellaneous
+    ? `## Miscellaneous {#miscellaneous}
     | Token     | Value     |
     | :-------: | :-------: |
 ${miscTokens.join("\n")}`
     : ""
-}
-
-
-
-                `,
+}                `,
             {
               parser: "markdown",
             }

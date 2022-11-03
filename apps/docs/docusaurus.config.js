@@ -54,6 +54,7 @@ const config = {
     ],
   ],
 
+  themes: ["docusaurus-theme-redoc", "docusaurus-theme-search-typesense"],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -69,6 +70,30 @@ const config = {
         backgroundColor: "#371864",
         textColor: "#fff",
         isCloseable: true,
+      },
+      tableOfContents: {
+        minHeadingLevel: 2,
+        maxHeadingLevel: 5,
+      },
+      typesense: {
+        typesenseCollectionName: "docusaurus-2", // Replace with your own doc site's name. Should match the collection name in the scraper settings.
+
+        typesenseServerConfig: {
+          nodes: [
+            {
+              host: "host.docker.internal",
+              port: 443,
+              protocol: "https",
+            },
+          ],
+          apiKey: "xyz",
+        },
+
+        // Optional: Typesense search parameters: https://typesense.org/docs/0.21.0/api/search.md#search-parameters
+        typesenseSearchParameters: {},
+
+        // Optional
+        contextualSearch: true,
       },
       navbar: {
         title: "Open System",
@@ -112,12 +137,12 @@ const config = {
             title: "Documents",
             items: [
               {
-                label: "API End Points",
+                label: "OpenAPI Specs",
                 to: "docs/apis/introduction",
               },
               {
                 label: "Design System",
-                to: "Design System",
+                to: "design-system",
               },
               {
                 label: "Docs Style Guide",
@@ -148,7 +173,6 @@ const config = {
               },
             ],
           },
-
           {
             title: "Repository",
             items: [

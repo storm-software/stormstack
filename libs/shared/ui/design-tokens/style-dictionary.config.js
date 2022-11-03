@@ -74,7 +74,7 @@ module.exports = {
       "buildPath": "dist/libs/shared/ui/design-tokens/js/",
       "files": [
         {
-          "destination": "variables.js",
+          "destination": "theme.js",
           "format": "javascript/module",
           "options": {
             "fileHeader": "openSystemHeader",
@@ -87,7 +87,7 @@ module.exports = {
       "prefix": "os",
       "buildPath": "dist/libs/shared/ui/design-tokens/css/",
       "files": tokens.map(tokenCategory => ({
-        "destination": `${tokenCategory}.variables.js`,
+        "destination": `${tokenCategory}.theme.js`,
         "format": "css/variables",
         "filter": {
           "attributes": {

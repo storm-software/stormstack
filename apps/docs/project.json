@@ -15,6 +15,15 @@
       "options": {
         "port": 3000
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "docs-v${VERSION}"
+      }
     }
   },
   "tags": ["domain:docs", "type:apps"]

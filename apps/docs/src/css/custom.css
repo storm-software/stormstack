@@ -17,6 +17,8 @@
 
   --ifm-button-background-color: #501f98;
 
+  --ifm-navbar-height: 80px;
+
   --ifm-footer-background-color: #e5e5e5;
   --ifm-footer-title-color: var(--ifm-font-color-base);
   --ifm-footer-link-color: var(--ifm-font-color-base);
@@ -134,16 +136,29 @@ html[data-theme="dark"] .text_white-glow {
   text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
 }
 
-/*.footer {
-  background-color: var(--ifm-footer-background-color);
-  color: var(--ifm-footer-color);
-  padding: var(--ifm-footer-padding-vertical)
-    var(--ifm-footer-padding-horizontal);
+.algolia-autocomplete .ds-dropdown-menu {
+  width: 500px;
 }
 
-.footer--dark {
-    --ifm-footer-background-color: #303846;
-    --ifm-footer-color: var(--ifm-footer-link-color);
-    --ifm-footer-link-color: var(--ifm-color-secondary);
-    --ifm-footer-title-color: var(--ifm-color-white);
-  }*/
+.algolia-autocomplete .typesense-docsearch-suggestion--category-header {
+  color: darkgray;
+  border: 1px solid gray;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--subcategory-column {
+  color: gray;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--title {
+  font-weight: bold;
+  color: black;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--text {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--highlight {
+  color: blue;
+}
