@@ -20,30 +20,19 @@
       "options": {
         "outputPath": "dist/tools/generators/typescript",
         "tsConfig": "tools/generators/typescript/tsconfig.json",
-        "packageJson": "tools/generators/typescript/package.json",
+        "project": "tools/generators/typescript/package.json",
         "main": "tools/generators/typescript/index.ts",
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
-          "tools/generators/typescript/*.md",
           {
-            "input": "./tools/generators/typescript",
-            "glob": "**/*.d.ts",
+            "input": "./tools/generators/dotnet",
+            "glob": "**/*.md",
             "output": "."
           },
           {
-            "input": "./tools/generators/typescript",
-            "glob": "**/schema.json",
-            "output": "."
-          },
-          {
-            "input": "./tools/generators/typescript",
+            "input": "./tools/generators/dotnet",
             "glob": "generators.json",
-            "output": "."
-          },
-          {
-            "input": "./tools/generators/typescript",
-            "glob": "executors.json",
             "output": "."
           },
           {
@@ -57,7 +46,7 @@
             "output": "/"
           },
           {
-            "input": "./tools/generators/typescript",
+            "input": "./tools/generators/dotnet",
             "glob": "migrations.json",
             "output": "."
           }

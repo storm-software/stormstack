@@ -81,24 +81,22 @@ module.exports = {
           },
         },
       ],
+      "actions": ["copy_assets"],
     },
-    "css/category": {
+    "css": {
       "transformGroup": "css",
       "prefix": "os",
       "buildPath": "dist/libs/shared/ui/design-tokens/css/",
-      "files": tokens.map(tokenCategory => ({
-        "destination": `${tokenCategory}.theme.js`,
-        "format": "css/variables",
-        "filter": {
-          "attributes": {
-            "category": tokenCategory,
+      "files": [
+        {
+          "destination": "theme.css",
+          "format": "css/variables",
+          "options": {
+            "outputReferences": true,
+            "fileHeader": "openSystemHeader",
           },
         },
-        "options": {
-          "outputReferences": true,
-          "fileHeader": "openSystemHeader",
-        },
-      })),
+      ],
       "actions": ["copy_assets"],
     },
     "scss": {

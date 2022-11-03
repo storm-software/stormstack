@@ -48,3 +48,4 @@ tools/**/out-test/**
 # Generated Docusaurus files
 .docusaurus/
 .cache-loader/
+libs/shared-ui-design-components-react/**/generated

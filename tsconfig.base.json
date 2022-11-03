@@ -24,10 +24,27 @@
       "@open-system/generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
+      "@open-system/shared-ui-design-components": [
+        "dist/libs/shared-ui-design-components"
+      ],
+      "@open-system/shared-ui-design-components-react": [
+        "libs/shared-ui-design-components-react/src/index.ts"
+      ],
+      "@open-system/shared-ui-design-components/*": [
+        "dist/libs/shared-ui-design-components/dist/components/*"
+      ],
+      "@open-system/shared-ui-design-components/loader": [
+        "dist/libs/shared-ui-design-components/loader"
+      ],
       "@open-system/shared-ui-feature-routing": [
         "libs/shared/ui/feature-routing/src/index.ts"
       ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
+  "references": [
+    {
+      "path": "./.storybook/tsconfig.json"
+    }
+  ]
 }
