@@ -4,11 +4,26 @@
   text-align: center;
   width: 100%;
   padding-top: 50px;
-  padding-bottom: 20px;
+  padding-bottom: 35px;
 }
 
 .heroTitle {
-  font-size: 30px;
+  font-size: 40px;
+  font-weight: 700;
+  font-family: 'Nunito Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
+  background: linear-gradient(to right, #30cfd0, #e100ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="dark"] .heroTitle {
+  color: var(--ifm-font-color-base);
+  background: inherit;
+  -webkit-background-clip: inherit;
+  background-clip: inherit;
+  -webkit-text-fill-color: inherit;
   font-family: 'Nunito Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
 }
