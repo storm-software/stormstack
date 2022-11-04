@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.1.0...web-shell-v1.2.0) (2022-11-04)
+
+
+### Features
+
+* Added design components ([d6f60b2](https://github.com/sullivanpj/open-system/commit/d6f60b2168e0b4508c99c61c2d05a9eb5af4478f))
+* **docs:** Added doc search functionality ([bc5a417](https://github.com/sullivanpj/open-system/commit/bc5a417e50ce14dcda2e94c194447b846026463b))
+
 # [1.1.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.0.0...web-shell-v1.1.0) (2022-11-02)
 
 
