@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "extends": "../../../node_modules/@nxext/stencil/src/executors/build/schema.json",
+  "cli": "nx",
+  "id": "Build",
+  "title": "Design Components build",
+  "type": "object",
+  "description": "Cleans the output folder and builds a Stencil design components library.",
+  "properties": {
+    "baseBuildTarget": {
+      "type": "string",
+      "description": "The @nxext/stencil executor config to call",
+      "default": "build-base"
+    },
+    "clean": {
+      "type": "boolean",
+      "description": "Should the output folder be cleared out prior to the build",
+      "default": true
+    }
+  },
+  "required": ["baseBuildTarget"]
+}

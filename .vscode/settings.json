@@ -69,7 +69,7 @@
     },
     {
       "icon": "tools",
-      "extensions": ["tools"],
+      "extensions": ["tools", "executors", "generators"],
       "format": "svg"
     },
     {
@@ -99,7 +99,7 @@
     },
     {
       "icon": "api",
-      "extensions": [".openapi-generator"],
+      "extensions": [".openapi-generator", "openapi", "asyncapi"],
       "format": "svg"
     },
     {
@@ -123,8 +123,18 @@
       "format": "svg"
     },
     {
-      "icon": "csharp",
+      "icon": "server",
       "extensions": ["dotnet"],
+      "format": "svg"
+    },
+    {
+      "icon": "style",
+      "extensions": ["design-system"],
+      "format": "svg"
+    },
+    {
+      "icon": "theme",
+      "extensions": ["tokens"],
       "format": "svg"
     }
   ],

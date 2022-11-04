@@ -1,8 +1,8 @@
 // Imports the Storybook's configuration and options API
-import type { StorybookConfig, Options } from "@storybook/core-common";
-import type { Configuration, RuleSetRule } from "webpack";
-import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import type { Options, StorybookConfig } from "@storybook/core-common";
 import { logger } from "@storybook/node-logger";
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import type { Configuration, RuleSetRule } from "webpack";
 import { filterByLoaderName } from "./utils/webpack-module-rules";
 
 /**
@@ -44,8 +44,8 @@ export const config: StorybookConfig = {
     });
 
     resolve.plugins
-      ? resolve.plugins.push(tsPaths)
-      : (resolve.plugins = [tsPaths]);
+      ? resolve.plugins.push(tsPaths as any)
+      : (resolve.plugins = [tsPaths as any]);
 
     module?.rules?.forEach((rule: RuleSetRule | "...") => {
       // modify all 'babel-loader' occurrences by setting rootMode to 'upward'. this is needed in

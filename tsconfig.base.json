@@ -24,17 +24,17 @@
       "@open-system/generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
-      "@open-system/shared-ui-design-components": [
-        "dist/libs/shared-ui-design-components"
+      "@open-system/design-system-components": [
+        "dist/design-system/components"
       ],
-      "@open-system/shared-ui-design-components-react": [
-        "libs/shared-ui-design-components-react/src/index.ts"
+      "@open-system/design-system-components/*": [
+        "dist/design-system/components/dist/components/*"
       ],
-      "@open-system/shared-ui-design-components/*": [
-        "dist/libs/shared-ui-design-components/dist/components/*"
+      "@open-system/design-system-components/loader": [
+        "dist/design-system/components/loader"
       ],
-      "@open-system/shared-ui-design-components/loader": [
-        "dist/libs/shared-ui-design-components/loader"
+      "@open-system/shared-ui-components": [
+        "libs/shared/ui/components/src/index.ts"
       ],
       "@open-system/shared-ui-feature-routing": [
         "libs/shared/ui/feature-routing/src/index.ts"
