@@ -1,0 +1,26 @@
+{
+  "extends": "../../../tsconfig.tools.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "target": "es2020",
+    "module": "commonjs",
+    "allowJs": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": false,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "resolveJsonModule": true,
+    "useUnknownInCatchVariables": false,
+    "types": ["node", "react/next"]
+  },
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.tsx", "jest.config.js"],
+  "include": ["**/*.ts"]
+}

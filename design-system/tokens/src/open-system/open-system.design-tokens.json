@@ -192,7 +192,7 @@
         "fontSize": 45,
         "textDecoration": "none",
         "fontFamily": "Nunito Sans",
-        "fontWeight": 400,
+        "fontWeight": 600,
         "fontStyle": "normal",
         "fontStretch": "normal",
         "letterSpacing": 0,
@@ -230,7 +230,7 @@
         }
       }
     },
-    "body": {
+    "body-1": {
       "type": "custom-fontStyle",
       "value": {
         "fontSize": 18,
@@ -252,7 +252,7 @@
         }
       }
     },
-    "header-2": {
+    "header-1": {
       "type": "custom-fontStyle",
       "value": {
         "fontSize": 32,
@@ -291,7 +291,7 @@
       },
       "fontWeight": {
         "type": "number",
-        "value": 400
+        "value": 600
       },
       "fontStyle": {
         "type": "string",
@@ -368,7 +368,7 @@
         "value": "none"
       }
     },
-    "body": {
+    "body-1": {
       "fontSize": {
         "type": "dimension",
         "value": 18
@@ -414,7 +414,7 @@
         "value": "none"
       }
     },
-    "header-2": {
+    "header-1": {
       "fontSize": {
         "type": "dimension",
         "value": 32

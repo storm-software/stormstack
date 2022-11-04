@@ -9,6 +9,7 @@
     "shared-ui-feature-routing": "libs/shared/ui/feature-routing",
     "tests-design-system-components-e2e": "apps/tests/design-system/components-e2e",
     "tools-asyncapi-rabbitmq": "tools/asyncapi/rabbitmq",
+    "tools-design-token-parsers": "tools/design-token-parsers",
     "tools-executors-docs": "tools/executors/docs",
     "tools-executors-dotnet": "tools/executors/dotnet",
     "tools-executors-typescript": "tools/executors/typescript",

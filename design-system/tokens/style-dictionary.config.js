@@ -1,6 +1,5 @@
 const StyleDictionary = require("style-dictionary");
 const version = require("./package.json").version;
-const tokens = require("./src");
 
 StyleDictionary.registerFileHeader({
   name: "openSystemHeader",
@@ -19,58 +18,69 @@ StyleDictionary.registerFileHeader({
   },
 });
 
+// Register an "attribute" transform to codify the font's details
+// as named attributes.
+StyleDictionary.registerTransform({
+  name: 'attribute/font',
+  type: 'attribute',
+  transformer: prop => ({
+    category: prop.path[0],
+    type: prop.path[1],
+    family: prop.path[2],
+    weight: prop.path[3],
+    style: prop.path[4]
+  })
+});
+
+// Register a custom format to generate @font-face rules.
+StyleDictionary.registerFormat({
+  name: 'font-face',
+  formatter: ({ dictionary: { allTokens }, options }) => {
+    const fontPathPrefix = options.fontPathPrefix || '../';
+
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/src
+    const formatsMap = {
+      'woff2': 'woff2',
+      'woff': 'woff',
+      'ttf': 'truetype',
+      'otf': 'opentype',
+      'svg': 'svg',
+      'eot': 'embedded-opentype'
+    };
+
+    return allTokens.reduce((fontList, prop) => {
+      const {
+        attributes: { family, weight, style },
+        formats,
+        value: path
+      } = prop;
+
+      const urls = formats
+        .map(extension => `url("${fontPathPrefix}${path}.${extension}") format("truetype")`);
+
+      const fontCss = [
+        '@font-face {',
+        `\n\tfont-family: "${family}";`,
+        `\n\tfont-style: ${style};`,
+        `\n\tfont-weight: ${weight};`,
+        `\n\tsrc: ${urls.join(',\n\t\t\t ')};`,
+        '\n\tfont-display: fallback;',
+        '\n}\n'
+      ].join('');
+
+      fontList.push(fontCss);
+
+      return fontList;
+    }, []).join('\n');
+  }
+});
+
+
 module.exports = {
   "source": ["design-system/tokens/src/**/*.json"],
   "platforms": {
-    "esm/category": {
-      "buildPath": "dist/design-system/tokens/js/esm/",
-      "transforms": ["attribute/cti", "name/cti/camel", "size/px", "color/hex"],
-      "files": tokens.map(tokenCategory => ({
-        "destination": `${tokenCategory}.js`,
-        "format": "javascript/es6",
-        "filter": {
-          "attributes": {
-            "category": tokenCategory,
-          },
-        },
-      })),
-    },
-    "esm/index": {
-      "buildPath": "dist/design-system/tokens/js/esm/",
-      "transforms": ["attribute/cti", "name/cti/camel", "size/px", "color/hex"],
-      "files": [
-        {
-          "destination": `index.js`,
-          "format": "javascript/es6",
-        },
-      ],
-    },
-    "cjs/category": {
-      "buildPath": "dist/design-system/tokens/js/cjs/",
-      "transforms": ["attribute/cti", "name/cti/camel", "size/px", "color/hex"],
-      "files": tokens.map(tokenCategory => ({
-        "destination": `${tokenCategory}.js`,
-        "format": "custom/cjsmodule",
-        "filter": {
-          "attributes": {
-            "category": tokenCategory,
-          },
-        },
-      })),
-    },
-    "cjs/index": {
-      "buildPath": "dist/design-system/tokens/js/cjs/",
-      "transforms": ["attribute/cti", "name/cti/camel", "size/px", "color/hex"],
-      "files": [
-        {
-          "destination": `index.js`,
-          "format": "custom/cjsmodule",
-        },
-      ],
-    },
     "js": {
       "transformGroup": "js",
-      "prefix": "os-",
       "buildPath": "dist/design-system/tokens/js/",
       "files": [
         {
@@ -97,214 +107,25 @@ module.exports = {
           },
         },
       ],
-      "actions": ["copy_assets"],
     },
-    "scss": {
-      "transformGroup": "scss",
-      "buildPath": "dist/design-system/tokens/scss/",
+    "css-font-face": {
+      "transforms": ["attribute/font"],
+      "buildPath": "dist/design-system/tokens/assets/",
       "files": [
         {
-          "destination": "_variables.scss",
-          "format": "scss/variables",
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-      ],
-    },
-    "android": {
-      "transformGroup": "android",
-      "buildPath": "dist/design-system/tokens/android/",
-      "files": [
-        {
-          "destination": "font_dimens.xml",
-          "format": "android/fontDimens",
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-        {
-          "destination": "colors.xml",
-          "format": "android/colors",
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-      ],
-    },
-    "compose": {
-      "transformGroup": "compose",
-      "buildPath": "dist/design-system/tokens/compose/",
-      "files": [
-        {
-          "destination": "StyleDictionaryColor.kt",
-          "format": "compose/object",
-          "className": "StyleDictionaryColor",
-          "packageName": "StyleDictionaryColor",
+          "destination": "fonts.css",
+          "format": "css/fonts.css",
           "filter": {
             "attributes": {
-              "category": "color",
-            },
+              "category": "asset",
+              "type": "font"
+            }
           },
           "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-        {
-          "destination": "StyleDictionarySize.kt",
-          "format": "compose/object",
-          "className": "StyleDictionarySize",
-          "packageName": "StyleDictionarySize",
-          "type": "float",
-          "filter": {
-            "attributes": {
-              "category": "size",
-            },
-          },
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-      ],
-    },
-    "ios": {
-      "transformGroup": "ios",
-      "buildPath": "dist/design-system/tokens/ios/",
-      "files": [
-        {
-          "destination": "StyleDictionaryColor.h",
-          "format": "ios/colors.h",
-          "className": "StyleDictionaryColor",
-          "type": "StyleDictionaryColorName",
-          "filter": {
-            "attributes": {
-              "category": "color",
-            },
-          },
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-        {
-          "destination": "StyleDictionaryColor.m",
-          "format": "ios/colors.m",
-          "className": "StyleDictionaryColor",
-          "type": "StyleDictionaryColorName",
-          "filter": {
-            "attributes": {
-              "category": "color",
-            },
-          },
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-        {
-          "destination": "StyleDictionarySize.h",
-          "format": "ios/static.h",
-          "className": "StyleDictionarySize",
-          "type": "float",
-          "filter": {
-            "attributes": {
-              "category": "size",
-            },
-          },
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-        {
-          "destination": "StyleDictionarySize.m",
-          "format": "ios/static.m",
-          "className": "StyleDictionarySize",
-          "type": "float",
-          "filter": {
-            "attributes": {
-              "category": "size",
-            },
-          },
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-      ],
-    },
-    "ios-swift": {
-      "transformGroup": "ios-swift",
-      "buildPath": "dist/design-system/tokens/ios-swift/",
-      "files": [
-        {
-          "destination": "StyleDictionary+Class.swift",
-          "format": "ios-swift/class.swift",
-          "className": "StyleDictionaryClass",
-          "filter": {},
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-        {
-          "destination": "StyleDictionary+Enum.swift",
-          "format": "ios-swift/enum.swift",
-          "className": "StyleDictionaryEnum",
-          "filter": {},
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-        {
-          "destination": "StyleDictionary+Struct.swift",
-          "format": "ios-swift/any.swift",
-          "className": "StyleDictionaryStruct",
-          "filter": {},
-          "options": {
-            "imports": "SwiftUI",
-            "objectType": "struct",
-            "accessControl": "internal",
-            "fileHeader": "openSystemHeader",
-          },
-        },
-      ],
-    },
-    "ios-swift-separate-enums": {
-      "transformGroup": "ios-swift-separate",
-      "buildPath": "dist/design-system/tokens/ios-swift/",
-      "files": [
-        {
-          "destination": "StyleDictionaryColor.swift",
-          "format": "ios-swift/enum.swift",
-          "className": "StyleDictionaryColor",
-          "filter": {
-            "attributes": {
-              "category": "color",
-            },
-          },
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-        {
-          "destination": "StyleDictionarySize.swift",
-          "format": "ios-swift/enum.swift",
-          "className": "StyleDictionarySize",
-          "filter": {
-            "attributes": {
-              "category": "size",
-            },
-          },
-          "options": {
-            "fileHeader": "openSystemHeader",
-          },
-        },
-      ],
-    },
-  },
+            "fontPathPrefix": "../"
+          }
+        }
+      ]
+    }
+  }
 };
-
-StyleDictionary.registerFormat({
-  name: "custom/cjsmodule",
-  formatter: function ({ dictionary }) {
-    return `module.exports = {${dictionary.allTokens.map(
-      token => `\n\t${token.name}: "${token.value}"`
-    )}\n};`;
-  },
-});
