@@ -9,9 +9,10 @@ import styles from "./Hero.module.css";
 interface HeroProps extends ComponentProps<any> {
   title: string;
   image?: string;
+  isAnimated?: boolean;
 };
 
-export default function Hero({ children, title, image }: HeroProps): JSX.Element {
+export default function Hero({ children, title, image, isAnimated = false }: HeroProps): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const { isDarkTheme } = useColorMode();
 
@@ -23,6 +24,7 @@ export default function Hero({ children, title, image }: HeroProps): JSX.Element
       <div className="container">
         <img
           width={850}
+          className={clsx({"fadeIn": isAnimated})}
           src={image ? image : isDarkTheme ? logoInverseUrl : logoUrl}
           alt="Application Flow Diagram"
         />

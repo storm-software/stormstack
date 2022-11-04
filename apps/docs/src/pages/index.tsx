@@ -12,7 +12,7 @@ export default function Home(): JSX.Element {
     <Layout
       title={siteConfig.title}
       description="Development and Application Documentation">
-       <Hero title={siteConfig.tagline}>
+       <Hero title={siteConfig.tagline} isAnimated={true}>
           <Link
             className="button button--secondary button--lg"
             to="/docs/getting-started/installation">
