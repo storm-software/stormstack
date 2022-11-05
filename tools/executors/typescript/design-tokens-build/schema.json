@@ -5,15 +5,19 @@
   "description": "Build the latest design tokens code from the extracted figma JSON",
   "type": "object",
   "properties": {
-    "configFile": {
+    "tokensJson": {
+      "type": "string",
+      "description": "The path and name of the extracted json that contains the design token data."
+    },
+    /*"configFile": {
       "type": "string",
       "description": "The path to a `styled-dictionary` [configuration file](https://amzn.github.io/style-dictionary/#/config?id=configuration)"
-    },
+    },*/
     "clean": {
       "type": "boolean",
       "description": "Should `style-dictionary clean` be executed prior to the build",
       "default": false
     }
   },
-  "required": ["configFile"]
+  "required": ["tokensJson"]
 }

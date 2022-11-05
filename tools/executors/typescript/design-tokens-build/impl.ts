@@ -1,5 +1,6 @@
 import { ExecutorContext } from "@nrwl/devkit";
-import { execute, printError, printInfo, printSuccess } from "../utilities";
+import fs from 'fs';
+import { execute, printError, printInfo, printSuccess, ToTailwindParser } from "../utilities";
 import { DesignTokensBuildExecutorSchema } from "./schema";
 
 export default async function (
@@ -11,9 +12,9 @@ export default async function (
     printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
     printInfo(`Current Directory: ${__dirname}`);
 
-    const { configFile, clean } = options;
+    const { tokensJson, clean } = options;
 
-    printInfo(`style-dictionary configuration: ${configFile}`);
+    printInfo(`Design Tokens JSON: ${tokensJson}`);
 
     printInfo("Starting design tokens build...");
 
@@ -21,16 +22,28 @@ export default async function (
     if (clean) {
       printInfo("Cleaning previous design tokens build...");
 
-      result = await execute(`style-dictionary clean --config ${configFile}`);
+      result = await execute(`rimraf ./dist/design-system/tokens -v !("package.json")`);
       if (result) {
         printError(result);
         return { success: false };
       }
     }
 
+    printInfo("Loading design tokens file...");
+
+    const dataArray = JSON.parse(fs.readFileSync(tokensJson, 'utf-8'));
+    printInfo(dataArray);
+
     printInfo("Building latest design tokens...");
 
-    result = await execute(`style-dictionary build --config ${configFile}`);
+    result = await ToTailwindParser(dataArray , {
+      formatName: 'camelCase',
+      formatConfig: {
+        objectName: 'extend',
+        module: 'commonjs',
+      },
+    }, { _: null })
+    // result = await execute(`style-dictionary build --config ${configFile}`);
     if (result) {
       printError(result);
       return { success: false };

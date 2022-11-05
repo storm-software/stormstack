@@ -1,47 +1,5 @@
 {
   "name": "@open-system/design-token-parsers",
-  "version": "0.0.11",
-  "main": "index.js",
-  "dependencies": {
-    "@mobily/ts-belt": "^3.12.0",
-    "@types/lodash": "^4.14.175",
-    "@types/mustache": "^4.1.2",
-    "@types/node": "16.3.3",
-    "@types/prettier": "^2.3.2",
-    "@types/svgo": "2.6.1",
-    "@types/theme-ui": "^0.6.0",
-    "@types/tinycolor2": "^1.4.3",
-    "@types/xml2js": "^0.4.9",
-    "deepmerge": "^4.2.2",
-    "got": "^11.8.5",
-    "lodash": "^4.17.21",
-    "mustache": "^4.2.0",
-    "prettier": "2.3.2",
-    "svgo": "2.8.0",
-    "tinycolor2": "^1.4.1",
-    "ts-pattern": "^4.0.3",
-    "typescript": "4.5.5",
-    "xml2js": "^0.4.23",
-    "xmlbuilder2": "^3.0.2"
-  },
-  "devDependencies": {
-    "@types/glob": "^7.1.4",
-    "@types/jest": "26.0.24",
-    "dotenv": "^10.0.0",
-    "glob": "^7.1.7",
-    "jest": "27.0.6",
-    "jest-circus": "^27.0.6",
-    "lint-staged": "^12.3.4",
-    "sass": "1.49.10",
-    "ts-jest": "27.0.3"
-  },
-  "lint-staged": {
-    "*": "prettier -u -w"
-  },
-  "scripts": {
-    "test": "jest --coverage --runInBand",
-    "generate:seeds": "ts-node ./tests/helper/generate.seed.ts",
-    "format": "prettier '**/*' -u -w",
-    "prepare": "git config --local core.hooksPath .hooks"
-  }
+  "version": "0.0.1"
 }
+

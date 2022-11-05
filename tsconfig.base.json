@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@open-system/design-token-parsers": [
-        "tools/design-token-parsers/parsers/index.ts"
+        "dist/tools/design-token-parsers/index.ts"
       ],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],

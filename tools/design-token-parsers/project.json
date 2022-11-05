@@ -1,7 +1,7 @@
 {
   "name": "tools-design-token-parsers",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "tools/design-token-parsers/parsers",
+  "sourceRoot": "tools/design-token-parsers",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -12,7 +12,7 @@
         "outputPath": "dist/tools/design-token-parsers",
         "tsConfig": "tools/design-token-parsers/tsconfig.json",
         "project": "tools/design-token-parsers/package.json",
-        "entryFile": "tools/design-token-parsers/parsers/index.ts",
+        "entryFile": "tools/design-token-parsers/index.ts",
         "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "babel",

@@ -1,4 +1,4 @@
 export interface DesignTokensBuildExecutorSchema {
-  configFile: string;
+  tokensJson: string;
   clean: boolean;
 }
