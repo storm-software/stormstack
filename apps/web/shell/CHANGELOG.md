@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.2.0...web-shell-v1.3.0) (2022-11-05)
+
+
+### Features
+
+* **tools:** Enhanced the token build executor ([3df7fb3](https://github.com/sullivanpj/open-system/commit/3df7fb31f1b772b83ed05ffffc6680b8010072d2))
+
 # [1.2.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.1.0...web-shell-v1.2.0) (2022-11-04)
 
 
