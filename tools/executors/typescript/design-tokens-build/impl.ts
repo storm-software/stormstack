@@ -1,8 +1,9 @@
 import { ExecutorContext } from "@nrwl/devkit";
 import fs from 'fs';
 import Path from 'path';
-import { execute, InputDataType, printError, printInfo, printSuccess, toTailwindParser } from "../utilities";
-import { toCssFontImportParser } from "../utilities/design-token-parsers/parsers/to-css-font-import";
+import { execute, printError, printInfo, printSuccess, toCssFontImportParser, toTailwindParser } from "../utilities";
+import { InputDataType as ToCssFontImportParserInputDataType } from "../utilities/design-token-parsers/parsers/to-css-font-import";
+import { InputDataType as ToTailwindInputDataType } from "../utilities/design-token-parsers/parsers/to-tailwind";
 import { IToken } from "../utilities/design-token-parsers/types";
 import { DesignTokensBuildExecutorSchema } from "./schema";
 
@@ -11,11 +12,17 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    printInfo("Executing design-tokens-build executor...");
-    printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
-    printInfo(`Current Directory: ${__dirname}`);
+    const { tokensDir, tokensFile, fontsDir, clean, verbose } = options;
 
-    const { tokensDir, tokensFile, fontsDir, imagesDir, clean } = options;
+    printInfo("Executing design-tokens-build executor...");
+    verbose && printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
+    verbose && printInfo(`Current Directory: ${__dirname}`);
+
+
+    const themeName = context.configurationName
+      ? context.configurationName
+      : "default"
+
     const tokenJson = Path.join(tokensDir, tokensFile);
     if (!tokenJson) {
       printError(`No JSON file could be found at ${tokenJson}. Halting execution early.`);
@@ -29,7 +36,6 @@ export default async function (
     }
 
     printInfo(`Design Tokens JSON: ${tokensDir}`);
-
     printInfo("Starting design tokens build...");
 
     let result;
@@ -43,87 +49,95 @@ export default async function (
       }
     }
 
-    printInfo("Loading design tokens file...");
+    verbose && printInfo(`Loading design tokens file for theme: ${themeName}`);
 
     const tokenJsonStr = fs.readFileSync(tokenJson, 'utf-8');
-    printInfo(tokenJsonStr);
+    verbose && printInfo(tokenJsonStr);
 
     const dataArray = JSON.parse(tokenJsonStr);
-    printInfo(JSON.stringify(dataArray, null, 2));
+    verbose && printInfo(JSON.stringify(dataArray, null, 2));
 
     printInfo("Building latest design tokens...");
 
     dataArray["color"] &&
-    (result = await toTailwindParser(
-      Object.entries(dataArray["color"]).reduce((ret: InputDataType,
-        [name, token]: [name: string, token: Omit<IToken, "id" | "type" | "name"> & Partial<IToken>]) => {
+      (result = await toTailwindParser(
+        [...(dataArray["color"] ? Object.entries(dataArray["color"]).reduce((ret: ToTailwindInputDataType,
+          [name, token]: [name: string, token: Omit<IToken, "id" | "type" | "name"> & Partial<IToken>]) => {
 
-      if (name && token.value) {
-        ret.push({
-          id: name,
-          type: "color",
-          name,
-          ...token,
-        });
-      }
+        if (name && token.value) {
+          ret.push({
+            id: name,
+            type: "color",
+            name,
+            ...token,
+          });
+        }
 
-      return ret;
-    }, []), {
-      formatName: 'camelCase',
-      formatConfig: {
-        objectName: 'extend',
-        exportDefault: true,
-        module: 'commonjs',
-      },
-    }, { _: null }));
+        return ret;
+      }, []) : [])], {
+        formatName: 'camelCase',
+        formatConfig: {
+          objectName: 'extend',
+          exportDefault: true,
+          module: 'commonjs',
+        },
+      }, { _: null }));
 
-    printSuccess(result);
-    printSuccess("Design tokens sync succeeded.");
+    verbose && printSuccess(result);
 
-    fs.writeFileSync(Path.join(outputPath, "js", `${
-      context.configurationName
-        ? context.configurationName
-        : "default"
-      }.theme.js`),
+    if (!fs.existsSync(Path.join(outputPath, "js"))) {
+      fs.mkdirSync(Path.join(outputPath, "js"), { recursive: true });
+    }
+
+    fs.writeFileSync(
+      Path.join(outputPath, "js", `${themeName}.theme.js`),
       result,
       'utf8');
 
-    const fontsPath = fs.existsSync(Path.relative(tokensDir, fontsDir))
-      ? Path.relative(tokensDir, fontsDir)
+    printSuccess(`Design token ${themeName}.theme.js (tailwind import) created.`);
+
+    const fontsPath = fs.existsSync(Path.join(tokensDir, fontsDir))
+      ? Path.join(tokensDir, fontsDir)
       : fontsDir;
+    if (fs.existsSync(fontsPath) && dataArray["font"]) {
+      result = await toCssFontImportParser(
+        Object.entries(dataArray["font"]).reduce((ret: ToCssFontImportParserInputDataType,
+          [name, token]: [name: string, token: ToCssFontImportParserInputDataType[0]]) => {
 
-    fs.existsSync(fontsPath) &&
-    dataArray["font"] &&
-    (result = await toCssFontImportParser(
-      Object.entries(dataArray["font"]).reduce((ret: InputDataType,
-        [name, token]: [name: string, token: Omit<IToken, "id" | "type" | "name"> & Partial<IToken>]) => {
+        if (name && token.value) {
+          ret.push({
+            id: name,
+            type: "font",
+            name: token.value.fontFamily.replaceAll(/[_]/g,'').replaceAll(/\s/g, ''),
+            ...token,
+          });
+        }
 
-      if (name && token.value) {
-        ret.push({
-          id: name,
-          type: "font",
-          name,
-          ...token,
-        });
+        return ret;
+      }, []), {
+        fontFamilyTransform: "pascalCase",
+        formats: ["ttf"],
+        fontsPath,
+        fontDisplay: "fallback",
+        genericFamily: "sans-serif",
+        includeFontWeight: true,
+      });
+
+      verbose && printSuccess(result);
+
+      if (!fs.existsSync(Path.join(outputPath, "css"))) {
+        fs.mkdirSync(Path.join(outputPath, "css"), { recursive: true });
       }
 
-      return ret;
-    }, []), {
-      fontFamilyTransform: "pascalCase",
-      formats: ["ttf", "otf"],
-      fontsPath,
-      fontDisplay: "fallback",
-      genericFamily: "sans-serif",
-      includeFontWeight: true,
-    }));
+      fs.writeFileSync(
+        Path.join(outputPath, "css", `${themeName}.fonts.css`),
+        result,
+        'utf8');
 
-    fs.writeFileSync(Path.join(outputPath, "css", `${
-      context.configurationName
-        ? context.configurationName
-        : "default"
-      }.fonts.css`),
-      result,
-      'utf8');
+      printSuccess(`Theme specific fonts (${themeName}.font.css) created.`);
+    }
+
+    printSuccess("Design tokens sync succeeded.");
 
     return { success: true };
   } catch (e) {
@@ -135,37 +149,3 @@ export default async function (
     return { success: false };
   }
 }
-
-const fontRules = [
-  {
-    name: 'Design Tokens / CSS font imports',
-    path: `${designTokensFolderPath}/fonts.css`,
-    filter: {
-      types: ['font'],
-    },
-    parsers: [
-      {
-        name: 'to-css-font-import',
-        options: {
-          formats: fontFormats,
-          fontsPath: path.relative(designTokensFolderPath, fontsFolderPath),
-        },
-      },
-    ],
-  },
-  {
-    name: 'Design Tokens / Export fonts',
-    path: fontsFolderPath,
-    filter: {
-      types: ['font'],
-    },
-    parsers: [
-      {
-        name: 'convert-font',
-        options: {
-          formats: fontFormats,
-        },
-      },
-    ],
-  },
-];

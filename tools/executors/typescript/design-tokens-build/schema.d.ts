@@ -4,4 +4,5 @@ export interface DesignTokensBuildExecutorSchema {
   fontsDir?: string;
   imagesDir?: string;
   clean?: boolean;
+  verbose?: boolean;
 }

@@ -26,6 +26,11 @@
       "type": "boolean",
       "description": "Should `style-dictionary clean` be executed prior to the build.",
       "default": false
+    },
+    "verbose": {
+      "type": "boolean",
+      "description": "An indicator specifying the if the level of logging should be high (when `true`) or normal (when `false`).",
+      "default": false
     }
   },
   "required": ["tokensDir", "tokensFile"]

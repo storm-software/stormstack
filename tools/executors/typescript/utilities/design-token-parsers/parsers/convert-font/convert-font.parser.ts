@@ -1,6 +1,6 @@
-import { AllowedFormat } from '../../types';
+import { printError } from '../../../helper-utilities';
+import { AllowedFormat, PartialRecord } from '../../types';
 import type { LibsType } from '../global-libs';
-import { PartialRecord } from '../../types';
 
 export type InputDataType = Array<{
   value: {
@@ -76,6 +76,7 @@ export default async function (
       )
     ).flat(2);
   } catch (err) {
+    printError(err);
     throw err;
   }
 }

@@ -17,14 +17,14 @@ export class TextStyle extends TextStyleToken {
   }
   private getLetterSpacing() {
     const ls = this.value.letterSpacing;
-    if (ls) {
+    if (ls?.value) {
       return `${ls.value.measure}${ls.value.unit}`;
     }
     return undefined;
   }
   private getLineHeight() {
     const lh = this.value.lineHeight;
-    return `${lh.value.measure}${lh.value.unit}`;
+    return `${lh?.value?.measure ?? 0}${lh?.value?.unit ?? "px"}`;
   }
   private getColor(format: ColorsFormat) {
     if (this.value.color?.value) {
@@ -39,7 +39,7 @@ export class TextStyle extends TextStyleToken {
   }
 
   private getFontFamily() {
-    return (this.value.font as FontToken).name ?? this.value.font.value.fontPostScriptName;
+    return (this?.value?.font as FontToken)?.name ?? this.value?.font?.value?.fontPostScriptName;
   }
 
   private getFontSize(fontFormat: FormatTokenType['fontSizeFormat']) {
@@ -47,7 +47,7 @@ export class TextStyle extends TextStyleToken {
     if (fontFormat?.unit && this.value.fontSize.value.unit !== fontFormat?.unit) {
       this.value.fontSize.value = convertMeasurement(this.value.fontSize.value, fontFormat?.unit);
     }
-    return `${fontSize.value.measure}${fontSize.value.unit}`;
+    return `${fontSize?.value?.measure ?? 0}${fontSize?.value?.unit ?? "px"}`;
   }
 
   generate(options: OptionsType): TextStyleMapping {
