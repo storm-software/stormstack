@@ -1,8 +1,9 @@
-import prettier from 'prettier/standalone';
-import path from 'path';
-import os from 'os';
-import parserCss from 'prettier/parser-postcss';
 import * as _ from 'lodash';
+import os from 'os';
+import path from 'path';
+import parserCss from 'prettier/parser-postcss';
+import prettier from 'prettier/standalone';
+import { printError } from '../../../helper-utilities';
 export type InputDataType = Array<{ name: string; [Key: string]: any }>;
 export type OutputDataType = string;
 export type OptionsType = {
@@ -26,6 +27,7 @@ class ToCssFont {
   tokens: InputDataType;
   formats: NonNullable<OptionsType['formats']>;
   fontsPath: NonNullable<OptionsType['fontsPath']>;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   fontFamilyTransformFn: Function | undefined;
   includeFontWeight: OptionsType['includeFontWeight'];
   fontDisplay: NonNullable<OptionsType['fontDisplay']>;
@@ -103,6 +105,7 @@ export default async function (
       plugins: [parserCss],
     });
   } catch (err) {
+    printError(err);
     throw err;
   }
 }

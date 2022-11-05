@@ -1,4 +1,7 @@
 export interface DesignTokensBuildExecutorSchema {
-  tokensJson: string;
-  clean: boolean;
+  tokensDir: string;
+  tokensFile: string;
+  fontsDir?: string;
+  imagesDir?: string;
+  clean?: boolean;
 }

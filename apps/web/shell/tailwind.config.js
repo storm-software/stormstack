@@ -1,7 +1,7 @@
 const { createGlobPatternsForDependencies } = require("@nrwl/react/tailwind");
 const { join } = require("path");
 const kebabcase = require("lodash.kebabcase");
-const variables = require("../../../dist/libs/shared/ui/design-tokens/js/theme.js");
+const variables = require("@open-system/design-system-tokens/js/theme");
 
 const colors = Object.fromEntries(
   Object.values(variables.color).reduce((ret, { attributes, value }) => {

@@ -1,11 +1,12 @@
+import deepmerge from 'deepmerge';
+import * as _ from 'lodash';
+import os from 'os';
+import prettier from 'prettier';
+import { printError } from '../../../helper-utilities';
 import { IToken, PartialRecord, TokensType } from '../../types';
 import { LibsType } from '../global-libs';
-import prettier from 'prettier';
-import os from 'os';
-import * as _ from 'lodash';
 import { ColorsFormat, FormatName, TailwindTokenClass, TailwindType } from './to-tailwind.type';
 import * as TokensClass from './tokens';
-import deepmerge from 'deepmerge';
 
 export type OutputDataType = string;
 export type InputDataType = Array<
@@ -116,6 +117,7 @@ export default async function (
     const parserInstance = new ToTailwind(tokens, options);
     return parserInstance.exec();
   } catch (err) {
+    printError(err);
     throw err;
   }
 }

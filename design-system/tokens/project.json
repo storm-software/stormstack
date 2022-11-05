@@ -21,8 +21,14 @@
         "outputPath": "dist/design-system/tokens",
         "tsConfig": "design-system/tokens/tsconfig.lib.json",
         "assets": ["design-system/tokens/*.md"],
-        "configFile": "design-system/tokens/style-dictionary.config.js",
-        "clean": true
+        "clean": false
+      },
+      "configurations": {
+        "open-system": {
+          "tokensDir": "design-system/tokens/src/open-system",
+          "fontsDir": "assets/fonts",
+          "imagesDir": "assets/images"
+        }
       }
     },
     "lint": {
