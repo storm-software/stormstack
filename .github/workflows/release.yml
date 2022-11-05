@@ -19,8 +19,6 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-        with:
-          fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
       - run: npm ci
 
