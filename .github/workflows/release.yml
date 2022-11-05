@@ -5,23 +5,23 @@ name: default
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: configure git
-      run: |
+      - uses: actions/checkout@v3
+      - name: configure git
+        run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-      
-    - run: npm ci
-    
-    - run: npx nx run web-shell:semantic-release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: npm ci
+
+      - run: npx nx affected --target=semantic-release --parallel=5 --base=main~1 --head=main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

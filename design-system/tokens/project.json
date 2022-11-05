@@ -53,6 +53,15 @@
         "outputPath": "apps/docs/src/components/DesignTokens/design-tokens-table.mdx",
         "tokensPath": "dist/design-system/tokens/css"
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "design-system-tokens-v${VERSION}"
+      }
     }
   },
   "tags": []

@@ -19,6 +19,15 @@
         "jestConfig": "libs/shared/ui/components/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "shared-ui-components-v${VERSION}"
+      }
     }
   }
 }

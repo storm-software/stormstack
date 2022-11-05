@@ -36,6 +36,18 @@
         }
       }
     },
+    "quaternary": {
+      "description": "",
+      "type": "color",
+      "value": "#1ea7fdff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:767bbbe94d8556491a53778f9de1a3c42e1b5deb,",
+          "exportKey": "color"
+        }
+      }
+    },
     "inverse": {
       "description": "",
       "type": "color",
@@ -51,7 +63,7 @@
     "active": {
       "description": "",
       "type": "color",
-      "value": "#516cb0ff",
+      "value": "#1ea7fdff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {

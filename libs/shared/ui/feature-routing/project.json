@@ -41,6 +41,15 @@
         "jestConfig": "libs/shared/ui/feature-routing/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "shared-ui-feature-routing-v${VERSION}"
+      }
     }
   }
 }
