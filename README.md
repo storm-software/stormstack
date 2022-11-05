@@ -2,19 +2,16 @@
 
 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries.
 
-[![gitlab](https://img.shields.io/badge/version-0.0.0-orange?style=for-the-badge&logo=gitlab&logoWidth=20)](https://git.devops.broadridge.net/FXL/tfs/7.5)
+[![github](https://img.shields.io/github/package-json/v/sullivanpj/open-system?style=for-the-badge)](https://git.devops.broadridge.net/FXL/tfs/7.5)
 [![.Net](https://img.shields.io/badge/.NET-4.7.2-blue?style=for-the-badge&logo=dotnet&logoWidth=20)](https://dotnet.microsoft.com/en-us/)
 [![Nx](https://img.shields.io/badge/Nx-14.4.2-lightgrey?style=for-the-badge&logo=nx&logoWidth=20)](http://nx.dev/)
 [![TypesScript](https://img.shields.io/badge/TypeScript-4.5.2-informational?style=for-the-badge&logo=typescript&logoWidth=20)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.2.0-9cf?style=for-the-badge&logo=react&logoWidth=20)](https://reactjs.org/)
 [![React Query](https://img.shields.io/badge/React%20Query-3.39.2-red?style=for-the-badge&logo=reactquery&logoWidth=20)](https://react-query.tanstack.com/)
-[![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-7.31.3-ff69b4?style=for-the-badge&logo=reacthookform&logoWidth=20)](https://react-hook-form.com/)
-[![semanticrelease](https://img.shields.io/badge/Semantic%20Release-1.13.0-lightgrey?style=for-the-badge&logo=semanticrelease&logoWidth=20)](https://github.com/TheUnderScorer/nx-semantic-release)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.0-brightgreen?style=for-the-badge&logo=openapiinitiative&logoWidth=20)](https://www.openapis.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.0.24-9cf?style=for-the-badge&logo=tailwindcss&logoWidth=20)](https://tailwindcss.com/)
-[![Commitlint](https://img.shields.io/badge/Commitlint-17.0.3-lightgrey?style=for-the-badge&logo=commitlint&logoWidth=20)](https://commitlint.js.org/#/)
 [![formatted with prettier](https://img.shields.io/badge/formatted_with-prettier-ff69b4.svg?style=for-the-badge&logo=prettier)](https://prettier.io/)
-[![documented with docusaurus](https://img.shields.io/badge/documented_with-docusaurus-success.svg?style=for-the-badge&logo=readthedocs)](https://docusaurus.io/)
+[![documented with docusaurus](https://img.shields.io/badge/documented_with-docusaurus-success.svg?style=for-the-badge&logo=readthedocs)](https://docusaurus.io/)[![codecov.io](https://img.shields.io/codecov/c/github/commitizen/cz-cli.svg?style=for-the-badge)](https://codecov.io/github/commitizen/cz-cli?branch=master)[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge)](http://commitizen.github.io/cz-cli/)![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge)
 
 ## Getting started
 
