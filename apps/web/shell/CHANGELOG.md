@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/sullivanpj/open-system/compare/web-shell-v1.3.0...web-shell-v1.3.1) (2022-11-05)
+
+
+### Bug Fixes
+
+* **design-system:** Resolved token to tailwind cfg ([a45f8a9](https://github.com/sullivanpj/open-system/commit/a45f8a9fa38cd97a321076f8fd46abb67b58b336))
+
 # [1.3.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.2.0...web-shell-v1.3.0) (2022-11-05)
 
 
