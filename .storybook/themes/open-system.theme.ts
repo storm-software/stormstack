@@ -1,33 +1,33 @@
-import { create } from '@storybook/theming';
+import { create } from "@storybook/theming";
 
 export default create({
-  base: 'light',
+  base: "dark",
 
-  colorPrimary: '#6728c3',
-  colorSecondary: '#595959',
+  colorPrimary: "#FFFFFF",
+  colorSecondary: "#8B949E",
 
   // UI
-  appBg: '#e6e6e6',
-  appContentBg: '#e6e6e6',
-  appBorderColor: '#e6e6e6',
+  appBg: "#2B2347",
+  appContentBg: "#2B2347",
+  appBorderColor: "#FFFFFF",
   appBorderRadius: 2,
 
   // Text colors
-  textColor: '#004d7e',
-  textInverseColor: '#e6e6e6',
+  textColor: "#FFFFFF",
+  textInverseColor: "#0DDACA",
 
   // Toolbar default and active colors
-  barTextColor: '#595959',
-  barSelectedColor: '#e6e6e6',
-  barBg: '#004d7e',
+  barTextColor: "#FFFFFF",
+  barSelectedColor: "#0DDACA",
+  barBg: "#503083",
 
   // Form colors
-  inputBg: '#e6e6e6',
-  inputBorder: '#004d7e',
-  inputTextColor: '#595959',
+  inputBg: "#2D3348",
+  inputBorder: "#8B949E",
+  inputTextColor: "#8B949E",
   inputBorderRadius: 2,
 
-  brandTitle: 'Open System',
-  brandUrl: 'https://github.com/sullivanpj/open-system',
+  brandTitle: "Open System",
+  brandUrl: "https://github.com/sullivanpj/open-system",
   // brandImage: require("../../assets/open-system.png"),
 });

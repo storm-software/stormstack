@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "title": "Open System - Design Tokens Clean",
+  "title": "Design Tokens Clean",
   "description": "Clean the previous design token code",
   "type": "object",
   "properties": {

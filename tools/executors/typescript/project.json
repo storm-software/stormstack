@@ -116,6 +116,32 @@
             }
           ]
         },
+        "design-components-clean": {
+          "outputPath": "dist/tools/executors/typescript/design-components-clean",
+          "rollupConfig": "tools/executors/typescript/design-components-clean/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/typescript",
+              "glob": "**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/typescript/design-components-clean",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
+        },
         "design-components-build": {
           "outputPath": "dist/tools/executors/typescript/design-components-build",
           "rollupConfig": "tools/executors/typescript/design-components-build/rollup.config.js",

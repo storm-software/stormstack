@@ -20,6 +20,16 @@
         "outputPath": "dist/design-system/components"
       }
     },
+    "clean": {
+      "executor": "@open-system/executors-typescript:design-components-clean",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "library",
+        "tsConfig": "design-system/components/tsconfig.lib.json",
+        "configPath": "design-system/components/stencil.config.ts",
+        "outputPath": "dist/design-system/components"
+      }
+    },
     "build": {
       "executor": "@open-system/executors-typescript:design-components-build",
       "outputs": ["{options.outputPath}"],
@@ -88,9 +98,10 @@
       }
     },
     "storybook": {
-      "executor": "@nrwl/nx:run-commands",
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
+          "nx run design-system-components:clean",
           "nx run design-system-components:serve",
           "nx run design-system-components:serve-storybook"
         ],

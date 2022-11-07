@@ -15,4 +15,4 @@ const Template = args => <os-input {...args}></os-input>;
 export const Primary = Template.bind({});
 
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = { first: "Hello", last: "World" };
+Primary.args = { label: "Sample Label", name: "sample1" };

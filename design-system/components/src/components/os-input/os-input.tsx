@@ -1,5 +1,4 @@
 import { Component, h, Prop } from "@stencil/core";
-import { format } from "../../utils/utils";
 
 @Component({
   tag: "os-input",
@@ -17,30 +16,11 @@ export class OsInput {
    */
   @Prop() label: string;
 
-  /**
-   * The first name
-   */
-  @Prop() first: string;
-
-  /**
-   * The middle name
-   */
-  @Prop() middle: string;
-
-  /**
-   * The last name
-   */
-  @Prop() last: string;
-
-  private getText(): string {
-    return format(this.first, this.middle, this.last);
-  }
-
   render() {
     return (
       <div>
-        <label htmlFor={this.name}>{this.label}</label>
-        <input name={this.name}>Hello, World! I'm {this.getText()}</input>
+        <label htmlFor={this.name}>{this.label} + Extra</label>
+        <input name={this.name}></input>
       </div>
     );
   }

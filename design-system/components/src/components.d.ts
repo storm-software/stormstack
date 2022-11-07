@@ -26,6 +26,10 @@ export namespace Components {
          */
         "first": string;
         /**
+          * The text label displayed above the input field
+         */
+        "label": string;
+        /**
           * The last name
          */
         "last": string;
@@ -33,6 +37,10 @@ export namespace Components {
           * The middle name
          */
         "middle": string;
+        /**
+          * The name of the input field
+         */
+        "name": string;
     }
 }
 declare global {
@@ -74,6 +82,10 @@ declare namespace LocalJSX {
          */
         "first"?: string;
         /**
+          * The text label displayed above the input field
+         */
+        "label"?: string;
+        /**
           * The last name
          */
         "last"?: string;
@@ -81,6 +93,10 @@ declare namespace LocalJSX {
           * The middle name
          */
         "middle"?: string;
+        /**
+          * The name of the input field
+         */
+        "name"?: string;
     }
     interface IntrinsicElements {
         "os-button": OsButton;
