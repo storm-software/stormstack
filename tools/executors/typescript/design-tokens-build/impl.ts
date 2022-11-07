@@ -110,26 +110,20 @@ export default async function (
                   if (name && token.value) {
                     const item = {
                       id: name,
-                      type: "textStyle",
                       name,
                       ...token,
+                      type: "textStyle",
+                      value: {
+                        font: {
+                          name: token.value?.fontFamily
+                            ?.replaceAll(/[_]/g, "")
+                            ?.replaceAll(/\s/g, ""),
+                          value: {
+                            ...token.value,
+                          },
+                        },
+                      },
                     };
-                    printInfo(JSON.stringify(item, null, 2));
-
-                    !item.value && (item.value = {});
-
-                    if (token.value?.fontFamily) {
-                      printInfo(`Adding font: ${token.value?.fontFamily}`);
-                      printInfo(
-                        JSON.stringify(token.value?.fontFamily, null, 2)
-                      );
-
-                      item.value.font = {
-                        name: token.value?.fontFamily
-                          ?.replaceAll(/[_]/g, "")
-                          ?.replaceAll(/\s/g, ""),
-                      };
-                    }
 
                     ret.push(item);
                   }
@@ -141,7 +135,7 @@ export default async function (
             : []),
         ],
         {
-          formatName: "camelCase",
+          formatName: "kebabCase",
           formatConfig: {
             objectName: "extend",
             exportDefault: true,

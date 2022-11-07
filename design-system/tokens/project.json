@@ -30,7 +30,7 @@
           "imagesDir": "assets/images"
         },
         "resume": {
-          "tokensDir": "design-system/tokens/src/resume1",
+          "tokensDir": "design-system/tokens/src/resume0",
           "fontsDir": "assets/fonts",
           "imagesDir": "assets/images"
         }
