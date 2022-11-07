@@ -33,7 +33,14 @@
         "production": {
           "dev": false,
           "prod": true,
-          "baseBuildTarget": "build-base"
+          "baseBuildTarget": "build-base",
+          "clean": true
+        },
+        "developer": {
+          "dev": true,
+          "prod": false,
+          "baseBuildTarget": "build-base",
+          "clean": true
         }
       }
     },

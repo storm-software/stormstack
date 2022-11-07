@@ -1,7 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext } from "@nrwl/devkit";
-import fs from 'fs';
-import Path from 'path';
-import { execute, printError, printInfo, printSuccess, toCssFontImportParser, toTailwindParser } from "../utilities";
+import fs from "fs";
+import Path from "path";
+import {
+  execute,
+  printError,
+  printInfo,
+  printSuccess,
+  toCssFontImportParser,
+  toTailwindParser,
+} from "../utilities";
 import { InputDataType as ToCssFontImportParserInputDataType } from "../utilities/design-token-parsers/parsers/to-css-font-import";
 import { InputDataType as ToTailwindInputDataType } from "../utilities/design-token-parsers/parsers/to-tailwind";
 import { IToken } from "../utilities/design-token-parsers/types";
@@ -18,20 +26,25 @@ export default async function (
     verbose && printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
     verbose && printInfo(`Current Directory: ${__dirname}`);
 
-
     const themeName = context.configurationName
       ? context.configurationName
-      : "default"
+      : "default";
 
     const tokenJson = Path.join(tokensDir, tokensFile);
     if (!tokenJson) {
-      printError(`No JSON file could be found at ${tokenJson}. Halting execution early.`);
+      printError(
+        `No JSON file could be found at ${tokenJson}. Halting execution early.`
+      );
       return { success: false };
     }
 
-    const outputPath = context.workspace?.projects?.[context.projectName]?.targets?.["build"]?.options?.outputPath;
+    const outputPath =
+      context.workspace?.projects?.[context.projectName]?.targets?.["build"]
+        ?.options?.outputPath;
     if (!outputPath) {
-      printError("No `outputPath` option was provided. Halting execution early.");
+      printError(
+        "No `outputPath` option was provided. Halting execution early."
+      );
       return { success: false };
     }
 
@@ -42,7 +55,9 @@ export default async function (
     if (clean) {
       printInfo("Cleaning previous design tokens build...");
 
-      result = await execute(`rimraf ./dist/design-system/tokens -v !("package.json")`);
+      result = await execute(
+        `rimraf ./dist/design-system/tokens -v !("package.json")`
+      );
       if (result) {
         printError(result);
         return { success: false };
@@ -51,7 +66,7 @@ export default async function (
 
     verbose && printInfo(`Loading design tokens file for theme: ${themeName}`);
 
-    const tokenJsonStr = fs.readFileSync(tokenJson, 'utf-8');
+    const tokenJsonStr = fs.readFileSync(tokenJson, "utf-8");
     verbose && printInfo(tokenJsonStr);
 
     const dataArray = JSON.parse(tokenJsonStr);
@@ -59,29 +74,82 @@ export default async function (
 
     printInfo("Building latest design tokens...");
 
-    dataArray["color"] &&
+    (dataArray["color"] || dataArray["font"]) &&
       (result = await toTailwindParser(
-        [...(dataArray["color"] ? Object.entries(dataArray["color"]).reduce((ret: ToTailwindInputDataType,
-          [name, token]: [name: string, token: Omit<IToken, "id" | "type" | "name"> & Partial<IToken>]) => {
+        [
+          ...(dataArray["color"]
+            ? Object.entries(dataArray["color"]).reduce(
+                (
+                  ret: ToTailwindInputDataType,
+                  [name, token]: [
+                    name: string,
+                    token: Omit<IToken, "id" | "type" | "name"> &
+                      Partial<IToken>
+                  ]
+                ) => {
+                  if (name && token.value) {
+                    ret.push({
+                      id: name,
+                      type: "color",
+                      name,
+                      ...token,
+                    });
+                  }
 
-        if (name && token.value) {
-          ret.push({
-            id: name,
-            type: "color",
-            name,
-            ...token,
-          });
-        }
+                  return ret;
+                },
+                []
+              )
+            : []),
+          ...(dataArray["font"]
+            ? Object.entries(dataArray["font"]).reduce(
+                (
+                  ret: ToTailwindInputDataType,
+                  [name, token]: [name: string, token: any]
+                ) => {
+                  if (name && token.value) {
+                    const item = {
+                      id: name,
+                      type: "textStyle",
+                      name,
+                      ...token,
+                    };
+                    printInfo(JSON.stringify(item, null, 2));
 
-        return ret;
-      }, []) : [])], {
-        formatName: 'camelCase',
-        formatConfig: {
-          objectName: 'extend',
-          exportDefault: true,
-          module: 'commonjs',
+                    !item.value && (item.value = {});
+
+                    if (token.value?.fontFamily) {
+                      printInfo(`Adding font: ${token.value?.fontFamily}`);
+                      printInfo(
+                        JSON.stringify(token.value?.fontFamily, null, 2)
+                      );
+
+                      item.value.font = {
+                        name: token.value?.fontFamily
+                          ?.replaceAll(/[_]/g, "")
+                          ?.replaceAll(/\s/g, ""),
+                      };
+                    }
+
+                    ret.push(item);
+                  }
+
+                  return ret;
+                },
+                []
+              )
+            : []),
+        ],
+        {
+          formatName: "camelCase",
+          formatConfig: {
+            objectName: "extend",
+            exportDefault: true,
+            module: "commonjs",
+          },
         },
-      }, { _: null }));
+        { _: null }
+      ));
 
     verbose && printSuccess(result);
 
@@ -89,10 +157,7 @@ export default async function (
       fs.mkdirSync(Path.join(outputPath, "js"), { recursive: true });
     }
 
-    fs.writeFileSync(
-      Path.join(outputPath, "js", `theme.js`),
-      result,
-      'utf8');
+    fs.writeFileSync(Path.join(outputPath, "js", `theme.js`), result, "utf8");
 
     printSuccess(`Design token theme.js (tailwind import) created.`);
 
@@ -101,27 +166,38 @@ export default async function (
       : fontsDir;
     if (fs.existsSync(fontsPath) && dataArray["font"]) {
       result = await toCssFontImportParser(
-        Object.entries(dataArray["font"]).reduce((ret: ToCssFontImportParserInputDataType,
-          [name, token]: [name: string, token: ToCssFontImportParserInputDataType[0]]) => {
+        Object.entries(dataArray["font"]).reduce(
+          (
+            ret: ToCssFontImportParserInputDataType,
+            [name, token]: [
+              name: string,
+              token: ToCssFontImportParserInputDataType[0]
+            ]
+          ) => {
+            if (name && token.value) {
+              ret.push({
+                id: name,
+                type: "font",
+                name: token.value.fontFamily
+                  .replaceAll(/[_]/g, "")
+                  .replaceAll(/\s/g, ""),
+                ...token,
+              });
+            }
 
-        if (name && token.value) {
-          ret.push({
-            id: name,
-            type: "font",
-            name: token.value.fontFamily.replaceAll(/[_]/g,'').replaceAll(/\s/g, ''),
-            ...token,
-          });
+            return ret;
+          },
+          []
+        ),
+        {
+          fontFamilyTransform: "pascalCase",
+          formats: ["ttf"],
+          fontsPath,
+          fontDisplay: "fallback",
+          genericFamily: "sans-serif",
+          includeFontWeight: true,
         }
-
-        return ret;
-      }, []), {
-        fontFamilyTransform: "pascalCase",
-        formats: ["ttf"],
-        fontsPath,
-        fontDisplay: "fallback",
-        genericFamily: "sans-serif",
-        includeFontWeight: true,
-      });
+      );
 
       verbose && printSuccess(result);
 
@@ -132,7 +208,8 @@ export default async function (
       fs.writeFileSync(
         Path.join(outputPath, "css", `fonts.css`),
         result,
-        'utf8');
+        "utf8"
+      );
 
       printSuccess(`Theme specific fonts (font.css) created.`);
     }

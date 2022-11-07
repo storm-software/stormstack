@@ -18,28 +18,27 @@ export default async function (
       printInfo("Cleaning previous design components build...");
 
       result = await execute(
-        `attrib +r dist/design-system/components/package.json`
+        `attrib +r "dist/design-system/components/package.json"`
       );
       if (result) {
         printError(result);
         return { success: false };
       }
 
-      result = await execute(
-        `del dist/design-system/components`
-      );
+      result = await execute(`del "dist/design-system/components"`);
       if (result) {
         printError(result);
         return { success: false };
       }
 
       result = await execute(
-        `attrib -r dist/design-system/components/package.json`
+        `attrib -r "dist/design-system/components/package.json"`
       );
       if (result) {
         printError(result);
         return { success: false };
       }
+    }
 
     printInfo("Starting design components build...");
 
