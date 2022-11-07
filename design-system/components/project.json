@@ -50,7 +50,8 @@
           "dev": true,
           "prod": false,
           "baseBuildTarget": "build-base",
-          "clean": true
+          "clean": true,
+          "verbose": true
         }
       }
     },
@@ -61,12 +62,14 @@
         "projectType": "library",
         "tsConfig": "design-system/components/tsconfig.lib.json",
         "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components"
+        "outputPath": "dist/design-system/components",
+        "postcssConfig": "postcss.config.js"
       },
       "configurations": {
         "production": {
           "dev": false,
-          "prod": true
+          "prod": true,
+          "verbose": true
         }
       }
     },

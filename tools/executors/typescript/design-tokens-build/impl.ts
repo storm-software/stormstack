@@ -212,13 +212,13 @@ export default async function (
               token: ToCssFontImportParserInputDataType[0]
             ]
           ) => {
-            if (name && token.value) {
+            if (name && token.value?.fontFamily) {
               ret.push({
                 id: name,
                 type: "font",
-                name: token.value.fontFamily
+                name: `${token.value.fontFamily
                   .replaceAll(/[_]/g, "")
-                  .replaceAll(/\s/g, ""),
+                  .replaceAll(/\s/g, "")}`,
                 ...token,
               });
             }

@@ -520,6 +520,18 @@
         }
       }
     },
+    "required": {
+      "description": "",
+      "type": "color",
+      "value": "#bc1c1cff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:a6ca8762960da34e9f0417ab4e745c249fed8820,",
+          "exportKey": "color"
+        }
+      }
+    },
     "header colors": {
       "header-primary": {
         "description": "",

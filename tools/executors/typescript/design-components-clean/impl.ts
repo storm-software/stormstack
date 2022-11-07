@@ -13,7 +13,7 @@ export default async function (
     printInfo("Cleaning previous design components build...");
 
     const result = await execute(
-      `rimraf dist/design-system/components/!("package.json")`
+      `rimraf dist/design-system/components/dist/collection`
     );
     if (result) {
       printError(result);

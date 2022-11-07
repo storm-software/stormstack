@@ -1,6 +1,9 @@
 import { Config } from "@stencil/core";
 import { reactOutputTarget } from "@stencil/react-output-target";
+import autoprefixer from "autoprefixer";
 import tailwind, { tailwindHMR } from "stencil-tailwind-plugin";
+import tailwindcss from "tailwindcss";
+import tailwindConf from "./tailwind.config";
 
 export const config: Config = {
   namespace: "design-system-components",
@@ -28,5 +31,14 @@ export const config: Config = {
       includeDefineCustomElements: true,
     }),
   ],
-  plugins: [tailwind(), tailwindHMR()],
+  plugins: [
+    tailwind({
+      tailwindConf,
+      tailwindCssPath: "../../style.css",
+      postcss: {
+        plugins: [tailwindcss(), autoprefixer()],
+      },
+    }),
+    tailwindHMR(),
+  ],
 };

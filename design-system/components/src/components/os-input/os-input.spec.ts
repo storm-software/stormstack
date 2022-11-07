@@ -1,10 +1,10 @@
 import { newSpecPage } from "@stencil/core/testing";
-import { MyComponent } from "./os-input";
+import { OsInput } from "./os-input";
 
 describe("os-input", () => {
   it("renders", async () => {
     const { root } = await newSpecPage({
-      components: [MyComponent],
+      components: [OsInput],
       html: "<os-input></os-input>",
     });
     expect(root).toEqualHtml(`
@@ -20,11 +20,11 @@ describe("os-input", () => {
 
   it("renders with values", async () => {
     const { root } = await newSpecPage({
-      components: [MyComponent],
-      html: `<os-input first="Stencil" last="'Don't call me a framework' JS"></os-input>`,
+      components: [OsInput],
+      html: `<os-input label="Label" name="name"></os-input>`,
     });
     expect(root).toEqualHtml(`
-      <os-input first="Stencil" last="'Don't call me a framework' JS">
+      <os-input label="Label" name="name">
         <mock:shadow-root>
           <div>
             Hello, World! I'm Stencil 'Don't call me a framework' JS
@@ -34,4 +34,3 @@ describe("os-input", () => {
     `);
   });
 });
-

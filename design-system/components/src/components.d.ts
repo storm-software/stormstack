@@ -42,14 +42,30 @@ export namespace Components {
          */
         "required": boolean;
         /**
+          * Input select method
+         */
+        "selectText": () => Promise<void>;
+        /**
+          * Input focus method
+         */
+        "setFocus": () => Promise<void>;
+        /**
           * Show if input is touched
          */
         "touched": boolean;
+        /**
+          * Type of input
+         */
+        "type": string;
         /**
           * Decides if input has an error
          */
         "warning": boolean;
     }
+}
+export interface OsInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLOsInputElement;
 }
 declare global {
     interface HTMLOsButtonElement extends Components.OsButton, HTMLStencilElement {
@@ -102,6 +118,10 @@ declare namespace LocalJSX {
          */
         "name"?: string;
         /**
+          * Event emitted during a value in change the input field
+         */
+        "onOsChange"?: (event: OsInputCustomEvent<CustomEvent<string>>) => void;
+        /**
           * Decides if input field required
          */
         "required"?: boolean;
@@ -109,6 +129,10 @@ declare namespace LocalJSX {
           * Show if input is touched
          */
         "touched"?: boolean;
+        /**
+          * Type of input
+         */
+        "type"?: string;
         /**
           * Decides if input has an error
          */
