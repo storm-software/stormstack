@@ -22,25 +22,33 @@ export namespace Components {
     }
     interface OsInput {
         /**
-          * The first name
+          * Decides if input is disabled
          */
-        "first": string;
+        "disabled": boolean;
+        /**
+          * Decides if input has an error
+         */
+        "error": boolean;
         /**
           * The text label displayed above the input field
          */
         "label": string;
         /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
-        /**
           * The name of the input field
          */
         "name": string;
+        /**
+          * Decides if input field required
+         */
+        "required": boolean;
+        /**
+          * Show if input is touched
+         */
+        "touched": boolean;
+        /**
+          * Decides if input has an error
+         */
+        "warning": boolean;
     }
 }
 declare global {
@@ -78,25 +86,33 @@ declare namespace LocalJSX {
     }
     interface OsInput {
         /**
-          * The first name
+          * Decides if input is disabled
          */
-        "first"?: string;
+        "disabled"?: boolean;
+        /**
+          * Decides if input has an error
+         */
+        "error"?: boolean;
         /**
           * The text label displayed above the input field
          */
         "label"?: string;
         /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
-        /**
           * The name of the input field
          */
         "name"?: string;
+        /**
+          * Decides if input field required
+         */
+        "required"?: boolean;
+        /**
+          * Show if input is touched
+         */
+        "touched"?: boolean;
+        /**
+          * Decides if input has an error
+         */
+        "warning"?: boolean;
     }
     interface IntrinsicElements {
         "os-button": OsButton;

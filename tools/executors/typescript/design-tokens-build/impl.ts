@@ -74,7 +74,7 @@ export default async function (
 
     printInfo("Building latest design tokens...");
 
-    (dataArray["color"] || dataArray["font"]) &&
+    (dataArray["color"] || dataArray["font"] || dataArray["spacing"]) &&
       (result = await toTailwindParser(
         [
           ...(dataArray["color"]
@@ -133,6 +133,50 @@ export default async function (
                 []
               )
             : []),
+          ...(dataArray["spacing"]
+            ? Object.entries(dataArray["spacing"]).reduce(
+                (
+                  ret: ToTailwindInputDataType,
+                  [name, token]: [name: string, token: any]
+                ) => {
+                  if (name && token.value) {
+                    const item = {
+                      id: name,
+                      name,
+                      ...token,
+                      type: "measurement",
+                    };
+
+                    ret.push(item);
+                  }
+
+                  return ret;
+                },
+                []
+              )
+            : []),
+          /*...(dataArray["size"]
+            ? Object.entries(dataArray["size"]).reduce(
+                (
+                  ret: ToTailwindInputDataType,
+                  [name, token]: [name: string, token: any]
+                ) => {
+                  if (name && token.value) {
+                    const item = {
+                      id: name,
+                      name,
+                      ...token,
+                      type: "size",
+                    };
+
+                    ret.push(item);
+                  }
+
+                  return ret;
+                },
+                []
+              )
+            : []),*/
         ],
         {
           formatName: "kebabCase",

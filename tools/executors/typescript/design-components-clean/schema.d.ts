@@ -1,1 +1,3 @@
-export type DesignComponentsCleanExecutorSchema = Record<string, never>;
+export type DesignComponentsCleanExecutorSchema = {
+  verbose?: boolean;
+};

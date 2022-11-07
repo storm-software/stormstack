@@ -5,5 +5,10 @@
   "title": "Design Components Clean",
   "type": "object",
   "description": "Cleans the output folder for the Stencil design components library.",
-  "properties": {}
+  "properties": {
+    "verbose": {
+      "type": "boolean",
+      "description": "Should extra logging be provided when running."
+    }
+  }
 }

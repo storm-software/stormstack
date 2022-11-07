@@ -1,5 +1,6 @@
 import { Config } from "@stencil/core";
 import { reactOutputTarget } from "@stencil/react-output-target";
+import tailwind, { tailwindHMR } from "stencil-tailwind-plugin";
 
 export const config: Config = {
   namespace: "design-system-components",
@@ -27,4 +28,5 @@ export const config: Config = {
       includeDefineCustomElements: true,
     }),
   ],
+  plugins: [tailwind(), tailwindHMR()],
 };

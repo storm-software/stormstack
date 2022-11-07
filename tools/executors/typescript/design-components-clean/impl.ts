@@ -8,7 +8,6 @@ export default async function (
 ) {
   try {
     printInfo("Executing design-components-clean executor...");
-    printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
     printInfo(`Current Directory: ${__dirname}`);
 
     printInfo("Cleaning previous design components build...");

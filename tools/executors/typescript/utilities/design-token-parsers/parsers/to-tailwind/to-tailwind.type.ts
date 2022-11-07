@@ -1,38 +1,40 @@
-import { InputDataType, OptionsType } from './to-tailwind.parser';
-import Token from '../../types/tokens/Token';
-import { RecursiveRecord } from '../../types';
+import { RecursiveRecord } from "../../types";
+import Token from "../../types/tokens/Token";
+import { InputDataType, OptionsType } from "./to-tailwind.parser";
 
 export type ColorsFormat =
-  | 'rgb'
-  | 'prgb'
-  | 'hex'
-  | 'hex6'
-  | 'hex3'
-  | 'hex4'
-  | 'hex8'
-  | 'name'
-  | 'hsl'
-  | 'hsv';
+  | "rgb"
+  | "prgb"
+  | "hex"
+  | "hex6"
+  | "hex3"
+  | "hex4"
+  | "hex8"
+  | "name"
+  | "hsl"
+  | "hsv";
 
 export type TailwindType =
-  | 'colors'
-  | 'spacing'
-  | 'borderRadius'
-  | 'borderWidth'
-  | 'boxShadow'
-  | 'opacity'
-  | 'borderColor'
-  | 'borderOpacity'
-  | 'zIndex'
-  | 'fontWeight'
-  | 'letterSpacing'
-  | 'lineHeight'
-  | 'fontFamily'
-  | 'fontSize'
-  | 'textColor'
-  | 'textOpacity'
-  | 'transitionDuration'
-  | 'backgroundImage';
+  | "colors"
+  | "spacing"
+  | "borderRadius"
+  | "borderWidth"
+  | "boxShadow"
+  | "opacity"
+  | "borderColor"
+  | "borderOpacity"
+  | "zIndex"
+  | "fontWeight"
+  | "letterSpacing"
+  | "lineHeight"
+  | "fontFamily"
+  | "fontSize"
+  | "textColor"
+  | "textOpacity"
+  | "width"
+  | "height"
+  | "transitionDuration"
+  | "backgroundImage";
 
 export type DepthMapping = {
   zIndex?: RecursiveRecord<string>;
@@ -45,6 +47,10 @@ export type OpacityMapping = {
 };
 export type ShadowMapping = {
   boxShadow?: RecursiveRecord<string>;
+};
+export type SizeMapping = {
+  height?: RecursiveRecord<string>;
+  width?: RecursiveRecord<string>;
 };
 
 export type TextStyleMapping = {
@@ -76,6 +82,7 @@ export type GradientMapping = {
 };
 
 export type TailwindMappingTypes = DepthMapping &
+  SizeMapping &
   MeasurementMapping &
   OpacityMapping &
   ShadowMapping &
@@ -103,7 +110,10 @@ export interface TailwindTokenClass {
 
 export interface TailwindTokenClassInstance {
   transformedName: string;
-  generate(options: OptionsType, spTokens: InputDataType): Partial<Record<TailwindType, any>>;
+  generate(
+    options: OptionsType,
+    spTokens: InputDataType
+  ): Partial<Record<TailwindType, any>>;
 }
 
-export type FormatName = 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+export type FormatName = "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
