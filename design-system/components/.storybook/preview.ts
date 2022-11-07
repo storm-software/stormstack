@@ -1,9 +1,7 @@
+import { defineCustomElements } from "@open-system/design-system-components/loader";
 import {
-  renderVdom,
-  registerHost,
-  getHostRef,
+  getHostRef, registerHost, renderVdom
 } from "@stencil/core/internal/client";
-import { defineCustomElements } from "@open-system/shared-ui-design-components/loader";
 
 defineCustomElements();
 

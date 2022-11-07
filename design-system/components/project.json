@@ -96,7 +96,8 @@
         "uiFramework": "@storybook/html",
         "port": 4400,
         "config": {
-          "configFolder": "design-system/components/.storybook"
+          "configFolder": "design-system/components/.storybook",
+          "watch": true
         }
       },
       "configurations": {

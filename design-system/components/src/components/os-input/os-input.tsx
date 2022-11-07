@@ -6,7 +6,17 @@ import { format } from "../../utils/utils";
   styleUrl: "os-input.css",
   shadow: true,
 })
-export class MyComponent {
+export class OsInput {
+  /**
+   * The name of the input field
+   */
+  @Prop() name: string;
+
+  /**
+   * The text label displayed above the input field
+   */
+  @Prop() label: string;
+
   /**
    * The first name
    */
@@ -27,7 +37,11 @@ export class MyComponent {
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <div>
+        <label htmlFor={this.name}>{this.label}</label>
+        <input name={this.name}>Hello, World! I'm {this.getText()}</input>
+      </div>
+    );
   }
 }
-

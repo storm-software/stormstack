@@ -90,11 +90,11 @@ export default async function (
     }
 
     fs.writeFileSync(
-      Path.join(outputPath, "js", `${themeName}.theme.js`),
+      Path.join(outputPath, "js", `theme.js`),
       result,
       'utf8');
 
-    printSuccess(`Design token ${themeName}.theme.js (tailwind import) created.`);
+    printSuccess(`Design token theme.js (tailwind import) created.`);
 
     const fontsPath = fs.existsSync(Path.join(tokensDir, fontsDir))
       ? Path.join(tokensDir, fontsDir)
@@ -130,11 +130,11 @@ export default async function (
       }
 
       fs.writeFileSync(
-        Path.join(outputPath, "css", `${themeName}.fonts.css`),
+        Path.join(outputPath, "css", `fonts.css`),
         result,
         'utf8');
 
-      printSuccess(`Theme specific fonts (${themeName}.font.css) created.`);
+      printSuccess(`Theme specific fonts (font.css) created.`);
     }
 
     printSuccess("Design tokens sync succeeded.");

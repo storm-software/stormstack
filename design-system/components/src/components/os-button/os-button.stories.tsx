@@ -1,4 +1,4 @@
-import { OsButton } from "@open-system/shared-ui-design-components/os-button";
+import { OsButton } from "@open-system/design-system-components/os-button";
 import { h } from "@stencil/core";
 
 export default {

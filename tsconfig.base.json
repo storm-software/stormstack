@@ -34,6 +34,7 @@
         "dist/design-system/components/loader"
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
+      "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
       "@open-system/shared-ui-components": [
         "libs/shared/ui/components/src/index.ts"
       ],

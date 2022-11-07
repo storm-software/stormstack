@@ -1,7 +1,7 @@
 // Imports the Storybook's configuration and options API
-import type { StorybookConfig, Options } from "@storybook/core-common";
+import type { Options, StorybookConfig } from "@storybook/core-common";
 import type { Configuration } from "webpack";
-import { config as rootMain } from "../../../../../.storybook/main";
+import { config as rootMain } from "../../../.storybook/main";
 
 /**
  * @see https://github.com/storybookjs/storybook/blob/main/docs/configure/overview.md#using-storybook-api
