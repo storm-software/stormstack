@@ -29,5 +29,5 @@ export default create({
 
   brandTitle: "Open System",
   brandUrl: "https://github.com/sullivanpj/open-system",
-  // brandImage: require("../../assets/open-system.png"),
+  brandImage: require("../../assets/logo-inverse.svg"),
 });

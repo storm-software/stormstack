@@ -1,4 +1,4 @@
-<p style="text-align: center;"><img src="./assets/logo.svg" width="100%" altText="open-system"></p>
+<p style="text-align: center;"><img src="./assets/logo-default.svg" width="100%" altText="open-system"></p>
 
 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries.
 

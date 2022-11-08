@@ -27,10 +27,11 @@
         "open-system": {
           "tokensDir": "design-system/tokens/src/open-system",
           "fontsDir": "assets/fonts",
-          "imagesDir": "assets/images"
+          "imagesDir": "assets/images",
+          "verbose": true
         },
         "resume": {
-          "tokensDir": "design-system/tokens/src/resume",
+          "tokensDir": "design-system/tokens/src/resume1",
           "fontsDir": "assets/fonts",
           "imagesDir": "assets/images"
         }

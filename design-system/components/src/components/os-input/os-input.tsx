@@ -9,6 +9,7 @@ import {
   State,
   Watch,
 } from "@stencil/core";
+import clsx from "clsx";
 
 /**
  * An input field used in forms to collect data from users
@@ -208,7 +209,16 @@ export class OsInput {
     return (
       <Host>
         <div class="gap-xxxs flex w-80 flex-col">
-          <label class="text-required" htmlFor={this.name}>
+          <label
+            class={clsx(
+              { "text-error": this.error },
+              { "text-warning": this.warning && !this.error },
+              { "text-info": this.info && !this.error && !this.warning },
+              { "text-info": this.info && !this.error && !this.warning },
+              { "text-info": this.info && !this.error && !this.warning },
+              "fontFamily-body-1 fontWeight-body-1 fontSize-body-1 lineHeight-body-1"
+            )}
+            htmlFor={this.name}>
             {this.label}
           </label>
           <input

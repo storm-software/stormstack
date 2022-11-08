@@ -74,7 +74,10 @@ export default async function (
 
     printInfo("Building latest design tokens...");
 
-    (dataArray["color"] || dataArray["font"] || dataArray["spacing"]) &&
+    (dataArray["color"] ||
+      dataArray["font"] ||
+      dataArray["spacing"] ||
+      dataArray["gradient"]) &&
       (result = await toTailwindParser(
         [
           ...(dataArray["color"]
@@ -87,6 +90,8 @@ export default async function (
                       Partial<IToken>
                   ]
                 ) => {
+                  printInfo("Building color design tokens...");
+
                   if (name && token.value) {
                     ret.push({
                       id: name,
@@ -94,6 +99,20 @@ export default async function (
                       name,
                       ...token,
                     });
+
+                    verbose &&
+                      printInfo(
+                        JSON.stringify(
+                          {
+                            id: name,
+                            type: "color",
+                            name,
+                            ...token,
+                          },
+                          null,
+                          2
+                        )
+                      );
                   }
 
                   return ret;
@@ -107,6 +126,8 @@ export default async function (
                   ret: ToTailwindInputDataType,
                   [name, token]: [name: string, token: any]
                 ) => {
+                  printInfo("Building font design tokens...");
+
                   if (name && token.value) {
                     const item = {
                       id: name,
@@ -126,6 +147,7 @@ export default async function (
                     };
 
                     ret.push(item);
+                    verbose && printInfo(JSON.stringify(item, null, 2));
                   }
 
                   return ret;
@@ -139,6 +161,8 @@ export default async function (
                   ret: ToTailwindInputDataType,
                   [name, token]: [name: string, token: any]
                 ) => {
+                  printInfo("Building spacing design tokens...");
+
                   if (name && token.value) {
                     const item = {
                       id: name,
@@ -148,6 +172,88 @@ export default async function (
                     };
 
                     ret.push(item);
+                    verbose && printInfo(JSON.stringify(item, null, 2));
+                  }
+
+                  return ret;
+                },
+                []
+              )
+            : []),
+          ...(dataArray["gradient"]
+            ? Object.entries(dataArray["gradient"]).reduce(
+                (
+                  ret: ToTailwindInputDataType,
+                  [name, token]: [name: string, token: any]
+                ) => {
+                  printInfo("Building gradient design tokens...");
+
+                  if (name && token.value) {
+                    Object.entries(dataArray[name]).forEach(
+                      ([child, gradient]: [child: string, gradient: any]) => {
+                        if (child && gradient?.stops) {
+                          const item = {
+                            ...token,
+                            ...gradient,
+                            id: `${name}-${child}`,
+                            name: `${name}-${child}`,
+                            type: "gradient",
+                            value: {
+                              colors: gradient.stops,
+                            },
+                          };
+
+                          ret.push(item);
+                          verbose && printInfo(JSON.stringify(item, null, 2));
+                        }
+                      }
+                    );
+                  }
+
+                  return ret;
+                },
+                []
+              )
+            : []),
+          ...(dataArray["effect"]
+            ? Object.entries(dataArray["effect"]).reduce(
+                (
+                  ret: ToTailwindInputDataType,
+                  [name, token]: [name: string, token: any]
+                ) => {
+                  printInfo("Building shadow design tokens...");
+
+                  if (name && token.value) {
+                    const item = {
+                      id: name,
+                      name,
+                      ...token,
+                      type: "shadow",
+                      value: Array.isArray(token.value)
+                        ? token.value.map((shadow: any) => ({
+                            isInner: shadow.shadowType === "shadowType",
+                            color: token.value.color,
+                            radius: shadow.radius,
+                            offsetX: shadow.offsetX,
+                            offsetY: shadow.offsetY,
+                            blur: shadow.radius,
+                            spread: shadow.spread,
+                          }))
+                        : [
+                            {
+                              isInner: token.value.shadowType === "shadowType",
+                              color: token.value.color,
+                              radius: token.value.radius,
+                              offsetX: token.value.offsetX,
+                              offsetY: token.value.offsetY,
+                              blur: token.value.radius,
+                              spread: token.value.spread,
+                            },
+                          ],
+                    };
+
+                    ret.push(item);
+                    verbose && printInfo(JSON.stringify(item, null, 2));
                   }
 
                   return ret;

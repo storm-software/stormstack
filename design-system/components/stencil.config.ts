@@ -6,7 +6,7 @@ import autoprefixer from "autoprefixer";
 import atImport from "postcss-import";
 import tailwind, { tailwindGlobal, tailwindHMR } from "stencil-tailwind-plugin";
 import tailwindcss from "tailwindcss";
-import tailwindConf from "./tailwind.config";
+import tailwindConf from "../../tailwind.config";
 
 export const config: Config = {
   namespace: "design-system-components",
@@ -50,7 +50,15 @@ export const config: Config = {
       //tailwindCssPath: "./src/style/global.css",
       tailwindCssContents:
         "@import url('C:\\Development\\open-system\\dist\\design-system\\tokens\\css\\fonts.css');@tailwind base;@tailwind utilities;@tailwind components;",
-      tailwindConf,
+      tailwindConf: {
+        content: [
+          "C:\\Development\\open-system\\design-system\\components\\src",
+        ],
+        theme: {
+          ...tailwindConf?.theme,
+        },
+        plugins: [require("@tailwindcss/forms")],
+      },
     }),
     tailwind({
       postcss: {
@@ -59,7 +67,15 @@ export const config: Config = {
       //tailwindCssPath: "./src/style/global.css",
       tailwindCssContents:
         "@import url('C:\\Development\\open-system\\dist\\design-system\\tokens\\css\\fonts.css');@tailwind base;@tailwind utilities;@tailwind components;",
-      tailwindConf,
+      tailwindConf: {
+        content: [
+          "C:\\Development\\open-system\\design-system\\components\\src",
+        ],
+        theme: {
+          ...tailwindConf?.theme,
+        },
+        plugins: [require("@tailwindcss/forms")],
+      },
     }),
     tailwindHMR(),
   ],

@@ -50,12 +50,12 @@ module.exports = {
       "header-1": ["Poppins", "sans-serif"],
       "body-1": ["Poppins", "sans-serif"],
     },
-    /*fontWeight: {
+    fontWeight: {
         "body-1": 400,
         "title-1": 600,
         "header-1": 700,
         "title-2": 800,
-      },*/
+      },
     spacing: {
       xxxs: "3px",
       xxs: "6px",

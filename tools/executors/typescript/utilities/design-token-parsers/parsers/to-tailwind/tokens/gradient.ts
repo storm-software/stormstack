@@ -1,8 +1,8 @@
-import tinycolor from 'tinycolor2';
-import { GradientToken } from '../../../types';
-import { GradientMappingBeforeWrapper } from '../to-tailwind.type';
-import { Utils } from './index';
-import { OptionsType } from '../to-tailwind.parser';
+import tinycolor from "tinycolor2";
+import { GradientToken } from "../../../types";
+import { OptionsType } from "../to-tailwind.parser";
+import { GradientMappingBeforeWrapper } from "../to-tailwind.type";
+import { Utils } from "./index";
 
 export class Gradient extends GradientToken {
   token: Partial<GradientToken>;
@@ -16,19 +16,21 @@ export class Gradient extends GradientToken {
       backgroundImage: Utils.go<ConstructorParameters<typeof GradientToken>[0]>(
         this.token,
         options,
-        'backgroundImage',
+        "backgroundImage",
         this.value.gradients
           .map(gradient => {
-            return `linear-gradient(${gradient.angle}, ${gradient.colors
+            return `linear-gradient(${
+              gradient.angle ?? "to right"
+            }, ${gradient.colors
               .map(
                 ({ color, position }) =>
                   `${tinycolor(color.value).toString(
-                    options?.formatTokens?.colorFormat?.format || 'hex',
-                  )} ${position}%`,
+                    options?.formatTokens?.colorFormat?.format || "hex"
+                  )} ${position * 100}%`
               )
-              .join(', ')})`;
+              .join(", ")})`;
           })
-          .join(', '),
+          .join(", ")
       ),
     };
   }

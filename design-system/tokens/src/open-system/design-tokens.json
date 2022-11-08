@@ -201,6 +201,36 @@
           "exportKey": "spacing"
         }
       }
+    },
+    "input-width": {
+      "description": null,
+      "type": "custom-spacing",
+      "value": {
+        "top": 0,
+        "bottom": 0,
+        "left": 370,
+        "right": 370
+      },
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "exportKey": "spacing"
+        }
+      }
+    },
+    "input-height": {
+      "description": null,
+      "type": "custom-spacing",
+      "value": {
+        "top": 0,
+        "bottom": 0,
+        "left": 125,
+        "right": 125
+      },
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "exportKey": "spacing"
+        }
+      }
     }
   },
   "gradient": {
@@ -388,7 +418,7 @@
         }
       }
     },
-    "information": {
+    "info": {
       "description": "",
       "type": "color",
       "value": "#0ddacaff",
@@ -974,7 +1004,25 @@
     }
   },
   "effect": {
-    "active-inner-shadow": {
+    "active-shadow": {
+      "description": null,
+      "type": "custom-shadow",
+      "value": {
+        "shadowType": "dropShadow",
+        "radius": 150,
+        "color": "#ffffffbf",
+        "offsetX": 1,
+        "offsetY": 0,
+        "spread": 0
+      },
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:0d578f015363f2ea1569c0b6b73e592147bf8feb,",
+          "exportKey": "effect"
+        }
+      }
+    },
+    "input-inner-shadow": {
       "description": null,
       "type": "custom-shadow",
       "value": {
