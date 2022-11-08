@@ -1,4 +1,4 @@
-import { Component, h, Prop } from "@stencil/core";
+import { Component, h, Host, Prop } from "@stencil/core";
 
 @Component({
   tag: "os-button",
@@ -21,15 +21,11 @@ export class OsButton {
    */
   @Prop() last: string;
 
-  private getText(): string {
-    return (
-      (this.first || "") +
-      (this.middle ? ` ${this.middle}` : "") +
-      (this.last ? ` ${this.last}` : "")
-    );
-  }
-
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <Host>
+        <button class="text-teal-400">Don't Press Me</button>
+      </Host>
+    );
   }
 }

@@ -33,54 +33,72 @@
     "build": {
       "executor": "@open-system/executors-typescript:design-components-build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "projectType": "library",
         "tsConfig": "design-system/components/tsconfig.lib.json",
         "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components"
+        "outputPath": "dist/design-system/components",
+        "baseBuildTarget": "build-base"
       },
       "configurations": {
+        "development": {
+          "dev": true,
+          "prod": false,
+          "clean": true,
+          "verbose": false
+        },
         "production": {
           "dev": false,
           "prod": true,
-          "baseBuildTarget": "build-base",
           "clean": true
-        },
-        "developer": {
-          "dev": true,
-          "prod": false,
-          "baseBuildTarget": "build-base",
-          "clean": true,
-          "verbose": true
         }
       }
     },
     "build-base": {
       "executor": "@nxext/stencil:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "projectType": "library",
         "tsConfig": "design-system/components/tsconfig.lib.json",
         "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components",
-        "postcssConfig": "postcss.config.js"
+        "outputPath": "dist/design-system/components"
       },
       "configurations": {
+        "development": {
+          "dev": true,
+          "prod": false,
+          "verbose": true
+        },
         "production": {
           "dev": false,
           "prod": true,
-          "verbose": true
+          "verbose": false
         }
       }
     },
     "serve": {
       "executor": "@nxext/stencil:serve",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "projectType": "library",
         "tsConfig": "design-system/components/tsconfig.lib.json",
         "configPath": "design-system/components/stencil.config.ts",
         "outputPath": "dist/design-system/components"
+      },
+      "configurations": {
+        "development": {
+          "dev": true,
+          "debug": true,
+          "verbose": true
+        },
+        "production": {
+          "dev": false,
+          "debug": false,
+          "verbose": false
+        }
       }
     },
     "e2e": {

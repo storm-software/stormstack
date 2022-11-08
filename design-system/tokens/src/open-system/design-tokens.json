@@ -204,7 +204,7 @@
     }
   },
   "gradient": {
-    "background-gradient": {
+    "bg-gradient": {
       "0": {
         "type": "custom-gradient",
         "value": {
@@ -268,7 +268,7 @@
     }
   },
   "color": {
-    "background-1": {
+    "bg-1": {
       "description": "",
       "type": "color",
       "value": "#2b2347ff",
@@ -280,7 +280,7 @@
         }
       }
     },
-    "background-2": {
+    "bg-2": {
       "description": "",
       "type": "color",
       "value": "#2d3348ff",
@@ -355,7 +355,7 @@
     "active": {
       "description": "",
       "type": "color",
-      "value": "#8b949eff",
+      "value": "#ffffffff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -408,6 +408,18 @@
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
           "styleId": "S:52a7595ef1af0b4210b07e52c9a14b638eba2f9e,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "required": {
+      "description": "",
+      "type": "color",
+      "value": "#bc1c1cff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:a6ca8762960da34e9f0417ab4e745c249fed8820,",
           "exportKey": "color"
         }
       }
@@ -520,14 +532,14 @@
         }
       }
     },
-    "required": {
+    "input-active-stroke": {
       "description": "",
       "type": "color",
-      "value": "#bc1c1cff",
+      "value": "#ffffffff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
-          "styleId": "S:a6ca8762960da34e9f0417ab4e745c249fed8820,",
+          "styleId": "S:66028d99f74607741cd2b4485fb099669094b89d,",
           "exportKey": "color"
         }
       }
@@ -957,6 +969,26 @@
             "styleId": "S:34a136c5b22f13110bd43f6bb8bab3f75db17de0,",
             "exportKey": "font"
           }
+        }
+      }
+    }
+  },
+  "effect": {
+    "active-inner-shadow": {
+      "description": null,
+      "type": "custom-shadow",
+      "value": {
+        "shadowType": "innerShadow",
+        "radius": 4,
+        "color": "#00000040",
+        "offsetX": 0,
+        "offsetY": 4,
+        "spread": 0
+      },
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:fcbc009454e6512c63911b19a8af24731bb23d0e,",
+          "exportKey": "effect"
         }
       }
     }

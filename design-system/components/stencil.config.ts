@@ -1,12 +1,17 @@
 import { Config } from "@stencil/core";
 import { reactOutputTarget } from "@stencil/react-output-target";
+//import tailwind from "stencil-tailwind";
+//import tailwindConfig from "../../tailwind.config";
 import autoprefixer from "autoprefixer";
-import tailwind, { tailwindHMR } from "stencil-tailwind-plugin";
+import atImport from "postcss-import";
+import tailwind, { tailwindGlobal, tailwindHMR } from "stencil-tailwind-plugin";
 import tailwindcss from "tailwindcss";
 import tailwindConf from "./tailwind.config";
 
 export const config: Config = {
   namespace: "design-system-components",
+  srcDir: "src",
+  globalStyle: "src/style/global.css",
   taskQueue: "async",
   outputTargets: [
     {
@@ -21,23 +26,40 @@ export const config: Config = {
     },
     {
       type: "www",
-      serviceWorker: null, // disable service workers
+      serviceWorker: null,
     },
-
     reactOutputTarget({
       componentCorePackage: "@open-system/design-system-components",
       proxiesFile:
-        "../../../../../libs/shared/ui/components/src/generated/components.ts",
+        "../../libs/shared/ui/components/src/generated/components.ts",
       includeDefineCustomElements: true,
     }),
   ],
+  devServer: {
+    reloadStrategy: "pageReload",
+  },
+  preamble:
+    "This component originates from the Open System monorepo's Design System\n Component documentation: https://github.com/sullivanpj/open-system\n Copyright © 2023 Open System Solutions, Inc.",
+
   plugins: [
-    tailwind({
-      tailwindConf,
-      tailwindCssPath: "../../style.css",
+    // This takes the same configuration options as the main plugin. You can use different configurations if you want
+    tailwindGlobal({
       postcss: {
-        plugins: [tailwindcss(), autoprefixer()],
+        plugins: [atImport(), tailwindcss(), autoprefixer()],
       },
+      //tailwindCssPath: "./src/style/global.css",
+      tailwindCssContents:
+        "@import url('C:\\Development\\open-system\\dist\\design-system\\tokens\\css\\fonts.css');@tailwind base;@tailwind utilities;@tailwind components;",
+      tailwindConf,
+    }),
+    tailwind({
+      postcss: {
+        plugins: [atImport(), tailwindcss(), autoprefixer()],
+      },
+      //tailwindCssPath: "./src/style/global.css",
+      tailwindCssContents:
+        "@import url('C:\\Development\\open-system\\dist\\design-system\\tokens\\css\\fonts.css');@tailwind base;@tailwind utilities;@tailwind components;",
+      tailwindConf,
     }),
     tailwindHMR(),
   ],

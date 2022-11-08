@@ -1,18 +1,71 @@
-const { createGlobPatternsForDependencies } = require("@nrwl/react/tailwind");
-const { join } = require("path");
-const extend = require("../../dist/design-system/tokens/js/theme");
-
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    join(
-      __dirname,
-      "{src,pages,components}/**/*!(*.stories|*.spec).{ts,tsx,html}"
-    ),
-    ...createGlobPatternsForDependencies(__dirname),
+    "C:\\Development\\open-system\\design-system\\components\\src",
+    //join(
+    //  __dirname,
+    //  "{src,pages,components}/**/*!(*.stories|*.spec).{ts,tsx,html}"
+    //),
+    //...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
-    extend,
+    colors: {
+      "background-1": "#2b2347",
+      "background-2": "#2d3348",
+      primary: "#ffffff",
+      secondary: "#8b949e",
+      tertiary: "#0ddaca",
+      quaternary: "#1ea7fd",
+      "read-only": "#989899",
+      active: "#8b949e",
+      error: "#bc1c1c",
+      warning: "#e5d53c",
+      information: "#0ddaca",
+      success: "#039555",
+      transparent: "#3a4d7e",
+      "header-1": "#ffffff",
+      "header-2": "#503083",
+      "body-1": "#8b949e",
+      "body-2": "#523188",
+      "input-fill": "#2d3348",
+      "input-stroke": "#8b949e",
+      "input-placeholder": "#8b949e",
+      "input-label": "#8b949e",
+      required: "#bc1c1c",
+    },
+    fontSize: {
+      "body-1": "18px",
+      "header-1": "34px",
+      "title-1": "45px",
+      "title-2": "55px",
+    },
+    lineHeight: {
+      "title-1": "15px",
+      "title-2": "15px",
+      "header-1": "28px",
+      "body-1": "28px",
+    },
+    fontFamily: {
+      "title-1": ["NunitoSans", "sans-serif"],
+      "title-2": ["NunitoSans", "sans-serif"],
+      "header-1": ["Poppins", "sans-serif"],
+      "body-1": ["Poppins", "sans-serif"],
+    },
+    /*fontWeight: {
+        "body-1": 400,
+        "title-1": 600,
+        "header-1": 700,
+        "title-2": 800,
+      },*/
+    spacing: {
+      xxxs: "3px",
+      xxs: "6px",
+      xs: "12px",
+      s: "18px",
+      m: "24px",
+      l: "36px",
+      xl: "54px",
+      xxl: "72px",
+    },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

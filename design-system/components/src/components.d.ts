@@ -26,17 +26,41 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * Decides if input has an error
+          * An info message displayed under the input
          */
-        "error": boolean;
+        "info"?: string;
         /**
           * The text label displayed above the input field
          */
         "label": string;
         /**
+          * The maximum input value allowed
+         */
+        "max"?: number;
+        /**
+          * The maximum allowed input length value of the field
+         */
+        "maxLength"?: number;
+        /**
+          * The minimum input value allowed
+         */
+        "min"?: number;
+        /**
+          * The minimum allowed input length value of the field
+         */
+        "minLength"?: number;
+        /**
           * The name of the input field
          */
         "name": string;
+        /**
+          * A regular expression pattern, such as [A-Z]+ for one or more uppercase characters
+         */
+        "pattern"?: string;
+        /**
+          * Placeholder text when the field value is empty
+         */
+        "placeholder"?: string;
         /**
           * Decides if input field required
          */
@@ -50,17 +74,9 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Show if input is touched
-         */
-        "touched": boolean;
-        /**
           * Type of input
          */
         "type": string;
-        /**
-          * Decides if input has an error
-         */
-        "warning": boolean;
     }
 }
 export interface OsInputCustomEvent<T> extends CustomEvent<T> {
@@ -106,37 +122,61 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * Decides if input has an error
+          * An info message displayed under the input
          */
-        "error"?: boolean;
+        "info"?: string;
         /**
           * The text label displayed above the input field
          */
         "label"?: string;
         /**
+          * The maximum input value allowed
+         */
+        "max"?: number;
+        /**
+          * The maximum allowed input length value of the field
+         */
+        "maxLength"?: number;
+        /**
+          * The minimum input value allowed
+         */
+        "min"?: number;
+        /**
+          * The minimum allowed input length value of the field
+         */
+        "minLength"?: number;
+        /**
           * The name of the input field
          */
         "name"?: string;
+        /**
+          * Event emitted when the user clicks out of the input field
+         */
+        "onOsBlur"?: (event: OsInputCustomEvent<CustomEvent<void>>) => void;
         /**
           * Event emitted during a value in change the input field
          */
         "onOsChange"?: (event: OsInputCustomEvent<CustomEvent<string>>) => void;
         /**
+          * Event emitted when the user clicks into the input field
+         */
+        "onOsFocus"?: (event: OsInputCustomEvent<CustomEvent<void>>) => void;
+        /**
+          * A regular expression pattern, such as [A-Z]+ for one or more uppercase characters
+         */
+        "pattern"?: string;
+        /**
+          * Placeholder text when the field value is empty
+         */
+        "placeholder"?: string;
+        /**
           * Decides if input field required
          */
         "required"?: boolean;
         /**
-          * Show if input is touched
-         */
-        "touched"?: boolean;
-        /**
           * Type of input
          */
         "type"?: string;
-        /**
-          * Decides if input has an error
-         */
-        "warning"?: boolean;
     }
     interface IntrinsicElements {
         "os-button": OsButton;

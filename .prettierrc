@@ -11,5 +11,5 @@
   "arrowParens": "avoid",
   "endOfLine": "crlf",
   "insertFinalNewline": false,
-  "tailwindConfig": "./design-system/components/tailwind.config.js"
+  "tailwindConfig": "./tailwind.config.js"
 }
