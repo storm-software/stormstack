@@ -54,6 +54,10 @@ export namespace Components {
          */
         "name": string;
         /**
+          * Should the border displayed on the left side of the input field remain hidden
+         */
+        "noBorder": boolean;
+        /**
           * A regular expression pattern, such as [A-Z]+ for one or more uppercase characters
          */
         "pattern"?: string;
@@ -70,9 +74,17 @@ export namespace Components {
          */
         "selectText": () => Promise<void>;
         /**
+          * Input error method
+         */
+        "setError": (error: string) => Promise<void>;
+        /**
           * Input focus method
          */
         "setFocus": () => Promise<void>;
+        /**
+          * Input warning method
+         */
+        "setWarning": (warning: string) => Promise<void>;
         /**
           * Type of input
          */
@@ -149,6 +161,10 @@ declare namespace LocalJSX {
           * The name of the input field
          */
         "name"?: string;
+        /**
+          * Should the border displayed on the left side of the input field remain hidden
+         */
+        "noBorder"?: boolean;
         /**
           * Event emitted when the user clicks out of the input field
          */

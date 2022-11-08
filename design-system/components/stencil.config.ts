@@ -1,7 +1,5 @@
 import { Config } from "@stencil/core";
 import { reactOutputTarget } from "@stencil/react-output-target";
-//import tailwind from "stencil-tailwind";
-//import tailwindConfig from "../../tailwind.config";
 import autoprefixer from "autoprefixer";
 import atImport from "postcss-import";
 import tailwind, { tailwindGlobal, tailwindHMR } from "stencil-tailwind-plugin";
@@ -57,6 +55,9 @@ export const config: Config = {
         theme: {
           ...tailwindConf?.theme,
         },
+        variants: {
+          ...tailwindConf?.variants,
+        },
         plugins: [require("@tailwindcss/forms")],
       },
     }),
@@ -73,6 +74,9 @@ export const config: Config = {
         ],
         theme: {
           ...tailwindConf?.theme,
+        },
+        variants: {
+          ...tailwindConf?.variants,
         },
         plugins: [require("@tailwindcss/forms")],
       },

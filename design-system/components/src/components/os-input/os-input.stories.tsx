@@ -4,6 +4,16 @@ import { h } from "@stencil/core";
 export default {
   title: "Input",
   component: OsInput,
+  parameters: {
+    label: [
+      { name: "Label", value: "Label" },
+      { name: "Sample Label", value: "Sample Label" },
+    ],
+    placeholder: [
+      { name: "Placeholder", value: "Placeholder" },
+      { name: "Sample Placeholder", value: "Sample Placeholder" },
+    ],
+  },
 };
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
@@ -17,8 +27,19 @@ export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
   label: "Sample Label",
-  name: "sample1",
-  placeholder: "Placeholder",
+  name: "sample",
+};
+
+/**
+ * Primary
+ */
+export const Placeholder = Template.bind({});
+
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Placeholder.args = {
+  label: "Sample Label",
+  name: "sample",
+  placeholder: "Sample Placeholder",
 };
 
 /**
@@ -29,31 +50,46 @@ export const Information = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Information.args = {
   label: "Sample Label",
-  name: "sample2",
-  placeholder: "Placeholder",
+  name: "sample",
   info: "This is an information message",
 };
 
 /**
  * Warning
  */
-export const Warning = Template.bind({});
+let warningRef;
+const WarningTemplate = args => (
+  <os-input
+    ref={(el: HTMLInputElement) => (warningRef = el)}
+    {...args}></os-input>
+);
+
+export const Warning = WarningTemplate.bind({});
 
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Warning.args = {
   label: "Sample Label",
-  name: "sample3",
-  placeholder: "Placeholder",
+  name: "sample",
 };
+console.log(warningRef);
+//warningRef.setWarning("This is a warning message");
 
 /**
  * Error
  */
-export const Error = Template.bind({});
+let errorRef;
+const ErrorTemplate = args => (
+  <os-input
+    ref={(el: HTMLInputElement) => (errorRef = el)}
+    {...args}></os-input>
+);
+
+export const Error = ErrorTemplate.bind({});
 
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Error.args = {
   label: "Sample Label",
-  name: "sample4",
-  placeholder: "Placeholder",
+  name: "sample",
 };
+console.log(errorRef);
+//errorRef.setError("This is an error message");

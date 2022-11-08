@@ -17,6 +17,7 @@
 | `min`         | `min`         | The minimum input value allowed                                                   | `number`  | `undefined` |
 | `minLength`   | `min-length`  | The minimum allowed input length value of the field                               | `number`  | `undefined` |
 | `name`        | `name`        | The name of the input field                                                       | `string`  | `undefined` |
+| `noBorder`    | `no-border`   | Should the border displayed on the left side of the input field remain hidden     | `boolean` | `false`     |
 | `pattern`     | `pattern`     | A regular expression pattern, such as [A-Z]+ for one or more uppercase characters | `string`  | `undefined` |
 | `placeholder` | `placeholder` | Placeholder text when the field value is empty                                    | `string`  | `undefined` |
 | `required`    | `required`    | Decides if input field required                                                   | `boolean` | `false`     |
@@ -44,9 +45,29 @@ Type: `Promise<void>`
 
 
 
+### `setError(error: string) => Promise<void>`
+
+Input error method
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
 ### `setFocus() => Promise<void>`
 
 Input focus method
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `setWarning(warning: string) => Promise<void>`
+
+Input warning method
 
 #### Returns
 
