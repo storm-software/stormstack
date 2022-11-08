@@ -1,15 +1,17 @@
-import type { OptimizeOptions, DefaultPlugins, OptimizedSvg } from 'svgo';
-import { LibsType } from '../global-libs';
-import { DownloadableFile } from '../../types';
+import { readFileSync } from "fs";
+import type { Config, DefaultPlugin, Output } from "svgo";
+import { printError, printInfo } from "../../../helper-utilities";
+import { DownloadableFile } from "../../types";
+import { LibsType } from "../global-libs";
 import {
-  defaultPresetPlugins,
   DefaultPresetOverride,
+  defaultPresetPlugins,
+  DefaultPresetPluginsName,
+  DefaultPresetPluginsParams,
   Plugins,
   PluginV1,
   PluginV2,
-  DefaultPresetPluginsName,
-  DefaultPresetPluginsParams,
-} from './svgo.type';
+} from "./svgo.type";
 
 export type InputDataType = Array<
   Record<string, any> & {
@@ -25,29 +27,31 @@ export type OutputDataType = Array<
 export type OptionsType =
   | undefined
   | {
-      svgo?: Omit<OptimizeOptions, 'plugins'> &
+      svgo?: Omit<Config, "plugins"> &
         (
-          | { plugins?: Array<DefaultPlugins | DefaultPlugins['name']> }
+          | { plugins?: Array<DefaultPlugin | DefaultPlugin["name"]> }
           | { plugins: Array<PluginV1> }
         );
     };
 
-function getSyntaxPlugin(plugins: NonNullable<Plugins>): 'v1' | 'v2' {
-  return plugins.some(plugin => typeof plugin === 'string' || 'name' in plugin) ? 'v2' : 'v1';
+function getSyntaxPlugin(plugins: NonNullable<Plugins>): "v1" | "v2" {
+  return plugins.some(plugin => typeof plugin === "string" || "name" in plugin)
+    ? "v2"
+    : "v1";
 }
 
 function migrateSvgoPlugins(plugins?: Plugins): Array<PluginV2> {
   if (!plugins) {
-    return [{ name: 'preset-default' }];
+    return [{ name: "preset-default" }];
   }
 
-  if (getSyntaxPlugin(plugins) === 'v2') {
+  if (getSyntaxPlugin(plugins) === "v2") {
     return plugins as Array<PluginV2>;
   }
 
   const { overrides, pluginsV2 } = (plugins as Array<PluginV1>).reduce<{
     overrides: DefaultPresetOverride;
-    pluginsV2: Array<DefaultPlugins>;
+    pluginsV2: Array<DefaultPlugin>;
   }>(
     (acc, plugin) => {
       const pluginName = Object.keys(plugin)[0];
@@ -61,16 +65,16 @@ function migrateSvgoPlugins(plugins?: Plugins): Array<PluginV2> {
           acc.pluginsV2.push({
             name: pluginName,
             params: params,
-          } as DefaultPlugins);
+          } as DefaultPlugin);
         }
       }
       return acc;
     },
-    { overrides: {}, pluginsV2: [] },
+    { overrides: {}, pluginsV2: [] }
   );
   return [
     {
-      name: 'preset-default',
+      name: "preset-default",
       params: {
         overrides,
       },
@@ -82,31 +86,44 @@ function migrateSvgoPlugins(plugins?: Plugins): Array<PluginV2> {
 export default async function (
   tokens: InputDataType,
   options: OptionsType,
-  { SVGO, _, SpServices }: Pick<LibsType, 'SVGO' | '_' | 'SpServices'>,
+  { SVGO, _ }: Pick<LibsType, "SVGO" | "_" | "SpServices">
 ): Promise<OutputDataType | Error> {
   try {
     options = options || {};
     options.svgo = options?.svgo || {};
     options.svgo.plugins = migrateSvgoPlugins(options.svgo.plugins);
+    printInfo(JSON.stringify(tokens, null, 2));
 
     return (await Promise.all(
       tokens.map(async token => {
-        if (token.type === 'vector' && token.value.format === 'svg') {
-          const baseString = await SpServices.assets.getSource<string>(token.value.url!, 'text');
-          try {
-            const result = SVGO.optimize(baseString, options?.svgo as OptimizeOptions);
-            if (result.error) throw result.error;
-            token.value.content = (result as OptimizedSvg).data!;
+        if (token.type === "vector" && token.value.format === "svg") {
+          printInfo(token.value.url);
+
+          const baseString = readFileSync(token.value.url, "utf8");
+
+          /*SpServices.assets.getSource<string>(
+            token.value.url!,
+            "text"
+          )*/ try {
+            const result: Output = SVGO.optimize(
+              baseString,
+              options?.svgo as Config
+            );
+            token.value.content = result.data!;
           } catch (err) {
+            printError(err);
+
             token.value.content = baseString;
           }
-          return { ...token, value: _.omit(token.value, ['url']) };
+          return { ...token, value: _.omit(token.value, ["url"]) };
         }
 
         return token;
-      }),
+      })
     )) as OutputDataType;
   } catch (err) {
+    printError(err);
+
     throw err;
   }
 }

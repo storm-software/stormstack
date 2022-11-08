@@ -1,12 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext } from "@nrwl/devkit";
-import fs from "fs";
+import fs, {
+  existsSync,
+  mkdirSync,
+  readdir,
+  readFileSync,
+  writeFileSync,
+} from "fs";
 import Path from "path";
+import SVGO from "svgo";
 import {
   execute,
   printError,
   printInfo,
   printSuccess,
+  svgoParser,
   toCssFontImportParser,
   toTailwindParser,
 } from "../utilities";
@@ -20,7 +28,8 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    const { tokensDir, tokensFile, fontsDir, clean, verbose } = options;
+    const { tokensDir, tokensFile, fontsDir, imagesDir, clean, verbose } =
+      options;
 
     printInfo("Executing design-tokens-build executor...");
     verbose && printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
@@ -66,7 +75,7 @@ export default async function (
 
     verbose && printInfo(`Loading design tokens file for theme: ${themeName}`);
 
-    const tokenJsonStr = fs.readFileSync(tokenJson, "utf-8");
+    const tokenJsonStr = readFileSync(tokenJson, "utf-8");
     verbose && printInfo(tokenJsonStr);
 
     const dataArray = JSON.parse(tokenJsonStr);
@@ -297,18 +306,18 @@ export default async function (
 
     verbose && printSuccess(result);
 
-    if (!fs.existsSync(Path.join(outputPath, "js"))) {
-      fs.mkdirSync(Path.join(outputPath, "js"), { recursive: true });
+    if (!existsSync(Path.join(outputPath, "js"))) {
+      mkdirSync(Path.join(outputPath, "js"), { recursive: true });
     }
 
-    fs.writeFileSync(Path.join(outputPath, "js", `theme.js`), result, "utf8");
+    writeFileSync(Path.join(outputPath, "js", `theme.js`), result, "utf8");
 
     printSuccess(`Design token theme.js (tailwind import) created.`);
 
-    const fontsPath = fs.existsSync(Path.join(tokensDir, fontsDir))
+    const fontsPath = existsSync(Path.join(tokensDir, fontsDir))
       ? Path.join(tokensDir, fontsDir)
       : fontsDir;
-    if (fs.existsSync(fontsPath) && dataArray["font"]) {
+    if (existsSync(fontsPath) && dataArray["font"]) {
       result = await toCssFontImportParser(
         Object.entries(dataArray["font"]).reduce(
           (
@@ -345,17 +354,110 @@ export default async function (
 
       verbose && printSuccess(result);
 
-      if (!fs.existsSync(Path.join(outputPath, "css"))) {
-        fs.mkdirSync(Path.join(outputPath, "css"), { recursive: true });
+      if (!existsSync(Path.join(outputPath, "css"))) {
+        mkdirSync(Path.join(outputPath, "css"), { recursive: true });
+      }
+
+      writeFileSync(Path.join(outputPath, "css", `fonts.css`), result, "utf8");
+
+      printSuccess(`Theme specific fonts (font.css) created.`);
+    }
+
+    const imagesPath = existsSync(Path.join(tokensDir, imagesDir))
+      ? Path.join(tokensDir, imagesDir)
+      : imagesDir;
+    if (existsSync(imagesPath)) {
+      printInfo(
+        `Building SVG images from design system assets in ${imagesPath}...`
+      );
+
+      let fileList = [];
+
+      readdir(imagesPath, (err: NodeJS.ErrnoException, files: string[]) => {
+        verbose &&
+          printInfo(`Found the following assets: ${files.join(", ")}.`);
+
+        fileList = files.reduce((ret: string[], file: string) => {
+          if (err) {
+            throw err;
+          }
+
+          if (file && file.endsWith("svg")) {
+            ret.push(file);
+          }
+
+          return ret;
+        }, fileList);
+      });
+
+      printInfo(
+        `Building SVG images for the following: ${fileList.join(", ")}.`
+      );
+
+      result = await svgoParser(
+        fileList.map((file: string) => ({
+          name: file,
+          url: file,
+          value: {
+            url: file,
+            type: "svg",
+          },
+          type: "svg",
+        })),
+        {
+          svgo: {
+            js2svg: {
+              pretty: true,
+            },
+            plugins: [
+              {
+                removeDimensions: true,
+              },
+              {
+                removeAttrs: {
+                  attrs: "*:(fill|stroke)",
+                },
+              },
+              {
+                addAttributesToSVGElement: {
+                  // The svg also has a focusable attribute set
+                  // to false which prevents the icon itself
+                  // from receiving focus in IE, because otherwise
+                  // the button will have two Tab stops, which is
+                  // not the expected or desired behavior.
+                  attributes: [
+                    'width="1em"',
+                    'height="1em"',
+                    'focusable="false"',
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        { SVGO } as any
+      );
+
+      verbose && printSuccess(result);
+
+      if (!result?.value) {
+        printError(`An error occurred generating SVGs`);
+        return { success: false };
+      }
+
+      if (!existsSync(Path.join(outputPath, "assets", "images"))) {
+        mkdirSync(Path.join(outputPath, "assets", "images"), {
+          recursive: true,
+        });
       }
 
       fs.writeFileSync(
-        Path.join(outputPath, "css", `fonts.css`),
+        Path.join(result?.value, "assets", "images"),
         result,
         "utf8"
       );
 
-      printSuccess(`Theme specific fonts (font.css) created.`);
+      printSuccess(`Theme specific images (assets/images/*.svg) created.`);
     }
 
     printSuccess("Design tokens sync succeeded.");

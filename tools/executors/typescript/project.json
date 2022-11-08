@@ -28,7 +28,7 @@
         "assets": [
           {
             "input": "./tools/executors/typescript",
-            "glob": "**/*.d.ts",
+            "glob": "**/*!(design-token-parsers)/**/*.md",
             "output": "."
           },
           {
@@ -96,7 +96,7 @@
           "assets": [
             {
               "input": "./tools/executors/typescript",
-              "glob": "**/*.md",
+              "glob": "**/*!(design-token-parsers)/**/*.md",
               "output": "."
             },
             {

@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  getAssetPath,
   h,
   Host,
   Listen,
@@ -11,6 +12,7 @@ import {
   State,
   Watch,
 } from "@stencil/core";
+import { ReactComponent as Icon } from "assets/alert-info.svg";
 import clsx from "clsx";
 
 /**
@@ -265,7 +267,7 @@ export class OsInput {
       : "border-l-input-label";
   }
 
-  getFillColor() {
+  getInputFillColor() {
     return this.disabled ? "bg-disabled" : "bg-input-fill";
   }
 
@@ -286,6 +288,16 @@ export class OsInput {
       !this.noBorder &&
       (this.error || this.warning || this.info || this.focused)
     );
+  }
+
+  getSvgFillStyle() {
+    return this.error
+      ? "fill-error"
+      : this.warning
+      ? "fill-warning"
+      : this.info
+      ? "fill-info"
+      : null;
   }
 
   getInputMessage() {
@@ -313,14 +325,17 @@ export class OsInput {
               { "pl-5": !this.isBorderDisplayed() },
               "gap-xxs flex h-fit w-full flex-col self-start"
             )}>
-            <label
-              class={clsx(
-                this.getTextStyle(),
-                "font-label-1 text-label-1 leading-label-1 flex antialiased"
-              )}
-              htmlFor={this.name}>
-              {this.label}
-            </label>
+            <div class="flex flex-row">
+              <label
+                class={clsx(
+                  this.getTextStyle(),
+                  "font-label-1 text-label-1 leading-label-1 flex flex-1 grow antialiased"
+                )}
+                htmlFor={this.name}>
+                {this.label}
+              </label>
+              <Icon class={clsx(this.getSvgFillStyle, "animate-ping")} />
+            </div>
             <input
               id={this.name}
               name={this.name}
@@ -329,13 +344,14 @@ export class OsInput {
               }
               class={clsx(
                 this.getStrokeStyle(),
-                this.getFillColor(),
+                this.getInputFillColor(),
                 {
                   "focus:shadow-active-glow ring-1 ring-active ring-offset-0 transition-shadow duration-[3500] ease-in-out":
                     this.focused,
                 },
                 "font-label-1 text-label-1 leading-label-1 border-1 flex rounded-xl transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
-                this.getInputTextStyle()
+                this.getInputTextStyle(),
+                "hover:shadow-active-glow transition-shadow duration-[3500] ease-in-out"
               )}
               type={this.type}
               placeholder={this.placeholder}

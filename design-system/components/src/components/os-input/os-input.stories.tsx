@@ -31,7 +31,7 @@ Primary.args = {
 };
 
 /**
- * Primary
+ * Placeholder
  */
 export const Placeholder = Template.bind({});
 
