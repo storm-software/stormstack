@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext } from "@nrwl/devkit";
-import fs, {
+import {
   existsSync,
   mkdirSync,
   readdirSync,
@@ -428,18 +428,6 @@ export default async function (
         }
 
         verbose && printSuccess(JSON.stringify(result, null, 2));
-
-        if (!existsSync(Path.join(outputPath, "assets", "images"))) {
-          mkdirSync(Path.join(outputPath, "assets", "images"), {
-            recursive: true,
-          });
-        }
-
-        fs.writeFileSync(
-          Path.join(result?.value, "assets", "images"),
-          result,
-          "utf8"
-        );
 
         printSuccess(`Theme specific images (assets/images/*.svg) created.`);
       }

@@ -4,7 +4,6 @@
     "outDir": "../../dist/out-tsc",
     "declaration": true,
     "composite": true,
-    "typeRoots": ["./src/@types"],
     "types": ["node"]
   },
   "exclude": ["**/*.spec.ts", "**/*.spec.tsx"],

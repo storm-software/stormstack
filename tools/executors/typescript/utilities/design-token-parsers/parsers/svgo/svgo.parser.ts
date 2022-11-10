@@ -102,10 +102,7 @@ export default async function (
 
           const baseString = readFileSync(token.value.url, "utf8");
 
-          /*SpServices.assets.getSource<string>(
-            token.value.url!,
-            "text"
-          )*/ try {
+          try {
             const result: Output = SVGO.optimize(
               baseString,
               options?.svgo as Config

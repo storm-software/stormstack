@@ -401,14 +401,14 @@ export class OsInput {
                   this.getStrokeStyle(),
                   this.getInputFillColor(),
                   {
-                    "ring-1 ring-active ring-offset-0 transition-shadow duration-[3500] ease-in-out focus:shadow-active-glow":
+                    "ring-1 ring-active ring-offset-0 focus:shadow-active-glow":
                       this.focused,
                   },
                   "flex w-full rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
                   this.getInputTextStyle(),
                   { "border-3": this.disabled },
                   {
-                    "border-1 transition-shadow duration-[3500] ease-in-out hover:shadow-active-glow":
+                    "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
                       !this.disabled,
                   }
                 )}

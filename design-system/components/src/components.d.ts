@@ -5,20 +5,29 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { ButtonTransitionDirections, ButtonTypes, ButtonVariants } from "./components/os-button/os-button.types";
 export namespace Components {
     interface OsButton {
         /**
-          * The first name
+          * Is the button read-only (cannot be clicked by user)
          */
-        "first": string;
+        "disabled": boolean;
         /**
-          * The last name
+          * Is the button filled by default
          */
-        "last": string;
+        "inverse": boolean;
         /**
-          * The middle name
+          * The direction the hover animation will start on
          */
-        "middle": string;
+        "transitionDirection": ButtonTransitionDirections;
+        /**
+          * Is the button filled by default
+         */
+        "type": ButtonTypes;
+        /**
+          * The variant style of the button
+         */
+        "variant": ButtonVariants;
     }
     interface OsInput {
         /**
@@ -91,6 +100,10 @@ export namespace Components {
         "type": string;
     }
 }
+export interface OsButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLOsButtonElement;
+}
 export interface OsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLOsInputElement;
@@ -116,17 +129,29 @@ declare global {
 declare namespace LocalJSX {
     interface OsButton {
         /**
-          * The first name
+          * Is the button read-only (cannot be clicked by user)
          */
-        "first"?: string;
+        "disabled"?: boolean;
         /**
-          * The last name
+          * Is the button filled by default
          */
-        "last"?: string;
+        "inverse"?: boolean;
         /**
-          * The middle name
+          * Event emitted when the user clicks into the button
          */
-        "middle"?: string;
+        "onOsClick"?: (event: OsButtonCustomEvent<MouseEvent>) => void;
+        /**
+          * The direction the hover animation will start on
+         */
+        "transitionDirection"?: ButtonTransitionDirections;
+        /**
+          * Is the button filled by default
+         */
+        "type"?: ButtonTypes;
+        /**
+          * The variant style of the button
+         */
+        "variant"?: ButtonVariants;
     }
     interface OsInput {
         /**
