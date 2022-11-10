@@ -26,11 +26,12 @@
 
 ## Events
 
-| Event      | Description                                               | Type                               |
-| ---------- | --------------------------------------------------------- | ---------------------------------- |
-| `osBlur`   | Event emitted when the user clicks out of the input field | `CustomEvent<CustomEvent<void>>`   |
-| `osChange` | Event emitted during a value in change the input field    | `CustomEvent<CustomEvent<string>>` |
-| `osFocus`  | Event emitted when the user clicks into the input field   | `CustomEvent<CustomEvent<void>>`   |
+| Event      | Description                                               | Type                      |
+| ---------- | --------------------------------------------------------- | ------------------------- |
+| `osBlur`   | Event emitted when the user clicks out of the input field | `CustomEvent<FocusEvent>` |
+| `osChange` | Event emitted during a value in change the input field    | `CustomEvent<InputEvent>` |
+| `osFocus`  | Event emitted when the user clicks into the input field   | `CustomEvent<FocusEvent>` |
+| `osInput`  | Event emitted during a value in change the input field    | `CustomEvent<InputEvent>` |
 
 
 ## Methods

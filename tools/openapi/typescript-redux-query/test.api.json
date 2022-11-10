@@ -1,0 +1,966 @@
+{
+  "openapi": "3.0.0",
+  "x-stoplight": {
+    "id": "cd21s8nqejpjn"
+  },
+  "info": {
+    "title": "Message",
+    "version": "1.0",
+    "description": "A collection of message APIs used by the Open System repository",
+    "contact": {
+      "name": "Patrick Sullivan",
+      "email": "Patrick.Sullivan@broadridge.com",
+      "url": "https://sullivanpj.github.io/open-system/services/message"
+    },
+    "termsOfService": "https://sullivanpj.github.io/open-system/services/message"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/messages",
+      "description": "Local Development"
+    }
+  ],
+  "paths": {
+    "/": {
+      "parameters": [],
+      "get": {
+        "summary": "Get Message List",
+        "operationId": "get-message-list",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                },
+                "examples": {
+                  "Success Response": {
+                    "value": [
+                      {
+                        "guid": "123e4567-e89b-12d3-a456-426614174000",
+                        "createdOn": "2022-03-19 04:24:02.190",
+                        "createdBy": "PSUL",
+                        "updatedOn": "2022-10-12 14:01:13.000",
+                        "updatedBy": "PSUL",
+                        "message": "This message is displayed in the application",
+                        "messageType": "FXL",
+                        "messageNumber": 338296833,
+                        "culture": "EN-US"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "about:blank",
+                      "title": "An error occurred processing your request.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "default": "FXL",
+              "enum": [
+                "FXL",
+                "24  TRADING",
+                "24 CORE",
+                "24 GENERAL",
+                "APPLICATION",
+                "CLIENT",
+                "TRADINGVALIDATION",
+                "INTERNALVALIDATION"
+              ],
+              "example": "FXL"
+            },
+            "in": "query",
+            "name": "messageType",
+            "description": "The type of message to return",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999999999
+            },
+            "in": "query",
+            "name": "messageNumber",
+            "description": "A specific message number to return"
+          },
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "description": "An end point that returns the system's message literals to a client",
+        "tags": ["Message"]
+      },
+      "post": {
+        "summary": "Add Message",
+        "operationId": "add-message",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Success Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Add new message record",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageRequest"
+              },
+              "examples": {
+                "Sample Request": {
+                  "value": {
+                    "message": "This message is displayed in the application",
+                    "messageType": "FXL",
+                    "messageNumber": 338296833,
+                    "culture": "EN-US"
+                  }
+                }
+              }
+            },
+            "application/javascript": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              }
+            }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "tags": ["Message"]
+      }
+    },
+    "/{guid}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Guid"
+        }
+      ],
+      "get": {
+        "summary": "Get Message",
+        "operationId": "get-message",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                },
+                "examples": {
+                  "Success Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000",
+                      "createdOn": "2022-03-19 04:24:02.190",
+                      "createdBy": "PSUL",
+                      "updatedOn": "2022-10-12 14:01:13.000",
+                      "updatedBy": "PSUL",
+                      "message": "This message is displayed in the application",
+                      "messageType": "FXL",
+                      "messageNumber": 338296833,
+                      "culture": "EN-US"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "description": "An end point that returns the system's message literals to a client",
+        "tags": ["Message"]
+      },
+      "delete": {
+        "summary": "Remove Message",
+        "operationId": "delete-message",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Success Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Remove an existing message record",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "tags": ["Message"]
+      },
+      "patch": {
+        "summary": "Update Message",
+        "operationId": "update-message",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Success Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shared_Api-spec_ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Update an existing message record",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageRequest"
+              },
+              "examples": {
+                "Sample Request": {
+                  "value": {
+                    "message": "This message is displayed in the application",
+                    "messageType": "FXL",
+                    "messageNumber": 338296833,
+                    "culture": "EN-US"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserId"
+          }
+        ],
+        "tags": ["Message"]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Message": {
+        "title": "Message",
+        "x-stoplight": {
+          "id": "1uit484jxisd8"
+        },
+        "description": "A `Message` record returned from the server",
+        "x-examples": {
+          "Sample Message": {
+            "guid": "123e4567-e89b-12d3-a456-426614174000",
+            "createdOn": "2022-03-19 04:24:02.190",
+            "createdBy": "PSUL",
+            "updatedOn": "2022-10-12 14:01:13.000",
+            "updatedBy": "PSUL",
+            "message": "This message is displayed in the application",
+            "messageType": "FXL",
+            "messageNumber": 338296833,
+            "culture": "EN-US"
+          }
+        },
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Shared_Api-spec_RecordBase"
+          },
+          {
+            "$ref": "#/components/schemas/MessageRequest"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "messageNumber": {
+                "type": "integer",
+                "example": 338296833,
+                "minimum": 0,
+                "maximum": 999999999
+              }
+            },
+            "required": ["messageNumber"]
+          }
+        ]
+      },
+      "MessageRequest": {
+        "title": "Message Request",
+        "x-stoplight": {
+          "id": "1uit484jxisd8"
+        },
+        "description": "An object sent to the server in a request to add a new or edit an existing `Message`. ",
+        "x-examples": {
+          "Sample Message Request": {
+            "message": "This message is displayed in the application",
+            "messageType": "FXL",
+            "messageNumber": 338296833,
+            "culture": "EN-US"
+          }
+        },
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "This message is displayed in the application"
+          },
+          "messageType": {
+            "type": "string",
+            "enum": [
+              "FXL",
+              "24 CORE",
+              "24 GENERAL",
+              "APPLICATION",
+              "CLIENT",
+              "TRADINGVALIDATION",
+              "INTERNALVALIDATION",
+              "24 TRADING"
+            ],
+            "default": "FXL",
+            "example": "FXL"
+          },
+          "messageNumber": {
+            "type": "integer",
+            "example": 338296833,
+            "minimum": 0,
+            "maximum": 999999999
+          },
+          "culture": {
+            "type": "string",
+            "default": "EN-US",
+            "example": "EN-US",
+            "enum": ["EN-US"]
+          }
+        },
+        "required": ["message", "messageType", "culture"]
+      },
+      "Shared_Api-spec_Guid": {
+        "type": "string",
+        "title": "Guid",
+        "x-stoplight": {
+          "id": "rxw5bcg38wwhi"
+        },
+        "format": "uuid",
+        "x-examples": {
+          "Sample Guid": "123e4567-e89b-12d3-a456-426614174000"
+        },
+        "description": "The `guid` associated with the record",
+        "example": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "Shared_Api-spec_ProblemDetails": {
+        "title": "ProblemDetails",
+        "x-stoplight": {
+          "id": "9o873j87rv4nb"
+        },
+        "type": "object",
+        "description": "A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.",
+        "x-examples": {
+          "Sample Response": {
+            "type": "about:blank",
+            "title": "An error occurred processing your request.",
+            "detail": "Your current balance is 30, but that costs 50.",
+            "instance": "/account/12345/msgs/abc"
+          }
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "about:blank",
+            "example": "https://example.com/probs/out-of-credit",
+            "description": "A URI reference [RFC3986](https://www.rfc-editor.org/rfc/rfc3986) that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028](https://www.rfc-editor.org/rfc/rfc7807#ref-W3C.REC-html5-20141028)). When this member is not present, its value is assumed to be `about:blank`."
+          },
+          "title": {
+            "type": "string",
+            "example": "You do not have enough credit.",
+            "default": "An error occurred processing your request.",
+            "description": "A short, human-readable summary of the problem type. It **SHOULD NOT** change from occurrence to occurrence of the pro**blem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231, Section 3.4](https://www.rfc-editor.org/rfc/rfc7231#section-3.4))."
+          },
+          "detail": {
+            "type": "string",
+            "example": "Your current balance is 30, but that costs 50.",
+            "description": "A human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "example": "/account/12345/msgs/abc",
+            "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced."
+          }
+        },
+        "required": ["type"]
+      },
+      "Shared_Api-spec_RecordBase": {
+        "title": "RecordBase",
+        "x-stoplight": {
+          "id": "426vq5mn5uary"
+        },
+        "type": "object",
+        "description": "The minimum model fields shared by all data stored in the database",
+        "properties": {
+          "guid": {
+            "$ref": "#/components/schemas/Shared_Api-spec_Guid"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-03-19 04:24:02.190"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "PSUL"
+          },
+          "updatedOn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2022-10-12 14:01:13.000"
+          },
+          "updatedBy": {
+            "type": "string",
+            "example": "PSUL"
+          }
+        },
+        "required": ["guid", "createdOn", "createdBy"],
+        "x-examples": {
+          "Sample Record": {
+            "guid": "123e4567-e89b-12d3-a456-426614174000",
+            "createdOn": "2022-03-19 04:24:02.190",
+            "createdBy": "PSUL",
+            "updatedOn": "2022-10-12 14:01:13.000",
+            "updatedBy": "PSUL"
+          }
+        }
+      },
+      "Shared_Api-spec_UpdateSuccessResponse": {
+        "title": "UpdateSuccessResponse",
+        "x-stoplight": {
+          "id": "bnmwekvdvhi5z"
+        },
+        "type": "object",
+        "description": "A response returned from the server when data is successfully updated",
+        "properties": {
+          "guid": {
+            "$ref": "#/components/schemas/Shared_Api-spec_Guid"
+          }
+        },
+        "required": ["guid"],
+        "x-examples": {
+          "Sample Response": {
+            "guid": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        }
+      }
+    },
+    "requestBodies": {},
+    "responses": {
+      "GetMessagesResponse": {
+        "description": "Successful response to Get Messages end point",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Shared_Api-spec_RecordBase"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                ]
+              }
+            },
+            "examples": {
+              "Success Response": {
+                "value": [
+                  {
+                    "guid": "123e4567-e89b-12d3-a456-426614174000",
+                    "createdOn": "2022-03-19 04:24:02.190",
+                    "createdBy": "PSUL",
+                    "updatedOn": "2022-10-12 14:01:13.000",
+                    "updatedBy": "PSUL",
+                    "message": "This message is displayed in the application",
+                    "messageType": "FXL",
+                    "messageNumber": 338296833,
+                    "culture": "EN-US"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "Guid": {
+        "name": "guid",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "example": "123e4567-e89b-12d3-a456-426614174000"
+        },
+        "description": "The records guid"
+      },
+      "UserId": {
+        "name": "userId",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "PSUL"
+        },
+        "description": "User Id sending request"
+      }
+    },
+    "securitySchemes": {
+      "bearer-token": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "A request header containing the JSON web token (JWT) provided by the IDM service in a cookie when the user signed into the application. This JWT contains the current user's encoded `SiteMinder` entitlements."
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Message"
+    }
+  ],
+  "x-all-of-name": "DTO_AllOf",
+  "x-one-of-name": "DTO_OneOf"
+}

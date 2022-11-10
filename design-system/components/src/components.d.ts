@@ -168,15 +168,19 @@ declare namespace LocalJSX {
         /**
           * Event emitted when the user clicks out of the input field
          */
-        "onOsBlur"?: (event: OsInputCustomEvent<CustomEvent<void>>) => void;
+        "onOsBlur"?: (event: OsInputCustomEvent<FocusEvent>) => void;
         /**
           * Event emitted during a value in change the input field
          */
-        "onOsChange"?: (event: OsInputCustomEvent<CustomEvent<string>>) => void;
+        "onOsChange"?: (event: OsInputCustomEvent<InputEvent>) => void;
         /**
           * Event emitted when the user clicks into the input field
          */
-        "onOsFocus"?: (event: OsInputCustomEvent<CustomEvent<void>>) => void;
+        "onOsFocus"?: (event: OsInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Event emitted during a value in change the input field
+         */
+        "onOsInput"?: (event: OsInputCustomEvent<InputEvent>) => void;
         /**
           * A regular expression pattern, such as [A-Z]+ for one or more uppercase characters
          */

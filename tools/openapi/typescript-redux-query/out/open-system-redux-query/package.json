@@ -1,0 +1,22 @@
+{
+  "name": "message",
+  "version": "1.0",
+  "description": "OpenAPI client for message",
+  "author": "OpenAPI-Generator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
+  },
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts" : {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "redux-query": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0"
+  }
+}

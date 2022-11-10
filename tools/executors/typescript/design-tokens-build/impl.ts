@@ -3,7 +3,7 @@ import { ExecutorContext } from "@nrwl/devkit";
 import fs, {
   existsSync,
   mkdirSync,
-  readdir,
+  readdirSync,
   readFileSync,
   writeFileSync,
 } from "fs";
@@ -366,98 +366,83 @@ export default async function (
     const imagesPath = existsSync(Path.join(tokensDir, imagesDir))
       ? Path.join(tokensDir, imagesDir)
       : imagesDir;
+    printInfo(`Checking for SVG images in ${imagesPath}`);
     if (existsSync(imagesPath)) {
-      printInfo(
-        `Building SVG images from design system assets in ${imagesPath}...`
-      );
+      printInfo(`Building SVG images from design system assets...`);
 
-      let fileList = [];
+      const fileList = readdirSync(imagesPath);
+      if (fileList.length === 0) {
+        printInfo(`No SVG images could be found in ${imagesPath}.`);
+      } else {
+        printInfo(
+          `Building SVG images for the following: ${fileList.join(", ")}.`
+        );
 
-      readdir(imagesPath, (err: NodeJS.ErrnoException, files: string[]) => {
-        verbose &&
-          printInfo(`Found the following assets: ${files.join(", ")}.`);
-
-        fileList = files.reduce((ret: string[], file: string) => {
-          if (err) {
-            throw err;
-          }
-
-          if (file && file.endsWith("svg")) {
-            ret.push(file);
-          }
-
-          return ret;
-        }, fileList);
-      });
-
-      printInfo(
-        `Building SVG images for the following: ${fileList.join(", ")}.`
-      );
-
-      result = await svgoParser(
-        fileList.map((file: string) => ({
-          name: file,
-          url: file,
-          value: {
-            url: file,
-            type: "svg",
-          },
-          type: "svg",
-        })),
-        {
-          svgo: {
-            js2svg: {
-              pretty: true,
+        result = await svgoParser(
+          fileList.map((file: string) => ({
+            name: file,
+            url: Path.join(imagesDir, file),
+            value: {
+              url: Path.join(imagesDir, file),
+              type: "svg",
             },
-            plugins: [
-              {
-                removeDimensions: true,
+            type: "svg",
+          })),
+          {
+            svgo: {
+              js2svg: {
+                pretty: true,
               },
-              {
-                removeAttrs: {
-                  attrs: "*:(fill|stroke)",
+              plugins: [
+                {
+                  removeDimensions: true,
                 },
-              },
-              {
-                addAttributesToSVGElement: {
-                  // The svg also has a focusable attribute set
-                  // to false which prevents the icon itself
-                  // from receiving focus in IE, because otherwise
-                  // the button will have two Tab stops, which is
-                  // not the expected or desired behavior.
-                  attributes: [
-                    'width="1em"',
-                    'height="1em"',
-                    'focusable="false"',
-                  ],
+                {
+                  removeAttrs: {
+                    attrs: "*:(fill|stroke)",
+                  },
                 },
-              },
-            ],
+                {
+                  addAttributesToSVGElement: {
+                    // The svg also has a focusable attribute set
+                    // to false which prevents the icon itself
+                    // from receiving focus in IE, because otherwise
+                    // the button will have two Tab stops, which is
+                    // not the expected or desired behavior.
+                    attributes: [
+                      'width="1em"',
+                      'height="1em"',
+                      'focusable="false"',
+                    ],
+                  },
+                },
+              ],
+            },
           },
-        },
-        { SVGO } as any
-      );
+          { SVGO } as any
+        );
 
-      verbose && printSuccess(result);
+        if (!result) {
+          printError(`An error occurred generating SVGs`);
+          return { success: false };
+        }
 
-      if (!result?.value) {
-        printError(`An error occurred generating SVGs`);
-        return { success: false };
+        verbose && printSuccess(JSON.stringify(result, null, 2));
+
+        if (!existsSync(Path.join(outputPath, "assets", "images"))) {
+          mkdirSync(Path.join(outputPath, "assets", "images"), {
+            recursive: true,
+          });
+        }
+
+        fs.writeFileSync(
+          Path.join(result?.value, "assets", "images"),
+          result,
+          "utf8"
+        );
+
+        printSuccess(`Theme specific images (assets/images/*.svg) created.`);
       }
-
-      if (!existsSync(Path.join(outputPath, "assets", "images"))) {
-        mkdirSync(Path.join(outputPath, "assets", "images"), {
-          recursive: true,
-        });
-      }
-
-      fs.writeFileSync(
-        Path.join(result?.value, "assets", "images"),
-        result,
-        "utf8"
-      );
-
-      printSuccess(`Theme specific images (assets/images/*.svg) created.`);
     }
 
     printSuccess("Design tokens sync succeeded.");

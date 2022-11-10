@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  getAssetPath,
   h,
   Host,
   Listen,
@@ -12,8 +11,8 @@ import {
   State,
   Watch,
 } from "@stencil/core";
-import { ReactComponent as Icon } from "assets/alert-info.svg";
 import clsx from "clsx";
+//import { ReactComponent as AlertIcon } from "../../../../../assets/alert-info.svg";
 
 /**
  * An input field used in forms to collect data from users
@@ -21,6 +20,7 @@ import clsx from "clsx";
 @Component({
   tag: "os-input",
   styleUrl: "os-input.css",
+  assetsDirs: ["../../assets"],
   shadow: true,
 })
 export class OsInput {
@@ -146,7 +146,18 @@ export class OsInput {
     cancelable: true,
     bubbles: true,
   })
-  change: EventEmitter<CustomEvent<string>>;
+  change: EventEmitter<InputEvent>;
+
+  /**
+   * Event emitted during a value in change the input field
+   */
+  @Event({
+    eventName: "osInput",
+    composed: true,
+    cancelable: true,
+    bubbles: true,
+  })
+  input: EventEmitter<InputEvent>;
 
   /**
    * Event emitted when the user clicks into the input field
@@ -157,7 +168,7 @@ export class OsInput {
     cancelable: true,
     bubbles: true,
   })
-  focus: EventEmitter<CustomEvent<void>>;
+  focus: EventEmitter<FocusEvent>;
 
   /**
    * Event emitted when the user clicks out of the input field
@@ -168,39 +179,50 @@ export class OsInput {
     cancelable: true,
     bubbles: true,
   })
-  blur: EventEmitter<CustomEvent<void>>;
+  blur: EventEmitter<FocusEvent>;
 
   /**
    * Handle a value in change the input field
    */
   @Listen("change")
-  handleChange(event: CustomEvent<string>) {
+  onChange(event: InputEvent) {
     event.stopPropagation();
-    this.value = event.detail;
+    this.value = (event.target as HTMLInputElement)?.value;
     console.log(event);
-    this.change.emit(event);
+    this.change?.emit?.(event);
+  }
+
+  /**
+   * Handle a value in change the input field
+   */
+  @Listen("input")
+  onInput(event: InputEvent) {
+    event.stopPropagation();
+    this.value = (event.target as HTMLInputElement)?.value;
+    console.log(event);
+    this.input?.emit?.(event);
   }
 
   /**
    * Handle when the user clicks into the input field
    */
   @Listen("focus")
-  handleFocus(event: CustomEvent<void>) {
+  onFocus(event: FocusEvent) {
     if (!this.touched) {
       this.touched = true;
     }
 
     this.focused = true;
-    this.focus.emit(event);
+    this.focus?.emit?.(event);
   }
 
   /**
    * Handle when the user clicks out of the input field
    */
   @Listen("blur")
-  onBlur(event: CustomEvent<void>) {
+  onBlur(event: FocusEvent) {
     this.focused = false;
-    this.blur.emit(event);
+    this.blur?.emit?.(event);
   }
 
   /**
@@ -252,7 +274,11 @@ export class OsInput {
   }
 
   getInputTextStyle() {
-    return this.value ? "text-active" : this.getTextStyle();
+    return this.disabled
+      ? "text-input-fill"
+      : this.value
+      ? "text-active"
+      : this.getTextStyle();
   }
 
   getBorderStyle() {
@@ -268,7 +294,7 @@ export class OsInput {
   }
 
   getInputFillColor() {
-    return this.disabled ? "bg-disabled" : "bg-input-fill";
+    return this.disabled ? "bg-disabled-fill" : "bg-input-fill";
   }
 
   getStrokeStyle() {
@@ -280,6 +306,8 @@ export class OsInput {
       ? "border-info focus:border-info"
       : this.focused
       ? "border-active focus:border-active"
+      : this.disabled
+      ? "border-disabled focus:border-disabled"
       : "border-input-label focus:border-input-label";
   }
 
@@ -315,65 +343,126 @@ export class OsInput {
       <Host>
         <div
           class={clsx(
-            "pl-xs pt-xs w-input-w h-input-h duration-600 flex flex-1 flex-row transition ease-in-out",
+            "duration-600 flex h-input-h w-input-w flex-1 flex-row pl-xs pt-xs transition ease-in-out",
             { "border-l-0": this.isBorderDisplayed() },
             { "border-l-4": this.isBorderDisplayed() },
             this.isBorderDisplayed() && this.getBorderStyle()
           )}>
-          <div
-            class={clsx(
-              { "pl-5": !this.isBorderDisplayed() },
-              "gap-xxs flex h-fit w-full flex-col self-start"
-            )}>
+          <div class="flex h-fit w-full flex-col gap-xxs self-start">
             <div class="flex flex-row">
+              <div class="flex flex-1 grow flex-row gap-xxxs pl-xxxs">
+                <label
+                  class={clsx(
+                    this.getTextStyle(),
+                    "font-label-1 text-label-1 leading-label-1 antialiased"
+                  )}
+                  htmlFor={this.name}>
+                  {this.label}
+                </label>
+                {this.required && (
+                  <label
+                    class="font-extrabold text-red-500"
+                    htmlFor={this.name}>
+                    *
+                  </label>
+                )}
+              </div>
+              {this.error ||
+                this.warning ||
+                (this.info && (
+                  <div class="pr-xxxs">
+                    <span class="inline-block h-fit animate-bounce">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M12.5 0C5.59644 0 0 5.59644 0 12.5C0 19.4035 5.59644 25 12.5 25C19.4035 25 25 19.4035 25 12.5C25 5.59644 19.4035 0 12.5 0ZM13.6364 6.81818C13.6364 6.19059 13.1276 5.68182 12.5 5.68182C11.8724 5.68182 11.3636 6.19059 11.3636 6.81818V13.6364C11.3636 14.264 11.8724 14.7727 12.5 14.7727C13.1276 14.7727 13.6364 14.264 13.6364 13.6364V6.81818ZM13.6364 17.6136C13.6364 16.986 13.1276 16.4773 12.5 16.4773C11.8724 16.4773 11.3636 16.986 11.3636 17.6136V18.1818C11.3636 18.8094 11.8724 19.3182 12.5 19.3182C13.1276 19.3182 13.6364 18.8094 13.6364 18.1818V17.6136Z"
+                          class={this.getSvgFillStyle()}
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                ))}
+            </div>
+
+            <div class="relative">
+              <input
+                id={this.name}
+                name={this.name}
+                ref={(element: HTMLInputElement) =>
+                  (this.nativeElement = element)
+                }
+                class={clsx(
+                  this.getStrokeStyle(),
+                  this.getInputFillColor(),
+                  {
+                    "ring-1 ring-active ring-offset-0 transition-shadow duration-[3500] ease-in-out focus:shadow-active-glow":
+                      this.focused,
+                  },
+                  "flex w-full rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
+                  this.getInputTextStyle(),
+                  { "border-3": this.disabled },
+                  {
+                    "border-1 transition-shadow duration-[3500] ease-in-out hover:shadow-active-glow":
+                      !this.disabled,
+                  }
+                )}
+                type={this.type}
+                placeholder={this.placeholder}
+                disabled={this.disabled}
+                required={this.required}
+                min={this.min}
+                max={this.max}
+                minLength={this.minLength}
+                maxLength={this.maxLength}
+                pattern={this.pattern}
+                aria-role="textbox"
+                aria-invalid={this.error}
+                aria-required={this.required}
+                aria-disabled={this.disabled}
+                onInput={this.onInput}
+                onChange={this.onChange}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}></input>
+
+              {this.disabled && (
+                <div class="absolute top-1/4 right-3">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 25 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_52_274)">
+                      <path
+                        d="M22.3214 10.9375H20.9821V7.42188C20.9821 3.33008 17.1763 0 12.5 0C7.82366 0 4.01786 3.33008 4.01786 7.42188V10.9375H2.67857C1.19978 10.9375 0 11.9873 0 13.2812V22.6562C0 23.9502 1.19978 25 2.67857 25H22.3214C23.8002 25 25 23.9502 25 22.6562V13.2812C25 11.9873 23.8002 10.9375 22.3214 10.9375ZM16.5179 10.9375H8.48214V7.42188C8.48214 5.4834 10.2846 3.90625 12.5 3.90625C14.7154 3.90625 16.5179 5.4834 16.5179 7.42188V10.9375Z"
+                        fill="#989899"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_52_274">
+                        <rect width="25" height="25" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+              )}
+            </div>
+            <div class="pl-xxxs">
               <label
                 class={clsx(
                   this.getTextStyle(),
-                  "font-label-1 text-label-1 leading-label-1 flex flex-1 grow antialiased"
+                  "flex font-message-1 text-message-1 italic leading-message-1 antialiased"
                 )}
                 htmlFor={this.name}>
-                {this.label}
+                {this.getInputMessage() ?? " "}
               </label>
-              <Icon class={clsx(this.getSvgFillStyle, "animate-ping")} />
             </div>
-            <input
-              id={this.name}
-              name={this.name}
-              ref={(element: HTMLInputElement) =>
-                (this.nativeElement = element)
-              }
-              class={clsx(
-                this.getStrokeStyle(),
-                this.getInputFillColor(),
-                {
-                  "focus:shadow-active-glow ring-1 ring-active ring-offset-0 transition-shadow duration-[3500] ease-in-out":
-                    this.focused,
-                },
-                "font-label-1 text-label-1 leading-label-1 border-1 flex rounded-xl transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
-                this.getInputTextStyle(),
-                "hover:shadow-active-glow transition-shadow duration-[3500] ease-in-out"
-              )}
-              type={this.type}
-              placeholder={this.placeholder}
-              disabled={this.disabled}
-              required={this.required}
-              min={this.min}
-              max={this.max}
-              minLength={this.minLength}
-              maxLength={this.maxLength}
-              pattern={this.pattern}
-              aria-role="textbox"
-              aria-invalid={this.error}
-              aria-required={this.required}
-              aria-disabled={this.disabled}></input>
-            <label
-              class={clsx(
-                this.getTextStyle(),
-                "font-message-1 text-message-1 leading-message-1 flex italic antialiased"
-              )}
-              htmlFor={this.name}>
-              {this.getInputMessage() ?? " "}
-            </label>
           </div>
         </div>
       </Host>

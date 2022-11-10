@@ -89,6 +89,7 @@ export default async function (
   { SVGO, _ }: Pick<LibsType, "SVGO" | "_" | "SpServices">
 ): Promise<OutputDataType | Error> {
   try {
+    printInfo("Running Svgo Parser");
     options = options || {};
     options.svgo = options?.svgo || {};
     options.svgo.plugins = migrateSvgoPlugins(options.svgo.plugins);

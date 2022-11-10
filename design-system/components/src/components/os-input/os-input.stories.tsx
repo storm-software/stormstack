@@ -43,6 +43,30 @@ Placeholder.args = {
 };
 
 /**
+ * Required
+ */
+export const Required = Template.bind({});
+
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Required.args = {
+  label: "Sample Label",
+  name: "sample",
+  required: true,
+};
+
+/**
+ * Disabled
+ */
+export const Disabled = Template.bind({});
+
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Disabled.args = {
+  label: "Sample Label",
+  name: "sample",
+  disabled: true,
+};
+
+/**
  * Information
  */
 export const Information = Template.bind({});
