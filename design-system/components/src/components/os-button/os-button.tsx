@@ -121,7 +121,11 @@ export class OsButton {
           disabled={this.disabled}
           class={clsx(
             this.getBackgroundColor(),
-            "m-w-bnt-m-w relative overflow-hidden rounded-full p-0.5 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow"
+            {
+              "hover:shadow-active-glow active:translate-y-0.5 active:scale-95":
+                !this.disabled,
+            },
+            "m-w-bnt-m-w relative overflow-hidden rounded-full p-0.5 shadow-sm transition-shadow duration-300 ease-in-out"
           )}
           onClick={this.onClick}>
           <div
