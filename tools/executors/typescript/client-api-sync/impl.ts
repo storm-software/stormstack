@@ -24,7 +24,7 @@ export default async function (
         Path.join(`${rootPath}/`, `libs/${domainName}/types/__generated__`)
       )
     ) {
-      ConsoleLogger.warning(
+      ConsoleLogger.warn(
         `The file location ${Path.join(
           `${rootPath}/`,
           `libs/${domainName}/types/__generated__`
