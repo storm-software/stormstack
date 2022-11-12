@@ -17,6 +17,7 @@
     "build": {
       "executor": "@open-system/executors-typescript:design-tokens-build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "open-system",
       "options": {
         "outputPath": "dist/design-system/tokens",
         "tsConfig": "design-system/tokens/tsconfig.lib.json",
@@ -31,7 +32,7 @@
           "verbose": true
         },
         "resume": {
-          "tokensDir": "design-system/tokens/src/resume132",
+          "tokensDir": "design-system/tokens/src/resume",
           "fontsDir": "assets/fonts",
           "imagesDir": "assets/images"
         }

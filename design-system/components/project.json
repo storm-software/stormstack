@@ -8,7 +8,6 @@
       "style": "css"
     }
   },
-  "tags": [],
   "targets": {
     "test": {
       "executor": "@nxext/stencil:test",
@@ -170,5 +169,7 @@
         "tagFormat": "design-system-components-v${VERSION}"
       }
     }
-  }
+  },
+  "tags": [],
+  "implicitDependencies": ["design-system-tokens"]
 }
