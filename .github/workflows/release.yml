@@ -26,6 +26,8 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       - run: npm ci
 
+      - run: npm run build:tools
+
       # Run design tokens build prior to linting so tailwindcss is configured
       - run: npx nx run design-system-tokens:build:open-system
 
