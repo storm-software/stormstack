@@ -1,15 +1,15 @@
-import { DefaultPlugins, DefaultPresetPlugins } from 'svgo';
+import { DefaultPlugin, PresetDefault } from 'svgo';
 import type { default as SVGOV1 } from '../../types/svgo.v1';
 
-export type DefaultPresetPluginsName = DefaultPresetPlugins['name'];
+export type DefaultPresetPluginsName = PresetDefault['name'];
 
-export type DefaultPresetPluginsParams = DefaultPresetPlugins['params'];
+export type DefaultPresetPluginsParams = PresetDefault['params'];
 
 export type DefaultPresetOverride = {
   [P in DefaultPresetPluginsName]?: false | DefaultPresetPluginsParams;
 };
 
-export type PluginV2 = DefaultPlugins | DefaultPlugins['name'];
+export type PluginV2 = DefaultPlugin | DefaultPlugin['name'];
 export type PluginV1 = SVGOV1.PluginConfig;
 export type Plugins = Array<PluginV1> | Array<PluginV2>;
 
