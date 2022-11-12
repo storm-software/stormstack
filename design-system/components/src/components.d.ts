@@ -113,6 +113,20 @@ export namespace Components {
          */
         "text": string;
     }
+    interface OsTitle {
+        /**
+          * The first name
+         */
+        "first": string;
+        /**
+          * The last name
+         */
+        "last": string;
+        /**
+          * The middle name
+         */
+        "middle": string;
+    }
 }
 export interface OsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -141,10 +155,17 @@ declare global {
         prototype: HTMLOsLinkElement;
         new (): HTMLOsLinkElement;
     };
+    interface HTMLOsTitleElement extends Components.OsTitle, HTMLStencilElement {
+    }
+    var HTMLOsTitleElement: {
+        prototype: HTMLOsTitleElement;
+        new (): HTMLOsTitleElement;
+    };
     interface HTMLElementTagNameMap {
         "os-button": HTMLOsButtonElement;
         "os-input": HTMLOsInputElement;
         "os-link": HTMLOsLinkElement;
+        "os-title": HTMLOsTitleElement;
     }
 }
 declare namespace LocalJSX {
@@ -258,10 +279,25 @@ declare namespace LocalJSX {
          */
         "text"?: string;
     }
+    interface OsTitle {
+        /**
+          * The first name
+         */
+        "first"?: string;
+        /**
+          * The last name
+         */
+        "last"?: string;
+        /**
+          * The middle name
+         */
+        "middle"?: string;
+    }
     interface IntrinsicElements {
         "os-button": OsButton;
         "os-input": OsInput;
         "os-link": OsLink;
+        "os-title": OsTitle;
     }
 }
 export { LocalJSX as JSX };
@@ -271,6 +307,7 @@ declare module "@stencil/core" {
             "os-button": LocalJSX.OsButton & JSXBase.HTMLAttributes<HTMLOsButtonElement>;
             "os-input": LocalJSX.OsInput & JSXBase.HTMLAttributes<HTMLOsInputElement>;
             "os-link": LocalJSX.OsLink & JSXBase.HTMLAttributes<HTMLOsLinkElement>;
+            "os-title": LocalJSX.OsTitle & JSXBase.HTMLAttributes<HTMLOsTitleElement>;
         }
     }
 }

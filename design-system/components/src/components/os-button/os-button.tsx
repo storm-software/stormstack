@@ -129,7 +129,10 @@ export class OsButton {
           )}
           onClick={this.onClick}>
           <div
-            class={clsx(this.getTextColor(), "rounded-full bg-bg-1 px-8 py-3")}>
+            class={clsx(
+              this.getTextColor(),
+              "font-btn-label-1 text-btn-label-1 rounded-full bg-bg-1 px-8  py-3"
+            )}>
             {this.inverse ? (
               <slot name="hover-text">{this.getDefaultText()}</slot>
             ) : (
@@ -271,7 +274,7 @@ export class OsButton {
                               this.variant !== ButtonVariants.GRADIENT ||
                               this.disabled,
                           },
-                          "flex h-full w-full items-center justify-center text-center font-label-1"
+                          "font-btn-label-1 text-btn-label-1 flex h-full w-full items-center justify-center text-center"
                         )}>
                         {this.inverse ? (
                           <slot>{this.getDefaultText()}</slot>

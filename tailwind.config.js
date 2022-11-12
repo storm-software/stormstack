@@ -14,9 +14,12 @@ module.exports = {
   theme: {
     extend: {
       ...extend,
+      borderRadius: {
+        ...extend.borderRadius,
+        drawn: "255px 15px 225px 15px/15px 225px 15px 255px",
+      },
     },
+    variants: {},
+    plugins: [],
   },
-  variants: {
-  },
-  plugins: [],
 };
