@@ -23,6 +23,19 @@
 | `osClick` | Event emitted when the user clicks into the button | `CustomEvent<MouseEvent>` |
 
 
+## Dependencies
+
+### Used by
+
+ - [os-card](../os-card)
+
+### Graph
+```mermaid
+graph TD;
+  os-card --> os-button
+  style os-button fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

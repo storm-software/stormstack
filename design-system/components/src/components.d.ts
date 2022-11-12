@@ -29,6 +29,20 @@ export namespace Components {
          */
         "variant": ButtonVariants;
     }
+    interface OsCard {
+        /**
+          * The first name
+         */
+        "header": string;
+        /**
+          * The middle name
+         */
+        "imageSrc": string;
+        /**
+          * The last name
+         */
+        "summary": string;
+    }
     interface OsInput {
         /**
           * Decides if input is disabled
@@ -113,6 +127,20 @@ export namespace Components {
          */
         "text": string;
     }
+    interface OsSelect {
+        /**
+          * The first name
+         */
+        "first": string;
+        /**
+          * The last name
+         */
+        "last": string;
+        /**
+          * The middle name
+         */
+        "middle": string;
+    }
     interface OsTitle {
         /**
           * The first name
@@ -143,6 +171,12 @@ declare global {
         prototype: HTMLOsButtonElement;
         new (): HTMLOsButtonElement;
     };
+    interface HTMLOsCardElement extends Components.OsCard, HTMLStencilElement {
+    }
+    var HTMLOsCardElement: {
+        prototype: HTMLOsCardElement;
+        new (): HTMLOsCardElement;
+    };
     interface HTMLOsInputElement extends Components.OsInput, HTMLStencilElement {
     }
     var HTMLOsInputElement: {
@@ -155,6 +189,12 @@ declare global {
         prototype: HTMLOsLinkElement;
         new (): HTMLOsLinkElement;
     };
+    interface HTMLOsSelectElement extends Components.OsSelect, HTMLStencilElement {
+    }
+    var HTMLOsSelectElement: {
+        prototype: HTMLOsSelectElement;
+        new (): HTMLOsSelectElement;
+    };
     interface HTMLOsTitleElement extends Components.OsTitle, HTMLStencilElement {
     }
     var HTMLOsTitleElement: {
@@ -163,8 +203,10 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "os-button": HTMLOsButtonElement;
+        "os-card": HTMLOsCardElement;
         "os-input": HTMLOsInputElement;
         "os-link": HTMLOsLinkElement;
+        "os-select": HTMLOsSelectElement;
         "os-title": HTMLOsTitleElement;
     }
 }
@@ -194,6 +236,20 @@ declare namespace LocalJSX {
           * The variant style of the button
          */
         "variant"?: ButtonVariants;
+    }
+    interface OsCard {
+        /**
+          * The first name
+         */
+        "header"?: string;
+        /**
+          * The middle name
+         */
+        "imageSrc"?: string;
+        /**
+          * The last name
+         */
+        "summary"?: string;
     }
     interface OsInput {
         /**
@@ -279,6 +335,20 @@ declare namespace LocalJSX {
          */
         "text"?: string;
     }
+    interface OsSelect {
+        /**
+          * The first name
+         */
+        "first"?: string;
+        /**
+          * The last name
+         */
+        "last"?: string;
+        /**
+          * The middle name
+         */
+        "middle"?: string;
+    }
     interface OsTitle {
         /**
           * The first name
@@ -295,8 +365,10 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "os-button": OsButton;
+        "os-card": OsCard;
         "os-input": OsInput;
         "os-link": OsLink;
+        "os-select": OsSelect;
         "os-title": OsTitle;
     }
 }
@@ -305,8 +377,10 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "os-button": LocalJSX.OsButton & JSXBase.HTMLAttributes<HTMLOsButtonElement>;
+            "os-card": LocalJSX.OsCard & JSXBase.HTMLAttributes<HTMLOsCardElement>;
             "os-input": LocalJSX.OsInput & JSXBase.HTMLAttributes<HTMLOsInputElement>;
             "os-link": LocalJSX.OsLink & JSXBase.HTMLAttributes<HTMLOsLinkElement>;
+            "os-select": LocalJSX.OsSelect & JSXBase.HTMLAttributes<HTMLOsSelectElement>;
             "os-title": LocalJSX.OsTitle & JSXBase.HTMLAttributes<HTMLOsTitleElement>;
         }
     }
