@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ButtonTransitionDirections, ButtonTypes, ButtonVariants } from "./components/os-button/os-button.types";
+import { SelectOption } from "./components/os-select/os-select.types";
 export namespace Components {
     interface OsButton {
         /**
@@ -129,17 +130,69 @@ export namespace Components {
     }
     interface OsSelect {
         /**
-          * The first name
+          * Decides if input is disabled
          */
-        "first": string;
+        "disabled": boolean;
         /**
-          * The last name
+          * An info message displayed under the input
          */
-        "last": string;
+        "info"?: string;
         /**
-          * The middle name
+          * The text label displayed above the input field
          */
-        "middle": string;
+        "label": string;
+        /**
+          * The maximum input value allowed
+         */
+        "max"?: number;
+        /**
+          * The maximum allowed input length value of the field
+         */
+        "maxLength"?: number;
+        /**
+          * The minimum input value allowed
+         */
+        "min"?: number;
+        /**
+          * The minimum allowed input length value of the field
+         */
+        "minLength"?: number;
+        /**
+          * The name of the input field
+         */
+        "name": string;
+        /**
+          * Should the border displayed on the left side of the input field remain hidden
+         */
+        "noBorder": boolean;
+        /**
+          * Type of input
+         */
+        "options": SelectOption[];
+        /**
+          * A regular expression pattern, such as [A-Z]+ for one or more uppercase characters
+         */
+        "pattern"?: string;
+        /**
+          * Placeholder text when the field value is empty
+         */
+        "placeholder"?: string;
+        /**
+          * Decides if input field required
+         */
+        "required": boolean;
+        /**
+          * Input error method
+         */
+        "setError": (error: string) => Promise<void>;
+        /**
+          * Input focus method
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Input warning method
+         */
+        "setWarning": (warning: string) => Promise<void>;
     }
     interface OsTitle {
         /**
@@ -163,6 +216,10 @@ export interface OsButtonCustomEvent<T> extends CustomEvent<T> {
 export interface OsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLOsInputElement;
+}
+export interface OsSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLOsSelectElement;
 }
 declare global {
     interface HTMLOsButtonElement extends Components.OsButton, HTMLStencilElement {
@@ -337,17 +394,73 @@ declare namespace LocalJSX {
     }
     interface OsSelect {
         /**
-          * The first name
+          * Decides if input is disabled
          */
-        "first"?: string;
+        "disabled"?: boolean;
         /**
-          * The last name
+          * An info message displayed under the input
          */
-        "last"?: string;
+        "info"?: string;
         /**
-          * The middle name
+          * The text label displayed above the input field
          */
-        "middle"?: string;
+        "label"?: string;
+        /**
+          * The maximum input value allowed
+         */
+        "max"?: number;
+        /**
+          * The maximum allowed input length value of the field
+         */
+        "maxLength"?: number;
+        /**
+          * The minimum input value allowed
+         */
+        "min"?: number;
+        /**
+          * The minimum allowed input length value of the field
+         */
+        "minLength"?: number;
+        /**
+          * The name of the input field
+         */
+        "name"?: string;
+        /**
+          * Should the border displayed on the left side of the input field remain hidden
+         */
+        "noBorder"?: boolean;
+        /**
+          * Event emitted when the user clicks out of the input field
+         */
+        "onOsBlur"?: (event: OsSelectCustomEvent<FocusEvent>) => void;
+        /**
+          * Event emitted during a value in change the input field
+         */
+        "onOsChange"?: (event: OsSelectCustomEvent<InputEvent>) => void;
+        /**
+          * Event emitted when the user clicks into the input field
+         */
+        "onOsFocus"?: (event: OsSelectCustomEvent<FocusEvent>) => void;
+        /**
+          * Event emitted during a value in change the input field
+         */
+        "onOsInput"?: (event: OsSelectCustomEvent<InputEvent>) => void;
+        /**
+          * Type of input
+         */
+        "options"?: SelectOption[];
+        /**
+          * A regular expression pattern, such as [A-Z]+ for one or more uppercase characters
+         */
+        "pattern"?: string;
+        /**
+          * Placeholder text when the field value is empty
+         */
+        "placeholder"?: string;
+        /**
+          * Decides if input field required
+         */
+        "required"?: boolean;
     }
     interface OsTitle {
         /**

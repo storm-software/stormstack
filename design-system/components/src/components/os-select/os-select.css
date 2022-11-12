@@ -1,0 +1,8 @@
+:host {
+  display: block;
+}
+
+.bg-disabled-fill:disabled,
+.text-input-fill:disabled {
+  background-color: var(--color-disabled-fill);
+}
