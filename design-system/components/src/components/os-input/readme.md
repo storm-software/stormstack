@@ -77,6 +77,21 @@ Type: `Promise<void>`
 
 
 
+## Dependencies
+
+### Used by
+
+ - [os-checkbox](../os-checkbox)
+ - [os-number-input](../os-number-input)
+
+### Graph
+```mermaid
+graph TD;
+  os-checkbox --> os-input
+  os-number-input --> os-input
+  style os-input fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

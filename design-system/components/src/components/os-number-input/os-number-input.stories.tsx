@@ -2,7 +2,7 @@ import { OsInput } from "@open-system/design-system-components/os-input";
 import { h } from "@stencil/core";
 
 export default {
-  title: "Forms/Select",
+  title: "Forms/Number Input",
   component: OsInput,
   parameters: {
     label: [
@@ -17,7 +17,7 @@ export default {
 };
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template = args => <os-select {...args}></os-select>;
+const Template = args => <os-number-input {...args}></os-number-input>;
 
 /**
  * Primary
@@ -28,11 +28,18 @@ export const Primary = Template.bind({});
 Primary.args = {
   label: "Sample Label",
   name: "sample",
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
+};
+
+/**
+ * Placeholder
+ */
+export const Placeholder = Template.bind({});
+
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Placeholder.args = {
+  label: "Sample Label",
+  name: "sample",
+  placeholder: "Sample Placeholder",
 };
 
 /**
@@ -45,11 +52,6 @@ Required.args = {
   label: "Sample Label",
   name: "sample",
   required: true,
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
 
 /**
@@ -62,11 +64,6 @@ Disabled.args = {
   label: "Sample Label",
   name: "sample",
   disabled: true,
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
 
 /**
@@ -79,11 +76,6 @@ Information.args = {
   label: "Sample Label",
   name: "sample",
   info: "This is an information message",
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
 
 /**
@@ -91,9 +83,9 @@ Information.args = {
  */
 let warningRef;
 const WarningTemplate = args => (
-  <os-select
+  <os-number-input
     ref={(el: HTMLInputElement) => (warningRef = el)}
-    {...args}></os-select>
+    {...args}></os-number-input>
 );
 
 export const Warning = WarningTemplate.bind({});
@@ -102,11 +94,6 @@ export const Warning = WarningTemplate.bind({});
 Warning.args = {
   label: "Sample Label",
   name: "sample",
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
 console.log(warningRef);
 //warningRef.setWarning("This is a warning message");
@@ -116,9 +103,9 @@ console.log(warningRef);
  */
 let errorRef;
 const ErrorTemplate = args => (
-  <os-select
+  <os-number-input
     ref={(el: HTMLInputElement) => (errorRef = el)}
-    {...args}></os-select>
+    {...args}></os-number-input>
 );
 
 export const Error = ErrorTemplate.bind({});
@@ -127,11 +114,6 @@ export const Error = ErrorTemplate.bind({});
 Error.args = {
   label: "Sample Label",
   name: "sample",
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
 console.log(errorRef);
 //errorRef.setError("This is an error message");

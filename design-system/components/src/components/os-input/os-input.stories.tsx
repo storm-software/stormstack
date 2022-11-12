@@ -2,7 +2,7 @@ import { OsInput } from "@open-system/design-system-components/os-input";
 import { h } from "@stencil/core";
 
 export default {
-  title: "Input",
+  title: "Forms/Input",
   component: OsInput,
   parameters: {
     label: [

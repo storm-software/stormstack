@@ -44,6 +44,32 @@ export namespace Components {
          */
         "summary": string;
     }
+    interface OsCheckbox {
+        /**
+          * Decides if input is disabled
+         */
+        "disabled": boolean;
+        /**
+          * An info message displayed under the input
+         */
+        "info"?: string;
+        /**
+          * The text label displayed above the input field
+         */
+        "label": string;
+        /**
+          * The name of the input field
+         */
+        "name": string;
+        /**
+          * Should the border displayed on the left side of the input field remain hidden
+         */
+        "noBorder": boolean;
+        /**
+          * Decides if input field required
+         */
+        "required": boolean;
+    }
     interface OsInput {
         /**
           * Decides if input is disabled
@@ -127,6 +153,56 @@ export namespace Components {
           * The first name
          */
         "text": string;
+    }
+    interface OsNumberInput {
+        /**
+          * Decides if input is disabled
+         */
+        "disabled": boolean;
+        /**
+          * An info message displayed under the input
+         */
+        "info"?: string;
+        /**
+          * The text label displayed above the input field
+         */
+        "label": string;
+        /**
+          * The maximum input value allowed
+         */
+        "max"?: number;
+        /**
+          * The minimum input value allowed
+         */
+        "min"?: number;
+        /**
+          * The name of the input field
+         */
+        "name": string;
+        /**
+          * Should the border displayed on the left side of the input field remain hidden
+         */
+        "noBorder": boolean;
+        /**
+          * Decides if input field required
+         */
+        "required": boolean;
+        /**
+          * Input select method
+         */
+        "selectText": () => Promise<void>;
+        /**
+          * Input error method
+         */
+        "setError": (error: string) => Promise<void>;
+        /**
+          * Input focus method
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Input warning method
+         */
+        "setWarning": (warning: string) => Promise<void>;
     }
     interface OsSelect {
         /**
@@ -217,6 +293,10 @@ export interface OsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLOsInputElement;
 }
+export interface OsNumberInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLOsNumberInputElement;
+}
 export interface OsSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLOsSelectElement;
@@ -234,6 +314,12 @@ declare global {
         prototype: HTMLOsCardElement;
         new (): HTMLOsCardElement;
     };
+    interface HTMLOsCheckboxElement extends Components.OsCheckbox, HTMLStencilElement {
+    }
+    var HTMLOsCheckboxElement: {
+        prototype: HTMLOsCheckboxElement;
+        new (): HTMLOsCheckboxElement;
+    };
     interface HTMLOsInputElement extends Components.OsInput, HTMLStencilElement {
     }
     var HTMLOsInputElement: {
@@ -245,6 +331,12 @@ declare global {
     var HTMLOsLinkElement: {
         prototype: HTMLOsLinkElement;
         new (): HTMLOsLinkElement;
+    };
+    interface HTMLOsNumberInputElement extends Components.OsNumberInput, HTMLStencilElement {
+    }
+    var HTMLOsNumberInputElement: {
+        prototype: HTMLOsNumberInputElement;
+        new (): HTMLOsNumberInputElement;
     };
     interface HTMLOsSelectElement extends Components.OsSelect, HTMLStencilElement {
     }
@@ -261,8 +353,10 @@ declare global {
     interface HTMLElementTagNameMap {
         "os-button": HTMLOsButtonElement;
         "os-card": HTMLOsCardElement;
+        "os-checkbox": HTMLOsCheckboxElement;
         "os-input": HTMLOsInputElement;
         "os-link": HTMLOsLinkElement;
+        "os-number-input": HTMLOsNumberInputElement;
         "os-select": HTMLOsSelectElement;
         "os-title": HTMLOsTitleElement;
     }
@@ -307,6 +401,32 @@ declare namespace LocalJSX {
           * The last name
          */
         "summary"?: string;
+    }
+    interface OsCheckbox {
+        /**
+          * Decides if input is disabled
+         */
+        "disabled"?: boolean;
+        /**
+          * An info message displayed under the input
+         */
+        "info"?: string;
+        /**
+          * The text label displayed above the input field
+         */
+        "label"?: string;
+        /**
+          * The name of the input field
+         */
+        "name"?: string;
+        /**
+          * Should the border displayed on the left side of the input field remain hidden
+         */
+        "noBorder"?: boolean;
+        /**
+          * Decides if input field required
+         */
+        "required"?: boolean;
     }
     interface OsInput {
         /**
@@ -391,6 +511,56 @@ declare namespace LocalJSX {
           * The first name
          */
         "text"?: string;
+    }
+    interface OsNumberInput {
+        /**
+          * Decides if input is disabled
+         */
+        "disabled"?: boolean;
+        /**
+          * An info message displayed under the input
+         */
+        "info"?: string;
+        /**
+          * The text label displayed above the input field
+         */
+        "label"?: string;
+        /**
+          * The maximum input value allowed
+         */
+        "max"?: number;
+        /**
+          * The minimum input value allowed
+         */
+        "min"?: number;
+        /**
+          * The name of the input field
+         */
+        "name"?: string;
+        /**
+          * Should the border displayed on the left side of the input field remain hidden
+         */
+        "noBorder"?: boolean;
+        /**
+          * Event emitted when the user clicks out of the input field
+         */
+        "onOsBlur"?: (event: OsNumberInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Event emitted during a value in change the input field
+         */
+        "onOsChange"?: (event: OsNumberInputCustomEvent<InputEvent>) => void;
+        /**
+          * Event emitted when the user clicks into the input field
+         */
+        "onOsFocus"?: (event: OsNumberInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Event emitted during a value in change the input field
+         */
+        "onOsInput"?: (event: OsNumberInputCustomEvent<InputEvent>) => void;
+        /**
+          * Decides if input field required
+         */
+        "required"?: boolean;
     }
     interface OsSelect {
         /**
@@ -479,8 +649,10 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "os-button": OsButton;
         "os-card": OsCard;
+        "os-checkbox": OsCheckbox;
         "os-input": OsInput;
         "os-link": OsLink;
+        "os-number-input": OsNumberInput;
         "os-select": OsSelect;
         "os-title": OsTitle;
     }
@@ -491,8 +663,10 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "os-button": LocalJSX.OsButton & JSXBase.HTMLAttributes<HTMLOsButtonElement>;
             "os-card": LocalJSX.OsCard & JSXBase.HTMLAttributes<HTMLOsCardElement>;
+            "os-checkbox": LocalJSX.OsCheckbox & JSXBase.HTMLAttributes<HTMLOsCheckboxElement>;
             "os-input": LocalJSX.OsInput & JSXBase.HTMLAttributes<HTMLOsInputElement>;
             "os-link": LocalJSX.OsLink & JSXBase.HTMLAttributes<HTMLOsLinkElement>;
+            "os-number-input": LocalJSX.OsNumberInput & JSXBase.HTMLAttributes<HTMLOsNumberInputElement>;
             "os-select": LocalJSX.OsSelect & JSXBase.HTMLAttributes<HTMLOsSelectElement>;
             "os-title": LocalJSX.OsTitle & JSXBase.HTMLAttributes<HTMLOsTitleElement>;
         }
