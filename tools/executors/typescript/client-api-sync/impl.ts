@@ -1,13 +1,8 @@
 import { ExecutorContext } from "@nrwl/devkit";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import { existsSync } from "fs";
 import Path from "path";
-import {
-  execute,
-  printError,
-  printInfo,
-  printSuccess,
-  printWarning,
-} from "../utilities";
+import { execute } from "../utilities";
 import { ClientApiSyncExecutorSchema } from "./schema";
 
 export default async function (
@@ -15,9 +10,9 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    printInfo("Executing client-api-sync executor...");
-    printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
-    printInfo(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info("Executing client-api-sync executor...");
+    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    ConsoleLogger.info(`Current Directory: ${__dirname}`);
 
     const { domainName, specJsonFile, generator } = options;
 
@@ -29,14 +24,14 @@ export default async function (
         Path.join(`${rootPath}/`, `libs/${domainName}/types/__generated__`)
       )
     ) {
-      printWarning(
+      ConsoleLogger.warning(
         `The file location ${Path.join(
           `${rootPath}/`,
           `libs/${domainName}/types/__generated__`
         )} could no be found... Skipping deletes`
       );
     } else {
-      printInfo("Clearing previously generated types.");
+      ConsoleLogger.info("Clearing previously generated types.");
       result = await execute(
         `rmdir /S /Q "${Path.join(
           `${rootPath}/`,
@@ -47,10 +42,10 @@ export default async function (
         console.error(result);
         return { success: false };
       }
-      printInfo("Directory successfully cleared.");
+      ConsoleLogger.info("Directory successfully cleared.");
     }
 
-    printInfo("Syncing client API code...");
+    ConsoleLogger.info("Syncing client API code...");
 
     result = await execute(
       `java -cp tools/openapi/typescript-client/target/open-system-typescript-client-openapi-generator-1.0.0.jar;tools/openapi/openapi-generator-cli-6.2.1.jar org.openapitools.codegen.OpenAPIGenerator generate --input-spec=libs/${domainName}/${
@@ -62,13 +57,13 @@ export default async function (
       }withInterfaces=true" `
     );
     if (result) {
-      printError(result);
+      ConsoleLogger.error(result);
       return { success: false };
     }
-    printSuccess("Client API sync succeeded.");
+    ConsoleLogger.success("Client API sync succeeded.");
 
     if (!existsSync(Path.join(`${rootPath}/`, `libs/${domainName}/services`))) {
-      printError(
+      ConsoleLogger.error(
         `The file location ${Path.join(
           `${rootPath}/`,
           `libs/${domainName}/services`
@@ -77,7 +72,9 @@ export default async function (
       return { success: false };
     }
 
-    printInfo("Moving service interface files over to the 'types' project");
+    ConsoleLogger.info(
+      "Moving service interface files over to the 'types' project"
+    );
     result = await execute(
       `move "${Path.join(
         `${rootPath}/`,
@@ -88,10 +85,10 @@ export default async function (
       )}"`
     );
     if (result) {
-      printError(result);
+      ConsoleLogger.error(result);
       return { success: false };
     }
-    printSuccess("Moved interface files successfully.");
+    ConsoleLogger.success("Moved interface files successfully.");
 
     if (
       !existsSync(
@@ -101,7 +98,7 @@ export default async function (
         )
       )
     ) {
-      printError(
+      ConsoleLogger.error(
         `The file location ${Path.join(
           `${rootPath}/`,
           `libs/${domainName}/__generated__/models.ts`
@@ -110,7 +107,7 @@ export default async function (
       return { success: false };
     }
 
-    printInfo('Renaming index file in "__generated__" folder');
+    ConsoleLogger.info('Renaming index file in "__generated__" folder');
     result = await execute(
       `ren "${Path.join(
         `${rootPath}/`,
@@ -118,17 +115,17 @@ export default async function (
       )}" "index.ts"`
     );
     if (result) {
-      printError(result);
+      ConsoleLogger.error(result);
       return { success: false };
     }
-    printSuccess("Renamed index file successfully.");
+    ConsoleLogger.success("Renamed index file successfully.");
 
     return { success: !result };
   } catch (e) {
-    printError(
+    ConsoleLogger.error(
       `An error occurred syncing client API for ${context.projectName}`
     );
-    printError(e);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

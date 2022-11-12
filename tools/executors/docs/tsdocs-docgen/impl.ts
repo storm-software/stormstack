@@ -1,20 +1,20 @@
-import { ExecutorContext } from "@nrwl/devkit";
-import { exec } from "child_process";
-import { existsSync, writeFile } from "fs-extra";
-import { promisify } from "util";
-const Path = require("path");
 import {
   Extractor,
   ExtractorConfig,
   ExtractorResult,
 } from "@microsoft/api-extractor";
-import { createInterface } from "readline";
-import { parse } from "qs";
+import { ExecutorContext } from "@nrwl/devkit";
+import { exec } from "child_process";
 import { createReadStream, readdir } from "fs";
+import { existsSync, writeFile } from "fs-extra";
+import { parse } from "qs";
+import { createInterface } from "readline";
+import { promisify } from "util";
+const Path = require("path");
 
 const execute = async (command: string): Promise<string | undefined> => {
   try {
-    let result = await promisify(exec)(command);
+    const result = await promisify(exec)(command);
     if (result?.stderr) {
       console.error(result.stderr);
 
@@ -254,7 +254,7 @@ const documentExecutor = async (options: {}, context: ExecutorContext) => {
 
             return { success: false };
           }
-        
+
 
        result = await execute(
           ` xcopy "${Path.join(

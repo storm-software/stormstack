@@ -1,4 +1,5 @@
 import { ExecutorContext } from "@nrwl/devkit";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import {
   existsSync,
   lstatSync,
@@ -8,7 +9,6 @@ import {
 } from "fs";
 import Path from "path";
 import prettier from "prettier";
-import { printError, printInfo, printSuccess } from "../utilities";
 import { DesignTokensDocGenExecutorSchema } from "./schema";
 
 export default async function (
@@ -16,25 +16,27 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    printInfo("Executing design-tokens-docgen executor...");
-    printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
-    printInfo(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info("Executing design-tokens-docgen executor...");
+    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    ConsoleLogger.info(`Current Directory: ${__dirname}`);
 
     const tokensPath = Path.join(context.root, options.tokensPath);
     const outputPath = Path.join(context.root, options.outputPath);
 
-    printInfo(`Design tokens location: ${tokensPath}`);
+    ConsoleLogger.info(`Design tokens location: ${tokensPath}`);
 
     if (!existsSync(tokensPath)) {
-      printError(`Design tokens directory "${tokensPath}" does not exist`);
+      ConsoleLogger.error(
+        `Design tokens directory "${tokensPath}" does not exist`
+      );
       return { success: false };
     }
 
-    printInfo("Documenting design tokens code...");
+    ConsoleLogger.info("Documenting design tokens code...");
 
     readdirSync(tokensPath).forEach(file => {
       const filePath = Path.join(tokensPath, file);
-      printInfo(filePath);
+      ConsoleLogger.info(filePath);
 
       if (!lstatSync(filePath).isDirectory()) {
         const contents = readFileSync(filePath, "utf-8");
@@ -189,14 +191,14 @@ ${miscTokens.join("\n")}`
       }
     });
 
-    printSuccess("Design tokens documentation successfully created.");
+    ConsoleLogger.success("Design tokens documentation successfully created.");
 
     return { success: true };
   } catch (e) {
-    printError(
+    ConsoleLogger.error(
       `An error occurred documenting design tokens for ${context.projectName}`
     );
-    printError(e);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

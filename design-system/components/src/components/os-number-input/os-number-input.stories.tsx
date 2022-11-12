@@ -1,4 +1,5 @@
 import { OsInput } from "@open-system/design-system-components/os-input";
+import { h } from "@stencil/core";
 
 export default {
   title: "Forms/Number Input",

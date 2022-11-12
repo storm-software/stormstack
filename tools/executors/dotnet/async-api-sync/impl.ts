@@ -1,6 +1,6 @@
 import Generator from "@asyncapi/generator";
 import { ExecutorContext } from "@nrwl/devkit";
-import { printError, printInfo, printSuccess } from "../utilities";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import { AsyncApiSyncExecutorSchema } from "./schema";
 
 export default async function (
@@ -12,7 +12,7 @@ export default async function (
   }: AsyncApiSyncExecutorSchema,
   context: ExecutorContext
 ) {
-  printInfo("Syncing async API code");
+  ConsoleLogger.info("Syncing async API code");
 
   try {
     const generator = new Generator(templateName, targetDir, {
@@ -21,23 +21,23 @@ export default async function (
       debug: true,
     });
 
-    printInfo(
+    ConsoleLogger.info(
       `Generator has been created, preparing to generate from file: ${asyncapiFileDir}`
     );
 
     try {
       await generator.generateFromFile(asyncapiFileDir);
     } catch (e) {
-      printError(`An error occurred building`);
+      ConsoleLogger.error(`An error occurred building`);
       throw e;
     }
 
-    printSuccess("Async API code generation process succeeded");
+    ConsoleLogger.success("Async API code generation process succeeded");
 
     return { success: true };
   } catch (e) {
-    printError(`An error occurred building ${context.projectName}`);
-    printError(e);
+    ConsoleLogger.error(`An error occurred building ${context.projectName}`);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

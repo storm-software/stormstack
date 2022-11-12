@@ -1,13 +1,8 @@
 import { ExecutorContext } from "@nrwl/devkit";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import { existsSync } from "fs";
 import Path from "path";
-import {
-  execute,
-  printError,
-  printInfo,
-  printSuccess,
-  printWarning,
-} from "../utilities";
+import { execute } from "../utilities";
 import { ServerApiSyncExecutorSchema } from "./schema";
 
 export default async function (
@@ -15,9 +10,9 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    printInfo("Executing server-api-sync executor...");
-    printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
-    printInfo(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info("Executing server-api-sync executor...");
+    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    ConsoleLogger.info(`Current Directory: ${__dirname}`);
 
     const { domainName, serviceName, specJsonFile, generator, packageName } =
       options;
@@ -26,25 +21,25 @@ export default async function (
 
     let result;
     if (!existsSync(Path.join(`${rootPath}/`, `apps/apis/${domainName}`))) {
-      printWarning(
+      ConsoleLogger.warn(
         `The file location ${Path.join(
           `${rootPath}/`,
           `apps/apis/${domainName}`
         )} could no be found... Skipping deletes`
       );
     } else {
-      printInfo("Clearing previously generated API");
+      ConsoleLogger.info("Clearing previously generated API");
       result = await execute(
         `rmdir /S /Q "${Path.join(`${rootPath}/`, `apps/apis/${domainName}"`)}`
       );
       if (result) {
-        printError(result);
+        ConsoleLogger.error(result);
         return { success: false };
       }
-      printInfo("Directory successfully cleared");
+      ConsoleLogger.info("Directory successfully cleared");
     }
 
-    printSuccess("Syncing Server API code...");
+    ConsoleLogger.success("Syncing Server API code...");
 
     const formattedServiceName = serviceName
       ? serviceName.charAt(0).toUpperCase() + serviceName.slice(1)
@@ -65,17 +60,17 @@ export default async function (
     );
 
     if (result) {
-      printError(`${result}`);
+      ConsoleLogger.error(`${result}`);
       return { success: false };
     }
-    printSuccess("Server API sync succeeded.");
+    ConsoleLogger.success("Server API sync succeeded.");
 
     return { success: !result };
   } catch (e) {
-    printError(
+    ConsoleLogger.error(
       `An error occurred syncing server API for ${context.projectName}`
     );
-    printError(e);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

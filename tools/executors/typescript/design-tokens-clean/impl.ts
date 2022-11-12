@@ -1,5 +1,6 @@
 import { ExecutorContext } from "@nrwl/devkit";
-import { execute, printError, printInfo, printSuccess } from "../utilities";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { execute } from "../utilities";
 import { DesignTokensCleanExecutorSchema } from "./schema";
 
 export default async function (
@@ -7,32 +8,32 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    printInfo("Executing design-tokens-clean executor...");
-    printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
-    printInfo(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info("Executing design-tokens-clean executor...");
+    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    ConsoleLogger.info(`Current Directory: ${__dirname}`);
 
     const { configFile } = options;
 
-    printInfo(`style-dictionary configuration: ${configFile}`);
+    ConsoleLogger.info(`style-dictionary configuration: ${configFile}`);
 
-    printInfo("Cleaning previous design tokens build...");
+    ConsoleLogger.info("Cleaning previous design tokens build...");
 
     const result = await execute(
       `style-dictionary clean --config ${configFile}`
     );
     if (result) {
-      printError(result);
+      ConsoleLogger.error(result);
       return { success: false };
     }
 
-    printSuccess("Design tokens clean succeeded.");
+    ConsoleLogger.success("Design tokens clean succeeded.");
 
     return { success: !result };
   } catch (e) {
-    printError(
+    ConsoleLogger.error(
       `An error occurred cleaning design tokens for ${context.projectName}`
     );
-    printError(e);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

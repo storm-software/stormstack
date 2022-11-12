@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext } from "@nrwl/devkit";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import {
   existsSync,
   mkdirSync,
@@ -11,9 +12,6 @@ import Path from "path";
 import SVGO from "svgo";
 import {
   execute,
-  printError,
-  printInfo,
-  printSuccess,
   svgoParser,
   toCssFontImportParser,
   toTailwindParser,
@@ -31,9 +29,10 @@ export default async function (
     const { tokensDir, tokensFile, fontsDir, imagesDir, clean, verbose } =
       options;
 
-    printInfo("Executing design-tokens-build executor...");
-    verbose && printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
-    verbose && printInfo(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info("Executing design-tokens-build executor...");
+    verbose &&
+      ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    verbose && ConsoleLogger.info(`Current Directory: ${__dirname}`);
 
     const themeName = context.configurationName
       ? context.configurationName
@@ -41,7 +40,7 @@ export default async function (
 
     const tokenJson = Path.join(tokensDir, tokensFile);
     if (!tokenJson) {
-      printError(
+      ConsoleLogger.error(
         `No JSON file could be found at ${tokenJson}. Halting execution early.`
       );
       return { success: false };
@@ -51,37 +50,38 @@ export default async function (
       context.workspace?.projects?.[context.projectName]?.targets?.["build"]
         ?.options?.outputPath;
     if (!outputPath) {
-      printError(
+      ConsoleLogger.error(
         "No `outputPath` option was provided. Halting execution early."
       );
       return { success: false };
     }
 
-    printInfo(`Design Tokens JSON: ${tokensDir}`);
-    printInfo("Starting design tokens build...");
+    ConsoleLogger.info(`Design Tokens JSON: ${tokensDir}`);
+    ConsoleLogger.info("Starting design tokens build...");
 
     let result;
     if (clean) {
-      printInfo("Cleaning previous design tokens build...");
+      ConsoleLogger.info("Cleaning previous design tokens build...");
 
       result = await execute(
         `rimraf ./dist/design-system/tokens -v !("package.json")`
       );
       if (result) {
-        printError(result);
+        ConsoleLogger.error(result);
         return { success: false };
       }
     }
 
-    verbose && printInfo(`Loading design tokens file for theme: ${themeName}`);
+    verbose &&
+      ConsoleLogger.info(`Loading design tokens file for theme: ${themeName}`);
 
     const tokenJsonStr = readFileSync(tokenJson, "utf-8");
-    verbose && printInfo(tokenJsonStr);
+    verbose && ConsoleLogger.info(tokenJsonStr);
 
     const dataArray = JSON.parse(tokenJsonStr);
-    verbose && printInfo(JSON.stringify(dataArray, null, 2));
+    verbose && ConsoleLogger.info(JSON.stringify(dataArray, null, 2));
 
-    printInfo("Building latest design tokens...");
+    ConsoleLogger.info("Building latest design tokens...");
 
     (dataArray["color"] ||
       dataArray["font"] ||
@@ -99,7 +99,7 @@ export default async function (
                       Partial<IToken>
                   ]
                 ) => {
-                  printInfo("Building color design tokens...");
+                  ConsoleLogger.info("Building color design tokens...");
 
                   if (name && token.value) {
                     ret.push({
@@ -110,7 +110,7 @@ export default async function (
                     });
 
                     verbose &&
-                      printInfo(
+                      ConsoleLogger.info(
                         JSON.stringify(
                           {
                             id: name,
@@ -135,7 +135,7 @@ export default async function (
                   ret: ToTailwindInputDataType,
                   [name, token]: [name: string, token: any]
                 ) => {
-                  printInfo("Building font design tokens...");
+                  ConsoleLogger.info("Building font design tokens...");
 
                   if (name && token.value) {
                     const item = {
@@ -156,7 +156,8 @@ export default async function (
                     };
 
                     ret.push(item);
-                    verbose && printInfo(JSON.stringify(item, null, 2));
+                    verbose &&
+                      ConsoleLogger.info(JSON.stringify(item, null, 2));
                   }
 
                   return ret;
@@ -170,7 +171,7 @@ export default async function (
                   ret: ToTailwindInputDataType,
                   [name, token]: [name: string, token: any]
                 ) => {
-                  printInfo("Building spacing design tokens...");
+                  ConsoleLogger.info("Building spacing design tokens...");
 
                   if (name && token.value) {
                     const item = {
@@ -181,7 +182,8 @@ export default async function (
                     };
 
                     ret.push(item);
-                    verbose && printInfo(JSON.stringify(item, null, 2));
+                    verbose &&
+                      ConsoleLogger.info(JSON.stringify(item, null, 2));
                   }
 
                   return ret;
@@ -195,7 +197,7 @@ export default async function (
                   ret: ToTailwindInputDataType,
                   [name, token]: [name: string, token: any]
                 ) => {
-                  printInfo("Building gradient design tokens...");
+                  ConsoleLogger.info("Building gradient design tokens...");
 
                   if (name && token.value) {
                     Object.entries(dataArray[name]).forEach(
@@ -213,7 +215,8 @@ export default async function (
                           };
 
                           ret.push(item);
-                          verbose && printInfo(JSON.stringify(item, null, 2));
+                          verbose &&
+                            ConsoleLogger.info(JSON.stringify(item, null, 2));
                         }
                       }
                     );
@@ -230,7 +233,7 @@ export default async function (
                   ret: ToTailwindInputDataType,
                   [name, token]: [name: string, token: any]
                 ) => {
-                  printInfo("Building shadow design tokens...");
+                  ConsoleLogger.info("Building shadow design tokens...");
 
                   if (name && token.value) {
                     const item = {
@@ -262,7 +265,8 @@ export default async function (
                     };
 
                     ret.push(item);
-                    verbose && printInfo(JSON.stringify(item, null, 2));
+                    verbose &&
+                      ConsoleLogger.info(JSON.stringify(item, null, 2));
                   }
 
                   return ret;
@@ -304,7 +308,7 @@ export default async function (
         { _: null }
       ));
 
-    verbose && printSuccess(result);
+    verbose && ConsoleLogger.success(result);
 
     if (!existsSync(Path.join(outputPath, "js"))) {
       mkdirSync(Path.join(outputPath, "js"), { recursive: true });
@@ -312,7 +316,7 @@ export default async function (
 
     writeFileSync(Path.join(outputPath, "js", `theme.js`), result, "utf8");
 
-    printSuccess(`Design token theme.js (tailwind import) created.`);
+    ConsoleLogger.success(`Design token theme.js (tailwind import) created.`);
 
     const fontsPath = existsSync(Path.join(tokensDir, fontsDir))
       ? Path.join(tokensDir, fontsDir)
@@ -352,7 +356,7 @@ export default async function (
         }
       );
 
-      verbose && printSuccess(result);
+      verbose && ConsoleLogger.success(result);
 
       if (!existsSync(Path.join(outputPath, "css"))) {
         mkdirSync(Path.join(outputPath, "css"), { recursive: true });
@@ -360,21 +364,21 @@ export default async function (
 
       writeFileSync(Path.join(outputPath, "css", `fonts.css`), result, "utf8");
 
-      printSuccess(`Theme specific fonts (font.css) created.`);
+      ConsoleLogger.success(`Theme specific fonts (font.css) created.`);
     }
 
     const imagesPath = existsSync(Path.join(tokensDir, imagesDir))
       ? Path.join(tokensDir, imagesDir)
       : imagesDir;
-    printInfo(`Checking for SVG images in ${imagesPath}`);
+    ConsoleLogger.info(`Checking for SVG images in ${imagesPath}`);
     if (existsSync(imagesPath)) {
-      printInfo(`Building SVG images from design system assets...`);
+      ConsoleLogger.info(`Building SVG images from design system assets...`);
 
       const fileList = readdirSync(imagesPath);
       if (fileList.length === 0) {
-        printInfo(`No SVG images could be found in ${imagesPath}.`);
+        ConsoleLogger.info(`No SVG images could be found in ${imagesPath}.`);
       } else {
-        printInfo(
+        ConsoleLogger.info(
           `Building SVG images for the following: ${fileList.join(", ")}.`
         );
 
@@ -423,24 +427,26 @@ export default async function (
         );
 
         if (!result) {
-          printError(`An error occurred generating SVGs`);
+          ConsoleLogger.error(`An error occurred generating SVGs`);
           return { success: false };
         }
 
-        verbose && printSuccess(JSON.stringify(result, null, 2));
+        verbose && ConsoleLogger.success(JSON.stringify(result, null, 2));
 
-        printSuccess(`Theme specific images (assets/images/*.svg) created.`);
+        ConsoleLogger.success(
+          `Theme specific images (assets/images/*.svg) created.`
+        );
       }
     }
 
-    printSuccess("Design tokens sync succeeded.");
+    ConsoleLogger.success("Design tokens sync succeeded.");
 
     return { success: true };
   } catch (e) {
-    printError(
+    ConsoleLogger.error(
       `An error occurred syncing client API for ${context.projectName}`
     );
-    printError(e);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

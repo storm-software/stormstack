@@ -1,5 +1,6 @@
 import { ExecutorContext, runExecutor } from "@nrwl/devkit";
-import { execute, printError, printInfo, printSuccess } from "../utilities";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { execute } from "../utilities";
 import { DesignComponentsBuildExecutorSchema } from "./schema";
 
 export default async function (
@@ -7,26 +8,26 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    printInfo("Executing design-components-build executor...");
-    printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
-    printInfo(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info("Executing design-components-build executor...");
+    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    ConsoleLogger.info(`Current Directory: ${__dirname}`);
 
     const { baseBuildTarget, clean } = options;
 
     let result;
     if (clean) {
-      printInfo("Cleaning previous design components build...");
+      ConsoleLogger.info("Cleaning previous design components build...");
 
       result = await execute(
         `rimraf dist/design-system/components/dist/collection`
       );
       if (result) {
-        printError(result);
+        ConsoleLogger.error(result);
         return { success: false };
       }
     }
 
-    printInfo("Starting design components build...");
+    ConsoleLogger.info("Starting design components build...");
 
     for await (const output of await runExecutor(
       {
@@ -42,17 +43,19 @@ export default async function (
       context
     )) {
       if (!output.success) {
-        printError(`An error occurred building ${context.projectName}`);
+        ConsoleLogger.error(
+          `An error occurred building ${context.projectName}`
+        );
         throw new Error(`An error occurred building ${context.projectName}`);
       }
     }
 
-    printSuccess("Build process succeeded");
+    ConsoleLogger.success("Build process succeeded");
 
     return { success: true };
   } catch (e) {
-    printError(`An error occurred building ${context.projectName}`);
-    printError(e);
+    ConsoleLogger.error(`An error occurred building ${context.projectName}`);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

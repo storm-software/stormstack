@@ -4,20 +4,14 @@ import {
   getNxDotnetProjects,
   getProjectFilesForProject,
 } from "@nx-dotnet/utils";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import { spawnSync } from "child_process";
-import { printError, printInfo } from "../utilities";
 import { DotNetRestoreSchema } from "./schema";
 
 export default async function (host: Tree, options?: DotNetRestoreSchema) {
   const configFile = options?.configFile;
   const cliCommand = dotnetFactory();
   const projects = await getNxDotnetProjects(host);
-
-  /*process.env.NUGET_REPO_PROXY &&
-    logAndExecute({ command: "nuget config" }, [
-      "-set",
-      `http_proxy=${process.env.NUGET_REPO_PROXY}`,
-    ]);*/
 
   if (process.env.NUGET_REPO_URL) {
     const params = [
@@ -86,14 +80,14 @@ const logAndExecute = (cliCommand: any, params: string[]): void => {
   );
 
   const cmd = `${cliCommand.command} "${params.join('" "')}"`;
-  printInfo(`Executing Command: ${cmd}`);
+  ConsoleLogger.info(`Executing Command: ${cmd}`);
 
   const res = spawnSync(cliCommand.command, params, {
     cwd: process.cwd(),
     stdio: "inherit",
   });
   if (res.status !== 0) {
-    printError(`dotnet execution returned status code ${res.status}`);
+    ConsoleLogger.error(`dotnet execution returned status code ${res.status}`);
     throw new Error(`dotnet execution returned status code ${res.status}`);
   }
 };

@@ -1,17 +1,18 @@
 import { Tree } from "@nrwl/devkit";
-import { execute, printError, printInfo, printSuccess } from "../utilities";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { execute } from "../utilities";
 import { ServerApiGeneratorSchema } from "./schema";
 
 export default async function (host: Tree, options?: ServerApiGeneratorSchema) {
   try {
-    printInfo(`Executing "server-api-sync" executor...`);
-    printInfo(`Options: ${JSON.stringify(options, null, 2)}`);
-    printInfo(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info(`Executing "server-api-sync" executor...`);
+    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    ConsoleLogger.info(`Current Directory: ${__dirname}`);
 
     const { domainName, serviceName, specJsonFile, generator, packageName } =
       options;
 
-    printInfo("Generating Server API code...");
+    ConsoleLogger.info("Generating Server API code...");
 
     const formattedServiceName = serviceName
       ? serviceName.charAt(0).toUpperCase() + serviceName.slice(1)
@@ -26,14 +27,14 @@ export default async function (host: Tree, options?: ServerApiGeneratorSchema) {
     );
 
     if (result) {
-      printError(result);
+      ConsoleLogger.error(result);
       return { success: false };
     }
-    printSuccess("API generation succeeded.");
+    ConsoleLogger.success("API generation succeeded.");
 
     return { success: !result };
   } catch (e) {
-    printError(e);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

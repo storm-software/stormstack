@@ -73,6 +73,7 @@
     "@babel/plugin-transform-spread",
     "@babel/plugin-transform-for-of",
     "babel-plugin-macros",
+    "transform-jsbi-to-bigint",
     "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-proposal-nullish-coalescing-operator",
     [

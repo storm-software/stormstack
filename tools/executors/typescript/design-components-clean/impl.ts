@@ -1,5 +1,6 @@
 import { ExecutorContext } from "@nrwl/devkit";
-import { execute, printError, printInfo, printSuccess } from "../utilities";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { execute } from "../utilities";
 import { DesignComponentsCleanExecutorSchema } from "./schema";
 
 export default async function (
@@ -7,25 +8,25 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    printInfo("Executing design-components-clean executor...");
-    printInfo(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info("Executing design-components-clean executor...");
+    ConsoleLogger.info(`Current Directory: ${__dirname}`);
 
-    printInfo("Cleaning previous design components build...");
+    ConsoleLogger.info("Cleaning previous design components build...");
 
     const result = await execute(
       `rimraf dist/design-system/components/dist/collection`
     );
     if (result) {
-      printError(result);
+      ConsoleLogger.error(result);
       return { success: false };
     }
 
-    printSuccess("Clean process succeeded");
+    ConsoleLogger.success("Clean process succeeded");
 
     return { success: true };
   } catch (e) {
-    printError(`An error occurred cleaning ${context.projectName}`);
-    printError(e);
+    ConsoleLogger.error(`An error occurred cleaning ${context.projectName}`);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }
