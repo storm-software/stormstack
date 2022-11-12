@@ -1,0 +1,16 @@
+{
+  "name": "static-message-common",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/static/message/common/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/static/message/common/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

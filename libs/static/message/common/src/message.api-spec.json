@@ -62,7 +62,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -82,7 +82,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -102,7 +102,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -122,7 +122,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -171,13 +171,11 @@
             "description": "A specific message number to return"
           },
           {
-            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
+            "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       },
       "post": {
         "summary": "Add Message",
@@ -188,7 +186,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
                 },
                 "examples": {
                   "Success Response": {
@@ -205,7 +203,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -225,7 +223,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -245,7 +243,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -265,7 +263,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -309,18 +307,16 @@
         },
         "parameters": [
           {
-            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
+            "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       }
     },
     "/{guid}": {
       "parameters": [
         {
-          "$ref": "../../shared/shared.api-spec.json#/components/parameters/guid"
+          "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/guid"
         }
       ],
       "get": {
@@ -357,7 +353,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -377,7 +373,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -397,7 +393,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -417,7 +413,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -435,13 +431,11 @@
         },
         "parameters": [
           {
-            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
+            "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       },
       "delete": {
         "summary": "Remove Message",
@@ -452,7 +446,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
                 },
                 "examples": {
                   "Success Response": {
@@ -469,7 +463,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -489,7 +483,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -509,7 +503,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -529,7 +523,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -548,12 +542,10 @@
         "description": "Remove an existing message record",
         "parameters": [
           {
-            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
+            "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       },
       "patch": {
         "summary": "Update Message",
@@ -564,7 +556,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
                 },
                 "examples": {
                   "Success Response": {
@@ -581,7 +573,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -601,7 +593,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -621,7 +613,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -641,7 +633,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../shared/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
                   "Error Response": {
@@ -679,12 +671,10 @@
         },
         "parameters": [
           {
-            "$ref": "../../shared/shared.api-spec.json#/components/parameters/userId"
+            "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       }
     }
   },
@@ -711,7 +701,7 @@
         },
         "allOf": [
           {
-            "$ref": "../../shared/shared.api-spec.json#/components/schemas/RecordBase"
+            "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/RecordBase"
           },
           {
             "$ref": "#/components/schemas/MessageRequest"
@@ -726,9 +716,7 @@
                 "maximum": 999999999
               }
             },
-            "required": [
-              "messageNumber"
-            ]
+            "required": ["messageNumber"]
           }
         ]
       },
@@ -777,16 +765,10 @@
             "type": "string",
             "default": "EN-US",
             "example": "EN-US",
-            "enum": [
-              "EN-US"
-            ]
+            "enum": ["EN-US"]
           }
         },
-        "required": [
-          "message",
-          "messageType",
-          "culture"
-        ]
+        "required": ["message", "messageType", "culture"]
       }
     },
     "requestBodies": {},
@@ -800,7 +782,7 @@
               "items": {
                 "allOf": [
                   {
-                    "$ref": "../../shared/shared.api-spec.json#/components/schemas/RecordBase"
+                    "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/RecordBase"
                   },
                   {
                     "$ref": "#/components/schemas/Message"

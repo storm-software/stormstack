@@ -75,7 +75,7 @@
       "options": {
         "domainName": "message",
         "serviceName": "MessageService.Api",
-        "specJsonFile": "libs/static/message/message.api-spec.json",
+        "specJsonFile": "libs/static/message/common/src/message.api-spec.json",
         "packageName": "OpenSystem.Apis.Message"
       }
     },

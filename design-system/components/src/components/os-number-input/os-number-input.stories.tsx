@@ -1,5 +1,4 @@
 import { OsInput } from "@open-system/design-system-components/os-input";
-import { h } from "@stencil/core";
 
 export default {
   title: "Forms/Number Input",
@@ -17,7 +16,7 @@ export default {
 };
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template = args => <os-number-input {...args}></os-number-input>;
+const Template = args => <os-input {...args}></os-input>;
 
 /**
  * Primary
