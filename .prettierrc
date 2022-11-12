@@ -10,6 +10,5 @@
   "bracketSpacing": true,
   "arrowParens": "avoid",
   "endOfLine": "crlf",
-  "insertFinalNewline": false,
-  "tailwindConfig": "./tailwind.config.js"
+  "insertFinalNewline": false
 }
