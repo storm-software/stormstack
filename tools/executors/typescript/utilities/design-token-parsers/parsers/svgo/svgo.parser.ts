@@ -1,6 +1,6 @@
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import { readFileSync } from "fs";
 import type { Config, DefaultPlugin, Output } from "svgo";
-import { printError, printInfo } from "../../../helper-utilities";
 import { DownloadableFile } from "../../types";
 import { LibsType } from "../global-libs";
 import {
@@ -89,16 +89,16 @@ export default async function (
   { SVGO, _ }: Pick<LibsType, "SVGO" | "_" | "SpServices">
 ): Promise<OutputDataType | Error> {
   try {
-    printInfo("Running Svgo Parser");
+    ConsoleLogger.info("Running Svgo Parser");
     options = options || {};
     options.svgo = options?.svgo || {};
     options.svgo.plugins = migrateSvgoPlugins(options.svgo.plugins);
-    printInfo(JSON.stringify(tokens, null, 2));
+    ConsoleLogger.info(JSON.stringify(tokens, null, 2));
 
     return (await Promise.all(
       tokens.map(async token => {
         if (token.type === "vector" && token.value.format === "svg") {
-          printInfo(token.value.url);
+          ConsoleLogger.info(token.value.url);
 
           const baseString = readFileSync(token.value.url, "utf8");
 
@@ -109,7 +109,7 @@ export default async function (
             );
             token.value.content = result.data!;
           } catch (err) {
-            printError(err);
+            ConsoleLogger.error(err);
 
             token.value.content = baseString;
           }
@@ -120,7 +120,7 @@ export default async function (
       })
     )) as OutputDataType;
   } catch (err) {
-    printError(err);
+    ConsoleLogger.error(err);
 
     throw err;
   }

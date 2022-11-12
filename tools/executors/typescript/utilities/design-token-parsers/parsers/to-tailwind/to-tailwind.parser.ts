@@ -1,8 +1,8 @@
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import deepmerge from 'deepmerge';
 import * as _ from 'lodash';
 import os from 'os';
 import prettier from 'prettier';
-import { printError } from '../../../helper-utilities';
 import { IToken, PartialRecord, TokensType } from '../../types';
 import { LibsType } from '../global-libs';
 import { ColorsFormat, FormatName, TailwindTokenClass, TailwindType } from './to-tailwind.type';
@@ -117,7 +117,7 @@ export default async function (
     const parserInstance = new ToTailwind(tokens, options);
     return parserInstance.exec();
   } catch (err) {
-    printError(err);
+    ConsoleLogger.error(err);
     throw err;
   }
 }
