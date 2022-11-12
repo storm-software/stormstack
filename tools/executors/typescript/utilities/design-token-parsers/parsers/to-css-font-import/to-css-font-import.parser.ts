@@ -1,9 +1,9 @@
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import * as _ from "lodash";
 import os from "os";
 import path from "path";
 import parserCss from "prettier/parser-postcss";
 import prettier from "prettier/standalone";
-import { printError } from "../../../helper-utilities";
 export type InputDataType = Array<{ name: string; [Key: string]: any }>;
 export type OutputDataType = string;
 export type OptionsType = {
@@ -149,7 +149,7 @@ export default async function (
       plugins: [parserCss],
     });
   } catch (err) {
-    printError(err);
+    ConsoleLogger.error(err);
     throw err;
   }
 }

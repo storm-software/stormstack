@@ -1,6 +1,6 @@
-import { printError } from '../../../helper-utilities';
-import { AllowedFormat, PartialRecord } from '../../types';
-import type { LibsType } from '../global-libs';
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { AllowedFormat, PartialRecord } from "../../types";
+import type { LibsType } from "../global-libs";
 
 export type InputDataType = Array<{
   value: {
@@ -12,71 +12,83 @@ export type InputDataType = Array<{
   [Key: string]: any;
 }>;
 export type OutputDataType =
-  | Array<InputDataType[0] & { value: InputDataType[0]['value'] & { url: string } }>
+  | Array<
+      InputDataType[0] & { value: InputDataType[0]["value"] & { url: string } }
+    >
   | Error;
 export type OptionsType = {
-  formats?: Array<'woff2' | 'woff' | 'otf' | 'ttf' | 'eot'>;
-  fileNameKey?: 'name' | 'fontFamily' | Array<string>;
-  fileNameFormat?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+  formats?: Array<"woff2" | "woff" | "otf" | "ttf" | "eot">;
+  fileNameKey?: "name" | "fontFamily" | Array<string>;
+  fileNameFormat?: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
 };
 
 export default async function (
   designTokens: InputDataType,
   options: OptionsType | undefined,
-  { _, SpServices }: LibsType,
+  { _, SpServices }: LibsType
 ): Promise<OutputDataType> {
   try {
-    const formats = options?.formats || ['woff2', 'woff'];
+    const formats = options?.formats || ["woff2", "woff"];
 
     const getFileName = (designToken: InputDataType[0]) => {
       let fileName: string;
-      if (!options?.fileNameKey || typeof options.fileNameKey === 'string') {
-        fileName = designToken[(options?.fileNameKey || 'name') as string];
+      if (!options?.fileNameKey || typeof options.fileNameKey === "string") {
+        fileName = designToken[(options?.fileNameKey || "name") as string];
       } else {
         fileName = options.fileNameKey
           .reduce<Array<string>>((acc, key) => {
-            if (_.has(designToken, key) || _.has(designToken, `value[${key}]`)) {
-              acc.push(_.get(designToken, key) || _.get(designToken, `value[${key}]`));
+            if (
+              _.has(designToken, key) ||
+              _.has(designToken, `value[${key}]`)
+            ) {
+              acc.push(
+                _.get(designToken, key) || _.get(designToken, `value[${key}]`)
+              );
             }
             return acc;
           }, [])
-          .join(' ');
+          .join(" ");
       }
-      return options?.fileNameFormat ? _[options.fileNameFormat](fileName) : fileName;
+      return options?.fileNameFormat
+        ? _[options.fileNameFormat](fileName)
+        : fileName;
     };
 
     return (
       await Promise.all(
         designTokens.flatMap(async designToken => {
-          const signedUrlsByFormat = await new Promise<PartialRecord<AllowedFormat, string>>(
-            resolve =>
-              SpServices.font
-                .convert({
-                  postscriptName: designToken.value.fontPostScriptName,
-                  formats,
-                })
-                .then(resolve)
-                .catch(() => resolve({})),
+          const signedUrlsByFormat = await new Promise<
+            PartialRecord<AllowedFormat, string>
+          >(resolve =>
+            SpServices.font
+              .convert({
+                postscriptName: designToken.value.fontPostScriptName,
+                formats,
+              })
+              .then(resolve)
+              .catch(() => resolve({}))
           );
 
-          return (Object.entries(signedUrlsByFormat) as Array<[AllowedFormat, string]>).map(
-            ([format, url]) => {
-              return {
-                ...designToken,
-                value: {
-                  ...designToken.value,
-                  url,
-                  format: format,
-                  fileName: designToken?.value?.fileName || `${getFileName(designToken)}.${format}`,
-                },
-              };
-            },
-          );
-        }),
+          return (
+            Object.entries(signedUrlsByFormat) as Array<[AllowedFormat, string]>
+          ).map(([format, url]) => {
+            return {
+              ...designToken,
+              value: {
+                ...designToken.value,
+                url,
+                format: format,
+                fileName:
+                  designToken?.value?.fileName ||
+                  `${getFileName(designToken)}.${format}`,
+              },
+            };
+          });
+        })
       )
     ).flat(2);
   } catch (err) {
-    printError(err);
+    ConsoleLogger.error(err);
     throw err;
   }
 }
