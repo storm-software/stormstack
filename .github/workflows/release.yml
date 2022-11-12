@@ -26,6 +26,9 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       - run: npm ci
 
+      # Run design tokens build prior to linting so tailwindcss is configured
+      - run: npx nx run design-system-tokens:build:open-system
+
       - run: npx nx workspace-lint
       - run: npx nx format:check
       - run: npx nx affected --target=lint --parallel=3
