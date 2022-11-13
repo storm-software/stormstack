@@ -13,6 +13,7 @@ export const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-a11y",
     "@storybook/addon-postcss",
+    "@storybook/testing-react",
   ],
   core: {
     builder: {
