@@ -6,14 +6,14 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
-  writeFileSync
+  writeFileSync,
 } from "fs";
 import Path from "path";
 import SVGO from "svgo";
 import {
   svgoParser,
   toCssFontImportParser,
-  toTailwindParser
+  toTailwindParser,
 } from "../utilities";
 import { InputDataType as ToCssFontImportParserInputDataType } from "../utilities/design-token-parsers/parsers/to-css-font-import";
 import { InputDataType as ToTailwindInputDataType } from "../utilities/design-token-parsers/parsers/to-tailwind";
@@ -310,12 +310,16 @@ export default async function (
     verbose && ConsoleLogger.success(result);
 
     if (!existsSync(Path.join(outputPath, "js"))) {
-      ConsoleLogger.info(`Creating token directory: ${Path.join(outputPath, "js")}`);
+      ConsoleLogger.info(
+        `Creating token directory: ${Path.join(outputPath, "js")}`
+      );
 
       mkdirSync(Path.join(outputPath, "js"), { recursive: true });
     }
 
-    ConsoleLogger.info(`Creating token file: ${Path.join(outputPath, "js", `theme.js`)}`);
+    ConsoleLogger.info(
+      `Creating token file: ${Path.join(outputPath, "js", `theme.js`)}`
+    );
     writeFileSync(Path.join(outputPath, "js", `theme.js`), result, "utf8");
 
     ConsoleLogger.success(`Design token theme.js (tailwind import) created.`);
