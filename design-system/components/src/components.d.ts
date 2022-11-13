@@ -5,8 +5,6 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ButtonTransitionDirections, ButtonTypes, ButtonVariants } from "./components/os-button/os-button.types";
-import { SelectOption } from "./components/os-select/os-select.types";
 export namespace Components {
     interface OsButton {
         /**

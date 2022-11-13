@@ -49,3 +49,5 @@ tools/**/out-test/**
 .docusaurus/
 .cache-loader/
 libs/shared-ui-design-components-react/**/generated
+
+.next

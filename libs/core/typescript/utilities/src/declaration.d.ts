@@ -1,9 +1,26 @@
-import { Temporal } from "@js-temporal/polyfill";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const RESULT_SYMBOL: unique symbol = Symbol("OS_RESULT_SYMBOL");
-export const DATE_TIME_SYMBOL: unique symbol = Symbol("OS_DATE_TIME_SYMBOL");
+/**
+ * Tokens used to identify a specific defined type during the dependency injection process
+ */
+declare namespace Tokens {
+  const RESULT_SYMBOL: unique symbol = Symbol("OS_RESULT_SYMBOL");
+  const DATE_TIME_SYMBOL: unique symbol = Symbol("OS_DATE_TIME_SYMBOL");
+}
 
-export interface ILogger {
+/**
+ * The valid types of the index for an `Indexable` type object
+ */
+declare type IndexType = string | number | symbol;
+
+/**
+ * The declaration of a ***dictionary-type*** object
+ */
+declare type Indexable = {
+  [index: IndexType]: any;
+};
+
+declare interface ILogger {
   /**
    * Log success message
    */
@@ -30,7 +47,7 @@ export interface ILogger {
   debug: (message: string) => Promise<void>;
 }
 
-export interface ICustomUtilityClass {
+declare interface ICustomUtilityClass {
   /**
    * The object instance Id
    */
@@ -54,20 +71,20 @@ export interface ICustomUtilityClass {
   getHashCode: () => string;
 }
 
-export interface IError extends Error {
+declare interface IError extends Error {
   /**
    * Additional information to display in an extended area below the message bar
    */
   extendedMessage?: string;
 }
 
-export interface AbortError extends IError {
+declare interface AbortError extends IError {
   name: "abort";
 
   message: "Aborted";
 }
 
-export type IResult<
+declare type IResult<
   TError extends IError | null = null,
   TData = unknown
 > = ICustomUtilityClass & {
@@ -119,7 +136,7 @@ export type IResult<
  *
  * @defaultValueResultSourceTypes.UNKNOWN
  */
-export enum ResultSourceTypes {
+declare enum ResultSourceTypes {
   UNKNOWN = 0,
   RENDERING = 1,
   SERVER = 2,
@@ -128,7 +145,7 @@ export enum ResultSourceTypes {
   ABORTED = 5,
 }
 
-export interface SelectOption {
+declare interface SelectOption {
   /**
    * 	The string value to display in the field
    */
@@ -150,7 +167,7 @@ export interface SelectOption {
   selected: boolean;
 }
 
-export const enum DateTimeFormatTypes {
+declare const enum DateTimeFormatTypes {
   DATE_SERIALIZED = "yyyyMMdd",
   TIME_SERIALIZED = "HH:mm:ss",
   DATE_TIME_SERIALIZED = "yyyyMMdd HH:mm:ss",
@@ -195,4 +212,4 @@ export const enum DateTimeFormatTypes {
 /**
  * Wrap the `Temporal.Instant` object so we can re-use it in other places
  */
-export interface IDateTime extends Temporal.Instant, ICustomUtilityClass {}
+declare interface IDateTime extends any, ICustomUtilityClass {}

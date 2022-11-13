@@ -1,1 +1,1 @@
-export * from "./generated/components";
+export * from "./__generated__/components";

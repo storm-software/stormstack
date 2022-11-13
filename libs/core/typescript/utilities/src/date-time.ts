@@ -1,6 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { DATE_TIME_SYMBOL, IDateTime } from "../types";
-import { getUniqueId } from "./get-unique-id";
+import { getUUID } from "./get-unique-id";
 import { isBigInt, isDate } from "./type-check";
 
 /**
@@ -32,7 +31,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    * @returns The function isDateTime is returning a boolean value.
    */
   public static isDateTime(obj: unknown): obj is IDateTime {
-    return (obj as IDateTime)?._symbol === DATE_TIME_SYMBOL;
+    return (obj as IDateTime)?._symbol === Tokens.DATE_TIME_SYMBOL;
   }
 
   /**
@@ -114,7 +113,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public readonly _id = getUniqueId();
+  public readonly _id = getUUID();
 
   /**
    * The string identifier of this specific class type
@@ -124,7 +123,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
   /**
    * Readonly field used internally to identify if the object is a DateTime
    */
-  public readonly _symbol = DATE_TIME_SYMBOL;
+  public readonly _symbol = Tokens.DATE_TIME_SYMBOL;
 
   /**
    * Returns back a hash code to identify this specific instance

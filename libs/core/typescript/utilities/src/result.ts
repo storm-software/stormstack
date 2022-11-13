@@ -1,10 +1,4 @@
-import {
-  AbortError,
-  IError,
-  IResult,
-  ResultSourceTypes,
-  RESULT_SYMBOL,
-} from "../types";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CustomUtilityClass } from "./custom-utility-class";
 import { DateTime } from "./date-time";
 import { isError, isObject } from "./type-check";
@@ -107,7 +101,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
    */
   public static isResult = (obj: unknown): obj is Result => {
     try {
-      return (obj as Result)?._symbol === RESULT_SYMBOL;
+      return (obj as Result)?._symbol === Tokens.RESULT_SYMBOL;
     } catch (e) {
       return false;
     }
@@ -229,7 +223,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
   public timestamp: DateTime = DateTime.current;
 
   protected constructor(error?: TError | null, data?: TData | null) {
-    super(RESULT_SYMBOL);
+    super(Tokens.RESULT_SYMBOL);
 
     this.error = error;
     this.data = data;

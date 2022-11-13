@@ -12,7 +12,6 @@ import {
   Watch,
 } from "@stencil/core";
 import clsx from "clsx";
-import { SelectOption } from "./os-select.types";
 
 @Component({
   tag: "os-select",

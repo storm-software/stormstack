@@ -8,11 +8,6 @@ import {
   Prop,
 } from "@stencil/core";
 import clsx from "clsx";
-import {
-  ButtonTransitionDirections,
-  ButtonTypes,
-  ButtonVariants,
-} from "./os-button.types";
 
 @Component({
   tag: "os-button",
@@ -131,7 +126,7 @@ export class OsButton {
           <div
             class={clsx(
               this.getTextColor(),
-              "font-btn-label-1 text-btn-label-1 rounded-full bg-bg-1 px-8  py-3"
+              "rounded-full bg-bg-1 px-8 py-3 font-btn-label-1  text-btn-label-1"
             )}>
             {this.inverse ? (
               <slot name="hover-text">{this.getDefaultText()}</slot>
@@ -274,7 +269,7 @@ export class OsButton {
                               this.variant !== ButtonVariants.GRADIENT ||
                               this.disabled,
                           },
-                          "font-btn-label-1 text-btn-label-1 flex h-full w-full items-center justify-center text-center"
+                          "flex h-full w-full items-center justify-center text-center font-btn-label-1 text-btn-label-1"
                         )}>
                         {this.inverse ? (
                           <slot>{this.getDefaultText()}</slot>

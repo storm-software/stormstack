@@ -5,6 +5,10 @@
 <!-- Auto Generated Below -->
 
 
+## Overview
+
+An input field used in forms to collect data from users
+
 ## Properties
 
 | Property      | Attribute     | Description                                                                       | Type      | Default     |

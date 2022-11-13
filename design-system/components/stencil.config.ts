@@ -29,7 +29,7 @@ export const config: Config = {
     reactOutputTarget({
       componentCorePackage: "@open-system/design-system-components",
       proxiesFile:
-        "../../libs/shared/ui/components/src/generated/components.ts",
+        "../../../libs/shared/ui/components/src/__generated__/components.ts",
       includeDefineCustomElements: true,
     }),
   ],

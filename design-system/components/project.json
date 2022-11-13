@@ -45,12 +45,12 @@
           "dev": true,
           "prod": false,
           "clean": false,
-          "verbose": false
+          "verbose": true
         },
         "production": {
           "dev": false,
           "prod": true,
-          "clean": false
+          "clean": true
         }
       }
     },
@@ -80,24 +80,11 @@
     "serve": {
       "executor": "@nxext/stencil:serve",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
       "options": {
         "projectType": "library",
         "tsConfig": "design-system/components/tsconfig.lib.json",
         "configPath": "design-system/components/stencil.config.ts",
         "outputPath": "dist/design-system/components"
-      },
-      "configurations": {
-        "development": {
-          "dev": true,
-          "debug": true,
-          "verbose": true
-        },
-        "production": {
-          "dev": false,
-          "debug": false,
-          "verbose": false
-        }
       }
     },
     "e2e": {
