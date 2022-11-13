@@ -50,7 +50,7 @@
         "production": {
           "dev": false,
           "prod": true,
-          "clean": true
+          "clean": false
         }
       }
     },
