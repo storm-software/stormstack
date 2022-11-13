@@ -21,9 +21,11 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using OpenSystem.Apis.Message.Attributes;
 using OpenSystem.Apis.Message.Contracts;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace OpenSystem.Apis.Message.Controllers
-{ 
+{
     /// <summary>
     /// Controller for MessageApi service implementation(s)
     /// </summary>
@@ -124,7 +126,7 @@ namespace OpenSystem.Apis.Message.Controllers
             // return StatusCode(503);
             string exampleJson = null;
             exampleJson = "{\r\n  \"guid\" : \"123e4567-e89b-12d3-a456-426614174000\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<UpdateSuccessResponseDto>(exampleJson)
             : default(UpdateSuccessResponseDto);
@@ -163,7 +165,7 @@ namespace OpenSystem.Apis.Message.Controllers
             // return StatusCode(503);
             string exampleJson = null;
             exampleJson = "{\r\n  \"guid\" : \"123e4567-e89b-12d3-a456-426614174000\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<UpdateSuccessResponseDto>(exampleJson)
             : default(UpdateSuccessResponseDto);
@@ -202,7 +204,7 @@ namespace OpenSystem.Apis.Message.Controllers
             // return StatusCode(503);
             string exampleJson = null;
             exampleJson = "null";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<MessageDto>(exampleJson)
             : default(MessageDto);
@@ -242,7 +244,7 @@ namespace OpenSystem.Apis.Message.Controllers
             // return StatusCode(503);
             string exampleJson = null;
             exampleJson = "null";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<MessageDto>>(exampleJson)
             : default(List<MessageDto>);
@@ -282,7 +284,7 @@ namespace OpenSystem.Apis.Message.Controllers
             // return StatusCode(503);
             string exampleJson = null;
             exampleJson = "{\r\n  \"guid\" : \"123e4567-e89b-12d3-a456-426614174000\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<UpdateSuccessResponseDto>(exampleJson)
             : default(UpdateSuccessResponseDto);

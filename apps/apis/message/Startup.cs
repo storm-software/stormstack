@@ -7,7 +7,6 @@
  * Contact: Patrick.Sullivan@broadridge.com
  */
 
-using BroadridgeFxl.Shared.Server.Infrastructure;
 using System;
 using System.IO;
 using System.Reflection;
@@ -25,6 +24,8 @@ using OpenSystem.Apis.Message.Authentication;
 using OpenSystem.Apis.Message.Filters;
 using OpenSystem.Apis.Message.OpenApi;
 using OpenSystem.Apis.Message.Formatters;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace OpenSystem.Apis.Message
 {
@@ -55,7 +56,7 @@ namespace OpenSystem.Apis.Message
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddConsul(Configuration.GetServiceConfig());
+            // services.AddConsul(Configuration.GetServiceConfig());
 
 
             // Add framework services.
