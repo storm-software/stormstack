@@ -17,6 +17,8 @@
     "tools-executors-typescript": "tools/executors/typescript",
     "tools-generators-dotnet": "tools/generators/dotnet",
     "tools-generators-typescript": "tools/generators/typescript",
-    "web-shell": "apps/web/shell"
+    "web-shell": "apps/web/shell",
+    "web-landing": "apps/web/landing"
   }
 }
+

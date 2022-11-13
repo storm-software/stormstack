@@ -1,12 +1,12 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "web-shell",
+  "name": "web-landing",
   "projectType": "application",
-  "sourceRoot": "apps/web/shell",
+  "sourceRoot": "apps/web/landing",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/dist/apps/web/shell"],
+      "outputs": ["{workspaceRoot}/dist/apps/web/landing"],
       "defaultConfiguration": "development",
       "options": {
         "parallel": true
@@ -14,21 +14,21 @@
       "configurations": {
         "development": {
           "commands": [
-            "nx run web-shell:build-base:development",
-            "cd apps/web/shell/ClientApp && npm run build"
+            "nx run web-landing:build-base:development",
+            "cd apps/web/landing/ClientApp && npm run build"
           ]
         },
         "production": {
           "commands": [
-            "nx run web-shell:build-base:production",
-            "cd apps/web/shell/ClientApp && npm run build"
+            "nx run web-landing:build-base:production",
+            "cd apps/web/landing/ClientApp && npm run build"
           ]
         }
       }
     },
     "build-base": {
       "executor": "@nx-dotnet/core:build",
-      "outputs": ["{workspaceRoot}/dist/apps/web/shell"],
+      "outputs": ["{workspaceRoot}/dist/apps/web/landing"],
       "defaultConfiguration": "development",
       "options": {
         "configuration": "Debug",
@@ -53,14 +53,14 @@
       "configurations": {
         "development": {
           "commands": [
-            "nx run web-shell:serve-base:development",
-            "cd apps/web/shell/ClientApp && npm run dev"
+            "nx run web-landing:serve-base:development",
+            "cd apps/web/landing/ClientApp && npm run dev"
           ]
         },
         "production": {
           "commands": [
-            "nx run web-shell:serve-base:production",
-            "cd apps/web/shell/ClientApp && npm run dev"
+            "nx run web-landing:serve-base:production",
+            "cd apps/web/landing/ClientApp && npm run dev"
           ]
         }
       }
@@ -83,7 +83,7 @@
     "publish": {
       "executor": "@nx-dotnet/core:publish",
       "selfContained": true,
-      "outputs": ["dist/apps/web/shell/publish"],
+      "outputs": ["dist/apps/web/landing/publish"],
       "options": {
         "configuration": "Debug",
         "noDependencies": true
@@ -105,7 +105,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/web/shell/ClientApp/jest.config.ts",
+        "jestConfig": "apps/web/landing/ClientApp/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -115,7 +115,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "web-shell-v${VERSION}"
+        "tagFormat": "web-landing-v${VERSION}"
       }
     }
   },
