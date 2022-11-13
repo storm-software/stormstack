@@ -16,12 +16,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/messages",
+      "url": "http://localhost:3000/api",
       "description": "Local Development"
     }
   ],
   "paths": {
-    "/": {
+    "/messages": {
       "parameters": [],
       "get": {
         "summary": "Get Message List",
@@ -175,7 +175,9 @@
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       },
       "post": {
         "summary": "Add Message",
@@ -310,7 +312,9 @@
             "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       }
     },
     "/{guid}": {
@@ -328,10 +332,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "allOf": [
+                    {
+                      "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/RecordBase"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Message"
+                    }
+                  ]
                 },
                 "examples": {
-                  "Success Response": {
+                  "Sample Response": {
                     "value": {
                       "guid": "123e4567-e89b-12d3-a456-426614174000",
                       "createdOn": "2022-03-19 04:24:02.190",
@@ -435,7 +446,9 @@
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       },
       "delete": {
         "summary": "Remove Message",
@@ -449,7 +462,7 @@
                   "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
                 },
                 "examples": {
-                  "Success Response": {
+                  "Sample Response": {
                     "value": {
                       "guid": "123e4567-e89b-12d3-a456-426614174000"
                     }
@@ -545,9 +558,11 @@
             "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       },
-      "patch": {
+      "put": {
         "summary": "Update Message",
         "operationId": "update-message",
         "responses": {
@@ -559,7 +574,7 @@
                   "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
                 },
                 "examples": {
-                  "Success Response": {
+                  "Sample Response": {
                     "value": {
                       "guid": "123e4567-e89b-12d3-a456-426614174000"
                     }
@@ -654,7 +669,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MessageRequest"
+                "$ref": "#/components/schemas/Message"
               },
               "examples": {
                 "Sample Request": {
@@ -674,7 +689,9 @@
             "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       }
     }
   },
@@ -683,7 +700,7 @@
       "Message": {
         "title": "Message",
         "x-stoplight": {
-          "id": "1uit484jxisd8"
+          "id": "6uit5859xasd9"
         },
         "description": "A `Message` record returned from the server",
         "x-examples": {
@@ -716,7 +733,9 @@
                 "maximum": 999999999
               }
             },
-            "required": ["messageNumber"]
+            "required": [
+              "messageNumber"
+            ]
           }
         ]
       },
@@ -765,10 +784,16 @@
             "type": "string",
             "default": "EN-US",
             "example": "EN-US",
-            "enum": ["EN-US"]
+            "enum": [
+              "EN-US"
+            ]
           }
         },
-        "required": ["message", "messageType", "culture"]
+        "required": [
+          "message",
+          "messageType",
+          "culture"
+        ]
       }
     },
     "requestBodies": {},

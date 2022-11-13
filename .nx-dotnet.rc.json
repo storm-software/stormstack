@@ -1,3 +1,5 @@
 {
-  "nugetPackages": {}
+  "nugetPackages": {
+    "Microsoft.AspNetCore.SpaProxy": "6.0.0"
+  }
 }

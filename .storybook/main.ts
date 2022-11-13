@@ -14,6 +14,7 @@ export const config: StorybookConfig = {
     "@storybook/addon-a11y",
     "@storybook/addon-postcss",
     "@storybook/testing-react",
+    "@storybook/addon-storyshots",
   ],
   core: {
     builder: {

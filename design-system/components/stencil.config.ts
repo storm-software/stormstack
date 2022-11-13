@@ -98,7 +98,7 @@ export const config: Config = {
      * If a file matches the specified glob pattern, coverage information will be collected for it even if no tests exist
      * for this file and it's never required in the test suite. Default: undefined
      */
-    collectCoverageFrom: ["**/**/*.spec.tsx", "**/**/*.spec.ts"],
+    collectCoverageFrom: ["**/*.spec.tsx", "**/*.spec.ts"],
 
     /**
      * The directory where Jest should output its coverage files. Default: undefined

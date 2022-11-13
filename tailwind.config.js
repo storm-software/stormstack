@@ -7,9 +7,11 @@ module.exports = {
   content: [
     join(
       __dirname,
-      "apps/web/shell/{src,pages,components}/**/*!(*.stories|*.spec).{ts,tsx,html}"
+      "apps/web/host/ClientApp/app/**/*!(*.stories|*.spec).{ts,tsx,html}"
     ),
-    ...createGlobPatternsForDependencies(join(__dirname, "apps/web/shell")),
+    ...createGlobPatternsForDependencies(
+      join(__dirname, "apps/web/host/ClientApp/app")
+    ),
   ],
   theme: {
     extend: {
