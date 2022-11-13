@@ -29,7 +29,7 @@ jobs:
       - run: npm run build:tools
 
       # Run design tokens build prior to linting so tailwindcss is configured
-      - run: npx nx run design-system-tokens:build:open-system --verbose
+      - run: npx nx run design-system-tokens:build:open-system
 
       - run: npx nx workspace-lint
       - run: npx nx format:check
