@@ -21,10 +21,10 @@ describe("os-link", () => {
   it("renders with values", async () => {
     const { root } = await newSpecPage({
       components: [OsLink],
-      html: `<os-link first="Stencil" last="'Don't call me a framework' JS"></os-link>`,
+      html: `<os-link text="Stencil" last="'Don't call me a framework' JS"></os-link>`,
     });
     expect(root).toEqualHtml(`
-      <os-link first="Stencil" last="'Don't call me a framework' JS">
+      <os-link text="Stencil" last="'Don't call me a framework' JS">
         <mock:shadow-root>
           <div>
             Hello, World! I'm Stencil 'Don't call me a framework' JS

@@ -21,10 +21,10 @@ describe("os-select", () => {
   it("renders with values", async () => {
     const { root } = await newSpecPage({
       components: [OsSelect],
-      html: `<os-select first="Stencil" last="'Don't call me a framework' JS"></os-select>`,
+      html: `<os-select label="Sample Label" name="sample"></os-select>`,
     });
     expect(root).toEqualHtml(`
-      <os-select first="Stencil" last="'Don't call me a framework' JS">
+      <os-select label="Sample Label" name="sample">
         <mock:shadow-root>
           <div>
             Hello, World! I'm Stencil 'Don't call me a framework' JS

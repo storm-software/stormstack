@@ -21,10 +21,10 @@ describe("os-input", () => {
   it("renders with values", async () => {
     const { root } = await newSpecPage({
       components: [OsInput],
-      html: `<os-input label="Label" name="name"></os-input>`,
+      html: `<os-input label="Sample Label" name="sample"></os-input>`,
     });
     expect(root).toEqualHtml(`
-      <os-input label="Label" name="name">
+      <os-input  label="Sample Label" name="sample">
         <mock:shadow-root>
           <div>
             Hello, World! I'm Stencil 'Don't call me a framework' JS

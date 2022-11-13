@@ -21,10 +21,10 @@ describe("os-button", () => {
   it("renders with values", async () => {
     const { root } = await newSpecPage({
       components: [OsButton],
-      html: `<os-button first="Stencil" last="'Don't call me a framework' JS"></os-button>`,
+      html: `<os-button variant="primary">Click Me</os-button>`,
     });
     expect(root).toEqualHtml(`
-      <os-button first="Stencil" last="'Don't call me a framework' JS">
+      <os-button variant="primary">
         <mock:shadow-root>
           <div>
             Hello, World! I'm Stencil 'Don't call me a framework' JS
