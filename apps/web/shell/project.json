@@ -1,100 +1,68 @@
 {
-  "name": "web-shell",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/web/shell/src",
+  "name": "web-shell",
   "projectType": "application",
+  "sourceRoot": "apps/web/shell",
   "targets": {
     "build": {
-      "executor": "@nrwl/webpack:webpack",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "executor": "@nx-dotnet/core:build",
+      "outputs": ["{workspaceRoot}/dist/apps/web/shell"],
+      "defaultConfiguration": "development",
       "options": {
-        "compiler": "babel",
-        "outputPath": "dist/apps/web/shell",
-        "index": "apps/web/shell/src/index.html",
-        "baseHref": "/",
-        "main": "apps/web/shell/src/main.ts",
-        "polyfills": "apps/web/shell/src/polyfills.ts",
-        "tsConfig": "apps/web/shell/tsconfig.app.json",
-        "assets": [
-          "apps/web/shell/src/favicon.ico",
-          "apps/web/shell/src/assets"
-        ],
-        "styles": [],
-        "scripts": [],
-        "webpackConfig": "apps/web/shell/webpack.config.js",
-        "postcssConfig": "apps/web/shell/postcss.config.js"
+        "configuration": "Debug",
+        "noDependencies": true
       },
       "configurations": {
         "development": {
-          "extractLicenses": false,
-          "optimization": false,
-          "sourceMap": true,
-          "vendorChunk": true
+          "configuration": "Debug",
+          "noDependencies": true
         },
         "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/web/shell/src/environments/environment.ts",
-              "with": "apps/web/shell/src/environments/environment.prod.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "namedChunks": false,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "webpackConfig": "apps/web/shell/webpack.config.prod.js"
+          "configuration": "Release"
         }
       }
     },
     "serve": {
-      "executor": "@nrwl/react:module-federation-dev-server",
-      "defaultConfiguration": "development",
+      "executor": "@nx-dotnet/core:serve",
       "options": {
-        "buildTarget": "web-shell:build",
-        "hmr": true,
-        "port": 4200
+        "configuration": "Debug",
+        "defaultConfiguration": "development"
       },
       "configurations": {
         "development": {
-          "buildTarget": "web-shell:build:development"
+          "configuration": "Debug"
         },
         "production": {
-          "buildTarget": "web-shell:build:production",
-          "hmr": false
+          "configuration": "Release"
+        }
+      }
+    },
+    "publish": {
+      "executor": "@nx-dotnet/core:publish",
+      "selfContained": true,
+      "outputs": ["dist/apps/web/shell/publish"],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": true
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        },
+        "docker": {
+          "configuration": "Debug",
+          "outputs": "/app/publish"
         }
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/web/shell/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
-    "serve-static": {
-      "executor": "@nrwl/web:file-server",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "web-shell:build",
-        "port": 4200
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "web-shell:build:development"
-        },
-        "production": {
-          "buildTarget": "web-shell:build:production"
-        }
-      }
+      "executor": "@nx-dotnet/core:format"
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/web/shell/jest.config.ts",
+        "jestConfig": "apps/web/shell/ClientApp/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -110,3 +78,4 @@
   },
   "tags": ["domain:shared", "type:apps", "target:web"]
 }
+

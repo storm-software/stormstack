@@ -1,4 +1,4 @@
-import { ILogger } from "..";
+import { ILogger } from "../types";
 import { printError, printInfo, printSuccess, printWarning } from "./print";
 
 export class ConsoleLogger implements ILogger {

@@ -4,7 +4,7 @@ import {
   IResult,
   ResultSourceTypes,
   RESULT_SYMBOL,
-} from "../@types";
+} from "../types";
 import { CustomUtilityClass } from "./custom-utility-class";
 import { DateTime } from "./date-time";
 import { isError, isObject } from "./type-check";

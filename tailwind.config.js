@@ -7,10 +7,10 @@ module.exports = {
   content: [
     join(
       __dirname,
-      "apps/web/host/ClientApp/app/**/*!(*.stories|*.spec).{ts,tsx,html}"
+      "apps/web/shell/ClientApp/app/**/*!(*.stories|*.spec).{ts,tsx,html}"
     ),
     ...createGlobPatternsForDependencies(
-      join(__dirname, "apps/web/host/ClientApp/app")
+      join(__dirname, "apps/web/shell/ClientApp/app")
     ),
   ],
   theme: {

@@ -1,5 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { DATE_TIME_SYMBOL, IDateTime } from "../@types";
+import { DATE_TIME_SYMBOL, IDateTime } from "../types";
 import { getUniqueId } from "./get-unique-id";
 import { isBigInt, isDate } from "./type-check";
 
@@ -59,6 +59,19 @@ export class DateTime extends Temporal.Instant implements IDateTime {
     return new DateTime(Temporal.Now.instant());
   }
 
+  /**
+   * Get the duration between two dates.
+   * @param {DateTime} dateTimeFrom - DateTime - The date and time to start the duration from.
+   * @param {DateTime} dateTimeTo - DateTime = DateTime.current
+   * @returns A Duration object.
+   */
+  public static getDuration(
+    dateTimeFrom: DateTime,
+    dateTimeTo: DateTime = DateTime.current
+  ): Temporal.Duration {
+    return dateTimeFrom.since(dateTimeTo);
+  }
+
   public static create = (
     dateTime:
       | Temporal.Instant
@@ -85,6 +98,17 @@ export class DateTime extends Temporal.Instant implements IDateTime {
             DateTime.isJsDate(dateTime) ? dateTime.toUTCString() : dateTime
           ).epochNanoseconds
     );
+  }
+
+  /**
+   * It returns the duration between two dates.
+   * @param {DateTime} dateTimeTo - DateTime = DateTime.current
+   * @returns A duration object.
+   */
+  public getDuration(
+    dateTimeTo: DateTime = DateTime.current
+  ): Temporal.Duration {
+    return DateTime.getDuration(this, dateTimeTo);
   }
 
   /**
