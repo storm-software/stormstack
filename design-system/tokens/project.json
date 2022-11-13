@@ -29,7 +29,7 @@
           "tokensDir": "design-system/tokens/src/open-system",
           "fontsDir": "assets/fonts",
           "imagesDir": "assets/images",
-          "verbose": true
+          "verbose": false
         },
         "resume": {
           "tokensDir": "design-system/tokens/src/resume",
