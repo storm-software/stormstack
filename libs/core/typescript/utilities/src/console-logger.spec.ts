@@ -12,12 +12,6 @@ describe("ConsoleLogger.warn", () => {
   });
 });
 
-describe("ConsoleLogger.error", () => {
-  it("should run successfully", () => {
-    expect(ConsoleLogger.error("Test Message")).toEqual(undefined);
-  });
-});
-
 describe("new ConsoleLogger().success", () => {
   it("should run successfully", () => {
     expect(new ConsoleLogger().success("Test Message")).toEqual(undefined);
@@ -33,12 +27,6 @@ describe("new ConsoleLogger().info", () => {
 describe("new ConsoleLogger().warn", () => {
   it("should run successfully", () => {
     expect(new ConsoleLogger().warn("Test Message")).toEqual(undefined);
-  });
-});
-
-describe("new ConsoleLogger().error", () => {
-  it("should run successfully", () => {
-    expect(new ConsoleLogger().error("Test Message")).toEqual(undefined);
   });
 });
 
