@@ -1,4 +1,4 @@
-import { printError, printInfo, printSuccess, printWarning } from "./print";
+import { printInfo, printSuccess, printWarning } from "./print";
 
 describe("printInfo", () => {
   it("should run successfully", () => {
@@ -9,12 +9,6 @@ describe("printInfo", () => {
 describe("printWarning", () => {
   it("should run successfully", () => {
     expect(printWarning("Test Message")).toEqual(undefined);
-  });
-});
-
-describe("printError", () => {
-  it("should run successfully", () => {
-    expect(printError("Test Message")).toEqual(undefined);
   });
 });
 
