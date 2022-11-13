@@ -126,7 +126,7 @@
     "eslint-plugin-react": "7.31.8",
     "eslint-plugin-react-hooks": "4.6.0",
     "husky": "^8.0.0",
-    "jest": "^27.0.3",
+    "jest": "^28.1.1",
     "jest-cli": "^27.4.5",
     "jest-environment-jsdom": "28.1.1",
     "mustache": "^4.2.0",

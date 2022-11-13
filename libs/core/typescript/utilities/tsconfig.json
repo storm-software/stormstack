@@ -2,7 +2,8 @@
   "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
     "module": "commonjs",
-    "typeRoots": ["../../../../node_modules/@types", "./@types"]
+    "typeRoots": ["../../../../node_modules/@types", "./@types"],
+    "types": ["jest", "node"]
   },
   "files": [],
   "include": [],
