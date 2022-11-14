@@ -47,11 +47,9 @@ export const config: Config = {
       },
       //tailwindCssPath: "./src/style/global.css",
       tailwindCssContents:
-        "@import url('C:\\Development\\open-system\\dist\\design-system\\tokens\\css\\fonts.css');@tailwind base;@tailwind utilities;@tailwind components;",
+        "@tailwind base;@tailwind utilities;@tailwind components;",
       tailwindConf: {
-        content: [
-          "C:\\Development\\open-system\\design-system\\components\\src",
-        ],
+        content: ["../../design-system/components/src"],
         theme: {
           ...tailwindConf?.theme,
         },
@@ -67,11 +65,9 @@ export const config: Config = {
       },
       //tailwindCssPath: "./src/style/global.css",
       tailwindCssContents:
-        "@import url('C:\\Development\\open-system\\dist\\design-system\\tokens\\css\\fonts.css');@tailwind base;@tailwind utilities;@tailwind components;",
+        "@tailwind base;@tailwind utilities;@tailwind components;",
       tailwindConf: {
-        content: [
-          "C:\\Development\\open-system\\design-system\\components\\src",
-        ],
+        content: ["../../design-system/components/src"],
         theme: {
           ...tailwindConf?.theme,
         },

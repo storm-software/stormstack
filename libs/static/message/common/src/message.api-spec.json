@@ -317,7 +317,7 @@
         ]
       }
     },
-    "/{guid}": {
+    "/messages/{guid}": {
       "parameters": [
         {
           "$ref": "../../../../shared/common/src/shared.api-spec.json#/components/parameters/guid"
