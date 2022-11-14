@@ -50,6 +50,7 @@
     "@docusaurus/preset-classic": "^2.2.0",
     "@js-temporal/polyfill": "^0.4.3",
     "@mdx-js/react": "^1.6.21",
+    "@next/font": "^13.0.3",
     "clsx": "^1.1.1",
     "core-js": "^3.6.5",
     "dotenv": "^16.0.3",

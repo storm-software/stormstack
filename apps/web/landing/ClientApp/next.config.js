@@ -7,7 +7,7 @@ const { API_URL } = process.env;
  **/
 const nextConfig = {
   basePath: "/home",
-  distDir: "../../../../dist/web/landing/ClientApp",
+  distDir: "../../../../dist/apps/web/landing/ClientApp",
   nx: {
     svgr: true,
   },
