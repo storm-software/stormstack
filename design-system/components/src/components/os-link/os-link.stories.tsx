@@ -1,5 +1,5 @@
-import { OsLink } from "@open-system/design-system-components/os-link";
 import { h } from "@stencil/core";
+import { OsLink } from "./os-link";
 
 export default {
   title: "Link",

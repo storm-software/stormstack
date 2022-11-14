@@ -1,5 +1,5 @@
-import { OsTitle } from "@open-system/design-system-components/os-title";
 import { h } from "@stencil/core";
+import { OsTitle } from "./os-title";
 
 export default {
   title: "Title",

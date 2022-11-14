@@ -1,5 +1,5 @@
-import { OsCard } from "@open-system/design-system-components/os-card";
 import { h } from "@stencil/core";
+import { OsCard } from "./os-card";
 
 export default {
   title: "Card",

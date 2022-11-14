@@ -1,9 +1,9 @@
-import { OsInput } from "@open-system/design-system-components/os-input";
 import { h } from "@stencil/core";
+import { OsSelect } from "./os-select";
 
 export default {
   title: "Forms/Select",
-  component: OsInput,
+  component: OsSelect,
   parameters: {
     label: [
       { name: "Label", value: "Label" },

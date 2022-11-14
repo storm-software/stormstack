@@ -1,9 +1,9 @@
-import { OsInput } from "@open-system/design-system-components/os-input";
 import { h } from "@stencil/core";
+import { OsNumberInput } from "./os-number-input";
 
 export default {
   title: "Forms/Number Input",
-  component: OsInput,
+  component: OsNumberInput,
   parameters: {
     label: [
       { name: "Label", value: "Label" },
