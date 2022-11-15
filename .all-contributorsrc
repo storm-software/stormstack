@@ -11,6 +11,20 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      all-contributors/add-sullivanpj
+      "login": "sullivanpj",
+      "name": "Patrick Sullivan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/99053093?v=4",
+      "profile": "http://www.sullypat.com/",
+      "contributions": [
+        "design",
+        "code",
+        "tool",
+        "doc",
+        "test"
+      ]
+    },
+    {
       "login": "tbenning",
       "name": "Tyler Benning",
       "avatar_url": "https://avatars.githubusercontent.com/u/7265547?v=4",
