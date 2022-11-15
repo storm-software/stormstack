@@ -42,7 +42,7 @@
     }
   },
   "scripts": {
-    "prepare:restore": "nx g ./tools/generators/dotnet:restore",
+    "prepare:restore": "nx g @nx-dotnet/core:restore",
     "prepare:husky": "is-ci || husky install",
     "prepare": "npm run prepare:restore && npm run prepare:husky",
     "clean:apps": "rimraf dist/apps",
