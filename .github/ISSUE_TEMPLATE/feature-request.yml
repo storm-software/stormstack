@@ -24,7 +24,7 @@ body:
       label: Description
       description: What is the behavior that you would like to see introduced?
       placeholder: What is the behavior that you would like to see introduced?
-      value: " "
+      value: "What is the behavior that you would like to see introduced?"
     validations:
       required: true
   - type: textarea
@@ -33,7 +33,7 @@ body:
       label: Motivation
       description: Why do you believe this behavior would be beneficial?
       placeholder: Why do you believe this behavior would be beneficial?
-      value: " "
+      value: "Why do you believe this behavior would be beneficial?"
     validations:
       required: false
   - type: textarea
@@ -42,7 +42,7 @@ body:
       label: Suggested Implementation
       description: How do you imagine this might work?
       placeholder: How do you imagine this might work?
-      value: " "
+      value: "How do you imagine this might work?"
     validations:
       required: false
   - type: checkboxes
