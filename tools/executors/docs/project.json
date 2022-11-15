@@ -26,7 +26,6 @@
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
-          "tools/executors/docs/*.md",
           {
             "input": "./tools/executors/docs",
             "glob": "**/*.d.ts",
