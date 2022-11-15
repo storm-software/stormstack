@@ -132,6 +132,7 @@
     "jest-cli": "^27.4.5",
     "jest-environment-jsdom": "^27.0.3",
     "mustache": "^4.2.0",
+    "next-seo": "^5.14.1",
     "nx": "15.0.5",
     "postcss": "8.4.16",
     "postcss-import": "^15.0.0",
