@@ -141,5 +141,9 @@
   "docwriter.progress.trackClasses": true,
   "docwriter.progress.trackTypes": true,
   "docwriter.custom.template": "{{summary}}\n\nGenerated on {{date}}\n\n{{#params}}\n@param {{name}} - {{paramExplained}}\n{{/params}}\n{{#returnExplained}}\n@returns {{.}}\n{{/returnExplained}}",
-  "docwriter.style": "JSDoc"
+  "docwriter.style": "JSDoc",
+  "commitizen.capitalizeWindowsDriveLetter": true,
+  "commitizen.autoSync": true,
+  "commitizen.showOutputChannel": "always",
+  "commitizen.useGitRoot": false
 }

@@ -30,7 +30,10 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-git",
-      "config": "commitlint.config.js"
+      "config": "./commitlint.config.js"
+    },
+    "cz-git": {
+      "config": "./commitlint.config.js"
     }
   },
   "husky": {
