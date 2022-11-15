@@ -1,12 +1,12 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "web-landing",
+  "name": "web-contact",
   "projectType": "application",
-  "sourceRoot": "apps/web/landing",
+  "sourceRoot": "apps/web/contact",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/dist/apps/web/landing"],
+      "outputs": ["{workspaceRoot}/dist/apps/web/contact"],
       "defaultConfiguration": "development",
       "options": {
         "parallel": true
@@ -14,21 +14,21 @@
       "configurations": {
         "development": {
           "commands": [
-            "nx run web-landing:build-base:development",
-            "cd apps/web/landing/ClientApp && npm run build"
+            "nx run web-contact:build-base:development",
+            "cd apps/web/contact/ClientApp && npm run build"
           ]
         },
         "production": {
           "commands": [
-            "nx run web-landing:build-base:production",
-            "cd apps/web/landing/ClientApp && npm run build"
+            "nx run web-contact:build-base:production",
+            "cd apps/web/contact/ClientApp && npm run build"
           ]
         }
       }
     },
     "build-base": {
       "executor": "@nx-dotnet/core:build",
-      "outputs": ["{workspaceRoot}/dist/apps/web/landing"],
+      "outputs": ["{workspaceRoot}/dist/apps/web/contact"],
       "defaultConfiguration": "development",
       "options": {
         "configuration": "Debug",
@@ -53,14 +53,14 @@
       "configurations": {
         "development": {
           "commands": [
-            "nx run web-landing:serve-base:development",
-            "cd apps/web/landing/ClientApp && npm run dev"
+            "nx run web-contact:serve-base:development",
+            "cd apps/web/contact/ClientApp && npm run dev"
           ]
         },
         "production": {
           "commands": [
-            "nx run web-landing:serve-base:production",
-            "cd apps/web/landing/ClientApp && npm run dev"
+            "nx run web-contact:serve-base:production",
+            "cd apps/web/contact/ClientApp && npm run dev"
           ]
         }
       }
@@ -83,7 +83,7 @@
     "publish": {
       "executor": "@nx-dotnet/core:publish",
       "selfContained": true,
-      "outputs": ["dist/apps/web/landing/publish"],
+      "outputs": ["dist/apps/web/contact/publish"],
       "options": {
         "configuration": "Debug",
         "noDependencies": true
@@ -105,7 +105,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/web/landing/ClientApp/jest.config.ts",
+        "jestConfig": "apps/web/contact/ClientApp/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -115,7 +115,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "web-landing-v${VERSION}"
+        "tagFormat": "web-contact-v${VERSION}"
       }
     }
   },

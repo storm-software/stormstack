@@ -17,10 +17,6 @@ module.exports = {
   theme: {
     extend: {
       ...extend,
-      borderRadius: {
-        ...extend.borderRadius,
-        drawn: "255px 15px 225px 15px/15px 225px 15px 255px",
-      },
       fontFamily: {
         ...extend.fontFamily,
         sans: ["var(--font-inter)", ...fontFamily.sans],

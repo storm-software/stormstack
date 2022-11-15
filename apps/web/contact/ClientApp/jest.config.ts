@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: "web-landing",
+  displayName: "web-contact",
   preset: "../../../../jest.preset.js",
   globals: {
     "ts-jest": {
@@ -11,5 +11,5 @@ export default {
     "^.+\\.[tj]sx?$": "ts-jest",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-  coverageDirectory: "../../../../coverage/apps/web/landing",
+  coverageDirectory: "../../../../coverage/apps/web/contact",
 };
