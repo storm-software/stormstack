@@ -9,7 +9,8 @@
     "partytown",
     "Persistor",
     "rabbitmq",
-    "Renderable"
+    "Renderable",
+    "Storyshots"
   ],
   "enableFiletypes": [
     "mdx"

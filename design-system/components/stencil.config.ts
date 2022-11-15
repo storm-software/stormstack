@@ -82,29 +82,5 @@ export const config: Config = {
 
   testing: {
     setupFiles: ["./jest.setup.js"],
-
-    /**
-     * Indicates whether the coverage information should be collected while executing the test. Because this retrofits all
-     * executed files with coverage collection statements, it may significantly slow down your tests. Default: false
-     */
-    collectCoverage: true,
-
-    /**
-     * An array of glob patterns indicating a set of files for which coverage information should be collected.
-     * If a file matches the specified glob pattern, coverage information will be collected for it even if no tests exist
-     * for this file and it's never required in the test suite. Default: undefined
-     */
-    collectCoverageFrom: ["**/*.spec.tsx", "**/*.spec.ts"],
-
-    /**
-     * The directory where Jest should output its coverage files. Default: undefined
-     */
-    coverageDirectory: "../../coverage",
-
-    /**
-     * A list of reporter names that Jest uses when writing coverage reports. Any istanbul reporter can be used.
-     * Default: ["json", "lcov", "text"]
-     */
-    coverageReporters: ["lcov"],
   },
 };
