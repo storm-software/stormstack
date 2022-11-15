@@ -27,7 +27,7 @@ public class OpenSystemReduxQueryGeneratorTest {
               .setGeneratorName("open-system-redux-query") // use this codegen library
               // .setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
                .setInputSpec("test.api.json") // sample OpenAPI file
-              .setOutputDir("out/open-system-redux-query") // output directory
+              .setOutputDir("out-test/test") // output directory
                 .addAdditionalProperty("libraryName", "test")
                 .addAdditionalProperty("platform", "browser")
                 .addAdditionalProperty("framework", "fetch-api")
