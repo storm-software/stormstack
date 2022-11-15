@@ -4,6 +4,24 @@
 ### Bug Fixes
 
 * **repo:** Configure tokens as implicitDependency ([fc9e6c2](https://github.com/sullivanpj/open-system/commit/fc9e6c20c387f5eaef0a3bb88b615aa6b8a92886))
+
+
+### Features
+
+* Added design components ([d6f60b2](https://github.com/sullivanpj/open-system/commit/d6f60b2168e0b4508c99c61c2d05a9eb5af4478f))
+* **contact:** Added the contact application ([6a15d67](https://github.com/sullivanpj/open-system/commit/6a15d67ec47e1fc8b88f1581401f70cbe31df94e))
+* **core:** Added typescript core library ([61ade46](https://github.com/sullivanpj/open-system/commit/61ade46e5756cd59ca232b6a14ba08061794039f))
+* **design-system:** Added snapshot testing ([4d2d6c7](https://github.com/sullivanpj/open-system/commit/4d2d6c7a1dad3c7758210748288d2c14c3d1c396))
+* **landing:** Added shell and landing apps ([6e88200](https://github.com/sullivanpj/open-system/commit/6e88200bbc553bfcd1b3c1d0ac30f34de2124b2e))
+* **web-landing:** Add landing screen application ([33aeaa1](https://github.com/sullivanpj/open-system/commit/33aeaa16c61c16b190de178e7dbc9935aeea1344))
+* **web-shell:** Converted web app to use NextJs ([c7f6f06](https://github.com/sullivanpj/open-system/commit/c7f6f06a4b950d12def8d20e900644d2fa30338f))
+
+# 1.0.0 (2022-11-15)
+
+
+### Bug Fixes
+
+* **repo:** Configure tokens as implicitDependency ([fc9e6c2](https://github.com/sullivanpj/open-system/commit/fc9e6c20c387f5eaef0a3bb88b615aa6b8a92886))
 * **repo:** Updated next build path ([8d5427e](https://github.com/sullivanpj/open-system/commit/8d5427ea023b5b4165a87bfa3e2946fbe07ed34e))
 * **repo:** Updated workflow script ([2aa4c91](https://github.com/sullivanpj/open-system/commit/2aa4c91d2f3430b3306585eca4e251140d18c51d))
 * **web-landing:** Added not found page ([1202a83](https://github.com/sullivanpj/open-system/commit/1202a834300a6bca80f465d762b070eada488148))
