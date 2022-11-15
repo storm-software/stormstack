@@ -23,18 +23,19 @@ concurrency:
 jobs:
   deploy:
     environment:
-      name: Deploy to GitHub Pages
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install dependencies
-      - uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: npm
-      - run: npm install --frozen-lockfile
+      - name: Install dependencies
+        run: npm install --frozen-lockfile
       - name: Build website
         run: npx nx run docs:build        
       - name: Setup Pages
