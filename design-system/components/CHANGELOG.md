@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.0.0...design-system-components-v1.1.0) (2022-11-15)
+
+
+### Features
+
+* **repo:** Added alex linter to repository ([a40d105](https://github.com/sullivanpj/open-system/commit/a40d105e1fbad9c548e91d8a7c1168c6606bc6b0))
+
 # 1.0.0 (2022-11-15)
 
 
