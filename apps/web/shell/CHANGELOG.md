@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.4.0...web-shell-v1.5.0) (2022-11-15)
+
+
+### Features
+
+* **web-shell:** Added next-seo metadata ([ba87b23](https://github.com/sullivanpj/open-system/commit/ba87b23c772f808468cb317c4e3658446ec46e94))
+
 # [1.4.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.3.1...web-shell-v1.4.0) (2022-11-15)
 
 
