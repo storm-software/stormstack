@@ -1,0 +1,5 @@
+project:
+  name: open-system
+  tz: America/New_York
+  adrFolder: ./docs/decisions
+  packages: []

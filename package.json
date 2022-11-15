@@ -67,8 +67,10 @@
     "start": "nx serve",
     "format": "nx format",
     "commit": "git-cz",
-    "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "add:contributors": "all-contributors add",
+    "generate:contributors": "all-contributors generate",
+    "add:decisions": "npx log4brains adr new",
+    "preview:decisions": "npx log4brains preview"
   },
   "private": true,
   "dependencies": {
@@ -162,6 +164,7 @@
     "jest": "^27.0.3",
     "jest-cli": "^27.4.5",
     "jest-environment-jsdom": "^27.0.3",
+    "log4brains": "^1.0.1",
     "mustache": "^4.2.0",
     "next-seo": "^5.14.1",
     "nx": "15.0.5",
