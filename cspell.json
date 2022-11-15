@@ -1,0 +1,17 @@
+{
+  "words": [
+    "asyncapi",
+    "codegen",
+    "commitlint",
+    "devcontainer",
+    "endregion",
+    "openapi",
+    "partytown",
+    "Persistor",
+    "rabbitmq",
+    "Renderable"
+  ],
+  "enableFiletypes": [
+    "mdx"
+  ]
+}

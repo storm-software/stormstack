@@ -29,7 +29,8 @@
   ],
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-git"
+      "path": "./node_modules/cz-git",
+      "config": "commitlint.config.js"
     }
   },
   "husky": {
@@ -54,6 +55,7 @@
     "build:tools": "npm run build:tools-typescript && npm run build:tools-dotnet && npm run build:tools-executors-docs",
     "build:storybook": "build-storybook -s public",
     "build": "nx run-many --target build --all --parallel 8 --exclude docs",
+    "lint:spellcheck": "cspell --no-progress --relative --dot --gitignore",
     "test": "nx test",
     "start:storybook": "start-storybook -p 6006 --debug-webpack",
     "start": "nx serve",
@@ -132,6 +134,7 @@
     "babel-jest": "28.1.1",
     "babel-plugin-transform-jsbi-to-bigint": "^1.4.0",
     "commitizen": "^4.2.5",
+    "cspell": "^6.14.2",
     "cypress": "^10.7.0",
     "cz-git": "^1.3.12",
     "docusaurus-theme-search-typesense": "^0.7.0-0",
