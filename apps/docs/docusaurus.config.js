@@ -38,7 +38,7 @@ const config = {
         specs: [
           {
             id: "Message-APIs",
-            spec: "libs/static/message/message.api-spec.json",
+            spec: "libs/static/message/common/message.api-spec.json",
             route: "/apis/message/",
           },
         ],
