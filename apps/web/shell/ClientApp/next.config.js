@@ -13,8 +13,10 @@ const nextConfig = {
   },
   swcMinify: true,
   experimental: {
-    // Required:
     appDir: true,
+    fontLoaders: [
+      { loader: "@next/font/google", options: { subsets: ["latin"] } },
+    ],
   },
 
   async rewrites() {
