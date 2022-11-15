@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.5.0...web-shell-v1.6.0) (2022-11-15)
+
+
+### Features
+
+* **contact:** Added the contact application ([6a15d67](https://github.com/sullivanpj/open-system/commit/6a15d67ec47e1fc8b88f1581401f70cbe31df94e))
+
 # [1.5.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.4.0...web-shell-v1.5.0) (2022-11-15)
 
 
