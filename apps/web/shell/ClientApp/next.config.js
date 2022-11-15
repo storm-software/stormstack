@@ -7,7 +7,7 @@ const { DOCS_URL, API_URL } = process.env;
  **/
 const nextConfig = {
   basePath: "",
-  distDir: "../../../../dist/apps/web/shell/ClientApp",
+  distDir: "dist",
   nx: {
     svgr: true,
   },
