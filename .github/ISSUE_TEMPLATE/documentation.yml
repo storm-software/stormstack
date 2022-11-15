@@ -34,7 +34,7 @@ body:
       label: Is there a specific documentation page you are reporting?
       description: Enter the URL or documentation section here.
       placeholder: Enter the URL or documentation section here.
-      value: " "
+      value: "Enter the URL or documentation section here."
     validations:
       required: true
   - type: textarea
@@ -43,7 +43,7 @@ body:
       label: Additional context or description
       description: Provide any additional details here as needed.
       placeholder: Provide any additional details here as needed.
-      value: " "
+      value: "Provide any additional details here as needed."
     validations:
       required: false
   - type: checkboxes
