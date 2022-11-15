@@ -23,7 +23,7 @@ body:
       label: Current Behavior
       description: What behavior are you currently experiencing?
       placeholder: What behavior are you currently experiencing?
-      value: " "
+      value: "What behavior are you currently experiencing?"
     validations:
       required: true
   - type: textarea
@@ -32,7 +32,7 @@ body:
       label: Expected Behavior
       description: What behavior are you expecting to experience?
       placeholder: What behavior are you expecting to experience?
-      value: " "
+      value: "What behavior are you expecting to experience?"
     validations:
       required: true
   - type: dropdown
