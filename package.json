@@ -66,7 +66,9 @@
     "start:storybook": "start-storybook -p 6006 --debug-webpack",
     "start": "nx serve",
     "format": "nx format",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
   },
   "private": true,
   "dependencies": {
@@ -137,6 +139,7 @@
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "alex": "^11.0.0",
+    "all-contributors-cli": "^6.24.0",
     "autoprefixer": "10.4.12",
     "babel-jest": "28.1.1",
     "babel-plugin-transform-jsbi-to-bigint": "^1.4.0",
