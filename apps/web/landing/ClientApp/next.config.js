@@ -12,6 +12,7 @@ const nextConfig = {
     svgr: true,
   },
   swcMinify: true,
+  trailingSlash: true,
   experimental: {
     // Required:
     appDir: true,
