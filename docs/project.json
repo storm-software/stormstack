@@ -1,0 +1,51 @@
+{
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "name": "docs",
+  "projectType": "application",
+  "sourceRoot": "docs/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "options": {
+        "parallel": true
+      },
+      "configurations": {
+        "development": {
+          "commands": [
+            "npx docusaurus build docs --out-dir=../dist/docs --config=docusaurus.config.js "
+          ]
+        },
+        "production": {
+          "commands": [
+            "npx docusaurus build docs --out-dir=../dist/docs --config=docusaurus.config.js "
+          ]
+        }
+      }
+    },
+    "build-base": {
+      "executor": "@nx-plus/docusaurus:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/docs",
+        "verbose": true
+      }
+    },
+    "serve": {
+      "executor": "@nx-plus/docusaurus:dev-server",
+      "options": {
+        "port": 8000
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "docs-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["domain:docs", "type:apps"]
+}

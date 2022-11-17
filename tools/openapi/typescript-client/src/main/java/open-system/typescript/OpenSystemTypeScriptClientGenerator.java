@@ -17,88 +17,49 @@
 
 package opensystem.typescript.client;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.model.*;
-import org.openapitools.codegen.languages.*;
-import io.swagger.models.properties.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
-import java.util.*;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.Ticker;
-import com.google.common.base.CaseFormat;
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Mustache.Compiler;
-import com.samskivert.mustache.Mustache.Lambda;
-
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.text.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
-import org.openapitools.codegen.api.TemplatingEngineAdapter;
-import org.openapitools.codegen.config.GlobalSettings;
-import org.openapitools.codegen.examples.ExampleGenerator;
-import org.openapitools.codegen.languages.RustServerCodegen;
-import org.openapitools.codegen.meta.FeatureSet;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.serializer.SerializerUtils;
-import org.openapitools.codegen.templating.MustacheEngineAdapter;
-import org.openapitools.codegen.templating.mustache.*;
-import org.openapitools.codegen.utils.CamelizeOption;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.google.common.collect.Sets;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.callbacks.Callback;
-import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.responses.ApiResponses;
-import io.swagger.v3.oas.models.security.OAuthFlow;
-import io.swagger.v3.oas.models.security.OAuthFlows;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.servers.ServerVariable;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.github.curiousoddman.rgxgen.RgxGen;
+import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
+
+import java.io.File;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
-import static org.openapitools.codegen.utils.StringUtils.*;
-import com.google.common.collect.Sets;
-import com.github.curiousoddman.rgxgen.*;
-import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
-import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+
 
 public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(OpenSystemTypeScriptClientGenerator.class);
@@ -106,8 +67,6 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
 
-  public static final String LIBRARY_NAME = "libraryName";
-  public static final String IS_BASE_LIBRARY = "isBaseLibrary";
     private static final String FRAMEWORK_SWITCH = "framework";
     private static final String FRAMEWORK_SWITCH_DESC = "Specify the framework which should be used in the client code.";
     private static final String[] FRAMEWORKS = { "fetch-api", "jquery" };
@@ -136,7 +95,7 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
     private static final String NPM_VERSION = "npmVersion";
 
     // NPM Option Values
-    protected String npmRepository = "open-system";
+    protected String npmRepository = null;
     protected String snapshot = null;
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
@@ -156,10 +115,7 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
 
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
 
-        // clear import mapping (from default generator) as TS does not use it
-        // at the moment
-        importMapping.clear();
-        outputFolder = "generated-code" + File.separator + "typescript";
+        outputFolder = "generated-code" + File.separator + "open-system-typescript-client";
         embeddedTemplateDir = templateDir = "open-system-typescript-client";
 
         supportsInheritance = true;
@@ -170,7 +126,7 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
                 "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
                 "requestOptions", "from",
                 // Typescript reserved words
-                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
+                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "constructor", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
@@ -236,16 +192,12 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
                 "When setting this property to true, the version will be suffixed with -SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
 
-        cliOptions.add(new CliOption(LIBRARY_NAME,
-            "The name of the library to generate services for (ex: if 'base' is selected, the '@base/services' package will be created)."));
-        cliOptions.add(new CliOption(IS_BASE_LIBRARY,
-        "A boolean parameter indicating if the current API is part of the base library.").defaultValue("false"));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.FILE_CONTENT_DATA_TYPE, OpenSystemTypeScriptClientGenerator.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
         cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_RXJS_SWITCH, OpenSystemTypeScriptClientGenerator.USE_RXJS_SWITCH_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_OBJECT_PARAMS_SWITCH, OpenSystemTypeScriptClientGenerator.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
-        cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_INVERSIFY_SWITCH, OpenSystemTypeScriptClientGenerator.USE_INVERSIFY_SWITCH_DESC).defaultValue("true"));
+        cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_INVERSIFY_SWITCH, OpenSystemTypeScriptClientGenerator.USE_INVERSIFY_SWITCH_DESC).defaultValue("false"));
 
         CliOption frameworkOption = new CliOption(OpenSystemTypeScriptClientGenerator.FRAMEWORK_SWITCH, OpenSystemTypeScriptClientGenerator.FRAMEWORK_SWITCH_DESC);
         for (String option: OpenSystemTypeScriptClientGenerator.FRAMEWORKS) {
@@ -267,30 +219,30 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         // Util
-        //supportingFiles.add(new SupportingFile("util.mustache", "services", "util.ts"));
-        //supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", "services/exception", "exception.ts"));
+        supportingFiles.add(new SupportingFile("util.mustache", "", "util.ts"));
+        supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", "apis", "exception.ts"));
         // http
-        supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "services/http-client", "http-client.ts"));
-        supportingFiles.add(new SupportingFile("http" + File.separator + "servers.mustache", "services/config", "servers.ts"));
+        supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
+        supportingFiles.add(new SupportingFile("http" + File.separator + "servers.mustache", "servers.ts"));
 
-        supportingFiles.add(new SupportingFile("configuration.mustache", "services/config", "configuration.ts"));
-        supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "services/auth", "auth.ts"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
+        supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
 
-        supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "types/__generated__", "index.ts"));
+        supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "all.ts"));
 
-        supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "services", "api-services.ts"));
-        /*supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", "types", "ObservableAPI.ts"));*/
+        supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "types", "PromiseAPI.ts"));
+        supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", "types", "ObservableAPI.ts"));
         supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", "types", "ObjectParamAPI.ts"));
 
         // models
-        setModelPackage("");
-        supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "services/serializer", "ObjectSerializer.ts"));
+        setModelPackage("models");
+        supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
         // api
         setApiPackage("");
-        supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", "services", "middleware.ts"));
-        supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "services", "base-api.ts"));
+        supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", "", "middleware.ts"));
+        supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
         apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
@@ -349,431 +301,6 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         }
     }
 
-     private void addProducesInfo(ApiResponse inputResponse, OpenSystemTypeScriptClientOperation codegenOperation) {
-        ApiResponse response = ModelUtils.getReferencedApiResponse(this.openAPI, inputResponse);
-        if (response == null || response.getContent() == null || response.getContent().isEmpty()) {
-            return;
-        }
-
-        Set<String> produces = response.getContent().keySet();
-        if (codegenOperation.produces == null) {
-            codegenOperation.produces = new ArrayList<>();
-        }
-
-        Set<String> existingMediaTypes = new HashSet<>();
-        for (Map<String, String> mediaType : codegenOperation.produces) {
-            existingMediaTypes.add(mediaType.get("mediaType"));
-        }
-
-        for (String key : produces) {
-            // escape quotation to avoid code injection, "*/*" is a special case, do nothing
-            String encodedKey = "*/*".equals(key) ? key : escapeQuotationMark(key);
-            //Only unique media types should be added to "produces"
-            if (!existingMediaTypes.contains(encodedKey)) {
-                Map<String, String> mediaType = new HashMap<>();
-                mediaType.put("mediaType", encodedKey);
-                codegenOperation.produces.add(mediaType);
-                codegenOperation.hasProduces = Boolean.TRUE;
-            }
-        }
-    }
-
-     private void addConsumesInfo(Operation operation, OpenSystemTypeScriptClientOperation codegenOperation) {
-        RequestBody requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
-        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-            return;
-        }
-
-        Set<String> consumes = requestBody.getContent().keySet();
-        List<Map<String, String>> mediaTypeList = new ArrayList<>();
-        for (String key : consumes) {
-            Map<String, String> mediaType = new HashMap<>();
-            if ("*/*".equals(key)) {
-                // skip as it implies `consumes` in OAS2 is not defined
-                continue;
-            } else {
-                mediaType.put("mediaType", escapeQuotationMark(key));
-            }
-            mediaTypeList.add(mediaType);
-        }
-
-        if (!mediaTypeList.isEmpty()) {
-            codegenOperation.consumes = mediaTypeList;
-            codegenOperation.hasConsumes = true;
-        }
-    }
-
-     private CodegenParameter headerToCodegenParameter(Header header, String headerName, Set<String> imports, String mediaTypeSchemaSuffix) {
-        if (header == null) {
-            return null;
-        }
-        Parameter headerParam = new Parameter();
-        headerParam.setName(headerName);
-        headerParam.setIn("header");
-        headerParam.setDescription(header.getDescription());
-        headerParam.setRequired(header.getRequired());
-        headerParam.setDeprecated(header.getDeprecated());
-        Header.StyleEnum style = header.getStyle();
-        if (style != null) {
-            headerParam.setStyle(Parameter.StyleEnum.valueOf(style.name()));
-        }
-        headerParam.setExplode(header.getExplode());
-        headerParam.setSchema(header.getSchema());
-        headerParam.setExamples(header.getExamples());
-        headerParam.setExample(header.getExample());
-        headerParam.setContent(header.getContent());
-        headerParam.setExtensions(header.getExtensions());
-        CodegenParameter param = fromParameter(headerParam, imports);
-        param.setContent(getContent(headerParam.getContent(), imports, mediaTypeSchemaSuffix));
-        return param;
-    }
-
-     /**
-     * Generate the next name for the given name, i.e. append "2" to the base name if not ending with a number,
-     * otherwise increase the number by 1. For example:
-     * status    => status2
-     * status2   => status3
-     * myName100 => myName101
-     *
-     * @param name The base name
-     * @return The next name for the base name
-     */
-    private static String generateNextName(String name) {
-        Pattern pattern = Pattern.compile("\\d+\\z");
-        Matcher matcher = pattern.matcher(name);
-        if (matcher.find()) {
-            String numStr = matcher.group();
-            int num = Integer.parseInt(numStr) + 1;
-            return name.substring(0, name.length() - numStr.length()) + num;
-        } else {
-            return name + "2";
-        }
-    }
-
-     /**
-     * Convert OAS Operation object to Codegen Operation object
-     *
-     * @param httpMethod HTTP method
-     * @param operation  OAS operation object
-     * @param path       the path of the operation
-     * @param servers    list of servers
-     * @return Codegen Operation object
-     */
-    @Override
-    public OpenSystemTypeScriptClientOperation fromOperation(String path,
-                                          String httpMethod,
-                                          Operation operation,
-                                          List<Server> servers) {
-        LOGGER.debug("fromOperation => operation: {}", operation);
-        if (operation == null)
-            throw new RuntimeException("operation cannot be null in fromOperation");
-
-        Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
-        OpenSystemTypeScriptClientOperation op = OpenSystemTypeScriptClientModelFactory.newInstance(OpenSystemTypeScriptClientModelType.OPERATION);
-        Set<String> imports = new HashSet<>();
-        if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
-            op.vendorExtensions.putAll(operation.getExtensions());
-
-            Object isCallbackRequest = op.vendorExtensions.remove("x-callback-request");
-            op.isCallbackRequest = Boolean.TRUE.equals(isCallbackRequest);
-        }
-
-        // servers setting
-        if (operation.getServers() != null && !operation.getServers().isEmpty()) {
-            // use operation-level servers first if defined
-            op.servers = fromServers(operation.getServers());
-        } else if (servers != null && !servers.isEmpty()) {
-            // use path-level servers
-            op.servers = fromServers(servers);
-        }
-
-        // store the original operationId for plug-in
-        op.operationIdOriginal = operation.getOperationId();
-
-        String operationId = getOrGenerateOperationId(operation, path, httpMethod);
-        // remove prefix in operationId
-        if (removeOperationIdPrefix) {
-            // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
-            String[] components = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
-            if (components.length > 1) {
-                // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
-                int component_number = removeOperationIdPrefixCount == -1 ? components.length - 1 : removeOperationIdPrefixCount;
-                component_number = Math.min(component_number, components.length - 1);
-                // Reconstruct the operationId from its split elements and the delimiter
-                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
-            }
-        }
-        operationId = removeNonNameElementToCamelCase(operationId);
-
-        if (isStrictSpecBehavior() && !path.startsWith("/")) {
-            // modifies an operation.path to strictly conform to OpenAPI Spec
-            op.path = "/" + path;
-        } else {
-            op.path = path;
-        }
-
-        op.operationId = toOperationId(operationId);
-        op.summary = escapeText(operation.getSummary());
-        op.unescapedNotes = operation.getDescription();
-        op.notes = escapeText(operation.getDescription());
-        op.hasConsumes = false;
-        op.hasProduces = false;
-        if (operation.getDeprecated() != null) {
-            op.isDeprecated = operation.getDeprecated();
-        }
-
-        addConsumesInfo(operation, op);
-
-        if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
-            for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
-                String key = operationGetResponsesEntry.getKey();
-                ApiResponse response = operationGetResponsesEntry.getValue();
-                addProducesInfo(response, op);
-                CodegenResponse r = fromResponse(key, response);
-                Map<String, Header> headers = response.getHeaders();
-                if (headers != null) {
-                    List<CodegenParameter> responseHeaders = new ArrayList<>();
-                    for (Entry<String, Header> entry : headers.entrySet()) {
-                        String headerName = entry.getKey();
-                        Header header = ModelUtils.getReferencedHeader(this.openAPI, entry.getValue());
-                        CodegenParameter responseHeader = headerToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
-                        responseHeaders.add(responseHeader);
-                    }
-                    r.setResponseHeaders(responseHeaders);
-                }
-                String mediaTypeSchemaSuffix = String.format(Locale.ROOT, "%sResponseBody", r.code);
-                r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
-
-                if (r.baseType != null &&
-                        !defaultIncludes.contains(r.baseType) &&
-                        !languageSpecificPrimitives.contains(r.baseType)) {
-                    imports.add(r.baseType);
-                }
-                if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
-                    op.uniqueItems = true;
-                    imports.add(typeMapping.get(r.containerType));
-                }
-
-                op.responses.add(r);
-                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseBinary)) {
-                    op.isResponseBinary = Boolean.TRUE;
-                }
-                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseFile)) {
-                    op.isResponseFile = Boolean.TRUE;
-                }
-
-                // check if any 4xx or 5xx response has an error response object defined
-                if ((Boolean.TRUE.equals(r.is4xx) || Boolean.TRUE.equals(r.is5xx)) &&
-                        Boolean.FALSE.equals(r.primitiveType) && Boolean.FALSE.equals(r.simpleType)) {
-                    op.hasErrorResponseObject = Boolean.TRUE;
-                }
-            }
-
-            // check if the operation can both return a 2xx response with a body and without
-            if (op.responses.stream().anyMatch(response -> response.is2xx && response.dataType != null) &&
-                    op.responses.stream().anyMatch(response -> response.is2xx && response.dataType == null)) {
-                op.isResponseOptional = Boolean.TRUE;
-            }
-
-            op.responses.sort((a, b) -> {
-                int aScore = a.isWildcard() ? 2 : a.isRange() ? 1 : 0;
-                int bScore = b.isWildcard() ? 2 : b.isRange() ? 1 : 0;
-                return Integer.compare(aScore, bScore);
-            });
-
-            if (methodResponse != null) {
-                handleMethodResponse(operation, schemas, op, methodResponse, importMapping);
-            }
-        }
-
-        if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
-            operation.getCallbacks().forEach((name, callback) -> {
-                CodegenCallback c = fromCallback(name, callback, servers);
-                op.callbacks.add(c);
-            });
-        }
-
-        List<Parameter> parameters = operation.getParameters();
-        List<CodegenParameter> allParams = new ArrayList<>();
-        List<CodegenParameter> bodyParams = new ArrayList<>();
-        List<CodegenParameter> pathParams = new ArrayList<>();
-        List<CodegenParameter> queryParams = new ArrayList<>();
-        List<CodegenParameter> headerParams = new ArrayList<>();
-        List<CodegenParameter> cookieParams = new ArrayList<>();
-        List<CodegenParameter> formParams = new ArrayList<>();
-        List<CodegenParameter> requiredParams = new ArrayList<>();
-        List<CodegenParameter> optionalParams = new ArrayList<>();
-
-        CodegenParameter bodyParam = null;
-        RequestBody requestBody = operation.getRequestBody();
-        if (requestBody != null) {
-            String contentType = getContentType(requestBody);
-            if (contentType != null) {
-                contentType = contentType.toLowerCase(Locale.ROOT);
-            }
-            if (contentType != null &&
-                    (contentType.startsWith("application/x-www-form-urlencoded") ||
-                            contentType.startsWith("multipart"))) {
-                // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, imports);
-                op.isMultipart = contentType.startsWith("multipart");
-                for (CodegenParameter cp : formParams) {
-                    setParameterEncodingValues(cp, requestBody.getContent().get(contentType));
-                    postProcessParameter(cp);
-                }
-                // add form parameters to the beginning of all parameter list
-                if (prependFormOrBodyParameters) {
-                    for (CodegenParameter cp : formParams) {
-                        allParams.add(cp.copy());
-                    }
-                }
-            } else {
-                // process body parameter
-                requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
-
-                String bodyParameterName = "";
-                if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
-                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
-                }
-                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
-                bodyParam.description = escapeText(requestBody.getDescription());
-                postProcessParameter(bodyParam);
-
-                bodyParams.add(bodyParam);
-
-                if (prependFormOrBodyParameters) {
-                    allParams.add(bodyParam);
-                }
-
-                // add example
-                if (schemas != null && !isSkipOperationExample()) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
-                }
-            }
-        }
-
-        if (parameters != null) {
-            for (Parameter param : parameters) {
-                param = ModelUtils.getReferencedParameter(this.openAPI, param);
-
-                CodegenParameter p = fromParameter(param, imports);
-                p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
-
-                // ensure unique params
-                if (ensureUniqueParams) {
-                    while (!isParameterNameUnique(p, allParams)) {
-                        p.paramName = generateNextName(p.paramName);
-                    }
-                }
-
-                allParams.add(p);
-
-                if (param instanceof QueryParameter || "query".equalsIgnoreCase(param.getIn())) {
-                    queryParams.add(p.copy());
-                } else if (param instanceof PathParameter || "path".equalsIgnoreCase(param.getIn())) {
-                    pathParams.add(p.copy());
-                } else if (param instanceof HeaderParameter || "header".equalsIgnoreCase(param.getIn())) {
-                    headerParams.add(p.copy());
-                } else if (param instanceof CookieParameter || "cookie".equalsIgnoreCase(param.getIn())) {
-                    cookieParams.add(p.copy());
-                } else {
-                    LOGGER.warn("Unknown parameter type {} for {}", p.baseType, p.baseName);
-                }
-
-            }
-        }
-
-        // add form/body parameter (if any) to the end of all parameter list
-        if (!prependFormOrBodyParameters) {
-            for (CodegenParameter cp : formParams) {
-                if (ensureUniqueParams) {
-                    while (!isParameterNameUnique(cp, allParams)) {
-                        cp.paramName = generateNextName(cp.paramName);
-                    }
-                }
-                allParams.add(cp.copy());
-            }
-
-            for (CodegenParameter cp : bodyParams) {
-                if (ensureUniqueParams) {
-                    while (!isParameterNameUnique(cp, allParams)) {
-                        cp.paramName = generateNextName(cp.paramName);
-                    }
-                }
-                allParams.add(cp.copy());
-            }
-        }
-
-        // create optional, required parameters
-        for (CodegenParameter cp : allParams) {
-            if (cp.required) { //required parameters
-                requiredParams.add(cp.copy());
-            } else { // optional parameters
-                optionalParams.add(cp.copy());
-                op.hasOptionalParams = true;
-            }
-        }
-
-        // add imports to operation import tag
-        for (String i : imports) {
-            if (needToImport(i)) {
-                op.imports.add(i);
-            }
-        }
-
-        op.bodyParam = bodyParam;
-        op.httpMethod = httpMethod.toUpperCase(Locale.ROOT);
-
-        // move "required" parameters in front of "optional" parameters
-        if (sortParamsByRequiredFlag) {
-            Collections.sort(allParams, new Comparator<CodegenParameter>() {
-                @Override
-                public int compare(CodegenParameter one, CodegenParameter another) {
-                    if (one.required == another.required)
-                        return 0;
-                    else if (one.required)
-                        return -1;
-                    else
-                        return 1;
-                }
-            });
-        }
-
-        op.allParams = allParams;
-        op.bodyParams = bodyParams;
-        op.pathParams = pathParams;
-        op.queryParams = queryParams;
-        op.headerParams = headerParams;
-        op.cookieParams = cookieParams;
-        op.formParams = formParams;
-        op.requiredParams = requiredParams;
-        op.optionalParams = optionalParams;
-        op.externalDocs = operation.getExternalDocs();
-        // legacy support
-        op.nickname = op.operationId;
-
-        if (op.allParams.size() > 0) {
-            op.hasParams = true;
-        }
-        op.hasRequiredParams = op.requiredParams.size() > 0;
-
-        // set Restful Flag
-        op.isRestfulShow = op.isRestfulShow();
-        op.isRestfulIndex = op.isRestfulIndex();
-        op.isRestfulCreate = op.isRestfulCreate();
-        op.isRestfulUpdate = op.isRestfulUpdate();
-        op.isRestfulDestroy = op.isRestfulDestroy();
-        op.isRestful = op.isRestful();
-
-        op.isQueryOperation = op.isQueryOperation();
-        op.isMutateOperation = op.isMutateOperation();
-        op.isGetOperation = op.isGetOperation();
-
-        return op;
-    }
-
-
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         final Object propFramework = additionalProperties.get(FRAMEWORK_SWITCH);
@@ -796,8 +323,7 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         // Add additional filename information for model imports in the apis
         List<Map<String, String>> imports = operations.getImports();
         for (Map<String, String> im : imports) {
-            im.put("filename", im.get("import").replace(".", "/"));
-            im.put("classname", getModelnameFromModelFilename(im.get("import")));
+            im.put("filename", im.get("import"));
         }
 
         OperationMap operationsMap = operations.getOperations();
@@ -805,17 +331,6 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         for (CodegenOperation operation: operationList) {
             List<CodegenResponse> responses = operation.responses;
             operation.returnType = this.getReturnType(responses);
-
-            if (operation.operationId.length() > 0) {
-                System.out.println("***operation.operationId***");
-                System.out.println(operation.operationId);
-                String[] nicknames = operation.operationId.split("_");
-                if (nicknames.length > 1) {
-
-                operation.nickname = nicknames[1].substring(0, 1).toLowerCase()
-                    + nicknames[1].substring(1);
-                }
-            }
         }
         return operations;
     }
@@ -844,17 +359,23 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         return String.join(" | ", returnTypes);
     }
 
-    private String getModelnameFromModelFilename(String filename) {
-        String name = filename.substring((modelPackage() + File.separator).length());
-        return camelize(name);
-    }
-
     @Override
     public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
+    }
+
+   /**
+   * Configures a friendly name for the generator.  This will be used by the generator
+   * to select the library with the -g flag.
+   *
+   * @return the friendly name for the generator
+   */
+    @Override
+    public String getName() {
+      return "open-system-typescript-client";
     }
 
     @Override
@@ -893,6 +414,11 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         fullModelName = addPrefix(fullModelName, modelNamePrefix);
         fullModelName = addSuffix(fullModelName, modelNameSuffix);
         return toTypescriptTypeName(fullModelName, "Model");
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        return ".." + File.separator + modelPackage() + File.separator + toModelName(name);
     }
 
     protected String addPrefix(String name, String prefix) {
@@ -947,7 +473,6 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         // should be the same as the model name
         return toModelName(name);
     }
-
 
     @Override
     protected String getParameterDataType(Parameter parameter, Schema p) {
@@ -1075,10 +600,10 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         // method name cannot use reserved keyword, e.g. return
         // append _ at the beginning, e.g. _return
         if (isReservedWord(operationId)) {
-            return escapeReservedWord(camelize(sanitizeName(operationId), CamelizeOption.LOWERCASE_FIRST_CHAR));
+            return escapeReservedWord(camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER));
         }
 
-        return camelize(sanitizeName(operationId), CamelizeOption.LOWERCASE_FIRST_CHAR);
+        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
     }
 
     public void setModelPropertyNaming(String naming) {
@@ -1101,7 +626,7 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
             case original:
                 return name;
             case camelCase:
-                return camelize(name, CamelizeOption.LOWERCASE_FIRST_CHAR);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -1213,13 +738,12 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(im));
+                tsImport.put("filename", importMapping.getOrDefault(im, toModelImport(im)));
                 tsImports.add(tsImport);
             }
         }
         return tsImports;
     }
-
 
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
@@ -1268,17 +792,6 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-    /**
-   * Configures a friendly name for the generator.  This will be used by the generator
-   * to select the library with the -g flag.
-   *
-   * @return the friendly name for the generator
-   */
-  @Override
-  public String getName() {
-    return "open-system-typescript-client";
-  }
-
     @Override
     public String getHelp() {
         return "Generates a TypeScript client library using Fetch API (beta).";
@@ -1293,23 +806,20 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
-
-
         convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6);
 
         // change package names
-        apiPackage = this.apiPackage + ".services";
-        modelPackage = this.modelPackage + ".types/__generated__";
+        apiPackage = this.apiPackage + ".apis";
         testPackage = this.testPackage + ".tests";
 
         additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
-        supportingFiles.add(new SupportingFile("index.mustache", "services", "index.ts"));
+        supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
 
         String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
-        /*supportingFiles.add(new SupportingFile(
+        supportingFiles.add(new SupportingFile(
               "http"  + File.separator + httpLibName + ".mustache",
-              "services/http-client", httpLibName + ".ts"
-        ));*/
+              "http", httpLibName + ".ts"
+        ));
 
         Object propPlatform = additionalProperties.get(PLATFORM_SWITCH);
         if (propPlatform == null) {
@@ -1326,9 +836,9 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, "node".equals(propPlatform) ? "Buffer" : "Blob");
 
         if (!"deno".equals(propPlatform)) {
-            supportingFiles.add(new SupportingFile("README.mustache", "services", "README.md"));
-            //supportingFiles.add(new SupportingFile("package.mustache", "services", "package.json"));
-            //supportingFiles.add(new SupportingFile("tsconfig.mustache", "services", "tsconfig.json"));
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+            supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+            supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         }
 
         if ("deno".equals(propPlatform)) {
@@ -1336,27 +846,24 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         }
 
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
-        /*if (!useRxJS) {
-            supportingFiles.add(new SupportingFile("rxjsStub.mustache", "services", "rxjsStub.ts"));
-        }*/
+        if (!useRxJS) {
+            supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
+        }
 
         final boolean useInversify = convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH);
         if (useInversify) {
-            supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "api-service-binder.ts"));
-            //supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "types/__generated__/services", "configuration.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "PromiseAPI.mustache", "types/__generated__/services", "api-services.ts"));
-            /*supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", "services", "ObservableAPI.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "ObjectParamAPI.mustache", "services", "ObjectParamAPI.ts"));*/
-            //supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", "types/__generated__/services", "http-client.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "PromiseAPI.mustache", "services", "PromiseAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", "services", "ObservableAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "ObjectParamAPI.mustache", "services", "ObjectParamAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", "services", "http.ts"));
             apiTemplateFiles.put("services" + File.separator + "api.mustache", ".service.ts");
-            //supportingFiles.add(new SupportingFile("api" + File.separator + "state.mustache", "state", "state.ts"));
         }
 
         // NPM Settings
-        if (additionalProperties.containsKey(LIBRARY_NAME)) {
-            if (!additionalProperties.containsKey(NPM_NAME)) {
-                setNpmName("@" + additionalProperties.get(LIBRARY_NAME).toString() + "/services");
-            }
+        if (additionalProperties.containsKey(NPM_NAME)) {
+            setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
 
         if (additionalProperties.containsKey(NPM_VERSION)) {
@@ -1378,10 +885,10 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(this.unaliasSchema(inner)) + ">";
+            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = (Schema) p.getAdditionalProperties();
-            return "{ [key: string]: " + this.getTypeDeclaration(this.unaliasSchema(inner)) + "; }";
+            inner = getSchemaAdditionalProperties(p);
+            return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -1389,10 +896,6 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         } else {
             return super.getTypeDeclaration(p);
         }
-    }
-
-    public Schema unaliasSchema(Schema schema) {
-        return ModelUtils.unaliasSchema(this.openAPI, schema, schemaMapping);
     }
 
     @Override
@@ -1437,7 +940,7 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
 
     public String getModelName(Schema sc) {
         if (sc.get$ref() != null) {
-            Schema unaliasedSchema = this.unaliasSchema(sc);
+            Schema unaliasedSchema = unaliasSchema(sc);
             if (unaliasedSchema.get$ref() != null) {
                 return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
@@ -2067,9 +1570,9 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
 
         String[] parts = splitComposedType(type);
         for (String s : parts) {
-
+            if (needToImport(s)) {
                 m.imports.add(s);
-
+            }
         }
     }
 

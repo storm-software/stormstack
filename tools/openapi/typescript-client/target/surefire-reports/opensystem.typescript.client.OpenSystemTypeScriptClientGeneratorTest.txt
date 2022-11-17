@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: opensystem.typescript.client.OpenSystemTypeScriptClientGeneratorTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.878 sec
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.854 sec

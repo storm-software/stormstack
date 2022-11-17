@@ -1,19 +1,19 @@
-import type { IApiServiceConfiguration } from "@base/types";
+import type { HttpFile } from "../http/http";
+import type { Configuration } from "../configuration";
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from "@{{libraryName}}/types";
+import { {{{ classname }}} } from "{{{ importPath }}}";
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
 
-export const {{classname}}ServiceId = Symbol("{{classname}}.Service");
 
-export interface I{{classname}}Service {
+export abstract class AbstractPromise{{classname}} {
     {{#operation}}
-    {{methodName}}: ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: IApiServiceConfiguration) => Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
     {{/operation}}
 }

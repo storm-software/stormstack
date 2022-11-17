@@ -1,29 +1,24 @@
+// TODO: better import syntax?
+import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi{{extensionForDeno}}';
+import {Configuration} from '../configuration{{extensionForDeno}}';
+import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
 {{#platforms}}
 {{#node}}
 import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
-import {ObjectSerializer} from '../serializer/ObjectSerializer';
-import {
-    ResponseContext,
-    RequestContext,
-    ApiErrorResult, 
-    RequiredErrorResult,  
-    APIRequestFactory, 
-    isHttpCodeInRange, 
-    canApiServiceConsumeForm, 
-    isHttpCodeInRange
-} from '@base/utilities';
-import { HttpMethodTypes } from "@base/enums";
-import { IApiServiceConfiguration, ISecurityAuthentication, HttpFile } from "@base/types";
+import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
+import {ApiException} from './exception{{extensionForDeno}}';
+import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
+import {SecurityAuthentication} from '../auth/auth{{extensionForDeno}}';
 
 {{#useInversify}}
 import { injectable } from "inversify";
 {{/useInversify}}
 
 {{#imports}}
-import { {{classname}} } from '@{{libraryName}}/types';
+import { {{classname}} } from '{{filename}}{{extensionForDeno}}';
 {{/imports}}
 {{#operations}}
 
@@ -33,7 +28,7 @@ import { {{classname}} } from '@{{libraryName}}/types';
 {{#useInversify}}
 @injectable()
 {{/useInversify}}
-export class {{classname}}RequestFactory extends APIRequestFactory {
+export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
     {{#operation}}
     /**
@@ -47,14 +42,14 @@ export class {{classname}}RequestFactory extends APIRequestFactory {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{methodName}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: IApiServiceConfiguration): Promise<RequestContext> {
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
         {{#allParams}}
 
         {{#required}}
         // verify required parameter '{{paramName}}' is not null or undefined
         if ({{paramName}} === null || {{paramName}} === undefined) {
-            throw RequiredErrorResult.exception("{{classname}}", "{{methodName}}", "{{paramName}}");
+            throw new RequiredError("{{classname}}", "{{nickname}}", "{{paramName}}");
         }
 
         {{/required}}
@@ -65,7 +60,7 @@ export class {{classname}}RequestFactory extends APIRequestFactory {
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethodTypes.{{httpMethod}});
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
         {{#queryParams}}
 
@@ -157,7 +152,7 @@ export class {{classname}}RequestFactory extends APIRequestFactory {
         {{/bodyParam}}
 
         {{#hasAuthMethods}}
-        let authMethod: ISecurityAuthentication | undefined;
+        let authMethod: SecurityAuthentication | undefined;
         {{/hasAuthMethods}}
         {{#authMethods}}
         // Apply auth methods
@@ -168,7 +163,7 @@ export class {{classname}}RequestFactory extends APIRequestFactory {
         {{/authMethods}}
         
         {{^useInversify}}
-        const defaultAuth: ISecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -192,10 +187,10 @@ export class {{classname}}ResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
-     * @params response Response returned by the server for a request to {{methodName}}
-     * @throws ApiErrorResult if the response code was not in [200, 299]
+     * @params response Response returned by the server for a request to {{nickname}}
+     * @throws ApiException if the response code was not in [200, 299]
      */
-     public async {{methodName}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}> {
+     public async {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         {{#responses}}
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {
@@ -213,7 +208,7 @@ export class {{classname}}ResponseProcessor {
             return body;
             {{/is2xx}}
             {{^is2xx}}
-            throw ApiErrorResult.exception<{{{dataType}}}>({{code}}, "{{message}}", body, response.headers);
+            throw new ApiException<{{{dataType}}}>(response.httpStatusCode, "{{message}}", body, response.headers);
             {{/is2xx}}
             {{/dataType}}
             {{^dataType}}
@@ -221,7 +216,7 @@ export class {{classname}}ResponseProcessor {
             return;
             {{/is2xx}}
             {{^is2xx}}
-            throw ApiErrorResult.exception<undefined>(response.httpStatusCode, "{{message}}", undefined, response.headers);
+            throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined, response.headers);
             {{/is2xx}}
             {{/dataType}}
         }
@@ -246,7 +241,7 @@ export class {{classname}}ResponseProcessor {
             {{/returnType}}
         }
 
-        throw ApiErrorResult.exception<string | {{{fileContentDataType}}} | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+        throw new ApiException<string | {{{fileContentDataType}}} | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     {{/operation}}

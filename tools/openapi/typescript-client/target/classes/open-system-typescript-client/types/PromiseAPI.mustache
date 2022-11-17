@@ -1,51 +1,42 @@
-import { ResponseContext, RequestContext, ServiceClass } from '@base/utilities';
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
+import { Configuration} from '../configuration{{extensionForDeno}}'
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
-import { IApiServiceConfiguration, ApiServiceConfigurationId, HttpFile } from "@base/types";
+import { AbstractConfiguration } from "../services/configuration";
 {{/useInversify}}
 
 {{#models}}
 {{#model}}
-import { {{classname}} } from '@{{libraryName}}/types';
+import { {{{ classname }}} } from '{{{ importPath }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
-
-import { I{{classname}}Service, {{classname}}ServiceId } from '@{{libraryName}}/types';
-
+import { Observable{{classname}} } from './ObservableAPI{{extensionForDeno}}';
 
 {{#operations}}
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "./{{classname}}{{extensionForDeno}}";
-import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "./{{classname}}.service";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
+{{#useInversify}}
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service";
 
-@ServiceClass({ id: {{classname}}ServiceId })
-export class {{classname}}Service implements I{{classname}}Service {
-     {{#useInversify}}
-    private requestFactory: Abstract{{classname}}RequestFactory;
-    private responseProcessor: Abstract{{classname}}ResponseProcessor;
-    {{/useInversify}}
-    {{^useInversify}}
-    private requestFactory: {{classname}}RequestFactory;
-    private responseProcessor: {{classname}}ResponseProcessor;
-    {{/useInversify}}
-    private configuration: IApiServiceConfiguration;
+@injectable()
+{{/useInversify}}
+export class Promise{{classname}} {
+    private api: Observable{{classname}}
 
     public constructor(
         {{#useInversify}}
-        @inject(ApiServiceConfigurationId) configuration: IApiServiceConfiguration,
+        @inject(AbstractConfiguration) configuration: Configuration,
         @inject(Abstract{{classname}}RequestFactory) @optional() requestFactory?: Abstract{{classname}}RequestFactory,
         @inject(Abstract{{classname}}ResponseProcessor) @optional() responseProcessor?: Abstract{{classname}}ResponseProcessor
         {{/useInversify}}
         {{^useInversify}}
-        configuration: IApiServiceConfiguration,
+        configuration: Configuration,
         requestFactory?: {{classname}}RequestFactory,
         responseProcessor?: {{classname}}ResponseProcessor
         {{/useInversify}}
     ) {
-        this.configuration = configuration;
-        this.requestFactory = requestFactory || new {{classname}}RequestFactory(configuration);
-        this.responseProcessor = responseProcessor || new {{classname}}ResponseProcessor();
+        this.api = new Observable{{classname}}(configuration, requestFactory, responseProcessor);
     }
 
 {{#operation}}
@@ -60,10 +51,9 @@ export class {{classname}}Service implements I{{classname}}Service {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{methodName}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: IApiServiceConfiguration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
-        const requestContext = await this.requestFactory.{{methodName}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
-
-        return this.configuration.httpApi.send(requestContext)
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
+        return result.toPromise();
     }
 
 {{/operation}}

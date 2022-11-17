@@ -7,10 +7,10 @@ import { ExecutorContext } from "@nrwl/devkit";
 import { exec } from "child_process";
 import { createReadStream, readdir } from "fs";
 import { existsSync, writeFile } from "fs-extra";
+import Path from "path";
 import { parse } from "qs";
 import { createInterface } from "readline";
 import { promisify } from "util";
-const Path = require("path");
 
 const execute = async (command: string): Promise<string | undefined> => {
   try {
@@ -31,7 +31,10 @@ const execute = async (command: string): Promise<string | undefined> => {
 
 const LIB_GENERATED_DIR = "__docs__";
 
-const documentExecutor = async (options: {}, context: ExecutorContext) => {
+const documentExecutor = async (
+  options: Record<string, never>,
+  context: ExecutorContext
+) => {
   try {
     console.info(`Executing "document" executor...`);
     console.info(`Options: ${JSON.stringify(options, null, 2)}`);
@@ -123,15 +126,8 @@ const documentExecutor = async (options: {}, context: ExecutorContext) => {
         // Invoke API Extractor
         const extractorResult: ExtractorResult = Extractor.invoke(
           ExtractorConfig.prepare({
-            configObject: ExtractorConfig.loadFile(
-              Path.join(rootPath, "docs", "config", "api-extractor.json")
-            ),
-            configObjectFullPath: Path.join(
-              rootPath,
-              "docs",
-              "config",
-              "api-extractor.json"
-            ),
+            configObject: ExtractorConfig.loadFile("./api-extractor.json"),
+            configObjectFullPath: "./api-extractor.json",
             projectFolderLookupToken: distPath,
             packageJsonFullPath: Path.join(distPath, "package.json"),
           }),

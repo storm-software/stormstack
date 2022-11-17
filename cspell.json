@@ -10,7 +10,8 @@
     "Persistor",
     "rabbitmq",
     "Renderable",
-    "Storyshots"
+    "Storyshots",
+    "systemvars"
   ],
   "enableFiletypes": [
     "mdx"

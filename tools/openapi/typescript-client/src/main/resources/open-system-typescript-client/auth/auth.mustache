@@ -1,6 +1,42 @@
-import { RequestContext } from "@base/utilities";
+{{#platforms}}
+{{#node}}
+// typings for btoa are incorrect
+//@ts-ignore
+import {{^supportsES6}}* as{{/supportsES6}} btoa from "btoa";
+{{/node}}
+{{/platforms}}
+import { RequestContext } from "../http/http{{extensionForDeno}}";
+{{#useInversify}}
 import { injectable, inject, named } from "inversify";
-import { ITokenProvider, TokenProviderId } from "@base/types";
+import { AbstractTokenProvider } from "../services/configuration";
+{{/useInversify}}
+
+/**
+ * Interface authentication schemes.
+ */
+export interface SecurityAuthentication {
+    /*
+     * @return returns the name of the security authentication as specified in OAI
+     */
+    getName(): string;
+
+    /**
+     * Applies the authentication scheme to the request context
+     *
+     * @params context the request context which should use this authentication scheme
+     */
+    applySecurityAuthentication(context: RequestContext): void | Promise<void>;
+}
+
+{{#useInversify}}
+export const AuthApiKey = Symbol("auth.api_key");
+export const AuthUsername = Symbol("auth.username");
+export const AuthPassword = Symbol("auth.password");
+
+{{/useInversify}}
+export interface TokenProvider {
+  getToken(): Promise<string> | string;
+}
 
 {{#authMethods}}
 /**
@@ -9,14 +45,14 @@ import { ITokenProvider, TokenProviderId } from "@base/types";
 {{#useInversify}}
 @injectable()
 {{/useInversify}}
-export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication implements ISecurityAuthentication {
+export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication implements SecurityAuthentication {
     {{#isApiKey}}
     /**
      * Configures this api key authentication with the necessary properties
      *
      * @param apiKey: The api key to be used for every request
      */
-    public constructor({{#useInversify}}@inject(AuthApiKeyId) @named("{{name}}") {{/useInversify}}private apiKey: string) {}
+    public constructor({{#useInversify}}@inject(AuthApiKey) @named("{{name}}") {{/useInversify}}private apiKey: string) {}
     {{/isApiKey}}
     {{#isBasicBasic}}
     /**
@@ -26,8 +62,8 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
      * @param password password for http basic authentication
      */
     public constructor(
-        {{#useInversify}}@inject(AuthApiUsernameId) @named("{{name}}") {{/useInversify}}private username: string,
-        {{#useInversify}}@inject(AuthApiPasswordId) @named("{{name}}") {{/useInversify}}private password: string
+        {{#useInversify}}@inject(AuthUsername) @named("{{name}}") {{/useInversify}}private username: string,
+        {{#useInversify}}@inject(AuthPassword) @named("{{name}}") {{/useInversify}}private password: string
     ) {}
     {{/isBasicBasic}}
     {{#isBasicBearer}}
@@ -36,7 +72,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
      *
      * @param tokenProvider service that can provide the up-to-date token when needed
      */
-    public constructor({{#useInversify}}@inject(TokenProviderId) @named("{{name}}") {{/useInversify}}private tokenProvider: ITokenProvider) {}
+    public constructor({{#useInversify}}@inject(AbstractTokenProvider) @named("{{name}}") {{/useInversify}}private tokenProvider: TokenProvider) {}
     {{/isBasicBearer}}
     {{#isOAuth}}
     /**
@@ -72,7 +108,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
 
 export type AuthMethods = {
     {{^useInversify}}
-    "default"?: ISecurityAuthentication,
+    "default"?: SecurityAuthentication,
     {{/useInversify}}
     {{#authMethods}}
     "{{name}}"?: SecurityAuthentication{{^-last}},{{/-last}}
@@ -82,13 +118,18 @@ export type AuthMethods = {
 
 export const authMethodServices = {
     {{^useInversify}}
-    "default"?: ISecurityAuthentication,
+    "default"?: SecurityAuthentication,
     {{/useInversify}}
     {{#authMethods}}
     "{{name}}": {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{^-last}},{{/-last}}
     {{/authMethods}}
 }
 {{/useInversify}}
+
+export type ApiKeyConfiguration = string;
+export type HttpBasicConfiguration = { "username": string, "password": string };
+export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
+export type OAuth2Configuration = { accessToken: string };
 
 export type AuthMethodsConfiguration = {
     {{^useInversify}}

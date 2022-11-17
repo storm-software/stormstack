@@ -4,6 +4,11 @@
       "implementation": "../../../dist/tools/executors/docs/design-tokens-docgen/impl",
       "schema": "../../../dist/tools/executors/docs/design-tokens-docgen/schema.json",
       "description": "Document the latest design tokens code from the extracted figma JSON"
+    },
+    "tsdocs-docgen": {
+      "implementation": "../../../dist/tools/executors/docs/tsdocs-docgen/impl",
+      "schema": "../../../dist/tools/executors/docs/tsdocs-docgen/schema.json",
+      "description": "Document typescript code from the extracted TSDocs comments"
     }
   }
 }

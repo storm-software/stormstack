@@ -89,6 +89,37 @@
               "output": "."
             }
           ]
+        },
+        "tsdocs-docgen": {
+          "outputPath": "dist/tools/executors/docs/tsdocs-docgen",
+          "rollupConfig": "tools/executors/docs/tsdocs-docgen/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/docs",
+              "glob": "**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/docs/tsdocs-docgen",
+              "glob": "schema.json",
+              "output": "."
+            },
+            {
+              "input": "tools/executors/docs/tsdocs-docgen",
+              "glob": "api-extractor.json",
+              "output": "."
+            }
+          ]
         }
       }
     },

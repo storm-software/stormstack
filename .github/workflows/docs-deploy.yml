@@ -37,13 +37,13 @@ jobs:
       - name: Install dependencies
         run: npm install --frozen-lockfile
       - name: Build website
-        run: npx nx run docs:build        
+        run: npx nx run docs:build
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: './dist/apps/docs'
+          path: "./dist/docs"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1

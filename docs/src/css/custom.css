@@ -1,0 +1,237 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #7330d5;
+  --ifm-color-primary-dark: #6728c3;
+  --ifm-color-primary-darker: #6125b8;
+  --ifm-color-primary-darkest: #501f98;
+  --ifm-color-primary-light: #8246d9;
+  --ifm-color-primary-lighter: #8951dc;
+  --ifm-color-primary-lightest: #9f71e2;
+  --ifm-code-font-size: 95%;
+
+  --ifm-button-background-color: #501f98;
+
+  --ifm-navbar-height: 80px;
+
+  --ifm-footer-background-color: #e5e5e5;
+  --ifm-footer-title-color: var(--ifm-font-color-base);
+  --ifm-footer-link-color: var(--ifm-font-color-base);
+
+  /* Open System Variables */
+  --os-highlighted-bg-color: var(--ifm-color-primary-darkest);
+  --os-highlighted-color: #fff;
+}
+
+html[data-theme="dark"] {
+  --ifm-hero-background-color: #e5e5e5;
+
+  /* Open System Variables */
+  --os-highlighted-bg-color: var(--ifm-color-primary-darkest);
+  --os-highlighted-color: #fff;
+}
+
+::selection {
+  background: var(--os-highlighted-bg-color); /* WebKit/Blink Browsers */
+  color: var(--os-highlighted-color); /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: var(--os-highlighted-bg-color); /* Gecko Browsers */
+  color: var(--os-highlighted-color); /* Gecko Browsers */
+}
+
+[data-theme="light"] .button--secondary:not(:hover) {
+  background-color: var(--ifm-color-primary-darkest);
+  color: #e5e5e5;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+}
+html[data-theme="dark"] .hero::before {
+  content: '';
+  background-image: url("../../static/img/background.jpg");
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  filter: blur(30px);
+}
+
+html[data-theme="dark"] .footer__item,
+html[data-theme="dark"] .footer__title,
+html[data-theme="dark"] .footer__copyright {
+  color: var(--ifm-color-content-inverse);
+  --ifm-footer-color: var(--ifm-color-content-inverse);
+  --ifm-footer-link-color: var(--ifm-color-content-inverse);
+  --ifm-footer-title-color: var(--ifm-color-content-inverse);
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+html[data-theme="dark"] .docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.navbar__title {
+  --ifm-heading-font-family: 'Nunito Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #30cfd0, #c43ad6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.navbar__title:hover {
+  --ifm-heading-font-family: 'Nunito Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: inherit;
+  background-clip: inherit;
+  -webkit-background-clip: inherit;
+  -webkit-text-fill-color: inherit;
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.footer {
+  background-color: #e5e5e5;
+}
+
+.footer__item {
+  font-weight: 400;
+}
+
+.hero .button--secondary {
+  margin: 10px 15px;
+}
+
+.hero__subtitle {
+  margin: 10px 0px;
+}
+
+[data-theme="dark"] .hero {
+  --ifm-hero-background-color: var(--ifm-color-primary-darkest);
+}
+
+
+
+
+/*.hero {
+  --ifm-hero-background-color: #e5e5e5;
+}*/
+
+.hero__title {
+  font-size: 5rem;
+  --ifm-heading-font-family: arial black, sans-serif;
+  background: linear-gradient(to right, #30cfd0, #c43ad6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="dark"] .hero__title {
+  --ifm-heading-font-family: arial black, sans-serif;
+  background: linear-gradient(to right, #30cfd0, #c43ad6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text_white-glow {
+  color: var(--ifm-font-color-base);
+  font-family: 'Nunito Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
+}
+
+html[data-theme="dark"] .text_white-glow {
+  color: white;
+}
+
+.algolia-autocomplete .ds-dropdown-menu {
+  width: 500px;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--category-header {
+  color: darkgray;
+  border: 1px solid gray;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--subcategory-column {
+  color: gray;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--title {
+  font-weight: bold;
+  color: black;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--text {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.algolia-autocomplete .typesense-docsearch-suggestion--highlight {
+  color: blue;
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+  -webkit-animation-name: fadeIn;
+
+  animation-duration: 1.5s;
+  -webkit-animation-duration: 1.5s;
+
+  animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+
+  visibility: visible !important;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  80% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    -webkit-transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    -webkit-transform: scale(1.1);
+  }
+  80% {
+    -webkit-transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+}
