@@ -10,9 +10,6 @@ export class ConsoleLogger implements ILogger {
   }
 
   /**
-   * Static error(message: string) {
-   *     printError(message);
-   *   }
    * @param {string} message - The message to be printed.
    */
   static error(message: string) {
@@ -81,10 +78,6 @@ export class ConsoleLogger implements ILogger {
   }
 
   /**
-   * Info(message: string): Promise<void> {
-   *     printInfo(message);
-   *     return;
-   *   }
    * @param {string} message - The message to be printed.
    * @returns A promise that resolves to void.
    */

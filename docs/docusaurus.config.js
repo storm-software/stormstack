@@ -4,7 +4,6 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 const path = require("path");
-require("dotenv").config();
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -20,7 +19,7 @@ const config = {
   trailingSlash: false,
   titleDelimiter: "🧪",
   plugins: [
-    [
+   /* [
       "docusaurus-plugin-typedoc-api",
       {
         projectRoot: path.join(__dirname, ".."),
@@ -53,18 +52,7 @@ const config = {
           },
         ],
       },
-    ],
-    [
-      "docusaurus2-dotenv",
-      {
-        path: "docs/.env", // The path to your environment variables.
-        safe: false, // If false ignore safe-mode, if true load './.env.example', if a string load that file as the sample
-        systemvars: false, // Set to true if you would rather load all system variables as well (useful for CI purposes)
-        silent: true, //  If true, all warnings will be suppressed
-        expand: false, // Allows your variables to be "expanded" for reusability within your .env file
-        defaults: false, //  Adds support for dotenv-defaults. If set to true, uses ./.env.defaults
-      },
-    ],
+    ],*/
   ],
   presets: [
     [
@@ -104,7 +92,7 @@ const config = {
     ],
   ],
 
-  themes: ["docusaurus-theme-redoc", "docusaurus-theme-search-typesense"],
+  themes: ["docusaurus-theme-redoc" /*, "docusaurus-theme-search-typesense"*/],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -125,7 +113,7 @@ const config = {
         minHeadingLevel: 2,
         maxHeadingLevel: 5,
       },
-      typesense: {
+      /*typesense: {
         typesenseCollectionName: "docusaurus-2", // Replace with your own doc site's name. Should match the collection name in the scraper settings.
 
         typesenseServerConfig: {
@@ -144,7 +132,7 @@ const config = {
 
         // Optional
         contextualSearch: true,
-      },
+      },*/
       navbar: {
         title: "Open System",
         items: [
@@ -154,8 +142,7 @@ const config = {
             label: "Design System",
           },
           {
-            to: "end-points/introduction",
-            activeBasePath: "docs/end-points",
+            to: "docs/end-points/introduction",
             label: "OpenAPI Specs",
             position: "left",
             items: [
@@ -165,16 +152,15 @@ const config = {
               },
             ],
           },
-          {
+          /*{
             to: "api",
-            label: "API",
+            label: "API Reference",
             position: "left",
-          },
+          },*/
           {
             type: "doc",
             docId: "getting-started/installation",
             to: "getting-started/installation",
-            activeBasePath: "docs/getting-started",
             label: "Training",
             position: "left",
           },
@@ -193,7 +179,7 @@ const config = {
             items: [
               {
                 label: "OpenAPI Specs",
-                to: "end-points/introduction",
+                to: "docs/end-points/introduction",
               },
               {
                 label: "Design System",
@@ -201,7 +187,7 @@ const config = {
               },
               {
                 label: "Docs Style Guide",
-                to: "doc-creation/docs-style-guide",
+                to: "docs/doc-creation/docs-style-guide",
               },
             ],
           },
@@ -210,7 +196,7 @@ const config = {
             items: [
               {
                 label: "Getting Started",
-                to: "getting-started/introduction",
+                to: "docs/getting-started/introduction",
               },
             ],
           },
