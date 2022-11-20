@@ -8,6 +8,11 @@ import {
   Prop,
 } from "@stencil/core";
 import clsx from "clsx";
+import {
+  ButtonTransitionDirections,
+  ButtonTypes,
+  ButtonVariants,
+} from "./os-button.types";
 
 @Component({
   tag: "os-button",

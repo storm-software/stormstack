@@ -1,5 +1,5 @@
+import { OsSelect } from "@open-system/design-system-components/os-select";
 import { h } from "@stencil/core";
-import { OsSelect } from "./os-select";
 
 export default {
   title: "Forms/Select",

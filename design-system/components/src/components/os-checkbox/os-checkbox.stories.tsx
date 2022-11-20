@@ -1,4 +1,4 @@
-import { OsCheckbox } from "./os-checkbox";
+import { OsCheckbox } from "@open-system/design-system-components/os-checkbox";
 import { h } from "@stencil/core";
 
 export default {

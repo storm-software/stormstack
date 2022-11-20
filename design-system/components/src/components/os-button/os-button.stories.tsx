@@ -1,5 +1,5 @@
+import { OsButton } from "@open-system/design-system-components/os-button";
 import { h } from "@stencil/core";
-import { OsButton } from "./os-button";
 
 export default {
   title: "Button",

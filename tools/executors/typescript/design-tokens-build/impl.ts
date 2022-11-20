@@ -11,6 +11,7 @@ import {
 import Path from "path";
 import SVGO from "svgo";
 import {
+  execute,
   svgoParser,
   toCssFontImportParser,
   toTailwindParser,
@@ -62,9 +63,9 @@ export default async function (
     if (clean) {
       ConsoleLogger.info("Cleaning previous design tokens build...");
 
-      /*result = await execute(
+      result = await execute(
         `rimraf ./dist/design-system/tokens -v !("package.json")`
-      );*/
+      );
       if (result) {
         ConsoleLogger.error(result);
         return { success: false };
