@@ -1,16 +1,36 @@
-import { Barrio, Inter } from "@next/font/google";
+import {
+  Anybody,
+  Barrio,
+  Inter,
+  Permanent_Marker,
+  Poppins,
+} from "@next/font/google";
 import clsx from "clsx";
-import Link from "next/link";
 import React from "react";
 import "./globals.css";
+import { Header } from "./header";
+
+const barrio = Barrio({
+  variable: "--font-barrio",
+  weight: "400",
+});
+
+const anybody = Anybody({
+  variable: "--font-anybody",
+});
 
 const inter = Inter({
   variable: "--font-inter",
 });
 
-const barrio = Barrio({
-  variable: "--font-barrio",
+const permanentMarker = Permanent_Marker({
+  variable: "--font-permanent-marker",
   weight: "400",
+});
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  weight: ["800", "400", "100"],
 });
 
 export default function RootLayout({
@@ -21,28 +41,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={clsx(inter.variable, barrio.variable, "bg-slate-800")}>
+      className={clsx(
+        inter.variable,
+        anybody.variable,
+        poppins.variable,
+        barrio.variable,
+        permanentMarker.variable,
+        "bg-gray-300"
+      )}>
       <head />
-      <body className="relative h-fit bg-gradient-to-b from-bg-1 via-bg-1/80 to-bg-1/0">
-        <nav className="sticky top-0 z-50 w-full border-b border-slate-800 shadow-xl backdrop-blur-md">
-          <div className="flex flex-row gap-2 px-4 py-4">
-            <Link href="/home" className="text-primary">
-              Home
-            </Link>
-            <Link href="/contact" className="text-primary">
-              Contact
-            </Link>
-            <Link href="/about" className="text-primary">
-              About
-            </Link>
+      <body className="relative h-fit bg-gradient-to-b from-bg-1 via-bg-1/50 to-bg-1/0 antialiased">
+        <Header />
 
-            <Link href="/home" className="text-primary">
-              Login
-            </Link>
-          </div>
-        </nav>
-
-        <div className="my-10 h-fit w-full">{children}</div>
+        <div className="mt-1 mb-8 h-fit w-full">{children}</div>
       </body>
     </html>
   );

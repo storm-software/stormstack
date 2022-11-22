@@ -30,10 +30,10 @@ export class OsCard {
             <div class="h-full w-full bg-gradient-to-b from-black p-5">
               <div class="flex translate-y-16 flex-col items-center opacity-100 transition-transform group-hover:translate-y-2">
                 <span class="font-header-1 text-2xl text-primary">
-                  {this.header}
+                  <slot name="header" />
                 </span>
                 <span class="font-header-1 text-base text-secondary">
-                  {this.summary}
+                  <slot name="summary" />
                 </span>
                 <os-button class="mt-10 opacity-0 transition-opacity duration-500 ease-in group-hover:opacity-100">
                   See More

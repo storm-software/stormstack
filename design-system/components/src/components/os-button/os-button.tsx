@@ -1,12 +1,4 @@
-import {
-  Component,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-} from "@stencil/core";
+import { Component, Event, EventEmitter, h, Host, Prop } from "@stencil/core";
 import clsx from "clsx";
 import {
   ButtonTransitionDirections,
@@ -19,17 +11,19 @@ import {
   styleUrl: "os-button.css",
   shadow: true,
 })
+/**
+ * The base Button component used by the Open System repository
+ */
 export class OsButton {
   /**
    * The variant style of the button
    */
-  @Prop() variant: ButtonVariants = ButtonVariants.PRIMARY;
+  @Prop() variant: string = ButtonVariants.PRIMARY;
 
   /**
    * The direction the hover animation will start on
    */
-  @Prop() transitionDirection: ButtonTransitionDirections =
-    ButtonTransitionDirections.LEFT;
+  @Prop() transitionDirection: string = ButtonTransitionDirections.LEFT;
 
   /**
    * Is the button filled by default
@@ -39,7 +33,7 @@ export class OsButton {
   /**
    * Is the button filled by default
    */
-  @Prop() type: ButtonTypes = ButtonTypes.BUTTON;
+  @Prop() type: string = ButtonTypes.BUTTON;
 
   /**
    * Is the button read-only (cannot be clicked by user)
@@ -50,7 +44,7 @@ export class OsButton {
    * Event emitted when the user clicks into the button
    */
   @Event({
-    eventName: "osClick",
+    eventName: "click",
     composed: true,
     cancelable: true,
     bubbles: true,
@@ -60,9 +54,9 @@ export class OsButton {
   /**
    * Handle a user click event
    */
-  @Listen("click")
-  onClick(event: MouseEvent) {
+  handleClick(event: MouseEvent) {
     event.stopPropagation();
+    console.log("click");
 
     if (!this.disabled) {
       this.click?.emit?.(event);
@@ -127,7 +121,7 @@ export class OsButton {
             },
             "m-w-bnt-m-w relative overflow-hidden rounded-full p-0.5 shadow-sm transition-shadow duration-300 ease-in-out"
           )}
-          onClick={this.onClick}>
+          onClick={this.handleClick}>
           <div
             class={clsx(
               this.getTextColor(),

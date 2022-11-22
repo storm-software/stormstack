@@ -7,11 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description     | Type     | Default     |
-| -------- | --------- | --------------- | -------- | ----------- |
-| `last`   | `last`    | The last name   | `string` | `undefined` |
-| `middle` | `middle`  | The middle name | `string` | `undefined` |
-| `text`   | `text`    | The first name  | `string` | `undefined` |
+| Property   | Attribute  | Description          | Type      | Default |
+| ---------- | ---------- | -------------------- | --------- | ------- |
+| `selected` | `selected` | Is the link selected | `boolean` | `false` |
 
 
 ----------------------------------------------

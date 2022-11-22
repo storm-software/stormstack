@@ -5,7 +5,6 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ButtonTransitionDirections, ButtonTypes, ButtonVariants } from "./components/os-button/os-button.types";
 import { SelectOption } from "./components/os-select/os-select.types";
 export namespace Components {
     interface OsButton {
@@ -20,15 +19,15 @@ export namespace Components {
         /**
           * The direction the hover animation will start on
          */
-        "transitionDirection": ButtonTransitionDirections;
+        "transitionDirection": string;
         /**
           * Is the button filled by default
          */
-        "type": ButtonTypes;
+        "type": string;
         /**
           * The variant style of the button
          */
-        "variant": ButtonVariants;
+        "variant": string;
     }
     interface OsCard {
         /**
@@ -142,17 +141,9 @@ export namespace Components {
     }
     interface OsLink {
         /**
-          * The last name
+          * Is the link selected
          */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
-        /**
-          * The first name
-         */
-        "text": string;
+        "selected": boolean;
     }
     interface OsNumberInput {
         /**
@@ -203,6 +194,20 @@ export namespace Components {
           * Input warning method
          */
         "setWarning": (warning: string) => Promise<void>;
+    }
+    interface OsSection {
+        /**
+          * The section header string
+         */
+        "header"?: string;
+        /**
+          * One or multiple tailwindcss height utility class(es)
+         */
+        "height"?: string;
+        /**
+          * One or multiple tailwindcss width utility class(es)
+         */
+        "width"?: string;
     }
     interface OsSelect {
         /**
@@ -338,6 +343,12 @@ declare global {
         prototype: HTMLOsNumberInputElement;
         new (): HTMLOsNumberInputElement;
     };
+    interface HTMLOsSectionElement extends Components.OsSection, HTMLStencilElement {
+    }
+    var HTMLOsSectionElement: {
+        prototype: HTMLOsSectionElement;
+        new (): HTMLOsSectionElement;
+    };
     interface HTMLOsSelectElement extends Components.OsSelect, HTMLStencilElement {
     }
     var HTMLOsSelectElement: {
@@ -357,6 +368,7 @@ declare global {
         "os-input": HTMLOsInputElement;
         "os-link": HTMLOsLinkElement;
         "os-number-input": HTMLOsNumberInputElement;
+        "os-section": HTMLOsSectionElement;
         "os-select": HTMLOsSelectElement;
         "os-title": HTMLOsTitleElement;
     }
@@ -374,19 +386,19 @@ declare namespace LocalJSX {
         /**
           * Event emitted when the user clicks into the button
          */
-        "onOsClick"?: (event: OsButtonCustomEvent<MouseEvent>) => void;
+        "onClick"?: (event: OsButtonCustomEvent<MouseEvent>) => void;
         /**
           * The direction the hover animation will start on
          */
-        "transitionDirection"?: ButtonTransitionDirections;
+        "transitionDirection"?: string;
         /**
           * Is the button filled by default
          */
-        "type"?: ButtonTypes;
+        "type"?: string;
         /**
           * The variant style of the button
          */
-        "variant"?: ButtonVariants;
+        "variant"?: string;
     }
     interface OsCard {
         /**
@@ -500,17 +512,9 @@ declare namespace LocalJSX {
     }
     interface OsLink {
         /**
-          * The last name
+          * Is the link selected
          */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
-        /**
-          * The first name
-         */
-        "text"?: string;
+        "selected"?: boolean;
     }
     interface OsNumberInput {
         /**
@@ -561,6 +565,20 @@ declare namespace LocalJSX {
           * Decides if input field required
          */
         "required"?: boolean;
+    }
+    interface OsSection {
+        /**
+          * The section header string
+         */
+        "header"?: string;
+        /**
+          * One or multiple tailwindcss height utility class(es)
+         */
+        "height"?: string;
+        /**
+          * One or multiple tailwindcss width utility class(es)
+         */
+        "width"?: string;
     }
     interface OsSelect {
         /**
@@ -653,6 +671,7 @@ declare namespace LocalJSX {
         "os-input": OsInput;
         "os-link": OsLink;
         "os-number-input": OsNumberInput;
+        "os-section": OsSection;
         "os-select": OsSelect;
         "os-title": OsTitle;
     }
@@ -667,6 +686,7 @@ declare module "@stencil/core" {
             "os-input": LocalJSX.OsInput & JSXBase.HTMLAttributes<HTMLOsInputElement>;
             "os-link": LocalJSX.OsLink & JSXBase.HTMLAttributes<HTMLOsLinkElement>;
             "os-number-input": LocalJSX.OsNumberInput & JSXBase.HTMLAttributes<HTMLOsNumberInputElement>;
+            "os-section": LocalJSX.OsSection & JSXBase.HTMLAttributes<HTMLOsSectionElement>;
             "os-select": LocalJSX.OsSelect & JSXBase.HTMLAttributes<HTMLOsSelectElement>;
             "os-title": LocalJSX.OsTitle & JSXBase.HTMLAttributes<HTMLOsTitleElement>;
         }

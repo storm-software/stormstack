@@ -18,6 +18,7 @@ const nextConfig = {
     fontLoaders: [
       { loader: "@next/font/google", options: { subsets: ["latin"] } },
     ],
+    transpilePackages: ["@open-system/shared-ui-components"],
   },
 
   async rewrites() {

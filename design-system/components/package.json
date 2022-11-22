@@ -8,9 +8,12 @@
   "types": "./dist/types/index.d.ts",
   "collection": "./dist/collection/collection-manifest.json",
   "collection:main": "./dist/collection/index.js",
-  "unpkg": "./dist/design-system-components/design-system-components.js",
+  "unpkg": "./dist/open-system/open-system.js",
   "files": [
     "dist/",
     "loader/"
-  ]
+  ],
+  "dependencies": {
+    "@stencil/core": "latest"
+  }
 }

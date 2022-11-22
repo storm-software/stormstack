@@ -1,0 +1,6 @@
+{
+  "name": "@open-system/shared-ui-components",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "types": "./src/declaration.d.ts"
+}
