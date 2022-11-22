@@ -53,7 +53,7 @@ export default function RootLayout({
       <body className="relative h-fit bg-gradient-to-b from-bg-1 via-bg-1/50 to-bg-1/0 antialiased">
         <Header />
 
-        <div className="mt-1 mb-8 h-fit w-full">{children}</div>
+        <div className="mt-2 mb-8 h-fit w-full">{children}</div>
       </body>
     </html>
   );
