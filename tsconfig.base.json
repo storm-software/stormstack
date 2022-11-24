@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
     "declarationMap": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
@@ -26,14 +26,17 @@
       "@open-system/design-system-components/*": [
         "dist/design-system/components/dist/components/*"
       ],
-      "@open-system/design-system-components/loader": [
-        "dist/design-system/components/loader"
-      ],
       "@open-system/design-system-components/collection/*": [
         "dist/design-system/components/dist/collection/components/*"
       ],
+      "@open-system/design-system-components/loader": [
+        "dist/design-system/components/loader"
+      ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
+      "@open-system/engagement-ui-feat-like": [
+        "libs/engagement/ui/feat-like/src/index.ts"
+      ],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
       "@open-system/executors-typescript": [

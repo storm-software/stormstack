@@ -44,12 +44,12 @@ export class OsButton {
    * Event emitted when the user clicks into the button
    */
   @Event({
-    eventName: "click",
+    eventName: "osClick",
     composed: true,
     cancelable: true,
     bubbles: true,
   })
-  click: EventEmitter<MouseEvent>;
+  osClick: EventEmitter<MouseEvent>;
 
   /**
    * Handle a user click event
@@ -59,7 +59,7 @@ export class OsButton {
     console.log("click");
 
     if (!this.disabled) {
-      this.click?.emit?.(event);
+      this.osClick?.emit?.(event);
     }
   }
 
@@ -125,7 +125,7 @@ export class OsButton {
           <div
             class={clsx(
               this.getTextColor(),
-              "rounded-full bg-bg-1 px-8 py-3 font-btn-label-1  text-btn-label-1"
+              "rounded-full bg-bg-1 px-8 py-3 font-btn-label-1 text-btn-label-1"
             )}>
             {this.inverse ? (
               <slot name="hover-text">{this.getDefaultText()}</slot>

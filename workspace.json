@@ -6,6 +6,7 @@
     "design-system-components": "design-system/components",
     "design-system-tokens": "design-system/tokens",
     "docs": "docs",
+    "engagement-ui-feat-like": "libs/engagement/ui/feat-like",
     "shared-common": "libs/shared/common",
     "shared-ui-components": "libs/shared/ui/components",
     "shared-ui-feat-navigation": "libs/shared/ui/feat-navigation",

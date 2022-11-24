@@ -4,7 +4,7 @@ import { NavigationMenu } from "@open-system/shared-ui-feat-navigation";
 
 export function Header() {
   return (
-    <nav className="sticky top-0 z-50 h-20 w-full">
+    <nav className="fixed top-0 z-50 h-20 w-full">
       <NavigationMenu
         items={[
           { name: "Home", href: "/home" },

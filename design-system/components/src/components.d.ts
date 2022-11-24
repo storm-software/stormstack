@@ -386,7 +386,7 @@ declare namespace LocalJSX {
         /**
           * Event emitted when the user clicks into the button
          */
-        "onClick"?: (event: OsButtonCustomEvent<MouseEvent>) => void;
+        "onOsClick"?: (event: OsButtonCustomEvent<MouseEvent>) => void;
         /**
           * The direction the hover animation will start on
          */

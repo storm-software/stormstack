@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 "use client";
 
-import { PropsWithBase } from "@open-system/shared-ui-components";
+import { ButtonVariants } from "@open-system/design-system-components/collection/os-button/os-button.types";
+import { OsButton, PropsWithBase } from "@open-system/shared-ui-components";
 import { motion, useCycle } from "framer-motion";
+import NextLink from "next/link";
 import { useEffect, useRef } from "react";
 import { UrlObject } from "url";
 import { Link } from "../link";
 import { NavigationMenuButton } from "./NavigationMenuButton";
-
 export interface NavigationMenuItem {
   name: string;
   href: string | UrlObject;
@@ -95,7 +96,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
       custom={height}
       ref={containerRef}>
       <motion.div
-        className="h-full w-fit border border-slate-800 px-4 py-4 shadow-xl backdrop-blur-md"
+        className="h-full w-fit border border-slate-800 py-4 shadow-xl backdrop-blur-md"
         variants={navMenu}
       />
 
@@ -108,9 +109,27 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
           ))}
       </motion.div>
 
-      {/*<OsButton onClick={() => {}}>Home</OsButton>*/}
+      <motion.div
+        className="flex flex-row gap-6 pt-5"
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.8,
+          ease: [0, 0.71, 0.2, 1.01],
+        }}>
+        <NextLink href="/contact">
+          <OsButton
+            onClick={() => {}}
+            variant={ButtonVariants.PRIMARY}
+            inverse={true}>
+            Contact
+            <div slot="hover-text">Let's talk</div>
+          </OsButton>
+        </NextLink>
 
-      <NavigationMenuButton opened={opened} onClick={onClick} />
+        <NavigationMenuButton opened={opened} onClick={onClick} />
+      </motion.div>
     </motion.div>
   );
 }

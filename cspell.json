@@ -1,10 +1,13 @@
 {
   "words": [
     "asyncapi",
+    "clsx",
     "codegen",
     "commitlint",
+    "cssmodule",
     "devcontainer",
     "endregion",
+    "nrwl",
     "openapi",
     "partytown",
     "Persistor",

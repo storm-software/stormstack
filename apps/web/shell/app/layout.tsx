@@ -1,6 +1,6 @@
 import {
+  Abril_Fatface,
   Anybody,
-  Barrio,
   Inter,
   Permanent_Marker,
   Poppins,
@@ -10,8 +10,8 @@ import React from "react";
 import "./globals.css";
 import { Header } from "./header";
 
-const barrio = Barrio({
-  variable: "--font-barrio",
+const abrilFatface = Abril_Fatface({
+  variable: "--font-abril-fatface",
   weight: "400",
 });
 
@@ -45,15 +45,15 @@ export default function RootLayout({
         inter.variable,
         anybody.variable,
         poppins.variable,
-        barrio.variable,
+        abrilFatface.variable,
         permanentMarker.variable,
         "bg-gray-300"
       )}>
       <head />
-      <body className="relative h-fit bg-gradient-to-b from-bg-1 via-bg-1/50 to-bg-1/0 antialiased">
+      <body className="relative h-fit bg-gradient-to-b from-bg-1 via-bg-1/95 to-bg-1/0 antialiased">
         <Header />
 
-        <div className="mt-2 mb-8 h-fit w-full">{children}</div>
+        <div className="mb-8 h-fit w-full">{children}</div>
       </body>
     </html>
   );

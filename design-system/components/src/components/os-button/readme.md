@@ -18,9 +18,9 @@
 
 ## Events
 
-| Event   | Description                                        | Type                      |
-| ------- | -------------------------------------------------- | ------------------------- |
-| `click` | Event emitted when the user clicks into the button | `CustomEvent<MouseEvent>` |
+| Event     | Description                                        | Type                      |
+| --------- | -------------------------------------------------- | ------------------------- |
+| `osClick` | Event emitted when the user clicks into the button | `CustomEvent<MouseEvent>` |
 
 
 ## Dependencies
