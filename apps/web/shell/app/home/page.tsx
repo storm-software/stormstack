@@ -7,7 +7,7 @@ import {
   LOGO_JSON_LD_DEFAULT,
   PROFILE_JSON_LD_DEFAULT,
 } from "../../next-seo.config";
-import Client from "./client";
+import Client from "./Client";
 
 const melody = localFont({
   variable: "--font-melody",
