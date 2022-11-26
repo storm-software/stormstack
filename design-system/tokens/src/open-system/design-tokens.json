@@ -630,6 +630,18 @@
         }
       }
     },
+    "active-yellow": {
+      "description": "",
+      "type": "color",
+      "value": "#fcd34dff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:8365fb1e20cf4568799e7c802232f215bba26bd5,",
+          "exportKey": "color"
+        }
+      }
+    },
     "header colors": {
       "header-primary": {
         "description": "",
@@ -1198,6 +1210,24 @@
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
           "styleId": "S:e5ea5516b4038b256c9348a3daf04f1a63ba420b,",
+          "exportKey": "effect"
+        }
+      }
+    },
+    "active-yellow-glow": {
+      "description": null,
+      "type": "custom-shadow",
+      "value": {
+        "shadowType": "dropShadow",
+        "radius": 180,
+        "color": "#fcd34dff",
+        "offsetX": 0,
+        "offsetY": 0,
+        "spread": 0
+      },
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:cff126f884c8af065d871a50c9e9d90cfc32c0e3,",
           "exportKey": "effect"
         }
       }

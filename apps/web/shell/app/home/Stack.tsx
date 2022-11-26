@@ -7,7 +7,7 @@ export default function Stack() {
     <section className="flex w-full snap-center snap-always justify-center overflow-hidden">
       <div className="flex h-[88rem] w-fit flex-col gap-20 px-10">
         <div className="flex w-fit max-w-[65rem] flex-col gap-20">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-5">
             <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_40%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_6px]">
               <h2 className="text-shadow-lg font-app-title-1 text-6xl leading-[4rem] text-primary shadow-white">
                 Full Stack Development
@@ -24,26 +24,36 @@ export default function Stack() {
             </p>
           </div>
         </div>
-        <div className="relative flex w-5/6 flex-col py-24">
-          <div className="from-bg-yellow-400 via-bg-yellow-400/95 h-16 w-full border-2 border-bg-1 bg-yellow-400 bg-gradient-to-r to-transparent"></div>
-          <div className="from-bg-blue-600 via-bg-blue-600/95 h-16 w-full border-2 border-bg-1 bg-blue-600 bg-gradient-to-r to-transparent"></div>
-          <div className="from-bg-emerald-600 via-bg-emerald-600/95 h-20 w-full border-2 border-bg-1 bg-emerald-600 bg-gradient-to-r to-transparent"></div>
-          <div className="from-bg-red-600 via-bg-red-600/95 h-16 w-full border-2 border-bg-1 bg-red-600 bg-gradient-to-r to-transparent"></div>
-          <div className="from-bg-purple-700 via-bg-purple-700/95 h-20 w-full border-2 border-bg-1 bg-purple-700 bg-gradient-to-r to-transparent"></div>
+        <div className="relative flex w-full flex-col pt-12">
+          {/*<div className="from-bg-yellow-400 via-bg-yellow-400/50 flex h-16 w-full cursor-pointer items-center justify-end border-2 border-bg-1 bg-yellow-400 bg-gradient-to-r to-transparent px-12 font-header-3 text-3xl text-primary transition-colors hover:text-bg-1">
+            <label className="cursor-pointer">Design System</label>
+          </div>
+          <div className="from-bg-blue-600 via-bg-blue-600/50 flex h-16 w-full cursor-pointer items-center justify-end border-2 border-bg-1 bg-blue-600 bg-gradient-to-r to-transparent px-16 font-header-3 text-3xl text-primary transition-colors hover:text-bg-1">
+            <label className="cursor-pointer">Client-Side</label>
+          </div>
+          <div className="from-bg-emerald-600 via-bg-emerald-600/50 flex h-16 w-full cursor-pointer items-center justify-end border-2 border-bg-1 bg-emerald-600 bg-gradient-to-r to-transparent px-16 font-header-3 text-3xl text-primary transition-colors hover:text-bg-1">
+            <label className="cursor-pointer">Server-Side</label>
+          </div>
+          <div className="from-bg-red-600 via-bg-red-600/50 flex h-16 w-full cursor-pointer items-center justify-end border-2 border-bg-1 bg-red-600 bg-gradient-to-r to-transparent px-20 font-header-3 text-3xl text-primary transition-colors hover:text-bg-1">
+            <label className="cursor-pointer">Database</label>
+          </div>
+          <div className="from-bg-purple-700 via-bg-purple-700/50 flex h-16 w-full cursor-pointer items-center justify-end border-2 border-bg-1 bg-purple-700 bg-gradient-to-r to-transparent px-16 font-header-3 text-3xl text-primary transition-colors hover:text-bg-1">
+            <label className="cursor-pointer">Hardware</label>
+              </div>*/}
 
-          <div className="absolute top-[700px] left-[25%] h-[700px] w-full">
+          <div className="absolute top-[600px] left-[25%] z-10">
             <StackLayer label="Hardware" />
           </div>
-          <div className="absolute top-[625px] left-[25%] h-[700px] w-full">
+          <div className="absolute top-[525px] left-[25%] z-20">
             <StackLayer label="Database" />
           </div>
-          <div className="absolute top-[550px] left-[25%] h-[700px] w-full">
+          <div className="absolute top-[450px] left-[25%] z-30">
             <StackLayer label="Server-Side" />
           </div>
-          <div className="absolute top-[475px] left-[25%] h-[700px] w-full">
+          <div className="absolute top-[375px] left-[25%] z-40">
             <StackLayer label="Client-Side" />
           </div>
-          <div className="absolute top-[400px] left-[25%] h-[700px] w-full">
+          <div className="absolute top-[300px] left-[25%] z-50">
             <StackLayer label="Design System" />
           </div>
         </div>

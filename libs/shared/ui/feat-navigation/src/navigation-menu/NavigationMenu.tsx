@@ -90,7 +90,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
   };
   return (
     <motion.div
-      className="flex flex-row-reverse px-4"
+      className="z-[100] flex flex-row-reverse px-4"
       initial={false}
       animate={opened ? "opened" : "closed"}
       custom={height}

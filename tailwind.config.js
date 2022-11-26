@@ -17,6 +17,8 @@ module.exports = {
         ...extend.fontFamily,
         "app-title-1": ["var(--font-melody)", ...fontFamily.sans],
         "header-1": ["var(--font-permanent-marker)", ...fontFamily.sans],
+        "header-2": ["var(--font-permanent-marker)", ...fontFamily.sans],
+        "header-3": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "body-1": ["var(--font-anybody)", ...fontFamily.sans],
         "body-2": ["var(--font-inter)", ...fontFamily.sans],
         "label-1": ["var(--font-anybody)", ...fontFamily.sans],

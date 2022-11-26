@@ -1,15 +1,25 @@
 "use client";
 
 import { ArrowDownIcon } from "@heroicons/react/24/solid";
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import Logo from "../../../../../assets/box-logo-gradient.svg";
 import Introduction from "./Introduction";
 import Stack from "./Stack";
 import Title from "./Title";
 
 export default function Client() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
   return (
     <div>
+      <div className="fixed top-0 left-0 right-0 z-[100]">
+        <motion.div className="h-2 bg-highlight-1" style={{ scaleX }} />
+      </div>
       <motion.div
         className="fixed -left-16 -bottom-16 h-52 w-52 rounded-full border-4 border-secondary"
         initial={{ opacity: 0, scale: 0 }}
