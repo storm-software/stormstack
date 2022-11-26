@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import Logo from "../../../../../assets/box-logo-gradient.svg";
+import Logo from "../../../../assets/box-logo-gradient.svg";
 
 export default function Introduction() {
   const scrollRef = useRef(null);

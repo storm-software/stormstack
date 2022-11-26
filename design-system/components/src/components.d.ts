@@ -69,6 +69,13 @@ export namespace Components {
          */
         "required": boolean;
     }
+    interface OsHeader {
+        /**
+          * The level of the header
+          * @example h1, h2, h3, h4, h5, h6, etc.
+         */
+        "level": number;
+    }
     interface OsInput {
         /**
           * Decides if input is disabled
@@ -325,6 +332,12 @@ declare global {
         prototype: HTMLOsCheckboxElement;
         new (): HTMLOsCheckboxElement;
     };
+    interface HTMLOsHeaderElement extends Components.OsHeader, HTMLStencilElement {
+    }
+    var HTMLOsHeaderElement: {
+        prototype: HTMLOsHeaderElement;
+        new (): HTMLOsHeaderElement;
+    };
     interface HTMLOsInputElement extends Components.OsInput, HTMLStencilElement {
     }
     var HTMLOsInputElement: {
@@ -365,6 +378,7 @@ declare global {
         "os-button": HTMLOsButtonElement;
         "os-card": HTMLOsCardElement;
         "os-checkbox": HTMLOsCheckboxElement;
+        "os-header": HTMLOsHeaderElement;
         "os-input": HTMLOsInputElement;
         "os-link": HTMLOsLinkElement;
         "os-number-input": HTMLOsNumberInputElement;
@@ -439,6 +453,13 @@ declare namespace LocalJSX {
           * Decides if input field required
          */
         "required"?: boolean;
+    }
+    interface OsHeader {
+        /**
+          * The level of the header
+          * @example h1, h2, h3, h4, h5, h6, etc.
+         */
+        "level"?: number;
     }
     interface OsInput {
         /**
@@ -668,6 +689,7 @@ declare namespace LocalJSX {
         "os-button": OsButton;
         "os-card": OsCard;
         "os-checkbox": OsCheckbox;
+        "os-header": OsHeader;
         "os-input": OsInput;
         "os-link": OsLink;
         "os-number-input": OsNumberInput;
@@ -683,6 +705,7 @@ declare module "@stencil/core" {
             "os-button": LocalJSX.OsButton & JSXBase.HTMLAttributes<HTMLOsButtonElement>;
             "os-card": LocalJSX.OsCard & JSXBase.HTMLAttributes<HTMLOsCardElement>;
             "os-checkbox": LocalJSX.OsCheckbox & JSXBase.HTMLAttributes<HTMLOsCheckboxElement>;
+            "os-header": LocalJSX.OsHeader & JSXBase.HTMLAttributes<HTMLOsHeaderElement>;
             "os-input": LocalJSX.OsInput & JSXBase.HTMLAttributes<HTMLOsInputElement>;
             "os-link": LocalJSX.OsLink & JSXBase.HTMLAttributes<HTMLOsLinkElement>;
             "os-number-input": LocalJSX.OsNumberInput & JSXBase.HTMLAttributes<HTMLOsNumberInputElement>;

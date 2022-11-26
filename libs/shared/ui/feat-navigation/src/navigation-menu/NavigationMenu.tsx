@@ -90,7 +90,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
   };
   return (
     <motion.div
-      className="z-[100] flex flex-row-reverse px-4"
+      className="z-nav flex flex-row-reverse px-4"
       initial={false}
       animate={opened ? "opened" : "closed"}
       custom={height}
@@ -118,7 +118,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
           delay: 0.8,
           ease: [0, 0.71, 0.2, 1.01],
         }}>
-        <NextLink href="/contact">
+        <NextLink href="/about">
           <OsButton
             onClick={() => {}}
             variant={ButtonVariants.PRIMARY}

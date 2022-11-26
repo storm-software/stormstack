@@ -14,7 +14,7 @@ export const NEXT_SEO_DEFAULT: NextSeoProps = {
   noindex: false,
   nofollow: false,
   canonical: "https://www.sullivanpj.com/",
-  themeColor: "#2b2347",
+  themeColor: "#18181B",
   openGraph: {
     type: "website",
     locale: "en_IE",

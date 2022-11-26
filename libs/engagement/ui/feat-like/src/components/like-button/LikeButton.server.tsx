@@ -11,7 +11,7 @@ function LikeButtonServer(props: LikeButtonProps) {
   const isLiked = false;
 
   return (
-    <div className="group z-[100] h-fit w-fit cursor-pointer">
+    <div className="group z-like h-fit w-fit cursor-pointer">
       <div className="relative mb-7 group-hover:animate-bounce">
         {isLiked ? (
           <CheckIcon className="w-40" />

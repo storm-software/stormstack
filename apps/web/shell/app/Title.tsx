@@ -1,6 +1,6 @@
 "use client";
 
-import Logo from "../../../../../assets/box-logo-gradient.svg";
+import Logo from "../../../../assets/box-logo-gradient.svg";
 
 export default function Title() {
   return (

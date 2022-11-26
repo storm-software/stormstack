@@ -11,6 +11,7 @@ defineCustomElements();
 export const OsButton = /*@__PURE__*/createReactComponent<JSX.OsButton, HTMLOsButtonElement>('os-button');
 export const OsCard = /*@__PURE__*/createReactComponent<JSX.OsCard, HTMLOsCardElement>('os-card');
 export const OsCheckbox = /*@__PURE__*/createReactComponent<JSX.OsCheckbox, HTMLOsCheckboxElement>('os-checkbox');
+export const OsHeader = /*@__PURE__*/createReactComponent<JSX.OsHeader, HTMLOsHeaderElement>('os-header');
 export const OsInput = /*@__PURE__*/createReactComponent<JSX.OsInput, HTMLOsInputElement>('os-input');
 export const OsLink = /*@__PURE__*/createReactComponent<JSX.OsLink, HTMLOsLinkElement>('os-link');
 export const OsNumberInput = /*@__PURE__*/createReactComponent<JSX.OsNumberInput, HTMLOsNumberInputElement>('os-number-input');

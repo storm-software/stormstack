@@ -16,12 +16,14 @@ module.exports = {
       fontFamily: {
         ...extend.fontFamily,
         "app-title-1": ["var(--font-melody)", ...fontFamily.sans],
-        "header-1": ["var(--font-permanent-marker)", ...fontFamily.sans],
-        "header-2": ["var(--font-permanent-marker)", ...fontFamily.sans],
-        "header-3": ["var(--font-permanent-marker)", ...fontFamily.sans],
+        "header-1": ["var(--font-melody)", ...fontFamily.sans],
+        "header-2": ["var(--font-melody)", ...fontFamily.sans],
+        "header-3": ["var(--font-melody)", ...fontFamily.sans],
+        "header-4": ["var(--font-melody)", ...fontFamily.sans],
         "body-1": ["var(--font-anybody)", ...fontFamily.sans],
         "body-2": ["var(--font-inter)", ...fontFamily.sans],
         "label-1": ["var(--font-anybody)", ...fontFamily.sans],
+        "label-2": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "btn-label-1": ["var(--font-poppins)", ...fontFamily.sans],
         "like-label": ["var(--font-permanent-marker)", ...fontFamily.sans],
       },
@@ -34,6 +36,14 @@ module.exports = {
       backgroundImage: {
         "bg-title": "url(../../../../assets/bg-title.jpg)",
       },
+    },
+    zIndex: {
+      ...extend.zIndex,
+      nav: 100,
+      like: 105,
+      scroll: 105,
+      progress: 200,
+      loading: 250,
     },
     variants: {},
     plugins: [

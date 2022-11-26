@@ -2,7 +2,7 @@
 
 import { ArrowDownIcon } from "@heroicons/react/24/solid";
 import { motion, useScroll, useSpring } from "framer-motion";
-import Logo from "../../../../../assets/box-logo-gradient.svg";
+import Logo from "../../../../assets/box-logo-gradient.svg";
 import Introduction from "./Introduction";
 import Stack from "./Stack";
 import Title from "./Title";
@@ -17,7 +17,7 @@ export default function Client() {
 
   return (
     <div>
-      <div className="fixed top-0 left-0 right-0 z-[100]">
+      <div className="fixed top-0 left-0 right-0 z-progress">
         <motion.div className="h-2 bg-highlight-1" style={{ scaleX }} />
       </div>
       <motion.div
@@ -29,7 +29,7 @@ export default function Client() {
           delay: 0.5,
           ease: [0, 0.71, 0.2, 1.01],
         }}>
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="z-scroll flex h-full w-full items-center justify-center">
           <ArrowDownIcon className="h-12 w-12 animate-bounce fill-secondary" />
         </div>
       </motion.div>

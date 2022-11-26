@@ -489,6 +489,18 @@
     "body-2": {
       "description": "",
       "type": "color",
+      "value": "#363a3eff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:0e87135449763f1f2373404b9c42aaf6e60d94db,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "body-3": {
+      "description": "",
+      "type": "color",
       "value": "#523188ff",
       "blendMode": "normal",
       "extensions": {

@@ -5,10 +5,21 @@ import {
   Permanent_Marker,
   Poppins,
 } from "@next/font/google";
+import localFont from "@next/font/local";
 import clsx from "clsx";
 import React from "react";
 import "./globals.css";
 import { Header } from "./header";
+
+const melody = localFont({
+  variable: "--font-melody",
+  src: "../../../../assets/fonts/BLMelody-Bold.woff2",
+});
+
+const permanentMarker = Permanent_Marker({
+  variable: "--font-permanent-marker",
+  weight: "400",
+});
 
 const abrilFatface = Abril_Fatface({
   variable: "--font-abril-fatface",
@@ -21,11 +32,6 @@ const anybody = Anybody({
 
 const inter = Inter({
   variable: "--font-inter",
-});
-
-const permanentMarker = Permanent_Marker({
-  variable: "--font-permanent-marker",
-  weight: "400",
 });
 
 const poppins = Poppins({
@@ -42,15 +48,16 @@ export default function RootLayout({
     <html
       lang="en"
       className={clsx(
+        melody.variable,
         inter.variable,
         anybody.variable,
         poppins.variable,
         abrilFatface.variable,
         permanentMarker.variable,
-        "bg-gray-300"
+        "bg-bg-1"
       )}>
       <head />
-      <body className="relative h-fit bg-gradient-to-b from-bg-1 via-bg-1/95 to-bg-1/0 antialiased">
+      <body className="relative h-fit min-h-screen antialiased">
         <Header />
 
         <div className="mb-8 h-fit w-full">{children}</div>
