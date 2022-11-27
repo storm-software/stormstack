@@ -115,7 +115,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{
           duration: 0.8,
-          delay: 0.8,
+          delay: 0,
           ease: [0, 0.71, 0.2, 1.01],
         }}>
         <NextLink href="/about">

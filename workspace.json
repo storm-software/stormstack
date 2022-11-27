@@ -10,7 +10,6 @@
     "shared-common": "libs/shared/common",
     "shared-ui-components": "libs/shared/ui/components",
     "shared-ui-feat-navigation": "libs/shared/ui/feat-navigation",
-    "shared-ui-feature-routing": "libs/shared/ui/feature-routing",
     "static-message-common": "libs/static/message/common",
     "tests-design-system-components-e2e": "apps/tests/design-system/components-e2e",
     "tools-asyncapi-rabbitmq": "tools/asyncapi/rabbitmq",

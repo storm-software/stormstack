@@ -16,9 +16,7 @@ export default function Page() {
 
       <Client />
 
-      <div className="fixed right-0 bottom-12">
-        <LikeButton pageId="home" />
-      </div>
+      <LikeButton pageId="home" className="fixed right-0 bottom-12" />
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { LikeButtonClient } from "./LikeButton.client";
+import { LikeButton } from "./LikeButton";
 
 describe("LikeButton", () => {
   it("should render successfully", () => {
-    const { baseElement } = render(<LikeButtonClient count={3561} />);
+    const { baseElement } = render(<LikeButton pageId="pageId" />);
     expect(baseElement).toBeTruthy();
   });
 });

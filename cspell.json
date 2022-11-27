@@ -14,6 +14,7 @@
     "rabbitmq",
     "Renderable",
     "Storyshots",
+    "svgr",
     "systemvars"
   ],
   "enableFiletypes": [

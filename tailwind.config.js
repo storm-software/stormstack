@@ -36,15 +36,43 @@ module.exports = {
       backgroundImage: {
         "bg-title": "url(../../../../assets/bg-title.jpg)",
       },
+
+      zIndex: {
+        ...extend.zIndex,
+        nav: 100,
+        like: 105,
+        scroll: 105,
+        progress: 200,
+        loading: 250,
+      },
+
+      animation: {
+        marquee: "marquee 25s linear infinite",
+        marquee2: "marquee2 25s linear infinite",
+        "zoom-in": "5s ease-out both",
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        marquee2: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0%)" },
+        },
+        "zoom-in": {
+          "0%": {
+            transform: "scale(1) translateY(0)",
+            transformOrigin: "50% 84%",
+          },
+          "100%": {
+            transform: "scale(1.25) translateY(15px)",
+            transformOrigin: "bottom",
+          },
+        },
+      },
     },
-    zIndex: {
-      ...extend.zIndex,
-      nav: 100,
-      like: 105,
-      scroll: 105,
-      progress: 200,
-      loading: 250,
-    },
+
     variants: {},
     plugins: [
       plugin(({ matchUtilities, theme }) => {

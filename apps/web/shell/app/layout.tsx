@@ -60,7 +60,7 @@ export default function RootLayout({
       <body className="relative h-fit min-h-screen antialiased">
         <Header />
 
-        <div className="mb-8 h-fit w-full">{children}</div>
+        <div className="h-fit w-full">{children}</div>
       </body>
     </html>
   );
