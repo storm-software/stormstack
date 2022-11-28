@@ -14,7 +14,7 @@
         "project": "libs/shared/ui/components/package.json",
         "entryFile": "libs/shared/ui/components/src/index.ts",
         "external": ["react/jsx-runtime"],
-        "rollupConfig": "libs/shared/ui/components/rollup.config.js",
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
           {
@@ -38,15 +38,6 @@
       "options": {
         "jestConfig": "libs/shared/ui/components/jest.config.ts",
         "passWithNoTests": true
-      }
-    },
-    "semantic-release": {
-      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
-      "options": {
-        "github": true,
-        "npm": false,
-        "changelog": true,
-        "tagFormat": "shared-ui-components-v${VERSION}"
       }
     }
   }

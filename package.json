@@ -49,7 +49,7 @@
     "clean:libs": "rimraf dist/libs",
     "clean:tools": "rimraf dist/tools",
     "clean": "rimraf dist",
-    "build:tools-executors-typescript": "npx nx run tools-executors-typescript:build:client-api-sync && npx nx run tools-executors-typescript:build:design-tokens-clean && npx nx run tools-executors-typescript:build:design-tokens-build && npx nx run tools-executors-typescript:build:design-components-build",
+    "build:tools-executors-typescript": "npx nx run tools-executors-typescript:build:client-api-sync && npx nx run tools-executors-typescript:build:design-tokens-clean && npx nx run tools-executors-typescript:build:design-tokens-build && npx nx run tools-executors-typescript:build:design-components-build && npx nx run tools-executors-typescript:build:design-components-clean",
     "build:tools-generators-typescript": "npx nx run tools-generators-typescript:build:client-api",
     "build:tools-executors-dotnet": "npx nx run tools-executors-dotnet:build:async-api-sync && npx nx run tools-executors-dotnet:build:server-api-sync && npx nx run tools-executors-dotnet:build:build",
     "build:tools-generators-dotnet": "npx nx run tools-generators-dotnet:build:async-api && npx nx run tools-generators-dotnet:build:server-api && npx nx run tools-generators-dotnet:build:restore",

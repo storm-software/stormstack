@@ -2,7 +2,12 @@
 "use client";
 
 import { ButtonVariants } from "@open-system/design-system-components/collection/os-button/os-button.types";
-import { OsButton, PropsWithBase } from "@open-system/shared-ui-components";
+import {
+  OsButton
+} from "@open-system/design-system-components/react";
+import {
+  PropsWithBase
+} from "@open-system/shared-ui-components";
 import { motion, useCycle } from "framer-motion";
 import NextLink from "next/link";
 import { useEffect, useRef } from "react";

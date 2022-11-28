@@ -1,6 +1,6 @@
 "use client";
 
-import { OsHeader } from "@open-system/shared-ui-components";
+import { OsHeader } from "@open-system/design-system-components/react";
 
 export default function Client() {
   return (

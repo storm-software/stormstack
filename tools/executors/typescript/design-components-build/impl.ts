@@ -19,7 +19,7 @@ export default async function (
       ConsoleLogger.info("Cleaning previous design components build...");
 
       result = await execute(
-        `rimraf dist/design-system/components/dist/collection`
+        `rimraf dist/design-system/components/stencil/dist/collection`
       );
       if (result) {
         ConsoleLogger.error(result);

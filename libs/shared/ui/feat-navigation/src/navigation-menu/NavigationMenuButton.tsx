@@ -4,7 +4,8 @@ import {
   ButtonTransitionDirections,
   ButtonVariants,
 } from "@open-system/design-system-components/collection/os-button/os-button.types";
-import { OsButton, PropsWithBase } from "@open-system/shared-ui-components";
+import { OsButton } from "@open-system/design-system-components/react";
+import { PropsWithBase } from "@open-system/shared-ui-components";
 import { motion } from "framer-motion";
 
 export type NavigationMenuButtonProps = PropsWithBase<{

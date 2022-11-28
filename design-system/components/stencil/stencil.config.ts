@@ -5,7 +5,7 @@ import atImport from "postcss-import";
 // import nodePolyfills from "rollup-plugin-node-polyfills";
 import tailwind, { tailwindGlobal, tailwindHMR } from "stencil-tailwind-plugin";
 import tailwindcss from "tailwindcss";
-import tailwindConf from "../../tailwind.config";
+import tailwindConf from "../../../tailwind.config";
 
 export const config: Config = {
   namespace: "open-system",
@@ -82,7 +82,7 @@ export const config: Config = {
     reactOutputTarget({
       componentCorePackage: "@open-system/design-system-components",
       proxiesFile:
-        "../../../libs/shared/ui/components/src/__generated__/components.ts",
+        "../../../../design-system/components/react/__generated__/components.ts",
       includeDefineCustomElements: true,
     }),
   ],
@@ -101,7 +101,7 @@ export const config: Config = {
       tailwindCssContents:
         "@tailwind base;@tailwind utilities;@tailwind components;",
       tailwindConf: {
-        content: ["../../design-system/components/src"],
+        content: ["../../../design-system/components/stencil/src"],
         theme: {
           ...tailwindConf?.theme,
         },
@@ -119,7 +119,7 @@ export const config: Config = {
       tailwindCssContents:
         "@tailwind base;@tailwind utilities;@tailwind components;",
       tailwindConf: {
-        content: ["../../design-system/components/src"],
+        content: ["../../../design-system/components/stencil/src"],
         theme: {
           ...tailwindConf?.theme,
         },

@@ -1,6 +1,7 @@
 "use client";
 
-import { OsLink, PropsWithBase } from "@open-system/shared-ui-components";
+import { OsLink } from "@open-system/design-system-components/react";
+import { PropsWithBase } from "@open-system/shared-ui-components";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 

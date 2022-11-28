@@ -1,6 +1,6 @@
 "use client";
 
-import { OsHeader } from "@open-system/shared-ui-components";
+import { OsHeader } from "@open-system/design-system-components/react";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
 import { useCallback, useState } from "react";
@@ -128,11 +128,11 @@ export default function StackLayer({
         onClick={handleOpen}
         variants={leftSide}
         className={clsx(
-          "z-20 relative bottom-[300px] h-[40px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-600",
+          "relative bottom-[300px] z-20 h-[40px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-600",
           { "cursor-pointer": !opened }
         )}
       />
-      <div className="z-10 relative bottom-[320px] h-[0px] w-[550px] origin-[0%_0%] -rotate-[30deg] -skew-x-[30deg] scale-y-[0.864]">
+      <div className="relative bottom-[320px] z-10 h-[0px] w-[550px] origin-[0%_0%] -rotate-[30deg] -skew-x-[30deg] scale-y-[0.864]">
         <div className="absolute -right-36 w-full rotate-[26deg] skew-x-[26deg] text-2xl">
           <div
             onClick={handleOpen}
@@ -145,12 +145,12 @@ export default function StackLayer({
         onClick={handleOpen}
         variants={top}
         className={clsx(
-          "z-20 relative bottom-[340px] h-[300px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-400 p-2",
+          "relative bottom-[340px] z-20 h-[300px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-400 p-2",
           { "cursor-pointer": !opened }
         )}>
         <div
           onClick={handleClose}
-          className="z-30 absolute top-1 right-1 cursor-pointer rounded-full py-0.5 px-2 font-semibold text-slate-600 transition-colors hover:bg-slate-300 hover:text-slate-900">
+          className="absolute top-1 right-1 z-30 cursor-pointer rounded-full py-0.5 px-2 font-semibold text-slate-600 transition-colors hover:bg-slate-300 hover:text-slate-900">
           <label className="cursor-pointer">X</label>
         </div>
         <div className="flex flex-col gap-2">

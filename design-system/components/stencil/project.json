@@ -1,7 +1,7 @@
 {
   "name": "design-system-components",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "design-system/components/src",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "design-system/components/stencil/src",
   "projectType": "library",
   "generators": {
     "@nxext/stencil:component": {
@@ -15,8 +15,8 @@
       "options": {
         "projectType": "library",
         "tsConfig": "design-system/components/tsconfig.lib.json",
-        "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components"
+        "configPath": "design-system/components/stencil/stencil.config.ts",
+        "outputPath": "dist/design-system/components/stencil"
       }
     },
     "clean": {
@@ -24,9 +24,9 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "projectType": "library",
-        "tsConfig": "design-system/components/tsconfig.lib.json",
-        "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components"
+        "tsConfig": "design-system/components/stencil/tsconfig.lib.json",
+        "configPath": "design-system/components/stencil/stencil.config.ts",
+        "outputPath": "dist/design-system/components/stencil"
       }
     },
     "build": {
@@ -35,9 +35,9 @@
       "defaultConfiguration": "production",
       "options": {
         "projectType": "library",
-        "tsConfig": "design-system/components/tsconfig.lib.json",
-        "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components",
+        "tsConfig": "design-system/components/stencil/tsconfig.lib.json",
+        "configPath": "design-system/components/stencil/stencil.config.ts",
+        "outputPath": "dist/design-system/components/stencil",
         "baseBuildTarget": "build-base"
       },
       "configurations": {
@@ -60,9 +60,9 @@
       "defaultConfiguration": "production",
       "options": {
         "projectType": "library",
-        "tsConfig": "design-system/components/tsconfig.lib.json",
-        "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components"
+        "tsConfig": "design-system/components/stencil/tsconfig.lib.json",
+        "configPath": "design-system/components/stencil/stencil.config.ts",
+        "outputPath": "dist/design-system/components/stencil"
       },
       "configurations": {
         "development": {
@@ -82,9 +82,9 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "projectType": "library",
-        "tsConfig": "design-system/components/tsconfig.lib.json",
-        "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components"
+        "tsConfig": "design-system/components/stencil/tsconfig.lib.json",
+        "configPath": "design-system/components/stencil/stencil.config.ts",
+        "outputPath": "dist/design-system/components/stencil"
       }
     },
     "e2e": {
@@ -92,16 +92,16 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "projectType": "library",
-        "tsConfig": "design-system/components/tsconfig.lib.json",
-        "configPath": "design-system/components/stencil.config.ts",
-        "outputPath": "dist/design-system/components"
+        "tsConfig": "design-system/components/stencil/tsconfig.lib.json",
+        "configPath": "design-system/components/stencil/stencil.config.ts",
+        "outputPath": "dist/design-system/components/stencil"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": "design-system/components/**/*.{ts,tsx}"
+        "lintFilePatterns": "design-system/components/stencil/**/*.{ts,tsx}"
       }
     },
     "storybook": {
@@ -121,7 +121,7 @@
         "uiFramework": "@storybook/html",
         "port": 4400,
         "config": {
-          "configFolder": "design-system/components/.storybook",
+          "configFolder": "design-system/components/stencil/.storybook",
           "watch": true
         }
       },
@@ -138,7 +138,7 @@
         "uiFramework": "@storybook/html",
         "outputPath": "dist/storybook/design-system-components",
         "config": {
-          "configFolder": "design-system/components/.storybook"
+          "configFolder": "design-system/components/stencil/.storybook"
         }
       },
       "configurations": {

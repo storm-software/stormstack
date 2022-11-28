@@ -34,11 +34,29 @@ export default function Client() {
         </div>
       </motion.div>
 
-      <div className="flex snap-both snap-mandatory flex-col gap-60 scroll-smooth">
-        <Title />
+      <div className="flex snap-both snap-mandatory flex-col scroll-smooth">
+        <div className="mb-96">
+          <Title />
+        </div>
 
-        <Stack />
+        <div className="sticky top-[26rem] left-16 z-0 h-0 w-0 whitespace-nowrap">
+          <div className="flex -rotate-90 flex-col">
+            <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_40%] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_6px]">
+              <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
+                Patrick Sullivan
+              </h1>
+            </span>
+            <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_40%] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_6px]">
+              <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
+                Development
+              </h1>
+            </span>
+          </div>
+        </div>
 
+        <div className="mb-60">
+          <Stack />
+        </div>
         <Introduction />
 
         <section className="flex snap-center snap-always justify-center">
