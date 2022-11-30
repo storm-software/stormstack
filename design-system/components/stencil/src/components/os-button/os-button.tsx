@@ -1,6 +1,7 @@
 import { Component, Event, EventEmitter, h, Host, Prop } from "@stencil/core";
 import clsx from "clsx";
 import {
+  ButtonGlowTypes,
   ButtonTransitionDirections,
   ButtonTypes,
   ButtonVariants,
@@ -41,6 +42,13 @@ export class OsButton {
   @Prop() disabled = false;
 
   /**
+   * Control how the bright glow around the button is emitted
+   *
+   * @defaultValue "hover"
+   */
+  @Prop() glowType: string = ButtonGlowTypes.HOVER;
+
+  /**
    * Event emitted when the user clicks into the button
    */
   @Event({
@@ -55,7 +63,7 @@ export class OsButton {
    * Handle a user click event
    */
   handleClick(event: MouseEvent) {
-    event.stopPropagation();
+    // event.stopPropagation();
     console.log("click");
 
     if (!this.disabled) {
@@ -116,10 +124,17 @@ export class OsButton {
           class={clsx(
             this.getBackgroundColor(),
             {
-              "hover:shadow-active-glow active:translate-y-0.5 active:scale-95":
-                !this.disabled,
+              "active:translate-y-0.5 active:scale-95": !this.disabled,
             },
-            "m-w-bnt-m-w relative overflow-hidden rounded-full p-0.5 shadow-sm transition-shadow duration-300 ease-in-out"
+            {
+              "hover:shadow-active-glow":
+                !this.disabled && this.glowType !== ButtonGlowTypes.NEVER,
+            },
+            {
+              "shadow-active-glow":
+                !this.disabled && this.glowType === ButtonGlowTypes.ALWAYS,
+            },
+            "m-w-bnt-m-w relative overflow-hidden rounded-full p-0.5 transition-shadow duration-300 ease-in-out"
           )}
           onClick={this.handleClick}>
           <div

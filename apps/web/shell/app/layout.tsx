@@ -1,15 +1,15 @@
 import {
   Abril_Fatface,
   Anybody,
+  Frank_Ruhl_Libre,
   Inter,
   Permanent_Marker,
-  Poppins,
 } from "@next/font/google";
 import localFont from "@next/font/local";
 import clsx from "clsx";
 import React from "react";
 import "./globals.css";
-import { Header } from "./header";
+import { Header } from "./Header";
 
 const melody = localFont({
   variable: "--font-melody",
@@ -34,9 +34,9 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const poppins = Poppins({
-  variable: "--font-poppins",
-  weight: ["800", "400", "100"],
+const frankRuhlLibre = Frank_Ruhl_Libre({
+  variable: "--font-frank-ruhl-libre",
+  weight: "700",
 });
 
 export default function RootLayout({
@@ -51,7 +51,7 @@ export default function RootLayout({
         melody.variable,
         inter.variable,
         anybody.variable,
-        poppins.variable,
+        frankRuhlLibre.variable,
         abrilFatface.variable,
         permanentMarker.variable,
         "bg-bg-1"

@@ -136,7 +136,7 @@ export default function StackLayer({
         <div className="absolute -right-36 w-full rotate-[26deg] skew-x-[26deg] text-2xl">
           <div
             onClick={handleOpen}
-            className="flex h-16 cursor-pointer items-center justify-end bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 font-label-2 text-3xl text-primary transition-all hover:scale-x-150 hover:scale-y-105 hover:text-4xl hover:text-active-yellow">
+            className="flex h-16 cursor-pointer items-center justify-end bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 font-label-2 text-3xl text-primary transition-all hover:scale-x-150 hover:text-4xl hover:text-active-yellow">
             <label className="cursor-pointer">{header}</label>
           </div>
         </div>

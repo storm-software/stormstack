@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 "use client";
 
-import { ButtonVariants } from "@open-system/design-system-components/collection/os-button/os-button.types";
 import {
-  OsButton
-} from "@open-system/design-system-components/react";
-import {
-  PropsWithBase
-} from "@open-system/shared-ui-components";
+  ButtonGlowTypes,
+  ButtonVariants,
+} from "@open-system/design-system-components/collection/os-button/os-button.types";
+import { OsButton } from "@open-system/design-system-components/react";
+import { PropsWithBase } from "@open-system/shared-ui-components";
 import { motion, useCycle } from "framer-motion";
 import NextLink from "next/link";
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 import { UrlObject } from "url";
 import { Link } from "../link";
 import { NavigationMenuButton } from "./NavigationMenuButton";
@@ -24,17 +23,21 @@ export type NavigationMenuProps = PropsWithBase<{
 }>;
 
 const navMenu = {
-  opened: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
+  opened: {
+    height: "80%",
+    bottom: 0,
     transition: {
+      duration: 10,
       type: "spring",
       stiffness: 20,
       restDelta: 2,
     },
-  }),
+  },
   closed: {
-    clipPath: "circle(30px at 40px 40px)",
+    height: 0,
+    bottom: "-20%",
     transition: {
+      duration: 2.5,
       delay: 0.5,
       type: "spring",
       stiffness: 400,
@@ -54,30 +57,19 @@ const navMenuItems = {
 
 const navMenuItemList = {
   opened: {
-    y: 0,
     opacity: 1,
     transition: {
+      delay: 0.5,
       y: { stiffness: 1000, velocity: -100 },
     },
   },
   closed: {
-    y: 50,
     opacity: 0,
     transition: {
+      delay: 0.5,
       y: { stiffness: 1000 },
     },
   },
-};
-
-export const useDimensions = (ref: any) => {
-  const dimensions = useRef({ width: 0, height: 0 });
-
-  useEffect(() => {
-    dimensions.current.width = ref.current.offsetWidth;
-    dimensions.current.height = ref.current.offsetHeight;
-  }, []);
-
-  return dimensions.current;
 };
 
 /**
@@ -86,36 +78,55 @@ export const useDimensions = (ref: any) => {
  */
 export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
   const [opened, setOpened] = useCycle(false, true);
-  const containerRef = useRef(null);
-  const { height } = useDimensions(containerRef);
 
-  const onClick = () => {
-    console.log("click NavigationMenu");
+  const onClick = useCallback(() => {
+    console.log("click 2 NavigationMenu");
     setOpened();
-  };
+  }, [setOpened]);
+
   return (
     <motion.div
-      className="z-nav flex flex-row-reverse px-4"
+      className="z-nav flex h-full w-full flex-row-reverse"
       initial={false}
-      animate={opened ? "opened" : "closed"}
-      custom={height}
-      ref={containerRef}>
+      animate={opened ? "opened" : "closed"}>
       <motion.div
-        className="h-full w-fit border border-slate-800 py-4 shadow-xl backdrop-blur-md"
-        variants={navMenu}
-      />
+        className="from-bg-nav-1 via-bg-nav-1/80 fixed left-0 right-0 bg-gradient-to-b to-slate-800 px-4"
+        variants={navMenu}>
+        <div
+          className="absolute -top-24 h-28 w-[400%] animate-wave1 bg-repeat-x opacity-90"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23003F7C'/%3E%3C/svg%3E\")",
+          }}
+        />
+        <div
+          className="absolute -top-24 h-28 w-[400%] animate-wave2 bg-repeat-x opacity-50"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23003F7C'/%3E%3C/svg%3E\")",
+          }}
+        />
+        <div
+          className="absolute -top-24 h-28 w-[400%] animate-wave3 bg-repeat-x opacity-50"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23003F7C'/%3E%3C/svg%3E\")",
+          }}
+        />
 
-      <motion.div className="flex flex-col gap-4" variants={navMenuItems}>
-        {opened &&
-          items.map((item: NavigationMenuItem, i: number) => (
-            <motion.div key={i} variants={navMenuItemList}>
-              <Link href={item.href}>{item.name}</Link>
-            </motion.div>
-          ))}
+        <motion.div
+          className="flex flex-col gap-4 py-4"
+          variants={navMenuItems}>
+          {opened &&
+            items.map((item: NavigationMenuItem, i: number) => (
+              <motion.div key={i} variants={navMenuItemList}>
+                <Link href={item.href}>{item.name}</Link>
+              </motion.div>
+            ))}
+        </motion.div>
       </motion.div>
-
       <motion.div
-        className="flex flex-row gap-6 pt-5"
+        className="absolute flex flex-row gap-6 px-5 pt-5"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{
@@ -127,6 +138,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
           <OsButton
             onClick={() => {}}
             variant={ButtonVariants.PRIMARY}
+            glowType={ButtonGlowTypes.ALWAYS}
             inverse={true}>
             Contact
             <div slot="hover-text">Let's talk</div>

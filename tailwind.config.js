@@ -16,6 +16,7 @@ module.exports = {
       fontFamily: {
         ...extend.fontFamily,
         "app-title-1": ["var(--font-melody)", ...fontFamily.sans],
+        "nyc-title-1": ["var(--font-frank-ruhl-libre)", ...fontFamily.sans],
         "header-1": ["var(--font-melody)", ...fontFamily.sans],
         "header-2": ["var(--font-melody)", ...fontFamily.sans],
         "header-3": ["var(--font-melody)", ...fontFamily.sans],
@@ -36,7 +37,6 @@ module.exports = {
       backgroundImage: {
         "bg-title": "url(../../../../assets/bg-title.jpg)",
       },
-
       zIndex: {
         ...extend.zIndex,
         nav: 100,
@@ -45,13 +45,17 @@ module.exports = {
         progress: 200,
         loading: 250,
       },
-
       animation: {
+        ...extend.animation,
         marquee: "marquee 25s linear infinite",
         marquee2: "marquee2 25s linear infinite",
+        wave1: "wave 10s -3s linear infinite",
+        wave2: "wave 18s linear reverse infinite",
+        wave3: "wave 20s -1s linear infinite",
         "zoom-in": "5s ease-out both",
       },
       keyframes: {
+        ...extend.keyframes,
         marquee: {
           "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-100%)" },
@@ -59,6 +63,11 @@ module.exports = {
         marquee2: {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0%)" },
+        },
+        wave: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-25%)" },
+          "100%": { transform: "translateX(-50%)" },
         },
         "zoom-in": {
           "0%": {

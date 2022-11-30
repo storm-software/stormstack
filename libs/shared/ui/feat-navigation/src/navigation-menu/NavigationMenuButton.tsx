@@ -19,7 +19,7 @@ export const NavigationMenuButton = ({
   ...props
 }: NavigationMenuButtonProps) => (
   <OsButton
-    onOsClick={onClick}
+    onClick={onClick}
     variant={ButtonVariants.GRADIENT}
     transitionDirection={ButtonTransitionDirections.TOP}
     suppressHydrationWarning={true}>

@@ -31,3 +31,22 @@ export const ButtonTypes = {
    */
   BUTTON: "button" as ButtonTypes,
 };
+
+export type ButtonGlowTypes = "always" | "never" | "hover";
+export const ButtonGlowTypes = {
+  /**
+   * The button should always emit a bright glow around it
+   */
+  ALWAYS: "always" as ButtonGlowTypes,
+
+  /**
+   * The button should never emit a bright glow around it
+   */
+  NEVER: "never" as ButtonGlowTypes,
+
+  /**
+   * The button should emit a bright glow around it when
+   * the user hovers over it (default)
+   */
+  HOVER: "hover" as ButtonGlowTypes,
+};

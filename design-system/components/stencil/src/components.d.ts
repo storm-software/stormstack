@@ -13,6 +13,11 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Control how the bright glow around the button is emitted
+          * @defaultValue "hover"
+         */
+        "glowType": string;
+        /**
           * Is the button filled by default
          */
         "inverse": boolean;
@@ -393,6 +398,11 @@ declare namespace LocalJSX {
           * Is the button read-only (cannot be clicked by user)
          */
         "disabled"?: boolean;
+        /**
+          * Control how the bright glow around the button is emitted
+          * @defaultValue "hover"
+         */
+        "glowType"?: string;
         /**
           * Is the button filled by default
          */

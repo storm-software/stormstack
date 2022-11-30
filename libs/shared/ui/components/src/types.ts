@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 
-export type PropsWithBase<
-  P extends Record<string, any> = Record<string, never>
-> = React.PropsWithRef<
+export type BaseComponentProps = React.PropsWithRef<
   React.PropsWithChildren<
     Partial<
       Pick<
@@ -17,7 +15,10 @@ export type PropsWithBase<
         | "suppressContentEditableWarning"
         | "suppressHydrationWarning"
       > & { key?: React.Key }
-    > &
-      P
-  >
+    >   >
 >;
+
+export type PropsWithBase<
+  P extends Record<string, any> = Record<string, never>
+> = BaseComponentProps &
+      P;

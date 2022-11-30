@@ -7,13 +7,14 @@
 
 ## Properties
 
-| Property              | Attribute              | Description                                         | Type      | Default                           |
-| --------------------- | ---------------------- | --------------------------------------------------- | --------- | --------------------------------- |
-| `disabled`            | `disabled`             | Is the button read-only (cannot be clicked by user) | `boolean` | `false`                           |
-| `inverse`             | `inverse`              | Is the button filled by default                     | `boolean` | `false`                           |
-| `transitionDirection` | `transition-direction` | The direction the hover animation will start on     | `string`  | `ButtonTransitionDirections.LEFT` |
-| `type`                | `type`                 | Is the button filled by default                     | `string`  | `ButtonTypes.BUTTON`              |
-| `variant`             | `variant`              | The variant style of the button                     | `string`  | `ButtonVariants.PRIMARY`          |
+| Property              | Attribute              | Description                                              | Type      | Default                           |
+| --------------------- | ---------------------- | -------------------------------------------------------- | --------- | --------------------------------- |
+| `disabled`            | `disabled`             | Is the button read-only (cannot be clicked by user)      | `boolean` | `false`                           |
+| `glowType`            | `glow-type`            | Control how the bright glow around the button is emitted | `string`  | `ButtonGlowTypes.HOVER`           |
+| `inverse`             | `inverse`              | Is the button filled by default                          | `boolean` | `false`                           |
+| `transitionDirection` | `transition-direction` | The direction the hover animation will start on          | `string`  | `ButtonTransitionDirections.LEFT` |
+| `type`                | `type`                 | Is the button filled by default                          | `string`  | `ButtonTypes.BUTTON`              |
+| `variant`             | `variant`              | The variant style of the button                          | `string`  | `ButtonVariants.PRIMARY`          |
 
 
 ## Events
