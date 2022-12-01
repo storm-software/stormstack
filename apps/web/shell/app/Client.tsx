@@ -2,14 +2,19 @@
 
 import { ArrowDownIcon } from "@heroicons/react/24/solid";
 
-import { motion, useScroll, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
+import { useLayoutEffect, useRef, useState } from "react";
 import Logo from "../../../../assets/box-logo-gradient.svg";
 import { Aside } from "./Aside";
 import Introduction from "./Introduction";
 import Stack from "./Stack";
 import Title from "./Title";
 
+const SCROLL_Y_THRESHOLD = 1000;
+
 export default function Client() {
+  const ref = useRef(null);
+
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -17,24 +22,50 @@ export default function Client() {
     restDelta: 0.001,
   });
 
+  const [hideScrollArrow, setHideScrollArrow] = useState(true);
+  useLayoutEffect(() => {
+    const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
+      if (
+        !hideScrollArrow &&
+        scrollY >= ref.current.clientHeight - SCROLL_Y_THRESHOLD
+      ) {
+        setHideScrollArrow(true);
+      } else if (
+        hideScrollArrow &&
+        scrollY < ref.current.clientHeight - SCROLL_Y_THRESHOLD
+      ) {
+        setHideScrollArrow(false);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [hideScrollArrow, scrollYProgress]);
+
   return (
-    <div>
+    <div ref={ref}>
       <div className="fixed top-0 left-0 right-0 z-progress">
         <motion.div className="h-2 bg-highlight-1" style={{ scaleX }} />
       </div>
-      <motion.div
-        className="fixed -left-16 -bottom-16 h-52 w-52 rounded-full border-4 border-secondary"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{
-          duration: 1,
-          delay: 0.5,
-          ease: [0, 0.71, 0.2, 1.01],
-        }}>
-        <div className="z-scroll flex h-full w-full items-center justify-center">
-          <ArrowDownIcon className="h-12 w-12 animate-bounce fill-secondary" />
-        </div>
-      </motion.div>
+
+      <AnimatePresence>
+        {!hideScrollArrow && (
+          <motion.div
+            className="fixed -left-16 -bottom-16 h-52 w-52 rounded-full border-4 border-secondary"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            transition={{
+              duration: 1,
+              delay: 0.5,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}>
+            <div className="z-scroll flex h-full w-full items-center justify-center">
+              <ArrowDownIcon className="h-12 w-12 animate-bounce fill-secondary" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="flex snap-both snap-mandatory flex-col scroll-smooth">
         <div className="mb-60">

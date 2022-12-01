@@ -153,6 +153,10 @@ export namespace Components {
     }
     interface OsLink {
         /**
+          * The string label to display inside the link
+         */
+        "label": string;
+        /**
           * Is the link selected
          */
         "selected": boolean;
@@ -542,6 +546,10 @@ declare namespace LocalJSX {
         "type"?: string;
     }
     interface OsLink {
+        /**
+          * The string label to display inside the link
+         */
+        "label"?: string;
         /**
           * Is the link selected
          */

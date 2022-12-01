@@ -39,9 +39,10 @@ module.exports = {
       },
       zIndex: {
         ...extend.zIndex,
-        nav: 100,
         like: 105,
         scroll: 105,
+        nav: 145,
+        "nav-buttons": 150,
         progress: 200,
         loading: 250,
       },
@@ -49,9 +50,10 @@ module.exports = {
         ...extend.animation,
         marquee: "marquee 25s linear infinite",
         marquee2: "marquee2 25s linear infinite",
-        wave1: "wave 10s -3s linear infinite",
-        wave2: "wave 18s linear reverse infinite",
+        wave1: "wave 18s -3s linear infinite",
+        wave2: "wave 22s linear reverse infinite",
         wave3: "wave 20s -1s linear infinite",
+        bubble: "bubble 10s ease-in-out infinite",
         "zoom-in": "5s ease-out both",
       },
       keyframes: {
@@ -69,6 +71,23 @@ module.exports = {
           "100%": { transform: "translateX(-25%)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        bubble: {
+          "0%": {
+            transform: "translateY(0%)",
+            opacity: 0.1,
+            marginLeft: 0,
+          },
+          "70%": {
+            marginLeft: "20px",
+          },
+          "80%": {
+            opacity: 0,
+          },
+          "100%": {
+            transform: "translateY(-120vh)",
+            opacity: 0,
+          },
+        },
         "zoom-in": {
           "0%": {
             transform: "scale(1) translateY(0)",
@@ -81,7 +100,6 @@ module.exports = {
         },
       },
     },
-
     variants: {},
     plugins: [
       plugin(({ matchUtilities, theme }) => {

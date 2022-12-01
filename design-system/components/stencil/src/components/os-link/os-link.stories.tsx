@@ -13,4 +13,4 @@ const Template = args => (
 );
 
 export const Primary = Template.bind({});
-Primary.args = { text: "Contact", last: "World" };
+Primary.args = { label: "Contact" };

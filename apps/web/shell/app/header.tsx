@@ -7,10 +7,10 @@ export function Header() {
     <nav className="fixed top-0 z-nav h-20 w-full">
       <NavigationMenu
         items={[
-          { name: "Home", href: "/home" },
+          { name: "Home", href: "/" },
           { name: "Contact", href: "/contact" },
           { name: "About", href: "/about" },
-          { name: "Login", href: "/home" },
+          { name: "Login", href: "/" },
         ]}
       />
     </nav>

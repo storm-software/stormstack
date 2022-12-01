@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Description          | Type      | Default |
-| ---------- | ---------- | -------------------- | --------- | ------- |
-| `selected` | `selected` | Is the link selected | `boolean` | `false` |
+| Property   | Attribute  | Description                                 | Type      | Default     |
+| ---------- | ---------- | ------------------------------------------- | --------- | ----------- |
+| `label`    | `label`    | The string label to display inside the link | `string`  | `undefined` |
+| `selected` | `selected` | Is the link selected                        | `boolean` | `false`     |
 
 
 ----------------------------------------------

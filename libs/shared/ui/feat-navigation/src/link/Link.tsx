@@ -21,7 +21,10 @@ export function Link({
 
   return (
     <NextLink href={href} {...props}>
-      <OsLink selected={!!selected || segment === href}>{children}</OsLink>
+      <OsLink
+        selected={!!selected || segment === href}
+        label={children as string}
+      />
     </NextLink>
   );
 }
