@@ -11,11 +11,14 @@
     "openapi",
     "partytown",
     "Persistor",
+    "Prehydration",
     "rabbitmq",
     "Renderable",
     "Storyshots",
     "svgr",
-    "systemvars"
+    "systemvars",
+    "tailwindcss",
+    "theunderscorer"
   ],
   "enableFiletypes": [
     "mdx"

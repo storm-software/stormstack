@@ -40,7 +40,7 @@ export const config: Config = {
      */
     hydratedValue: "inherit",
   },
-  enableCache: true,
+  enableCache: false,
   buildEs5: true,
   extras: {
     /**

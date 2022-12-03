@@ -58,6 +58,15 @@
       "options": {
         "lintFilePatterns": ["apps/web/contact/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "web-contact-v${VERSION}"
+      }
     }
   },
   "tags": []

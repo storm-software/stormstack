@@ -4,6 +4,13 @@
   "sourceRoot": "apps/web/shell",
   "projectType": "application",
   "targets": {
+    "dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["cd apps/web/shell && next dev -p 3000"],
+        "parallel": true
+      }
+    },
     "build": {
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
@@ -57,6 +64,15 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/web/shell/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "web-shell-v${VERSION}"
       }
     }
   },

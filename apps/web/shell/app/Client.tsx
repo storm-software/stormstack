@@ -1,11 +1,10 @@
 "use client";
 
 import { ArrowDownIcon } from "@heroicons/react/24/solid";
-
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { useLayoutEffect, useRef, useState } from "react";
 import Logo from "../../../../assets/box-logo-gradient.svg";
-import { Aside } from "./Aside";
+import Aside from "./Aside";
 import Introduction from "./Introduction";
 import Stack from "./Stack";
 import Title from "./Title";
@@ -22,7 +21,7 @@ export default function Client() {
     restDelta: 0.001,
   });
 
-  const [hideScrollArrow, setHideScrollArrow] = useState(true);
+  const [hideScrollArrow, setHideScrollArrow] = useState(false);
   useLayoutEffect(() => {
     const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
       if (

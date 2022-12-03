@@ -9,7 +9,7 @@ import localFont from "@next/font/local";
 import clsx from "clsx";
 import React from "react";
 import "./globals.css";
-import { Header } from "./Header";
+import Header from "./Header";
 
 const melody = localFont({
   variable: "--font-melody",

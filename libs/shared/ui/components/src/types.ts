@@ -15,10 +15,10 @@ export type BaseComponentProps = React.PropsWithRef<
         | "suppressContentEditableWarning"
         | "suppressHydrationWarning"
       > & { key?: React.Key }
-    >   >
+    >
+  >
 >;
 
 export type PropsWithBase<
   P extends Record<string, any> = Record<string, never>
-> = BaseComponentProps &
-      P;
+> = BaseComponentProps & P;

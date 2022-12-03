@@ -1,10 +1,10 @@
 "use client";
 
-import { SideTitle } from "@open-system/shared-ui-components";
+import { SideTitle } from "@open-system/shared-ui-feat-layout";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useLayoutEffect, useState } from "react";
 
-export function Aside() {
+export default function Aside() {
   const [hide, setHide] = useState(true);
 
   const { scrollYProgress } = useScroll();

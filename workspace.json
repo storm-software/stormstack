@@ -10,7 +10,7 @@
     "engagement-ui-feat-like": "libs/engagement/ui/feat-like",
     "shared-common": "libs/shared/common",
     "shared-ui-components": "libs/shared/ui/components",
-    "shared-ui-feat-navigation": "libs/shared/ui/feat-navigation",
+    "shared-ui-feat-layout": "libs/shared/ui/feat-layout",
     "static-message-common": "libs/static/message/common",
     "tests-design-system-components-e2e": "apps/tests/design-system/components-e2e",
     "tools-asyncapi-rabbitmq": "tools/asyncapi/rabbitmq",

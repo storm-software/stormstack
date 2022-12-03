@@ -1,3 +1,2 @@
-export * from "./page-loading";
-export * from "./side-title";
+export * from "./link";
 export * from "./types";

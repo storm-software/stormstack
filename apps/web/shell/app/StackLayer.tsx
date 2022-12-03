@@ -1,6 +1,6 @@
 "use client";
 
-import { OsHeader } from "@open-system/design-system-components/react";
+import { OsHeader } from "@open-system/design-system-components-react";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
 import { useCallback, useState } from "react";

@@ -32,7 +32,7 @@
       "@open-system/design-system-components/loader": [
         "dist/design-system/components/stencil/loader"
       ],
-      "@open-system/design-system-components/react": [
+      "@open-system/design-system-components-react": [
         "dist/design-system/components/react"
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
@@ -53,11 +53,8 @@
       "@open-system/shared-ui-components": [
         "libs/shared/ui/components/src/index.ts"
       ],
-      "@open-system/shared-ui-feat-navigation": [
-        "libs/shared/ui/feat-navigation/src/index.ts"
-      ],
-      "@open-system/shared-ui-feature-routing": [
-        "libs/shared/ui/feature-routing/src/index.ts"
+      "@open-system/shared-ui-feat-layout": [
+        "libs/shared/ui/feat-layout/src/index.ts"
       ],
       "@open-system/static-message-common": [
         "libs/static/message/common/src/index.ts"

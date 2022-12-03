@@ -1,6 +1,6 @@
 "use client";
 
-import { OsHeader } from "@open-system/design-system-components/react";
+import { OsHeader } from "@open-system/design-system-components-react";
 import StackLayer from "./StackLayer";
 
 export default function Stack() {
