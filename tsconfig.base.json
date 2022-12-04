@@ -23,6 +23,9 @@
       "@open-system/design-system-components": [
         "dist/design-system/components/stencil"
       ],
+      "@open-system/design-system-components-react": [
+        "dist/design-system/components/react"
+      ],
       "@open-system/design-system-components/*": [
         "dist/design-system/components/stencil/dist/components/*"
       ],
@@ -31,9 +34,6 @@
       ],
       "@open-system/design-system-components/loader": [
         "dist/design-system/components/stencil/loader"
-      ],
-      "@open-system/design-system-components-react": [
-        "dist/design-system/components/react"
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],

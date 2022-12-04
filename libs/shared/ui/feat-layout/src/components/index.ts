@@ -1,3 +1,4 @@
+export * from "./footer";
 export * from "./navigation-menu";
 // export * from "./navigation-menu-button";
 // export * from "./navigation-menu-item";

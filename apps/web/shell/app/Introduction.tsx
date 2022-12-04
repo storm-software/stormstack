@@ -5,25 +5,31 @@ import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import Logo from "../../../../assets/box-logo-gradient.svg";
 
 export default function Introduction() {
-  const scrollRef = useRef(null);
-  const ghostRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const hiddenRef = useRef<HTMLDivElement>(null);
+
   const [scrollRange, setScrollRange] = useState(0);
   const [viewportW, setViewportW] = useState(0);
 
   useLayoutEffect(() => {
-    scrollRef && setScrollRange(scrollRef.current.scrollWidth);
+    scrollRef.current && setScrollRange(scrollRef.current.scrollWidth);
   }, [scrollRef]);
 
-  const onResize = useCallback(entries => {
+  const onResize = useCallback((entries: ResizeObserverEntry[]) => {
     for (const entry of entries) {
       setViewportW(entry.contentRect.width);
     }
   }, []);
 
   useLayoutEffect(() => {
-    const resizeObserver = new ResizeObserver(entries => onResize(entries));
-    resizeObserver.observe(ghostRef.current);
-    return () => resizeObserver.disconnect();
+    const resizeObserver = new ResizeObserver(
+      (entries: ResizeObserverEntry[]) => onResize(entries)
+    );
+    hiddenRef.current && resizeObserver.observe(hiddenRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
   }, [onResize]);
 
   const { scrollYProgress } = useScroll();
@@ -162,7 +168,7 @@ export default function Introduction() {
           </div>
         </motion.section>
       </div>
-      <div ref={ghostRef} style={{ height: scrollRange }} className="hidden" />
+      <div ref={hiddenRef} style={{ height: scrollRange }} className="hidden" />
     </div>
   );
 }

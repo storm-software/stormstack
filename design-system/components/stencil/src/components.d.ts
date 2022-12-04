@@ -18,6 +18,10 @@ export namespace Components {
          */
         "glowType": string;
         /**
+          * Is the button filled when hovered (the hover-text slot will not be used when set to false)
+         */
+        "hoverFill": boolean;
+        /**
           * Is the button filled by default
          */
         "inverse": boolean;
@@ -407,6 +411,10 @@ declare namespace LocalJSX {
           * @defaultValue "hover"
          */
         "glowType"?: string;
+        /**
+          * Is the button filled when hovered (the hover-text slot will not be used when set to false)
+         */
+        "hoverFill"?: boolean;
         /**
           * Is the button filled by default
          */

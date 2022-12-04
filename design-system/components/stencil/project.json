@@ -42,8 +42,8 @@
       },
       "configurations": {
         "development": {
-          "dev": true,
-          "prod": false,
+          "dev": false,
+          "prod": true,
           "clean": true,
           "verbose": true
         },
@@ -66,8 +66,8 @@
       },
       "configurations": {
         "development": {
-          "dev": true,
-          "prod": false,
+          "dev": false,
+          "prod": true,
           "verbose": true
         },
         "production": {

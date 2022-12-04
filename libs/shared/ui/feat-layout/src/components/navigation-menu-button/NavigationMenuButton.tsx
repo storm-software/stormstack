@@ -58,7 +58,6 @@ export function NavigationMenuButton({
           }}
         />
       </svg>
-      <div slot="hover-text">{!opened ? "Open" : "Close"}</div>
     </OsButton>
   );
 }

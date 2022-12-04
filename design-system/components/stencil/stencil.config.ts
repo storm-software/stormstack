@@ -2,7 +2,7 @@ import { Config } from "@stencil/core";
 import { reactOutputTarget } from "@stencil/react-output-target";
 import autoprefixer from "autoprefixer";
 import atImport from "postcss-import";
-// import nodePolyfills from "rollup-plugin-node-polyfills";
+import nodePolyfills from "rollup-plugin-node-polyfills";
 import tailwind, { tailwindGlobal, tailwindHMR } from "stencil-tailwind-plugin";
 import tailwindcss from "tailwindcss";
 import tailwindConf from "../../../tailwind.config";
@@ -40,7 +40,7 @@ export const config: Config = {
      */
     hydratedValue: "inherit",
   },
-  enableCache: false,
+  enableCache: true,
   buildEs5: true,
   extras: {
     /**
@@ -131,9 +131,9 @@ export const config: Config = {
     }),
     tailwindHMR(),
   ],
-  /*rollupPlugins: {
+  rollupPlugins: {
     after: [nodePolyfills()],
-  },*/
+  },
   testing: {
     setupFiles: ["./jest.setup.js"],
   },

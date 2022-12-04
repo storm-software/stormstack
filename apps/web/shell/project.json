@@ -4,13 +4,6 @@
   "sourceRoot": "apps/web/shell",
   "projectType": "application",
   "targets": {
-    "dev": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": ["cd apps/web/shell && next dev -p 3000"],
-        "parallel": true
-      }
-    },
     "build": {
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
@@ -21,7 +14,7 @@
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/web/shell/dist"
+          "outputPath": "apps/web/shell/.next"
         },
         "production": {}
       }

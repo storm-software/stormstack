@@ -13,17 +13,24 @@ const nextConfig = {
     svgr: false,
   },
   swcMinify: true,
+  reactStrictMode: true,
+
   experimental: {
     appDir: true,
     fontLoaders: [
       { loader: "@next/font/google", options: { subsets: ["latin"] } },
     ],
-    transpilePackages: [
-      "@open-system/design-system-components-react",
-      "@open-system/shared-ui-components",
-      "@open-system/shared-ui-feat-layout",
-      "@open-system/engagement-ui-feat-like",
-    ],
+    transpilePackages: ["@open-system/design-system-components-react"],
+  },
+
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/home",
+        permanent: true,
+      },
+    ];
   },
 
   async rewrites() {

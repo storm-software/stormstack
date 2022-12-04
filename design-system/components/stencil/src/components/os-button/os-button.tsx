@@ -49,6 +49,11 @@ export class OsButton {
   @Prop() glowType: string = ButtonGlowTypes.HOVER;
 
   /**
+   * Is the button filled when hovered (the hover-text slot will not be used when set to false)
+   */
+  @Prop() hoverFill = true;
+
+  /**
    * Event emitted when the user clicks into the button
    */
   @Event({
@@ -142,7 +147,7 @@ export class OsButton {
               this.getTextColor(),
               "rounded-full bg-bg-1 px-8 py-3 font-btn-label-1 text-btn-label-1"
             )}>
-            {this.inverse ? (
+            {this.inverse && this.hoverFill ? (
               <slot name="hover-text">{this.getDefaultText()}</slot>
             ) : (
               <slot>{this.getDefaultText()}</slot>
@@ -229,70 +234,74 @@ export class OsButton {
                     },
                     "absolute top-0 left-0 bg-transparent transition duration-300 ease-in-out"
                   )}>
-                  <div
-                    class={clsx(
-                      {
-                        "flex-row":
-                          this.transitionDirection ===
-                          ButtonTransitionDirections.LEFT,
-                      },
-                      {
-                        "flex-row-reverse":
-                          this.transitionDirection ===
-                          ButtonTransitionDirections.RIGHT,
-                      },
-                      {
-                        "flex-col":
-                          this.transitionDirection ===
-                          ButtonTransitionDirections.TOP,
-                      },
-                      {
-                        "flex-col-reverse":
-                          this.transitionDirection ===
-                          ButtonTransitionDirections.BOTTOM,
-                      },
-                      "flex h-full w-full"
-                    )}>
+                  {this.hoverFill && (
                     <div
                       class={clsx(
-                        this.getBackgroundColor(),
                         {
-                          "h-full w-1/2":
+                          "flex-row":
                             this.transitionDirection ===
-                              ButtonTransitionDirections.LEFT ||
-                            this.transitionDirection ===
-                              ButtonTransitionDirections.RIGHT,
+                            ButtonTransitionDirections.LEFT,
                         },
                         {
-                          "h-1/2 w-full":
+                          "flex-row-reverse":
                             this.transitionDirection ===
-                              ButtonTransitionDirections.TOP ||
+                            ButtonTransitionDirections.RIGHT,
+                        },
+                        {
+                          "flex-col":
                             this.transitionDirection ===
-                              ButtonTransitionDirections.BOTTOM,
-                        }
+                            ButtonTransitionDirections.TOP,
+                        },
+                        {
+                          "flex-col-reverse":
+                            this.transitionDirection ===
+                            ButtonTransitionDirections.BOTTOM,
+                        },
+                        "flex h-full w-full"
                       )}>
                       <div
                         class={clsx(
+                          this.getBackgroundColor(),
                           {
-                            "text-primary":
-                              this.variant === ButtonVariants.GRADIENT &&
-                              !this.disabled,
+                            "h-full w-1/2":
+                              this.transitionDirection ===
+                                ButtonTransitionDirections.LEFT ||
+                              this.transitionDirection ===
+                                ButtonTransitionDirections.RIGHT,
                           },
                           {
-                            "text-inverse":
-                              this.variant !== ButtonVariants.GRADIENT ||
-                              this.disabled,
-                          },
-                          "flex h-full w-full items-center justify-center text-center font-btn-label-1 text-btn-label-1"
+                            "h-1/2 w-full":
+                              this.transitionDirection ===
+                                ButtonTransitionDirections.TOP ||
+                              this.transitionDirection ===
+                                ButtonTransitionDirections.BOTTOM,
+                          }
                         )}>
-                        {this.inverse ? (
-                          <slot>{this.getDefaultText()}</slot>
-                        ) : (
-                          <slot name="hover-text">{this.getDefaultText()}</slot>
-                        )}
+                        <div
+                          class={clsx(
+                            {
+                              "text-primary":
+                                this.variant === ButtonVariants.GRADIENT &&
+                                !this.disabled,
+                            },
+                            {
+                              "text-inverse":
+                                this.variant !== ButtonVariants.GRADIENT ||
+                                this.disabled,
+                            },
+                            "flex h-full w-full items-center justify-center text-center font-btn-label-1 text-btn-label-1"
+                          )}>
+                          {this.inverse ? (
+                            <slot>{this.getDefaultText()}</slot>
+                          ) : (
+                            <slot name="hover-text">
+                              {this.getDefaultText()}
+                            </slot>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

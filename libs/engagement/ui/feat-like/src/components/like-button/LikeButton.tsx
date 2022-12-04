@@ -1,7 +1,7 @@
 import { PropsWithBase } from "@open-system/shared-ui-components";
 import clsx from "clsx";
-import CheckIcon from "../../../../../../../assets/heart-check.svg";
-import PlusIcon from "../../../../../../../assets/heart-plus.svg";
+import CheckIcon from "../../../assets/heart-check.svg";
+import PlusIcon from "../../../assets/heart-plus.svg";
 
 export type LikeButtonProps = PropsWithBase<{
   pageId: string;

@@ -13,6 +13,7 @@
     "Persistor",
     "Prehydration",
     "rabbitmq",
+    "redocusaurus",
     "Renderable",
     "Storyshots",
     "svgr",

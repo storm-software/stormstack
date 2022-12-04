@@ -6,7 +6,11 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
   },
   "files": [],
   "include": [],

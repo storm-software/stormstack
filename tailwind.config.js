@@ -35,6 +35,7 @@ module.exports = {
         lg: "0 0 80px rgba(var(--tw-shadow-color), 0.8), 0 0 32px rgba(var(--tw-shadow-color), 0.3)",
       },
       backgroundImage: {
+        ...extend.backgroundImage,
         "bg-title": "url(../../../../assets/bg-title.jpg)",
       },
       zIndex: {

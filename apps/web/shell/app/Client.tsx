@@ -2,7 +2,7 @@
 
 import { ArrowDownIcon } from "@heroicons/react/24/solid";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import Logo from "../../../../assets/box-logo-gradient.svg";
 import Aside from "./Aside";
 import Introduction from "./Introduction";
@@ -12,7 +12,25 @@ import Title from "./Title";
 const SCROLL_Y_THRESHOLD = 1000;
 
 export default function Client() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [viewportHeight, setViewportHeight] = useState(0);
+  const onResize = useCallback((entries: ResizeObserverEntry[]) => {
+    for (const entry of entries) {
+      setViewportHeight(entry.contentRect.width);
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    const resizeObserver = new ResizeObserver(
+      (entries: ResizeObserverEntry[]) => onResize(entries)
+    );
+    ref.current && resizeObserver.observe(ref.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [onResize]);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -26,12 +44,14 @@ export default function Client() {
     const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
       if (
         !hideScrollArrow &&
-        scrollY >= ref.current.clientHeight - SCROLL_Y_THRESHOLD
+        viewportHeight &&
+        scrollY >= viewportHeight - SCROLL_Y_THRESHOLD
       ) {
         setHideScrollArrow(true);
       } else if (
         hideScrollArrow &&
-        scrollY < ref.current.clientHeight - SCROLL_Y_THRESHOLD
+        viewportHeight &&
+        scrollY < viewportHeight - SCROLL_Y_THRESHOLD
       ) {
         setHideScrollArrow(false);
       }
@@ -39,7 +59,7 @@ export default function Client() {
     return () => {
       unsubscribe();
     };
-  }, [hideScrollArrow, scrollYProgress]);
+  }, [hideScrollArrow, scrollYProgress, viewportHeight]);
 
   return (
     <div ref={ref}>

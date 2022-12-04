@@ -13,7 +13,7 @@
         "tsConfig": "design-system/components/react/tsconfig.lib.json",
         "project": "design-system/components/react/package.json",
         "entryFile": "design-system/components/react/index.ts",
-        "external": ["react/jsx-runtime"],
+        // "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
