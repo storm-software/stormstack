@@ -1,2 +1,3 @@
-export * from "./link";
-export * from "./types";
+"use client";
+
+export * from "./link/Link";

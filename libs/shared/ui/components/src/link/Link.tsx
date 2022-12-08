@@ -1,5 +1,5 @@
+import { PropsWithBase } from "@open-system/design-system-components";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import { PropsWithBase } from "../types";
 
 export type LinkProps = PropsWithBase<
   Omit<NextLinkProps, "href"> & Partial<Pick<NextLinkProps, "href">>

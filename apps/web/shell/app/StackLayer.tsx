@@ -1,6 +1,6 @@
 "use client";
 
-import { OsHeader } from "@open-system/design-system-components-react";
+import { Heading } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
 import { useCallback, useState } from "react";
@@ -136,7 +136,7 @@ export default function StackLayer({
         <div className="absolute -right-36 w-full rotate-[26deg] skew-x-[26deg] text-2xl">
           <div
             onClick={handleOpen}
-            className="flex h-16 cursor-pointer items-center justify-end bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 font-label-2 text-3xl text-primary transition-all hover:scale-x-150 hover:text-4xl hover:text-active-yellow">
+            className="font-label-2 text-primary hover:text-active-yellow flex h-16 cursor-pointer items-center justify-end bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 text-3xl transition-all hover:scale-x-150 hover:text-4xl">
             <label className="cursor-pointer">{header}</label>
           </div>
         </div>
@@ -154,8 +154,8 @@ export default function StackLayer({
           <label className="cursor-pointer">X</label>
         </div>
         <div className="flex flex-col gap-2">
-          <OsHeader level={3}>{header}</OsHeader>
-          <p className="font-body-1 text-sm text-body-2">
+          <Heading level={3}>{header}</Heading>
+          <p className="font-body-1 text-body-2 text-sm">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut

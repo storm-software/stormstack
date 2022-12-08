@@ -5,8 +5,10 @@
     "codegen",
     "commitlint",
     "cssmodule",
+    "datetime",
     "devcontainer",
     "endregion",
+    "jsbi",
     "nrwl",
     "openapi",
     "partytown",
@@ -19,7 +21,9 @@
     "svgr",
     "systemvars",
     "tailwindcss",
-    "theunderscorer"
+    "theunderscorer",
+    "typesense",
+    "unoptimized"
   ],
   "enableFiletypes": [
     "mdx"

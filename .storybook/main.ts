@@ -9,10 +9,10 @@ import { filterByLoaderName } from "./utils/webpack-module-rules";
  * @see https://github.com/storybookjs/storybook/blob/main/docs/configure/overview.md#using-storybook-api
  */
 export const config: StorybookConfig = {
+  stories: [],
   addons: [
     "@storybook/addon-essentials",
     "@storybook/addon-a11y",
-    "@storybook/addon-postcss",
     "@storybook/testing-react",
     "@storybook/addon-storyshots",
   ],
@@ -30,17 +30,17 @@ export const config: StorybookConfig = {
     babelModeV7: true,
     storyStoreV7: true,
   },
-  stories: [],
   webpackFinal: async (config: Configuration, options: Options) => {
     // `options.configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.
     // 'PRODUCTION' is used when building the static version of storybook.
 
     const { resolve, module } = config;
-    if (!resolve)
+    if (!resolve) {
       throw new Error(
         `No resolve object assigned to Webpack's config. This is needed for Storybook.`
       );
+    }
 
     // Make whatever fine-grained changes you need
     const tsPaths = new TsconfigPathsPlugin({

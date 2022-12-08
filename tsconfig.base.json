@@ -21,19 +21,7 @@
         "libs/core/typescript/utilities/src/index.ts"
       ],
       "@open-system/design-system-components": [
-        "dist/design-system/components/stencil"
-      ],
-      "@open-system/design-system-components-react": [
-        "dist/design-system/components/react"
-      ],
-      "@open-system/design-system-components/*": [
-        "dist/design-system/components/stencil/dist/components/*"
-      ],
-      "@open-system/design-system-components/collection/*": [
-        "dist/design-system/components/stencil/dist/collection/components/*"
-      ],
-      "@open-system/design-system-components/loader": [
-        "dist/design-system/components/stencil/loader"
+        "design-system/components/src/index.ts"
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],

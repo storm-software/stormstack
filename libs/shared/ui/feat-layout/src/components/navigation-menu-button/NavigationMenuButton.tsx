@@ -1,11 +1,11 @@
 "use client";
 
-import { OsButton } from "@open-system/design-system-components-react";
 import {
+  Button,
   ButtonTransitionDirections,
   ButtonVariants,
-} from "@open-system/design-system-components/collection/os-button/os-button.types";
-import { PropsWithBase } from "@open-system/shared-ui-components";
+  PropsWithBase,
+} from "@open-system/design-system-components";
 import { motion } from "framer-motion";
 
 export type NavigationMenuButtonProps = PropsWithBase<{
@@ -19,7 +19,7 @@ export function NavigationMenuButton({
   ...props
 }: NavigationMenuButtonProps) {
   return (
-    <OsButton
+    <Button
       onClick={onClick}
       variant={ButtonVariants.GRADIENT}
       transitionDirection={ButtonTransitionDirections.TOP}
@@ -58,6 +58,6 @@ export function NavigationMenuButton({
           }}
         />
       </svg>
-    </OsButton>
+    </Button>
   );
 }

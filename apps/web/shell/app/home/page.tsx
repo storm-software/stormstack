@@ -5,7 +5,7 @@ import {
   LOGO_JSON_LD_DEFAULT,
   PROFILE_JSON_LD_DEFAULT,
 } from "../../next-seo.config";
-import Client from "../Client";
+import Client from "./client";
 
 export default function Page() {
   return (

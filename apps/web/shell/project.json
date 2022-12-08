@@ -14,9 +14,15 @@
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/web/shell/.next"
+          "outputPath": "apps/web/shell"
         },
         "production": {}
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd apps/web/shell && npx next dev"
       }
     },
     "serve": {

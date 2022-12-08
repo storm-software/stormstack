@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/shared-ui-components";
+import { BaseComponentProps } from "@open-system/design-system-components";
 
 export function Footer({ className, ...props }: BaseComponentProps) {
   return (

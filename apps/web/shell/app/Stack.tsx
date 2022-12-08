@@ -1,6 +1,6 @@
 "use client";
 
-import { OsHeader } from "@open-system/design-system-components-react";
+import { Heading } from "@open-system/design-system-components";
 import StackLayer from "./StackLayer";
 
 export default function Stack() {
@@ -9,7 +9,7 @@ export default function Stack() {
       <div className="flex h-[75rem] w-fit flex-col gap-20 px-10">
         <div className="flex w-fit max-w-[65rem] flex-col gap-20">
           <div className="flex flex-col gap-5">
-            <OsHeader level={2}>Full Stack Development</OsHeader>
+            <Heading level={2}>Full Stack Development</Heading>
 
             <p className="font-body-1 text-body-1">
               I feel nowadays the phrase <i>full stack developer</i> is

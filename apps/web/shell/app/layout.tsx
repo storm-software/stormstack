@@ -9,8 +9,8 @@ import localFont from "@next/font/local";
 import { Footer } from "@open-system/shared-ui-feat-layout";
 import clsx from "clsx";
 import React from "react";
-import "../style/globals.css";
-import Header from "./Header";
+import "../style/global.css";
+import NavHeader from "./nav-header";
 
 const melody = localFont({
   variable: "--font-melody",
@@ -58,7 +58,7 @@ export default function RootLayout({
         "bg-bg-1"
       )}>
       <head />
-      <Header />
+      <NavHeader />
       <body className="relative h-fit min-h-screen antialiased">
         <div className="h-fit w-full">{children}</div>
       </body>

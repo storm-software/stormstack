@@ -1,6 +1,8 @@
-export * from "./footer";
-export * from "./navigation-menu";
-// export * from "./navigation-menu-button";
-// export * from "./navigation-menu-item";
-export * from "./page-loading";
-export * from "./side-title";
+"use client";
+
+export * from "./footer/Footer";
+export * from "./navigation-menu-button/NavigationMenuButton";
+export * from "./navigation-menu-item/NavigationMenuItem";
+export * from "./navigation-menu/NavigationMenu";
+export * from "./page-loading/PageLoading";
+export * from "./side-title/SideTitle";

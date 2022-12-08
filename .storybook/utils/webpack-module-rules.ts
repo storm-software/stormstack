@@ -65,7 +65,7 @@ export function filterByLoaderName(
     return isArrayTypeUsePropPresent(rule.use)
       ? rule.use.filter(isObjectTypeRuleSetUseItem).filter(isUseLoaderByName)
       : undefined;
-  } else if (typeof rule === "string") {
-    return undefined;
   }
+
+  return undefined;
 }

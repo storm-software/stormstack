@@ -4,14 +4,12 @@
 const { withNx } = require("@nrwl/next/plugins/with-nx");
 const { CONTACT_URL, API_URL } = process.env;
 
-/**
- * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
- **/
 const nextConfig = {
   basePath: "",
   nx: {
     svgr: false,
   },
+
   swcMinify: true,
   reactStrictMode: true,
 
@@ -20,7 +18,7 @@ const nextConfig = {
     fontLoaders: [
       { loader: "@next/font/google", options: { subsets: ["latin"] } },
     ],
-    transpilePackages: ["@open-system/design-system-components-react"],
+    transpilePackages: ["@open-system/design-system-components"],
   },
 
   async redirects() {

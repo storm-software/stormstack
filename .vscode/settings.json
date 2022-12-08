@@ -54,6 +54,18 @@
       "extensions": ["api-spec.json"],
       "filename": true,
       "format": "svg"
+    },
+    {
+      "icon": "tailwind",
+      "extensions": ["tailwind.preset.js"],
+      "filename": true,
+      "format": "svg"
+    },
+    {
+      "icon": "jest",
+      "extensions": ["jest.preset.js"],
+      "filename": true,
+      "format": "svg"
     }
   ],
   "vsicons.associations.folders": [
