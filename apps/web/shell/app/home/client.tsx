@@ -2,7 +2,7 @@
 
 import { ArrowDownIcon } from "@heroicons/react/24/solid";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "../../../../../assets/box-logo-gradient.svg";
 import Aside from "../aside";
 import Stack from "../Stack";
@@ -21,7 +21,7 @@ export default function Client() {
     }
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const resizeObserver = new ResizeObserver(
       (entries: ResizeObserverEntry[]) => onResize(entries)
     );
@@ -40,7 +40,7 @@ export default function Client() {
   });
 
   const [hideScrollArrow, setHideScrollArrow] = useState(false);
-  useLayoutEffect(() => {
+  useEffect(() => {
     const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
       if (
         !hideScrollArrow &&

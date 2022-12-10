@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "../../../../../assets/box-logo-gradient.svg";
 
 export default function Introduction() {
@@ -11,7 +11,7 @@ export default function Introduction() {
   const [scrollRange, setScrollRange] = useState(0);
   const [viewportW, setViewportW] = useState(0);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     scrollRef.current && setScrollRange(scrollRef.current.scrollWidth);
   }, [scrollRef]);
 
@@ -21,7 +21,7 @@ export default function Introduction() {
     }
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const resizeObserver = new ResizeObserver(
       (entries: ResizeObserverEntry[]) => onResize(entries)
     );

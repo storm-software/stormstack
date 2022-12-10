@@ -22,9 +22,9 @@ export function NavigationMenuButton({
     <Button
       onClick={onClick}
       variant={ButtonVariants.GRADIENT}
-      transitionDirection={ButtonTransitionDirections.TOP}
+      transitionDirection={ButtonTransitionDirections.NONE}
       suppressHydrationWarning={true}>
-      <svg width="25" height="25" viewBox="0 0 25 25">
+      <svg width="45" height="25" viewBox="0 0 25 25">
         <motion.path
           fill="transparent"
           stroke="white"

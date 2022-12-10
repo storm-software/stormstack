@@ -107,7 +107,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}>
               <Link className="mr-16 h-fit w-fit">
-                <Logo className="h-[14rem]" />
+                <Logo className="h-[14rem] w-96" />
               </Link>
             </motion.div>
           )}

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 "use client";
 
 import clsx from "clsx";
@@ -52,11 +53,6 @@ export type ButtonProps = PropsWithBase<
     glowType?: ButtonGlowTypes;
 
     /**
-     * Is the button filled when hovered (the hover-text slot will not be used when set to false)
-     */
-    hoverFill?: boolean;
-
-    /**
      * Text displayed when the button filled when hovered (the hover-text slot will
      * not be used when set to false)
      */
@@ -88,7 +84,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       transitionDirection = ButtonTransitionDirections.RIGHT,
       disabled = false,
       inverse = false,
-      hoverFill = true,
       hoverText,
       onClick,
       onDoubleClick,
@@ -143,7 +138,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             getTextColor(disabled, variant),
             "bg-bg-1 font-btn-label-1 text-btn-label-1 rounded-full px-8 py-3"
           )}>
-          {inverse && hoverFill
+          {inverse
             ? hoverText ?? getDefaultText(type)
             : children ?? getDefaultText(type)}
           <div className="absolute top-0 left-0 h-full w-full overflow-hidden rounded-full bg-transparent p-1.5">
@@ -226,7 +221,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                   },
                   "absolute top-0 left-0 bg-transparent transition duration-300 ease-in-out"
                 )}>
-                {hoverFill && (
+                {transitionDirection !== ButtonTransitionDirections.NONE && (
                   <div
                     className={clsx(
                       {

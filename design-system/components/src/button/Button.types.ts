@@ -6,12 +6,18 @@ export const ButtonVariants = {
   TERTIARY: "tertiary" as ButtonVariants,
 };
 
-export type ButtonTransitionDirections = "left" | "right" | "top" | "bottom";
+export type ButtonTransitionDirections =
+  | "left"
+  | "right"
+  | "top"
+  | "bottom"
+  | "none";
 export const ButtonTransitionDirections = {
   LEFT: "left" as ButtonTransitionDirections,
   RIGHT: "right" as ButtonTransitionDirections,
   TOP: "top" as ButtonTransitionDirections,
   BOTTOM: "bottom" as ButtonTransitionDirections,
+  NONE: "none" as ButtonTransitionDirections,
 };
 
 export type ButtonTypes = "submit" | "reset" | "button";

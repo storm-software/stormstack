@@ -2,13 +2,13 @@
 
 import { SideTitle } from "@open-system/shared-ui-feat-layout";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Aside() {
   const [hide, setHide] = useState(true);
 
   const { scrollYProgress } = useScroll();
-  useLayoutEffect(() => {
+  useEffect(() => {
     const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
       if (!hide && !scrollY) {
         setHide(true);

@@ -57,6 +57,48 @@ Top.args = { transitionDirection: "top" };
 export const Bottom = Template.bind({});
 Bottom.args = { transitionDirection: "bottom" };
 
+/**
+ * Bottom - Secondary
+ */
+export const BottomSecondary = Template.bind({});
+BottomSecondary.args = { transitionDirection: "none", variant: "secondary" };
+
+/**
+ * Bottom - Tertiary
+ */
+export const BottomTertiary = Template.bind({});
+BottomTertiary.args = { transitionDirection: "none", variant: "tertiary" };
+
+/**
+ * Bottom - Gradient
+ */
+export const BottomGradient = Template.bind({});
+BottomGradient.args = { transitionDirection: "none", variant: "gradient" };
+
+/**
+ * None
+ */
+export const None = Template.bind({});
+None.args = { transitionDirection: "none" };
+
+/**
+ * None - Secondary
+ */
+export const NoneSecondary = Template.bind({});
+NoneSecondary.args = { transitionDirection: "none", variant: "secondary" };
+
+/**
+ * None - Tertiary
+ */
+export const NoneTertiary = Template.bind({});
+NoneTertiary.args = { transitionDirection: "none", variant: "tertiary" };
+
+/**
+ * None - Gradient
+ */
+export const NoneGradient = Template.bind({});
+NoneGradient.args = { transitionDirection: "none", variant: "gradient" };
+
 const InverseTemplate: ComponentStory<typeof Button> = args => (
   <Button {...args}>My button Text</Button>
 );
