@@ -28,6 +28,9 @@
       "@open-system/engagement-ui-feat-like": [
         "libs/engagement/ui/feat-like/src/index.ts"
       ],
+      "@open-system/engagement-ui-feat-like/*": [
+        "libs/engagement/ui/feat-like/src/*"
+      ],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
       "@open-system/executors-typescript": [
@@ -43,6 +46,9 @@
       ],
       "@open-system/shared-ui-feat-layout": [
         "libs/shared/ui/feat-layout/src/index.ts"
+      ],
+      "@open-system/shared-ui-feat-layout/*": [
+        "libs/shared/ui/feat-layout/src/*"
       ],
       "@open-system/static-message-common": [
         "libs/static/message/common/src/index.ts"

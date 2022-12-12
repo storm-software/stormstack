@@ -6,10 +6,10 @@ import {
   Permanent_Marker,
 } from "@next/font/google";
 import localFont from "@next/font/local";
-import { Footer } from "@open-system/shared-ui-feat-layout";
+import { Footer } from "@open-system/shared-ui-feat-layout/footer";
 import clsx from "clsx";
 import React from "react";
-import "../style/global.css";
+import "../styles/globals.css";
 import NavHeader from "./nav-header";
 
 const melody = localFont({
@@ -58,11 +58,11 @@ export default function RootLayout({
         "bg-bg-1"
       )}>
       <head />
-      <NavHeader />
       <body className="relative h-fit min-h-screen antialiased">
+        <NavHeader />
         <div className="h-fit w-full">{children}</div>
+        <Footer />
       </body>
-      <Footer />
     </html>
   );
 }

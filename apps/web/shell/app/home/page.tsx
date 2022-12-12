@@ -1,4 +1,4 @@
-import { LikeButton } from "@open-system/engagement-ui-feat-like";
+import { LikeButton } from "@open-system/engagement-ui-feat-like/like-button";
 import { ArticleJsonLd, LogoJsonLd, SocialProfileJsonLd } from "next-seo";
 import {
   ARTICLE_JSON_LD_DEFAULT,

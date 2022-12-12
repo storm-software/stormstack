@@ -1,7 +1,9 @@
 {
   "words": [
     "asyncapi",
+    "Benning",
     "clsx",
+    "codecov",
     "codegen",
     "commitlint",
     "cssmodule",
@@ -18,9 +20,11 @@
     "redocusaurus",
     "Renderable",
     "Storyshots",
+    "sullivanpj",
     "svgr",
     "systemvars",
     "tailwindcss",
+    "tbenning",
     "theunderscorer",
     "typesense",
     "unoptimized"

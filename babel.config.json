@@ -18,16 +18,6 @@
       {
         "onlyRemoveTypeImports": false
       }
-    ],
-    [
-      // @see https://babeljs.io/docs/en/babel-preset-react
-      "@babel/preset-react",
-      {
-        "pragma": "h", // default pragma is React.createElement (only in classic runtime)
-        "development": true,
-        "useSpread": true,
-        "runtime": "classic"
-      }
     ]
   ],
   "plugins": [

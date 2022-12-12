@@ -1,10 +1,10 @@
 "use client";
 
-import { NavigationMenu } from "@open-system/shared-ui-feat-layout";
+import { NavigationMenu } from "@open-system/shared-ui-feat-layout/navigation-menu";
 
 export default function NavHeader() {
   return (
-    <nav className="z-nav fixed top-0 h-20 w-full">
+    <nav className="fixed top-0 z-nav h-20 w-full">
       <NavigationMenu
         items={[
           { label: "Home", href: "/" },

@@ -18,12 +18,7 @@ const nextConfig = {
     fontLoaders: [
       { loader: "@next/font/google", options: { subsets: ["latin"] } },
     ],
-    transpilePackages: [
-      "@open-system/design-system-components",
-      "@open-system/shared-ui-components",
-      "@open-system/shared-ui-layout",
-      "@open-system/engagement-ui-like",
-    ],
+    transpilePackages: ["@open-system/design-system-components"],
   },
 
   async redirects() {
@@ -53,6 +48,9 @@ const nextConfig = {
     ];
   },
 
+  /**
+   * @param {{ module: { rules: { loader: string; options: { prettier: boolean; svgo: boolean; svgoConfig: { plugins: { name: string; params: { overrides: { removeViewBox: boolean; }; }; }[]; }; titleProp: boolean; }; test: RegExp; }[]; }; }} config
+   */
   webpack(config) {
     config.module.rules.push({
       loader: "@svgr/webpack",
