@@ -1,4 +1,8 @@
-import { ButtonTypes, ButtonVariants } from "./Button.types";
+import {
+  ButtonCornerRoundingTypes,
+  ButtonTypes,
+  ButtonVariants,
+} from "./Button.types";
 
 export function getBackgroundColor(disabled: boolean, variant: ButtonVariants) {
   return disabled
@@ -34,4 +38,12 @@ export function getDefaultText(type: ButtonTypes) {
     : type === ButtonTypes.SUBMIT
     ? "Submit"
     : "View";
+}
+
+export function getBorderRadius(rounding: ButtonCornerRoundingTypes) {
+  return rounding === ButtonCornerRoundingTypes.NONE
+    ? "rounded-none"
+    : rounding === ButtonCornerRoundingTypes.FULL
+    ? "rounded-full"
+    : "rounded-lg";
 }

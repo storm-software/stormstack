@@ -714,6 +714,78 @@
         }
       }
     },
+    "link-1": {
+      "description": "",
+      "type": "color",
+      "value": "#1ea7fdff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:09677ad6e72d864e79723024ea75f9b73c7677d1,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "hover-link-1": {
+      "description": "",
+      "type": "color",
+      "value": "#0284c7ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:c151a07593db1bdf37c1ce2d366049120a94f7d8,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "link-2": {
+      "description": "",
+      "type": "color",
+      "value": "#ffffffff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:fabc580dec1da9837d50df33191fe6473328056e,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "hover-link-2": {
+      "description": "",
+      "type": "color",
+      "value": "#a36de9ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:bdd5691cb5b74f51ba33557897dd575e3031134d,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "link-3": {
+      "description": "",
+      "type": "color",
+      "value": "#a36de9ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:52e6946fddf2373f0448734d5e16fd472b90c215,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "hover-link-3": {
+      "description": "",
+      "type": "color",
+      "value": "#503083ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:c2d901d429fa63c3b0f436c3e004d192212fd8ed,",
+          "exportKey": "color"
+        }
+      }
+    },
     "header colors": {
       "header-primary": {
         "description": "",

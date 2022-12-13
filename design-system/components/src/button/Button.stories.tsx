@@ -1,5 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Button } from "./Button";
+import { ButtonCornerRoundingTypes } from "./Button.types";
 
 const Story: ComponentMeta<typeof Button> = {
   component: Button,
@@ -205,6 +206,24 @@ DisabledGradientInverse.args = {
   variant: "gradient",
   inverse: true,
 };
+
+/**
+ * No Rounding
+ */
+export const NoRounding = Template.bind({});
+NoRounding.args = { rounding: ButtonCornerRoundingTypes.NONE };
+
+/**
+ * Partial Rounding
+ */
+export const PartialRounding = Template.bind({});
+PartialRounding.args = { rounding: ButtonCornerRoundingTypes.PARTIAL };
+
+/**
+ * Full Rounding
+ */
+export const FullRounding = Template.bind({});
+FullRounding.args = { rounding: ButtonCornerRoundingTypes.FULL };
 
 /**
  * CustomText

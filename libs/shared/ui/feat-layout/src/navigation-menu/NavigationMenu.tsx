@@ -2,6 +2,7 @@
 
 import {
   Button,
+  ButtonCornerRoundingTypes,
   ButtonGlowTypes,
   ButtonVariants,
   PropsWithBase,
@@ -144,6 +145,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
           <Button
             variant={ButtonVariants.PRIMARY}
             glowType={ButtonGlowTypes.ALWAYS}
+            rounding={ButtonCornerRoundingTypes.FULL}
             inverse={true}
             hoverText="Let's talk">
             Contact

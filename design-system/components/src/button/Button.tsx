@@ -12,6 +12,7 @@ import {
 } from "react";
 import { PropsWithBase } from "../types";
 import {
+  ButtonCornerRoundingTypes,
   ButtonGlowTypes,
   ButtonTransitionDirections,
   ButtonTypes,
@@ -19,6 +20,7 @@ import {
 } from "./Button.types";
 import {
   getBackgroundColor,
+  getBorderRadius,
   getDefaultText,
   getTextColor,
 } from "./Button.utils";
@@ -44,6 +46,13 @@ export type ButtonProps = PropsWithBase<
      * Is the button filled by default
      */
     type?: ButtonTypes;
+
+    /**
+     * Control how the button's corners are rounded (driven by the {@link https://tailwindcss.com/docs/border-radius Border Radius} CSS property)
+     *
+     * @defaultValue "partial"
+     */
+    rounding?: ButtonCornerRoundingTypes;
 
     /**
      * Control how the bright glow around the button is emitted
@@ -80,6 +89,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       type = ButtonTypes.BUTTON,
       variant = ButtonVariants.PRIMARY,
+      rounding = ButtonCornerRoundingTypes.PARTIAL,
       glowType = ButtonGlowTypes.HOVER,
       transitionDirection = ButtonTransitionDirections.RIGHT,
       disabled = false,
@@ -116,6 +126,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
         className={clsx(
           getBackgroundColor(disabled, variant),
+          getBorderRadius(rounding),
           {
             "active:translate-y-0.5 active:scale-95": !disabled,
           },
@@ -127,7 +138,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             "shadow-active-glow":
               !disabled && glowType === ButtonGlowTypes.ALWAYS,
           },
-          "m-w-bnt-m-w relative h-[58px] w-fit overflow-hidden rounded-full p-0.5 transition-shadow duration-300 ease-in-out",
+          "m-w-bnt-m-w relative h-[58px] w-fit overflow-hidden p-0.5 transition-shadow duration-300 ease-in-out",
           className
         )}
         {...props}
@@ -136,13 +147,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <div
           className={clsx(
             getTextColor(disabled, variant),
-            "rounded-full bg-bg-1 px-8 py-3 text-btn-label-1 font-btn-label-1"
+            getBorderRadius(rounding),
+            "bg-bg-1 px-8 py-3 text-btn-label-1 font-btn-label-1"
           )}>
           {inverse
             ? hoverText ?? getDefaultText(type)
             : children ?? getDefaultText(type)}
-          <div className="absolute top-0 left-0 h-full w-full overflow-hidden rounded-full bg-transparent p-1.5">
-            <div className="relative h-full w-full overflow-hidden rounded-full bg-transparent">
+          <div
+            className={clsx(
+              getBorderRadius(rounding),
+              "absolute top-0 left-0 h-full w-full overflow-hidden bg-transparent p-1.5"
+            )}>
+            <div
+              className={clsx(
+                getBorderRadius(rounding),
+                "relative h-full w-full overflow-hidden bg-transparent"
+              )}>
               <div
                 className={clsx(
                   {

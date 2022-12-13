@@ -1,29 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 
-export type BaseComponentProps = React.PropsWithRef<
-  React.PropsWithChildren<
-    Partial<
-      Pick<
-        React.HTMLAttributes<any>,
-        | "className"
-        | "id"
-        | "lang"
-        | "translate"
-        | "slot"
-        | "role"
-        | "suppressContentEditableWarning"
-        | "suppressHydrationWarning"
-      > & { key?: React.Key }
-    >
+export type BaseComponentProps = React.PropsWithChildren<
+  Partial<
+    Pick<
+      React.HTMLAttributes<any>,
+      | "className"
+      | "id"
+      | "lang"
+      | "translate"
+      | "slot"
+      | "role"
+      | "suppressContentEditableWarning"
+      | "suppressHydrationWarning"
+    > & { key?: React.Key }
   >
 >;
 
 export type PropsWithBase<
   P extends Record<string, any> = Record<string, never>
-> = BaseComponentProps & P;
+> = P & BaseComponentProps;
 
-export type BaseFieldProps = PropsWithBase<{
+export type BaseRefComponentProps = React.PropsWithRef<BaseComponentProps>;
+
+export type PropsWithBaseRef<
+  P extends Record<string, any> = Record<string, never>
+> = P & BaseRefComponentProps;
+
+export type BaseFieldProps = PropsWithBaseRef<{
   /**
    * The name of the input field
    */
@@ -32,7 +36,7 @@ export type BaseFieldProps = PropsWithBase<{
   /**
    * The text label displayed above the input field
    */
-  label: string;
+  label: string | JSX.Element;
 
   /**
    * Decides if input is disabled

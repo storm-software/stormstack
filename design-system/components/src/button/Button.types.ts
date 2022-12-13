@@ -56,3 +56,21 @@ export const ButtonGlowTypes = {
    */
   HOVER: "hover" as ButtonGlowTypes,
 };
+
+export type ButtonCornerRoundingTypes = "none" | "partial" | "full";
+export const ButtonCornerRoundingTypes = {
+  /**
+   * The button's corners will **not** be rounded (the button is square shaped)
+   */
+  NONE: "none" as ButtonCornerRoundingTypes,
+
+  /**
+   * The button's corners will be slightly rounded (the button is {@link https://en.wikipedia.org/wiki/Squircle#:~:text=A%20squircle%20is%20a%20shape,is%20based%20on%20the%20superellipse. squircle } shaped)
+   */
+  PARTIAL: "partial" as ButtonCornerRoundingTypes,
+
+  /**
+   * The button's corners will be rounded (the button is pill shaped)
+   */
+  FULL: "full" as ButtonCornerRoundingTypes,
+};

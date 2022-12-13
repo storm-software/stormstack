@@ -2,6 +2,7 @@
 
 import {
   Button,
+  ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
   ButtonVariants,
   PropsWithBase,
@@ -23,6 +24,7 @@ export function NavigationMenuButton({
       onClick={onClick}
       variant={ButtonVariants.GRADIENT}
       transitionDirection={ButtonTransitionDirections.NONE}
+      rounding={ButtonCornerRoundingTypes.FULL}
       suppressHydrationWarning={true}>
       <svg width="45" height="25" viewBox="0 0 25 25">
         <motion.path

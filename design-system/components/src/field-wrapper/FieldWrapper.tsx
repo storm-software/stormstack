@@ -19,7 +19,7 @@ export type FieldWrapperProps = PropsWithBase<{
   /**
    * The text label displayed above the input field
    */
-  label: string;
+  label: string | JSX.Element;
 
   /**
    * Decides if input is disabled
@@ -85,18 +85,18 @@ export const FieldWrapper = ({
   return (
     <div
       className={clsx(
-        "duration-600 h-input-h w-input-w pl-xs pt-xs flex flex-1 flex-row transition ease-in-out",
+        "duration-600 flex h-input-h w-input-w flex-1 flex-row pl-xs pt-xs transition ease-in-out",
         { "border-l-4": isBorderDisplayed },
         isBorderDisplayed && getBorderStyle(error, warning, info, focused),
         className
       )}>
-      <div className="gap-xxs flex h-fit w-full flex-col self-start">
+      <div className="flex h-fit w-full flex-col gap-xxs self-start">
         <div className="flex flex-row">
-          <div className="gap-xxxs pl-xxxs flex flex-1 grow flex-row">
+          <div className="flex flex-1 grow flex-row gap-xxxs pl-xxxs">
             <label
               className={clsx(
                 getTextStyle(error, warning, info, focused),
-                "font-label-1 text-label-1 leading-label-1 antialiased"
+                "text-label-1 font-label-1 leading-label-1 antialiased"
               )}
               htmlFor={name}>
               {label}
@@ -160,7 +160,7 @@ export const FieldWrapper = ({
           <label
             className={clsx(
               getTextStyle(error, warning, info, focused),
-              "font-message-1 text-message-1 leading-message-1 flex italic antialiased"
+              "flex text-message-1 font-message-1 italic leading-message-1 antialiased"
             )}
             htmlFor={name}>
             {getInputMessage(error, warning, info) ?? " "}

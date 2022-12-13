@@ -3,6 +3,7 @@
 import {
   BaseComponentProps,
   Button,
+  ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
   ButtonTypes,
   Checkbox,
@@ -15,7 +16,7 @@ import Logo from "../../../../../../assets/box-logo-white.svg";
 
 export function Footer({ className, ...props }: BaseComponentProps) {
   return (
-    <div className="mt-28 w-full bg-gradient-to-b from-bg-footer/100 via-bg-footer/100 to-bg-footer/50 bg-[length:100%_50%] bg-bottom bg-no-repeat px-20 pt-28">
+    <div className="mt-28 w-full bg-gradient-to-b from-bg-footer/100 via-bg-footer/100 to-bg-footer/25 bg-[length:100%_50%] bg-bottom bg-no-repeat px-20 pt-28">
       <div className="z-footer flex h-[36rem] w-full flex-col rounded-t-lg border border-black bg-footer shadow-md">
         <div className="flex w-full flex-1 flex-col gap-6 py-6 px-20">
           <div className="flex flex-row gap-2">
@@ -38,13 +39,23 @@ export function Footer({ className, ...props }: BaseComponentProps) {
                   />
                   <Checkbox
                     name="subscribe"
-                    label="I want to receive email notifications from this developer"
+                    label={
+                      <>
+                        I want to receive emails outlining future updates from
+                        this developer. Please see our{" "}
+                        <Link href="/about" target="_blank">
+                          email policy
+                        </Link>
+                        .
+                      </>
+                    }
                   />
                 </div>
                 <Button
-                  className="ml-4"
+                  className="ml-3.5"
                   type={ButtonTypes.SUBMIT}
                   transitionDirection={ButtonTransitionDirections.RIGHT}
+                  rounding={ButtonCornerRoundingTypes.PARTIAL}
                   hoverText="Submit">
                   Send
                 </Button>
