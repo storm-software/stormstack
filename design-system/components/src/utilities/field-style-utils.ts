@@ -31,7 +31,7 @@ export function getInputTextStyle(
 ) {
   return disabled
     ? "text-input-fill"
-    : value
+    : value !== undefined && value !== null
     ? "text-active"
     : getTextStyle(error, warning, info, focused);
 }

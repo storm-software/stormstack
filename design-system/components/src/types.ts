@@ -37,7 +37,7 @@ export type BaseFieldProps = PropsWithBase<{
   /**
    * Decides if input is disabled
    */
-  disabled: boolean;
+  disabled?: boolean;
 
   /**
    * An info message displayed under the input
@@ -52,12 +52,12 @@ export type BaseFieldProps = PropsWithBase<{
   /**
    * Decides if input field required
    */
-  required: boolean;
+  required?: boolean;
 
   /**
    * Should the border displayed on the left side of the input field remain hidden
    */
-  noBorder: boolean;
+  noBorder?: boolean;
 
   /**
    * Global attribute valid for all elements, including all the input types, an integer

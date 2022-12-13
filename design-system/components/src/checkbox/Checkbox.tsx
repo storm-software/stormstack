@@ -14,8 +14,8 @@ import { FieldWrapper } from "../field-wrapper";
 import { BaseFieldProps, FieldReference } from "../types";
 import {
   getInputFillColor,
-  getInputTextStyle,
   getStrokeStyle,
+  getTextStyle,
 } from "../utilities/field-style-utils";
 
 export type CheckboxProps = BaseFieldProps;
@@ -100,7 +100,8 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
         focused={focused}
         disabled={disabled}
         required={required}
-        noBorder={noBorder}>
+        noBorder={noBorder}
+        className={clsx("w-full", className)}>
         <input
           id={name}
           name={name}
@@ -109,17 +110,17 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
             getStrokeStyle(error, warning, info, focused, disabled),
             getInputFillColor(disabled),
             {
-              "ring-active focus:shadow-active-glow ring-1 ring-offset-0":
-                focused,
+              "focus:shadow-active-glow": focused,
             },
-            "font-label-1 leading-label-1 focus:ring-active flex w-full rounded-xl transition-colors focus:ring-0 focus:ring-offset-0",
-            getInputTextStyle(error, warning, info, focused, disabled, value),
+            "flex h-6 w-6 rounded-md font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-offset-0",
+            disabled
+              ? "text-input-fill"
+              : getTextStyle(error, warning, info, false),
             { "border-3": disabled },
             {
-              "border-1 hover:shadow-active-glow shadow-sm transition-shadow duration-300 ease-in-out":
+              "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
                 !disabled,
-            },
-            className
+            }
           )}
           type="checkbox"
           value={value ? "true" : "false"}

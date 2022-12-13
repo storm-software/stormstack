@@ -127,7 +127,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             "shadow-active-glow":
               !disabled && glowType === ButtonGlowTypes.ALWAYS,
           },
-          "m-w-bnt-m-w relative overflow-hidden rounded-full p-0.5 transition-shadow duration-300 ease-in-out",
+          "m-w-bnt-m-w relative h-[58px] w-fit overflow-hidden rounded-full p-0.5 transition-shadow duration-300 ease-in-out",
           className
         )}
         {...props}
@@ -136,7 +136,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <div
           className={clsx(
             getTextColor(disabled, variant),
-            "bg-bg-1 font-btn-label-1 text-btn-label-1 rounded-full px-8 py-3"
+            "rounded-full bg-bg-1 px-8 py-3 text-btn-label-1 font-btn-label-1"
           )}>
           {inverse
             ? hoverText ?? getDefaultText(type)
@@ -274,11 +274,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                             "text-inverse":
                               variant !== ButtonVariants.GRADIENT || disabled,
                           },
-                          "font-btn-label-1 text-btn-label-1 flex h-full w-full items-center justify-center text-center"
+                          "flex h-full w-full items-center justify-center text-center text-btn-label-1 font-btn-label-1"
                         )}>
                         {inverse
                           ? children ?? getDefaultText(type)
-                          : getDefaultText(type) ?? hoverText}
+                          : hoverText ?? getDefaultText(type)}
                       </div>
                     </div>
                   </div>

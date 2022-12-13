@@ -25,40 +25,41 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
     return (
       <>
         {level === 1 ? (
-          <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_40%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_6px]">
+          <span
+            className={clsx(
+              "w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_40%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_6px]",
+              className
+            )}>
             <h1
               ref={ref}
-              className={clsx(
-                "text-shadow-lg font-header-1 text-primary text-6xl leading-[3rem] shadow-white",
-                className
-              )}>
+              className="text-6xl font-header-1 leading-[3rem] text-primary shadow-white text-shadow-lg">
               {children}
             </h1>
           </span>
         ) : level === 2 ? (
-          <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_50%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_6px]">
-            <h2
-              className={clsx(
-                "text-shadow-lg font-header-2 text-primary text-6xl leading-[3.5rem] shadow-white",
-                className
-              )}>
+          <span
+            className={clsx(
+              "w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_50%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_6px]",
+              className
+            )}>
+            <h2 className="font-header-2 text-6xl leading-[3.5rem] text-primary shadow-white text-shadow-lg">
               {children}
             </h2>
           </span>
         ) : level === 3 ? (
-          <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_50%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_5px]">
-            <h3
-              className={clsx(
-                "text-shadow-lg font-header-3 text-primary text-4xl leading-[2rem] shadow-white",
-                className
-              )}>
+          <span
+            className={clsx(
+              "w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_50%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_5px]",
+              className
+            )}>
+            <h3 className="font-header-3 text-4xl leading-[2rem] text-primary shadow-white text-shadow-lg">
               {children}
             </h3>
           </span>
         ) : (
           <h4
             className={clsx(
-              "text-shadow-lg font-header-4 text-primary text-2xl leading-[1rem] shadow-white",
+              "font-header-4 text-2xl leading-[1rem] text-primary shadow-white text-shadow-lg",
               className
             )}>
             {children}

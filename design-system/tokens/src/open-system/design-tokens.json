@@ -669,11 +669,47 @@
     "bg-footer": {
       "description": "",
       "type": "color",
-      "value": "#a3e635ff",
+      "value": "#6366f1ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
           "styleId": "S:e03f1ad6b23b6727a8952d2a6e2cb31698891964,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "footer": {
+      "description": "",
+      "type": "color",
+      "value": "#3f3f46ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:9a796e210a3ab623fcadafe65859a9afcc754be2,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "footer-bottom": {
+      "description": "",
+      "type": "color",
+      "value": "#27272aff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:85a59e1faab457be21f93d37fdbd3484970c7305,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "text-hover": {
+      "description": "",
+      "type": "color",
+      "value": "#503083ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:3dad900810e269760f2b3c3bb64eb571a39ae6e9,",
           "exportKey": "color"
         }
       }
