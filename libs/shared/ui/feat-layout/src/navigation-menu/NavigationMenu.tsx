@@ -132,7 +132,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
       </motion.div>
 
       <motion.div
-        className="absolute z-nav-buttons flex flex-row gap-6 px-5 pt-5"
+        className="absolute z-nav-buttons flex flex-row gap-6 px-8 pt-5"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{
