@@ -1,76 +1,101 @@
-"use client";
-
 import {
   BaseComponentProps,
-  Button,
-  ButtonCornerRoundingTypes,
-  ButtonTransitionDirections,
-  ButtonTypes,
-  Checkbox,
+  Divider,
   Heading,
-  Input,
-  Textarea,
+  LinkVariants,
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
 import Logo from "../../../../../../assets/box-logo-white.svg";
+import GithubLogo from "../../assets/github-icon.svg";
+import KeybaseLogo from "../../assets/keybase-icon.svg";
+import LinkedInLogo from "../../assets/linkedin-icon.svg";
+import MediumLogo from "../../assets/medium-icon.svg";
+import { FooterForm } from "./footer-form";
 
 export function Footer({ className, ...props }: BaseComponentProps) {
   return (
-    <div className="mt-28 w-full bg-gradient-to-b from-bg-footer/100 via-bg-footer/100 to-bg-footer/25 bg-[length:100%_50%] bg-bottom bg-no-repeat px-20 pt-28">
-      <div className="z-footer flex h-[36rem] w-full flex-col rounded-t-lg border border-black bg-footer shadow-md">
-        <div className="flex w-full flex-1 flex-col gap-6 py-6 px-20">
-          <div className="flex flex-row gap-2">
-            <div className="flex flex-1 grow flex-col">
-              <Heading className="ml-3 whitespace-nowrap" level={2}>
-                Let's work together!
-              </Heading>
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-col">
-                  <Input
-                    name="email"
-                    label="Email"
-                    required={true}
-                    placeholder="mike.smith@example.com"
-                  />
-                  <Textarea
-                    name="comment"
-                    label="Message"
-                    placeholder="I am interested in working with you on a future project."
-                  />
-                  <Checkbox
-                    name="subscribe"
-                    label={
-                      <>
-                        I want to receive emails outlining future updates from
-                        this developer. Please see our{" "}
-                        <Link href="/about" target="_blank">
-                          email policy
-                        </Link>
-                        .
-                      </>
-                    }
-                  />
-                </div>
-                <Button
-                  className="ml-3.5"
-                  type={ButtonTypes.SUBMIT}
-                  transitionDirection={ButtonTransitionDirections.RIGHT}
-                  rounding={ButtonCornerRoundingTypes.PARTIAL}
-                  hoverText="Submit">
-                  Send
-                </Button>
-              </div>
-            </div>
-            <div className="flex flex-row justify-center">
-              <Link>
-                <Logo className="h-[16rem] w-[24rem]" />
+    <div className="mt-28 w-full bg-gradient-to-b from-bg-footer/100 via-bg-footer/100 to-bg-footer/25 bg-[length:100%_50%] bg-bottom bg-no-repeat px-0 pt-28 lg:px-20">
+      <div className="z-footer flex w-full flex-col rounded-t-lg border border-black bg-footer shadow-md">
+        <div className="flex w-full flex-1 flex-col gap-6 py-6 px-5 md:px-10 lg:px-20">
+          <div className="flex flex-row gap-16">
+            <FooterForm className="w-full" />
+            <div className="hidden flex-row items-center justify-center xl:flex">
+              <Link className="h-[18rem] w-[26rem]">
+                <Logo className="h-[18rem] w-[26rem]" />
               </Link>
             </div>
           </div>
+          <Divider />
+          <div className="flex flex-row gap-16">
+            <div className="flex flex-col gap-6">
+              <Heading className="whitespace-nowrap" level={3}>
+                Navigation
+              </Heading>
+              <div className="flex flex-row gap-16">
+                <div className="flex flex-col gap-6">
+                  <Link variant={LinkVariants.TERTIARY}>Home</Link>
+                  <Link variant={LinkVariants.SECONDARY}>About</Link>
+                  <Link variant={LinkVariants.SECONDARY}>Contact</Link>
+                </div>
+                <div className="flex flex-col gap-6">
+                  <Link variant={LinkVariants.SECONDARY}>Projects</Link>
+                  <Link variant={LinkVariants.TERTIARY}>Privacy</Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-6">
+              <Heading className="whitespace-nowrap" level={3}>
+                Blog
+              </Heading>
+              <Link variant={LinkVariants.SECONDARY}>Articles</Link>
+              <Link variant={LinkVariants.SECONDARY}>Latest</Link>
+            </div>
+            <div className="flex flex-col gap-6">
+              <Heading className="whitespace-nowrap" level={3}>
+                Documentation
+              </Heading>
+              <Link variant={LinkVariants.SECONDARY}>Open System</Link>
+              <Link variant={LinkVariants.SECONDARY}>Design System</Link>
+              <Link variant={LinkVariants.SECONDARY}>Storybook</Link>
+            </div>
+            <div className="flex flex-row items-center justify-center">
+              <div className="flex flex-col gap-0.5">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  <Link
+                    className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105"
+                    href="https://github.com/sullivanpj">
+                    <GithubLogo className="h-[5rem] w-[5rem]" />
+                  </Link>
+                  <Link
+                    className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105"
+                    href="https://keybase.io/sullivanp">
+                    <KeybaseLogo className="h-[5rem] w-[5rem]" />
+                  </Link>
+                  <Link
+                    className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105"
+                    href="https://www.linkedin.com/in/patrick-sullivan-865526b0">
+                    <LinkedInLogo className="h-[5rem] w-[5rem]" />
+                  </Link>
+                  <Link className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105">
+                    <MediumLogo className="h-[5rem] w-[5rem]" />
+                  </Link>
+                </div>
+                <div className="flex flex-col text-center">
+                  <label className="text-md font-body-1 text-primary">
+                    Patrick J. Sullivan
+                  </label>
+                  <label className="text-md font-body-1 text-primary">
+                    New York Metropolitan Area
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex w-full flex-row justify-center p-2">
-          <p className="font-body-1 text-body-1">
-            Patrick Sullivan Development © 2023
+        <div className="flex w-full flex-row justify-center pt-2 pb-3">
+          <p className="text-sm font-body-1 text-gray-400">
+            Copyright © 2023. Patrick Sullivan Development. All rights reserved.
           </p>
         </div>
       </div>

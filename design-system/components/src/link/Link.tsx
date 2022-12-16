@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import { PropsWithBase } from "../types";
 import { LinkVariants } from "./Link.types";

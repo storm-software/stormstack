@@ -124,7 +124,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
               "ring-1 ring-active ring-offset-0 focus:shadow-active-glow":
                 focused,
             },
-            "flex w-full rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
+            "flex w-full resize-none rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
             getInputTextStyle(error, warning, info, focused, disabled, value),
             { "border-3": disabled },
             {

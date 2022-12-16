@@ -40,10 +40,15 @@ export function getDefaultText(type: ButtonTypes) {
     : "View";
 }
 
-export function getBorderRadius(rounding: ButtonCornerRoundingTypes) {
+export function getBorderRadius(
+  rounding: ButtonCornerRoundingTypes,
+  isInner = false
+) {
   return rounding === ButtonCornerRoundingTypes.NONE
     ? "rounded-none"
     : rounding === ButtonCornerRoundingTypes.FULL
     ? "rounded-full"
+    : isInner
+    ? "rounded"
     : "rounded-lg";
 }

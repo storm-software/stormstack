@@ -11,6 +11,7 @@ import {
   useState,
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
+import { FieldLabelPlacementTypes } from "../field-wrapper/FieldWrapper.types";
 import { BaseFieldProps, FieldReference } from "../types";
 import {
   getInputFillColor,
@@ -101,7 +102,9 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
         disabled={disabled}
         required={required}
         noBorder={noBorder}
-        className={clsx("w-full", className)}>
+        labelPlacement={FieldLabelPlacementTypes.RIGHT}
+        noDisabledIcon={true}
+        className={clsx("w-fit", className)}>
         <input
           id={name}
           name={name}
@@ -112,7 +115,7 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
             {
               "focus:shadow-active-glow": focused,
             },
-            "flex h-6 w-6 rounded-md font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-offset-0",
+            "max-w-6 flex h-6 w-6 rounded-md font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-offset-0",
             disabled
               ? "text-input-fill"
               : getTextStyle(error, warning, info, false),

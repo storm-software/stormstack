@@ -18,19 +18,11 @@ export type LinkProps = PropsWithBase<
  * A component to facilitate application navigation. This is essentially a wrapper
  * around the NextJS Link component.
  */
-export function Link({
-  children,
-  className,
-  href = "/",
-  variant,
-  ...props
-}: LinkProps) {
+export function Link({ children, href = "/", ...props }: LinkProps) {
   return (
-    <NextLink href={href} className={className} {...props}>
+    <NextLink href={href} {...props}>
       {typeof children === "string" ? (
-        <DesignComponentLink className={className} variant={variant}>
-          {children}
-        </DesignComponentLink>
+        <DesignComponentLink {...props}>{children}</DesignComponentLink>
       ) : (
         children
       )}
