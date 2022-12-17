@@ -9,7 +9,7 @@ import Client from "./client";
 
 export default function Page() {
   return (
-    <div className="bg-gradient-to-t from-gray-300/0 via-gray-300/5 to-gray-300/0">
+    <div className="bg-gradient-to-b from-gray-300/0 via-gray-300/5 to-black">
       <ArticleJsonLd {...ARTICLE_JSON_LD_DEFAULT} useAppDir={true} />
       <SocialProfileJsonLd {...PROFILE_JSON_LD_DEFAULT} useAppDir={true} />
       <LogoJsonLd {...LOGO_JSON_LD_DEFAULT} useAppDir={true} />
