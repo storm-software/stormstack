@@ -64,6 +64,11 @@ export type BaseFieldProps = PropsWithBaseRef<{
   noBorder?: boolean;
 
   /**
+   * Should the input glow when focused
+   */
+  glow?: boolean;
+
+  /**
    * Global attribute valid for all elements, including all the input types, an integer
    * attribute indicating if the element can take input focus (is focusable),
    * if it should participate to sequential keyboard navigation. As all input types

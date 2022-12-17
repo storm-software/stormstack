@@ -777,11 +777,23 @@
     "hover-link-3": {
       "description": "",
       "type": "color",
-      "value": "#503083ff",
+      "value": "#b59bdeff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
           "styleId": "S:c2d901d429fa63c3b0f436c3e004d192212fd8ed,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "high-visibility": {
+      "description": "",
+      "type": "color",
+      "value": "#1ef04cff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:831c761a14d7b5dd6e2ccee5df73daa35cefd82c,",
           "exportKey": "color"
         }
       }

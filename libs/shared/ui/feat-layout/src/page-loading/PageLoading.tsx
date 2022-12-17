@@ -5,7 +5,7 @@ export function PageLoading() {
     <div className="flex h-[100vh] w-full flex-col items-center justify-center gap-10 overflow-hidden">
       <div className="z-20 rounded-full bg-primary py-20 px-24">
         <div className="h-[22rem] w-[18rem]">
-          <Logo />
+          <Logo className="h-[22rem] w-[18rem]" />
         </div>
       </div>
 

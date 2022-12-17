@@ -37,6 +37,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
       disabled = false,
       required = false,
       noBorder = false,
+      glow = true,
       label,
       placeholder,
       minLength,
@@ -121,15 +122,17 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
             getStrokeStyle(error, warning, info, focused, disabled),
             getInputFillColor(disabled),
             {
-              "ring-1 ring-active ring-offset-0 focus:shadow-active-glow":
-                focused,
+              "ring-1 ring-active ring-offset-0": focused,
+            },
+            {
+              "focus:shadow-active-glow": focused && glow,
             },
             "flex w-full resize-none rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
             getInputTextStyle(error, warning, info, focused, disabled, value),
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
-                !disabled,
+                !disabled && glow,
             },
             className
           )}

@@ -1,8 +1,10 @@
 import {
   Link as DesignComponentLink,
   LinkProps as DesignComponentLinkProps,
+  LinkVariants,
   PropsWithBase,
 } from "@open-system/design-system-components";
+import clsx from "clsx";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 
 import { HTMLAttributeAnchorTarget } from "react";
@@ -11,18 +13,43 @@ export type LinkProps = PropsWithBase<
   Omit<NextLinkProps, "href"> &
     Partial<Pick<NextLinkProps, "href">> & {
       target?: HTMLAttributeAnchorTarget;
-    } & Pick<DesignComponentLinkProps, "variant">
+    } & DesignComponentLinkProps
 >;
 
 /**
  * A component to facilitate application navigation. This is essentially a wrapper
  * around the NextJS Link component.
  */
-export function Link({ children, href = "/", ...props }: LinkProps) {
+export function Link({
+  children,
+  className,
+  variant,
+  href = "/",
+  ...props
+}: LinkProps) {
   return (
-    <NextLink href={href} {...props}>
+    <NextLink href={href} className={className} {...props}>
       {typeof children === "string" ? (
-        <DesignComponentLink {...props}>{children}</DesignComponentLink>
+        <DesignComponentLink
+          {...props}
+          variant={variant}
+          className={clsx(
+            {
+              "text-link-1 hover:text-hover-link-1":
+                variant === LinkVariants.PRIMARY,
+            },
+            {
+              "text-link-2 hover:text-hover-link-2":
+                variant === LinkVariants.SECONDARY,
+            },
+            {
+              "text-link-3 hover:text-hover-link-3":
+                variant === LinkVariants.TERTIARY,
+            },
+            className
+          )}>
+          {children}
+        </DesignComponentLink>
       ) : (
         children
       )}

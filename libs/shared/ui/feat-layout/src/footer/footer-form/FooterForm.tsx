@@ -9,7 +9,7 @@ import {
   Checkbox,
   Heading,
   Input,
-  Textarea
+  Textarea,
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
 import clsx from "clsx";
@@ -27,11 +27,13 @@ export function FooterForm({ className, ...props }: BaseComponentProps) {
             label="Email"
             required={true}
             placeholder="mike.smith@example.com"
+            glow={false}
           />
           <Textarea
             name="comment"
             label="Message"
             placeholder="I am interested in working with you on a future project."
+            glow={false}
           />
           <Checkbox
             name="subscribe"
@@ -45,6 +47,7 @@ export function FooterForm({ className, ...props }: BaseComponentProps) {
                 .
               </>
             }
+            glow={false}
           />
         </div>
         <div className="flex flex-row-reverse">

@@ -46,6 +46,7 @@ export const Select = forwardRef<FieldReference<string>, SelectProps>(
       disabled = false,
       required = false,
       noBorder = false,
+      glow = true,
       label,
       placeholder,
       tabIndex,
@@ -124,15 +125,17 @@ export const Select = forwardRef<FieldReference<string>, SelectProps>(
             getStrokeStyle(error, warning, info, focused, disabled),
             getInputFillColor(disabled),
             {
-              "ring-active focus:shadow-active-glow ring-1 ring-offset-0":
-                focused,
+              "ring-1 ring-active ring-offset-0": focused,
             },
-            "font-label-1 leading-label-1 focus:ring-active disabled:bg-disabled-fill flex w-full cursor-pointer rounded-xl transition-colors focus:ring-0 focus:ring-offset-0",
+            {
+              "focus:shadow-active-glow": focused && glow,
+            },
+            "flex w-full cursor-pointer rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0 disabled:bg-disabled-fill",
             getInputTextStyle(error, warning, info, focused, disabled, value),
             { "border-3": disabled },
             {
-              "border-1 hover:shadow-active-glow shadow-sm transition-shadow duration-300 ease-in-out":
-                !disabled,
+              "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
+                !disabled && glow,
             }
           )}
           value={value ?? undefined}

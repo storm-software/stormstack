@@ -36,7 +36,9 @@ export const FieldWrapperLabel = ({
         {label}
       </label>
       {required && (
-        <label className="font-extrabold text-red-500" htmlFor={name}>
+        <label
+          className="font-extrabold leading-none text-red-500"
+          htmlFor={name}>
           *
         </label>
       )}

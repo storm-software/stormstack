@@ -33,6 +33,7 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
       disabled = false,
       required = false,
       noBorder = false,
+      glow = true,
       label,
       tabIndex,
       autoFocus = false,
@@ -113,7 +114,7 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
             getStrokeStyle(error, warning, info, focused, disabled),
             getInputFillColor(disabled),
             {
-              "focus:shadow-active-glow": focused,
+              "focus:shadow-active-glow": focused && glow,
             },
             "max-w-6 flex h-6 w-6 rounded-md font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-offset-0",
             disabled
@@ -122,7 +123,7 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
-                !disabled,
+                !disabled && glow,
             }
           )}
           type="checkbox"
