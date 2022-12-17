@@ -5,3 +5,4 @@ export * from "./get-unique-id";
 export * from "./print";
 export * from "./result";
 export * from "./type-check";
+export * from "./types";

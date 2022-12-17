@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BaseComponentProps,
   Divider,
@@ -5,7 +7,7 @@ import {
   LinkVariants,
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
-import Logo from "../../../../../../assets/box-logo-purple.svg";
+import Logo from "../../../../../../assets/box-logo-gradient.svg";
 import GithubLogo from "../../assets/github-icon.svg";
 import KeybaseLogo from "../../assets/keybase-icon.svg";
 import LinkedInLogo from "../../assets/linkedin-icon.svg";

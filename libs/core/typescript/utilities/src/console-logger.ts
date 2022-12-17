@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { printError, printInfo, printSuccess, printWarning } from "./print";
+import { ILogger } from "./types";
 
 export class ConsoleLogger implements ILogger {
   /**
@@ -54,7 +56,8 @@ export class ConsoleLogger implements ILogger {
    */
   success(message: string): Promise<void> {
     printSuccess(message);
-    return;
+
+    return new Promise(() => {});
   }
 
   /**
@@ -64,7 +67,8 @@ export class ConsoleLogger implements ILogger {
    */
   error(message: string): Promise<void> {
     printError(message);
-    return;
+
+    return new Promise(() => {});
   }
 
   /**
@@ -74,7 +78,8 @@ export class ConsoleLogger implements ILogger {
    */
   warn(message: string): Promise<void> {
     printWarning(message);
-    return;
+
+    return new Promise(() => {});
   }
 
   /**
@@ -83,7 +88,8 @@ export class ConsoleLogger implements ILogger {
    */
   info(message: string): Promise<void> {
     printInfo(message);
-    return;
+
+    return new Promise(() => {});
   }
 
   /**
@@ -93,6 +99,7 @@ export class ConsoleLogger implements ILogger {
    */
   debug(message: string): Promise<void> {
     printInfo(message);
-    return;
+
+    return new Promise(() => {});
   }
 }

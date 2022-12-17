@@ -1,4 +1,5 @@
 import { getUUID } from "./get-unique-id";
+import { ICustomUtilityClass } from "./types";
 
 /**
  * A base abstract class to be inherited by all utility classes added.

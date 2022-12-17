@@ -45,6 +45,7 @@ module.exports = {
       "backgroundImage": {
         ...extend.backgroundImage,
         "bg-title": "url(../../../../assets/backgrounds/bg-title.jpg)",
+        "bg-windows": "url(../../../../assets/backgrounds/bg-windows.webp)",
       },
       "zIndex": {
         ...extend.zIndex,
@@ -64,6 +65,7 @@ module.exports = {
         "wave2": "wave 22s linear reverse infinite",
         "wave3": "wave 20s -1s linear infinite",
         "bubble": "bubble 10s ease-in-out infinite",
+        "blink": "blink 1.5s steps(2) infinite",
       },
       "keyframes": {
         ...extend.keyframes,
@@ -96,6 +98,9 @@ module.exports = {
             "transform": "translateY(-120vh)",
             "opacity": 0,
           },
+        },
+        "blink": {
+          "0%": { "opacity": 0 },
         },
       },
     },

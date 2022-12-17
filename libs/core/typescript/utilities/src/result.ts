@@ -2,6 +2,13 @@
 import { CustomUtilityClass } from "./custom-utility-class";
 import { DateTime } from "./date-time";
 import { isError, isObject } from "./type-check";
+import {
+  AbortError,
+  IError,
+  IResult,
+  ResultSourceTypes,
+  Tokens,
+} from "./types";
 
 /**
  * An object to contain generic data describing the result of a FXL or external process
@@ -160,7 +167,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
    * @param obj - The object to check for type and errors
    * @returns A boolean indicator specifying if the `obj` represents an error and has the `Result` type
    */
-  public static isErrorResult = <TError extends IError | undefined = IError>(
+  public static isErrorResult = <TError extends IError | null = IError>(
     obj?: unknown
   ): obj is Result<TError> => {
     return Result.isResult(obj) && Result.isError(obj);
@@ -173,7 +180,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
    * @param obj - The object to check for type and errors
    * @returns A boolean indicator specifying if the `obj` represents an error and has the `Result` type
    */
-  public static isSuccessResult = <TError extends IError | undefined = IError>(
+  public static isSuccessResult = <TError extends IError | null = IError>(
     obj?: unknown
   ): obj is Result<TError> => {
     return Result.isResult(obj) && Result.isSuccess(obj);
@@ -210,19 +217,19 @@ export class Result<TError extends IError | null = any, TData = unknown>
   /**
    * Any data returned from the process/function
    */
-  public data?: TData;
+  public data?: TData | null;
 
   /**
    * The error associated with this result
    */
-  public error?: TError;
+  public error: TError | null;
 
   /**
    * The date-time the result occurred
    */
   public timestamp: DateTime = DateTime.current;
 
-  protected constructor(error?: TError | null, data?: TData | null) {
+  protected constructor(error: TError | null = null, data?: TData | null) {
     super(Tokens.RESULT_SYMBOL);
 
     this.error = error;
@@ -268,7 +275,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
   public isEqual = (result?: unknown): boolean => {
     try {
       return (
-        result &&
+        !!result &&
         Result.isResult(result) &&
         this.error?.name === result?.error?.name &&
         this.error?.message === result?.error?.message &&

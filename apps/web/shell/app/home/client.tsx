@@ -6,8 +6,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "../../../../../assets/box-logo-gradient.svg";
 import Aside from "../aside";
 import Stack from "../Stack";
+import Introduction from "./(introduction)/introduction";
 import Header from "./header";
-import Introduction from "./introduction";
+import Technologies from "./technologies";
 
 const SCROLL_Y_THRESHOLD = 1000;
 
@@ -63,14 +64,14 @@ export default function Client() {
 
   return (
     <div ref={ref}>
-      <div className="z-progress fixed top-0 left-0 right-0">
-        <motion.div className="bg-highlight-1 h-2" style={{ scaleX }} />
+      <div className="fixed top-0 left-0 right-0 z-progress">
+        <motion.div className="h-2 bg-highlight-1" style={{ scaleX }} />
       </div>
 
       <AnimatePresence>
         {!hideScrollArrow && (
           <motion.div
-            className="border-secondary fixed -left-16 -bottom-16 h-52 w-52 rounded-full border-4"
+            className="fixed -left-16 -bottom-16 h-52 w-52 rounded-full border-4 border-secondary"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}
@@ -80,7 +81,7 @@ export default function Client() {
               ease: [0, 0.71, 0.2, 1.01],
             }}>
             <div className="z-scroll flex h-full w-full items-center justify-center">
-              <ArrowDownIcon className="fill-secondary h-12 w-12 animate-bounce" />
+              <ArrowDownIcon className="h-12 w-12 animate-bounce fill-secondary" />
             </div>
           </motion.div>
         )}
@@ -95,28 +96,33 @@ export default function Client() {
 
         <main>
           <div className="mb-60">
+            <Introduction />
+          </div>
+
+          <div className="mb-60">
             <Stack />
           </div>
-          <Introduction />
+
+          <Technologies />
 
           <section className="flex snap-center snap-always justify-center">
             <div className="relative h-[38rem] max-w-[65rem] md:w-3/4 lg:w-2/3">
               <div className="absolute bottom-0 left-0">
                 <div className="flex flex-col gap-3">
-                  <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-primary text-7xl leading-none shadow-white drop-shadow-2xl">
+                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
+                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
                       Patrick
                     </h1>
                   </span>
 
-                  <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-primary text-7xl leading-none shadow-white drop-shadow-2xl">
+                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
+                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
                       Sullivan
                     </h1>
                   </span>
 
-                  <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-primary text-7xl leading-none shadow-white drop-shadow-2xl">
+                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
+                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
                       Development
                     </h1>
                   </span>
@@ -133,20 +139,20 @@ export default function Client() {
             <div className="relative h-[38rem] max-w-[65rem] md:w-3/4 lg:w-2/3">
               <div className="absolute bottom-0 left-0">
                 <div className="flex flex-col gap-3">
-                  <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-primary text-7xl leading-none shadow-white drop-shadow-2xl">
+                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
+                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
                       Patrick
                     </h1>
                   </span>
 
-                  <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-primary text-7xl leading-none shadow-white drop-shadow-2xl">
+                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
+                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
                       Sullivan
                     </h1>
                   </span>
 
-                  <span className="from-gradient-to via-gradient-via to-gradient-from w-fit bg-gradient-to-r bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-primary text-7xl leading-none shadow-white drop-shadow-2xl">
+                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
+                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
                       Development
                     </h1>
                   </span>

@@ -44,6 +44,9 @@
       "@open-system/shared-ui-components": [
         "libs/shared/ui/components/src/index.ts"
       ],
+      "@open-system/shared-ui-components/*": [
+        "libs/shared/ui/components/src/*"
+      ],
       "@open-system/shared-ui-feat-layout": [
         "libs/shared/ui/feat-layout/src/index.ts"
       ],

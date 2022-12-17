@@ -5,6 +5,7 @@ import {
   isSymbol as isSymbolExternal,
 } from "radash";
 import { MutableRefObject } from "react";
+import { SelectOption } from "./types";
 
 /**
  * Check if the provided value's type is `number`
@@ -144,7 +145,7 @@ export const isEmpty = (obj: unknown) => {
  */
 export const isEmptyObject = (obj: unknown) => {
   try {
-    return isEmpty(obj) || Object.keys(obj).length === 0;
+    return isEmpty(obj) || Object.keys(obj ?? {}).length === 0;
   } catch (e) {
     return false;
   }

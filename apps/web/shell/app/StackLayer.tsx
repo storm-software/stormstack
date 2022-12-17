@@ -1,5 +1,6 @@
 "use client";
 
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Heading } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
@@ -108,7 +109,9 @@ export default function StackLayer({
 }: StackLayerProps) {
   const [opened, setOpened] = useState(false);
   const handleOpen = useCallback(() => !opened && setOpened(true), [opened]);
-  const handleClose = useCallback(() => setOpened(false), []);
+  const handleClose = useCallback(() => opened && setOpened(false), [opened]);
+
+  // const ref = useClickOutside(handleClose);
 
   return (
     <motion.div
@@ -136,7 +139,7 @@ export default function StackLayer({
         <div className="absolute -right-36 w-full rotate-[26deg] skew-x-[26deg] text-2xl">
           <div
             onClick={handleOpen}
-            className="font-label-2 text-primary hover:text-active-yellow flex h-16 cursor-pointer items-center justify-end bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 text-3xl transition-all hover:scale-x-150 hover:text-4xl">
+            className="flex h-16 cursor-pointer items-center justify-end bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 text-3xl font-label-2 text-primary transition-all hover:scale-x-150 hover:text-4xl hover:text-active-yellow">
             <label className="cursor-pointer">{header}</label>
           </div>
         </div>
@@ -150,12 +153,12 @@ export default function StackLayer({
         )}>
         <div
           onClick={handleClose}
-          className="absolute top-1 right-1 z-30 cursor-pointer rounded-full py-0.5 px-2 font-semibold text-slate-600 transition-colors hover:bg-slate-300 hover:text-slate-900">
-          <label className="cursor-pointer">X</label>
+          className="absolute top-1 right-1 z-30 m-1 cursor-pointer rounded-full bg-slate-300/80 p-2 font-semibold text-slate-500 transition-colors hover:bg-slate-300 hover:text-slate-900">
+          <XMarkIcon className="h-4 w-4 cursor-pointer" />
         </div>
         <div className="flex flex-col gap-2">
           <Heading level={3}>{header}</Heading>
-          <p className="font-body-1 text-body-2 text-sm">
+          <p className="text-sm font-body-1 text-body-2">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut

@@ -1,6 +1,7 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { getUUID } from "./get-unique-id";
 import { isBigInt, isDate } from "./type-check";
+import { IDateTime, Tokens } from "./types";
 
 /**
  * A wrapper of the and Date class
@@ -71,6 +72,28 @@ export class DateTime extends Temporal.Instant implements IDateTime {
     return dateTimeFrom.since(dateTimeTo);
   }
 
+  /**
+   * This function takes a DateTime object and returns a PlainDate object.
+   * @param {DateTime} dateTime - DateTime
+   * @returns A PlainDate object.
+   */
+  public static getPlainDate(dateTime: DateTime): Temporal.PlainDate {
+    return Temporal.PlainDate.from(
+      dateTime.toZonedDateTimeISO(Temporal.Now.timeZone())
+    );
+  }
+
+  /**
+   * This function takes a DateTime object and returns a PlainTime object.
+   * @param {DateTime} dateTime - DateTime
+   * @returns A PlainTime object.
+   */
+  public static getPlainTime(dateTime: DateTime): Temporal.PlainTime {
+    return Temporal.PlainTime.from(
+      dateTime.toZonedDateTimeISO(Temporal.Now.timeZone())
+    );
+  }
+
   public static create = (
     dateTime:
       | Temporal.Instant
@@ -94,9 +117,28 @@ export class DateTime extends Temporal.Instant implements IDateTime {
       isBigInt(dateTime)
         ? dateTime
         : Temporal.Instant.from(
-            DateTime.isJsDate(dateTime) ? dateTime.toUTCString() : dateTime
+            (DateTime.isJsDate(dateTime) ? dateTime.toUTCString() : dateTime) ??
+              DateTime.current
           ).epochNanoseconds
     );
+
+    this._type = (this as unknown as object)?.constructor.name;
+  }
+
+  /**
+   * It returns a plain date object from a DateTime object
+   * @returns A PlainDate object.
+   */
+  public getPlainDate(): Temporal.PlainDate {
+    return DateTime.getPlainDate(this);
+  }
+
+  /**
+   * `getPlainTime` returns a `PlainTime` object from a `DateTime` object
+   * @returns A PlainTime object.
+   */
+  public getPlainTime(): Temporal.PlainTime {
+    return DateTime.getPlainTime(this);
   }
 
   /**

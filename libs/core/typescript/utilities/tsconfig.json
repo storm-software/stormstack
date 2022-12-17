@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "composite": true,
+    "strict": true,
     "types": ["jest", "node"]
   },
   "files": [],
