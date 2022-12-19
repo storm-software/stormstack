@@ -25,6 +25,7 @@
     rgb(var(--dotsColor) / 0.15) calc(var(--dotRadius, 53%) * 0.95);
   --bg: radial-gradient(circle at center, var(--stops)),
     radial-gradient(circle at center, var(--stops));
+  transform: scaleY(-1);
 }
 
 .halftone {

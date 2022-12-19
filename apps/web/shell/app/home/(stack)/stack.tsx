@@ -1,7 +1,7 @@
 "use client";
 
 import { Heading } from "@open-system/design-system-components";
-import StackLayer from "./StackLayer";
+import StackLayer from "./stack-layer";
 
 export default function Stack() {
   return (

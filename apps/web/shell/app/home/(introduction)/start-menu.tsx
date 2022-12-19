@@ -37,13 +37,13 @@ export default function StartMenu({
   return (
     <div
       ref={ref}
-      className="absolute bottom-12 left-0 z-20 flex h-3/4 w-1/2 flex-col bg-black/80">
+      className="absolute bottom-12 left-0 z-20 flex h-3/4 w-4/5 min-w-fit flex-col bg-black/80 md:w-1/2">
       <div
         className="group flex cursor-pointer flex-row items-center gap-3 p-6"
         onClick={handleClick}>
         <Logo alt="box-logo" className="h-14 w-16" />
-        <label className="cursor-pointer text-gray-400 group-hover:text-white">
-          Patrick Sullivan Development
+        <label className="cursor-pointer text-lg font-semibold text-gray-400 group-hover:text-white">
+          Patrick Sullivan
         </label>
       </div>
       <div className="flex flex-1 flex-row gap-3 px-1 pb-3">

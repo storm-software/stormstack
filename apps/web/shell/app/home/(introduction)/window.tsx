@@ -16,22 +16,22 @@ interface WindowProps {
 export default function Window({ setMinimized, setClosed }: WindowProps) {
   return (
     <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col bg-white">
-      <div className="flex h-8 w-full flex-row items-center justify-between border-2 border-b-slate-300">
-        <div className="flex flex-row items-center gap-2 px-2 text-sm">
+      <div className="flex h-fit w-full flex-row items-center justify-between border-2 border-b-slate-300">
+        <div className="flex flex-row items-center gap-2 px-2 py-1 text-sm">
           <Image src={notepadIcon} alt="Notepad Icon" width={20} height={18} />
           <label>Introduction.txt - Notepad</label>
         </div>
         <div className="flex flex-row items-center">
           <div
-            className="cursor-pointer px-5 text-gray-400 hover:text-gray-700"
+            className="cursor-pointer px-2 text-gray-400 hover:text-gray-700 md:px-5"
             onClick={setMinimized}>
             <MinusIcon className="h-4 w-5" />
           </div>
-          <div className="px-5 text-gray-400 hover:text-gray-700">
+          <div className="hidden cursor-pointer px-5 text-gray-400 hover:text-gray-700 md:block">
             <Square2StackIcon className="h-4 w-5" />
           </div>
           <div
-            className="cursor-pointer px-5 text-gray-400 hover:text-gray-700"
+            className="cursor-pointer px-2 text-gray-400 hover:text-gray-700 md:px-5"
             onClick={setClosed}>
             <XMarkIcon className="h-4 w-5" />
           </div>

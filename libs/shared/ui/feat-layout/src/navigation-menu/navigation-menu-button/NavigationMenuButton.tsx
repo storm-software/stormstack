@@ -26,7 +26,7 @@ export function NavigationMenuButton({
       transitionDirection={ButtonTransitionDirections.NONE}
       rounding={ButtonCornerRoundingTypes.FULL}
       suppressHydrationWarning={true}>
-      <svg width="75" height="35" viewBox="0 0 25 25">
+      <svg width="85" height="35" viewBox="0 0 25 25">
         <motion.path
           fill="transparent"
           stroke="white"

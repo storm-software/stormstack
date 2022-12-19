@@ -154,7 +154,7 @@ export default function StackLayer({
         <div
           onClick={handleClose}
           className="absolute top-1 right-1 z-30 m-1 cursor-pointer rounded-full bg-slate-300/80 p-2 font-semibold text-slate-500 transition-colors hover:bg-slate-300 hover:text-slate-900">
-          <XMarkIcon className="h-4 w-4 cursor-pointer" />
+          <XMarkIcon className="h-3 w-3 cursor-pointer" />
         </div>
         <div className="flex flex-col gap-2">
           <Heading level={3}>{header}</Heading>

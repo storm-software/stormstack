@@ -26,7 +26,7 @@ export default function TaskbarItem({
   return (
     <div
       className={clsx(
-        "flex cursor-pointer flex-row items-center gap-2 px-2 hover:bg-gray-700",
+        "flex w-fit cursor-pointer flex-row items-center gap-2 px-2 hover:bg-gray-700",
         {
           "border-b-2 border-b-slate-200 text-white":
             windowState === WindowStateTypes.OPENED,

@@ -6,9 +6,9 @@ export type HeadingProps = PropsWithBase<{
   /**
    * The level of the Heading
    *
-   * @example h1, h2, h3, h4
+   * @example h1, h2, h3, h4, h5
    */
-  level: 1 | 2 | 3 | 4;
+  level: 1 | 2 | 3 | 4 | 5;
 }>;
 
 /**
@@ -47,14 +47,22 @@ export const Heading = ({ className, children, level = 2 }: HeadingProps) => {
             {children}
           </h3>
         </span>
-      ) : (
+      ) : level === 4 ? (
         <h4
           className={clsx(
-            "font-header-4 text-2xl leading-[1rem] text-primary shadow-white text-shadow-lg",
+            "font-header-4 text-3xl leading-[1rem] text-primary shadow-white text-shadow-lg",
             className
           )}>
           {children}
         </h4>
+      ) : (
+        <h5
+          className={clsx(
+            "font-header-4 text-xl leading-[1rem] text-primary shadow-white text-shadow-lg",
+            className
+          )}>
+          {children}
+        </h5>
       )}
     </>
   );

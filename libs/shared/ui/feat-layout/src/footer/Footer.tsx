@@ -72,20 +72,25 @@ export function Footer({ className, ...props }: BaseComponentProps) {
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
                       <Link
                         className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105"
+                        target="_blank"
                         href="https://github.com/sullivanpj">
                         <GithubLogo className="h-[5rem] w-[5rem]" />
                       </Link>
                       <Link
                         className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105"
+                        target="_blank"
                         href="https://keybase.io/sullivanp">
                         <KeybaseLogo className="h-[5rem] w-[5rem]" />
                       </Link>
                       <Link
                         className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105"
+                        target="_blank"
                         href="https://www.linkedin.com/in/patrick-sullivan-865526b0">
                         <LinkedInLogo className="h-[5rem] w-[5rem]" />
                       </Link>
-                      <Link className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105">
+                      <Link
+                        className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-105"
+                        target="_blank">
                         <MediumLogo className="h-[5rem] w-[5rem]" />
                       </Link>
                     </div>

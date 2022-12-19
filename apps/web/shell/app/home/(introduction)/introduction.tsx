@@ -7,7 +7,7 @@ import Screen from "./screen";
 export default function Introduction() {
   return (
     <section className="flex w-full snap-center snap-always justify-center overflow-hidden">
-      <div className="flex w-3/4 flex-col gap-20 px-10">
+      <div className="z-10 mx-10 flex w-full flex-col gap-20 px-10 md:mx-0 lg:w-3/4">
         <div className="flex w-full max-w-[65rem] flex-col gap-20">
           <div className="flex flex-col gap-5">
             <div className="grid-col-1 grid justify-items-center">
@@ -36,11 +36,14 @@ export default function Introduction() {
                 </Suspense>
               </div>
               <div className="h-16 w-64 justify-self-center bg-gray-400"></div>
-              <div className="h-2.5 w-2/5 justify-self-center bg-slate-600"></div>
+              <div className="h-2.5 w-96 justify-self-center bg-slate-600"></div>
             </div>
             <div className="flex flex-row items-center justify-center gap-10">
-              <Image src={keyboard} alt="keyboard" width={600} height={300} />
-              <Mouse className="h-52 text-slate-500" />
+              <Image src={keyboard} alt="Keyboard" width={600} height={300} />
+              <Mouse
+                className="hidden h-52 text-slate-500 xl:block"
+                alt="Mouse"
+              />
             </div>
           </div>
         </div>

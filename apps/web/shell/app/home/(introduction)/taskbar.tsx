@@ -63,8 +63,8 @@ export default function Taskbar({
         )}
       </div>
       <div className="flex h-full w-fit flex-row items-center gap-2 px-5 text-white">
-        <WifiIcon className="h-1/2 w-fit" />
-        <SpeakerWaveIcon className="h-1/2 w-fit" />
+        <WifiIcon className="hidden h-1/2 w-fit md:block" />
+        <SpeakerWaveIcon className="hidden h-1/2 w-fit md:block" />
         <div className="grid h-full w-fit grid-cols-1 content-center whitespace-nowrap py-2 text-center text-xs leading-normal">
           <label>
             {current

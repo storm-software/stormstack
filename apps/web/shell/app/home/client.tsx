@@ -5,10 +5,10 @@ import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "../../../../../assets/box-logo-gradient.svg";
 import Aside from "../aside";
-import Stack from "../Stack";
 import Introduction from "./(introduction)/introduction";
+import Stack from "./(stack)/stack";
+import Technologies from "./(technologies)/technologies";
 import Header from "./header";
-import Technologies from "./technologies";
 
 const SCROLL_Y_THRESHOLD = 1000;
 
@@ -103,7 +103,9 @@ export default function Client() {
             <Stack />
           </div>
 
-          <Technologies />
+          <div className="mb-60">
+            <Technologies />
+          </div>
 
           <section className="flex snap-center snap-always justify-center">
             <div className="relative h-[38rem] max-w-[65rem] md:w-3/4 lg:w-2/3">

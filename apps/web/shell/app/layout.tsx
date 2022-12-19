@@ -55,7 +55,7 @@ export default function RootLayout({
         frankRuhlLibre.variable,
         abrilFatface.variable,
         permanentMarker.variable,
-        "bg-gradient-to-b from-bg-1 to-black"
+        "bg-gradient-to-b from-bg-1 via-bg-1 to-black"
       )}>
       <head />
       <body className="relative h-fit min-h-screen antialiased">

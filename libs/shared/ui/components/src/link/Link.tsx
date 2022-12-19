@@ -35,16 +35,8 @@ export function Link({
           variant={variant}
           className={clsx(
             {
-              "text-link-1 hover:text-hover-link-1":
-                variant === LinkVariants.PRIMARY,
-            },
-            {
               "text-link-2 hover:text-hover-link-2":
                 variant === LinkVariants.SECONDARY,
-            },
-            {
-              "text-link-3 hover:text-hover-link-3":
-                variant === LinkVariants.TERTIARY,
             },
             className
           )}>
