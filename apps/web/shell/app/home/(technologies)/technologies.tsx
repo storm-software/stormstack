@@ -24,6 +24,7 @@ import log4brainsLogo from "../../../../../../assets/external-logos/log4brains-l
 import mavenLogo from "../../../../../../assets/external-logos/maven-logo.png";
 import MintlifyLogo from "../../../../../../assets/external-logos/mintlify-logo.svg";
 import NextLogo from "../../../../../../assets/external-logos/nextjs-logo.svg";
+import nodeLogo from "../../../../../../assets/external-logos/node-logo.png";
 import nunitLogo from "../../../../../../assets/external-logos/nunit-logo.png";
 import nxLogo from "../../../../../../assets/external-logos/nx-logo.png";
 import OpenApiLogo from "../../../../../../assets/external-logos/openapi-logo.svg";
@@ -84,16 +85,16 @@ export default function Technologies() {
   return (
     <div className="relative h-[375vh] w-full">
       <div className="sticky top-10 left-0 right-0 overflow-hidden">
-        <Heading level={2} className="absolute bottom-0 left-20">
+        <Heading level={2} className="absolute bottom-10 left-20">
           Technologies
         </Heading>
         <motion.section
           ref={scrollRef}
           style={{ x: spring }}
           className="relative flex w-fit flex-row gap-[70rem] pl-[1600rem] pr-[1000rem]">
-          <div className="relative h-[40rem] w-fit max-w-[70rem]">
+          <div className="relative h-[45rem] w-fit max-w-[70rem]">
             <div className="flex w-full flex-col gap-10 p-5">
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="Figma"
                   description="Figma is an extremely helpful tool for designing wire-frames and specifying design tokens."
@@ -123,7 +124,7 @@ export default function Technologies() {
                   Design System / Modeling
                 </Heading>
               </div>
-              <div className="flex w-full flex-row items-center gap-10">
+              <div className="flex w-full flex-row items-center justify-center gap-10">
                 <Technology
                   name="Invision"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -151,9 +152,9 @@ export default function Technologies() {
             </div>
           </div>
 
-          <div className="relative h-[40rem] w-fit max-w-[70rem]">
+          <div className="relative h-[45rem] w-fit max-w-[70rem]">
             <div className="flex w-full flex-col gap-10 p-5">
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="React"
                   description="Figma is an extremely helpful tool for designing wire-frames and specifying design tokens."
@@ -174,7 +175,7 @@ export default function Technologies() {
                   />
                 </Technology>
               </div>
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="Stencil"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -213,9 +214,46 @@ export default function Technologies() {
             </div>
           </div>
 
-          <div className="relative h-[40rem] w-fit max-w-[70rem]">
+          <div className="relative h-[45rem] w-fit max-w-[70rem]">
             <div className="flex w-full flex-col gap-10 p-5">
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
+                <Technology
+                  name="Open-API"
+                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
+                  url="https://www.openapis.org/">
+                  <OpenApiLogo alt="Open-API" height={200} width={200} />
+                </Technology>
+                <Technology
+                  name="Async-API"
+                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
+                  url="https://www.asyncapi.com/">
+                  <div className="h-52 w-52">
+                    <Image
+                      src={asyncapiLogo}
+                      alt="Async-API"
+                      height={200}
+                      width={200}
+                    />
+                  </div>
+                </Technology>
+                <Technology
+                  name="Java"
+                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
+                  url="https://www.java.com/">
+                  <div className="h-52 w-36">
+                    <Image src={javaLogo} alt="Java" height={150} width={150} />
+                  </div>
+                </Technology>
+                <Technology
+                  name="Node"
+                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
+                  url="https://nodejs.org/">
+                  <div className="h-44 w-40">
+                    <Image src={nodeLogo} alt="Node" height={150} width={150} />
+                  </div>
+                </Technology>
+              </div>
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name=".NET Core"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -239,41 +277,29 @@ export default function Technologies() {
                   </div>
                 </Technology>
               </div>
-              <div className="flex flex-row items-center gap-10">
-                <Technology
-                  name="Open-API"
-                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
-                  url="https://www.openapis.org/">
-                  <OpenApiLogo alt="Open-API" height={200} width={200} />
-                </Technology>
-                <Technology
-                  name="Async-API"
-                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
-                  url="https://www.asyncapi.com/">
-                  <div className="h-52 w-52">
-                    <Image
-                      src={asyncapiLogo}
-                      alt="Async-API"
-                      height={200}
-                      width={200}
-                    />
-                  </div>
-                </Technology>
-                <Technology
-                  name="Java"
-                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
-                  url="https://www.java.com/en/">
-                  <div className="h-52 w-52">
-                    <Image src={javaLogo} alt="Java" height={150} width={150} />
-                  </div>
-                </Technology>
-              </div>
             </div>
           </div>
 
-          <div className="relative h-[40rem] w-fit max-w-[70rem]">
+          <div className="relative h-[45rem] w-fit max-w-[70rem]">
             <div className="flex w-full flex-col gap-10 p-5">
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
+                <Technology
+                  name="Kafka"
+                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
+                  url="https://kafka.apache.org/">
+                  <KafkaLogo alt="Kafka" height={200} width={200} />
+                </Technology>
+                <Heading level={4} className="whitespace-nowrap">
+                  Databases / Messaging
+                </Heading>
+                <Technology
+                  name="PostgreSQL"
+                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
+                  url="https://www.postgresql.org/">
+                  <PostgreSqlLogo alt="PostgreSQL" height={200} width={200} />
+                </Technology>
+              </div>
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="SQL Server"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -307,29 +333,12 @@ export default function Technologies() {
                   <RabbitMQLogo alt="Rabbit MQ" height={175} width={175} />
                 </Technology>
               </div>
-              <div className="flex flex-row items-center gap-10">
-                <Technology
-                  name="Kafka"
-                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
-                  url="https://kafka.apache.org/">
-                  <KafkaLogo alt="Kafka" height={200} width={200} />
-                </Technology>
-                <Heading level={4} className="whitespace-nowrap">
-                  Databases / Messaging
-                </Heading>
-                <Technology
-                  name="PostgreSQL"
-                  description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
-                  url="https://www.postgresql.org/">
-                  <PostgreSqlLogo alt="PostgreSQL" height={200} width={200} />
-                </Technology>
-              </div>
             </div>
           </div>
 
-          <div className="relative h-[40rem] w-fit max-w-[70rem]">
+          <div className="relative h-[45rem] w-fit max-w-[70rem]">
             <div className="flex w-full flex-col gap-10 p-5">
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="Nx"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -354,7 +363,7 @@ export default function Technologies() {
                   name="Maven"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
                   url="https://maven.apache.org/">
-                  <div className="w-36">
+                  <div className="w-24">
                     <Image
                       src={mavenLogo}
                       alt="Maven"
@@ -369,7 +378,7 @@ export default function Technologies() {
                   DevOps / Repository Management
                 </Heading>
               </div>
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="Kubernetes"
                   description="Figma is an extremely helpful tool for designing wire-frames and specifying design tokens."
@@ -406,9 +415,9 @@ export default function Technologies() {
             </div>
           </div>
 
-          <div className="relative h-[40rem] w-fit max-w-[70rem]">
+          <div className="relative h-[45rem] w-fit max-w-[70rem]">
             <div className="flex w-full flex-col gap-10 p-5">
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="API Extractor"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -442,7 +451,7 @@ export default function Technologies() {
               <div className="flex flex-row items-center justify-center">
                 <Heading level={4}>Documentation</Heading>
               </div>
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="Docusaurus"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -472,9 +481,9 @@ export default function Technologies() {
             </div>
           </div>
 
-          <div className="relative h-[40rem] w-fit max-w-[70rem]">
+          <div className="relative h-[45rem] w-fit max-w-[70rem]">
             <div className="flex w-full flex-col gap-10 p-5">
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Heading level={4} className="whitespace-nowrap">
                   Testing
                 </Heading>
@@ -505,7 +514,7 @@ export default function Technologies() {
                   </div>
                 </Technology>
               </div>
-              <div className="flex flex-row items-center gap-10">
+              <div className="flex flex-row items-center justify-center gap-10">
                 <Technology
                   name="NUnit"
                   description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."

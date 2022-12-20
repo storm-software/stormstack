@@ -36,12 +36,12 @@ export default function Technology({
       <div
         className="group flex h-fit w-fit flex-col justify-center gap-4"
         onClick={handleOpen}>
-        <div className="h-fit w-fit cursor-pointer transition-transform group-hover:translate-y-0.5 group-hover:scale-105">
+        <div className="h-fit w-fit cursor-pointer transition-transform group-hover:translate-y-0.5 group-hover:scale-110">
           {children}
         </div>
         <Heading
           level={5}
-          className="cursor-pointer whitespace-nowrap text-center transition-all group-hover:translate-y-0.5 group-hover:scale-105 group-hover:text-text-hover group-hover:underline">
+          className="cursor-pointer whitespace-nowrap text-center transition-all group-hover:translate-y-0.5 group-hover:scale-110 group-hover:text-text-hover group-hover:underline">
           {name}
         </Heading>
       </div>
@@ -58,8 +58,8 @@ export default function Technology({
             }}>
             <div
               onClick={handleClose}
-              className="absolute top-1 right-1 z-30 m-1 cursor-pointer rounded-full bg-slate-300/80 p-2 font-semibold text-slate-500 transition-colors hover:bg-slate-300 hover:text-slate-900">
-              <XMarkIcon className="h-4 w-4 cursor-pointer" />
+              className="absolute top-1 right-1 z-30 my-2 mx-2.5 cursor-pointer rounded-full bg-slate-300/80 p-3 font-semibold text-slate-500 transition-colors hover:bg-slate-300 hover:text-slate-900">
+              <XMarkIcon className="h-6 w-6 cursor-pointer" />
             </div>
 
             <div className="flex h-full flex-col gap-5">
