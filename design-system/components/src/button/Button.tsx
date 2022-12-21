@@ -138,7 +138,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             "shadow-active-glow":
               !disabled && glowType === ButtonGlowTypes.ALWAYS,
           },
-          "m-w-bnt-m-w relative h-[58px] w-fit overflow-hidden overflow-y-hidden p-0.5 transition-shadow duration-300 ease-in-out",
+          "m-w-bnt-m-w group relative h-[58px] w-fit overflow-hidden overflow-y-hidden p-0.5 transition-shadow duration-300 ease-in-out",
           className
         )}
         {...props}
@@ -200,7 +200,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                         inverse),
                   },
                   {
-                    "hover:translate-x-0":
+                    "group-hover:translate-x-0":
                       !disabled &&
                       ((transitionDirection ===
                         ButtonTransitionDirections.LEFT &&
@@ -210,7 +210,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                           inverse)),
                   },
                   {
-                    "hover:translate-x-[-50%]":
+                    "group-hover:translate-x-[-50%]":
                       !disabled &&
                       ((transitionDirection ===
                         ButtonTransitionDirections.RIGHT &&
@@ -220,7 +220,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                           inverse)),
                   },
                   {
-                    "hover:translate-y-0":
+                    "group-hover:translate-y-0":
                       !disabled &&
                       ((transitionDirection ===
                         ButtonTransitionDirections.TOP &&
@@ -230,7 +230,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                           inverse)),
                   },
                   {
-                    "hover:translate-y-[-50%]":
+                    "group-hover:translate-y-[-50%]":
                       !disabled &&
                       ((transitionDirection ===
                         ButtonTransitionDirections.BOTTOM &&

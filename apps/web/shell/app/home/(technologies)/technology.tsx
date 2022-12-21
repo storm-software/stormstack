@@ -49,7 +49,7 @@ export default function Technology({
         {opened && (
           <motion.div
             ref={ref}
-            className="absolute top-12 left-16 z-20 h-[30rem] w-[50rem] min-w-fit border-4 border-slate-100 bg-slate-800 p-6"
+            className="absolute top-12 left-16 z-20 h-[30rem] min-h-fit w-[55rem] border-4 border-slate-100 bg-slate-800 p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

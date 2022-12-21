@@ -17,7 +17,7 @@ export type LinkProps = PropsWithBase<{
 export const Link = ({
   className,
   children,
-  variant = LinkVariants.PRIMARY,
+  variant = LinkVariants.SECONDARY,
 }: LinkProps) => {
   return (
     <label

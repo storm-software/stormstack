@@ -35,6 +35,8 @@ module.exports = {
         "label-2": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "btn-label-1": ["var(--font-poppins)", ...fontFamily.sans],
         "like-label": ["var(--font-permanent-marker)", ...fontFamily.sans],
+        "footer-name": ["var(--font-permanent-marker)", ...fontFamily.sans],
+        "footer-copyright": ["var(--font-anybody)", ...fontFamily.sans],
       },
       "textShadow": {
         ...extend.textShadow,
@@ -45,6 +47,7 @@ module.exports = {
       "backgroundImage": {
         ...extend.backgroundImage,
         "bg-title": "url(../../../../assets/backgrounds/bg-title.jpg)",
+        "bg-footer": "url(../../../../assets/backgrounds/bg-footer.jpg)",
         "bg-windows": "url(../../../../assets/backgrounds/bg-windows.webp)",
       },
       "zIndex": {

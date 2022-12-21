@@ -15,16 +15,22 @@
     "jsbi",
     "keybase",
     "Mintlify",
+    "nextjs",
     "nrwl",
+    "nunit",
     "openapi",
+    "Parens",
     "partytown",
     "Persistor",
+    "plantuml",
     "Prehydration",
     "rabbitmq",
     "Redocly",
     "redocusaurus",
     "Renderable",
+    "ruhl",
     "squircle",
+    "stenciljs",
     "Storyshots",
     "Structurizr",
     "sullivanpj",
@@ -34,7 +40,8 @@
     "tbenning",
     "theunderscorer",
     "typesense",
-    "unoptimized"
+    "unoptimized",
+    "webp"
   ],
   "enableFiletypes": [
     "mdx"

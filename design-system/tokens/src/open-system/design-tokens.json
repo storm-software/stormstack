@@ -666,22 +666,10 @@
         }
       }
     },
-    "bg-footer": {
-      "description": "",
-      "type": "color",
-      "value": "#6366f1ff",
-      "blendMode": "normal",
-      "extensions": {
-        "org.lukasoppermann.figmaDesignTokens": {
-          "styleId": "S:e03f1ad6b23b6727a8952d2a6e2cb31698891964,",
-          "exportKey": "color"
-        }
-      }
-    },
     "footer": {
       "description": "",
       "type": "color",
-      "value": "#3f3f46ff",
+      "value": "#3c3c41ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
