@@ -60,6 +60,7 @@ export default function RootLayout({
       <head />
       <body className="relative h-fit min-h-screen antialiased">
         <NavHeader />
+        <div id="portal" />
         <div className="h-fit w-full">{children}</div>
         <Footer />
       </body>

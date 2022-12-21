@@ -81,7 +81,7 @@ export default function Technologies() {
     [0, 1],
     [0, -scrollRange + viewportW]
   );
-  const spring = useSpring(transform);
+  const x = useSpring(transform, { damping: 20 });
 
   return (
     <div className="relative h-[375vh] w-full">
@@ -91,7 +91,7 @@ export default function Technologies() {
         </Heading>
         <motion.section
           ref={scrollRef}
-          style={{ x: spring }}
+          style={{ x }}
           className="relative flex w-fit flex-row gap-[20rem] pl-[1600rem] pr-[1000rem]">
           <TechnologyGroup name="Design System / Modeling">
             <Technology

@@ -3,13 +3,13 @@
 import clsx from "clsx";
 import { PropsWithBase } from "../types";
 import { getTextStyle } from "../utilities/field-style-utils";
+import { getSvgFillStyle } from "../utilities/svg-style-utils";
 import { FieldWrapperLabel } from "./field-wrapper-label";
 import { FieldLabelPlacementTypes } from "./FieldWrapper.types";
 import {
   getBorderStyle,
   getInputMessage,
   getIsBorderDisplayed,
-  getSvgFillStyle,
 } from "./FieldWrapper.utils";
 
 export type FieldWrapperProps = PropsWithBase<{

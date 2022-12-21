@@ -1,15 +1,15 @@
-import { DefaultPlugin, PresetDefault } from 'svgo';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { default as SVGOV1 } from '../../types/svgo.v1';
 
-export type DefaultPresetPluginsName = PresetDefault['name'];
+export type DefaultPresetPluginsName = any;
 
-export type DefaultPresetPluginsParams = PresetDefault['params'];
+export type DefaultPresetPluginsParams = any;
 
 export type DefaultPresetOverride = {
   [P in DefaultPresetPluginsName]?: false | DefaultPresetPluginsParams;
 };
 
-export type PluginV2 = DefaultPlugin | DefaultPlugin['name'];
+export type PluginV2 = any;
 export type PluginV1 = SVGOV1.PluginConfig;
 export type Plugins = Array<PluginV1> | Array<PluginV2>;
 

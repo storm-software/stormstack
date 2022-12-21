@@ -6,6 +6,8 @@ export * from "./divider";
 export * from "./heading";
 export * from "./input";
 export * from "./link";
+export * from "./modal";
+export * from "./notification";
 export * from "./section";
 export * from "./select";
 export * from "./textarea";

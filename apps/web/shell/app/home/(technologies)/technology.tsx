@@ -1,17 +1,15 @@
 "use client";
 
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Button,
   ButtonCornerRoundingTypes,
   ButtonVariants,
   Heading,
+  ModalReference,
   PropsWithBase,
 } from "@open-system/design-system-components";
-import { Link } from "@open-system/shared-ui-components";
-import { useClickOutside } from "@open-system/shared-ui-components/hooks";
-import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useState } from "react";
+import { Link, Modal } from "@open-system/shared-ui-components";
+import { useCallback, useRef } from "react";
 
 type TechnologyProps = PropsWithBase<{
   name: string;
@@ -25,11 +23,11 @@ export default function Technology({
   url,
   children,
 }: TechnologyProps) {
-  const [opened, setOpened] = useState(false);
-  const handleOpen = useCallback(() => !opened && setOpened(true), [opened]);
-  const handleClose = useCallback(() => opened && setOpened(false), [opened]);
-
-  const ref = useClickOutside(handleClose);
+  const ref = useRef<ModalReference>(null);
+  const handleOpen = useCallback(
+    () => ref && ref?.current && ref?.current?.open?.(),
+    []
+  );
 
   return (
     <>
@@ -45,47 +43,32 @@ export default function Technology({
           {name}
         </Heading>
       </div>
-      <AnimatePresence>
-        {opened && (
-          <motion.div
-            ref={ref}
-            className="absolute top-12 left-16 z-20 h-[30rem] min-h-fit w-[55rem] border-4 border-slate-100 bg-slate-800 p-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              ease: [0, 0.71, 0.2, 1.01],
-            }}>
-            <div
-              onClick={handleClose}
-              className="absolute top-1 right-1 z-30 my-2 mx-2.5 cursor-pointer rounded-full bg-slate-300/80 p-3 font-semibold text-slate-500 transition-colors hover:bg-slate-300 hover:text-slate-900">
-              <XMarkIcon className="h-6 w-6 cursor-pointer" />
+      <Modal
+        ref={ref}
+        title={
+          <div className="flex flex-row items-center gap-5">
+            {children}
+            <div className="flex flex-1">
+              <Heading level={2} className="whitespace-nowrap">
+                {name}
+              </Heading>
             </div>
-
-            <div className="flex h-full flex-col gap-5">
-              <div className="flex flex-row items-center gap-5">
-                {children}
-                <div className="flex flex-1">
-                  <Heading level={2} className="whitespace-nowrap">
-                    {name}
-                  </Heading>
-                </div>
-              </div>
-              <div className="font-body-1 text-body-1">{description}</div>
-              <div className="flex flex-1 flex-row-reverse items-end">
-                <Link href={url} target="_blank">
-                  <Button
-                    variant={ButtonVariants.GRADIENT}
-                    rounding={ButtonCornerRoundingTypes.NONE}
-                    hoverText="Learn More">
-                    Visit Official Website
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        }>
+        <div className="flex h-full flex-col gap-5">
+          <div className="font-body-1 text-body-1">{description}</div>
+          <div className="flex flex-1 flex-row-reverse items-end">
+            <Link href={url} target="_blank">
+              <Button
+                variant={ButtonVariants.GRADIENT}
+                rounding={ButtonCornerRoundingTypes.NONE}
+                hoverText="Learn More">
+                Visit Official Website
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }

@@ -3,18 +3,13 @@ import { ExecutorContext } from "@nrwl/devkit";
 import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import {
   existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  writeFileSync,
+  mkdirSync, readFileSync,
+  writeFileSync
 } from "fs";
 import Path from "path";
-import SVGO from "svgo";
 import {
-  execute,
-  svgoParser,
-  toCssFontImportParser,
-  toTailwindParser,
+  execute, toCssFontImportParser,
+  toTailwindParser
 } from "../utilities";
 import { InputDataType as ToCssFontImportParserInputDataType } from "../utilities/design-token-parsers/parsers/to-css-font-import";
 import { InputDataType as ToTailwindInputDataType } from "../utilities/design-token-parsers/parsers/to-tailwind";
@@ -374,7 +369,7 @@ export default async function (
       ConsoleLogger.success(`Theme specific fonts (font.css) created.`);
     }
 
-    const imagesPath = existsSync(Path.join(tokensDir, imagesDir))
+    /*const imagesPath = existsSync(Path.join(tokensDir, imagesDir))
       ? Path.join(tokensDir, imagesDir)
       : imagesDir;
     ConsoleLogger.info(`Checking for SVG images in ${imagesPath}`);
@@ -444,7 +439,7 @@ export default async function (
           `Theme specific images (assets/images/*.svg) created.`
         );
       }
-    }
+    }*/
 
     ConsoleLogger.success("Design tokens sync succeeded.");
 

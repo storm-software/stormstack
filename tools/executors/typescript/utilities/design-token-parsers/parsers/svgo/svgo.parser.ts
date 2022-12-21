@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import { readFileSync } from "fs";
-import type { Config, DefaultPlugin, Output } from "svgo";
+import type { Config, Output } from "svgo";
 import { DownloadableFile } from "../../types";
 import { LibsType } from "../global-libs";
 import {
@@ -10,7 +11,7 @@ import {
   DefaultPresetPluginsParams,
   Plugins,
   PluginV1,
-  PluginV2,
+  PluginV2
 } from "./svgo.type";
 
 export type InputDataType = Array<
@@ -29,7 +30,7 @@ export type OptionsType =
   | {
       svgo?: Omit<Config, "plugins"> &
         (
-          | { plugins?: Array<DefaultPlugin | DefaultPlugin["name"]> }
+          | { plugins?: Array<any> }
           | { plugins: Array<PluginV1> }
         );
     };
@@ -51,7 +52,7 @@ function migrateSvgoPlugins(plugins?: Plugins): Array<PluginV2> {
 
   const { overrides, pluginsV2 } = (plugins as Array<PluginV1>).reduce<{
     overrides: DefaultPresetOverride;
-    pluginsV2: Array<DefaultPlugin>;
+    pluginsV2: Array<any>;
   }>(
     (acc, plugin) => {
       const pluginName = Object.keys(plugin)[0];
@@ -65,7 +66,7 @@ function migrateSvgoPlugins(plugins?: Plugins): Array<PluginV2> {
           acc.pluginsV2.push({
             name: pluginName,
             params: params,
-          } as DefaultPlugin);
+          } as any);
         }
       }
       return acc;

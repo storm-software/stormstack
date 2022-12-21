@@ -25,20 +25,6 @@ export function getIsBorderDisplayed(
   return !noBorder && (error || warning || info || focused);
 }
 
-export function getSvgFillStyle(
-  error: string | null,
-  warning: string | null,
-  info: string | null
-) {
-  return error
-    ? "fill-error"
-    : warning
-    ? "fill-warning"
-    : info
-    ? "fill-info"
-    : undefined;
-}
-
 export function getInputMessage(
   error: string | null,
   warning: string | null,
