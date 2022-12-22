@@ -12,7 +12,7 @@ export type NotificationGroupProps = PropsWithBase<{
 }>;
 
 /**
- * A component to handle NextJS/application specific logic for the Model design component.
+ * The base NotificationGroup component used by the Open System repository
  */
 export const NotificationGroup = ({
   children,

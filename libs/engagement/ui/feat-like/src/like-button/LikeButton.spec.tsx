@@ -4,7 +4,7 @@ import { LikeButton } from "./LikeButton";
 
 describe("LikeButton", () => {
   it("should render successfully", () => {
-    const { baseElement } = render(<LikeButton pageId="pageId" />);
+    const { baseElement } = render(<LikeButton pageId="pageId" count={100} />);
     expect(baseElement).toBeTruthy();
   });
 });

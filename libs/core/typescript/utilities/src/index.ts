@@ -1,3 +1,4 @@
+export * from "./boolean-utilities";
 export * from "./console-logger";
 export * from "./custom-utility-class";
 export * from "./date-time";

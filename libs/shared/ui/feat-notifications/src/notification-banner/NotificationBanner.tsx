@@ -36,7 +36,7 @@ export type NotificationBannerProps = PropsWithBase<{
 }>;
 
 /**
- * The base MessageBar component used by the Open System repository
+ * The base NotificationBanner component used by the Open System repository
  */
 export const NotificationBanner = forwardRef<
   ModalReference,
