@@ -10,6 +10,7 @@
     "shared-common": "libs/shared/common",
     "shared-ui-components": "libs/shared/ui/components",
     "shared-ui-feat-layout": "libs/shared/ui/feat-layout",
+    "shared-ui-feat-notifications": "libs/shared/ui/feat-notifications",
     "static-message-common": "libs/static/message/common",
     "tests-design-system-components-e2e": "apps/tests/design-system/components-e2e",
     "tools-asyncapi-rabbitmq": "tools\\asyncapi\\rabbitmq",

@@ -3,8 +3,8 @@
 import {
   Modal as DesignComponentModal,
   ModalProps as DesignComponentModalProps,
-  ModalReference,
 } from "@open-system/design-system-components";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ForwardedRef,
   forwardRef,
@@ -15,46 +15,87 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { useClickOutside } from "../hooks/use-click-outside";
+import { ModalReference } from "../types";
 
-export type ModalProps = DesignComponentModalProps;
+export type ModalProps = DesignComponentModalProps & {
+  /**
+   * The initial value for the `opened` state when the modal is first rendered
+   */
+  initialOpened?: boolean;
+};
 
 /**
  * A component to handle NextJS/application specific logic for the Model design component.
  */
 export const Modal = forwardRef<ModalReference, ModalProps>(
-  ({ children, ...props }: ModalProps, ref: ForwardedRef<ModalReference>) => {
-    const innerRef = useRef<ModalReference>(null);
+  (
+    { children, initialOpened, ...props }: ModalProps,
+    ref: ForwardedRef<ModalReference>
+  ) => {
+    const modalRef = useRef<HTMLDivElement | null>(null);
+    const overlayRef = useRef<HTMLDivElement | null>(null);
     const portalRef = useRef<Element | null>(null);
 
-    const handleOpen = useCallback(() => innerRef.current?.open?.(), []);
-    const handleClose = useCallback(() => innerRef.current?.close?.(), []);
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+      portalRef.current = document?.querySelector?.("#root-portal");
+      setMounted(true);
+    }, []);
+
+    const [opened, setOpened] = useState(!!initialOpened);
+    const handleOpen = useCallback(() => !opened && setOpened(true), [opened]);
+    const handleClose = useCallback(() => opened && setOpened(false), [opened]);
 
     useImperativeHandle<ModalReference, ModalReference>(
       ref,
       () => ({
-        opened: !!innerRef.current?.opened,
-        open: handleOpen,
+        opened,
         close: handleClose,
+        open: handleOpen,
       }),
-      [handleClose, handleOpen]
+      [handleClose, handleOpen, opened]
     );
 
-    const containerRef = useClickOutside(handleClose);
-
-    const [mounted, setMounted] = useState(false);
     useEffect(() => {
-      portalRef.current = document.querySelector<HTMLElement>("#portal");
-      setMounted(true);
-    }, []);
+      const overlay = overlayRef.current;
+
+      const handleClick = (event: Event) => {
+        if (!modalRef?.current?.contains?.(event.target as Node)) {
+          handleClose();
+          event.stopPropagation();
+        }
+      };
+
+      overlay && overlay.addEventListener("click", handleClick, true);
+      return () => {
+        overlay && overlay.removeEventListener("click", handleClick, true);
+      };
+    }, [handleClose, opened]);
 
     return mounted && portalRef.current
       ? createPortal(
-          <div ref={containerRef} className="h-fit w-fit">
-            <DesignComponentModal {...props} ref={innerRef}>
-              {children}
-            </DesignComponentModal>
-          </div>,
+          <AnimatePresence>
+            {opened && (
+              <div
+                ref={overlayRef}
+                className="fixed z-modal flex h-full w-full items-center bg-black/50 backdrop-blur-sm">
+                <motion.div
+                  ref={modalRef}
+                  className="relative inset-0 z-20 mx-auto h-fit w-fit"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    ease: [0, 0.71, 0.2, 1.01],
+                  }}>
+                  <DesignComponentModal {...props} onClose={handleClose}>
+                    {children}
+                  </DesignComponentModal>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>,
           portalRef.current
         )
       : null;

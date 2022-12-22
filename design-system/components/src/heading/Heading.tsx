@@ -66,7 +66,7 @@ export const Heading = ({ className, children, level = 2 }: HeadingProps) => {
       ) : (
         <h6
           className={clsx(
-            "font-header-6 text-xl font-bold leading-[1rem] text-primary shadow-white text-shadow-lg",
+            "font-header-6 text-2xl font-extrabold text-primary shadow-white text-shadow-lg",
             className
           )}>
           {children}

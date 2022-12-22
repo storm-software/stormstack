@@ -5,10 +5,11 @@ import {
   ButtonCornerRoundingTypes,
   ButtonVariants,
   Heading,
-  ModalReference,
   PropsWithBase,
 } from "@open-system/design-system-components";
-import { Link, Modal } from "@open-system/shared-ui-components";
+import { ModalReference } from "@open-system/shared-ui-components";
+import { Link } from "@open-system/shared-ui-components/link";
+import { Modal } from "@open-system/shared-ui-components/modal";
 import { useCallback, useRef } from "react";
 
 type TechnologyProps = PropsWithBase<{
@@ -30,19 +31,18 @@ export default function Technology({
   );
 
   return (
-    <>
-      <div
-        className="group flex h-fit w-fit flex-col justify-center gap-4"
-        onClick={handleOpen}>
-        <div className="h-fit w-fit cursor-pointer transition-transform group-hover:translate-y-0.5 group-hover:scale-110">
-          {children}
-        </div>
-        <Heading
-          level={5}
-          className="cursor-pointer whitespace-nowrap text-center transition-all group-hover:translate-y-0.5 group-hover:scale-110 group-hover:text-text-hover group-hover:underline">
-          {name}
-        </Heading>
+    <div
+      className="group flex h-fit w-fit flex-col justify-center gap-4"
+      onClick={handleOpen}>
+      <div className="h-fit w-fit cursor-pointer transition-transform group-hover:translate-y-0.5 group-hover:scale-110">
+        {children}
       </div>
+      <Heading
+        level={5}
+        className="cursor-pointer whitespace-nowrap text-center transition-all group-hover:translate-y-0.5 group-hover:scale-110 group-hover:text-text-hover group-hover:underline">
+        {name}
+      </Heading>
+
       <Modal
         ref={ref}
         title={
@@ -56,7 +56,7 @@ export default function Technology({
           </div>
         }>
         <div className="flex h-full flex-col gap-5">
-          <div className="font-body-1 text-body-1">{description}</div>
+          <div className="font-body-1 text-primary">{description}</div>
           <div className="flex flex-1 flex-row-reverse items-end">
             <Link href={url} target="_blank">
               <Button
@@ -69,6 +69,6 @@ export default function Technology({
           </div>
         </div>
       </Modal>
-    </>
+    </div>
   );
 }

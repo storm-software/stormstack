@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { Link } from "./Modal";
+import { Modal } from "./Modal";
 
-describe("Link", () => {
+describe("Modal", () => {
   it("should render successfully", () => {
-    const { baseElement } = render(<Link href="/path">Item Label</Link>);
+    const { baseElement } = render(<Modal title="title">Item Label</Modal>);
     expect(baseElement).toBeTruthy();
   });
 });

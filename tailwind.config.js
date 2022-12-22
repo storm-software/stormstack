@@ -59,6 +59,8 @@ module.exports = {
         "like": 140,
         "nav": 145,
         "nav-buttons": 150,
+        "modal": 170,
+        "notification": 180,
         "progress": 200,
         "loading": 250,
       },

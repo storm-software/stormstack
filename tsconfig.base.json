@@ -53,6 +53,12 @@
       "@open-system/shared-ui-feat-layout/*": [
         "libs/shared/ui/feat-layout/src/*"
       ],
+      "@open-system/shared-ui-feat-notifications": [
+        "libs/shared/ui/feat-notifications/src/index.ts"
+      ],
+      "@open-system/shared-ui-feat-notifications/*": [
+        "libs/shared/ui/feat-notifications/src/*"
+      ],
       "@open-system/static-message-common": [
         "libs/static/message/common/src/index.ts"
       ]

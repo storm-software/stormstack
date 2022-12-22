@@ -1,3 +1,5 @@
+"use client";
+
 import { Heading, PropsWithBase } from "@open-system/design-system-components";
 
 type TechnologyGroupProps = PropsWithBase<{

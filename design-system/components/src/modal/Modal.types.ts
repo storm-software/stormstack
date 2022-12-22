@@ -11,9 +11,3 @@ export const ModalVariants = {
   INFO: "info" as ModalVariants,
   SUCCESS: "success" as ModalVariants,
 };
-
-export type ModalReference = {
-  opened: boolean;
-  open: () => void;
-  close: () => void;
-};

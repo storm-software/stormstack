@@ -14,14 +14,14 @@ export function getBorderStyle(variant: ModalVariants) {
 
 export function getBackgroundStyle(variant: ModalVariants) {
   return variant === ModalVariants.ERROR
-    ? "bg-error/60"
+    ? "bg-error/70"
     : variant === ModalVariants.WARNING
-    ? "bg-warning/60"
+    ? "bg-warning/70"
     : variant === ModalVariants.INFO
-    ? "bg-info/60"
+    ? "bg-info/70"
     : variant === ModalVariants.SUCCESS
-    ? "bg-success/60"
-    : "bg-slate-800/60";
+    ? "bg-success/70"
+    : "bg-slate-800/70";
 }
 
 export function getTextStyle(variant: ModalVariants) {
@@ -55,5 +55,5 @@ export function getCloseButtonStyle(variant: ModalVariants) {
     ? "border-info text-info hover:border-primary hover:text-primary font-extrabold"
     : variant === ModalVariants.SUCCESS
     ? "border-success text-success hover:border-primary hover:text-primary font-extrabold"
-    : "border-primary bg-slate-800/60 text-primary hover:border-slate-400 hover:text-slate-400";
+    : "border-primary bg-slate-800/70 text-primary hover:border-slate-400 hover:text-slate-400";
 }
