@@ -166,6 +166,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               <div
                 className={clsx(
                   {
+                    "h-full w-full":
+                      transitionDirection === ButtonTransitionDirections.NONE &&
+                      inverse,
+                  },
+                  {
                     "h-full w-[200%] translate-x-[-50%]":
                       (transitionDirection ===
                         ButtonTransitionDirections.LEFT &&
@@ -241,7 +246,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                   },
                   "absolute top-0 left-0 bg-transparent transition duration-300 ease-in-out"
                 )}>
-                {transitionDirection !== ButtonTransitionDirections.NONE && (
+                {(transitionDirection !== ButtonTransitionDirections.NONE ||
+                  inverse) && (
                   <div
                     className={clsx(
                       {
@@ -282,6 +288,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                               ButtonTransitionDirections.TOP ||
                             transitionDirection ===
                               ButtonTransitionDirections.BOTTOM,
+                        },
+                        {
+                          "h-full w-full": inverse,
                         }
                       )}>
                       <div

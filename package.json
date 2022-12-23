@@ -187,6 +187,7 @@
     "react-refresh": "^0.10.0",
     "react-test-renderer": "18.2.0",
     "redocusaurus": "^1.4.0",
+    "server-only": "^0.0.1",
     "style-dictionary": "^3.7.1",
     "style-loader": "^3.3.0",
     "stylus": "^0.55.0",

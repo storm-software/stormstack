@@ -14,14 +14,14 @@ export function getBorderStyle(variant: ModalVariants) {
 
 export function getBackgroundStyle(variant: ModalVariants) {
   return variant === ModalVariants.ERROR
-    ? "bg-error/70"
+    ? "from-error/80 to-error/70 backdrop-brightness-50"
     : variant === ModalVariants.WARNING
-    ? "bg-warning/70"
+    ? "from-warning/70 to-warning/60 backdrop-blur-lg backdrop-brightness-0"
     : variant === ModalVariants.INFO
-    ? "bg-info/70"
+    ? "from-info/70 to-info/60 backdrop-blur-sm backdrop-brightness-0"
     : variant === ModalVariants.SUCCESS
-    ? "bg-success/70"
-    : "bg-slate-800/70";
+    ? "from-success/70 to-success/60 backdrop-blur-lg backdrop-brightness-0"
+    : "from-slate-800/70 to-slate-800/60 backdrop-blur-lg backdrop-brightness-0";
 }
 
 export function getTextStyle(variant: ModalVariants) {

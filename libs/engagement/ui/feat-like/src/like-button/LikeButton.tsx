@@ -3,20 +3,19 @@
 import { PropsWithBase } from "@open-system/design-system-components";
 import CheckIcon from "../../assets/heart-check.svg";
 import PlusIcon from "../../assets/heart-plus.svg";
-import { useIsLiked } from "../hooks/use-is-liked";
+import { useIsLiked } from "../use-is-liked";
 
 export type LikeButtonProps = PropsWithBase<{
   pageId: string;
   count: number;
+  isLiked: boolean;
 }>;
 
-export function LikeButton({ pageId, ...props }: LikeButtonProps) {
-  const [isLiked, toggleLike, count] = useIsLiked(pageId, props?.count);
+export function LikeButton({ pageId, count, ...props }: LikeButtonProps) {
+  const [isLiked, toggleIsLiked] = useIsLiked(pageId, props.isLiked);
 
   return (
-    <div
-      onClick={toggleLike}
-      className="group z-like h-fit w-fit cursor-pointer">
+    <div onClick={toggleIsLiked} className="group h-fit w-fit cursor-pointer">
       <div className="relative mb-7 group-hover:animate-bounce">
         {isLiked ? (
           <CheckIcon className="w-32" />

@@ -38,7 +38,7 @@ export default function Window({ setMinimized, setClosed }: WindowProps) {
         </div>
       </div>
       <div className="cursor-text p-2">
-        <p className="after:border-r-1 font-body-1 text-black after:h-full after:animate-blink after:border-r-black after:bg-black after:pl-0.5 after:content-['']">
+        <p className="after:border-r-1 text-black after:h-full after:animate-blink after:border-r-black after:bg-black after:pl-0.5 after:content-['']">
           I am a financial technology developer based in the New York
           metropolitan area with a passion for learning new things, solving
           complicated problems, and giving back to the open source community.

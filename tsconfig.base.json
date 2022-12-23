@@ -40,7 +40,7 @@
       "@open-system/generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
-      "@open-system/shared-common": ["libs/shared/common/src/index.ts"],
+      "@open-system/shared-config": ["libs/shared/config/src/index.ts"],
       "@open-system/shared-ui-components": [
         "libs/shared/ui/components/src/index.ts"
       ],
@@ -59,8 +59,8 @@
       "@open-system/shared-ui-feat-notifications/*": [
         "libs/shared/ui/feat-notifications/src/*"
       ],
-      "@open-system/static-message-common": [
-        "libs/static/message/common/src/index.ts"
+      "@open-system/static-message-config": [
+        "libs/static/message/config/src/index.ts"
       ]
     }
   },

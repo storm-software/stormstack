@@ -6,12 +6,17 @@ import { LikeButton as LikeButtonInner } from "@open-system/engagement-ui-feat-l
 export type LikeButtonProps = PropsWithBase<{
   pageId: string;
   count: number;
+  isLiked: boolean;
 }>;
 
-export default function LikeButton({ className, ...props }: LikeButtonProps) {
+export default function LikeButton({
+  className,
+  isLiked = false,
+  ...props
+}: LikeButtonProps) {
   return (
     <div className={className}>
-      <LikeButtonInner {...props} />
+      <LikeButtonInner {...props} isLiked={isLiked} />
     </div>
   );
 }

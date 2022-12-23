@@ -14,6 +14,7 @@ import DotnetLogo from "../../../../../../assets/external-logos/dotnet-logo.svg"
 import ElectronLogo from "../../../../../../assets/external-logos/electron-logo.svg";
 import ESLintLogo from "../../../../../../assets/external-logos/eslint-logo.svg";
 import FigmaLogo from "../../../../../../assets/external-logos/figma-logo.svg";
+import GraphQLLogo from "../../../../../../assets/external-logos/graphql-logo.svg";
 import InvisionLogo from "../../../../../../assets/external-logos/invision-logo.svg";
 import javaLogo from "../../../../../../assets/external-logos/java-logo.png";
 import jenkinsLogo from "../../../../../../assets/external-logos/jenkins-logo.png";
@@ -293,6 +294,12 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://www.rabbitmq.com/">
               <RabbitMQLogo alt="Rabbit MQ" height={175} width={175} />
+            </Technology>
+            <Technology
+              name="GraphQL"
+              description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
+              url="https://graphql.org/">
+              <GraphQLLogo alt="GraphQL" height={175} width={175} />
             </Technology>
           </TechnologyGroup>
 

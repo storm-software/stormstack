@@ -23,7 +23,7 @@ export default function Desktop({
     <div className="relative h-full w-full">
       <div
         className={clsx(
-          "absolute top-1/4 left-1/3 grid h-fit w-fit cursor-pointer grid-cols-1 justify-items-center gap-1 py-1 px-2 text-center text-white",
+          "absolute top-1/4 left-1/3 grid h-fit w-fit cursor-pointer grid-cols-1 justify-items-center gap-1 px-2 pb-1 pt-2 text-center text-white",
           {
             "hover:border hover:border-dashed hover:border-slate-300 hover:text-slate-300":
               windowState !== WindowStateTypes.OPENED,

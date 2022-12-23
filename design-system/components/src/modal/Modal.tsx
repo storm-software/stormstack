@@ -52,7 +52,7 @@ export const Modal = ({
   return (
     <div
       className={clsx(
-        "relative z-20 h-[30rem] min-h-fit w-[55rem] border-4 p-6 shadow-xl drop-shadow-2xl backdrop-blur-lg backdrop-brightness-0",
+        "relative z-20 h-[30rem] min-h-fit w-[55rem] border-4 bg-gradient-to-bl bg-bottom bg-no-repeat p-6 shadow-xl drop-shadow-2xl",
         getTextStyle(variant),
         getBorderStyle(variant),
         getBackgroundStyle(variant),
