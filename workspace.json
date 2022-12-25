@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "apis-message": "apps/apis/message",
+    "apis-engagement": "apps/apis/engagement",
     "core-typescript-utilities": "libs/core/typescript/utilities",
     "design-system-components": "design-system/components",
     "design-system-tokens": "design-system/tokens",
@@ -21,8 +22,6 @@
     "tools-generators-dotnet": "tools\\generators\\dotnet",
     "tools-generators-typescript": "tools\\generators\\typescript",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell",
-    "apis-reaction": "apps/apis/reaction"
+    "web-shell": "apps/web/shell"
   }
 }
-
