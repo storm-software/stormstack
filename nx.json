@@ -22,6 +22,20 @@
       }
     }
   },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ],
+    "bundle": [
+      {
+        "target": "package",
+        "projects": "self"
+      }
+    ]
+  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
@@ -75,3 +89,4 @@
   "defaultProject": "web-shell",
   "plugins": ["@nx-dotnet/core"]
 }
+

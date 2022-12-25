@@ -786,6 +786,18 @@
         }
       }
     },
+    "light-1": {
+      "description": "",
+      "type": "color",
+      "value": "#8b949eff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:c8378c8a3dc4cefc113292f936f9afcf38822d33,",
+          "exportKey": "color"
+        }
+      }
+    },
     "header colors": {
       "header-primary": {
         "description": "",

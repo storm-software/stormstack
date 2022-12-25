@@ -9,5 +9,5 @@ export default {
     ],
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-  coverageDirectory: "../../../../coverage/libs/engagement/ui/feat-like",
+  coverageDirectory: "../../../../coverage/libs/engagement/ui/feat-reaction",
 };

@@ -9,10 +9,14 @@
     "description": "A collection of message APIs used by the Open System repository",
     "contact": {
       "name": "Patrick Sullivan",
-      "email": "Patrick.Sullivan@broadridge.com",
+      "email": "Patrick.Joseph.Sullivan@protonmail.com",
       "url": "https://sullivanpj.github.io/open-system/services/message"
     },
-    "termsOfService": "https://sullivanpj.github.io/open-system/services/message"
+    "termsOfService": "https://sullivanpj.github.io/open-system/services/message",
+    "license": {
+      "name": "BSD 2-Clause License",
+      "url": "https://opensource.org/licenses/BSD-2-Clause"
+    }
   },
   "servers": [
     {
@@ -175,7 +179,9 @@
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       },
       "post": {
         "summary": "Add Message",
@@ -310,7 +316,9 @@
             "$ref": "../../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       }
     },
     "/messages/{guid}": {
@@ -442,7 +450,9 @@
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       },
       "delete": {
         "summary": "Remove Message",
@@ -552,7 +562,9 @@
             "$ref": "../../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       },
       "put": {
         "summary": "Update Message",
@@ -681,7 +693,9 @@
             "$ref": "../../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": ["Message"]
+        "tags": [
+          "Message"
+        ]
       }
     }
   },
@@ -723,7 +737,9 @@
                 "maximum": 999999999
               }
             },
-            "required": ["messageNumber"]
+            "required": [
+              "messageNumber"
+            ]
           }
         ]
       },
@@ -772,10 +788,16 @@
             "type": "string",
             "default": "EN-US",
             "example": "EN-US",
-            "enum": ["EN-US"]
+            "enum": [
+              "EN-US"
+            ]
           }
         },
-        "required": ["message", "messageType", "culture"]
+        "required": [
+          "message",
+          "messageType",
+          "culture"
+        ]
       }
     },
     "requestBodies": {},
@@ -833,5 +855,10 @@
     }
   ],
   "x-all-of-name": "DTO_AllOf",
-  "x-one-of-name": "DTO_OneOf"
+  "x-one-of-name": "DTO_OneOf",
+  "security": [
+    {
+      "bearer-token": []
+    }
+  ]
 }

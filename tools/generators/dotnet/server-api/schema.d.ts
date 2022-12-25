@@ -1,4 +1,6 @@
 export interface ServerApiGeneratorSchema {
+  projectName?: string;
+  sourceRoot?: string;
   generator: string;
   additionalProperties?: string;
   globalProperties?: string;

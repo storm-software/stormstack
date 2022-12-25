@@ -1,5 +1,4 @@
 {{>partial_header}}
-using BroadridgeFxl.Shared.Server.Infrastructure;
 using System;
 using System.IO;
 using System.Reflection;
@@ -13,16 +12,15 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 {{#useSwashbuckle}}
 using Microsoft.OpenApi.Models;
 {{/useSwashbuckle}}
-{{#useNewtonsoft}}
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-{{/useNewtonsoft}}
 using {{packageName}}.Authentication;
 {{#useSwashbuckle}}
 using {{packageName}}.Filters;
 {{/useSwashbuckle}}
 using {{packageName}}.OpenApi;
 using {{packageName}}.Formatters;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace {{packageName}}
 {
@@ -31,7 +29,7 @@ namespace {{packageName}}
     /// </summary>
     public class Startup
     {
-        private const string SERVICE_NAME = "{{serviceName}}";
+        private const string SERVICE_NAME = "{{fullServiceName}}";
 
         /// <summary>
         /// Constructor
@@ -53,7 +51,7 @@ namespace {{packageName}}
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddConsul(Configuration.GetServiceConfig());
+            // services.AddConsul(Configuration.GetServiceConfig());
 
 {{#authMethods}}
 {{#isApiKey}}
@@ -74,19 +72,15 @@ namespace {{packageName}}
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
                 .AddControllers(options => {
                     options.InputFormatters.Insert(0, new InputFormatterStream());
-                })
-                {{#compatibilityVersion}}
-                // Don't need this for 3.x - see https://docs.microsoft.com/en-us/aspnet/core/mvc/compatibility-version?view=aspnetcore-3.1
-                //.SetCompatibilityVersion(CompatibilityVersion.{{.}})
-                {{/compatibilityVersion}}
-                .{{#useNewtonsoft}}AddNewtonsoftJson{{/useNewtonsoft}}{{^useNewtonsoft}}AddJsonOptions{{/useNewtonsoft}}(opts =>
+                });
+                /*.AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter
                     {
-                        {{#useNewtonsoft}}NamingStrategy = new CamelCaseNamingStrategy(){{/useNewtonsoft}}{{^useNewtonsoft}}CamelCaseText = true{{/useNewtonsoft}}
+                        CamelCaseText = true
                     });
-                });
+                });*/
 
             services.AddApiVersioning(options =>
                 {
@@ -168,14 +162,14 @@ namespace {{packageName}}
 {{#useSwashbuckle}}
             app.UseSwagger(c =>
                 {
-                    c.RouteTemplate = "api/v{{{version}}}{{^version}}1.0{{/version}}{{{basePathWithoutHost}}}/{documentName}/openapi.json";
+                    c.RouteTemplate = "{{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}/{documentName}/openapi.json";
                 })
                 .UseSwaggerUI(c =>
                 {
-                    // set route prefix to api/v{{{version}}}{{^version}}1.0{{/version}}{{{basePathWithoutHost}}}, e.g. http://localhost:8080/api/v{{{version}}}{{^version}}1.0{{/version}}{{{basePathWithoutHost}}}/index.html
-                    c.RoutePrefix = "api/v{{{version}}}{{^version}}1.0{{/version}}{{{basePathWithoutHost}}}";
+                    // set route prefix to {{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}, e.g. http://localhost:8080/{{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}/index.html
+                    c.RoutePrefix = "{{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}";
                     //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
-                    c.SwaggerEndpoint("/api/v{{{version}}}{{^version}}1.0{{/version}}{{{basePathWithoutHost}}}/openapi.json", "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}");
+                    c.SwaggerEndpoint("{{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}/openapi-original.json", "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}");
 
                     //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "{{{appName}}}{{^appName}}{{packageName}}{{/appName}} Original");

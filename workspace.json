@@ -6,7 +6,8 @@
     "design-system-components": "design-system/components",
     "design-system-tokens": "design-system/tokens",
     "docs": "docs",
-    "engagement-ui-feat-like": "libs/engagement/ui/feat-like",
+    "engagement-config": "libs/engagement/config",
+    "engagement-ui-feat-reaction": "libs/engagement/ui/feat-reaction",
     "shared-config": "libs/shared/config",
     "shared-ui-components": "libs/shared/ui/components",
     "shared-ui-feat-layout": "libs/shared/ui/feat-layout",
@@ -20,6 +21,8 @@
     "tools-generators-dotnet": "tools\\generators\\dotnet",
     "tools-generators-typescript": "tools\\generators\\typescript",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell"
+    "web-shell": "apps/web/shell",
+    "apis-reaction": "apps/apis/reaction"
   }
 }
+

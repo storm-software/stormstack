@@ -1,5 +1,8 @@
 {
   "nugetPackages": {
-    "Microsoft.AspNetCore.SpaProxy": "6.0.0"
+    "Microsoft.AspNetCore.SpaProxy": "6.0.0",
+    "Serilog.AspNetCore": "6.1.0",
+    "Microsoft.AspNetCore.Mvc.Versioning": "5.0.0"
   }
 }
+

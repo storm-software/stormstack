@@ -25,11 +25,12 @@
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
-      "@open-system/engagement-ui-feat-like": [
-        "libs/engagement/ui/feat-like/src/index.ts"
+      "@open-system/engagement-config": ["libs/engagement/config/src/index.ts"],
+      "@open-system/engagement-ui-feat-reaction/*": [
+        "libs/engagement/ui/feat-reaction/src/*"
       ],
-      "@open-system/engagement-ui-feat-like/*": [
-        "libs/engagement/ui/feat-like/src/*"
+      "@open-system/engagement-ui-feat-reaction": [
+        "libs/engagement/ui/feat-reaction/src/index.ts"
       ],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],

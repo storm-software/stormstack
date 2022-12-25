@@ -1,4 +1,4 @@
-import { UserLikeHistoryConstants } from "@open-system/engagement-ui-feat-like/constants";
+import { UserLikeHistoryConstants } from "@open-system/engagement-ui-feat-reaction/constants";
 import { ArticleJsonLd, LogoJsonLd, SocialProfileJsonLd } from "next-seo";
 import { cookies } from "next/headers";
 import {

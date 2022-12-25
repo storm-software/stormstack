@@ -108,8 +108,10 @@ import static java.util.UUID.randomUUID;
 public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
 
     public static final String DOMAIN_NAME = "domainName";
+    public static final String PROJECT_NAME = "projectName";
     public static final String URL_ROOT = "urlRoot";
     public static final String SERVICE_NAME = "serviceName";
+    public static final String FULL_SERVICE_NAME = "fullServiceName";
     public static final String SPEC_JSON_FILE = "specJsonFile";
     public static final String SOURCE_ROOT = "sourceRoot";
     public static final String DOCKER_TAG = "dockerTag";
@@ -162,15 +164,17 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
     private boolean operationResultTask = false;
     private boolean isLibrary = false;
     private boolean useFrameworkReference = false;
-    private boolean useNewtonsoft = true;
+    private boolean useNewtonsoft = false;
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
 
    // The above code is creating a new CliOption object.
 
-   private String domainName = "domain";
+   private String domainName = "shared";
+   private String projectName = null;
    private String urlRoot = null;
    private String serviceName = null;
+   private String fullServiceName = null;
    private String specJsonFile = null;
    private String sourceRoot = null;
    private String dockerTag = null;
@@ -283,7 +287,8 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("3.1", "ASP.NET Core 3.1");
         aspnetCoreVersion.addEnum("5.0", "ASP.NET Core 5.0");
         aspnetCoreVersion.addEnum("6.0", "ASP.NET Core 6.0");
-        aspnetCoreVersion.setDefault("3.1");
+        aspnetCoreVersion.addEnum("7.0", "ASP.NET Core 7.0");
+        aspnetCoreVersion.setDefault("7.0");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         cliOptions.add(aspnetCoreVersion);
 
@@ -291,7 +296,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.addEnum("6.4.0", "Swashbuckle 6.4.0");
-        swashbuckleVersion.setDefault("3.0.0");
+        swashbuckleVersion.setDefault("6.4.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
         cliOptions.add(swashbuckleVersion);
 
@@ -399,7 +404,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         modelClassModifier.setType("String");
         modelClassModifier.addEnum("", "Keep model class default with no modifier");
         modelClassModifier.addEnum("partial", "Make model class partial");
-        modelClassModifier.setDefault("partial");
+        modelClassModifier.setDefault("");
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
     }
@@ -487,8 +492,10 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         // Check for the modifiers etc.
         // The order of the checks is important.
         setDomainName();
+        setProjectName();
         setUrlRoot();
         setServiceName();
+        setFullServiceName();
         setSpecJsonFile();
         setSourceRoot();
         setDockerTag();
@@ -519,7 +526,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
        // String packageFolder = sourceFolder + File.separator + packageName;
 
         // determine the ASP.NET core version setting
-        setAspnetCoreVersion(/*packageFolder*/ "");
+        setAspNetCoreVersion(/*packageFolder*/ "");
         setSwashbuckleVersion();
         setIsFramework();
         setUseNewtonsoft();
@@ -541,7 +548,10 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("typeConverter.mustache", /*packageFolder + File.separator +*/ "Converters", "CustomEnumConverter.cs"));
         }
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        if (aspnetCoreVersion.getOptValue().startsWith("3.") ||
+          aspnetCoreVersion.getOptValue().startsWith("5.0") ||
+          aspnetCoreVersion.getOptValue().startsWith("6.") ||
+          aspnetCoreVersion.getOptValue().startsWith("7.")) {
             supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", /*packageFolder + File.separator +*/ "OpenApi", "TypeExtensions.cs"));
         }
 
@@ -712,166 +722,185 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
     @SuppressWarnings("rawtypes")
     @Override
     public String getNullableType(Schema p, String type) {
-        if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullReferenceTypesFlag)) {
-                return type + "?";
-            } else {
-                return type;
-            }
-        } else {
-            return null;
-        }
+      if (languageSpecificPrimitives.contains(type)) {
+          if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullReferenceTypesFlag)) {
+              return type + "?";
+          } else {
+              return type;
+          }
+      } else {
+          return null;
+      }
     }
 
     private void setCliOption(CliOption cliOption) throws IllegalArgumentException {
-        if (additionalProperties.containsKey(cliOption.getOpt())) {
-            // TODO Hack - not sure why the empty strings become boolean.
-            Object obj = additionalProperties.get(cliOption.getOpt());
-            if (!SchemaTypeUtil.BOOLEAN_TYPE.equals(cliOption.getType())) {
-                if (obj instanceof Boolean) {
-                    obj = "";
-                    additionalProperties.put(cliOption.getOpt(), obj);
-                }
-            }
-            cliOption.setOptValue(obj.toString());
-        } else {
-            additionalProperties.put(cliOption.getOpt(), cliOption.getOptValue());
-        }
-        if (cliOption.getOptValue() == null) {
-            cliOption.setOptValue(cliOption.getDefault());
-            throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
-                    ". " + cliOption.getDescription());
-        }
+      if (additionalProperties.containsKey(cliOption.getOpt())) {
+          // TODO Hack - not sure why the empty strings become boolean.
+          Object obj = additionalProperties.get(cliOption.getOpt());
+          if (!SchemaTypeUtil.BOOLEAN_TYPE.equals(cliOption.getType())) {
+              if (obj instanceof Boolean) {
+                  obj = "";
+                  additionalProperties.put(cliOption.getOpt(), obj);
+              }
+          }
+          cliOption.setOptValue(obj.toString());
+      } else {
+          additionalProperties.put(cliOption.getOpt(), cliOption.getOptValue());
+      }
+      if (cliOption.getOptValue() == null) {
+          cliOption.setOptValue(cliOption.getDefault());
+          throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
+                  ". " + cliOption.getDescription());
+      }
     }
 
     private void setDomainName() {
-        if (additionalProperties.containsKey(DOMAIN_NAME)) {
-            domainName = (String) additionalProperties.get(DOMAIN_NAME);
-        } else if (domainName != null) {
-            additionalProperties.put(DOMAIN_NAME,
-                domainName);
-        }
+      if (additionalProperties.containsKey(DOMAIN_NAME)) {
+          domainName = (String) additionalProperties.get(DOMAIN_NAME);
+      } else if (domainName != null) {
+          additionalProperties.put(DOMAIN_NAME,
+              domainName);
+      }
     }
 
+    private void setProjectName() {
+      if (additionalProperties.containsKey(PROJECT_NAME)) {
+          projectName = (String) additionalProperties.get(PROJECT_NAME);
+      } else if (projectName != null) {
+          additionalProperties.put(PROJECT_NAME,
+              projectName);
+      }
+    }
+
+
     private void setUrlRoot() {
-         if (additionalProperties.containsKey(URL_ROOT)) {
-            urlRoot = (String) additionalProperties.get(URL_ROOT);
-        } else if (urlRoot != null) {
-            additionalProperties.put(URL_ROOT,
-                urlRoot);
-        }
+        if (additionalProperties.containsKey(URL_ROOT)) {
+          urlRoot = (String) additionalProperties.get(URL_ROOT);
+      } else if (urlRoot != null) {
+          additionalProperties.put(URL_ROOT,
+              urlRoot);
+      }
     }
 
     private void setServiceName() {
-        if (additionalProperties.containsKey(SERVICE_NAME)) {
-            serviceName = (String) additionalProperties.get(SERVICE_NAME);
-        } else if (serviceName != null) {
-            additionalProperties.put(SERVICE_NAME,
-                serviceName);
-        }
+      if (additionalProperties.containsKey(SERVICE_NAME)) {
+          serviceName = (String) additionalProperties.get(SERVICE_NAME);
+      } else if (serviceName != null) {
+          additionalProperties.put(SERVICE_NAME,
+              serviceName);
+      }
+    }
+
+    private void setFullServiceName() {
+      if (additionalProperties.containsKey(FULL_SERVICE_NAME)) {
+          fullServiceName = (String) additionalProperties.get(FULL_SERVICE_NAME);
+      } else if (fullServiceName != null) {
+          additionalProperties.put(SERVICE_NAME,
+              fullServiceName);
+      }
     }
 
     private void setSpecJsonFile() {
-        if (additionalProperties.containsKey(SPEC_JSON_FILE)) {
-            specJsonFile = (String) additionalProperties.get(SPEC_JSON_FILE);
-        } else if (specJsonFile != null) {
-            additionalProperties.put(SPEC_JSON_FILE,
-                specJsonFile);
-        }
+      if (additionalProperties.containsKey(SPEC_JSON_FILE)) {
+          specJsonFile = (String) additionalProperties.get(SPEC_JSON_FILE);
+      } else if (specJsonFile != null) {
+          additionalProperties.put(SPEC_JSON_FILE,
+              specJsonFile);
+      }
     }
 
    private void setSourceRoot() {
-        if (additionalProperties.containsKey(SOURCE_ROOT)) {
-            sourceRoot = (String) additionalProperties.get(SOURCE_ROOT);
-        } else if (sourceRoot != null) {
-            additionalProperties.put(SOURCE_ROOT,
-                sourceRoot);
-        }
+      if (additionalProperties.containsKey(SOURCE_ROOT)) {
+          sourceRoot = (String) additionalProperties.get(SOURCE_ROOT);
+      } else if (sourceRoot != null) {
+          additionalProperties.put(SOURCE_ROOT,
+              sourceRoot);
+      }
     }
 
     private void setDockerTag() {
-        if (additionalProperties.containsKey(DOCKER_TAG)) {
-            dockerTag = (String) additionalProperties.get(DOCKER_TAG);
-        } else if (dockerTag != null) {
-            additionalProperties.put(DOCKER_TAG,
-                dockerTag);
-        } else if (serviceName != null) {
-            additionalProperties.put(DOCKER_TAG,
-                serviceName.toLowerCase() + ":latest");
-        } else {
-            additionalProperties.put("dockerTag",
-                packageName.toLowerCase(Locale.ROOT));
-        }
+      if (additionalProperties.containsKey(DOCKER_TAG)) {
+          dockerTag = (String) additionalProperties.get(DOCKER_TAG);
+      } else if (dockerTag != null) {
+          additionalProperties.put(DOCKER_TAG,
+              dockerTag);
+      } else if (serviceName != null) {
+          additionalProperties.put(DOCKER_TAG,
+              serviceName.toLowerCase() + ":latest");
+      } else {
+          additionalProperties.put("dockerTag",
+              packageName.toLowerCase(Locale.ROOT));
+      }
     }
 
     private void setClassModifier() {
-        // CHeck for class modifier if not present set the default value.
-        setCliOption(classModifier);
+      // CHeck for class modifier if not present set the default value.
+      setCliOption(classModifier);
 
-        // If class modifier is abstract then the methods need to be abstract too.
-        if ("abstract".equals(classModifier.getOptValue())) {
-            operationModifier.setOptValue(classModifier.getOptValue());
-            additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is {} so forcing operationModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
-        }
+      // If class modifier is abstract then the methods need to be abstract too.
+      if ("abstract".equals(classModifier.getOptValue())) {
+          operationModifier.setOptValue(classModifier.getOptValue());
+          additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
+          LOGGER.warn("classModifier is {} so forcing operationModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
+      }
     }
 
     private void setOperationModifier() {
-        setCliOption(operationModifier);
+      setCliOption(operationModifier);
 
-        // If operation modifier is abstract then dont generate any body
-        if ("abstract".equals(operationModifier.getOptValue())) {
-            generateBody = false;
-            additionalProperties.put(GENERATE_BODY, generateBody);
-            LOGGER.warn("operationModifier is {} so forcing generateBody to {}", operationModifier.getOptValue(), generateBody);
-        } else if (additionalProperties.containsKey(GENERATE_BODY)) {
-            generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
-        } else {
-            additionalProperties.put(GENERATE_BODY, generateBody);
-        }
+      // If operation modifier is abstract then dont generate any body
+      if ("abstract".equals(operationModifier.getOptValue())) {
+          generateBody = false;
+          additionalProperties.put(GENERATE_BODY, generateBody);
+          LOGGER.warn("operationModifier is {} so forcing generateBody to {}", operationModifier.getOptValue(), generateBody);
+      } else if (additionalProperties.containsKey(GENERATE_BODY)) {
+          generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
+      } else {
+          additionalProperties.put(GENERATE_BODY, generateBody);
+      }
     }
 
     private void setModelClassModifier() {
-        setCliOption(modelClassModifier);
+      setCliOption(modelClassModifier);
 
-        // If operation modifier is abstract then dont generate any body
-        if (isLibrary) {
-            modelClassModifier.setOptValue("");
-            additionalProperties.put(MODEL_CLASS_MODIFIER, modelClassModifier.getOptValue());
-            LOGGER.warn("buildTarget is {} so removing any modelClassModifier ", buildTarget.getOptValue());
-        }
+      // If operation modifier is abstract then dont generate any body
+      if (isLibrary) {
+          modelClassModifier.setOptValue("");
+          additionalProperties.put(MODEL_CLASS_MODIFIER, modelClassModifier.getOptValue());
+          LOGGER.warn("buildTarget is {} so removing any modelClassModifier ", buildTarget.getOptValue());
+      }
     }
 
     private void setBuildTarget() {
-        setCliOption(buildTarget);
-        if ("library".equals(buildTarget.getOptValue())) {
-            LOGGER.warn("buildTarget is {} so changing default isLibrary to true", buildTarget.getOptValue());
-            isLibrary = true;
-            projectSdk = SDK_LIB;
-            additionalProperties.put(CLASS_MODIFIER, "abstract");
-        } else {
-            isLibrary = false;
-            projectSdk = SDK_WEB;
-        }
-        additionalProperties.put(IS_LIBRARY, isLibrary);
+      setCliOption(buildTarget);
+      if ("library".equals(buildTarget.getOptValue())) {
+          LOGGER.warn("buildTarget is {} so changing default isLibrary to true", buildTarget.getOptValue());
+          isLibrary = true;
+          projectSdk = SDK_LIB;
+          additionalProperties.put(CLASS_MODIFIER, "abstract");
+      } else {
+          isLibrary = false;
+          projectSdk = SDK_WEB;
+      }
+      additionalProperties.put(IS_LIBRARY, isLibrary);
     }
 
-    private void setAspnetCoreVersion(String packageFolder) {
-        setCliOption(aspnetCoreVersion);
+    private void setAspNetCoreVersion(String packageFolder) {
+      setCliOption(aspnetCoreVersion);
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
-            compatibilityVersion = null;
-        } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
-            compatibilityVersion = null;
-        } else {
-            // default, do nothing
-            compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
-        }
-        LOGGER.info("ASP.NET core version: {}", aspnetCoreVersion.getOptValue());
-        if (!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
-             // embeddedTemplateDir = templateDir = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "broadridge-fxl-cs-server";
-        }
-        additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
+      if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.") || aspnetCoreVersion.getOptValue().startsWith("7.")) {
+          compatibilityVersion = null;
+      } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
+          compatibilityVersion = null;
+      } else {
+          // default, do nothing
+          compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
+      }
+      LOGGER.info("ASP.NET core version: {}", aspnetCoreVersion.getOptValue());
+      if (!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
+            // embeddedTemplateDir = templateDir = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "broadridge-fxl-cs-server";
+      }
+      additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }
 
     private String determineTemplateVersion(String frameworkVersion) {
@@ -956,6 +985,13 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             additionalProperties.put(TARGET_FRAMEWORK, "net6.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("7.")) {
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net7.0");
         } else {
             if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
                 useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
@@ -967,22 +1003,12 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
     }
 
     private void setUseNewtonsoft() {
-        if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
-            LOGGER.warn("ASP.NET core version 2.X support has been deprecated. Please use ASP.NET core version 3.1 instead");
-            LOGGER.warn("ASP.NET core version is {} so staying on default json library.", aspnetCoreVersion.getOptValue());
-            useNewtonsoft = false;
-            additionalProperties.put(USE_NEWTONSOFT, useNewtonsoft);
-        } else {
-            if (additionalProperties.containsKey(USE_NEWTONSOFT)) {
-                useNewtonsoft = convertPropertyToBooleanAndWriteBack(USE_NEWTONSOFT);
-            } else {
-                additionalProperties.put(USE_NEWTONSOFT, useNewtonsoft);
-            }
-        }
+        useNewtonsoft = false;
+        additionalProperties.put(USE_NEWTONSOFT, false);
     }
 
     private void setUseEndpointRouting() {
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.")) {
             LOGGER.warn("ASP.NET core version is {} so switching to old style endpoint routing.", aspnetCoreVersion.getOptValue());
             useDefaultRouting = false;
             additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRouting);
@@ -996,24 +1022,28 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
     }
 
     private void setSwashbuckleVersion() {
-        setCliOption(swashbuckleVersion);
+      setCliOption(swashbuckleVersion);
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
-            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
-            swashbuckleVersion.setOptValue("6.4.0");
-            additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
-        } else if (aspnetCoreVersion.getOptValue().startsWith("5.")) {
-            // for aspnet core 5.x, use Swashbuckle 6.4 instead
-            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
-            swashbuckleVersion.setOptValue("6.4.0");
-            additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
-        } else if (aspnetCoreVersion.getOptValue().startsWith("6.")) {
-            LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
-            swashbuckleVersion.setOptValue("6.4.0");
-            additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
-        } else {
-            // default, do nothing
-            LOGGER.info("Swashbuckle version: {}", swashbuckleVersion.getOptValue());
-        }
+      if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+          LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
+          swashbuckleVersion.setOptValue("6.4.0");
+          additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
+      } else if (aspnetCoreVersion.getOptValue().startsWith("5.")) {
+          // for aspnet core 5.x, use Swashbuckle 6.4 instead
+          LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
+          swashbuckleVersion.setOptValue("6.4.0");
+          additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
+      } else if (aspnetCoreVersion.getOptValue().startsWith("6.")) {
+          LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
+          swashbuckleVersion.setOptValue("6.4.0");
+          additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
+      } else if (aspnetCoreVersion.getOptValue().startsWith("7.")) {
+          LOGGER.warn("ASP.NET core version is {} so changing default Swashbuckle version to 6.4.0.", aspnetCoreVersion.getOptValue());
+          swashbuckleVersion.setOptValue("6.4.0");
+          additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
+      } else {
+          // default, do nothing
+          LOGGER.info("Swashbuckle version: {}", swashbuckleVersion.getOptValue());
+      }
     }
 }

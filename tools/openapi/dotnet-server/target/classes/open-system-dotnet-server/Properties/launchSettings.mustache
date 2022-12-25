@@ -12,12 +12,12 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/v{{{version}}}{{^version}}1.0{{/version}}/{{urlRoot}}",
+      "launchUrl": "{{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}/{{urlRoot}}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "{{serviceName}}": {
+    "{{fullServiceName}}": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
@@ -28,7 +28,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/v{{{version}}}{{^version}}1.0{{/version}}/{{urlRoot}}",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/{{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}/{{urlRoot}}",
       "publishAllPorts": true,
       "useSSL": true
     }

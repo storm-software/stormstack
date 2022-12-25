@@ -1,12 +1,12 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "apis-{{domainName}}",
+  "name": "{{projectName}}",
   "projectType": "application",
   "sourceRoot": "{{sourceRoot}}",
   "targets": {
     "build": {
       "executor": "@open-system/executors-dotnet:build",
-      "output": ["dist/apps/apis/{{domainName}}"],
+      "output": ["dist/{{sourceRoot}}"],
       "options": {
         "configuration": "Debug",
         "noDependencies": false
@@ -24,7 +24,7 @@
     },
     "build-base": {
       "executor": "@nx-dotnet/core:build",
-      "output": ["dist/apps/apis/{{domainName}}"],
+      "output": ["dist/{{sourceRoot}}"],
       "options": {
         "configuration": "Debug",
         "noDependencies": false
@@ -41,7 +41,7 @@
     "publish": {
       "executor": "@nx-dotnet/core:publish",
       "selfContained": true,
-      "outputs": ["dist/apps/apis/{{domainName}}/publish"],
+      "outputs": ["dist/{{sourceRoot}}/publish"],
       "options": {
         "configuration": "Debug",
         "noDependencies": true
@@ -93,7 +93,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "apis-{{domainName}}-v${VERSION}"
+        "tagFormat": "{{projectName}}-v${VERSION}"
       }
     }
   },

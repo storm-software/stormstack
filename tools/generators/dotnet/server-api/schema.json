@@ -10,6 +10,14 @@
       "description": "The OpenAPITools generator you want to use",
       "default": "open-system-dotnet-server"
     },
+    "sourceRoot": {
+      "type": "string",
+      "description": "The path of the service project relative to the workspace root."
+    },
+    "projectName": {
+      "type": "string",
+      "description": "The name to use for the project in the Nx workspace."
+    },
     "domainName": {
       "type": "string",
       "description": "The name of the domain to generate these files for."

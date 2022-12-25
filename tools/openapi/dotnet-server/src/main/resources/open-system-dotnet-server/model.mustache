@@ -2,11 +2,12 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 {{#models}}
 {{#model}}
 {{#discriminator}}
@@ -92,7 +93,8 @@ namespace {{modelPackage}}
         /// <returns>JSON string presentation of the object</returns>
         public {{#parent}}{{^isMap}}{{^isArray}}new {{/isArray}}{{/isMap}}{{/parent}}string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonSerializer.Serialize(this,
+              new JsonSerializerOptions { WriteIndented = true });
         }
 
         /// <summary>

@@ -14,11 +14,10 @@ using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 {{/useSwashbuckle}}
-{{^isLibrary}}
-using Newtonsoft.Json;
-{{/isLibrary}}
 using {{packageName}}.Attributes;
 using {{modelPackage}};
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace {{apiPackage}}
 { {{#operations}}
@@ -28,7 +27,7 @@ namespace {{apiPackage}}
     [Description("Controller for {{classname}} service implementation(s)")]
     [ApiController]
     [ApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
-    [Route("api/v{{{version}}}{{^version}}1.0{{/version}}{{{basePathWithoutHost}}}")]
+    [Route("{{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}")]
     public {{#classModifier}}{{.}} {{/classModifier}}class {{classname}}Controller : ControllerBase
     {
         private readonly ILogger<{{classname}}Controller> _logger;
