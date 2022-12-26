@@ -1,5 +1,6 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "tools-generators-dotnet",
   "sourceRoot": "tools/generators/dotnet",
   "projectType": "library",
   "targets": {

@@ -1,5 +1,6 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "tools-asyncapi-rabbitmq",
   "sourceRoot": "tools/asyncapi/rabbitmq",
   "projectType": "library",
   "targets": {

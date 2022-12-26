@@ -14,8 +14,8 @@
       "implementation": "../../../dist/tools/executors/typescript/design-tokens-clean/impl",
       "schema": "../../../dist/tools/executors/typescript/design-tokens-clean/schema.json",
       "description": "Clean the previous design token code."
-    },
-    "design-components-build": {
+    }
+    /*"design-components-build": {
       "implementation": "../../../dist/tools/executors/typescript/design-components-build/impl",
       "schema": "../../../dist/tools/executors/typescript/design-components-build/schema.json",
       "description": "Build the latest design components code from the extracted figma JSON."
@@ -24,6 +24,6 @@
       "implementation": "../../../dist/tools/executors/typescript/design-components-clean/impl",
       "schema": "../../../dist/tools/executors/typescript/design-components-clean/schema.json",
       "description": "Cleans the output folder for the Stencil design components library."
-    }
+    }*/
   }
 }

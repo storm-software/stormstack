@@ -3,6 +3,8 @@ module.exports = (currentConfig, _) => ({
   input: "tools/generators/dotnet/async-api/impl.ts",
   output: {
     file: "dist/tools/generators/dotnet/async-api/impl.js",
+    strict: false,
+    validate: false,
     exports: "default",
     format: !Array.isArray(currentConfig.output)
       ? currentConfig.output.format

@@ -3,6 +3,7 @@
     "appsettings",
     "asyncapi",
     "Benning",
+    "Buildable",
     "clsx",
     "codecov",
     "codegen",

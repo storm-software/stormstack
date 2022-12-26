@@ -1,13 +1,11 @@
 module.exports = (currentConfig, _) => ({
   ...currentConfig,
-  input: "tools/executors/dotnet/async-api-sync/impl.ts",
+  input: "tools/generators/typescript/client-api/impl.ts",
   output: {
-    file: "dist/tools/executors/dotnet/async-api-sync/impl.js",
-    strict: false,
-    validate: false,
+    file: "dist/tools/generators/typescript/client-api/impl.js",
     exports: "default",
     format: !Array.isArray(currentConfig.output)
       ? currentConfig.output.format
       : "cjs",
-  }
+  },
 });

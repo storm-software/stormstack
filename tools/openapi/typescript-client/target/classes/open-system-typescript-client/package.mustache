@@ -8,12 +8,11 @@
     "url": "https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}.git"
   },
   "keywords": [
-    "fetch",
-    "typescript",
     "openapi-client",
-    "openapi-generator"
+    "open-system",
+    "data-access"
   ],
-  "license": "Unlicense",
+  "license": "BSD 2-Clause License",
   "main": "./dist/index.js",
   {{#supportsES6}}
   "type": "module",
@@ -52,7 +51,6 @@
       {{#node}}
     "@types/node": "*",
     "form-data": "^2.5.0",
-    "btoa": "^1.2.1",
       {{/node}}
     {{/platforms}}
     {{#useRxJS}}

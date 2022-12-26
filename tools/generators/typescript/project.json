@@ -1,5 +1,6 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "tools-generators-typescript",
   "sourceRoot": "tools/generators/typescript",
   "projectType": "library",
   "targets": {
@@ -22,16 +23,17 @@
         "tsConfig": "tools/generators/typescript/tsconfig.json",
         "project": "tools/generators/typescript/package.json",
         "main": "tools/generators/typescript/index.ts",
+        "deleteOutputPath": false,
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           {
-            "input": "./tools/generators/dotnet",
+            "input": "./tools/generators/typescript",
             "glob": "**/*.md",
             "output": "."
           },
           {
-            "input": "./tools/generators/dotnet",
+            "input": "./tools/generators/typescript",
             "glob": "generators.json",
             "output": "."
           },
@@ -46,11 +48,39 @@
             "output": "/"
           },
           {
-            "input": "./tools/generators/dotnet",
+            "input": "./tools/generators/typescript",
             "glob": "migrations.json",
             "output": "."
           }
         ]
+      },
+      "configurations": {
+        "client-api": {
+          "outputPath": "dist/tools/generators/typescript/client-api",
+          "rollupConfig": "tools/generators/typescript/client-api/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/generators/typescript",
+              "glob": "**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/generators/typescript/client-api",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
+        }
       }
     },
     "semantic-release": {

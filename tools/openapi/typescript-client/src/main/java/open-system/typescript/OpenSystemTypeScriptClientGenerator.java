@@ -193,11 +193,11 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
                 false));
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
-        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("true"));
         cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.FILE_CONTENT_DATA_TYPE, OpenSystemTypeScriptClientGenerator.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
         cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_RXJS_SWITCH, OpenSystemTypeScriptClientGenerator.USE_RXJS_SWITCH_DESC).defaultValue("false"));
-        cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_OBJECT_PARAMS_SWITCH, OpenSystemTypeScriptClientGenerator.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
-        cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_INVERSIFY_SWITCH, OpenSystemTypeScriptClientGenerator.USE_INVERSIFY_SWITCH_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_OBJECT_PARAMS_SWITCH, OpenSystemTypeScriptClientGenerator.USE_OBJECT_PARAMS_DESC).defaultValue("true"));
+        cliOptions.add(new CliOption(OpenSystemTypeScriptClientGenerator.USE_INVERSIFY_SWITCH, OpenSystemTypeScriptClientGenerator.USE_INVERSIFY_SWITCH_DESC).defaultValue("true"));
 
         CliOption frameworkOption = new CliOption(OpenSystemTypeScriptClientGenerator.FRAMEWORK_SWITCH, OpenSystemTypeScriptClientGenerator.FRAMEWORK_SWITCH_DESC);
         for (String option: OpenSystemTypeScriptClientGenerator.FRAMEWORKS) {
@@ -225,10 +225,12 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
         supportingFiles.add(new SupportingFile("http" + File.separator + "servers.mustache", "servers.ts"));
 
+        supportingFiles.add(new SupportingFile("project.mustache", "", "project.json"));
+
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
 
-        supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "all.ts"));
+        supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "index.ts"));
 
         supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "types", "PromiseAPI.ts"));
         supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", "types", "ObservableAPI.ts"));
