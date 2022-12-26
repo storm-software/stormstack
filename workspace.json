@@ -15,12 +15,12 @@
     "shared-ui-feat-notifications": "libs/shared/ui/feat-notifications",
     "static-message-config": "libs/static/message/config",
     "tests-design-system-components-e2e": "apps/tests/design-system/components-e2e",
-    "tools-asyncapi-rabbitmq": "tools\\asyncapi\\rabbitmq",
-    "tools-executors-docs": "tools\\executors\\docs",
-    "tools-executors-dotnet": "tools\\executors\\dotnet",
-    "tools-executors-typescript": "tools\\executors\\typescript",
-    "tools-generators-dotnet": "tools\\generators\\dotnet",
-    "tools-generators-typescript": "tools\\generators\\typescript",
+    "tools-asyncapi-rabbitmq": "tools/asyncapi/rabbitmq",
+    "tools-executors-docs": "tools/executors/docs",
+    "tools-executors-dotnet": "tools/executors/dotnet",
+    "tools-executors-typescript": "tools/executors/typescript",
+    "tools-generators-dotnet": "tools/generators/dotnet",
+    "tools-generators-typescript": "tools/generators/typescript",
     "web-contact": "apps/web/contact",
     "web-shell": "apps/web/shell"
   }

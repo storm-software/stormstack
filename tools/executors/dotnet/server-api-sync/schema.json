@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
+  "id": "server-api-sync",
   "title": "Open System - Server API Application Sync",
   "description": "Sync up Web API application project code and Data Contracts based on an OpenApi spec",
   "type": "object",
