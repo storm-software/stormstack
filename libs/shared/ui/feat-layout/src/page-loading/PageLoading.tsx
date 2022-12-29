@@ -18,7 +18,7 @@ export function PageLoading() {
         <div className="h-4 w-4 rounded-full bg-quaternary" />
       </div>
 
-      <div className="fixed right-0 top-[6rem] left-0 z-10 overflow-hidden">
+      <div className="absolute right-0 top-[6rem] left-0 z-10 overflow-hidden">
         <div className="ml-12 w-full animate-marquee whitespace-nowrap py-12">
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
             Patrick Sullivan Development
@@ -37,7 +37,7 @@ export function PageLoading() {
         </div>
       </div>
 
-      <div className="fixed top-[12rem] left-0 right-0 z-10 overflow-hidden">
+      <div className="absolute top-[12rem] left-0 right-0 z-10 overflow-hidden">
         <div className="ml-36 w-full animate-marquee whitespace-nowrap py-12">
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
             Patrick Sullivan Development
@@ -56,7 +56,7 @@ export function PageLoading() {
         </div>
       </div>
 
-      <div className="fixed top-[20rem] left-0 right-0 z-30 overflow-hidden">
+      <div className="absolute top-[20rem] left-0 right-0 z-30 overflow-hidden">
         <div className="w-full animate-marquee whitespace-nowrap py-12">
           <span className="mx-4 font-app-title-1 text-8xl text-secondary">
             Patrick Sullivan Development
@@ -67,7 +67,7 @@ export function PageLoading() {
         </div>
       </div>
 
-      <div className="fixed right-0 top-[26rem] left-0 z-10 overflow-hidden">
+      <div className="absolute right-0 top-[26rem] left-0 z-10 overflow-hidden">
         <div className="ml-12 w-full animate-marquee whitespace-nowrap py-12">
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
             Patrick Sullivan Development

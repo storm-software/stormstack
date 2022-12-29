@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="opensystem.typescript.client.OpenSystemTypeScriptClientGeneratorTest" time="0.066" errors="1" skipped="0">
+<testsuite tests="1" failures="0" name="opensystem.typescript.client.OpenSystemTypeScriptClientGeneratorTest" time="2.262" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="18.0.2.1+1-1"/>
@@ -61,91 +61,5 @@
     <property name="sun.stdout.encoding" value="cp437"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="opensystem.typescript.client.OpenSystemTypeScriptClientGeneratorTest" name="launchCodeGenerator" time="0.066">
-    <error message="Could not generate supporting file &apos;SupportingFile[templateFile=&apos;index.mustache&apos;, folder=&apos;src&apos;, destinationFilename=&apos;index.ts&apos;, canOverwrite=true]&apos;" type="java.lang.RuntimeException">java.lang.RuntimeException: Could not generate supporting file &apos;SupportingFile[templateFile=&apos;index.mustache&apos;, folder=&apos;src&apos;, destinationFilename=&apos;index.ts&apos;, canOverwrite=true]&apos;
-	at org.openapitools.codegen.DefaultGenerator.generateSupportingFiles(DefaultGenerator.java:746)
-	at org.openapitools.codegen.DefaultGenerator.generate(DefaultGenerator.java:919)
-	at opensystem.typescript.client.OpenSystemTypeScriptClientGeneratorTest.launchCodeGenerator(OpenSystemTypeScriptClientGeneratorTest.java:43)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
-	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
-	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
-	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
-	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
-	at org.apache.maven.surefire.junitcore.ClassDemarcatingRunner.run(ClassDemarcatingRunner.java:58)
-	at org.junit.runners.Suite.runChild(Suite.java:128)
-	at org.junit.runners.Suite.runChild(Suite.java:27)
-	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
-	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
-	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
-	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
-	at org.junit.runner.JUnitCore.run(JUnitCore.java:115)
-	at org.apache.maven.surefire.junitcore.JUnitCoreWrapper.execute(JUnitCoreWrapper.java:62)
-	at org.apache.maven.surefire.junitcore.JUnitCoreProvider.invoke(JUnitCoreProvider.java:139)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:577)
-	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
-	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
-	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:103)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:74)
-Caused by: com.samskivert.mustache.MustacheParseException: Section close tag with mismatched open tag &apos;apis&apos; != &apos;apiInfo&apos; @ line 6
-	at com.samskivert.mustache.Mustache$Accumulator.requireSameName(Mustache.java:680)
-	at com.samskivert.mustache.Mustache$Accumulator$1.addCloseSectionSegment(Mustache.java:612)
-	at com.samskivert.mustache.Mustache$Accumulator.addTagSegment(Mustache.java:638)
-	at com.samskivert.mustache.Mustache$Parser.parseChar(Mustache.java:498)
-	at com.samskivert.mustache.Mustache$Parser.parse(Mustache.java:396)
-	at com.samskivert.mustache.Mustache.compile(Mustache.java:314)
-	at com.samskivert.mustache.Mustache$Compiler.compile(Mustache.java:87)
-	at com.samskivert.mustache.Mustache$Compiler.compile(Mustache.java:82)
-	at org.openapitools.codegen.templating.MustacheEngineAdapter.compileTemplate(MustacheEngineAdapter.java:63)
-	at org.openapitools.codegen.TemplateManager.write(TemplateManager.java:163)
-	at org.openapitools.codegen.DefaultGenerator.processTemplateToFile(DefaultGenerator.java:1058)
-	at org.openapitools.codegen.DefaultGenerator.processTemplateToFile(DefaultGenerator.java:1045)
-	at org.openapitools.codegen.DefaultGenerator.generateSupportingFiles(DefaultGenerator.java:738)
-	... 41 more
-</error>
-    <system-err>[main] INFO org.openapitools.codegen.DefaultGenerator - Generating with dryRun=false
-[main] INFO org.openapitools.codegen.DefaultGenerator - OpenAPI Generator: open-system-typescript-client (client)
-[main] INFO org.openapitools.codegen.DefaultGenerator - Generator &apos;open-system-typescript-client&apos; is considered experimental.
-[main] WARN org.openapitools.codegen.DefaultCodegen - The value (generator&apos;s option) must be either boolean or string. Default to `false`.
-[main] WARN org.openapitools.codegen.InlineModelResolver - allOf schema `null` containing multiple types (not model) is not supported at the moment.
-[main] INFO org.openapitools.codegen.InlineModelResolver - Inline schema created as get_message_list_200_response_inner. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mappings in CLI).
-[main] WARN org.openapitools.codegen.InlineModelResolver - allOf schema `null` containing multiple types (not model) is not supported at the moment.
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\models\GetMessageList200ResponseInnerDto.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\models\MessageDto.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\models\SharedApiSpecRecordBaseDto.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\models\SharedApiSpecUpdateSuccessResponseDto.ts
-[main] WARN org.openapitools.codegen.utils.ModelUtils - Multiple schemas found in the OAS &apos;content&apos; section, returning only the first one (application/json)
-[main] WARN opensystem.typescript.client.OpenSystemTypeScriptClientGenerator - Multiple MediaTypes found, using only the first one
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\parsers\MessageApi.service.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\parsers\MessageApi.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\MessageApi.md
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\.gitignore
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\git_push.sh
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\servers.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\project.json
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\auth\auth.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\models\index.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\apis\PromiseAPI.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\apis\ObjectParamAPI.ts
-[main] INFO org.openapitools.codegen.TemplateManager - writing file C:\Development\open-system\tools\openapi\typescript-client\out-test\test\src\models\ObjectSerializer.ts
-</system-err>
-  </testcase>
+  <testcase classname="opensystem.typescript.client.OpenSystemTypeScriptClientGeneratorTest" name="launchCodeGenerator" time="2.262"/>
 </testsuite>

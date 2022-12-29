@@ -3,7 +3,7 @@ export * from "./models";
 export * from "./servers";
 
 {{#useObjectParameters}}
-export { {{#apiInfo}}{{#apis}{{#operations}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './apis/ObjectParamAPI';
+export { {{#apiInfo}}{{#apis}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/apis}}{{/apiInfo}}} from './apis/ObjectParamAPI';
 export type { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './apis/ObjectParamAPI';
 {{/useObjectParameters}}
 {{^useObjectParameters}}

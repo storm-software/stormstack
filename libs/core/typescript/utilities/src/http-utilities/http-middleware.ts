@@ -70,7 +70,7 @@ export class LoggingHttpMiddleware extends AbstractHttpMiddleware {
    *
    */
   public async pre(context: RequestContext): Promise<RequestContext> {
-    await ConsoleLogger.debug(`Sending request to: ${context.getUrl()}`);
+    ConsoleLogger.debug(`Sending request to: ${context.getUrl()}`);
 
     return context;
   }
@@ -82,7 +82,7 @@ export class LoggingHttpMiddleware extends AbstractHttpMiddleware {
    * @returns an observable of the modified response context
    */
   public async post(context: ResponseContext): Promise<ResponseContext> {
-    await ConsoleLogger.debug(
+    ConsoleLogger.debug(
       `Received response with status code: ${context.httpStatusCode}`
     );
 

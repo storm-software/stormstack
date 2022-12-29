@@ -9,14 +9,10 @@ export type LikeButtonProps = PropsWithBase<{
   isLiked: boolean;
 }>;
 
-export default function LikeButton({
+export default function LikeButtonClient({
   className,
   isLiked = false,
   ...props
 }: LikeButtonProps) {
-  return (
-    <div className={className}>
-      <LikeButtonInner {...props} isLiked={isLiked} />
-    </div>
-  );
+  return <LikeButtonInner {...props} isLiked={isLiked} />;
 }

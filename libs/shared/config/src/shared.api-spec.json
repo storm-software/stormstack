@@ -192,12 +192,12 @@
       },
       "userId": {
         "name": "userId",
-        "in": "cookie",
-        "required": false,
+        "in": "header",
+        "required": true,
         "schema": {
           "type": "string"
         },
-        "description": "User Id sending request"
+        "description": "The id of the current user sending the request"
       }
     },
     "securitySchemes": {

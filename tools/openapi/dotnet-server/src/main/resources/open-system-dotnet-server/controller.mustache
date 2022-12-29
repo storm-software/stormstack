@@ -27,7 +27,7 @@ namespace {{apiPackage}}
     [Description("Controller for {{classname}} service implementation(s)")]
     [ApiController]
     [ApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
-    [Route("{{{basePathWithoutHost}}}/v{{{version}}}{{^version}}1.0{{/version}}")]
+    [Route("api/v{version:apiVersion}")]
     public {{#classModifier}}{{.}} {{/classModifier}}class {{classname}}Controller : ControllerBase
     {
         private readonly ILogger<{{classname}}Controller> _logger;

@@ -45,6 +45,7 @@ libs/*/bin
 libs/*/obj
 
 tools/**/out-test/**
+tools/openapi/**/target/**
 
 # Generated Docusaurus files
 .docusaurus/

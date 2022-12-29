@@ -50,10 +50,10 @@ export const MessageBar = ({
   variant = MessageBarVariants.INFO,
 }: MessageBarProps) => {
   return (
-    <div className="h-fit w-fit bg-black/80">
+    <div className="h-fit w-full min-w-fit max-w-[65rem] bg-black/80">
       <div
         className={clsx(
-          "relative h-fit w-[50rem] min-w-fit border-4 p-4 backdrop-blur-xl backdrop-brightness-0",
+          "relative h-fit w-full min-w-fit border-4 p-4 backdrop-blur-xl backdrop-brightness-0",
           getTextStyle(variant),
           getBorderStyle(variant),
           getBackgroundStyle(variant),
@@ -81,7 +81,7 @@ export const MessageBar = ({
             </svg>
           </span>
           <div className="flex h-full flex-1 flex-row items-center">
-            <div className="flex h-fit flex-row items-end gap-2 leading-none">
+            <div className="flex h-fit flex-row items-center gap-2 leading-none">
               <Heading
                 level={6}
                 className={clsx(getTextStyle(variant), "text-2xl")}>

@@ -30,11 +30,11 @@
       "@open-system/engagement-ui-data-access": [
         "libs/engagement/ui/data-access/src/index.ts"
       ],
-      "@open-system/engagement-ui-feat-reaction/*": [
-        "libs/engagement/ui/feat-reaction/src/*"
-      ],
       "@open-system/engagement-ui-feat-reaction": [
         "libs/engagement/ui/feat-reaction/src/index.ts"
+      ],
+      "@open-system/engagement-ui-feat-reaction/*": [
+        "libs/engagement/ui/feat-reaction/src/*"
       ],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
@@ -51,6 +51,9 @@
       ],
       "@open-system/shared-ui-components/*": [
         "libs/shared/ui/components/src/*"
+      ],
+      "@open-system/shared-ui-data-access": [
+        "libs/shared/ui/data-access/src/index.ts"
       ],
       "@open-system/shared-ui-feat-layout": [
         "libs/shared/ui/feat-layout/src/index.ts"

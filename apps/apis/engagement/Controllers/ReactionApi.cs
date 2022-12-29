@@ -1,7 +1,7 @@
 /*
  * Engagement
  *
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * The version of the OpenAPI document: 1.0
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -24,14 +24,14 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 namespace OpenSystem.Apis.Engagement.Controllers
-{ 
+{
     /// <summary>
     /// Controller for ReactionApi service implementation(s)
     /// </summary>
     [Description("Controller for ReactionApi service implementation(s)")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("/api/v1.0")]
+    [Route("/api")]
     public sealed class ReactionApiController : ControllerBase
     {
         private readonly ILogger<ReactionApiController> _logger;
@@ -49,7 +49,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
           {
             _context = context.HttpContext;
             var request = _context.Request;
-            _baseUrl = $"{request.Scheme}://{request.Host}";
+            _baseUrl = $"{request.Scheme}://{request.Host}/api";
           }
 
           _logger = logger;
@@ -131,7 +131,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
             exampleJson = "{\r\n  \"guid\" : \"123e4567-e89b-12d3-a456-426614174000\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<UpdateSuccessResponseDto>(exampleJson)
             : default(UpdateSuccessResponseDto);
@@ -177,7 +177,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
             exampleJson = "{\r\n  \"guid\" : \"123e4567-e89b-12d3-a456-426614174000\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<UpdateSuccessResponseDto>(exampleJson)
             : default(UpdateSuccessResponseDto);
@@ -223,7 +223,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
             exampleJson = "null";
-            
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<GetReaction200ResponseDto>(exampleJson)
             : default(GetReaction200ResponseDto);
@@ -244,7 +244,6 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <response code="503">Service Unavailable</response>
         [HttpGet]
         [Route("/articles/{id}/reactions")]
-        [Authorize]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetReactions")]
@@ -267,8 +266,8 @@ namespace OpenSystem.Apis.Engagement.Controllers
             //TODO: Uncomment the next line to return response 503 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
-            exampleJson = "null";
-            
+            exampleJson = "{\"Guid\": \"12345678-0110-0000-0000-000000000000\", \"CreatedOn\": \"2022-11-11T05:00:00+00:00\", \"CreatedBy\": \"PSUL\",\"UpdatedOn\": \"0001-01-01T00:00:00+00:00\",\"UpdatedBy\": \"PSUL\", \"ArticleId\": \"home\",\"Reactions\": [{\"Type\": \"LIKE\",\"Count\": 548 }] }";
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<GetReactions200ResponseDto>(exampleJson)
             : default(GetReactions200ResponseDto);

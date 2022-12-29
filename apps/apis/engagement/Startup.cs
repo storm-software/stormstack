@@ -1,7 +1,7 @@
 /*
  * Engagement
  *
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * The version of the OpenAPI document: 1.0
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -139,9 +139,10 @@ namespace OpenSystem.Apis.Engagement
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UsePathBase("/api");
             app.UseSwagger(c =>
                 {
                     c.RouteTemplate = "/api/v1.0/{documentName}/openapi.json";

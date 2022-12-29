@@ -25,13 +25,13 @@
     }
   ],
   "paths": {
-    "/articles/{id}/reactions": {
+    "/engagement/{articleId}/reactions": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "id",
+          "name": "articleId",
           "in": "path",
           "required": true,
           "description": "The id of the article/page"
@@ -136,13 +136,13 @@
         ]
       }
     },
-    "/articles/{id}/reactions/{type}": {
+    "/engagement/{articleId}/reactions/{type}": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "id",
+          "name": "articleId",
           "in": "path",
           "required": true,
           "description": "The id of the article/page"
@@ -622,21 +622,10 @@
       }
     },
     "parameters": {},
-    "securitySchemes": {
-      "bearer-token": {
-        "type": "http",
-        "scheme": "bearer",
-        "description": "A request header containing the JSON web token (JWT) provided by the IDM service in a cookie when the user signed into the application. This JWT contains the current user's encoded `SiteMinder` entitlements."
-      }
-    }
+    "securitySchemes": {}
   },
   "x-all-of-name": "DTO_AllOf",
   "x-one-of-name": "DTO_OneOf",
-  "security": [
-    {
-      "bearer-token": []
-    }
-  ],
   "tags": [
     {
       "name": "Comment"

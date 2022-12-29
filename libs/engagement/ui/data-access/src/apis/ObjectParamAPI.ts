@@ -1,5 +1,5 @@
 import { AbstractHttpConfiguration } from "@open-system/core-typescript-utilities";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import {
   GetReaction200ResponseDto,
   GetReactions200ResponseDto,
@@ -90,6 +90,7 @@ export interface ReactionApiGetReactionsRequest {
   userId?: string;
 }
 
+@injectable()
 export class ObjectReactionApi {
   private api: PromiseReactionApi;
 

@@ -252,9 +252,9 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
 
         supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", this.sourceFolder + File.separator + "models", "index.ts"));
 
-        supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", this.sourceFolder + File.separator + "apis", "PromiseAPI.ts"));
+        supportingFiles.add(new SupportingFile("apis" + File.separator + "PromiseAPI.mustache", this.sourceFolder + File.separator + "apis", "PromiseAPI.ts"));
         // supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", this.sourceFolder + File.separator + "types", "ObservableAPI.ts"));
-        supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", this.sourceFolder + File.separator + "apis", "ObjectParamAPI.ts"));
+        supportingFiles.add(new SupportingFile("apis" + File.separator + "ObjectParamAPI.mustache", this.sourceFolder + File.separator + "apis", "ObjectParamAPI.ts"));
 
         // models
         setModelPackage(this.sourceFolder + File.separator + "models");
@@ -265,7 +265,7 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         setApiPackage(this.sourceFolder);
         // supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", this.sourceFolder, "middleware.ts"));
         // supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", this.sourceFolder + File.separator + "apis", "base-api.ts"));
-        apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
+        apiTemplateFiles.put("parsers" + File.separator + "api.mustache", "Parser.ts");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
 
@@ -957,7 +957,7 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
             // supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", this.sourceFolder + File.separator + "services", "ObservableAPI.ts"));
             supportingFiles.add(new SupportingFile("services" + File.separator + "ObjectParamAPI.mustache", this.sourceFolder + File.separator + "services", "ObjectParamAPI.ts"));
             // supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", this.sourceFolder + File.separator + "services", "http.ts"));
-            apiTemplateFiles.put("services" + File.separator + "api.mustache", ".service.ts");
+            apiTemplateFiles.put("services" + File.separator + "api.mustache", "Parser.service.ts");
         }
 
         // NPM Settings

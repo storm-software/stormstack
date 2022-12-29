@@ -32,7 +32,7 @@ export default function Error({ error, reset }: ErrorBoundaryProps) {
         <Modal title="Something went wrong!" variant={ModalVariants.ERROR}>
           <div className="flex flex-col items-center gap-6">
             <MessageBar
-              className="w-full"
+              className="w-full min-w-fit flex-1"
               variant={MessageBarVariants.ERROR}
               message={error?.message}
             />

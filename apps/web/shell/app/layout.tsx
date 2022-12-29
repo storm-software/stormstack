@@ -10,6 +10,7 @@ import { Footer } from "@open-system/shared-ui-feat-layout/footer";
 import clsx from "clsx";
 import React from "react";
 import "reflect-metadata";
+import "../dependency-inversion.config";
 import "../styles/globals.css";
 import NavHeader from "./nav-header";
 import RootProvider from "./store-provider";

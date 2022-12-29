@@ -52,7 +52,7 @@ export const Modal = ({
   return (
     <div
       className={clsx(
-        "relative z-20 h-[30rem] min-h-fit w-[55rem] border-4 bg-gradient-to-bl bg-bottom bg-no-repeat p-6 shadow-xl drop-shadow-2xl",
+        "relative z-20 h-fit min-h-[30rem] w-fit min-w-[45rem] max-w-[85%] border-4 bg-gradient-to-bl bg-bottom bg-no-repeat p-6 shadow-xl drop-shadow-2xl",
         getTextStyle(variant),
         getBorderStyle(variant),
         getBackgroundStyle(variant),
@@ -101,10 +101,7 @@ export const Modal = ({
               )}
               <Heading
                 level={6}
-                className={clsx(
-                  "whitespace-nowrap text-4xl",
-                  getTextStyle(variant)
-                )}>
+                className={clsx("whitespace-nowrap text-4xl text-primary")}>
                 {title ? title : getDefaultTitle(variant)}
               </Heading>
             </>
