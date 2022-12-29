@@ -3,6 +3,7 @@
 import { ArrowDownIcon } from "@heroicons/react/24/solid";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
+import "reflect-metadata";
 import Logo from "../../../../../assets/box-logo-gradient.svg";
 import Aside from "../aside";
 import Introduction from "./(introduction)/introduction";

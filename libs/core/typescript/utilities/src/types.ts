@@ -6,8 +6,13 @@ import { Temporal } from "@js-temporal/polyfill";
  * Tokens used to identify a specific defined type during the dependency injection process
  */
 export const Tokens = {
-  RESULT_SYMBOL: Symbol("OS_RESULT_SYMBOL"),
-  DATE_TIME_SYMBOL: Symbol("OS_DATE_TIME_SYMBOL"),
+  RESULT: Symbol.for("OS_RESULT_SYMBOL"),
+  DATE_TIME: Symbol.for("OS_DATE_TIME_SYMBOL"),
+  HTTP_CONFIG: Symbol.for("OS_HTTP_CONFIG_SYMBOL"),
+  HTTP_LIBRARY: Symbol.for("OS_HTTP_LIBRARY_SYMBOL"),
+  HTTP_MIDDLEWARE: Symbol.for("OS_HTTP_MIDDLEWARE_SYMBOL"),
+  HTTP_SERVER_CONFIG: Symbol.for("OS_HTTP_SERVER_CONFIG_SYMBOL"),
+  API_REQUEST_FACTORY: Symbol.for("OS_API_REQUEST_FACTORY_SYMBOL"),
 };
 
 /**
@@ -215,3 +220,23 @@ export const enum DateTimeFormatTypes {
  * Wrap the `Temporal.Instant` object so we can re-use it in other places
  */
 export interface IDateTime extends Temporal.Instant, ICustomUtilityClass {}
+
+/**
+ * Represents an HTTP method.
+ */
+export enum HttpMethod {
+  GET = "GET",
+  HEAD = "HEAD",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
+  CONNECT = "CONNECT",
+  OPTIONS = "OPTIONS",
+  TRACE = "TRACE",
+  PATCH = "PATCH",
+}
+
+/**
+ * Represents an HTTP file which will be transferred from or to a server.
+ */
+export type HttpFile = Blob & { readonly name: string };

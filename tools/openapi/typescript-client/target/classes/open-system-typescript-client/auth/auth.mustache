@@ -1,43 +1,25 @@
-import { RequestContext } from "../http/http{{extensionForDeno}}";
-{{#useInversify}}
 import { injectable, inject, named } from "inversify";
-import { AbstractTokenProvider } from "../services/configuration";
-{{/useInversify}}
-
-/**
- * Interface authentication schemes.
- */
-export interface SecurityAuthentication {
-    /*
-     * @return returns the name of the security authentication as specified in OAI
-     */
-    getName(): string;
-
-    /**
-     * Applies the authentication scheme to the request context
-     *
-     * @params context the request context which should use this authentication scheme
-     */
-    applySecurityAuthentication(context: RequestContext): void | Promise<void>;
-}
-
-{{#useInversify}}
-export const AuthApiKey = Symbol("auth.api_key");
-export const AuthUsername = Symbol("auth.username");
-export const AuthPassword = Symbol("auth.password");
-
-{{/useInversify}}
-export interface TokenProvider {
-  getToken(): Promise<string> | string;
-}
+import {
+  RequestContext,
+  ApiKeyConfiguration,
+  HttpBasicConfiguration,
+  HttpBearerConfiguration,
+  OAuth2Configuration,
+  AbstractTokenProvider,
+  SecurityAuthentication,
+  AuthApiKey,
+  AuthUsername,
+  AuthPassword
+} from "@open-system/core-typescript-utilities";
+import type {
+  TokenProvider
+} from "@open-system/core-typescript-utilities";
 
 {{#authMethods}}
 /**
  * Applies {{type}} authentication to the request context.
  */
-{{#useInversify}}
 @injectable()
-{{/useInversify}}
 export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication implements SecurityAuthentication {
     {{#isApiKey}}
     /**
@@ -119,11 +101,6 @@ export const authMethodServices = {
 }
 {{/useInversify}}
 
-export type ApiKeyConfiguration = string;
-export type HttpBasicConfiguration = { "username": string, "password": string };
-export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
-export type OAuth2Configuration = { accessToken: string };
-
 export type AuthMethodsConfiguration = {
     {{^useInversify}}
     "default"?: SecurityAuthentication,
@@ -138,7 +115,7 @@ export type AuthMethodsConfiguration = {
  *
  */
 export function configureAuthMethods(config: AuthMethodsConfiguration | undefined): AuthMethods {
-    let authMethods: AuthMethods = {}
+    const authMethods: AuthMethods = {}
 
     if (!config) {
         return authMethods;

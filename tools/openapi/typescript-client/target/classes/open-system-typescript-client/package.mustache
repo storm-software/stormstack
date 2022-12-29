@@ -1,33 +1,20 @@
 {
   "name": "{{npmName}}",
   "version": "{{npmVersion}}",
-  "description": "OpenAPI client for {{npmName}}",
-  "author": "OpenAPI-Generator Contributors",
-  "repository": {
-    "type": "git",
-    "url": "https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}.git"
-  },
+  "description": "Client data-access library for {{domainName}}",
   "keywords": [
     "openapi-client",
     "open-system",
     "data-access"
   ],
   "license": "BSD 2-Clause License",
-  "main": "./dist/index.js",
-  {{#supportsES6}}
-  "type": "module",
-  "module": "./dist/index.js",
-  {{/supportsES6}}
-  {{^supportsES6}}
-  "type": "commonjs",
-  {{/supportsES6}}
+  "main": "./index.js",
+  "module": "./index.mjs",
   "exports": {
-    ".": "./dist/index.js"
-  },
-  "typings": "./dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "prepare": "npm run build"
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    }
   },
   "dependencies": {
     {{#frameworks}}
@@ -65,10 +52,5 @@
   "devDependencies": {
     "typescript": "^4.0",
     "@types/url-parse": "1.4.4"
-  }{{#npmRepository}},{{/npmRepository}}
-{{#npmRepository}}
-  "publishConfig":{
-    "registry":"{{npmRepository}}"
   }
-{{/npmRepository}}
 }

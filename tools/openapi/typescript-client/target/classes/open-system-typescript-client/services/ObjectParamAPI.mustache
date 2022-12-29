@@ -1,13 +1,11 @@
-import type { HttpFile } from '../http/http';
-import type { Configuration } from '../configuration'
-import type * as req from "../types/ObjectParamAPI";
-{{#useRxJS}}
-import type { Observable } from 'rxjs';
-{{/useRxJS}}
-
+import type * as req from "../apis/ObjectParamAPI";
+import {
+  HttpFile,
+  AbstractHttpConfiguration
+} from '@open-system/core-typescript-utilities';
 {{#models}}
 {{#model}}
-import type { {{{ classname }}} } from '{{{ importPath }}}';
+import type { {{{ classname }}} } from '../models';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
@@ -26,7 +24,7 @@ export abstract class AbstractObject{{classname}} {
      {{/summary}}
      * @param param the request object
      */
-    public abstract {{nickname}}(param: req.{{classname}}{{operationIdCamelCase}}Request, options?: Configuration): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    public abstract {{nickname}}(param: req.{{classname}}{{operationIdCamelCase}}Request, options?: AbstractHttpConfiguration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
     {{/operation}}
 }

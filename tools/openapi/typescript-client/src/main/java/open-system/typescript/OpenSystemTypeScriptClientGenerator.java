@@ -67,6 +67,15 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
 
+    public static final String DOMAIN_NAME = "domainName";
+    public static final String PROJECT_NAME = "projectName";
+    public static final String URL_ROOT = "urlRoot";
+    public static final String SERVICE_NAME = "serviceName";
+    public static final String FULL_SERVICE_NAME = "fullServiceName";
+    public static final String SPEC_JSON_FILE = "specJsonFile";
+    public static final String SOURCE_ROOT = "sourceRoot";
+    public static final String DOCKER_TAG = "dockerTag";
+
     private static final String FRAMEWORK_SWITCH = "framework";
     private static final String FRAMEWORK_SWITCH_DESC = "Specify the framework which should be used in the client code.";
     private static final String[] FRAMEWORKS = { "fetch-api", "jquery" };
@@ -104,6 +113,17 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
 
     private DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
     private DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
+
+    private String domainName = "shared";
+    private String projectName = null;
+    private String urlRoot = null;
+    private String serviceName = null;
+    private String fullServiceName = null;
+    private String specJsonFile = null;
+    private String sourceRoot = null;
+    private String dockerTag = null;
+
+    private String sourceFolder = "src";
 
     public OpenSystemTypeScriptClientGenerator() {
         super();
@@ -219,34 +239,112 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         // Util
-        supportingFiles.add(new SupportingFile("util.mustache", "", "util.ts"));
-        supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", "apis", "exception.ts"));
+        // supportingFiles.add(new SupportingFile("util.mustache", this.sourceFolder, "util.ts"));
+        // supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", this.sourceFolder + File.separator + "apis", "exception.ts"));
         // http
-        supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
-        supportingFiles.add(new SupportingFile("http" + File.separator + "servers.mustache", "servers.ts"));
+        // supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", this.sourceFolder + File.separator + "http", "http.ts"));
+        supportingFiles.add(new SupportingFile("http" + File.separator + "servers.mustache", this.sourceFolder, "servers.ts"));
 
         supportingFiles.add(new SupportingFile("project.mustache", "", "project.json"));
 
-        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
-        supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
+        // supportingFiles.add(new SupportingFile("configuration.mustache", this.sourceFolder, "configuration.ts"));
+        supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", this.sourceFolder + File.separator + "auth", "auth.ts"));
 
-        supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "index.ts"));
+        supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", this.sourceFolder + File.separator + "models", "index.ts"));
 
-        supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "types", "PromiseAPI.ts"));
-        supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", "types", "ObservableAPI.ts"));
-        supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", "types", "ObjectParamAPI.ts"));
+        supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", this.sourceFolder + File.separator + "apis", "PromiseAPI.ts"));
+        // supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", this.sourceFolder + File.separator + "types", "ObservableAPI.ts"));
+        supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", this.sourceFolder + File.separator + "apis", "ObjectParamAPI.ts"));
 
         // models
-        setModelPackage("models");
-        supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
+        setModelPackage(this.sourceFolder + File.separator + "models");
+        supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", this.sourceFolder + File.separator + "models", "ObjectSerializer.ts"));
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
         // api
-        setApiPackage("");
-        supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", "", "middleware.ts"));
-        supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
+        setApiPackage(this.sourceFolder);
+        // supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", this.sourceFolder, "middleware.ts"));
+        // supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", this.sourceFolder + File.separator + "apis", "base-api.ts"));
         apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
+    }
+
+    private void setDomainName() {
+      if (additionalProperties.containsKey(DOMAIN_NAME)) {
+          domainName = (String) additionalProperties.get(DOMAIN_NAME);
+      } else if (domainName != null) {
+          additionalProperties.put(DOMAIN_NAME,
+              domainName);
+      }
+    }
+
+    private void setProjectName() {
+      if (additionalProperties.containsKey(PROJECT_NAME)) {
+          projectName = (String) additionalProperties.get(PROJECT_NAME);
+      } else if (projectName != null) {
+          additionalProperties.put(PROJECT_NAME,
+              projectName);
+      }
+    }
+
+    private void setUrlRoot() {
+        if (additionalProperties.containsKey(URL_ROOT)) {
+          urlRoot = (String) additionalProperties.get(URL_ROOT);
+      } else if (urlRoot != null) {
+          additionalProperties.put(URL_ROOT,
+              urlRoot);
+      }
+    }
+
+    private void setServiceName() {
+      if (additionalProperties.containsKey(SERVICE_NAME)) {
+          serviceName = (String) additionalProperties.get(SERVICE_NAME);
+      } else if (serviceName != null) {
+          additionalProperties.put(SERVICE_NAME,
+              serviceName);
+      }
+    }
+
+    private void setFullServiceName() {
+      if (additionalProperties.containsKey(FULL_SERVICE_NAME)) {
+          fullServiceName = (String) additionalProperties.get(FULL_SERVICE_NAME);
+      } else if (fullServiceName != null) {
+          additionalProperties.put(SERVICE_NAME,
+              fullServiceName);
+      }
+    }
+
+    private void setSpecJsonFile() {
+      if (additionalProperties.containsKey(SPEC_JSON_FILE)) {
+          specJsonFile = (String) additionalProperties.get(SPEC_JSON_FILE);
+      } else if (specJsonFile != null) {
+          additionalProperties.put(SPEC_JSON_FILE,
+              specJsonFile);
+      }
+    }
+
+   private void setSourceRoot() {
+      if (additionalProperties.containsKey(SOURCE_ROOT)) {
+          sourceRoot = (String) additionalProperties.get(SOURCE_ROOT);
+      } else if (sourceRoot != null) {
+          additionalProperties.put(SOURCE_ROOT,
+              sourceRoot);
+      }
+    }
+
+    private void setDockerTag() {
+      if (additionalProperties.containsKey(DOCKER_TAG)) {
+          dockerTag = (String) additionalProperties.get(DOCKER_TAG);
+      } else if (dockerTag != null) {
+          additionalProperties.put(DOCKER_TAG,
+              dockerTag);
+      } else if (serviceName != null) {
+          additionalProperties.put(DOCKER_TAG,
+              serviceName.toLowerCase() + ":latest");
+      } else if (projectName != null) {
+          additionalProperties.put("dockerTag",
+              projectName.toLowerCase(Locale.ROOT));
+      }
     }
 
     public String getNpmName() {
@@ -811,17 +909,18 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6);
 
         // change package names
-        apiPackage = this.apiPackage + ".apis";
+        apiPackage = this.apiPackage + ".parsers";
         testPackage = this.testPackage + ".tests";
 
         additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
-        supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
+        supportingFiles.add(new SupportingFile("index.mustache", this.sourceFolder, "index.ts"));
 
-        String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
+        /*String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
         supportingFiles.add(new SupportingFile(
-              "http"  + File.separator + httpLibName + ".mustache",
-              "http", httpLibName + ".ts"
-        ));
+              "http" + File.separator + httpLibName + ".mustache",
+              this.sourceFolder + File.separator + "http",
+              httpLibName + ".ts"
+        ));*/
 
         Object propPlatform = additionalProperties.get(PLATFORM_SWITCH);
         if (propPlatform == null) {
@@ -837,29 +936,27 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
 
         additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, "node".equals(propPlatform) ? "Buffer" : "Blob");
 
-        if (!"deno".equals(propPlatform)) {
-            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-            supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
-            supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        }
 
-        if ("deno".equals(propPlatform)) {
-            additionalProperties.put("extensionForDeno", ".ts");
-        }
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        supportingFiles.add(new SupportingFile(".eslintrc.json.mustache", "", ".eslintrc.json"));
+        supportingFiles.add(new SupportingFile("tsconfig.lib.json.mustache", "", "tsconfig.lib.json"));
+        supportingFiles.add(new SupportingFile(".babelrc.mustache", "", ".babelrc"));
 
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
-        if (!useRxJS) {
-            supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
-        }
+        /*if (!useRxJS) {
+            supportingFiles.add(new SupportingFile("rxjsStub.mustache", this.sourceFolder, "rxjsStub.ts"));
+        }*/
 
         final boolean useInversify = convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH);
         if (useInversify) {
-            supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "PromiseAPI.mustache", "services", "PromiseAPI.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", "services", "ObservableAPI.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "ObjectParamAPI.mustache", "services", "ObjectParamAPI.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", "services", "http.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", this.sourceFolder + File.separator + "services", "index.ts"));
+            // supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", this.sourceFolder + File.separator + "services", "configuration.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "PromiseAPI.mustache", this.sourceFolder + File.separator + "services", "PromiseAPI.ts"));
+            // supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", this.sourceFolder + File.separator + "services", "ObservableAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "ObjectParamAPI.mustache", this.sourceFolder + File.separator + "services", "ObjectParamAPI.ts"));
+            // supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", this.sourceFolder + File.separator + "services", "http.ts"));
             apiTemplateFiles.put("services" + File.separator + "api.mustache", ".service.ts");
         }
 
@@ -875,6 +972,15 @@ public class OpenSystemTypeScriptClientGenerator extends DefaultCodegen implemen
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
+
+        setDomainName();
+        setProjectName();
+        setUrlRoot();
+        setServiceName();
+        setFullServiceName();
+        setSpecJsonFile();
+        setSourceRoot();
+        setDockerTag();
     }
 
     private String getHttpLibForFramework(String object) {

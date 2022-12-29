@@ -1,11 +1,13 @@
+import { injectable } from "inversify";
+import { ICustomUtilityClass } from "../types";
 import { getUUID } from "./get-unique-id";
-import { ICustomUtilityClass } from "./types";
 
 /**
  * A base abstract class to be inherited by all utility classes added.
  *
  * @remarks This class implements core functionality such as the id and symbol properties
  */
+@injectable()
 export abstract class CustomUtilityClass implements ICustomUtilityClass {
   public constructor(public readonly _symbol: symbol) {
     this._type = (this as unknown as object)?.constructor.name;

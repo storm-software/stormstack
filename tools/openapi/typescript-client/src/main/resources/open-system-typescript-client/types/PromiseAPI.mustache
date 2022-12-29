@@ -1,43 +1,28 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
-import { Configuration} from '../configuration{{extensionForDeno}}'
-{{#useInversify}}
-import { injectable, inject, optional } from "inversify";
-import { AbstractConfiguration } from "../services/configuration";
-{{/useInversify}}
+import {
+  ResponseContext,
+  RequestContext,
+  HttpFile,
+  AbstractHttpConfiguration
+} from '@open-system/core-typescript-utilities';
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '{{{ importPath }}}{{extensionForDeno}}';
+import { {{{ classname }}} } from '../models';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
-import { Observable{{classname}} } from './ObservableAPI{{extensionForDeno}}';
 
 {{#operations}}
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
-{{#useInversify}}
-import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}";
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../services/{{classname}}.service";
 
-@injectable()
-{{/useInversify}}
 export class Promise{{classname}} {
-    private api: Observable{{classname}}
-
     public constructor(
-        {{#useInversify}}
-        @inject(AbstractConfiguration) configuration: Configuration,
-        @inject(Abstract{{classname}}RequestFactory) @optional() requestFactory?: Abstract{{classname}}RequestFactory,
-        @inject(Abstract{{classname}}ResponseProcessor) @optional() responseProcessor?: Abstract{{classname}}ResponseProcessor
-        {{/useInversify}}
-        {{^useInversify}}
-        configuration: Configuration,
-        requestFactory?: {{classname}}RequestFactory,
-        responseProcessor?: {{classname}}ResponseProcessor
-        {{/useInversify}}
-    ) {
-        this.api = new Observable{{classname}}(configuration, requestFactory, responseProcessor);
-    }
+        public configuration: AbstractHttpConfiguration,
+        public requestFactory: Abstract{{classname}}RequestFactory,
+        public responseProcessor: Abstract{{classname}}ResponseProcessor
+    ) {}
 
 {{#operation}}
     /**
@@ -51,9 +36,19 @@ export class Promise{{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
-        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
-        return result.toPromise();
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: AbstractHttpConfiguration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+
+        let request: RequestContext = await this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
+        for (const middleware of this.configuration.middleware) {
+            request = await middleware.pre(request)
+        }
+
+        let response: ResponseContext = await this.configuration.httpApi.send(request);
+        for (const middleware of this.configuration.middleware) {
+          response = await middleware.post(response);
+        }
+
+        return await this.responseProcessor.{{nickname}}(response);
     }
 
 {{/operation}}

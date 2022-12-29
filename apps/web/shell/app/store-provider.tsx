@@ -1,14 +1,12 @@
 "use client";
 
+import { INVERSION_CONTAINER } from "@open-system/core-typescript-utilities";
 import { BaseComponentProps } from "@open-system/design-system-components";
-import { createContext } from "react";
+import { ApiServiceBinder as EngagementApiServiceBinder } from "@open-system/engagement-ui-data-access";
+import { Provider } from "inversify-react";
 
-const StoreContext = createContext({ store: "dark" });
+EngagementApiServiceBinder.with(INVERSION_CONTAINER);
 
-export default function StoreProvider({ children }: BaseComponentProps) {
-  return (
-    <StoreContext.Provider value={{ store: "dark" }}>
-      {children}
-    </StoreContext.Provider>
-  );
+export default function RootProvider({ children }: BaseComponentProps) {
+  return <Provider container={INVERSION_CONTAINER}>{children}</Provider>;
 }

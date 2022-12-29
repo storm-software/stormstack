@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CustomUtilityClass } from "./custom-utility-class";
-import { DateTime } from "./date-time";
-import { isError, isObject } from "./type-check";
 import {
   AbortError,
   IError,
   IResult,
   ResultSourceTypes,
   Tokens,
-} from "./types";
+} from "../types";
+import { CustomUtilityClass } from "./custom-utility-class";
+import { DateTime } from "./date-time";
+import { isError, isObject } from "./type-checks";
 
 /**
  * An object to contain generic data describing the result of a FXL or external process
@@ -108,7 +108,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
    */
   public static isResult = (obj: unknown): obj is Result => {
     try {
-      return (obj as Result)?._symbol === Tokens.RESULT_SYMBOL;
+      return (obj as Result)?._symbol === Tokens.RESULT;
     } catch (e) {
       return false;
     }
@@ -230,7 +230,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
   public timestamp: DateTime = DateTime.current;
 
   protected constructor(error: TError | null = null, data?: TData | null) {
-    super(Tokens.RESULT_SYMBOL);
+    super(Tokens.RESULT);
 
     this.error = error;
     this.data = data;

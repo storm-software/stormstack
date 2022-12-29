@@ -12,7 +12,13 @@
         "main": "libs/core/typescript/utilities/src/index.ts",
         "project": "libs/core/typescript/utilities/package.json",
         "tsConfig": "libs/core/typescript/utilities/tsconfig.lib.json",
-        "assets": []
+        "assets": [
+          {
+            "glob": "libs/core/typescript/utilities/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
       }
     },
     "lint": {

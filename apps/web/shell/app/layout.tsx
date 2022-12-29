@@ -9,8 +9,10 @@ import localFont from "@next/font/local";
 import { Footer } from "@open-system/shared-ui-feat-layout/footer";
 import clsx from "clsx";
 import React from "react";
+import "reflect-metadata";
 import "../styles/globals.css";
 import NavHeader from "./nav-header";
+import RootProvider from "./store-provider";
 
 const melody = localFont({
   variable: "--font-melody",
@@ -63,7 +65,10 @@ export default function RootLayout({
 
         <div id="root-portal" />
 
-        <div className="h-fit w-full">{children}</div>
+        <div className="h-fit w-full">
+          <RootProvider>{children}</RootProvider>
+        </div>
+
         <Footer />
       </body>
     </html>

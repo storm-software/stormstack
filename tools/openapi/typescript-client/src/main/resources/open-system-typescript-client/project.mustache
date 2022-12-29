@@ -13,9 +13,7 @@
         "tsConfig": "{{sourceRoot}}/tsconfig.lib.json",
         "project": "{{sourceRoot}}/package.json",
         "entryFile": "{{sourceRoot}}/src/index.ts",
-        "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "compiler": "swc",
         "assets": [
           {
             "glob": "{{sourceRoot}}/README.md",
@@ -44,7 +42,6 @@
       "executor": "@open-system/executors-typescript:client-api-sync",
       "options": {
         "domainName": "{{domainName}}",
-        "serviceName": "{{serviceName}}",
         "specJsonFile": "{{specJsonFile}}",
         "generator": "open-system-typescript-client"
       }

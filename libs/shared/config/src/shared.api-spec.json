@@ -192,11 +192,10 @@
       },
       "userId": {
         "name": "userId",
-        "in": "header",
-        "required": true,
+        "in": "cookie",
+        "required": false,
         "schema": {
-          "type": "string",
-          "example": "PSUL"
+          "type": "string"
         },
         "description": "User Id sending request"
       }

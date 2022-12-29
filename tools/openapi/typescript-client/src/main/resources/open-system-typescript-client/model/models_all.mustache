@@ -1,5 +1,6 @@
 {{#models}}
 {{#model}}
-export * from '{{{ importPath }}}{{extensionForDeno}}'
+export * from './{{classname}}'
 {{/model}}
 {{/models}}
+export * from "./ObjectSerializer"

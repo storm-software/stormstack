@@ -1,24 +1,30 @@
-// TODO: better import syntax?
-import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi{{extensionForDeno}}';
-import {Configuration} from '../configuration{{extensionForDeno}}';
-import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
+import {
+  RequiredError,
+  COLLECTION_FORMATS,
+  RequestContext,
+  HttpMethod,
+  ResponseContext,
+  HttpFile,
+  canConsumeForm,
+  isCodeInRange,
+  ApiException,
+  ObjectSerializer,
+  SecurityAuthentication,
+  APIRequestFactory,
+  HttpConfiguration
+} from '@open-system/core-typescript-utilities';
 {{#platforms}}
 {{#node}}
 import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
-import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
-import {ApiException} from './exception{{extensionForDeno}}';
-import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
-import {SecurityAuthentication} from '../auth/auth{{extensionForDeno}}';
-
+import { enumsMap, typeMap } from '../models/ObjectSerializer';
 {{#useInversify}}
 import { injectable } from "inversify";
 {{/useInversify}}
-
 {{#imports}}
-import { {{classname}} } from '{{filename}}{{extensionForDeno}}';
+import { {{classname}} } from '../models';
 {{/imports}}
 {{#operations}}
 
@@ -28,7 +34,7 @@ import { {{classname}} } from '{{filename}}{{extensionForDeno}}';
 {{#useInversify}}
 @injectable()
 {{/useInversify}}
-export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
+export class {{classname}}RequestFactory extends APIRequestFactory {
 
     {{#operation}}
     /**
@@ -42,8 +48,8 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: HttpConfiguration): Promise<RequestContext> {
+        const _config = _options || this.configuration;
         {{#allParams}}
 
         {{#required}}
@@ -66,13 +72,13 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if ({{paramName}} !== undefined) {
-            requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+            requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}", enumsMap, typeMap));
         }
         {{/queryParams}}
         {{#headerParams}}
 
         // Header Params
-        requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+        requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}", enumsMap, typeMap));
         {{/headerParams}}
         {{#hasFormParams}}
 
@@ -145,13 +151,13 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/consumes}}]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"),
+            ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}", enumsMap, typeMap),
             contentType
         );
         requestContext.setBody(serializedBody);
         {{/bodyParam}}
 
-        {{#hasAuthMethods}}
+        /*{{#hasAuthMethods}}
         let authMethod: SecurityAuthentication | undefined;
         {{/hasAuthMethods}}
         {{#authMethods}}
@@ -167,7 +173,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
-        {{/useInversify}}
+        {{/useInversify}}*/
 
         return requestContext;
     }
@@ -201,7 +207,7 @@ export class {{classname}}ResponseProcessor {
             {{^isBinary}}
             const body: {{{dataType}}} = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "{{{dataType}}}", "{{returnFormat}}"
+                "{{{dataType}}}", "{{returnFormat}}", enumsMap, typeMap
             ) as {{{dataType}}};
             {{/isBinary}}
             {{#is2xx}}
@@ -231,7 +237,7 @@ export class {{classname}}ResponseProcessor {
             {{^isBinary}}
             const body: {{{returnType}}} = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "{{{returnType}}}", "{{returnFormat}}"
+                "{{{returnType}}}", "{{returnFormat}}", enumsMap, typeMap
             ) as {{{returnType}}};
             {{/isBinary}}
             return body;

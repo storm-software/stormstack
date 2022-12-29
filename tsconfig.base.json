@@ -6,6 +6,7 @@
     "declaration": true,
     "declarationMap": true,
     "moduleResolution": "node",
+    "types": ["node", "reflect-metadata"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
@@ -26,6 +27,9 @@
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
       "@open-system/engagement-config": ["libs/engagement/config/src/index.ts"],
+      "@open-system/engagement-ui-data-access": [
+        "libs/engagement/ui/data-access/src/index.ts"
+      ],
       "@open-system/engagement-ui-feat-reaction/*": [
         "libs/engagement/ui/feat-reaction/src/*"
       ],

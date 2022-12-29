@@ -5,7 +5,7 @@ import {
   isSymbol as isSymbolExternal,
 } from "radash";
 import { MutableRefObject } from "react";
-import { SelectOption } from "./types";
+import { SelectOption } from "../types";
 
 /**
  * Check if the provided value's type is `number`

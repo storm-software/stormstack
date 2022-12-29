@@ -14,9 +14,17 @@ export default async function (host: Tree, options?: ClientApiGeneratorSchema) {
     const { domainName, specJsonFile, generator, projectName } = options;
 
     const rootPath = host.root;
-    const sourceRoot = options.sourceRoot.lastIndexOf("/src")
-      ? options.sourceRoot.substring(0, options.sourceRoot.lastIndexOf("/src"))
-      : options.sourceRoot;
+    const sourceRoot =
+      options.sourceRoot.lastIndexOf("/src") > 0
+        ? options.sourceRoot.substring(
+            0,
+            options.sourceRoot.lastIndexOf("/src")
+          )
+        : options.sourceRoot;
+    if (!sourceRoot || sourceRoot.length <= 1) {
+      ConsoleLogger.error(`No sourceRoot could be found: "${sourceRoot}" `);
+      return { success: false };
+    }
 
     let result;
     if (!existsSync(Path.join(`${rootPath}/`, sourceRoot))) {
@@ -45,7 +53,7 @@ export default async function (host: Tree, options?: ClientApiGeneratorSchema) {
         generator ?? "open-system-typescript-client"
       } -o ${sourceRoot} --remove-operation-id-prefix --enable-post-process-file --global-property="apiDocs=true" --additional-properties="enumNameSuffix=Types,enumPropertyNaming=UPPERCASE,supportsES6=true,libraryName=${projectName},${
         domainName?.toLowerCase() === "core" ? "isBaseLibrary=true," : ""
-      }withInterfaces=true,useInversify=true,useObjectParameters=true,useRxJS=false,npmName=@open-system/${projectName},npmVersion=0.0.1,gitHost=github.com,gitUserId=sullivanpj,gitRepoId=open-system,projectName=${projectName},sourceRoot=${sourceRoot}" `
+      }withInterfaces=true,useInversify=true,useObjectParameters=true,useRxJS=false,npmName=@open-system/${projectName},npmVersion=0.0.1,gitHost=github.com,gitUserId=sullivanpj,gitRepoId=open-system,projectName=${projectName},sourceRoot=${sourceRoot},specJsonFile=${specJsonFile},domainName=${domainName},modelNameSuffix=Dto" `
     );
     if (result) {
       ConsoleLogger.error(result);

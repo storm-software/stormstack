@@ -2,9 +2,12 @@
 {{#models}}
 {{#model}}
 {{#tsImports}}
-import { {{classname}} } from '{{filename}}{{extensionForDeno}}';
+import { {{classname}} } from './{{classname}}';
 {{/tsImports}}
-import { HttpFile } from '../http/http{{extensionForDeno}}';
+import {
+  HttpFile,
+} from '@open-system/core-typescript-utilities';
+
 
 {{#description}}
 /**

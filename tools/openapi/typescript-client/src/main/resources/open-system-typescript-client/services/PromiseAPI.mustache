@@ -1,9 +1,10 @@
-import type { HttpFile } from "../http/http";
-import type { Configuration } from "../configuration";
-
+import {
+  HttpFile,
+  AbstractHttpConfiguration
+} from "@open-system/core-typescript-utilities";
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from "{{{ importPath }}}";
+import { {{{ classname }}} } from "../models";
 {{/model}}
 {{/models}}
 {{#apiInfo}}
@@ -13,7 +14,7 @@ import { {{{ classname }}} } from "{{{ importPath }}}";
 
 export abstract class AbstractPromise{{classname}} {
     {{#operation}}
-    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AbstractHttpConfiguration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
     {{/operation}}
 }

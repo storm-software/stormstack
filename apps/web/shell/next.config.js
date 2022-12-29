@@ -19,6 +19,7 @@ const nextConfig = {
       { loader: "@next/font/google", options: { subsets: ["latin"] } },
     ],
     transpilePackages: [
+      "reflect-metadata",
       "@open-system/core-typescript-utilities",
       "@open-system/design-system-components",
     ],

@@ -1,44 +1,28 @@
 {
+  "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "module": "commonjs",
     "strict": true,
-    /* Basic Options */
-    {{#supportsES6}}
-    "target": "es6",
+    "types": ["jest", "node"],
     "esModuleInterop": true,
-    {{/supportsES6}}
-    {{^supportsES6}}
-    "target": "es5",
-    {{/supportsES6}}
-    "moduleResolution": "node",
-    "declaration": true,
-
-    /* Additional Checks */
-     "noUnusedLocals": false,                /* Report errors on unused locals. */ // TODO: reenable (unused imports!)
-     "noUnusedParameters": false,            /* Report errors on unused parameters. */ // TODO: set to true again
-     "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
-     "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
-
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
     "removeComments": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "noLib": false,
-    {{#platforms}}
-    {{#node}}
-    "lib": [ "es6" ],
-    {{/node}}
-    {{#browser}}
-    "lib": [ "es6", "dom" ],
-    {{/browser}}
-    {{/platforms}}
-    {{#useInversify}}
-    "experimentalDecorators": true,
-    {{/useInversify}}
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "exclude": [
-    "dist",
-    "node_modules"
-  ],
-  "filesGlob": [
-    "./**/*.ts",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
   ]
 }
