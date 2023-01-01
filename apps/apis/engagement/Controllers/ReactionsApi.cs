@@ -26,30 +26,31 @@ using System.Text.Json;
 namespace OpenSystem.Apis.Engagement.Controllers
 {
     /// <summary>
-    /// Controller for ReactionApi service implementation(s)
+    /// Controller for ReactionsApi service implementation(s)
     /// </summary>
-    [Description("Controller for ReactionApi service implementation(s)")]
+    [Description("Controller for ReactionsApi service implementation(s)")]
     [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
     [ApiVersion("1.0")]
-    [Route("/api")]
-    public sealed class ReactionApiController : ControllerBase
+    public sealed class ReactionsApiController : ControllerBase
     {
-        private readonly ILogger<ReactionApiController> _logger;
+        private readonly ILogger<ReactionsApiController> _logger;
         private readonly string _baseUrl;
         private readonly HttpContext _context;
 
         /// <summary>
-        /// Constructor method for ReactionApiController
+        /// Constructor method for ReactionsApiController
         /// </summary>
-        /// <remarks>Constructor method to generate an instance of a ReactionApiController</remarks>
-        public ReactionApiController(ILogger<ReactionApiController> logger,
+        /// <remarks>Constructor method to generate an instance of a ReactionsApiController</remarks>
+        public ReactionsApiController(ILogger<ReactionsApiController> logger,
             IHttpContextAccessor context)
         {
           if (context.HttpContext != null)
           {
             _context = context.HttpContext;
             var request = _context.Request;
-            _baseUrl = $"{request.Scheme}://{request.Host}/api";
+            _baseUrl = $"{request.Scheme}://{request.Host}";
           }
 
           _logger = logger;
@@ -64,6 +65,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
+        [MapToApiVersion("1.0")]
         [HttpGet]
         [Route("/health-check")]
         public async Task<IActionResult> HealthCheck()
@@ -83,6 +85,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
+        [MapToApiVersion("1.0")]
         [HttpGet]
         [Route("/status")]
         public async Task<IActionResult> Status()
@@ -99,24 +102,24 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <remarks>Add a new reaction to an article</remarks>
         /// <param name="id">The id of the article/page</param>
         /// <param name="type">The type of reaction the user had</param>
-        /// <param name="userId">User Id sending request</param>
+        /// <param name="userId">The id of the current user sending the request</param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
+        [MapToApiVersion("1.0")]
         [HttpPost]
-        [Route("/articles/{id}/reactions/{type}")]
-        [Authorize]
+        [Route("/article/{id}/reaction/{type}")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("AddReaction")]
+        [SwaggerOperation("AddArticleReaction")]
         [SwaggerResponse(statusCode: 200, type: typeof(UpdateSuccessResponseDto), description: "OK")]
         [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsDto), description: "Unauthorized")]
         [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsDto), description: "Not Found")]
         [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsDto), description: "Internal Server Error")]
         [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsDto), description: "Service Unavailable")]
-        public async Task<IActionResult> AddReaction([FromRoute (Name = "id")][Required]string id, [FromRoute (Name = "type")][Required]string type, [FromHeader][Required()]string userId)
+        public async Task<IActionResult> AddArticleReaction([FromRoute (Name = "id")][Required]string id, [FromRoute (Name = "type")][Required]string type, [FromHeader][Required()]string userId)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -145,24 +148,24 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <remarks>Remove an existing reaction to an article</remarks>
         /// <param name="id">The id of the article/page</param>
         /// <param name="type">The type of reaction the user had</param>
-        /// <param name="userId">User Id sending request</param>
+        /// <param name="userId">The id of the current user sending the request</param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
+        [MapToApiVersion("1.0")]
         [HttpDelete]
-        [Route("/articles/{id}/reactions/{type}")]
-        [Authorize]
+        [Route("/article/{id}/reaction/{type}")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("DeleteReaction")]
+        [SwaggerOperation("DeleteArticleReaction")]
         [SwaggerResponse(statusCode: 200, type: typeof(UpdateSuccessResponseDto), description: "OK")]
         [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsDto), description: "Unauthorized")]
         [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsDto), description: "Not Found")]
         [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsDto), description: "Internal Server Error")]
         [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsDto), description: "Service Unavailable")]
-        public async Task<IActionResult> DeleteReaction([FromRoute (Name = "id")][Required]string id, [FromRoute (Name = "type")][Required]string type, [FromHeader][Required()]string userId)
+        public async Task<IActionResult> DeleteArticleReaction([FromRoute (Name = "id")][Required]string id, [FromRoute (Name = "type")][Required]string type, [FromHeader][Required()]string userId)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -191,28 +194,73 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <remarks>An end point that returns the reactions for an article/page to a client</remarks>
         /// <param name="id">The id of the article/page</param>
         /// <param name="type">The type of reaction the user had</param>
-        /// <param name="userId">User Id sending request</param>
+        /// <param name="userId">The id of the current user sending the request</param>
         /// <response code="200">Successful response to Get Reactions end point</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
+        [MapToApiVersion("1.0")]
         [HttpGet]
-        [Route("/articles/{id}/reactions/{type}")]
-        [Authorize]
+        [Route("/article/{id}/reaction/{type}")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("GetReaction")]
-        [SwaggerResponse(statusCode: 200, type: typeof(GetReaction200ResponseDto), description: "Successful response to Get Reactions end point")]
+        [SwaggerOperation("GetArticleReaction")]
+        [SwaggerResponse(statusCode: 200, type: typeof(GetArticleReaction200ResponseDto), description: "Successful response to Get Reactions end point")]
         [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsDto), description: "Unauthorized")]
         [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsDto), description: "Not Found")]
         [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsDto), description: "Internal Server Error")]
         [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsDto), description: "Service Unavailable")]
-        public async Task<IActionResult> GetReaction([FromRoute (Name = "id")][Required]string id, [FromRoute (Name = "type")][Required]string type, [FromHeader][Required()]string userId)
+        public async Task<IActionResult> GetArticleReaction([FromRoute (Name = "id")][Required]string id, [FromRoute (Name = "type")][Required]string type, [FromHeader][Required()]string userId)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(GetReaction200ResponseDto));
+            // return StatusCode(200, default(GetArticleReaction200ResponseDto));
+            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(401, default(ProblemDetailsDto));
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404, default(ProblemDetailsDto));
+            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(500, default(ProblemDetailsDto));
+            //TODO: Uncomment the next line to return response 503 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(503, default(ProblemDetailsDto));
+            string exampleJson = null;
+            exampleJson = "{\"Guid\": \"123e4567-e89b-12d3-a456-426614174000\", \"CreatedOn\": \"2022-03-19T04:24:02.190\", \"CreatedBy\": \"PSUL\", \"UpdatedOn\": \"2022-10-12T14:01:13.000\", \"UpdatedBy\": \"PSUL\", \"ArticleId\": \"home\", \"Type\": \"like\", \"Count\": 548 }";
+
+            var example = exampleJson != null
+            ? JsonSerializer.Deserialize<GetArticleReaction200ResponseDto>(exampleJson)
+            : default(GetArticleReaction200ResponseDto);
+
+            //TODO: Change the data returned
+            return await Task.FromResult<IActionResult>(new ObjectResult(example));
+        }
+        /// <summary>
+        /// Get Article Reactions
+        /// </summary>
+        /// <remarks>An end point that returns the reactions for an article/page to a client</remarks>
+        /// <param name="id">The id of the article/page</param>
+        /// <param name="userId">The id of the current user sending the request</param>
+        /// <response code="200">Successful response to Get Reactions end point</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server Error</response>
+        /// <response code="503">Service Unavailable</response>
+        [MapToApiVersion("1.0")]
+        [HttpGet]
+        [Route("/article/{id}")]
+        [Consumes("application/json")]
+        [ValidateModelState]
+        [SwaggerOperation("GetArticleReactions")]
+        [SwaggerResponse(statusCode: 200, type: typeof(GetArticleReactions200ResponseDto), description: "Successful response to Get Reactions end point")]
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsDto), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsDto), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsDto), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsDto), description: "Service Unavailable")]
+        public async Task<IActionResult> GetArticleReactions([FromRoute (Name = "id")][Required]string id, [FromHeader][Required()]string userId)
+        {
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(GetArticleReactions200ResponseDto));
             //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(401, default(ProblemDetailsDto));
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -225,52 +273,8 @@ namespace OpenSystem.Apis.Engagement.Controllers
             exampleJson = "null";
 
             var example = exampleJson != null
-            ? JsonSerializer.Deserialize<GetReaction200ResponseDto>(exampleJson)
-            : default(GetReaction200ResponseDto);
-
-            //TODO: Change the data returned
-            return await Task.FromResult<IActionResult>(new ObjectResult(example));
-        }
-        /// <summary>
-        /// Get Reactions
-        /// </summary>
-        /// <remarks>An end point that returns the reactions for an article/page to a client</remarks>
-        /// <param name="id">The id of the article/page</param>
-        /// <param name="userId">User Id sending request</param>
-        /// <response code="200">Successful response to Get Reactions end point</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="404">Not Found</response>
-        /// <response code="500">Internal Server Error</response>
-        /// <response code="503">Service Unavailable</response>
-        [HttpGet]
-        [Route("/articles/{id}/reactions")]
-        [Consumes("application/json")]
-        [ValidateModelState]
-        [SwaggerOperation("GetReactions")]
-        [SwaggerResponse(statusCode: 200, type: typeof(GetReactions200ResponseDto), description: "Successful response to Get Reactions end point")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsDto), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsDto), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsDto), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsDto), description: "Service Unavailable")]
-        public async Task<IActionResult> GetReactions([FromRoute (Name = "id")][Required]string id, [FromHeader][Required()]string userId)
-        {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(GetReactions200ResponseDto));
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401, default(ProblemDetailsDto));
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404, default(ProblemDetailsDto));
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500, default(ProblemDetailsDto));
-            //TODO: Uncomment the next line to return response 503 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(503, default(ProblemDetailsDto));
-            string exampleJson = null;
-            exampleJson = "{\"Guid\": \"12345678-0110-0000-0000-000000000000\", \"CreatedOn\": \"2022-11-11T05:00:00+00:00\", \"CreatedBy\": \"PSUL\",\"UpdatedOn\": \"0001-01-01T00:00:00+00:00\",\"UpdatedBy\": \"PSUL\", \"ArticleId\": \"home\",\"Reactions\": [{\"Type\": \"LIKE\",\"Count\": 548 }] }";
-
-            var example = exampleJson != null
-            ? JsonSerializer.Deserialize<GetReactions200ResponseDto>(exampleJson)
-            : default(GetReactions200ResponseDto);
+            ? JsonSerializer.Deserialize<GetArticleReactions200ResponseDto>(exampleJson)
+            : default(GetArticleReactions200ResponseDto);
 
             //TODO: Change the data returned
             return await Task.FromResult<IActionResult>(new ObjectResult(example));

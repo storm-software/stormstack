@@ -1,17 +1,17 @@
-# .ReactionApi
+# .ReactionsApi
 
-All URIs are relative to *http://localhost:5000/api*
+All URIs are relative to *http://localhost:5000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addReaction**](ReactionApi.md#addReaction) | **POST** /articles/{id}/reactions/{type} | Add Reaction
-[**deleteReaction**](ReactionApi.md#deleteReaction) | **DELETE** /articles/{id}/reactions/{type} | Remove Reaction
-[**getReaction**](ReactionApi.md#getReaction) | **GET** /articles/{id}/reactions/{type} | Get Reaction
-[**getReactions**](ReactionApi.md#getReactions) | **GET** /articles/{id}/reactions | Get Reactions
+[**addArticleReaction**](ReactionsApi.md#addArticleReaction) | **POST** /article/{id}/reaction/{type} | Add Reaction
+[**deleteArticleReaction**](ReactionsApi.md#deleteArticleReaction) | **DELETE** /article/{id}/reaction/{type} | Remove Reaction
+[**getArticleReaction**](ReactionsApi.md#getArticleReaction) | **GET** /article/{id}/reaction/{type} | Get Reaction
+[**getArticleReactions**](ReactionsApi.md#getArticleReactions) | **GET** /article/{id} | Get Article Reactions
 
 
-# **addReaction**
-> UpdateSuccessResponseDto addReaction()
+# **addArticleReaction**
+> UpdateSuccessResponse addArticleReaction()
 
 Add a new reaction to an article
 
@@ -23,18 +23,18 @@ import {  } from 'engagement-ui-data-access';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .ReactionApi(configuration);
+const apiInstance = new .ReactionsApi(configuration);
 
-let body:.ReactionApiAddReactionRequest = {
+let body:.ReactionsApiAddArticleReactionRequest = {
   // string | The id of the article/page
   id: "id_example",
-  // 'LIKE' | 'DISLIKE' | The type of reaction the user had
-  type: "LIKE",
-  // string | User Id sending request (optional)
+  // 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry' | The type of reaction the user had
+  type: "like",
+  // string | The id of the current user sending the request
   userId: "userId_example",
 };
 
-apiInstance.addReaction(body).then((data:any) => {
+apiInstance.addArticleReaction(body).then((data:any) => {
   console.log('API called successfully. Returned data: ' + data);
 }).catch((error:any) => console.error(error));
 ```
@@ -45,17 +45,17 @@ apiInstance.addReaction(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | [**string**] | The id of the article/page | defaults to undefined
- **type** | [**&#39;LIKE&#39; | &#39;DISLIKE&#39;**]**Array<&#39;LIKE&#39; &#124; &#39;DISLIKE&#39;>** | The type of reaction the user had | defaults to undefined
- **userId** | [**string**] | User Id sending request | (optional) defaults to undefined
+ **type** | [**&#39;like&#39; | &#39;dislike&#39; | &#39;happy&#39; | &#39;sad&#39; | &#39;laugh&#39; | &#39;cry&#39;**]**Array<&#39;like&#39; &#124; &#39;dislike&#39; &#124; &#39;happy&#39; &#124; &#39;sad&#39; &#124; &#39;laugh&#39; &#124; &#39;cry&#39;>** | The type of reaction the user had | defaults to undefined
+ **userId** | [**string**] | The id of the current user sending the request | defaults to undefined
 
 
 ### Return type
 
-**UpdateSuccessResponseDto**
+**UpdateSuccessResponse**
 
 ### Authorization
 
-[bearer-token](README.md#bearer-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -74,8 +74,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
-# **deleteReaction**
-> UpdateSuccessResponseDto deleteReaction()
+# **deleteArticleReaction**
+> UpdateSuccessResponse deleteArticleReaction()
 
 Remove an existing reaction to an article
 
@@ -87,18 +87,18 @@ import {  } from 'engagement-ui-data-access';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .ReactionApi(configuration);
+const apiInstance = new .ReactionsApi(configuration);
 
-let body:.ReactionApiDeleteReactionRequest = {
+let body:.ReactionsApiDeleteArticleReactionRequest = {
   // string | The id of the article/page
   id: "id_example",
-  // 'LIKE' | 'DISLIKE' | The type of reaction the user had
-  type: "LIKE",
-  // string | User Id sending request (optional)
+  // 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry' | The type of reaction the user had
+  type: "like",
+  // string | The id of the current user sending the request
   userId: "userId_example",
 };
 
-apiInstance.deleteReaction(body).then((data:any) => {
+apiInstance.deleteArticleReaction(body).then((data:any) => {
   console.log('API called successfully. Returned data: ' + data);
 }).catch((error:any) => console.error(error));
 ```
@@ -109,17 +109,17 @@ apiInstance.deleteReaction(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | [**string**] | The id of the article/page | defaults to undefined
- **type** | [**&#39;LIKE&#39; | &#39;DISLIKE&#39;**]**Array<&#39;LIKE&#39; &#124; &#39;DISLIKE&#39;>** | The type of reaction the user had | defaults to undefined
- **userId** | [**string**] | User Id sending request | (optional) defaults to undefined
+ **type** | [**&#39;like&#39; | &#39;dislike&#39; | &#39;happy&#39; | &#39;sad&#39; | &#39;laugh&#39; | &#39;cry&#39;**]**Array<&#39;like&#39; &#124; &#39;dislike&#39; &#124; &#39;happy&#39; &#124; &#39;sad&#39; &#124; &#39;laugh&#39; &#124; &#39;cry&#39;>** | The type of reaction the user had | defaults to undefined
+ **userId** | [**string**] | The id of the current user sending the request | defaults to undefined
 
 
 ### Return type
 
-**UpdateSuccessResponseDto**
+**UpdateSuccessResponse**
 
 ### Authorization
 
-[bearer-token](README.md#bearer-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -138,8 +138,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
-# **getReaction**
-> GetReaction200ResponseDto getReaction()
+# **getArticleReaction**
+> GetArticleReaction200Response getArticleReaction()
 
 An end point that returns the reactions for an article/page to a client
 
@@ -151,18 +151,18 @@ import {  } from 'engagement-ui-data-access';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .ReactionApi(configuration);
+const apiInstance = new .ReactionsApi(configuration);
 
-let body:.ReactionApiGetReactionRequest = {
+let body:.ReactionsApiGetArticleReactionRequest = {
   // string | The id of the article/page
   id: "id_example",
-  // 'LIKE' | 'DISLIKE' | The type of reaction the user had
-  type: "LIKE",
-  // string | User Id sending request (optional)
+  // 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry' | The type of reaction the user had
+  type: "like",
+  // string | The id of the current user sending the request
   userId: "userId_example",
 };
 
-apiInstance.getReaction(body).then((data:any) => {
+apiInstance.getArticleReaction(body).then((data:any) => {
   console.log('API called successfully. Returned data: ' + data);
 }).catch((error:any) => console.error(error));
 ```
@@ -173,17 +173,17 @@ apiInstance.getReaction(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | [**string**] | The id of the article/page | defaults to undefined
- **type** | [**&#39;LIKE&#39; | &#39;DISLIKE&#39;**]**Array<&#39;LIKE&#39; &#124; &#39;DISLIKE&#39;>** | The type of reaction the user had | defaults to undefined
- **userId** | [**string**] | User Id sending request | (optional) defaults to undefined
+ **type** | [**&#39;like&#39; | &#39;dislike&#39; | &#39;happy&#39; | &#39;sad&#39; | &#39;laugh&#39; | &#39;cry&#39;**]**Array<&#39;like&#39; &#124; &#39;dislike&#39; &#124; &#39;happy&#39; &#124; &#39;sad&#39; &#124; &#39;laugh&#39; &#124; &#39;cry&#39;>** | The type of reaction the user had | defaults to undefined
+ **userId** | [**string**] | The id of the current user sending the request | defaults to undefined
 
 
 ### Return type
 
-**GetReaction200ResponseDto**
+**GetArticleReaction200Response**
 
 ### Authorization
 
-[bearer-token](README.md#bearer-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -202,8 +202,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
-# **getReactions**
-> GetReactions200ResponseDto getReactions()
+# **getArticleReactions**
+> GetArticleReactions200Response getArticleReactions()
 
 An end point that returns the reactions for an article/page to a client
 
@@ -215,16 +215,16 @@ import {  } from 'engagement-ui-data-access';
 import * as fs from 'fs';
 
 const configuration = .createConfiguration();
-const apiInstance = new .ReactionApi(configuration);
+const apiInstance = new .ReactionsApi(configuration);
 
-let body:.ReactionApiGetReactionsRequest = {
+let body:.ReactionsApiGetArticleReactionsRequest = {
   // string | The id of the article/page
   id: "id_example",
-  // string | User Id sending request (optional)
+  // string | The id of the current user sending the request
   userId: "userId_example",
 };
 
-apiInstance.getReactions(body).then((data:any) => {
+apiInstance.getArticleReactions(body).then((data:any) => {
   console.log('API called successfully. Returned data: ' + data);
 }).catch((error:any) => console.error(error));
 ```
@@ -235,16 +235,16 @@ apiInstance.getReactions(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | [**string**] | The id of the article/page | defaults to undefined
- **userId** | [**string**] | User Id sending request | (optional) defaults to undefined
+ **userId** | [**string**] | The id of the current user sending the request | defaults to undefined
 
 
 ### Return type
 
-**GetReactions200ResponseDto**
+**GetArticleReactions200Response**
 
 ### Authorization
 
-[bearer-token](README.md#bearer-token)
+No authorization required
 
 ### HTTP request headers
 

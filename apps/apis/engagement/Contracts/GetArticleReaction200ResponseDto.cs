@@ -24,7 +24,7 @@ namespace OpenSystem.Apis.Engagement.Contracts
     /// 
     /// </summary>
     [DataContract]
-    public class GetReaction200ResponseDto : IEquatable<GetReaction200ResponseDto>
+    public class GetArticleReaction200ResponseDto : IEquatable<GetArticleReaction200ResponseDto>
     {
         /// <summary>
         /// The &#x60;guid&#x60; associated with the record
@@ -78,16 +78,40 @@ namespace OpenSystem.Apis.Engagement.Contracts
         {
             
             /// <summary>
-            /// Enum LIKE for LIKE
+            /// Enum Like for like
             /// </summary>
-            [EnumMember(Value = "LIKE")]
-            LIKE = 1,
+            [EnumMember(Value = "like")]
+            Like = 1,
             
             /// <summary>
-            /// Enum DISLIKE for DISLIKE
+            /// Enum Dislike for dislike
             /// </summary>
-            [EnumMember(Value = "DISLIKE")]
-            DISLIKE = 2
+            [EnumMember(Value = "dislike")]
+            Dislike = 2,
+            
+            /// <summary>
+            /// Enum Happy for happy
+            /// </summary>
+            [EnumMember(Value = "happy")]
+            Happy = 3,
+            
+            /// <summary>
+            /// Enum Sad for sad
+            /// </summary>
+            [EnumMember(Value = "sad")]
+            Sad = 4,
+            
+            /// <summary>
+            /// Enum Cry for cry
+            /// </summary>
+            [EnumMember(Value = "cry")]
+            Cry = 5,
+            
+            /// <summary>
+            /// Enum Laugh for laugh
+            /// </summary>
+            [EnumMember(Value = "laugh")]
+            Laugh = 6
         }
 
         /// <summary>
@@ -95,7 +119,7 @@ namespace OpenSystem.Apis.Engagement.Contracts
         /// </summary>
         [Required]
         [DataMember(Name="type", EmitDefaultValue=true)]
-        public TypeOptions Type { get; set; } = TypeOptions.LIKE;
+        public TypeOptions Type { get; set; } = TypeOptions.Like;
 
         /// <summary>
         /// Gets or Sets Count
@@ -111,7 +135,7 @@ namespace OpenSystem.Apis.Engagement.Contracts
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class GetReaction200ResponseDto {\n");
+            sb.Append("class GetArticleReaction200ResponseDto {\n");
             sb.Append("  Guid: ").Append(Guid).Append("\n");
             sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
             sb.Append("  CreatedBy: ").Append(CreatedBy).Append("\n");
@@ -143,15 +167,15 @@ namespace OpenSystem.Apis.Engagement.Contracts
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((GetReaction200ResponseDto)obj);
+            return obj.GetType() == GetType() && Equals((GetArticleReaction200ResponseDto)obj);
         }
 
         /// <summary>
-        /// Returns true if GetReaction200ResponseDto instances are equal
+        /// Returns true if GetArticleReaction200ResponseDto instances are equal
         /// </summary>
-        /// <param name="other">Instance of GetReaction200ResponseDto to be compared</param>
+        /// <param name="other">Instance of GetArticleReaction200ResponseDto to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetReaction200ResponseDto other)
+        public bool Equals(GetArticleReaction200ResponseDto other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -232,12 +256,12 @@ namespace OpenSystem.Apis.Engagement.Contracts
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(GetReaction200ResponseDto left, GetReaction200ResponseDto right)
+        public static bool operator ==(GetArticleReaction200ResponseDto left, GetArticleReaction200ResponseDto right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(GetReaction200ResponseDto left, GetReaction200ResponseDto right)
+        public static bool operator !=(GetArticleReaction200ResponseDto left, GetArticleReaction200ResponseDto right)
         {
             return !Equals(left, right);
         }

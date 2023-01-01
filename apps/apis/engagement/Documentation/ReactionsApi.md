@@ -1,18 +1,18 @@
-# OpenSystem.Apis.Engagement.OpenSystem.Apis.Engagement.Controllers.ReactionApi
+# OpenSystem.Apis.Engagement.OpenSystem.Apis.Engagement.Controllers.ReactionsApi
 
 All URIs are relative to *api/v1.0/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddReaction**](ReactionApi.md#addreaction) | **HttpPost** /articles/{id}/reactions/{type} | Add Reaction
-[**DeleteReaction**](ReactionApi.md#deletereaction) | **HttpDelete** /articles/{id}/reactions/{type} | Remove Reaction
-[**GetReaction**](ReactionApi.md#getreaction) | **HttpGet** /articles/{id}/reactions/{type} | Get Reaction
-[**GetReactions**](ReactionApi.md#getreactions) | **HttpGet** /articles/{id}/reactions | Get Reactions
+[**AddArticleReaction**](ReactionsApi.md#addarticlereaction) | **HttpPost** /article/{id}/reaction/{type} | Add Reaction
+[**DeleteArticleReaction**](ReactionsApi.md#deletearticlereaction) | **HttpDelete** /article/{id}/reaction/{type} | Remove Reaction
+[**GetArticleReaction**](ReactionsApi.md#getarticlereaction) | **HttpGet** /article/{id}/reaction/{type} | Get Reaction
+[**GetArticleReactions**](ReactionsApi.md#getarticlereactions) | **HttpGet** /article/{id} | Get Article Reactions
 
 
-<a name="addreaction"></a>
-# **AddReaction**
-> UpdateSuccessResponseDto AddReaction (string id, string type, string userId)
+<a name="addarticlereaction"></a>
+# **AddArticleReaction**
+> UpdateSuccessResponseDto AddArticleReaction (string id, string type, string userId)
 
 Add Reaction
 
@@ -28,29 +28,26 @@ using OpenSystem.Apis.Engagement.OpenSystem.Apis.Engagement.Contracts;
 
 namespace Example
 {
-    public class AddReactionExample
+    public class AddArticleReactionExample
     {
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://localhost:3000/api";
-            // Configure Bearer token for authorization: bearer-token
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-
-            var apiInstance = new ReactionApi(config);
+            config.BasePath = "http://localhost:5000/api";
+            var apiInstance = new ReactionsApi(config);
             var id = "id_example";  // string | The id of the article/page
-            var type = LIKE;  // string | The type of reaction the user had
-            var userId = PSUL;  // string | User Id sending request
+            var type = like;  // string | The type of reaction the user had
+            var userId = "userId_example";  // string | The id of the current user sending the request
 
             try
             {
                 // Add Reaction
-                UpdateSuccessResponseDto result = apiInstance.AddReaction(id, type, userId);
+                UpdateSuccessResponseDto result = apiInstance.AddArticleReaction(id, type, userId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ReactionApi.AddReaction: " + e.Message );
+                Debug.Print("Exception when calling ReactionsApi.AddArticleReaction: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -65,7 +62,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the article/page | 
  **type** | **string**| The type of reaction the user had | 
- **userId** | **string**| User Id sending request | 
+ **userId** | **string**| The id of the current user sending the request | 
 
 ### Return type
 
@@ -73,7 +70,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[bearer-token](../README.md#bearer-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -92,9 +89,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deletereaction"></a>
-# **DeleteReaction**
-> UpdateSuccessResponseDto DeleteReaction (string id, string type, string userId)
+<a name="deletearticlereaction"></a>
+# **DeleteArticleReaction**
+> UpdateSuccessResponseDto DeleteArticleReaction (string id, string type, string userId)
 
 Remove Reaction
 
@@ -110,29 +107,26 @@ using OpenSystem.Apis.Engagement.OpenSystem.Apis.Engagement.Contracts;
 
 namespace Example
 {
-    public class DeleteReactionExample
+    public class DeleteArticleReactionExample
     {
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://localhost:3000/api";
-            // Configure Bearer token for authorization: bearer-token
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-
-            var apiInstance = new ReactionApi(config);
+            config.BasePath = "http://localhost:5000/api";
+            var apiInstance = new ReactionsApi(config);
             var id = "id_example";  // string | The id of the article/page
-            var type = LIKE;  // string | The type of reaction the user had
-            var userId = PSUL;  // string | User Id sending request
+            var type = like;  // string | The type of reaction the user had
+            var userId = "userId_example";  // string | The id of the current user sending the request
 
             try
             {
                 // Remove Reaction
-                UpdateSuccessResponseDto result = apiInstance.DeleteReaction(id, type, userId);
+                UpdateSuccessResponseDto result = apiInstance.DeleteArticleReaction(id, type, userId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ReactionApi.DeleteReaction: " + e.Message );
+                Debug.Print("Exception when calling ReactionsApi.DeleteArticleReaction: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -147,7 +141,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the article/page | 
  **type** | **string**| The type of reaction the user had | 
- **userId** | **string**| User Id sending request | 
+ **userId** | **string**| The id of the current user sending the request | 
 
 ### Return type
 
@@ -155,7 +149,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[bearer-token](../README.md#bearer-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -174,9 +168,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getreaction"></a>
-# **GetReaction**
-> GetReaction200ResponseDto GetReaction (string id, string type, string userId)
+<a name="getarticlereaction"></a>
+# **GetArticleReaction**
+> GetArticleReaction200ResponseDto GetArticleReaction (string id, string type, string userId)
 
 Get Reaction
 
@@ -192,29 +186,26 @@ using OpenSystem.Apis.Engagement.OpenSystem.Apis.Engagement.Contracts;
 
 namespace Example
 {
-    public class GetReactionExample
+    public class GetArticleReactionExample
     {
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://localhost:3000/api";
-            // Configure Bearer token for authorization: bearer-token
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-
-            var apiInstance = new ReactionApi(config);
+            config.BasePath = "http://localhost:5000/api";
+            var apiInstance = new ReactionsApi(config);
             var id = "id_example";  // string | The id of the article/page
-            var type = LIKE;  // string | The type of reaction the user had
-            var userId = PSUL;  // string | User Id sending request
+            var type = like;  // string | The type of reaction the user had
+            var userId = "userId_example";  // string | The id of the current user sending the request
 
             try
             {
                 // Get Reaction
-                GetReaction200ResponseDto result = apiInstance.GetReaction(id, type, userId);
+                GetArticleReaction200ResponseDto result = apiInstance.GetArticleReaction(id, type, userId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ReactionApi.GetReaction: " + e.Message );
+                Debug.Print("Exception when calling ReactionsApi.GetArticleReaction: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -229,15 +220,15 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the article/page | 
  **type** | **string**| The type of reaction the user had | 
- **userId** | **string**| User Id sending request | 
+ **userId** | **string**| The id of the current user sending the request | 
 
 ### Return type
 
-[**GetReaction200ResponseDto**](GetReaction200ResponseDto.md)
+[**GetArticleReaction200ResponseDto**](GetArticleReaction200ResponseDto.md)
 
 ### Authorization
 
-[bearer-token](../README.md#bearer-token)
+No authorization required
 
 ### HTTP request headers
 
@@ -256,11 +247,11 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getreactions"></a>
-# **GetReactions**
-> GetReactions200ResponseDto GetReactions (string id, string userId)
+<a name="getarticlereactions"></a>
+# **GetArticleReactions**
+> GetArticleReactions200ResponseDto GetArticleReactions (string id, string userId)
 
-Get Reactions
+Get Article Reactions
 
 An end point that returns the reactions for an article/page to a client
 
@@ -274,28 +265,25 @@ using OpenSystem.Apis.Engagement.OpenSystem.Apis.Engagement.Contracts;
 
 namespace Example
 {
-    public class GetReactionsExample
+    public class GetArticleReactionsExample
     {
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://localhost:3000/api";
-            // Configure Bearer token for authorization: bearer-token
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-
-            var apiInstance = new ReactionApi(config);
+            config.BasePath = "http://localhost:5000/api";
+            var apiInstance = new ReactionsApi(config);
             var id = "id_example";  // string | The id of the article/page
-            var userId = PSUL;  // string | User Id sending request
+            var userId = "userId_example";  // string | The id of the current user sending the request
 
             try
             {
-                // Get Reactions
-                GetReactions200ResponseDto result = apiInstance.GetReactions(id, userId);
+                // Get Article Reactions
+                GetArticleReactions200ResponseDto result = apiInstance.GetArticleReactions(id, userId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ReactionApi.GetReactions: " + e.Message );
+                Debug.Print("Exception when calling ReactionsApi.GetArticleReactions: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -309,15 +297,15 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string**| The id of the article/page | 
- **userId** | **string**| User Id sending request | 
+ **userId** | **string**| The id of the current user sending the request | 
 
 ### Return type
 
-[**GetReactions200ResponseDto**](GetReactions200ResponseDto.md)
+[**GetArticleReactions200ResponseDto**](GetArticleReactions200ResponseDto.md)
 
 ### Authorization
 
-[bearer-token](../README.md#bearer-token)
+No authorization required
 
 ### HTTP request headers
 

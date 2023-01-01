@@ -10,15 +10,13 @@
  * Do not edit the class manually.
  */
 
+import { ReactionDetail } from './ReactionDetail';
 import {
   HttpFile,
 } from '@open-system/core-typescript-utilities';
 
 
-/**
-* The minimum model fields shared by all data stored in the database
-*/
-export class RecordBaseDto {
+export class GetArticleReactions200Response {
     /**
     * The `guid` associated with the record
     */
@@ -27,6 +25,14 @@ export class RecordBaseDto {
     'createdBy': string;
     'updatedOn'?: Date;
     'updatedBy'?: string;
+    /**
+    * The id of the article/page
+    */
+    'articleId': string;
+    /**
+    * The list of reactions for the specified article 
+    */
+    'reactions': Array<ReactionDetail>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -60,10 +66,22 @@ export class RecordBaseDto {
             "baseName": "updatedBy",
             "type": "string",
             "format": ""
+        },
+        {
+            "name": "articleId",
+            "baseName": "articleId",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "reactions",
+            "baseName": "reactions",
+            "type": "Array<ReactionDetail>",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return RecordBaseDto.attributeTypeMap;
+        return GetArticleReactions200Response.attributeTypeMap;
     }
 
     public constructor() {

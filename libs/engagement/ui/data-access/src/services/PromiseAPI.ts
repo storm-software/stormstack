@@ -2,24 +2,24 @@ import {
   HttpFile,
   AbstractHttpConfiguration
 } from "@open-system/core-typescript-utilities";
-import { GetReaction200ResponseAllOfAllOfDto } from "../models";
-import { GetReaction200ResponseAllOfDto } from "../models";
-import { GetReaction200ResponseDto } from "../models";
-import { GetReactions200ResponseAllOfDto } from "../models";
-import { GetReactions200ResponseDto } from "../models";
-import { ProblemDetailsDto } from "../models";
-import { ReactionDetailDto } from "../models";
-import { RecordBaseDto } from "../models";
-import { UpdateSuccessResponseDto } from "../models";
+import { GetArticleReaction200Response } from "../models";
+import { GetArticleReaction200ResponseAllOf } from "../models";
+import { GetArticleReaction200ResponseAllOfAllOf } from "../models";
+import { GetArticleReactions200Response } from "../models";
+import { GetArticleReactions200ResponseAllOf } from "../models";
+import { ProblemDetails } from "../models";
+import { ReactionDetail } from "../models";
+import { RecordBase } from "../models";
+import { UpdateSuccessResponse } from "../models";
 
 
-export abstract class AbstractPromiseReactionApi {
-    public abstract addReaction(id: string, type: 'LIKE' | 'DISLIKE', userId?: string, options?: AbstractHttpConfiguration): Promise<UpdateSuccessResponseDto>;
+export abstract class AbstractPromiseReactionsApi {
+    public abstract addArticleReaction(id: string, type: 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry', userId: string, options?: AbstractHttpConfiguration): Promise<UpdateSuccessResponse>;
 
-    public abstract deleteReaction(id: string, type: 'LIKE' | 'DISLIKE', userId?: string, options?: AbstractHttpConfiguration): Promise<UpdateSuccessResponseDto>;
+    public abstract deleteArticleReaction(id: string, type: 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry', userId: string, options?: AbstractHttpConfiguration): Promise<UpdateSuccessResponse>;
 
-    public abstract getReaction(id: string, type: 'LIKE' | 'DISLIKE', userId?: string, options?: AbstractHttpConfiguration): Promise<GetReaction200ResponseDto>;
+    public abstract getArticleReaction(id: string, type: 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry', userId: string, options?: AbstractHttpConfiguration): Promise<GetArticleReaction200Response>;
 
-    public abstract getReactions(id: string, userId?: string, options?: AbstractHttpConfiguration): Promise<GetReactions200ResponseDto>;
+    public abstract getArticleReactions(id: string, userId: string, options?: AbstractHttpConfiguration): Promise<GetArticleReactions200Response>;
 
 }

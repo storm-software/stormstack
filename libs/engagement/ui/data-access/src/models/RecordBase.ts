@@ -15,7 +15,10 @@ import {
 } from '@open-system/core-typescript-utilities';
 
 
-export class GetReaction200ResponseDto {
+/**
+* The minimum model fields shared by all data stored in the database
+*/
+export class RecordBase {
     /**
     * The `guid` associated with the record
     */
@@ -24,12 +27,6 @@ export class GetReaction200ResponseDto {
     'createdBy': string;
     'updatedOn'?: Date;
     'updatedBy'?: string;
-    /**
-    * The id of the article/page
-    */
-    'articleId': string;
-    'type': GetReaction200ResponseDtoTypeDtoEnum;
-    'count': number;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -63,34 +60,13 @@ export class GetReaction200ResponseDto {
             "baseName": "updatedBy",
             "type": "string",
             "format": ""
-        },
-        {
-            "name": "articleId",
-            "baseName": "articleId",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "type",
-            "baseName": "type",
-            "type": "GetReaction200ResponseDtoTypeDtoEnum",
-            "format": ""
-        },
-        {
-            "name": "count",
-            "baseName": "count",
-            "type": "number",
-            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return GetReaction200ResponseDto.attributeTypeMap;
+        return RecordBase.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
-
-
-export type GetReaction200ResponseDtoTypeDtoEnum = "LIKE" | "DISLIKE" ;
 

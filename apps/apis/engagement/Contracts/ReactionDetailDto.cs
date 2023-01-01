@@ -36,16 +36,40 @@ namespace OpenSystem.Apis.Engagement.Contracts
         {
             
             /// <summary>
-            /// Enum LIKE for LIKE
+            /// Enum Like for like
             /// </summary>
-            [EnumMember(Value = "LIKE")]
-            LIKE = 1,
+            [EnumMember(Value = "like")]
+            Like = 1,
             
             /// <summary>
-            /// Enum DISLIKE for DISLIKE
+            /// Enum Dislike for dislike
             /// </summary>
-            [EnumMember(Value = "DISLIKE")]
-            DISLIKE = 2
+            [EnumMember(Value = "dislike")]
+            Dislike = 2,
+            
+            /// <summary>
+            /// Enum Happy for happy
+            /// </summary>
+            [EnumMember(Value = "happy")]
+            Happy = 3,
+            
+            /// <summary>
+            /// Enum Sad for sad
+            /// </summary>
+            [EnumMember(Value = "sad")]
+            Sad = 4,
+            
+            /// <summary>
+            /// Enum Cry for cry
+            /// </summary>
+            [EnumMember(Value = "cry")]
+            Cry = 5,
+            
+            /// <summary>
+            /// Enum Laugh for laugh
+            /// </summary>
+            [EnumMember(Value = "laugh")]
+            Laugh = 6
         }
 
         /// <summary>
@@ -53,7 +77,7 @@ namespace OpenSystem.Apis.Engagement.Contracts
         /// </summary>
         [Required]
         [DataMember(Name="type", EmitDefaultValue=true)]
-        public TypeOptions Type { get; set; } = TypeOptions.LIKE;
+        public TypeOptions Type { get; set; } = TypeOptions.Like;
 
         /// <summary>
         /// Gets or Sets Count

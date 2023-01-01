@@ -18,7 +18,7 @@ import {
 /**
 * A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.
 */
-export class ProblemDetailsDto {
+export class ProblemDetails {
     /**
     * A URI reference [RFC3986](https://www.rfc-editor.org/rfc/rfc3986) that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028](https://www.rfc-editor.org/rfc/rfc7807#ref-W3C.REC-html5-20141028)). When this member is not present, its value is assumed to be `about:blank`.
     */
@@ -65,7 +65,7 @@ export class ProblemDetailsDto {
         }    ];
 
     static getAttributeTypeMap() {
-        return ProblemDetailsDto.attributeTypeMap;
+        return ProblemDetails.attributeTypeMap;
     }
 
     public constructor() {

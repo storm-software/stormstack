@@ -26,8 +26,9 @@ namespace {{apiPackage}}
     /// </summary>
     [Description("Controller for {{classname}} service implementation(s)")]
     [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
     [ApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
-    [Route("api/v{version:apiVersion}")]
     public {{#classModifier}}{{.}} {{/classModifier}}class {{classname}}Controller : ControllerBase
     {
         private readonly ILogger<{{classname}}Controller> _logger;
@@ -60,6 +61,7 @@ namespace {{apiPackage}}
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
+        [MapToApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
         [HttpGet]
         [Route("/health-check")]
         public {{#operationModifier}}{{.}} {{/operationModifier}}{{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} HealthCheck()
@@ -79,6 +81,7 @@ namespace {{apiPackage}}
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
+        [MapToApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
         [HttpGet]
         [Route("/status")]
         public {{#operationModifier}}{{.}} {{/operationModifier}}{{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} Status()
@@ -96,6 +99,7 @@ namespace {{apiPackage}}
         /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
+        [MapToApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
         [{{httpMethod}}]
         [Route("{{{path}}}")]
 {{#authMethods}}

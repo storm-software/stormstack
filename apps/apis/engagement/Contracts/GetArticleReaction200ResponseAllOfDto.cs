@@ -24,7 +24,7 @@ namespace OpenSystem.Apis.Engagement.Contracts
     /// 
     /// </summary>
     [DataContract]
-    public class GetReaction200ResponseAllOfAllOfDto : IEquatable<GetReaction200ResponseAllOfAllOfDto>
+    public class GetArticleReaction200ResponseAllOfDto : IEquatable<GetArticleReaction200ResponseAllOfDto>
     {
         /// <summary>
         /// The id of the article/page
@@ -34,6 +34,66 @@ namespace OpenSystem.Apis.Engagement.Contracts
         [DataMember(Name="articleId", EmitDefaultValue=false)]
         public string ArticleId { get; set; }
 
+
+        /// <summary>
+        /// Gets or Sets Type
+        /// </summary>
+        [TypeConverter(typeof(CustomEnumConverter<TypeOptions>))]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public enum TypeOptions
+        {
+            
+            /// <summary>
+            /// Enum Like for like
+            /// </summary>
+            [EnumMember(Value = "like")]
+            Like = 1,
+            
+            /// <summary>
+            /// Enum Dislike for dislike
+            /// </summary>
+            [EnumMember(Value = "dislike")]
+            Dislike = 2,
+            
+            /// <summary>
+            /// Enum Happy for happy
+            /// </summary>
+            [EnumMember(Value = "happy")]
+            Happy = 3,
+            
+            /// <summary>
+            /// Enum Sad for sad
+            /// </summary>
+            [EnumMember(Value = "sad")]
+            Sad = 4,
+            
+            /// <summary>
+            /// Enum Cry for cry
+            /// </summary>
+            [EnumMember(Value = "cry")]
+            Cry = 5,
+            
+            /// <summary>
+            /// Enum Laugh for laugh
+            /// </summary>
+            [EnumMember(Value = "laugh")]
+            Laugh = 6
+        }
+
+        /// <summary>
+        /// Gets or Sets Type
+        /// </summary>
+        [Required]
+        [DataMember(Name="type", EmitDefaultValue=true)]
+        public TypeOptions Type { get; set; } = TypeOptions.Like;
+
+        /// <summary>
+        /// Gets or Sets Count
+        /// </summary>
+        [Required]
+        [DataMember(Name="count", EmitDefaultValue=true)]
+        public int Count { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -41,8 +101,10 @@ namespace OpenSystem.Apis.Engagement.Contracts
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class GetReaction200ResponseAllOfAllOfDto {\n");
+            sb.Append("class GetArticleReaction200ResponseAllOfDto {\n");
             sb.Append("  ArticleId: ").Append(ArticleId).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Count: ").Append(Count).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -66,15 +128,15 @@ namespace OpenSystem.Apis.Engagement.Contracts
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((GetReaction200ResponseAllOfAllOfDto)obj);
+            return obj.GetType() == GetType() && Equals((GetArticleReaction200ResponseAllOfDto)obj);
         }
 
         /// <summary>
-        /// Returns true if GetReaction200ResponseAllOfAllOfDto instances are equal
+        /// Returns true if GetArticleReaction200ResponseAllOfDto instances are equal
         /// </summary>
-        /// <param name="other">Instance of GetReaction200ResponseAllOfAllOfDto to be compared</param>
+        /// <param name="other">Instance of GetArticleReaction200ResponseAllOfDto to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetReaction200ResponseAllOfAllOfDto other)
+        public bool Equals(GetArticleReaction200ResponseAllOfDto other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -84,6 +146,16 @@ namespace OpenSystem.Apis.Engagement.Contracts
                     ArticleId == other.ArticleId ||
                     ArticleId != null &&
                     ArticleId.Equals(other.ArticleId)
+                ) && 
+                (
+                    Type == other.Type ||
+                    
+                    Type.Equals(other.Type)
+                ) && 
+                (
+                    Count == other.Count ||
+                    
+                    Count.Equals(other.Count)
                 );
         }
 
@@ -99,6 +171,10 @@ namespace OpenSystem.Apis.Engagement.Contracts
                 // Suitable nullity checks etc, of course :)
                     if (ArticleId != null)
                     hashCode = hashCode * 59 + ArticleId.GetHashCode();
+                    
+                    hashCode = hashCode * 59 + Type.GetHashCode();
+                    
+                    hashCode = hashCode * 59 + Count.GetHashCode();
                 return hashCode;
             }
         }
@@ -106,12 +182,12 @@ namespace OpenSystem.Apis.Engagement.Contracts
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(GetReaction200ResponseAllOfAllOfDto left, GetReaction200ResponseAllOfAllOfDto right)
+        public static bool operator ==(GetArticleReaction200ResponseAllOfDto left, GetArticleReaction200ResponseAllOfDto right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(GetReaction200ResponseAllOfAllOfDto left, GetReaction200ResponseAllOfAllOfDto right)
+        public static bool operator !=(GetArticleReaction200ResponseAllOfDto left, GetArticleReaction200ResponseAllOfDto right)
         {
             return !Equals(left, right);
         }

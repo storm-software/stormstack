@@ -15,30 +15,34 @@ import {
 } from '@open-system/core-typescript-utilities';
 
 
-/**
-* A response returned from the server when data is successfully updated
-*/
-export class UpdateSuccessResponseDto {
-    /**
-    * The `guid` associated with the record
-    */
-    'guid': string;
+export class ReactionDetail {
+    'type': ReactionDetailTypeEnum;
+    'count': number;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "guid",
-            "baseName": "guid",
-            "type": "string",
-            "format": "uuid"
+            "name": "type",
+            "baseName": "type",
+            "type": "ReactionDetailTypeEnum",
+            "format": ""
+        },
+        {
+            "name": "count",
+            "baseName": "count",
+            "type": "number",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return UpdateSuccessResponseDto.attributeTypeMap;
+        return ReactionDetail.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
+
+
+export type ReactionDetailTypeEnum = "like" | "dislike" | "happy" | "sad" | "cry" | "laugh" ;
 

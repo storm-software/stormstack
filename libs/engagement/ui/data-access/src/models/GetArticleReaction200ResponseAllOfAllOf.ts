@@ -10,21 +10,16 @@
  * Do not edit the class manually.
  */
 
-import { ReactionDetailDto } from './ReactionDetailDto';
 import {
   HttpFile,
 } from '@open-system/core-typescript-utilities';
 
 
-export class GetReactions200ResponseAllOfDto {
+export class GetArticleReaction200ResponseAllOfAllOf {
     /**
     * The id of the article/page
     */
     'articleId': string;
-    /**
-    * The list of reactions for the specified article 
-    */
-    'reactions': Array<ReactionDetailDto>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -34,16 +29,10 @@ export class GetReactions200ResponseAllOfDto {
             "baseName": "articleId",
             "type": "string",
             "format": ""
-        },
-        {
-            "name": "reactions",
-            "baseName": "reactions",
-            "type": "Array<ReactionDetailDto>",
-            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return GetReactions200ResponseAllOfDto.attributeTypeMap;
+        return GetArticleReaction200ResponseAllOfAllOf.attributeTypeMap;
     }
 
     public constructor() {

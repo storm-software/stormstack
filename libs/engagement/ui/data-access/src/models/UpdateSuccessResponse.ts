@@ -15,24 +15,27 @@ import {
 } from '@open-system/core-typescript-utilities';
 
 
-export class GetReaction200ResponseAllOfAllOfDto {
+/**
+* A response returned from the server when data is successfully updated
+*/
+export class UpdateSuccessResponse {
     /**
-    * The id of the article/page
+    * The `guid` associated with the record
     */
-    'articleId': string;
+    'guid': string;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "articleId",
-            "baseName": "articleId",
+            "name": "guid",
+            "baseName": "guid",
             "type": "string",
-            "format": ""
+            "format": "uuid"
         }    ];
 
     static getAttributeTypeMap() {
-        return GetReaction200ResponseAllOfAllOfDto.attributeTypeMap;
+        return UpdateSuccessResponse.attributeTypeMap;
     }
 
     public constructor() {

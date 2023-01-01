@@ -1,4 +1,4 @@
-# OpenSystem.Apis.Engagement.OpenSystem.Apis.Engagement.Contracts.GetReactions200ResponseDto
+# OpenSystem.Apis.Engagement.OpenSystem.Apis.Engagement.Contracts.GetArticleReactions200ResponseDto
 
 ## Properties
 

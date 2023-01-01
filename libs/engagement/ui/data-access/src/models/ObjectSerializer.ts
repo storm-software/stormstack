@@ -1,27 +1,27 @@
-import { GetReaction200ResponseAllOfAllOfDto } from './GetReaction200ResponseAllOfAllOfDto';
-import { GetReaction200ResponseAllOfDto , GetReaction200ResponseAllOfDtoTypeDtoEnum    } from './GetReaction200ResponseAllOfDto';
-import { GetReaction200ResponseDto      , GetReaction200ResponseDtoTypeDtoEnum    } from './GetReaction200ResponseDto';
-import { GetReactions200ResponseAllOfDto } from './GetReactions200ResponseAllOfDto';
-import { GetReactions200ResponseDto } from './GetReactions200ResponseDto';
-import { ProblemDetailsDto } from './ProblemDetailsDto';
-import { ReactionDetailDto, ReactionDetailDtoTypeDtoEnum    } from './ReactionDetailDto';
-import { RecordBaseDto } from './RecordBaseDto';
-import { UpdateSuccessResponseDto } from './UpdateSuccessResponseDto';
+import { GetArticleReaction200Response      , GetArticleReaction200ResponseTypeEnum    } from './GetArticleReaction200Response';
+import { GetArticleReaction200ResponseAllOf , GetArticleReaction200ResponseAllOfTypeEnum    } from './GetArticleReaction200ResponseAllOf';
+import { GetArticleReaction200ResponseAllOfAllOf } from './GetArticleReaction200ResponseAllOfAllOf';
+import { GetArticleReactions200Response } from './GetArticleReactions200Response';
+import { GetArticleReactions200ResponseAllOf } from './GetArticleReactions200ResponseAllOf';
+import { ProblemDetails } from './ProblemDetails';
+import { ReactionDetail, ReactionDetailTypeEnum    } from './ReactionDetail';
+import { RecordBase } from './RecordBase';
+import { UpdateSuccessResponse } from './UpdateSuccessResponse';
 
 export const enumsMap: Set<string> = new Set<string>([
-    "GetReaction200ResponseAllOfDtoTypeDtoEnum",
-    "GetReaction200ResponseDtoTypeDtoEnum",
-    "ReactionDetailDtoTypeDtoEnum",
+    "GetArticleReaction200ResponseTypeEnum",
+    "GetArticleReaction200ResponseAllOfTypeEnum",
+    "ReactionDetailTypeEnum",
 ]);
 
 export const typeMap: {[index: string]: any} = {
-    "GetReaction200ResponseAllOfAllOfDto": GetReaction200ResponseAllOfAllOfDto,
-    "GetReaction200ResponseAllOfDto": GetReaction200ResponseAllOfDto,
-    "GetReaction200ResponseDto": GetReaction200ResponseDto,
-    "GetReactions200ResponseAllOfDto": GetReactions200ResponseAllOfDto,
-    "GetReactions200ResponseDto": GetReactions200ResponseDto,
-    "ProblemDetailsDto": ProblemDetailsDto,
-    "ReactionDetailDto": ReactionDetailDto,
-    "RecordBaseDto": RecordBaseDto,
-    "UpdateSuccessResponseDto": UpdateSuccessResponseDto,
+    "GetArticleReaction200Response": GetArticleReaction200Response,
+    "GetArticleReaction200ResponseAllOf": GetArticleReaction200ResponseAllOf,
+    "GetArticleReaction200ResponseAllOfAllOf": GetArticleReaction200ResponseAllOfAllOf,
+    "GetArticleReactions200Response": GetArticleReactions200Response,
+    "GetArticleReactions200ResponseAllOf": GetArticleReactions200ResponseAllOf,
+    "ProblemDetails": ProblemDetails,
+    "ReactionDetail": ReactionDetail,
+    "RecordBase": RecordBase,
+    "UpdateSuccessResponse": UpdateSuccessResponse,
 }

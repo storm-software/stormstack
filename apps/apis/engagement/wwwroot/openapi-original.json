@@ -17,21 +17,18 @@
   },
   "servers" : [ {
     "description" : "Local Development",
-    "url" : "http://localhost:3000/api"
-  } ],
-  "security" : [ {
-    "bearer-token" : [ ]
+    "url" : "http://localhost:5000/api"
   } ],
   "tags" : [ {
     "name" : "Comment"
   }, {
-    "name" : "Reaction"
+    "name" : "Reactions"
   } ],
   "paths" : {
-    "/articles/{id}/reactions" : {
+    "/article/{id}" : {
       "get" : {
         "description" : "An end point that returns the reactions for an article/page to a client",
-        "operationId" : "get-reactions",
+        "operationId" : "get-article-reactions",
         "parameters" : [ {
           "description" : "The id of the article/page",
           "explode" : false,
@@ -43,12 +40,11 @@
           },
           "style" : "simple"
         }, {
-          "description" : "User Id sending request",
+          "description" : "The id of the current user sending the request",
           "in" : "header",
           "name" : "userId",
           "required" : true,
           "schema" : {
-            "example" : "PSUL",
             "type" : "string"
           }
         } ],
@@ -57,7 +53,7 @@
             "content" : {
               "application/json" : {
                 "examples" : {
-                  "Success Example" : {
+                  "Example 1" : {
                     "value" : {
                       "guid" : "123e4567-e89b-12d3-a456-426614174000",
                       "createdOn" : "2022-03-19 04:24:02.190",
@@ -66,14 +62,14 @@
                       "updatedBy" : "PSUL",
                       "articleId" : "home",
                       "reactions" : [ {
-                        "type" : "LIKE",
+                        "type" : "like",
                         "count" : 548
                       } ]
                     }
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/get_reactions_200_response"
+                  "$ref" : "#/components/schemas/get_article_reactions_200_response"
                 }
               }
             },
@@ -160,14 +156,14 @@
             "description" : "Service Unavailable"
           }
         },
-        "summary" : "Get Reactions",
-        "tags" : [ "Reaction" ]
+        "summary" : "Get Article Reactions",
+        "tags" : [ "Reactions" ]
       }
     },
-    "/articles/{id}/reactions/{type}" : {
+    "/article/{id}/reaction/{type}" : {
       "delete" : {
         "description" : "Remove an existing reaction to an article",
-        "operationId" : "delete-reaction",
+        "operationId" : "delete-article-reaction",
         "parameters" : [ {
           "description" : "The id of the article/page",
           "explode" : false,
@@ -185,18 +181,17 @@
           "name" : "type",
           "required" : true,
           "schema" : {
-            "enum" : [ "LIKE", "DISLIKE" ],
-            "example" : "LIKE",
+            "enum" : [ "like", "dislike", "happy", "sad", "laugh", "cry" ],
+            "example" : "like",
             "type" : "string"
           },
           "style" : "simple"
         }, {
-          "description" : "User Id sending request",
+          "description" : "The id of the current user sending the request",
           "in" : "header",
           "name" : "userId",
           "required" : true,
           "schema" : {
-            "example" : "PSUL",
             "type" : "string"
           }
         } ],
@@ -300,11 +295,11 @@
           }
         },
         "summary" : "Remove Reaction",
-        "tags" : [ "Reaction" ]
+        "tags" : [ "Reactions" ]
       },
       "get" : {
         "description" : "An end point that returns the reactions for an article/page to a client",
-        "operationId" : "get-reaction",
+        "operationId" : "get-article-reaction",
         "parameters" : [ {
           "description" : "The id of the article/page",
           "explode" : false,
@@ -322,18 +317,17 @@
           "name" : "type",
           "required" : true,
           "schema" : {
-            "enum" : [ "LIKE", "DISLIKE" ],
-            "example" : "LIKE",
+            "enum" : [ "like", "dislike", "happy", "sad", "laugh", "cry" ],
+            "example" : "like",
             "type" : "string"
           },
           "style" : "simple"
         }, {
-          "description" : "User Id sending request",
+          "description" : "The id of the current user sending the request",
           "in" : "header",
           "name" : "userId",
           "required" : true,
           "schema" : {
-            "example" : "PSUL",
             "type" : "string"
           }
         } ],
@@ -342,7 +336,7 @@
             "content" : {
               "application/json" : {
                 "examples" : {
-                  "Success Example" : {
+                  "Example 1" : {
                     "value" : {
                       "guid" : "123e4567-e89b-12d3-a456-426614174000",
                       "createdOn" : "2022-03-19 04:24:02.190",
@@ -350,13 +344,13 @@
                       "updatedOn" : "2022-10-12 14:01:13.000",
                       "updatedBy" : "PSUL",
                       "articleId" : "home",
-                      "type" : "LIKE",
+                      "type" : "like",
                       "count" : 548
                     }
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/get_reaction_200_response"
+                  "$ref" : "#/components/schemas/get_article_reaction_200_response"
                 }
               }
             },
@@ -444,11 +438,11 @@
           }
         },
         "summary" : "Get Reaction",
-        "tags" : [ "Reaction" ]
+        "tags" : [ "Reactions" ]
       },
       "post" : {
         "description" : "Add a new reaction to an article",
-        "operationId" : "add-reaction",
+        "operationId" : "add-article-reaction",
         "parameters" : [ {
           "description" : "The id of the article/page",
           "explode" : false,
@@ -466,18 +460,17 @@
           "name" : "type",
           "required" : true,
           "schema" : {
-            "enum" : [ "LIKE", "DISLIKE" ],
-            "example" : "LIKE",
+            "enum" : [ "like", "dislike", "happy", "sad", "laugh", "cry" ],
+            "example" : "like",
             "type" : "string"
           },
           "style" : "simple"
         }, {
-          "description" : "User Id sending request",
+          "description" : "The id of the current user sending the request",
           "in" : "header",
           "name" : "userId",
           "required" : true,
           "schema" : {
-            "example" : "PSUL",
             "type" : "string"
           }
         } ],
@@ -581,19 +574,42 @@
           }
         },
         "summary" : "Add Reaction",
-        "tags" : [ "Reaction" ]
+        "tags" : [ "Reactions" ]
       }
     }
   },
   "components" : {
     "parameters" : {
+      "type" : {
+        "description" : "The type of reaction the user had",
+        "explode" : false,
+        "in" : "path",
+        "name" : "type",
+        "required" : true,
+        "schema" : {
+          "enum" : [ "like", "dislike", "happy", "sad", "laugh", "cry" ],
+          "example" : "like",
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "articleId" : {
+        "description" : "The id of the article/page",
+        "explode" : true,
+        "in" : "query",
+        "name" : "articleId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "form"
+      },
       "userId" : {
-        "description" : "User Id sending request",
+        "description" : "The id of the current user sending the request",
         "in" : "header",
         "name" : "userId",
         "required" : true,
         "schema" : {
-          "example" : "PSUL",
           "type" : "string"
         }
       }
@@ -604,7 +620,7 @@
         "content" : {
           "application/json" : {
             "examples" : {
-              "Success Example" : {
+              "Example 1" : {
                 "value" : {
                   "guid" : "123e4567-e89b-12d3-a456-426614174000",
                   "createdOn" : "2022-03-19 04:24:02.190",
@@ -613,14 +629,14 @@
                   "updatedBy" : "PSUL",
                   "articleId" : "home",
                   "reactions" : [ {
-                    "type" : "LIKE",
+                    "type" : "like",
                     "count" : 548
                   } ]
                 }
               }
             },
             "schema" : {
-              "$ref" : "#/components/schemas/get_reactions_200_response"
+              "$ref" : "#/components/schemas/get_article_reactions_200_response"
             }
           }
         },
@@ -630,7 +646,7 @@
         "content" : {
           "application/json" : {
             "examples" : {
-              "Success Example" : {
+              "Example 1" : {
                 "value" : {
                   "guid" : "123e4567-e89b-12d3-a456-426614174000",
                   "createdOn" : "2022-03-19 04:24:02.190",
@@ -638,13 +654,13 @@
                   "updatedOn" : "2022-10-12 14:01:13.000",
                   "updatedBy" : "PSUL",
                   "articleId" : "home",
-                  "type" : "LIKE",
+                  "type" : "like",
                   "count" : 548
                 }
               }
             },
             "schema" : {
-              "$ref" : "#/components/schemas/get_reaction_200_response"
+              "$ref" : "#/components/schemas/get_article_reaction_200_response"
             }
           }
         },
@@ -655,9 +671,9 @@
       "ReactionDetail" : {
         "properties" : {
           "type" : {
-            "default" : "LIKE",
-            "enum" : [ "LIKE", "DISLIKE" ],
-            "example" : "LIKE",
+            "default" : "like",
+            "enum" : [ "like", "dislike", "happy", "sad", "cry", "laugh" ],
+            "example" : "like",
             "type" : "string"
           },
           "count" : {
@@ -671,6 +687,12 @@
         "type" : "object",
         "x-stoplight" : {
           "id" : "eaea51555be8e"
+        },
+        "x-examples" : {
+          "Example 1" : {
+            "type" : "like",
+            "count" : 548
+          }
         }
       },
       "RecordBase" : {
@@ -808,7 +830,7 @@
           }
         }
       },
-      "get_reactions_200_response_allOf" : {
+      "get_article_reactions_200_response_allOf" : {
         "properties" : {
           "articleId" : {
             "description" : "The id of the article/page",
@@ -826,14 +848,14 @@
         "required" : [ "articleId", "reactions" ],
         "type" : "object"
       },
-      "get_reactions_200_response" : {
+      "get_article_reactions_200_response" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/RecordBase"
         }, {
-          "$ref" : "#/components/schemas/get_reactions_200_response_allOf"
+          "$ref" : "#/components/schemas/get_article_reactions_200_response_allOf"
         } ]
       },
-      "get_reaction_200_response_allOf_allOf" : {
+      "get_article_reaction_200_response_allOf_allOf" : {
         "properties" : {
           "articleId" : {
             "description" : "The id of the article/page",
@@ -844,28 +866,22 @@
         "required" : [ "articleId" ],
         "type" : "object"
       },
-      "get_reaction_200_response_allOf" : {
+      "get_article_reaction_200_response_allOf" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/get_reaction_200_response_allOf_allOf"
+          "$ref" : "#/components/schemas/get_article_reaction_200_response_allOf_allOf"
         }, {
           "$ref" : "#/components/schemas/ReactionDetail"
         } ]
       },
-      "get_reaction_200_response" : {
+      "get_article_reaction_200_response" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/RecordBase"
         }, {
-          "$ref" : "#/components/schemas/get_reaction_200_response_allOf"
+          "$ref" : "#/components/schemas/get_article_reaction_200_response_allOf"
         } ]
       }
     },
-    "securitySchemes" : {
-      "bearer-token" : {
-        "description" : "A request header containing the JSON web token (JWT) provided by the IDM service in a cookie when the user signed into the application. This JWT contains the current user's encoded `SiteMinder` entitlements.",
-        "scheme" : "bearer",
-        "type" : "http"
-      }
-    }
+    "securitySchemes" : { }
   },
   "x-stoplight" : {
     "id" : "1121s8nqejp11"

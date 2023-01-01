@@ -14,8 +14,8 @@ import { {{{ classname }}} } from '../models';
 {{#apis}}
 
 {{#operations}}
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}";
-import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../services/{{classname}}.service";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}Parser";
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../services/{{classname}}Parser.service";
 
 export class Promise{{classname}} {
     public constructor(

@@ -1,158 +1,156 @@
-import { AbstractHttpConfiguration } from "@open-system/core-typescript-utilities";
-import { inject, injectable } from "inversify";
 import {
-  GetReaction200ResponseDto,
-  GetReactions200ResponseDto,
-  UpdateSuccessResponseDto,
-} from "../models";
+  RequiredError,
+  COLLECTION_FORMATS,
+  RequestContext,
+  HttpMethod,
+  ResponseContext,
+  HttpFile,
+  canConsumeForm,
+  isCodeInRange,
+  ApiException,
+  AbstractHttpConfiguration
+} from '@open-system/core-typescript-utilities';
+import { injectable, inject, optional } from "inversify";
+import { GetArticleReaction200Response } from '../models';
+import { GetArticleReaction200ResponseAllOf } from '../models';
+import { GetArticleReaction200ResponseAllOfAllOf } from '../models';
+import { GetArticleReactions200Response } from '../models';
+import { GetArticleReactions200ResponseAllOf } from '../models';
+import { ProblemDetails } from '../models';
+import { ReactionDetail } from '../models';
+import { RecordBase } from '../models';
+import { UpdateSuccessResponse } from '../models';
 
-import {
-  AbstractReactionApiRequestFactory,
-  AbstractReactionApiResponseProcessor,
-} from "../services/ReactionApi.service";
-import { PromiseReactionApi } from "./PromiseAPI";
+import { PromiseReactionsApi } from "./PromiseAPI";
+import { ReactionsApiRequestFactory, ReactionsApiResponseProcessor} from "../parsers/ReactionsApiParser";
+import { AbstractReactionsApiRequestFactory, AbstractReactionsApiResponseProcessor } from "../services/ReactionsApiParser.service";
 
-export interface ReactionApiAddReactionRequest {
-  /**
-   * The id of the article/page
-   * @type string
-   * @memberof ReactionApiaddReaction
-   */
-  id: string;
-  /**
-   * The type of reaction the user had
-   * @type &#39;LIKE&#39; | &#39;DISLIKE&#39;
-   * @memberof ReactionApiaddReaction
-   */
-  type: "LIKE" | "DISLIKE";
-  /**
-   * User Id sending request
-   * @type string
-   * @memberof ReactionApiaddReaction
-   */
-  userId?: string;
+export interface ReactionsApiAddArticleReactionRequest {
+    /**
+     * The id of the article/page
+     * @type string
+     * @memberof ReactionsApiaddArticleReaction
+     */
+    id: string
+    /**
+     * The type of reaction the user had
+     * @type &#39;like&#39; | &#39;dislike&#39; | &#39;happy&#39; | &#39;sad&#39; | &#39;laugh&#39; | &#39;cry&#39;
+     * @memberof ReactionsApiaddArticleReaction
+     */
+    type: 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry'
+    /**
+     * The id of the current user sending the request
+     * @type string
+     * @memberof ReactionsApiaddArticleReaction
+     */
+    userId: string
 }
 
-export interface ReactionApiDeleteReactionRequest {
-  /**
-   * The id of the article/page
-   * @type string
-   * @memberof ReactionApideleteReaction
-   */
-  id: string;
-  /**
-   * The type of reaction the user had
-   * @type &#39;LIKE&#39; | &#39;DISLIKE&#39;
-   * @memberof ReactionApideleteReaction
-   */
-  type: "LIKE" | "DISLIKE";
-  /**
-   * User Id sending request
-   * @type string
-   * @memberof ReactionApideleteReaction
-   */
-  userId?: string;
+export interface ReactionsApiDeleteArticleReactionRequest {
+    /**
+     * The id of the article/page
+     * @type string
+     * @memberof ReactionsApideleteArticleReaction
+     */
+    id: string
+    /**
+     * The type of reaction the user had
+     * @type &#39;like&#39; | &#39;dislike&#39; | &#39;happy&#39; | &#39;sad&#39; | &#39;laugh&#39; | &#39;cry&#39;
+     * @memberof ReactionsApideleteArticleReaction
+     */
+    type: 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry'
+    /**
+     * The id of the current user sending the request
+     * @type string
+     * @memberof ReactionsApideleteArticleReaction
+     */
+    userId: string
 }
 
-export interface ReactionApiGetReactionRequest {
-  /**
-   * The id of the article/page
-   * @type string
-   * @memberof ReactionApigetReaction
-   */
-  id: string;
-  /**
-   * The type of reaction the user had
-   * @type &#39;LIKE&#39; | &#39;DISLIKE&#39;
-   * @memberof ReactionApigetReaction
-   */
-  type: "LIKE" | "DISLIKE";
-  /**
-   * User Id sending request
-   * @type string
-   * @memberof ReactionApigetReaction
-   */
-  userId?: string;
+export interface ReactionsApiGetArticleReactionRequest {
+    /**
+     * The id of the article/page
+     * @type string
+     * @memberof ReactionsApigetArticleReaction
+     */
+    id: string
+    /**
+     * The type of reaction the user had
+     * @type &#39;like&#39; | &#39;dislike&#39; | &#39;happy&#39; | &#39;sad&#39; | &#39;laugh&#39; | &#39;cry&#39;
+     * @memberof ReactionsApigetArticleReaction
+     */
+    type: 'like' | 'dislike' | 'happy' | 'sad' | 'laugh' | 'cry'
+    /**
+     * The id of the current user sending the request
+     * @type string
+     * @memberof ReactionsApigetArticleReaction
+     */
+    userId: string
 }
 
-export interface ReactionApiGetReactionsRequest {
-  /**
-   * The id of the article/page
-   * @type string
-   * @memberof ReactionApigetReactions
-   */
-  id: string;
-  /**
-   * User Id sending request
-   * @type string
-   * @memberof ReactionApigetReactions
-   */
-  userId?: string;
+export interface ReactionsApiGetArticleReactionsRequest {
+    /**
+     * The id of the article/page
+     * @type string
+     * @memberof ReactionsApigetArticleReactions
+     */
+    id: string
+    /**
+     * The id of the current user sending the request
+     * @type string
+     * @memberof ReactionsApigetArticleReactions
+     */
+    userId: string
 }
 
 @injectable()
-export class ObjectReactionApi {
-  private api: PromiseReactionApi;
+export class ObjectReactionsApi {
+    private api: PromiseReactionsApi
 
-  public constructor(
-    @inject(AbstractHttpConfiguration) configuration: AbstractHttpConfiguration,
-    @inject(AbstractReactionApiRequestFactory)
-    requestFactory: AbstractReactionApiRequestFactory,
-    @inject(AbstractReactionApiResponseProcessor)
-    responseProcessor: AbstractReactionApiResponseProcessor
+    public constructor(
+      @inject(AbstractHttpConfiguration) configuration: AbstractHttpConfiguration,
+      @inject(AbstractReactionsApiRequestFactory) requestFactory: AbstractReactionsApiRequestFactory,
+      @inject(AbstractReactionsApiResponseProcessor) responseProcessor: AbstractReactionsApiResponseProcessor
   ) {
-    this.api = new PromiseReactionApi(
-      configuration,
+    this.api = new PromiseReactionsApi(configuration,
       requestFactory,
-      responseProcessor
-    );
+      responseProcessor);
   }
 
-  /**
-   * Add a new reaction to an article
-   * Add Reaction
-   * @param param the request object
-   */
-  public addReaction(
-    param: ReactionApiAddReactionRequest,
-    options?: AbstractHttpConfiguration
-  ): Promise<UpdateSuccessResponseDto> {
-    return this.api.addReaction(param.id, param.type, param.userId, options);
-  }
+    /**
+     * Add a new reaction to an article
+     * Add Reaction
+     * @param param the request object
+     */
+    public addArticleReaction(param: ReactionsApiAddArticleReactionRequest, options?: AbstractHttpConfiguration): Promise<UpdateSuccessResponse> {
+        return this.api.addArticleReaction(param.id, param.type, param.userId,  options);
+    }
 
-  /**
-   * Remove an existing reaction to an article
-   * Remove Reaction
-   * @param param the request object
-   */
-  public deleteReaction(
-    param: ReactionApiDeleteReactionRequest,
-    options?: AbstractHttpConfiguration
-  ): Promise<UpdateSuccessResponseDto> {
-    return this.api.deleteReaction(param.id, param.type, param.userId, options);
-  }
+    /**
+     * Remove an existing reaction to an article
+     * Remove Reaction
+     * @param param the request object
+     */
+    public deleteArticleReaction(param: ReactionsApiDeleteArticleReactionRequest, options?: AbstractHttpConfiguration): Promise<UpdateSuccessResponse> {
+        return this.api.deleteArticleReaction(param.id, param.type, param.userId,  options);
+    }
 
-  /**
-   * An end point that returns the reactions for an article/page to a client
-   * Get Reaction
-   * @param param the request object
-   */
-  public getReaction(
-    param: ReactionApiGetReactionRequest,
-    options?: AbstractHttpConfiguration
-  ): Promise<GetReaction200ResponseDto> {
-    return this.api.getReaction(param.id, param.type, param.userId, options);
-  }
+    /**
+     * An end point that returns the reactions for an article/page to a client
+     * Get Reaction
+     * @param param the request object
+     */
+    public getArticleReaction(param: ReactionsApiGetArticleReactionRequest, options?: AbstractHttpConfiguration): Promise<GetArticleReaction200Response> {
+        return this.api.getArticleReaction(param.id, param.type, param.userId,  options);
+    }
 
-  /**
-   * An end point that returns the reactions for an article/page to a client
-   * Get Reactions
-   * @param param the request object
-   */
-  public getReactions(
-    param: ReactionApiGetReactionsRequest,
-    options?: AbstractHttpConfiguration
-  ): Promise<GetReactions200ResponseDto> {
-    return this.api.getReactions(param.id, param.userId, options);
-  }
+    /**
+     * An end point that returns the reactions for an article/page to a client
+     * Get Article Reactions
+     * @param param the request object
+     */
+    public getArticleReactions(param: ReactionsApiGetArticleReactionsRequest, options?: AbstractHttpConfiguration): Promise<GetArticleReactions200Response> {
+        return this.api.getArticleReactions(param.id, param.userId,  options);
+    }
+
 }

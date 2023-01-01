@@ -80,8 +80,9 @@ namespace OpenSystem.Apis.Engagement
                 options.ReportApiVersions = true;
                 options.ApiVersionReader =
                     ApiVersionReader.Combine(
-                        new HeaderApiVersionReader("X-Api-Version"),
-                        new QueryStringApiVersionReader("version"));
+                        new UrlSegmentApiVersionReader(),
+                        new HeaderApiVersionReader("X-Api-Version")
+                        /* new QueryStringApiVersionReader("version") */ );
                 });
 
 
@@ -142,7 +143,6 @@ namespace OpenSystem.Apis.Engagement
             // app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UsePathBase("/api");
             app.UseSwagger(c =>
                 {
                     c.RouteTemplate = "/api/v1.0/{documentName}/openapi.json";

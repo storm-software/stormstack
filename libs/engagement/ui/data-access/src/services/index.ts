@@ -15,13 +15,13 @@ import {
 import * as apis from "../apis/ObjectParamAPI";
 import * as apiServices from "./ObjectParamAPI";
 import {
-  AbstractReactionApiRequestFactory,
-  AbstractReactionApiResponseProcessor
-} from "./ReactionApi.service";
+  AbstractReactionsApiRequestFactory,
+  AbstractReactionsApiResponseProcessor
+} from "./ReactionsApiParser.service";
 import {
-  ReactionApiRequestFactory,
-  ReactionApiResponseProcessor
-} from "../parsers/ReactionApi";
+  ReactionsApiRequestFactory,
+  ReactionsApiResponseProcessor
+} from "../parsers/ReactionsApiParser";
 
 /**
  * Helper class to simplify binding the services
@@ -112,14 +112,14 @@ export class ApiServiceBinder {
     public bindAllApiServices() {
 
         this.container
-          .bind(AbstractReactionApiRequestFactory)
-          .to(ReactionApiRequestFactory)
+          .bind(AbstractReactionsApiRequestFactory)
+          .to(ReactionsApiRequestFactory)
           .inSingletonScope();
         this.container
-          .bind(AbstractReactionApiResponseProcessor)
-          .to(ReactionApiResponseProcessor)
+          .bind(AbstractReactionsApiResponseProcessor)
+          .to(ReactionsApiResponseProcessor)
           .inSingletonScope();
 
-        this.container.bind(apiServices.AbstractObjectReactionApi).to(apis.ObjectReactionApi).inSingletonScope();
+        this.container.bind(apiServices.AbstractObjectReactionsApi).to(apis.ObjectReactionsApi).inSingletonScope();
     }
 }

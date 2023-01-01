@@ -10,13 +10,12 @@
  * Do not edit the class manually.
  */
 
-import { ReactionDetailDto } from './ReactionDetailDto';
 import {
   HttpFile,
 } from '@open-system/core-typescript-utilities';
 
 
-export class GetReactions200ResponseDto {
+export class GetArticleReaction200Response {
     /**
     * The `guid` associated with the record
     */
@@ -29,10 +28,8 @@ export class GetReactions200ResponseDto {
     * The id of the article/page
     */
     'articleId': string;
-    /**
-    * The list of reactions for the specified article 
-    */
-    'reactions': Array<ReactionDetailDto>;
+    'type': GetArticleReaction200ResponseTypeEnum;
+    'count': number;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -74,17 +71,26 @@ export class GetReactions200ResponseDto {
             "format": ""
         },
         {
-            "name": "reactions",
-            "baseName": "reactions",
-            "type": "Array<ReactionDetailDto>",
+            "name": "type",
+            "baseName": "type",
+            "type": "GetArticleReaction200ResponseTypeEnum",
+            "format": ""
+        },
+        {
+            "name": "count",
+            "baseName": "count",
+            "type": "number",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return GetReactions200ResponseDto.attributeTypeMap;
+        return GetArticleReaction200Response.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
+
+
+export type GetArticleReaction200ResponseTypeEnum = "like" | "dislike" | "happy" | "sad" | "cry" | "laugh" ;
 

@@ -24,8 +24,42 @@ namespace OpenSystem.Apis.Engagement.Contracts
     /// 
     /// </summary>
     [DataContract]
-    public class GetReactions200ResponseAllOfDto : IEquatable<GetReactions200ResponseAllOfDto>
+    public class GetArticleReactions200ResponseDto : IEquatable<GetArticleReactions200ResponseDto>
     {
+        /// <summary>
+        /// The &#x60;guid&#x60; associated with the record
+        /// </summary>
+        /// <value>The &#x60;guid&#x60; associated with the record</value>
+        [Required]
+        [DataMember(Name="guid", EmitDefaultValue=false)]
+        public Guid Guid { get; set; }
+
+        /// <summary>
+        /// Gets or Sets CreatedOn
+        /// </summary>
+        [Required]
+        [DataMember(Name="createdOn", EmitDefaultValue=false)]
+        public DateTimeOffset CreatedOn { get; set; }
+
+        /// <summary>
+        /// Gets or Sets CreatedBy
+        /// </summary>
+        [Required]
+        [DataMember(Name="createdBy", EmitDefaultValue=false)]
+        public string CreatedBy { get; set; }
+
+        /// <summary>
+        /// Gets or Sets UpdatedOn
+        /// </summary>
+        [DataMember(Name="updatedOn", EmitDefaultValue=false)]
+        public DateTimeOffset UpdatedOn { get; set; }
+
+        /// <summary>
+        /// Gets or Sets UpdatedBy
+        /// </summary>
+        [DataMember(Name="updatedBy", EmitDefaultValue=false)]
+        public string UpdatedBy { get; set; }
+
         /// <summary>
         /// The id of the article/page
         /// </summary>
@@ -49,7 +83,12 @@ namespace OpenSystem.Apis.Engagement.Contracts
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class GetReactions200ResponseAllOfDto {\n");
+            sb.Append("class GetArticleReactions200ResponseDto {\n");
+            sb.Append("  Guid: ").Append(Guid).Append("\n");
+            sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
+            sb.Append("  CreatedBy: ").Append(CreatedBy).Append("\n");
+            sb.Append("  UpdatedOn: ").Append(UpdatedOn).Append("\n");
+            sb.Append("  UpdatedBy: ").Append(UpdatedBy).Append("\n");
             sb.Append("  ArticleId: ").Append(ArticleId).Append("\n");
             sb.Append("  Reactions: ").Append(Reactions).Append("\n");
             sb.Append("}\n");
@@ -75,20 +114,45 @@ namespace OpenSystem.Apis.Engagement.Contracts
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((GetReactions200ResponseAllOfDto)obj);
+            return obj.GetType() == GetType() && Equals((GetArticleReactions200ResponseDto)obj);
         }
 
         /// <summary>
-        /// Returns true if GetReactions200ResponseAllOfDto instances are equal
+        /// Returns true if GetArticleReactions200ResponseDto instances are equal
         /// </summary>
-        /// <param name="other">Instance of GetReactions200ResponseAllOfDto to be compared</param>
+        /// <param name="other">Instance of GetArticleReactions200ResponseDto to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(GetReactions200ResponseAllOfDto other)
+        public bool Equals(GetArticleReactions200ResponseDto other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
+                (
+                    Guid == other.Guid ||
+                    Guid != null &&
+                    Guid.Equals(other.Guid)
+                ) && 
+                (
+                    CreatedOn == other.CreatedOn ||
+                    CreatedOn != null &&
+                    CreatedOn.Equals(other.CreatedOn)
+                ) && 
+                (
+                    CreatedBy == other.CreatedBy ||
+                    CreatedBy != null &&
+                    CreatedBy.Equals(other.CreatedBy)
+                ) && 
+                (
+                    UpdatedOn == other.UpdatedOn ||
+                    UpdatedOn != null &&
+                    UpdatedOn.Equals(other.UpdatedOn)
+                ) && 
+                (
+                    UpdatedBy == other.UpdatedBy ||
+                    UpdatedBy != null &&
+                    UpdatedBy.Equals(other.UpdatedBy)
+                ) && 
                 (
                     ArticleId == other.ArticleId ||
                     ArticleId != null &&
@@ -112,6 +176,16 @@ namespace OpenSystem.Apis.Engagement.Contracts
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
+                    if (Guid != null)
+                    hashCode = hashCode * 59 + Guid.GetHashCode();
+                    if (CreatedOn != null)
+                    hashCode = hashCode * 59 + CreatedOn.GetHashCode();
+                    if (CreatedBy != null)
+                    hashCode = hashCode * 59 + CreatedBy.GetHashCode();
+                    if (UpdatedOn != null)
+                    hashCode = hashCode * 59 + UpdatedOn.GetHashCode();
+                    if (UpdatedBy != null)
+                    hashCode = hashCode * 59 + UpdatedBy.GetHashCode();
                     if (ArticleId != null)
                     hashCode = hashCode * 59 + ArticleId.GetHashCode();
                     if (Reactions != null)
@@ -123,12 +197,12 @@ namespace OpenSystem.Apis.Engagement.Contracts
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(GetReactions200ResponseAllOfDto left, GetReactions200ResponseAllOfDto right)
+        public static bool operator ==(GetArticleReactions200ResponseDto left, GetArticleReactions200ResponseDto right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(GetReactions200ResponseAllOfDto left, GetReactions200ResponseAllOfDto right)
+        public static bool operator !=(GetArticleReactions200ResponseDto left, GetArticleReactions200ResponseDto right)
         {
             return !Equals(left, right);
         }

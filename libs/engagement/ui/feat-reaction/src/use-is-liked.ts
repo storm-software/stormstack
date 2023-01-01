@@ -1,6 +1,6 @@
 "use client";
 
-import { AbstractReactionApi } from "@open-system/engagement-ui-data-access";
+import { AbstractReactionsApi } from "@open-system/engagement-ui-data-access";
 import { useInjection } from "inversify-react";
 import { parseCookies, setCookie } from "nookies";
 import { useCallback, useState } from "react";
@@ -12,7 +12,7 @@ export function useIsLiked(
   initIsLiked = false
 ): [boolean, () => void] {
   const [isLiked, setIsLiked] = useState(initIsLiked);
-  const api = useInjection(AbstractReactionApi);
+  const api = useInjection(AbstractReactionsApi);
 
   return [
     isLiked,
@@ -24,7 +24,11 @@ export function useIsLiked(
         : {};
       console.log(cookie);
 
-      await api.addReaction({ id: pageId, type: "LIKE" });
+      await api.addArticleReaction({
+        id: pageId,
+        type: "like",
+        userId: "PSUL",
+      });
 
       cookie[pageId] = !cookie[pageId];
       setIsLiked(cookie[pageId]);

@@ -1,6 +1,6 @@
 import { INVERSION_CONTAINER } from "@open-system/core-typescript-utilities";
 import { PropsWithBase } from "@open-system/design-system-components";
-import { AbstractReactionApi } from "@open-system/engagement-ui-data-access";
+import { AbstractReactionsApi } from "@open-system/engagement-ui-data-access";
 import { UserLikeHistoryConstants } from "@open-system/engagement-ui-feat-reaction/constants";
 import { cookies } from "next/headers";
 import LikeButtonClient from "./like-button.client";
@@ -14,9 +14,13 @@ export default async function LikeButton({
   pageId,
   ...props
 }: LikeButtonProps) {
-  const api = INVERSION_CONTAINER.get(AbstractReactionApi);
+  const api = INVERSION_CONTAINER.get(AbstractReactionsApi);
 
-  const resp = await api.getReactions({ id: pageId });
+  const resp = await api.getArticleReaction({
+    id: pageId,
+    type: "like",
+    userId: "PSUL",
+  });
   console.log(resp);
   const userLikeHistory = cookies()?.get?.(
     UserLikeHistoryConstants.COOKIE_NAME
@@ -28,7 +32,7 @@ export default async function LikeButton({
         {...props}
         pageId={pageId}
         isLiked={userLikeHistory && JSON.parse(userLikeHistory)?.[pageId]}
-        count={0}
+        count={resp.count}
       />
     </div>
   );

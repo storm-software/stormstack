@@ -15,17 +15,27 @@ import {
 } from '@open-system/core-typescript-utilities';
 
 
-export class ReactionDetailDto {
-    'type': ReactionDetailDtoTypeDtoEnum;
+export class GetArticleReaction200ResponseAllOf {
+    /**
+    * The id of the article/page
+    */
+    'articleId': string;
+    'type': GetArticleReaction200ResponseAllOfTypeEnum;
     'count': number;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
+            "name": "articleId",
+            "baseName": "articleId",
+            "type": "string",
+            "format": ""
+        },
+        {
             "name": "type",
             "baseName": "type",
-            "type": "ReactionDetailDtoTypeDtoEnum",
+            "type": "GetArticleReaction200ResponseAllOfTypeEnum",
             "format": ""
         },
         {
@@ -36,7 +46,7 @@ export class ReactionDetailDto {
         }    ];
 
     static getAttributeTypeMap() {
-        return ReactionDetailDto.attributeTypeMap;
+        return GetArticleReaction200ResponseAllOf.attributeTypeMap;
     }
 
     public constructor() {
@@ -44,5 +54,5 @@ export class ReactionDetailDto {
 }
 
 
-export type ReactionDetailDtoTypeDtoEnum = "LIKE" | "DISLIKE" ;
+export type GetArticleReaction200ResponseAllOfTypeEnum = "like" | "dislike" | "happy" | "sad" | "cry" | "laugh" ;
 

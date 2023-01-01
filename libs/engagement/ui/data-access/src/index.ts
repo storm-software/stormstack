@@ -1,15 +1,9 @@
-import "reflect-metadata";
-
-export { ObjectReactionApi as ReactionApi } from "./apis/ObjectParamAPI";
-export type {
-  ReactionApiAddReactionRequest,
-  ReactionApiDeleteReactionRequest,
-  ReactionApiGetReactionRequest,
-  ReactionApiGetReactionsRequest,
-} from "./apis/ObjectParamAPI";
-
 export * from "./auth/auth";
 export * from "./models";
 export * from "./servers";
+
+export { ObjectReactionsApi as ReactionsApi } from './apis/ObjectParamAPI';
+export type { ReactionsApiAddArticleReactionRequest, ReactionsApiDeleteArticleReactionRequest, ReactionsApiGetArticleReactionRequest, ReactionsApiGetArticleReactionsRequest,  } from './apis/ObjectParamAPI';
+
 export * from "./services";
-export { AbstractObjectReactionApi as AbstractReactionApi } from "./services/ObjectParamAPI";
+export { AbstractObjectReactionsApi as AbstractReactionsApi } from './services/ObjectParamAPI';

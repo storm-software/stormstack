@@ -27,9 +27,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/engagement/ui/data-access/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["libs/engagement/ui/data-access/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {

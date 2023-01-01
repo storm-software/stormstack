@@ -23,8 +23,8 @@ import { {{{ classname }}} } from '../models';
 
 {{#operations}}
 import { Promise{{classname}} } from "./PromiseAPI";
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}{{extensionForDeno}}";
-import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../services/{{classname}}.service";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}Parser";
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../services/{{classname}}Parser.service";
 
 {{#operation}}
 export interface {{classname}}{{operationIdCamelCase}}Request {
