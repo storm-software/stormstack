@@ -25,13 +25,13 @@
     }
   ],
   "paths": {
-    "/article/{id}": {
+    "/articles/{articleId}/reactions": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "id",
+          "name": "articleId",
           "in": "path",
           "required": true,
           "description": "The id of the article/page"
@@ -136,19 +136,34 @@
         ]
       }
     },
-    "/article/{id}/reaction/{type}": {
+    "/articles/{articleId}/reactions/{reactionType}": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "id",
+          "name": "articleId",
           "in": "path",
           "required": true,
           "description": "The id of the article/page"
         },
         {
-          "$ref": "#/components/parameters/type"
+          "name": "reactionType",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "like",
+              "dislike",
+              "happy",
+              "sad",
+              "laugh",
+              "cry"
+            ],
+            "example": "like"
+          },
+          "description": "The type of reaction the user had"
         }
       ],
       "get": {
@@ -621,8 +636,8 @@
       }
     },
     "parameters": {
-      "type": {
-        "name": "type",
+      "reactionType": {
+        "name": "reactionType",
         "in": "path",
         "required": true,
         "schema": {
@@ -647,6 +662,20 @@
           "type": "string"
         },
         "description": "The id of the article/page"
+      },
+      "contentType": {
+        "name": "contentType",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "article",
+          "enum": [
+            "article",
+            "comment"
+          ]
+        },
+        "description": "The type of content the user is engaging with"
       }
     },
     "securitySchemes": {}

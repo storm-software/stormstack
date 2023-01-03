@@ -1,14 +1,14 @@
-import { File } from '@asyncapi/generator-react-sdk';
+import { File } from "@asyncapi/generator-react-sdk";
 
-export default function({ asyncapi, params }) {
+export default function ({ asyncapi, params }) {
   if (!asyncapi.hasComponents()) {
     return null;
   }
 
   return (
     <File name="Dockerfile">
-      {`FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+      {`FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 WORKDIR /app
 
@@ -30,8 +30,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-ENTRYPOINT ["dotnet", "${params.namespace}.dll"]`
-      }
+ENTRYPOINT ["dotnet", "${params.namespace}.dll"]`}
     </File>
   );
 }

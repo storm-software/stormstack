@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  apis-engagement:
+    environment:
+      - NODE_ENV=development
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ServiceConfig__Id=EngagementService.Api-9100
+      - ServiceConfig__Name=EngagementService
+      - ServiceConfig__DiscoveryAddress=http://consul:8500
+      - ServiceConfig__Address=apis-engagement
+      - ServiceConfig__Port=80
+      - ServiceConfig__HealthCheckEndPoint=health-check
+    ports:
+      - 9100:80

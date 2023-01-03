@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  apis-engagement:
+    container_name: apis-engagement
+    image: apis-engagement:latest
+    restart: on-failure
+    hostname: apis-engagement
+    build:
+      context: .
+      dockerfile: apps/apis/engagement/Dockerfile
+    environment:
+      NODE_ENV: development
+    networks:
+      - common_network
+
+networks:
+  common_network:
+    driver: bridge

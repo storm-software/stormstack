@@ -1,0 +1,105 @@
+{
+  "asyncapi": "2.5.0",
+  "info": {
+    "title": "Engagement Service",
+    "version": "1.0.0",
+    "description": "This service is in charge of processing system engagement data",
+    "termsOfService": "https://sullivanpj.com/terms",
+    "contact": {
+      "name": "Patrick Sullivan",
+      "url": "https://sullivanpj.com",
+      "email": "Patrick.Joseph.Sullivan@ProtonMail.com"
+    },
+    "license": {
+      "name": "BSD 2-Clause License",
+      "url": "https://opensource.org/licenses/BSD-2-Clause"
+    }
+  },
+  "defaultContentType": "json",
+  "servers": {
+    "development": {
+      "url": "http://localhost:5100/services/engagement",
+      "description": "Local development server",
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
+    },
+    "production": {
+      "url": "https://sullivanpj.com/services/engagement",
+      "description": "Cloud-based production environment",
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
+    }
+  },
+  "channels": {
+    "reaction/add": {
+      "subscribe": {
+        "operationId": "onAddReactionReceived",
+        "message": {
+          "name": "ReactionModel",
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "userId": {
+                "type": "string",
+                "example": "A unique Id used to identify the the current user"
+              },
+              "contentId": {
+                "type": "string",
+                "example": "A unique Id used to identify the content the user is reacting to"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": ["article", "comment"]
+              },
+              "reactionType": {
+                "type": "string",
+                "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"]
+              }
+            }
+          }
+        },
+        "bindings": {
+          "amqp": {
+            "is": "routingKey",
+            "exchange": { "name": "reaction", "type": "topic", "vhost": "/" },
+            "queue": { "name": "engagement" }
+          }
+        }
+      },
+      "publish": {
+        "operationId": "sendAddReaction",
+        "message": {
+          "name": "ReactionModel",
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "userId": {
+                "type": "string",
+                "example": "A unique Id used to identify the the current user"
+              },
+              "contentId": {
+                "type": "string",
+                "example": "A unique Id used to identify the content the user is reacting to"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": ["article", "comment"]
+              },
+              "reactionType": {
+                "type": "string",
+                "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"]
+              }
+            }
+          }
+        },
+        "bindings": {
+          "amqp": {
+            "ack": false
+          }
+        }
+      }
+    }
+  }
+}

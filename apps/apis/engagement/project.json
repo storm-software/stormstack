@@ -17,8 +17,7 @@
         },
         "docker": {
           "configuration": "Debug",
-          "noDependencies": false,
-          "configFile": "../../../NuGet.Config"
+          "noDependencies": false
         }
       }
     },
@@ -41,7 +40,7 @@
     "publish": {
       "executor": "@nx-dotnet/core:publish",
       "selfContained": true,
-      "outputs": ["dist/apps/apis/engagement/publish"],
+      "output": ["dist/apps/apis/engagement/publish"],
       "options": {
         "configuration": "Debug",
         "noDependencies": true
@@ -52,7 +51,7 @@
         },
         "docker": {
           "configuration": "Debug",
-          "outputs": "/app/publish"
+          "output": "/app/publish"
         }
       }
     },
@@ -70,7 +69,7 @@
     "lint": {
       "executor": "@nx-dotnet/core:format"
     },
-   "server-api-sync": {
+    "server-api-sync": {
       "executor": "@open-system/executors-dotnet:server-api-sync",
       "options": {
         "domainName": "engagement",

@@ -24,7 +24,8 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
       - uses: nrwl/nx-set-shas@v3
-      - run: npm ci
+      - run: npm install --legacy-peer-deps
+      # - run: npx nx reset
 
       - run: npm run build:tools
 

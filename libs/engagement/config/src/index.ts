@@ -1,1 +1,1 @@
-export * from "./lib/engagement-config";
+export * from "./engagement.amqp-spec.json";
