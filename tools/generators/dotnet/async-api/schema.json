@@ -13,12 +13,12 @@
     "templateName": {
       "type": "string",
       "description": "Name of the template to generate",
-      "default": "C:\\Development\\open-system\\tools\\asyncapi\\rabbitmq"
+      "default": "C:\\Development\\open-system\\dist\\tools\\asyncapi\\rabbitmq"
     },
     "targetDir": {
       "type": "string",
       "description": "Path to the directory where the files will be generated",
-      "default": "C:\\Development\\open-system\\tools\\asyncapi\\output"
+      "default": "C:\\Development\\open-system\\dist\\tools\\asyncapi\\output"
     },
     "pdf": {
       "type": "boolean",
@@ -43,7 +43,7 @@
     "namespace": {
       "type": "string",
       "description": "Name of the package, this is used as the base namespace for all classes within gen code. Useful for whitelabel as well ;)",
-      "default": "BroadridgeFxl.Services"
+      "default": "OpenSystem.Services"
     },
     "user": {
       "type": "string",

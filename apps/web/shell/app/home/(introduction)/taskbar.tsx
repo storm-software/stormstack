@@ -41,7 +41,7 @@ export default function Taskbar({
   }, []);
 
   return (
-    <div className="flex h-12 min-h-fit w-full flex-row items-center justify-between bg-black/30">
+    <div className="flex h-12 min-h-fit w-full flex-row items-center justify-between bg-black/50">
       {startMenuState !== StartMenuStateTypes.CLOSED && (
         <StartMenu
           setClosed={setStartMenuClosed}

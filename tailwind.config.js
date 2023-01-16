@@ -50,7 +50,7 @@ module.exports = {
         ...extend.backgroundImage,
         "bg-title": "url(../../../../assets/backgrounds/bg-title.jpg)",
         "bg-footer": "url(../../../../assets/backgrounds/bg-footer.jpg)",
-        "bg-windows": "url(../../../../assets/backgrounds/bg-windows.webp)",
+        "bg-windows": "url(../../../../assets/backgrounds/bg-windows.jpg)",
       },
       "zIndex": {
         ...extend.zIndex,

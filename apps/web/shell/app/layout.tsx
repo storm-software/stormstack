@@ -58,19 +58,21 @@ export default function RootLayout({
         frankRuhlLibre.variable,
         abrilFatface.variable,
         permanentMarker.variable,
-        "bg-gradient-to-b from-bg-1 to-black"
+        "bg-gradient-to-b from-bg-1 via-black to-black"
       )}>
       <head />
-      <body className="relative h-fit min-h-screen antialiased">
-        <NavHeader />
+      <body className="relative h-fit min-h-screen bg-gradient-to-tl from-black via-white/30 to-white/5 antialiased">
+        <div className="bg-gradient-to-t from-black via-black/20">
+          <NavHeader />
 
-        <div id="root-portal" />
+          <div id="root-portal" />
 
-        <div className="h-fit w-full">
-          <RootProvider>{children}</RootProvider>
+          <div className="h-fit w-full">
+            <RootProvider>{children}</RootProvider>
+          </div>
+
+          <Footer />
         </div>
-
-        <Footer />
       </body>
     </html>
   );

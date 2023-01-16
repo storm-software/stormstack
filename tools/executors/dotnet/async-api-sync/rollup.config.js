@@ -9,5 +9,5 @@ module.exports = (currentConfig, _) => ({
     format: !Array.isArray(currentConfig.output)
       ? currentConfig.output.format
       : "cjs",
-  }
+  },
 });

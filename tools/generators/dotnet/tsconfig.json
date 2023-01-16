@@ -3,9 +3,8 @@
   "compilerOptions": {
     "outDir": "../../../dist/tools/generators/dotnet",
     "declaration": true,
-    "rootDir": ".",
     "types": ["node"]
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
-  "include": ["**/*.ts", "**/*.json"]
+  "include": ["**/*.ts"]
 }

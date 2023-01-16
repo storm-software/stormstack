@@ -21,7 +21,7 @@ export function Footer({ className, ...props }: BaseComponentProps) {
     <div className="mt-28 h-[50rem] w-full overflow-hidden">
       <div className="absolute bottom-0 z-0 h-96 w-full bg-bg-footer bg-[length:100%_100%] bg-fixed bg-no-repeat bg-origin-border"></div>
       <div className="absolute bottom-0 z-10 w-full px-0 pt-28 lg:px-32">
-        <div className="z-footer w-full rounded-t-lg bg-white shadow-md">
+        <div className="z-footer w-full rounded-t-lg bg-white shadow-[20px_10px_5px_0px_rgba(0,0,0,0.3)]">
           <div className="flex h-full w-full flex-col rounded-t-lg bg-gradient-to-br from-footer/100 via-footer/75 to-footer/90 bg-[length:100%_100%] bg-bottom bg-no-repeat">
             <div className="flex w-full flex-1 flex-col gap-6 py-6 px-5 md:px-8 lg:px-10">
               <div className="flex flex-row gap-16">

@@ -1,6 +1,6 @@
 import Generator from "@asyncapi/generator";
 import { Tree } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+// import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import { AsyncApiGeneratorSchema } from "./schema";
 
 export default async function (
@@ -12,7 +12,7 @@ export default async function (
     ...options
   }: AsyncApiGeneratorSchema
 ) {
-  ConsoleLogger.info(`Generating async API code to ${targetDir}`);
+  console.log(`Generating async API code to ${targetDir}`);
 
   try {
     const generator = new Generator(templateName, targetDir, {
@@ -21,22 +21,22 @@ export default async function (
       debug: true,
     });
 
-    ConsoleLogger.info(
+    console.log(
       `Generator has been created, preparing to generate from file: ${asyncapiFileDir}`
     );
 
     try {
       await generator.generateFromFile(asyncapiFileDir);
     } catch (e) {
-      ConsoleLogger.error(`An error occurred building`);
+      console.error(`An error occurred building`);
       throw e;
     }
 
-    ConsoleLogger.success("Async API code generation process succeeded");
+    console.log("Async API code generation process succeeded");
 
     return { success: true };
   } catch (e) {
-    ConsoleLogger.error(e);
+    console.error(e);
 
     return { success: false };
   }

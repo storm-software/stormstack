@@ -12,7 +12,7 @@ export const PAGE_ID = "home";
 
 export default function Page() {
   return (
-    <div className="bg-gradient-to-b from-slate-600/20 via-gray-400/10 to-black">
+    <>
       <ArticleJsonLd {...ARTICLE_JSON_LD_DEFAULT} useAppDir={true} />
       <SocialProfileJsonLd {...PROFILE_JSON_LD_DEFAULT} useAppDir={true} />
       <LogoJsonLd {...LOGO_JSON_LD_DEFAULT} useAppDir={true} />
@@ -22,6 +22,6 @@ export default function Page() {
       <Suspense>
         <LikeButton pageId={PAGE_ID} />
       </Suspense>
-    </div>
+    </>
   );
 }

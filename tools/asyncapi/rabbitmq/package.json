@@ -2,7 +2,6 @@
   "name": "@open-system/asyncapi-rabbitmq",
   "version": "0.0.1",
   "description": "Template package for AsyncAPI code generation",
-  "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
     "get-version": "echo $npm_package_version",

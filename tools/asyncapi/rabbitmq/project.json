@@ -32,18 +32,14 @@
         "tsConfig": "tools/asyncapi/rabbitmq/tsconfig.json",
         "project": "tools/asyncapi/rabbitmq/package.json",
         "main": "tools/asyncapi/rabbitmq/index.ts",
-        "deleteOutputPath": false,
+        "rollupConfig": "tools/asyncapi/rabbitmq/rollup.config.js",
+        "deleteOutputPath": true,
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           {
             "input": "./tools/asyncapi/rabbitmq",
             "glob": "**/*.md",
-            "output": "."
-          },
-          {
-            "input": "./tools/asyncapi/rabbitmq",
-            "glob": "generators.json",
             "output": "."
           },
           {
@@ -55,11 +51,6 @@
             "input": "",
             "glob": "LICENSE",
             "output": "/"
-          },
-          {
-            "input": "./tools/asyncapi/rabbitmq",
-            "glob": "migrations.json",
-            "output": "."
           }
         ]
       }

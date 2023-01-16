@@ -4,7 +4,7 @@ import Logo from "../../../../../assets/box-logo-gradient.svg";
 
 export default function Header() {
   return (
-    <header className="flex snap-center snap-always justify-center bg-bg-title bg-[length:100%_50%] bg-fixed bg-no-repeat bg-origin-border py-20">
+    <header className="flex snap-center snap-always justify-center bg-bg-title bg-[length:100%_50%] bg-fixed bg-no-repeat bg-origin-border py-20 pt-24">
       <div className="relative h-[38rem] w-[65rem]">
         <div className="absolute bottom-0 left-0">
           <div className="flex flex-col gap-3">
