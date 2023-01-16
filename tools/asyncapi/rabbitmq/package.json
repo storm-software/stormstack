@@ -6,7 +6,8 @@
     "test": "jest --coverage",
     "get-version": "echo $npm_package_version",
     "gen-readme-toc": "markdown-toc -i README.md",
-    "lint": "eslint --max-warnings 0 --fix --config .eslintrc .",
+    "lint": "eslint --max-warnings 0 --fix --config .eslintrc.json ./",
+    "lint:fix": "npm run lint -- --fix",
     "generate:assets": "",
     "generate:examples": ""
   },

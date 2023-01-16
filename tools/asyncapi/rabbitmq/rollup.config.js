@@ -5,10 +5,12 @@ module.exports = (currentConfig, _) => ({
   ...currentConfig,
   input: Object.fromEntries(
     glob
-      .sync("tools/asyncapi/rabbitmq/src/**/*(*.ts|*.tsx)")
+      .sync(
+        "tools/asyncapi/rabbitmq/*(components|hooks|template|utils)/**/*(*.ts|*.tsx)"
+      )
       .map(file => [
         path.relative(
-          "tools/asyncapi/rabbitmq/src",
+          "tools/asyncapi/rabbitmq",
           file.slice(0, file.length - path.extname(file).length)
         ),
         file,
@@ -20,5 +22,6 @@ module.exports = (currentConfig, _) => ({
     format: "cjs",
     entryFileNames: "[name].js",
     chunkFileNames: "[name].js",
+    sourcemap: false,
   },
 });

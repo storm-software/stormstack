@@ -1,15 +1,15 @@
 import { File, render } from "@asyncapi/generator-react-sdk";
 import React from "react";
-import { AmqpService } from "../../../components/templates/amqpservice";
+import { ChannelPool } from "../../components/templates/channelpool";
 
 export default function ({ asyncapi, params }) {
-  console.log("****** Generating AmqpService");
+  console.log("****** Generating ChannelPool");
 
   return (
     <File
-      name="AmqpService.cs"
+      name="ChannelPool.cs"
       childrenContent={render(
-        <AmqpService asyncapi={asyncapi} params={params} />
+        <ChannelPool asyncapi={asyncapi} params={params} />
       )}
     />
   );

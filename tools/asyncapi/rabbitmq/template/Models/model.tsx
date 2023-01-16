@@ -38,7 +38,7 @@ export default async function modelRenderer({ asyncapi, params }) {
   const generatedModels = await generator.generateCompleteModels(asyncapi, {
     namespace: `${params.namespace}.Models`,
   });
-  console.log(JSON.stringify(generatedModels));
+  console.log(generatedModels);
 
   const files: any[] = [];
   for (const generatedModel of generatedModels) {

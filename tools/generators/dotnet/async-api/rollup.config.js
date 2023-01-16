@@ -1,7 +1,7 @@
 module.exports = (currentConfig, _) => ({
   ...currentConfig,
   input: "tools/generators/dotnet/async-api/impl.ts",
-  external: ["@asyncapi/generator"],
+  external: ["@asyncapi/generator", "@asyncapi/parser"],
   output: {
     file: "dist/tools/generators/dotnet/async-api/impl.js",
     strict: false,

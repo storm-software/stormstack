@@ -1,1 +1,1 @@
-export * from "./src/hooks/useCorrectProjectName";
+export * from "./template/worker";

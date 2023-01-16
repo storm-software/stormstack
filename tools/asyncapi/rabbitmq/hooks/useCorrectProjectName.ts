@@ -2,6 +2,10 @@
  * Since we cannot control the name of folders, we need to rename the default one to the desired project name after it's done generating the code.
  */
 export default {
+  "generate:before": (generator: any) => {
+    console.log("Starting Async-Api Generator execution");
+    console.log(JSON.stringify(generator));
+  },
   "generate:after": (generator: any) => {
     const { projectName } = generator.templateParams;
     const defaultProjectName = "OpenSystem.Services";

@@ -3,6 +3,8 @@
   "compilerOptions": {
     "jsx": "react",
     "outDir": "../../../dist/tools/asyncapi/rabbitmq",
+    "declaration": false,
+    "declarationMap": false,
     "forceConsistentCasingInFileNames": false,
     "strict": false,
     "allowJs": true,
@@ -12,8 +14,7 @@
     "noPropertyAccessFromIndexSignature": false,
     "suppressImplicitAnyIndexErrors": true,
     "preserveSymlinks": true,
-    "declaration": true,
-    "types": ["node", "react/next"]
+    "types": ["node"]
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]

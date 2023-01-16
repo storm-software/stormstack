@@ -1,6 +1,6 @@
 import { File, render } from "@asyncapi/generator-react-sdk";
 import React from "react";
-import { IAmqpService } from "../../../../components/templates/amqpservice.interface";
+import { IAmqpService } from "../../../components/templates/amqpservice.interface";
 
 export default function ({ asyncapi, params }) {
   console.log("****** Generating IAmqpService");

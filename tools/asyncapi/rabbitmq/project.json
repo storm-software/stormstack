@@ -24,7 +24,7 @@
       },
       "outputs": ["{options.outputFile}"]
     },
-    "build": {
+    "build-bundle": {
       "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -52,6 +52,18 @@
             "glob": "LICENSE",
             "output": "/"
           }
+        ]
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "color": true,
+        "parallel": false,
+        "commands": [
+          "nx run tools-asyncapi-rabbitmq:build",
+          "rimraf dist/tools/asyncapi/rabbitmq/**/*d.ts"
         ]
       }
     },
