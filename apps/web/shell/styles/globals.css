@@ -10,3 +10,11 @@
   background: #a36de9; /* Gecko Browsers */
   color: #fff; /* Gecko Browsers */
 }
+
+.flip-x {
+  transform: rotateX(180deg);
+}
+
+.flip-y {
+  transform: rotateY(180deg);
+}

@@ -61,7 +61,7 @@ export default function RootLayout({
         "bg-gradient-to-b from-bg-1 via-black to-black"
       )}>
       <head />
-      <body className="relative h-fit min-h-screen bg-gradient-to-tl from-black via-white/30 to-white/5 antialiased">
+      <body className="relative h-fit min-h-screen bg-gradient-to-tl from-black via-bg-1 to-bg-1/80 antialiased">
         <div className="bg-gradient-to-t from-black via-black/20">
           <NavHeader />
 

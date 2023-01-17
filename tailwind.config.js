@@ -54,6 +54,7 @@ module.exports = {
       },
       "zIndex": {
         ...extend.zIndex,
+        "bg": 2,
         "scroll": 105,
         "footer": 120,
         "like": 140,

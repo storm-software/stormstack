@@ -1,17 +1,17 @@
 "use client";
 
-import { ArrowDownIcon } from "@heroicons/react/24/solid";
-import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
+import {
+  ScrollArrowIndicator,
+  ScrollProgressBar,
+} from "@open-system/shared-ui-feat-layout";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "reflect-metadata";
 import Logo from "../../../../../assets/box-logo-gradient.svg";
 import Aside from "../aside";
+import Header from "./(header)/header";
 import Introduction from "./(introduction)/introduction";
 import Stack from "./(stack)/stack";
 import Technologies from "./(technologies)/technologies";
-import Header from "./header";
-
-const SCROLL_Y_THRESHOLD = 1000;
 
 export default function Client() {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,59 +34,13 @@ export default function Client() {
     };
   }, [onResize]);
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  const [hideScrollArrow, setHideScrollArrow] = useState(false);
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
-      if (
-        !hideScrollArrow &&
-        viewportHeight &&
-        scrollY >= viewportHeight - SCROLL_Y_THRESHOLD
-      ) {
-        setHideScrollArrow(true);
-      } else if (
-        hideScrollArrow &&
-        viewportHeight &&
-        scrollY < viewportHeight - SCROLL_Y_THRESHOLD
-      ) {
-        setHideScrollArrow(false);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [hideScrollArrow, scrollYProgress, viewportHeight]);
-
   return (
     <div ref={ref}>
-      <div className="fixed top-0 left-0 right-0 z-progress">
-        <motion.div className="h-2 bg-highlight-1" style={{ scaleX }} />
-      </div>
+      <ScrollProgressBar />
 
-      <AnimatePresence>
-        {!hideScrollArrow && (
-          <motion.div
-            className="fixed -left-16 -bottom-16 h-52 w-52 rounded-full border-4 border-secondary"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            transition={{
-              duration: 1,
-              delay: 0.5,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}>
-            <div className="z-scroll flex h-full w-full items-center justify-center">
-              <ArrowDownIcon className="h-12 w-12 animate-bounce fill-secondary" />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="z-scroll">
+        <ScrollArrowIndicator viewportHeight={viewportHeight} />
+      </div>
 
       <div className="flex snap-both snap-mandatory flex-col scroll-smooth">
         <header className="mb-60">

@@ -161,7 +161,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <div
               className={clsx(
                 getBorderRadius(rounding, true),
-                "relative h-full w-full overflow-hidden bg-transparent"
+                "relative h-full w-full overflow-hidden"
               )}>
               <div
                 className={clsx(

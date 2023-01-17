@@ -21,18 +21,18 @@ export function PageLoading() {
       <div className="absolute right-0 top-[6rem] left-0 z-10 overflow-hidden">
         <div className="ml-12 w-full animate-marquee whitespace-nowrap py-12">
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
         </div>
         <div className="absolute top-0 left-0 right-0 animate-marquee2 whitespace-nowrap px-64 py-12">
           <span className="mx-4 ml-12 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
         </div>
       </div>
@@ -40,18 +40,18 @@ export function PageLoading() {
       <div className="absolute top-[12rem] left-0 right-0 z-10 overflow-hidden">
         <div className="ml-36 w-full animate-marquee whitespace-nowrap py-12">
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
         </div>
         <div className="absolute top-0 left-0 right-0 animate-marquee2 whitespace-nowrap px-64 py-12">
           <span className="mx-4 ml-36 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
         </div>
       </div>
@@ -59,10 +59,10 @@ export function PageLoading() {
       <div className="absolute top-[20rem] left-0 right-0 z-30 overflow-hidden">
         <div className="w-full animate-marquee whitespace-nowrap py-12">
           <span className="mx-4 font-app-title-1 text-8xl text-secondary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
           <span className="mx-4 font-app-title-1 text-8xl text-secondary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
         </div>
       </div>
@@ -70,18 +70,18 @@ export function PageLoading() {
       <div className="absolute right-0 top-[26rem] left-0 z-10 overflow-hidden">
         <div className="ml-12 w-full animate-marquee whitespace-nowrap py-12">
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
         </div>
         <div className="absolute top-0 left-0 right-0 animate-marquee2 whitespace-nowrap px-64 py-12">
           <span className="mx-4 ml-12 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
           <span className="mx-4 font-app-title-1 text-6xl text-primary">
-            Patrick Sullivan Development
+            Pat Sullivan Development
           </span>
         </div>
       </div>

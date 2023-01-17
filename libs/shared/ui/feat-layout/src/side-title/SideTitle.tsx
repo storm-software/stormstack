@@ -26,7 +26,7 @@ export function SideTitle({ className, ...props }: BaseComponentProps) {
     <AnimatePresence>
       {!hide && (
         <motion.div
-          className="sticky top-[26rem] left-16 z-0 h-0 w-0 whitespace-nowrap"
+          className="sticky top-[22rem] left-16 z-0 h-0 w-0 whitespace-nowrap"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -37,16 +37,12 @@ export function SideTitle({ className, ...props }: BaseComponentProps) {
           }}>
           <div className="flex -rotate-90 flex-col">
             <Link>
-              <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_40%] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_6px]">
-                <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
-                  Patrick Sullivan
-                </h1>
-              </span>
-              <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_40%] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_6px]">
-                <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
-                  Development
-                </h1>
-              </span>
+              <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
+                Pat Sullivan
+              </h1>
+              <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
+                Development
+              </h1>
             </Link>
           </div>
         </motion.div>
