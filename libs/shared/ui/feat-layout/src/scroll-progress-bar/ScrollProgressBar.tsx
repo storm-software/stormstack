@@ -11,7 +11,7 @@ export function ScrollProgressBar() {
   });
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-progress flex">
+    <div className="fixed top-0 left-0 right-0 z-progress">
       <motion.div className="h-2 bg-highlight-1" style={{ scaleX }} />
     </div>
   );
