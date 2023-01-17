@@ -1,16 +1,53 @@
 import { FormatHelpers } from "@asyncapi/modelina";
-import { Message, Schema } from "@asyncapi/parser";
+import { AsyncAPIDocument, Channel, Message, Schema } from "@asyncapi/parser";
 import _ from "lodash";
 const contentTypeJSON = "application/json";
 const contentTypeString = "text/plain";
 const contentTypeBinary = "application/octet-stream";
 
-/**
- * @typedef TemplateParameters
- * @type {object}
- * @property {boolean} generateTestClient - whether or not test client should be generated.
- * @property {boolean} promisifyReplyCallback - whether or not reply callbacks should be promisify.
- */
+export interface TemplateParameters {
+  generateTestClient: boolean;
+  promisifyReplyCallback: boolean;
+}
+
+export interface Publisher {
+  isPublish: boolean;
+  routingKey?: string;
+  operationId?: string;
+  expiration?: any;
+  userId?: any;
+  cc?: any;
+  bcc?: any;
+  priority?: any;
+  deliveryMode?: any;
+  mandatory?: any;
+  replyTo?: any;
+  timestamp?: boolean;
+  ack?: boolean;
+  exchange?: any;
+  exchangeType?: string;
+  isDurable?: boolean;
+  isAutoDelete?: boolean;
+  alternateExchange?: string;
+  messageType?: string;
+}
+
+export interface Consumer {
+  isPublish: boolean;
+  routingKey: string;
+  operationId: string;
+  operationDescription: string;
+  queue: string;
+  prefetchCount: number;
+  confirm: any;
+  exchange: string;
+  exchangeType: string;
+  messageType: string;
+}
+
+export type GetChannelsResultItem = Publisher | Consumer | null;
+
+export type GetChannelsResult = GetChannelsResultItem[];
 
 /**
  * Should the callbacks be promisify.
@@ -214,11 +251,20 @@ export function cleanString(str: string) {
   return str.replace(/ {2}|\r\n|\n|\r/gm, "").trim();
 }
 
-export function getChannels(asyncapi: any) {
+export function getChannels(asyncapi: AsyncAPIDocument): GetChannelsResult {
   const channels = asyncapi.channels();
+  if (!channels?.length) {
+    Logger.error("No channels were found in MQ spec.");
+
+    return [];
+  }
+
+  Logger.info(`Found ${channels.length} channels.`);
+  Logger.info(channels);
+
   return Object.entries(channels)
-    .map(([channelName, channel]: [any, any]) => {
-      if ((channel as any).hasPublish() && channel.hasBinding("amqp")) {
+    .map(([channelName, channel]: [string, Channel]) => {
+      if (channel.hasPublish() && channel.hasBinding("amqp")) {
         const operation = channel.publish();
         const channelBinding = channel.binding("amqp");
         const operationBinding = operation.binding("amqp");
@@ -243,14 +289,11 @@ export function getChannels(asyncapi: any) {
           isDurable: channelBinding.exchange.durable,
           isAutoDelete: channelBinding.exchange.autoDelete,
           alternateExchange: channelBinding.exchange["x-alternate-exchange"],
-          messageType: toPascalCase(operation._json.message.name), // TODO: handle multiple messages on a operation
+          messageType: toPascalCase(operation.message.name), // TODO: handle multiple messages on a operation
         };
       }
 
-      if (
-        (channel as any).hasSubscribe() &&
-        (channel as any).hasBinding("amqp")
-      ) {
+      if (channel.hasSubscribe() && channel.hasBinding("amqp")) {
         const operation = channel.subscribe();
         const channelBinding = channel.binding("amqp");
 
@@ -265,7 +308,7 @@ export function getChannels(asyncapi: any) {
           confirm: channelBinding.queue["x-confirm"],
           exchange: channelBinding.exchange.name,
           exchangeType: channelBinding.exchange.type,
-          messageType: toPascalCase(operation._json.message.name), // TODO: handle multiple messages on a operation
+          messageType: toPascalCase(operation.message.name), // TODO: handle multiple messages on a operation
         };
       }
 
@@ -274,10 +317,10 @@ export function getChannels(asyncapi: any) {
     .filter(publisher => publisher);
 }
 
-export function getPublishers(asyncapi) {
+export function getPublishers(asyncapi: AsyncAPIDocument) {
   const channels = asyncapi.channels();
   return Object.entries(channels)
-    .map(([channelName, channel]: [any, any]) => {
+    .map(([channelName, channel]: [string, Channel]) => {
       if (channel.hasPublish() && channel.hasBinding("amqp")) {
         const operation = channel.publish();
         const binding = channel.binding("amqp");
@@ -290,7 +333,7 @@ export function getPublishers(asyncapi) {
           prefetchCount: binding.exchange["x-prefetch-count"],
           exchange: binding.exchange.name,
           alternateExchange: binding.exchange["x-alternate-exchange"],
-          messageType: toPascalCase(operation._json.message.name), // TODO: handle multiple messages on a operation
+          messageType: toPascalCase(operation.message.name), // TODO: handle multiple messages on a operation
         };
 
         console.log();
@@ -306,3 +349,21 @@ export function getPublishers(asyncapi) {
 export const addBasicProperty = () => {
   return "test";
 };
+
+export let Logger = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  info: (params: any) => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  error: (params: any) => {},
+};
+
+function init() {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const utils = require("../../../../libs/core/typescript/utilities");
+
+  if (utils) {
+    utils.ConsoleLogger && (Logger = utils.ConsoleLogger);
+  }
+}
+
+init();

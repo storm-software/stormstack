@@ -1,21 +1,22 @@
 {
   "name": "@open-system/asyncapi-rabbitmq",
   "version": "0.0.1",
-  "description": "Template package for AsyncAPI code generation",
+  "description": "A template package for AsyncAPI RabbitMQ C# code generation from the Open-System repository.",
   "scripts": {
-    "test": "jest --coverage",
     "get-version": "echo $npm_package_version",
     "gen-readme-toc": "markdown-toc -i README.md",
-    "lint": "eslint --max-warnings 0 --fix --config .eslintrc.json ./",
-    "lint:fix": "npm run lint -- --fix",
     "generate:assets": "",
     "generate:examples": ""
   },
-  "publishConfig": {
-    "access": "public"
+  "dependencies": {
+    "@asyncapi/generator-filters": "^2.1.0",
+    "@asyncapi/generator-react-sdk": "^0.2.23",
+    "@asyncapi/parser": "^1.17.1",
+    "yaml": "^1.10.2"
   },
   "generator": {
     "renderer": "react",
+    "generator": ">=1.9.12 <2.0.0",
     "parameters": {
       "supportedProtocols": [
         "amqp"
@@ -59,25 +60,6 @@
     },
     "filters": [
       "@asyncapi/generator-filters"
-    ],
-    "generator": ">=1.1.0 <2.0.0"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      [
-        "@babel/preset-react",
-        {
-          "runtime": "automatic"
-        }
-      ]
-    ]
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "jsx"
     ]
   }
 }

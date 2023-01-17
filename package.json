@@ -100,6 +100,8 @@
   },
   "devDependencies": {
     "@asyncapi/generator": "^1.9.14",
+    "@asyncapi/generator-filters": "^2.1.0",
+    "@asyncapi/generator-react-sdk": "^0.2.25",
     "@asyncapi/modelina": "^0.59.9",
     "@asyncapi/parser": "^1.17.2",
     "@babel/core": "7.12.13",
@@ -186,6 +188,7 @@
     "jest-environment-jsdom": "28.1.1",
     "log4brains": "^1.0.1",
     "mustache": "^4.2.0",
+    "next-intl": "^2.11.0-beta.1",
     "next-seo": "^5.14.1",
     "nookies": "^2.5.2",
     "nx": "15.4.1",

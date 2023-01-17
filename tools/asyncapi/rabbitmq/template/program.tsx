@@ -1,15 +1,14 @@
-import { File } from "@asyncapi/generator-react-sdk";
-import React from "react";
+import { TemplateContext } from "@asyncapi/generator-react-sdk";
+import { FileRenderer } from "../utils";
 
-export default function ({ asyncapi, params }) {
+export default function ({ asyncapi, params }: TemplateContext) {
   if (!asyncapi.hasComponents()) {
     return null;
   }
 
   return (
-    <File
-      name="Program.cs"
-      childrenContent={`using Masking.Serilog;
+    <FileRenderer name="Program.cs">
+      {`using Masking.Serilog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,6 +38,6 @@ namespace ${params.namespace}
                 });
     }
 }`}
-    />
+    </FileRenderer>
   );
 }

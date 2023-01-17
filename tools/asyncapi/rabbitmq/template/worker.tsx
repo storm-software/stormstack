@@ -1,39 +1,46 @@
-import { File, render } from "@asyncapi/generator-react-sdk";
-import React from "react";
+import { render, TemplateContext } from "@asyncapi/generator-react-sdk";
 import { Consumers } from "../components/Consumers";
 import { Publishers } from "../components/Publishers";
 import { Worker } from "../components/Worker";
-import { getChannels } from "../utils/common";
+import { FileRenderer } from "../utils";
+import {
+  Consumer,
+  getChannels,
+  GetChannelsResultItem,
+  Publisher,
+} from "../utils/common";
 
-export default function ({ asyncapi, params }) {
+export default function ({
+  asyncapi,
+  params,
+  originalAsyncAPI,
+}: TemplateContext) {
   if (!asyncapi.hasComponents()) {
     return null;
   }
 
-  const publishers = getChannels(asyncapi).filter(
-    (channel: any) => channel.isPublish
-  );
-  const consumers = getChannels(asyncapi).filter(
-    (channel: any) => !channel.isPublish
-  );
+  const publishers: Publisher[] = getChannels(asyncapi).filter(
+    (channel: GetChannelsResultItem) => !!channel?.isPublish
+  ) as Publisher[];
+  const consumers: Consumer[] = getChannels(asyncapi).filter(
+    (channel: GetChannelsResultItem) => !channel?.isPublish
+  ) as Consumer[];
 
   return (
-    <File
-      name="Worker.cs"
-      childrenContent={
-        (
-          <Worker
-            asyncapi={asyncapi}
-            params={params}
-            childrenContent={
-              <>
-                {render(<Consumers channels={consumers} />)}
-                {render(<Publishers channels={publishers} />)}
-              </>
-            }
-          />
-        ) as any
-      }
-    />
+    <FileRenderer name="Worker.cs">
+      {render(
+        <Worker
+          asyncapi={asyncapi}
+          params={params}
+          originalAsyncAPI={originalAsyncAPI}
+          childrenContent={
+            <>
+              {render(<Consumers consumers={consumers} />)}
+              {render(<Publishers publishers={publishers} />)}
+            </>
+          }
+        />
+      )}
+    </FileRenderer>
   );
 }

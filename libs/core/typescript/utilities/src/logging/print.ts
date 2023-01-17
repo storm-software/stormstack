@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { isEmpty, isObject, isPrimitive } from "../common";
 
 /**
  * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
@@ -10,16 +11,20 @@ import chalk from "chalk";
  * @param {string} [prefix] - The prefix to use for the message.
  */
 const print = (
-  message: string,
+  message: any,
   newLine = true,
   newLineAfter = true,
   prefix?: string
-) => {
-  console.error(
-    `${newLine ? "\n" : ""}${prefix ? `${prefix} ` : ""}${message}${
-      newLineAfter ? "\n" : ""
-    }`
-  );
+): any => {
+  return !isPrimitive(message) && !isObject(message) && !isEmpty(message)
+    ? message
+    : `${newLine ? "\n" : ""}${prefix ? `${prefix} ` : ""}${
+        isEmpty(message)
+          ? ""
+          : isObject(message)
+          ? JSON.stringify(message)
+          : message
+      }${newLineAfter ? "\n" : ""}`;
 };
 
 /**
@@ -35,7 +40,7 @@ export const printInfo = (
   newLine = true,
   newLineAfter = true
 ) => {
-  print(message, newLine, newLineAfter, chalk.blue("i"));
+  console.info(print(message, newLine, newLineAfter, chalk.blue("i")));
 };
 
 /**
@@ -62,7 +67,7 @@ export const printSuccess = (
   newLine = true,
   newLineAfter = true
 ) => {
-  print(message, newLine, newLineAfter, chalk.green("✓"));
+  console.log(print(message, newLine, newLineAfter, chalk.green("✓")));
 };
 
 /**
@@ -76,7 +81,7 @@ export const printWarning = (
   newLine = true,
   newLineAfter = true
 ) => {
-  print(message, newLine, newLineAfter, chalk.yellow("!"));
+  console.warn(print(message, newLine, newLineAfter, chalk.yellow("!")));
 };
 
 /**
@@ -91,5 +96,5 @@ export const printError = (
   newLine = true,
   newLineAfter = true
 ) => {
-  print(message, newLine, newLineAfter, chalk.red("!"));
+  console.error(print(message, newLine, newLineAfter, chalk.red("!")));
 };

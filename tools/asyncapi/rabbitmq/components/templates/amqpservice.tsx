@@ -1,16 +1,27 @@
-import React from "react";
-import { getChannels, toPascalCase } from "../../utils";
+import { TemplateContext } from "@asyncapi/generator-react-sdk";
+import { Server } from "@asyncapi/parser";
+import {
+  Consumer,
+  getChannels,
+  GetChannelsResultItem,
+  Publisher,
+  toPascalCase,
+} from "../../utils";
 
-const template = (asyncapi, params) => {
-  const publishers = getChannels(asyncapi).filter(
-    (channel: any) => channel.isPublish
-  );
-  const consumers = getChannels(asyncapi).filter(
-    (channel: any) => !channel.isPublish
-  );
+export function AmqpService({ asyncapi, params }: TemplateContext) {
+  if (!asyncapi.hasComponents()) {
+    return null;
+  }
+
+  const publishers: Publisher[] = getChannels(asyncapi).filter(
+    (channel: GetChannelsResultItem) => !!channel?.isPublish
+  ) as Publisher[];
+  const consumers: Consumer[] = getChannels(asyncapi).filter(
+    (channel: GetChannelsResultItem) => !channel?.isPublish
+  ) as Consumer[];
 
   const protocol = Object.entries(asyncapi.servers())
-    .map(([serverName, server]: [any, any]) => {
+    .map(([serverName, server]: [string, Server]) => {
       if (serverName === params.server) {
         return server.protocol();
       }
@@ -63,7 +74,7 @@ public class AmqpService : IAmqpService
 
     ${publishers
       .map(
-        (publisher: any) => `/// <summary>
+        (publisher: Publisher) => `/// <summary>
     /// Operations from async api specification
     /// </summary>
     /// <param name="message">The message to be handled by this amqp operation</param>
@@ -121,7 +132,9 @@ public class AmqpService : IAmqpService
 
     ${consumers
       .map(
-        (consumer: any) => `public void ${toPascalCase(consumer.operationId)}()
+        (consumer: Consumer) => `public void ${toPascalCase(
+          consumer.operationId
+        )}()
     {
         var queue = "${consumer.queue}"; // queue from specification
         var channel = _channelPool.GetChannel("${toPascalCase(
@@ -176,12 +189,4 @@ public class AmqpService : IAmqpService
     }
 }`}</>
   );
-};
-
-export function AmqpService({ asyncapi, params }) {
-  if (!asyncapi.hasComponents()) {
-    return null;
-  }
-
-  return template(asyncapi, params);
 }

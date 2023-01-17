@@ -22,7 +22,7 @@ export default async function (
       forceWrite: true,
       output: "fs",
       install: false,
-      debug: true,
+      debug: false,
     });
 
     console.log(

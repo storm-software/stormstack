@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require("@nrwl/next/plugins/with-nx");
+const { withNextIntl } = require("next-intl/withNextIntl");
 const { CONTACT_URL, API_URL } = process.env;
 
 const nextConfig = {
@@ -79,4 +80,7 @@ const nextConfig = {
   },
 };
 
-module.exports = withNx(nextConfig);
+module.exports = withNextIntl({
+  ...withNx(nextConfig),
+  i18nConfig: "./next-intl.config.ts",
+});

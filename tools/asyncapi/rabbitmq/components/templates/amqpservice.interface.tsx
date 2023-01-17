@@ -1,7 +1,29 @@
-import React from "react";
-import { getChannels, toPascalCase } from "../../utils";
+import { TemplateContext } from "@asyncapi/generator-react-sdk";
+import {
+  Consumer,
+  getChannels,
+  GetChannelsResultItem,
+  Logger,
+  Publisher,
+  toPascalCase,
+} from "../../utils";
 
-const template = (publishers, consumers, params) => {
+export function IAmqpService({ asyncapi, params }: TemplateContext) {
+  Logger.info("Rendering IAmqpService");
+  Logger.info(asyncapi);
+  Logger.info(asyncapi.hasComponents());
+
+  if (!asyncapi.hasComponents()) {
+    return null;
+  }
+
+  const publishers: Publisher[] = getChannels(asyncapi).filter(
+    (channel: GetChannelsResultItem) => !!channel?.isPublish
+  ) as Publisher[];
+  const consumers: Consumer[] = getChannels(asyncapi).filter(
+    (channel: GetChannelsResultItem) => !channel?.isPublish
+  ) as Consumer[];
+
   return (
     <>{`using System;
 using ${params.namespace}.Models;
@@ -39,19 +61,4 @@ public interface IAmqpService : IDisposable
         .join("")}
 }`}</>
   );
-};
-
-export function IAmqpService({ asyncapi, params }) {
-  if (!asyncapi.hasComponents()) {
-    return null;
-  }
-
-  const publishers = getChannels(asyncapi).filter(
-    (channel: any) => channel.isPublish
-  );
-  const consumers = getChannels(asyncapi).filter(
-    (channel: any) => !channel.isPublish
-  );
-
-  return template(publishers, consumers, params);
 }

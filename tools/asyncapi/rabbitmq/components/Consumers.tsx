@@ -1,15 +1,14 @@
-import React from "react";
-import { toPascalCase } from "../utils";
+import { Consumer, toPascalCase } from "../utils";
 
-export function Consumers({ channels }) {
-  if (channels.length === 0) {
+export function Consumers({ consumers }: { consumers: Consumer[] }) {
+  if (consumers.length === 0) {
     return null;
   }
 
   return (
     <>{`protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-          _amqpService.${toPascalCase(channels[0].operationId)}();
+          _amqpService.${toPascalCase(consumers[0].operationId)}();
           return Task.CompletedTask;
         }`}</>
   );

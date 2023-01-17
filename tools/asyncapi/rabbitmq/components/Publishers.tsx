@@ -1,8 +1,7 @@
-import React from "react";
-import { toPascalCase } from "../utils";
+import { Publisher, toPascalCase } from "../utils";
 
-export const Publishers = ({ channels }) => {
-  if (channels.length === 0) {
+export const Publishers = ({ publishers }: { publishers: Publisher[] }) => {
+  if (publishers.length === 0) {
     return null;
   }
 
@@ -13,8 +12,10 @@ export const Publishers = ({ channels }) => {
             var rnd = new Random((int) DateTime.Now.Ticks);
             while (!stoppingToken.IsCancellationRequested)
             {
-                var message = new ${toPascalCase(channels[0].messageType)}();
-                _amqpService.${toPascalCase(channels[0].operationId)}(message);
+                var message = new ${toPascalCase(publishers[0].messageType)}();
+                _amqpService.${toPascalCase(
+                  publishers[0].operationId
+                )}(message);
                 await Task.Delay(rnd.Next(500, 3000), stoppingToken);
             }
         }`}</>

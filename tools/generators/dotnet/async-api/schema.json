@@ -18,7 +18,7 @@
     "targetDir": {
       "type": "string",
       "description": "Path to the directory where the files will be generated",
-      "default": "C:\\Development\\open-system\\dist\\tools\\asyncapi\\output"
+      "default": "C:\\Development\\open-system\\dist\\tools\\asyncapi\\rabbitmq\\__transpiled"
     },
     "pdf": {
       "type": "boolean",

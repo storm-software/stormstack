@@ -1,16 +1,13 @@
-import { File, render } from "@asyncapi/generator-react-sdk";
-import React from "react";
+import { render, TemplateContext } from "@asyncapi/generator-react-sdk";
 import { ChannelPool } from "../../components/templates/channelpool";
+import { FileRenderer, Logger } from "../../utils";
 
-export default function ({ asyncapi, params }) {
-  console.log("****** Generating ChannelPool");
+export default function (props: TemplateContext) {
+  Logger.info("****** Generating ChannelPool");
 
   return (
-    <File
-      name="ChannelPool.cs"
-      childrenContent={render(
-        <ChannelPool asyncapi={asyncapi} params={params} />
-      )}
-    />
+    <FileRenderer name="ChannelPool.cs">
+      {render(<ChannelPool {...props} />)}
+    </FileRenderer>
   );
 }

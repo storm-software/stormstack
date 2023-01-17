@@ -1,17 +1,18 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../dist/tools",
-    "rootDir": ".",
-    "allowJs": true,
+    "outDir": "../dist/out-tsc",
     "module": "commonjs",
     "target": "es5",
-    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     "strict": false,
-    "importHelpers": false,
-    "isolatedModules": true,
-    "moduleResolution": "node",
-    "types": ["node"]
+    "noImplicitOverride": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }

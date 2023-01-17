@@ -146,5 +146,8 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["core-typescript-utilities"]
+  "implicitDependencies": [
+    "core-typescript-utilities",
+    "tools-asyncapi-rabbitmq"
+  ]
 }

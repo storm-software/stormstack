@@ -1,0 +1,40 @@
+{
+  "general": {
+    "title": "Patrick Sullivan Desarrollo"
+  },
+  "introduction": {
+    "title": "Introducción",
+    "labels": {
+      "whoIsPatrickSullivan": "Quien es Patrick Sullivan?",
+      "introductionTxt": "Introducción.txt",
+      "recentlyOpened": "Abierto Recientemente",
+      "lastSavedOn": "Última guardada en"
+    }
+  },
+  "stack": {
+    "title": "Desarrollo de Pila Completa",
+    "description": "Siento que hoy en día la frase desarrollador de pila completa se usa abrumadoramente incorrectamente; sin embargo, me siento muy cómodo trabajando en todas las áreas de desarrollo de software moderno (y algunas áreas de desarrollo de hardware). Mi experiencia va desde el desarrollo de un sistema de diseño de UI/UX para un cliente bancario React, hasta la lectura de esquemas de PCB para aplicaciones aeronáuticas comerciales.",
+    "layers": {
+      "designSystem": {
+        "title": "Sistema de Diseño",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      },
+      "clientSide": {
+        "title": "Lado del Cliente",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      },
+      "serverSide": {
+        "title": "Lado del Servidor",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      },
+      "database": {
+        "title": "Base de Datos",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      },
+      "hardware": {
+        "title": "Hardware",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      }
+    }
+  }
+}

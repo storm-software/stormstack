@@ -1,15 +1,14 @@
-import { File } from "@asyncapi/generator-react-sdk";
-import React from "react";
+import { TemplateContext } from "@asyncapi/generator-react-sdk";
+import { FileRenderer } from "../utils";
 
-export default function ({ asyncapi, params }) {
+export default function ({ asyncapi, params }: TemplateContext) {
   if (!asyncapi.hasComponents()) {
     return null;
   }
 
   return (
-    <File
-      name="Dockerfile"
-      childrenContent={`FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+    <FileRenderer name="Dockerfile">
+      {`FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 WORKDIR /app
@@ -33,6 +32,6 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 ENTRYPOINT ["dotnet", "${params.namespace}.dll"]`}
-    />
+    </FileRenderer>
   );
 }

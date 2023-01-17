@@ -1,30 +1,10 @@
 {
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "name": "tools-asyncapi-rabbitmq",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "tools/asyncapi/rabbitmq",
   "projectType": "library",
   "targets": {
-    "server-mq": {
-      "executor": "nx:run-commands",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "./tools/asyncapi/rabbitmq/output",
-        "color": true,
-        "command": "ag ./tools/asyncapi/asyncapi.yaml ./tools/asyncapi/rabbitmq -o ./tools/asyncapi/rabbitmq/output --force-write -p server=development --debug"
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "tools/asyncapi/rabbitmq/**/*.ts",
-          "tools/asyncapi/rabbitmq/generators.json",
-          "tools/asyncapi/rabbitmq/package.json"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
-    },
-    "build-bundle": {
+    "bundle": {
       "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -36,6 +16,7 @@
         "deleteOutputPath": true,
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
+        "verbose": true,
         "assets": [
           {
             "input": "./tools/asyncapi/rabbitmq",
@@ -57,15 +38,25 @@
     },
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{options.outputPath}"],
       "options": {
         "color": true,
         "parallel": false,
         "commands": [
-          "nx run tools-asyncapi-rabbitmq:build",
+          "nx run tools-asyncapi-rabbitmq:bundle",
           "rimraf dist/tools/asyncapi/rabbitmq/**/*d.ts"
         ]
       }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/asyncapi/rabbitmq/**/*.ts",
+          "tools/asyncapi/rabbitmq/generators.json",
+          "tools/asyncapi/rabbitmq/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
@@ -85,5 +76,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": ["core-typescript-utilities"]
 }

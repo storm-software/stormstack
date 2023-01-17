@@ -1,5 +1,6 @@
-import { File } from "@asyncapi/generator-react-sdk";
-import React from "react";
+import { TemplateContext } from "@asyncapi/generator-react-sdk";
+import { Server } from "@asyncapi/parser";
+import { FileRenderer } from "../utils";
 
 /*
  * Each template to be rendered must have as a root component a File component,
@@ -12,13 +13,13 @@ import React from "react";
  *
  * Notice that you can pass parameters to components. In fact, underneath, each component is a pure Javascript function.
  */
-export default function ({ asyncapi, params }) {
+export default function ({ asyncapi, params }: TemplateContext) {
   if (!asyncapi.hasComponents()) {
     return null;
   }
 
   const server = Object.entries(asyncapi.servers())
-    .map(([serverName, server]: [any, any]) => {
+    .map(([serverName, server]: [string, Server]) => {
       if (serverName === params.server) {
         return server.url();
       }
@@ -27,9 +28,8 @@ export default function ({ asyncapi, params }) {
 
   // Notice that root component is the `File` component.
   return (
-    <File
-      name="appsettings.json"
-      childrenContent={`{
+    <FileRenderer name="appsettings.json">
+      {`{
 "Serilog": {
     "MinimumLevel": {
     "Default": "Verbose",
@@ -70,6 +70,6 @@ export default function ({ asyncapi, params }) {
     "Host": "${server}"
     }
 }`}
-    />
+    </FileRenderer>
   );
 }

@@ -1,0 +1,40 @@
+{
+  "general": {
+    "title": "Patrick Sullivan Development"
+  },
+  "introduction": {
+    "title": "Introduction",
+    "labels": {
+      "whoIsPatrickSullivan": "Who is Patrick Sullivan?",
+      "introductionTxt": "Introduction.txt",
+      "recentlyOpened": "Recently Opened",
+      "lastSavedOn": "Last saved on"
+    }
+  },
+  "stack": {
+    "title": "Full Stack Development",
+    "description": "I feel nowadays the phrase full stack developer is overwhelming used incorrectly; however, I am very comfortable working in all areas of modern software development (and some areas of hardware development). My experience ranges as far as developing a UI/UX design system for a React banking client, all the way to reading PCB schematics for commercial aeronautical applications.",
+    "layers": {
+      "designSystem": {
+        "title": "Design System",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      },
+      "clientSide": {
+        "title": "Client-Side",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      },
+      "serverSide": {
+        "title": "Server-Side",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      },
+      "database": {
+        "title": "Database",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      },
+      "hardware": {
+        "title": "Hardware",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      }
+    }
+  }
+}

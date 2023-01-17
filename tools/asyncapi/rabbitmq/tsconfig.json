@@ -1,19 +1,12 @@
 {
   "extends": "../../tsconfig.tools.json",
   "compilerOptions": {
-    "jsx": "react",
-    "outDir": "../../../dist/tools/asyncapi/rabbitmq",
-    "declaration": false,
+    "jsx": "react-jsx",
+    "outDir": "../../../dist/out-tsc",
     "declarationMap": false,
     "forceConsistentCasingInFileNames": false,
-    "strict": false,
-    "allowJs": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": false,
-    "noPropertyAccessFromIndexSignature": false,
     "suppressImplicitAnyIndexErrors": true,
-    "preserveSymlinks": true,
+    "noImplicitAny": false,
     "types": ["node"]
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],

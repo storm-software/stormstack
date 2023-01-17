@@ -3,7 +3,7 @@
   "info": {
     "title": "Engagement Service",
     "version": "1.0.0",
-    "description": "This service is in charge of processing system engagement data",
+    "description": "The service in charge of processing system engagement data\r\n### Reaction Types: \r\n* Like\r\n* Dislike\r\n* Love\r\n* Hate\r\n* Laugh\r\n* Cry",
     "termsOfService": "https://sullivanpj.com/terms",
     "contact": {
       "name": "Patrick Sullivan",
@@ -15,11 +15,17 @@
       "url": "https://opensource.org/licenses/BSD-2-Clause"
     }
   },
-  "defaultContentType": "json",
+  "defaultContentType": "application/json",
   "servers": {
     "development": {
       "url": "http://localhost:5100/services/engagement",
       "description": "Local development server",
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
+    },
+    "staging": {
+      "url": "https://sullivanpj.com/services/engagement",
+      "description": "Staging environment",
       "protocol": "amqp",
       "protocolVersion": "0.9.1"
     },
@@ -32,71 +38,108 @@
   },
   "channels": {
     "reaction/add": {
+      "description": "A topic to add a new user reaction for specific application content.",
       "subscribe": {
         "operationId": "onAddReactionReceived",
         "message": {
-          "name": "ReactionModel",
-          "payload": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "userId": {
-                "type": "string",
-                "example": "A unique Id used to identify the the current user"
-              },
-              "contentId": {
-                "type": "string",
-                "example": "A unique Id used to identify the content the user is reacting to"
-              },
-              "contentType": {
-                "type": "string",
-                "enum": ["article", "comment"]
-              },
-              "reactionType": {
-                "type": "string",
-                "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"]
-              }
-            }
-          }
-        },
-        "bindings": {
-          "amqp": {
-            "is": "routingKey",
-            "exchange": { "name": "reaction", "type": "topic", "vhost": "/" },
-            "queue": { "name": "engagement" }
-          }
+          "$ref": "#/components/messages/reaction"
         }
       },
       "publish": {
         "operationId": "sendAddReaction",
         "message": {
-          "name": "ReactionModel",
-          "payload": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "userId": {
-                "type": "string",
-                "example": "A unique Id used to identify the the current user"
-              },
-              "contentId": {
-                "type": "string",
-                "example": "A unique Id used to identify the content the user is reacting to"
-              },
-              "contentType": {
-                "type": "string",
-                "enum": ["article", "comment"]
-              },
-              "reactionType": {
-                "type": "string",
-                "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"]
-              }
-            }
-          }
+          "$ref": "#/components/messages/reaction"
         },
         "bindings": {
           "amqp": {
-            "ack": false
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        }
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "reactionExchange",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "engagement" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "reaction/remove": {
+      "description": "A topic to remove a previously added user reaction that is no longer valid.",
+      "subscribe": {
+        "operationId": "onRemoveReactionReceived",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        }
+      },
+      "publish": {
+        "operationId": "sendRemoveReaction",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        }
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "reactionExchange",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "engagement" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    }
+  },
+  "components": {
+    "messages": {
+      "reaction": {
+        "name": "Reaction",
+        "title": "User Reaction",
+        "summary": "A reaction a user had to a specific piece of content in the application.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/reactionPayload"
+        }
+      }
+    },
+    "schemas": {
+      "reactionPayload": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "A unique Id used to identify the the current user"
+          },
+          "contentId": {
+            "type": "string",
+            "example": "A unique Id used to identify the content the user is reacting to"
+          },
+          "contentType": {
+            "type": "string",
+            "enum": ["article", "comment"]
+          },
+          "reactionType": {
+            "type": "string",
+            "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"]
           }
         }
       }

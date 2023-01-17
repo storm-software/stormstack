@@ -1,6 +1,10 @@
-import React from "react";
+import { TemplateContext } from "@asyncapi/generator-react-sdk";
 
-export const Worker = ({ asyncapi, params, childrenContent }) => {
+export const Worker = ({
+  asyncapi,
+  params,
+  childrenContent,
+}: TemplateContext) => {
   return (
     <>{`using System;
 using System.Threading;

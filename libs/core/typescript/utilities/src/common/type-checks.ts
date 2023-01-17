@@ -2,6 +2,7 @@ import {
   isFunction as isFunctionExternal,
   isNumber as isNumberExternal,
   isObject as isObjectExternal,
+  isPrimitive as isPrimitiveExternal,
   isSymbol as isSymbolExternal,
 } from "radash";
 import { MutableRefObject } from "react";
@@ -32,6 +33,21 @@ export const isSymbol = (obj: unknown): obj is symbol => {
     return (
       obj instanceof Symbol || typeof obj === "symbol" || isSymbolExternal(obj)
     );
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * Check if the provided value's type is a primary type
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the value provided is a primary type
+ *
+ * @remarks **Primitive Types**: `number`, `string`, `boolean`, `symbol`, `bigint`, `undefined`, `null`
+ */
+export const isPrimitive = (obj: unknown): boolean => {
+  try {
+    return isPrimitiveExternal(obj);
   } catch (e) {
     return false;
   }

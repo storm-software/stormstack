@@ -1,16 +1,13 @@
-import { File, render } from "@asyncapi/generator-react-sdk";
-import React from "react";
+import { render, TemplateContext } from "@asyncapi/generator-react-sdk";
 import { IAmqpService } from "../../../components/templates/amqpservice.interface";
+import { FileRenderer, Logger } from "../../../utils";
 
-export default function ({ asyncapi, params }) {
-  console.log("****** Generating IAmqpService");
+export default function (props: TemplateContext) {
+  Logger.info("****** Generating IAmqpService");
 
   return (
-    <File
-      name="IAmqpService.cs"
-      childrenContent={render(
-        <IAmqpService asyncapi={asyncapi} params={params} />
-      )}
-    />
+    <FileRenderer name="IAmqpService.cs">
+      {render(<IAmqpService {...props} />)}
+    </FileRenderer>
   );
 }

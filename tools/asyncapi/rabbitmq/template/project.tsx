@@ -1,17 +1,16 @@
-import { File } from "@asyncapi/generator-react-sdk";
-import React from "react";
+import { render, TemplateContext } from "@asyncapi/generator-react-sdk";
+import { FileRenderer } from "../utils";
 
-export default function ({ asyncapi, params }) {
+export default function ({ asyncapi, params }: TemplateContext) {
   if (!asyncapi.hasComponents()) {
     return null;
   }
 
   return (
-    <File
-      name={`${params.namespace}.csproj`}
-      childrenContent={`<Project Sdk="Microsoft.NET.Sdk.Web">
+    <FileRenderer name={`${params.namespace}.csproj`}>
+      {render(`<Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Masking.Serilog" Version="1.0.13" />
@@ -24,7 +23,7 @@ export default function ({ asyncapi, params }) {
         <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
         <PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />
     </ItemGroup>
-</Project>`}
-    />
+</Project>`)}
+    </FileRenderer>
   );
 }

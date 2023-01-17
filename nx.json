@@ -89,4 +89,3 @@
   "defaultProject": "web-shell",
   "plugins": ["@nx-dotnet/core"]
 }
-

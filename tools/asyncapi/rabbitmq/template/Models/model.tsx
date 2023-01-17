@@ -1,26 +1,18 @@
-import { File } from "@asyncapi/generator-react-sdk";
+import { TemplateContext } from "@asyncapi/generator-react-sdk";
 import {
   CSharpGenerator,
   CSHARP_JSON_SERIALIZER_PRESET,
   FormatHelpers,
 } from "@asyncapi/modelina";
-import React from "react";
+import { FileRenderer, Logger } from "../../utils";
 
-/**
- * @typedef RenderArgument
- * @type {object}
- * @property {AsyncAPIDocument} asyncapi received from the generator.
- */
-
-/**
- * Render all schema models
- * @param {RenderArgument} param0
- * @returns
- */
-export default async function modelRenderer({ asyncapi, params }) {
-  console.log("Generating models");
-  console.log(JSON.stringify(asyncapi));
-  console.log(`{
+export default async function modelRenderer({
+  asyncapi,
+  params,
+}: TemplateContext) {
+  Logger.info("Generating models");
+  Logger.info(JSON.stringify(asyncapi));
+  Logger.info(`{
     pdf: ${params.pdf},
     png: ${params.png},
     svg: ${params.svg},
@@ -35,18 +27,22 @@ export default async function modelRenderer({ asyncapi, params }) {
     presets: [CSHARP_JSON_SERIALIZER_PRESET],
   });
 
-  const generatedModels = await generator.generateCompleteModels(asyncapi, {
-    namespace: `${params.namespace}.Models`,
-  });
-  console.log(generatedModels);
+  const generatedModels = await generator.generateCompleteModels(
+    asyncapi as unknown as Record<string, unknown>,
+    {
+      namespace: `${params.namespace}.Models`,
+    }
+  );
+  Logger.info(generatedModels);
 
-  const files: any[] = [];
+  const files = [];
   for (const generatedModel of generatedModels) {
     const className = FormatHelpers.toPascalCase(generatedModel.modelName);
-    const modelFileName: any = `${className}.cs`;
+    const modelFileName = `${className}.cs`;
     files.push(
-      <File name={modelFileName} childrenContent={generatedModel.result} />
+      <FileRenderer name={modelFileName}>{generatedModel.result}</FileRenderer>
     );
   }
+
   return files;
 }
