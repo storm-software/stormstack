@@ -1,7 +1,7 @@
 "use client";
 
 import { PropsWithBase } from "@open-system/design-system-components";
-import { LikeButton as LikeButtonInner } from "@open-system/engagement-ui-feat-reaction/like-button";
+import { LikeButton as LikeButtonInner } from "@open-system/blog-engagement-ui-feature-reaction/like-button";
 
 export type LikeButtonProps = PropsWithBase<{
   pageId: string;

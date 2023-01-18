@@ -1,0 +1,653 @@
+{
+  "openapi": "3.0.0",
+  "x-stoplight": {
+    "id": "1121s8nqejp11"
+  },
+  "info": {
+    "title": "Engagement",
+    "version": "1.0",
+    "description": "A collection of APIs used to get and set user reactions and comments for an article/page ",
+    "contact": {
+      "name": "Patrick Sullivan",
+      "email": "Patrick.Joseph.Sullivan@protonmail.com",
+      "url": "https://sullivanpj.github.io/open-system/services/engagement"
+    },
+    "termsOfService": "https://sullivanpj.github.io/open-system/services/engagement",
+    "license": {
+      "name": "BSD 2-Clause License",
+      "url": "https://opensource.org/licenses/BSD-2-Clause"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Local Development"
+    }
+  ],
+  "paths": {
+    "/articles/{articleId}/reactions": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "articleId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the article/page"
+        }
+      ],
+      "get": {
+        "summary": "Get Article Reactions",
+        "operationId": "get-article-reactions",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetReactionsResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "description": "An end point that returns the reactions for an article/page to a client",
+        "tags": ["Reactions"]
+      }
+    },
+    "/articles/{articleId}/reactions/{reactionType}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "articleId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the article/page"
+        },
+        {
+          "name": "reactionType",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"],
+            "example": "like"
+          },
+          "description": "The type of reaction the user had"
+        }
+      ],
+      "get": {
+        "summary": "Get Reaction",
+        "operationId": "get-article-reaction",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetReactionResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "description": "An end point that returns the reactions for an article/page to a client",
+        "tags": ["Reactions"]
+      },
+      "delete": {
+        "summary": "Remove Reaction",
+        "operationId": "delete-article-reaction",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Sample Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Remove an existing reaction to an article",
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "tags": ["Reactions"]
+      },
+      "post": {
+        "summary": "Add Reaction",
+        "operationId": "add-article-reaction",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Sample Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Add a new reaction to an article",
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "tags": ["Reactions"]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ReactionDetail": {
+        "title": "ReactionDetail",
+        "x-stoplight": {
+          "id": "eaea51555be8e"
+        },
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "like",
+            "example": "like",
+            "enum": ["like", "dislike", "happy", "sad", "cry", "laugh"]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 548
+          }
+        },
+        "required": ["type", "count"],
+        "x-examples": {
+          "Example 1": {
+            "type": "like",
+            "count": 548
+          }
+        }
+      }
+    },
+    "requestBodies": {},
+    "responses": {
+      "GetReactionsResponse": {
+        "description": "Successful response to Get Reactions end point",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/RecordBase"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "articleId": {
+                      "type": "string",
+                      "description": "The id of the article/page",
+                      "example": "home"
+                    },
+                    "reactions": {
+                      "type": "array",
+                      "description": "The list of reactions for the specified article ",
+                      "items": {
+                        "$ref": "#/components/schemas/ReactionDetail"
+                      }
+                    }
+                  },
+                  "required": ["articleId", "reactions"]
+                }
+              ]
+            },
+            "examples": {
+              "Example 1": {
+                "value": {
+                  "guid": "123e4567-e89b-12d3-a456-426614174000",
+                  "createdOn": "2022-03-19 04:24:02.190",
+                  "createdBy": "PSUL",
+                  "updatedOn": "2022-10-12 14:01:13.000",
+                  "updatedBy": "PSUL",
+                  "articleId": "home",
+                  "reactions": [
+                    {
+                      "type": "like",
+                      "count": 548
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "headers": {}
+      },
+      "GetReactionResponse": {
+        "description": "Successful response to Get Reactions end point",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/RecordBase"
+                },
+                {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "articleId": {
+                          "type": "string",
+                          "description": "The id of the article/page",
+                          "example": "home"
+                        }
+                      },
+                      "required": ["articleId"]
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReactionDetail"
+                    }
+                  ]
+                }
+              ]
+            },
+            "examples": {
+              "Example 1": {
+                "value": {
+                  "guid": "123e4567-e89b-12d3-a456-426614174000",
+                  "createdOn": "2022-03-19 04:24:02.190",
+                  "createdBy": "PSUL",
+                  "updatedOn": "2022-10-12 14:01:13.000",
+                  "updatedBy": "PSUL",
+                  "articleId": "home",
+                  "type": "like",
+                  "count": 548
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "reactionType": {
+        "name": "reactionType",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"],
+          "example": "like"
+        },
+        "description": "The type of reaction the user had"
+      },
+      "articleId": {
+        "name": "articleId",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "The id of the article/page"
+      },
+      "contentType": {
+        "name": "contentType",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "article",
+          "enum": ["article", "comment"]
+        },
+        "description": "The type of content the user is engaging with"
+      }
+    },
+    "securitySchemes": {}
+  },
+  "x-all-of-name": "DTO_AllOf",
+  "x-one-of-name": "DTO_OneOf",
+  "tags": [
+    {
+      "name": "Comment"
+    },
+    {
+      "name": "Reactions"
+    }
+  ]
+}

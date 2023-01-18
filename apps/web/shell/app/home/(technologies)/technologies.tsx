@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import ApiExtractorLogo from "../../../../../../assets/external-logos/api-extractor-logo.svg";
 import asyncapiLogo from "../../../../../../assets/external-logos/asyncapi-logo.png";
 import CommitlintLogo from "../../../../../../assets/external-logos/commitlint-logo.svg";
+import contextMapperLogo from "../../../../../../assets/external-logos/context-mapper-logo.png";
 import cypressLogo from "../../../../../../assets/external-logos/cypress-logo.png";
 import DockerLogo from "../../../../../../assets/external-logos/docker-logo.svg";
 import DocusaurusLogo from "../../../../../../assets/external-logos/docusaurus-logo.svg";
@@ -102,14 +103,14 @@ export default function Technologies() {
               <FigmaLogo alt="Figma" height={200} width={200} />
             </Technology>
             <Technology
-              name="Structurizr"
+              name="Context Mapper"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
-              url="https://structurizr.com/">
+              url="https://contextmapper.org/">
               <div className="h-44 w-52">
                 <Image
-                  src={structurizrLogo}
-                  alt="Structurizr"
-                  height={150}
+                  src={contextMapperLogo}
+                  alt="Context Mapper"
+                  height={200}
                   width={200}
                 />
               </div>
@@ -136,6 +137,19 @@ export default function Technologies() {
                   alt="Style Dictionary"
                   height={175}
                   width={175}
+                />
+              </div>
+            </Technology>
+            <Technology
+              name="Structurizr"
+              description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
+              url="https://structurizr.com/">
+              <div className="h-44 w-52">
+                <Image
+                  src={structurizrLogo}
+                  alt="Structurizr"
+                  height={150}
+                  width={200}
                 />
               </div>
             </Technology>

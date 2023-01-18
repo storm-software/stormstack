@@ -3,7 +3,7 @@
 import {
   ScrollArrowIndicator,
   ScrollProgressBar,
-} from "@open-system/shared-ui-feat-layout";
+} from "@open-system/shared-ui-feature-layout";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "reflect-metadata";
 import Logo from "../../../../../assets/box-logo-gradient.svg";

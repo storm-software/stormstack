@@ -1,0 +1,16 @@
+{
+  "name": "blog-engagement-config",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/blog/engagement/config/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/blog/engagement/config/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

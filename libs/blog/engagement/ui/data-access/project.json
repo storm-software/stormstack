@@ -1,0 +1,61 @@
+{
+  "name": "blog-engagement-ui-data-access",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/blog/engagement/ui/data-access/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/blog/engagement/ui/data-access",
+        "tsConfig": "libs/blog/engagement/ui/data-access/tsconfig.lib.json",
+        "project": "libs/blog/engagement/ui/data-access/package.json",
+        "entryFile": "libs/blog/engagement/ui/data-access/src/index.ts",
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "assets": [
+          {
+            "glob": "libs/blog/engagement/ui/data-access/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/blog/engagement/ui/data-access/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/blog/engagement/ui/data-access/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "client-api-sync": {
+      "executor": "@open-system/executors-typescript:client-api-sync",
+      "options": {
+        "domainName": "engagement",
+        "specJsonFile": "libs/blog/engagement/config/src/engagement.api-spec.json",
+        "generator": "open-system-typescript-client"
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "blog-engagement-ui-data-access-v${VERSION}"
+      }
+    }
+  }
+}

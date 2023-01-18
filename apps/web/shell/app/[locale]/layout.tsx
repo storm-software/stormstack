@@ -6,7 +6,7 @@ import {
   Permanent_Marker,
 } from "@next/font/google";
 import localFont from "@next/font/local";
-import { Footer } from "@open-system/shared-ui-feat-layout/footer";
+import { Footer } from "@open-system/shared-ui-feature-layout/footer";
 import clsx from "clsx";
 import React from "react";
 import "reflect-metadata";

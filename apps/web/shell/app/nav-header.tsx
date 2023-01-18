@@ -1,7 +1,7 @@
 "use client";
 
-import { NavigationMenu } from "@open-system/shared-ui-feat-layout/navigation-menu";
-import { NotificationGroup } from "@open-system/shared-ui-feat-notifications/notification-group";
+import { NavigationMenu } from "@open-system/shared-ui-feature-layout/navigation-menu";
+import { NotificationGroup } from "@open-system/shared-ui-feature-notifications/notification-group";
 
 export default function NavHeader() {
   return (

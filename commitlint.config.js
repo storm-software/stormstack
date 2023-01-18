@@ -136,6 +136,11 @@ module.exports = {
         "emoji": ":chains:",
       },
       {
+        "name": "blog-engagement",
+        "description": "Anything related to the `blog-engagement` domain",
+        "emoji": ":lock:",
+      },
+      {
         "name": "message",
         "description": "Anything related to the `message` domain",
         "emoji": ":envelope:",
