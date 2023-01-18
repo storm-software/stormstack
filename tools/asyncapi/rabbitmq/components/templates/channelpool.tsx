@@ -67,19 +67,18 @@ export function ChannelPool({ asyncapi, params }: TemplateContext) {
           ${publishers.map(
             (publisher: Publisher) => `_channels.Add(
               "${toPascalCase(publisher.operationId)}",
-              CreateChannel(connection));`
+              CreateChannel(connection)); `
           )}
 
           // creating consumer channels
           ${consumers.map(
-            (consumer: Consumer) => `_channels.Add(
+            (consumer: Consumer) => ` _channels.Add(
               "${toPascalCase(consumer.operationId)}",
               CreateChannel(
                   connection,
                   ${consumer.prefetchCount},
-                  ${consumer.confirm}));`
+                  ${consumer.confirm})); `
           )}
-
       }
 
       public static IChannelPool Create(IConnection connection)

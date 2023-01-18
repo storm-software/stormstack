@@ -11,11 +11,12 @@ import {
 export function IAmqpService({ asyncapi, params }: TemplateContext) {
   Logger.info("Rendering IAmqpService");
   Logger.info(asyncapi);
-  Logger.info(asyncapi.hasComponents());
 
   if (!asyncapi.hasComponents()) {
     return null;
   }
+
+  Logger.info(asyncapi.channels());
 
   const publishers: Publisher[] = getChannels(asyncapi).filter(
     (channel: GetChannelsResultItem) => !!channel?.isPublish

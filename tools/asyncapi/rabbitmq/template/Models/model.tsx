@@ -23,25 +23,32 @@ export default async function modelRenderer({
     server: ${params.server}
   }`);
 
-  const generator = new CSharpGenerator({
-    presets: [CSHARP_JSON_SERIALIZER_PRESET],
-  });
-
-  const generatedModels = await generator.generateCompleteModels(
-    asyncapi as unknown as Record<string, unknown>,
-    {
-      namespace: `${params.namespace}.Models`,
-    }
-  );
-  Logger.info(generatedModels);
-
   const files = [];
-  for (const generatedModel of generatedModels) {
-    const className = FormatHelpers.toPascalCase(generatedModel.modelName);
-    const modelFileName = `${className}.cs`;
-    files.push(
-      <FileRenderer name={modelFileName}>{generatedModel.result}</FileRenderer>
+  try {
+    const generator = new CSharpGenerator({
+      presets: [CSHARP_JSON_SERIALIZER_PRESET],
+      processorOptions: { typescript: { required: true } },
+    });
+
+    const generatedModels = await generator.generateCompleteModels(
+      asyncapi as unknown as Record<string, unknown>,
+      {
+        namespace: `${params.namespace}.Models`,
+      }
     );
+    Logger.info(generatedModels);
+
+    for (const generatedModel of generatedModels) {
+      const className = FormatHelpers.toPascalCase(generatedModel.modelName);
+      const modelFileName = `${className}.cs`;
+      files.push(
+        <FileRenderer name={modelFileName}>
+          {generatedModel.result}
+        </FileRenderer>
+      );
+    }
+  } catch (e) {
+    Logger.error(e);
   }
 
   return files;

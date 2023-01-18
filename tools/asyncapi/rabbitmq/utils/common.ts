@@ -253,13 +253,13 @@ export function cleanString(str: string) {
 
 export function getChannels(asyncapi: AsyncAPIDocument): GetChannelsResult {
   const channels = asyncapi.channels();
-  if (!channels?.length) {
+  if (!channels || !Object.keys(channels)?.length) {
     Logger.error("No channels were found in MQ spec.");
 
     return [];
   }
 
-  Logger.info(`Found ${channels.length} channels.`);
+  Logger.info(`Found ${Object.keys(channels).length} channels.`);
   Logger.info(channels);
 
   return Object.entries(channels)

@@ -20,9 +20,6 @@ export default async function (
     const generator = new Generator(templateName, targetDir, {
       templateParams: { ...options },
       forceWrite: true,
-      output: "fs",
-      install: false,
-      debug: false,
     });
 
     console.log(

@@ -1,7 +1,7 @@
 {
-  "asyncapi": "2.5.0",
+  "asyncapi": "2.4.0",
   "info": {
-    "title": "Engagement Service",
+    "title": "Engagement Services",
     "version": "1.0.0",
     "description": "The service in charge of processing system engagement data\r\n### Reaction Types: \r\n* Like\r\n* Dislike\r\n* Love\r\n* Hate\r\n* Laugh\r\n* Cry",
     "termsOfService": "https://sullivanpj.com/terms",
@@ -24,29 +24,34 @@
       "protocolVersion": "0.9.1"
     },
     "staging": {
-      "url": "https://sullivanpj.com/services/engagement",
+      "url": "https://PatSullivan.tech/services/engagement",
       "description": "Staging environment",
       "protocol": "amqp",
       "protocolVersion": "0.9.1"
     },
     "production": {
-      "url": "https://sullivanpj.com/services/engagement",
+      "url": "https://PatSullivan.dev/services/engagement",
       "description": "Cloud-based production environment",
       "protocol": "amqp",
       "protocolVersion": "0.9.1"
     }
   },
   "channels": {
-    "reaction/add": {
-      "description": "A topic to add a new user reaction for specific application content.",
+    "os/engagement/articles/{article_id}/command/add-reaction": {
+      "description": "A topic on which an add-reaction command may be produced and consumed.",
+      "parameters": {
+        "article_id": {
+          "$ref": "#/components/parameters/article_id"
+        }
+      },
       "subscribe": {
-        "operationId": "onAddReactionReceived",
+        "operationId": "SendAddReactionCommand",
         "message": {
           "$ref": "#/components/messages/reaction"
         }
       },
       "publish": {
-        "operationId": "sendAddReaction",
+        "operationId": "ReceiveAddReactionCommand",
         "message": {
           "$ref": "#/components/messages/reaction"
         },
@@ -62,26 +67,31 @@
         "amqp": {
           "is": "routingKey",
           "exchange": {
-            "name": "reactionExchange",
+            "name": "OS.Engagement.Articles",
             "type": "topic",
             "vhost": "/",
             "durable": true
           },
-          "queue": { "name": "engagement" },
+          "queue": { "name": "reactions" },
           "bindingVersion": "0.2.0"
         }
       }
     },
-    "reaction/remove": {
-      "description": "A topic to remove a previously added user reaction that is no longer valid.",
+    "os/engagement/articles/{article_id}/event/add-reaction": {
+      "description": "A topic on which an add-reaction event may be produced and consumed.",
+      "parameters": {
+        "article_id": {
+          "$ref": "#/components/parameters/article_id"
+        }
+      },
       "subscribe": {
-        "operationId": "onRemoveReactionReceived",
+        "operationId": "SendAddReactionEvent",
         "message": {
           "$ref": "#/components/messages/reaction"
         }
       },
       "publish": {
-        "operationId": "sendRemoveReaction",
+        "operationId": "ReceiveAddReactionEvent",
         "message": {
           "$ref": "#/components/messages/reaction"
         },
@@ -97,12 +107,252 @@
         "amqp": {
           "is": "routingKey",
           "exchange": {
-            "name": "reactionExchange",
+            "name": "OS.Engagement.Articles",
             "type": "topic",
             "vhost": "/",
             "durable": true
           },
-          "queue": { "name": "engagement" },
+          "queue": { "name": "reactions" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/engagement/articles/{article_id}/command/remove-reaction": {
+      "description": "A topic on which an remove-reaction command may be produced and consumed.",
+      "parameters": {
+        "article_id": {
+          "$ref": "#/components/parameters/article_id"
+        }
+      },
+      "subscribe": {
+        "operationId": "SendRemoveReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        }
+      },
+      "publish": {
+        "operationId": "ReceiveRemoveReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        }
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OS.Engagement.Articles",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactions" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/engagement/articles/{article_id}/event/remove-reaction": {
+      "description": "A topic on which an remove-reaction event may be produced and consumed.",
+      "parameters": {
+        "article_id": {
+          "$ref": "#/components/parameters/article_id"
+        }
+      },
+      "subscribe": {
+        "operationId": "SendRemoveReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        }
+      },
+      "publish": {
+        "operationId": "ReceiveRemoveReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        }
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OS.Engagement.Articles",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactions" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/engagement/articles/{article_id}/command/add-reaction": {
+      "description": "A topic on which an add-reaction command may be produced and consumed.",
+      "parameters": {
+        "article_id": {
+          "$ref": "#/components/parameters/article_id"
+        }
+      },
+      "subscribe": {
+        "operationId": "SendAddReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        }
+      },
+      "publish": {
+        "operationId": "ReceiveAddReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        }
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OS.Engagement.Articles",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactions" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/engagement/articles/{article_id}/reactions/event/add-reaction": {
+      "description": "A topic on which an add-reaction event may be produced and consumed.",
+      "parameters": {
+        "article_id": {
+          "$ref": "#/components/parameters/article_id"
+        }
+      },
+      "subscribe": {
+        "operationId": "SendAddReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        }
+      },
+      "publish": {
+        "operationId": "ReceiveAddReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        }
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OS.Engagement.Articles",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactions" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/engagement/articles/{article_id}/reactions/command/remove-reaction": {
+      "description": "A topic on which an remove-reaction command may be produced and consumed.",
+      "parameters": {
+        "article_id": {
+          "$ref": "#/components/parameters/article_id"
+        }
+      },
+      "subscribe": {
+        "operationId": "SendArticleRemoveReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        }
+      },
+      "publish": {
+        "operationId": "ReceiveRemoveArticleReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        }
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OS.Engagement.Articles",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactions" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/engagement/comments/{comment_id}/event/remove-reaction": {
+      "description": "A topic on which an remove-reaction event may be produced and consumed.",
+      "parameters": {
+        "article_id": {
+          "$ref": "#/components/parameters/comment_id"
+        }
+      },
+      "subscribe": {
+        "operationId": "SendRemoveReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        }
+      },
+      "publish": {
+        "operationId": "ReceiveRemoveReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        }
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OS.Engagement.Articles",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactions" },
           "bindingVersion": "0.2.0"
         }
       }
@@ -117,6 +367,14 @@
         "contentType": "application/json",
         "payload": {
           "$ref": "#/components/schemas/reactionPayload"
+        }
+      }
+    },
+    "parameters": {
+      "content_id": {
+        "description": "The id of the article content.",
+        "schema": {
+          "type": "string"
         }
       }
     },
