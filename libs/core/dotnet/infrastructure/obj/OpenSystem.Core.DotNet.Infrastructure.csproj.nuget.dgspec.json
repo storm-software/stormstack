@@ -163,10 +163,7 @@
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
-          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
@@ -225,6 +222,14 @@
             "MimeKit": {
               "target": "Package",
               "version": "[3.4.3, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[7.0.1, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
+              "target": "Package",
+              "version": "[2.0.0-preview1, )"
             },
             "System.Linq.Dynamic": {
               "target": "Package",

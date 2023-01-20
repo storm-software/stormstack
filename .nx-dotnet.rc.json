@@ -23,7 +23,8 @@
     "Microsoft.EntityFrameworkCore.SqlServer": "7.0.2",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "7.0.0",
     "Microsoft.Extensions.Configuration.Json": "7.0.0",
-    "Swashbuckle.AspNetCore.SwaggerUI": "6.5.0"
+    "Swashbuckle.AspNetCore.SwaggerUI": "6.5.0",
+    "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.1",
+    "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "2.0.0-preview1"
   }
 }
-

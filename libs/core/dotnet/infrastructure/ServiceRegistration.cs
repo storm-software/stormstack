@@ -14,7 +14,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure
         public static void AddPersistenceInfrastructure(this IServiceCollection services,
           IConfiguration configuration)
         {
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            /*if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseInMemoryDatabase("ApplicationDb"));
@@ -22,10 +22,10 @@ namespace OpenSystem.Core.DotNet.Infrastructure
             else
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseSqlServer(
+                  options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
+            }*/
 
             #region Repositories
 
