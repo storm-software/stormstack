@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>The Core .NET Domain Library used by the Open System repository</Description>
+    <Copyright>Copyright (c) 2022 Patrick Sullivan</Copyright>
+    <Authors>Patrick Sullivan</Authors>
+    <TargetFramework>net7.0</TargetFramework>
+    <Version>1.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>OpenSystem.Core.DotNet.Domain</AssemblyName>
+    <PackageId>OpenSystem.Core.DotNet.Domain</PackageId>
+    <RootNamespace>OpenSystem.Core.DotNet.Domain</RootNamespace>
+  </PropertyGroup>
+
+</Project>

@@ -14,6 +14,7 @@
     "devkit",
     "docgen",
     "endregion",
+    "Expando",
     "heroicons",
     "Hsts",
     "Inversify",
@@ -21,6 +22,7 @@
     "jsbi",
     "keybase",
     "Linq",
+    "Mediat",
     "Mintlify",
     "modelina",
     "nextjs",
@@ -55,6 +57,7 @@
     "typesense",
     "unoptimized",
     "uuidv",
+    "webapi",
     "webp"
   ],
   "enableFiletypes": [

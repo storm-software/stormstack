@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>The Core .NET Web API Library used by the Open System repository</Description>
+    <Copyright>Copyright (c) 2022 Patrick Sullivan</Copyright>
+    <Authors>Patrick Sullivan</Authors>
+    <TargetFramework>net7.0</TargetFramework>
+    <Version>1.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>OpenSystem.Core.DotNet.WebApi</AssemblyName>
+    <PackageId>OpenSystem.Core.DotNet.WebApi</PackageId>
+    <RootNamespace>OpenSystem.Core.DotNet.WebApi</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="IdentityModel" Version="6.1.0-preview.1" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\application\OpenSystem.Core.DotNet.Application.csproj" />
+  </ItemGroup>
+
+</Project>

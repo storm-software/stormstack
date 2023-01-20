@@ -37,7 +37,7 @@ export default function TaskbarItem({
       )}
       onClick={handleClick}>
       <Image src={notepadIcon} alt="Notepad Icon" width={24} height={20} />
-      <label className="cursor-pointer">Introduction.txt - Notepad</label>
+      <label className="cursor-pointer">Read Me.txt - Notepad</label>
     </div>
   );
 }

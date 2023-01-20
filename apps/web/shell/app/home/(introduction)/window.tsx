@@ -17,7 +17,7 @@ export default function Window({ setMinimized, setClosed }: WindowProps) {
       <div className="flex h-fit w-full flex-row items-center justify-between border-2 border-b-slate-300">
         <div className="flex flex-row items-center gap-2 px-2 py-1 text-sm">
           <Image src={notepadIcon} alt="Notepad Icon" width={20} height={18} />
-          <label>Introduction.txt - Notepad</label>
+          <label>Read Me.txt - Notepad</label>
         </div>
         <div className="flex flex-row items-center">
           <div

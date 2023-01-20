@@ -65,7 +65,7 @@ export default function StartMenu({
               height={24}
             />
             <label className="cursor-pointer font-semibold">
-              Introduction.txt - Notepad
+              Read Me.txt - Notepad
             </label>
             <label className="cursor-pointer text-sm">
               - Last saved on{" "}

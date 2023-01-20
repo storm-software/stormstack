@@ -24,6 +24,11 @@
     "tools-generators-dotnet": "tools/generators/dotnet",
     "tools-generators-typescript": "tools/generators/typescript",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell"
+    "web-shell": "apps/web/shell",
+    "core-dotnet-webapi": "libs/core/dotnet/webapi",
+    "core-dotnet-application": "libs/core/dotnet/application",
+    "core-dotnet-domain": "libs/core/dotnet/domain",
+    "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure"
   }
 }
+

@@ -7,22 +7,32 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using OpenSystem.Core.DotNet.Application;
+using OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts;
+using OpenSystem.Core.DotNet.Infrastructure;
+using OpenSystem.Core.DotNet.WebApi.Constants;
+using OpenSystem.Core.DotNet.WebApi.Extensions;
+using OpenSystem.Apis.Engagement.Extensions;
 
-/*try
+const string SERVICE_NAME = "EngagementService.Api";
+
+try
 {
     var builder = WebApplication.CreateBuilder(args);
 
     // load up serilog configuration
     Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
+      .ReadFrom.Configuration(builder.Configuration)
+      .Enrich.FromLogContext()
+      .CreateLogger();
     builder.Host.UseSerilog(Log.Logger);
 
     builder.Services.AddApplicationLayer();
     builder.Services.AddPersistenceInfrastructure(builder.Configuration);
     builder.Services.AddSharedInfrastructure(builder.Configuration);
+
     builder.Services.AddSwaggerExtension();
+
     builder.Services.AddControllersExtension();
 
     // CORS
@@ -84,9 +94,9 @@ catch (Exception ex)
 finally
 {
     Log.CloseAndFlush();
-}*/
+}
 
-namespace OpenSystem.Apis.Engagement
+/* namespace OpenSystem.Apis.Engagement
 {
     /// <summary>
     /// Program
@@ -141,4 +151,4 @@ namespace OpenSystem.Apis.Engagement
 				})
 				.UseSerilog();
     }
-}
+}*/

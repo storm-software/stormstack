@@ -21,7 +21,7 @@ export default function TechnologyGroup({
   children,
 }: TechnologyGroupProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { margin: "-20%" });
+  const isInView = useInView(ref, { margin: "-25%" });
   useEffect(() => {
     setCurrentGroup({ name, summary }, isInView);
   }, [isInView, name, setCurrentGroup, summary]);

@@ -31,7 +31,7 @@ export default function Desktop({
         )}
         onClick={setOpened}>
         <Image src={notepadIcon} alt="Notepad Icon" width={50} height={60} />
-        <label className="cursor-pointer text-center">Introduction.txt</label>
+        <label className="cursor-pointer text-center">Read Me.txt</label>
       </div>
       {windowState === WindowStateTypes.OPENED && (
         <Window setMinimized={setMinimized} setClosed={setClosed} />

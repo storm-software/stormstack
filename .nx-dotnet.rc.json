@@ -3,6 +3,27 @@
     "Microsoft.AspNetCore.SpaProxy": "6.0.0",
     "Serilog.AspNetCore": "6.1.0",
     "Microsoft.AspNetCore.Mvc.Versioning": "5.0.0",
-    "Serilog.Expressions": "3.4.1"
+    "Serilog.Expressions": "3.4.1",
+    "MediatR": "11.1.0",
+    "IdentityModel": "6.1.0-preview.1",
+    "IdentityServer4.AccessTokenValidation": "3.0.1",
+    "Microsoft.OpenApi": "1.5.0",
+    "FluentValidation": "11.4.0",
+    "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer": "5.0.0",
+    "Microsoft.Extensions.DependencyInjection": "7.0.0",
+    "AutoMapper": "12.0.1",
+    "MailKit": "3.4.3",
+    "MimeKit": "3.4.3",
+    "Microsoft.EntityFrameworkCore": "7.0.2",
+    "System.Linq.Dynamic": "1.0.8",
+    "System.Linq.Dynamic.Core": "1.2.24",
+    "Microsoft.Extensions.Configuration": "7.0.0",
+    "Microsoft.Extensions.Configuration.Binder": "7.0.2",
+    "Microsoft.EntityFrameworkCore.InMemory": "7.0.2",
+    "Microsoft.EntityFrameworkCore.SqlServer": "7.0.2",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "7.0.0",
+    "Microsoft.Extensions.Configuration.Json": "7.0.0",
+    "Swashbuckle.AspNetCore.SwaggerUI": "6.5.0"
   }
 }
+
