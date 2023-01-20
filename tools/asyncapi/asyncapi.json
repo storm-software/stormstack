@@ -256,14 +256,6 @@
         }
       }
     },
-    "parameters": {
-      "content_id": {
-        "description": "The id of the article content.",
-        "schema": {
-          "type": "string"
-        }
-      }
-    },
     "schemas": {
       "reactionPayload": {
         "type": "object",
@@ -278,10 +270,12 @@
             "example": "A unique Id used to identify the content the user is reacting to"
           },
           "contentType": {
+            "title": "contentType",
             "type": "string",
             "enum": ["article", "comment"]
           },
           "reactionType": {
+            "title": "reactionType",
             "type": "string",
             "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"]
           }

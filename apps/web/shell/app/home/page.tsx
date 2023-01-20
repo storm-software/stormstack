@@ -1,6 +1,6 @@
 import { ArticleJsonLd, LogoJsonLd, SocialProfileJsonLd } from "next-seo";
 import { Suspense } from "react";
-import LikeButton from "../(like-button)/like-button.server";
+import LikeButton from "../(components)/like-button.server";
 import {
   ARTICLE_JSON_LD_DEFAULT,
   LOGO_JSON_LD_DEFAULT,

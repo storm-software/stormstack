@@ -123,7 +123,7 @@ export default function StackLayer({
         onClick={handleOpen}
         variants={rightSide}
         className={clsx(
-          "z-20 h-[300px] w-[46px] origin-[0%_0%] border-2 border-slate-900 bg-teal-500",
+          "z-115 h-[300px] w-[46px] origin-[0%_0%] border-2 border-slate-900 bg-teal-500",
           { "cursor-pointer": !opened }
         )}
       />
@@ -131,7 +131,7 @@ export default function StackLayer({
         onClick={handleOpen}
         variants={leftSide}
         className={clsx(
-          "relative bottom-[300px] z-20 h-[40px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-600",
+          "z-115 relative bottom-[300px] h-[40px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-600",
           { "cursor-pointer": !opened }
         )}
       />
@@ -148,12 +148,12 @@ export default function StackLayer({
         onClick={handleOpen}
         variants={top}
         className={clsx(
-          "relative bottom-[340px] z-20 h-[300px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-400 p-2",
+          "relative bottom-[340px] z-modal h-[300px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-400 p-2",
           { "cursor-pointer": !opened }
         )}>
         <div
           onClick={handleClose}
-          className="absolute top-1 right-1 z-30 m-1 cursor-pointer rounded-full bg-slate-300/80 p-2 font-semibold text-slate-500 transition-colors hover:bg-slate-300 hover:text-slate-900">
+          className="absolute top-1 right-1 z-modal m-1 cursor-pointer rounded-full bg-slate-300/80 p-2 font-semibold text-slate-500 transition-colors hover:bg-slate-300 hover:text-slate-900">
           <XMarkIcon className="h-3 w-3 cursor-pointer" />
         </div>
         <div className="flex flex-col gap-2">

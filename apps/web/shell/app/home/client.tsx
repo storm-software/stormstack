@@ -6,6 +6,7 @@ import {
 } from "@open-system/shared-ui-feature-layout";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "reflect-metadata";
+import HorizontalSeparator from "../(components)/horizontal-separator.server";
 import Logo from "../../../../../assets/box-logo-gradient.svg";
 import Aside from "../aside";
 import Header from "./(header)/header";
@@ -42,25 +43,23 @@ export default function Client() {
         <ScrollArrowIndicator viewportHeight={viewportHeight} />
       </div>
 
-      <div className="flex snap-both snap-mandatory flex-col scroll-smooth">
+      <div className="flex flex-col">
         <header className="mb-60">
           <Header />
         </header>
 
         <Aside />
 
-        <main>
-          <div className="mb-60">
-            <Introduction />
-          </div>
+        <main className="flex snap-both snap-mandatory flex-col gap-16 scroll-smooth">
+          <Introduction />
 
-          <div className="mb-60">
-            <Stack />
-          </div>
+          <HorizontalSeparator />
 
-          <div className="mb-60">
-            <Technologies />
-          </div>
+          <Stack />
+
+          <Technologies />
+
+          <HorizontalSeparator />
 
           <section className="flex snap-center snap-always justify-center">
             <div className="relative h-[38rem] max-w-[65rem] md:w-3/4 lg:w-2/3">

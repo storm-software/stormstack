@@ -1,19 +1,35 @@
 "use client";
 
 import { Heading } from "@open-system/design-system-components";
+import { Link } from "@open-system/shared-ui-components/link";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import StackLayer from "./stack-layer";
 
+const list = { hidden: { opacity: 1 } };
+const item = { hidden: { y: -20, opacity: 1 } };
+
 export default function Stack() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
   return (
-    <section className="flex w-full snap-center snap-always justify-center overflow-hidden">
+    <section
+      ref={ref}
+      className="z-content flex w-full snap-center snap-always flex-col items-center justify-center gap-20 overflow-hidden">
       <div className="flex h-[75rem] w-fit flex-col gap-20 px-10">
         <div className="flex w-fit max-w-[65rem] flex-col gap-20">
           <div className="flex flex-col gap-5">
             <Heading level={2}>Full Stack Development</Heading>
 
             <p className="font-body-1 text-body-1">
-              I feel nowadays the phrase <i>full stack developer</i> is
-              overwhelming used incorrectly; however, I am very comfortable
+              I feel nowadays the phrase{" "}
+              <Link
+                href="https://www.geeksforgeeks.org/what-is-full-stack-development/"
+                inNewTab={true}>
+                full stack developer
+              </Link>{" "}
+              is overwhelming used incorrectly; however, I am very comfortable
               working in all areas of modern software development (and some
               areas of hardware development). My experience ranges as far as
               developing a UI/UX design system for a React banking client, all
@@ -22,27 +38,63 @@ export default function Stack() {
             </p>
           </div>
         </div>
-        <div className="relative flex w-full flex-col pt-12">
-          <StackLayer
-            className="absolute top-[600px] left-[25%] z-10"
-            header="Hardware"
-          />
-          <StackLayer
-            className="absolute top-[525px] left-[25%] z-20"
-            header="Database"
-          />
-          <StackLayer
-            className="absolute top-[450px] left-[25%] z-30"
-            header="Server-Side"
-          />
-          <StackLayer
-            className="absolute top-[375px] left-[25%] z-40"
-            header="Client-Side"
-          />
-          <StackLayer
-            className="absolute top-[300px] left-[25%] z-50"
-            header="Design System"
-          />
+        <div ref={ref}>
+          <AnimatePresence>
+            {isInView && (
+              <motion.ul
+                className="relative flex w-full flex-col pt-12"
+                initial={{ opacity: 0 }}
+                animate="hidden"
+                variants={list}
+                transition={{ duration: 1, delay: 2 }}>
+                <motion.li
+                  variants={item}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 1, delay: 7 }}>
+                  <StackLayer
+                    className="absolute top-[600px] left-[25%] z-10"
+                    header="Hardware"
+                  />
+                </motion.li>
+                <motion.li
+                  variants={item}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 1, delay: 6 }}>
+                  <StackLayer
+                    className="absolute top-[525px] left-[25%] z-20"
+                    header="Database"
+                  />
+                </motion.li>
+                <motion.li
+                  variants={item}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 1, delay: 5 }}>
+                  <StackLayer
+                    className="absolute top-[450px] left-[25%] z-30"
+                    header="Server-Side"
+                  />
+                </motion.li>
+                <motion.li
+                  variants={item}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 1, delay: 4 }}>
+                  <StackLayer
+                    className="absolute top-[375px] left-[25%] z-40"
+                    header="Client-Side"
+                  />
+                </motion.li>
+                <motion.li
+                  variants={item}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 1, delay: 3 }}>
+                  <StackLayer
+                    className="absolute top-[300px] left-[25%] z-50"
+                    header="Design System"
+                  />
+                </motion.li>
+              </motion.ul>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </section>

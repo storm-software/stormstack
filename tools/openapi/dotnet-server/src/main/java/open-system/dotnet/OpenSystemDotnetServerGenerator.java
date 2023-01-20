@@ -563,7 +563,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", /*packageFolder,*/ packageName + ".csproj"));
         if (!isLibrary) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", /*packageFolder,*/ "Dockerfile"));
-            supportingFiles.add(new SupportingFile("appsettings.json", /*packageFolder,*/ "appsettings.json"));
+            supportingFiles.add(new SupportingFile("appsettings.json.mustache", "", "appsettings.json"));
             supportingFiles.add(new SupportingFile("appsettings.Development.json", /*packageFolder,*/ "appsettings.Development.json"));
 
             supportingFiles.add(new SupportingFile("Startup.mustache", /*packageFolder,*/ "Startup.cs"));

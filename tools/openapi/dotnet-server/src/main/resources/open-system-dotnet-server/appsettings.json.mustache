@@ -73,7 +73,7 @@
       }
     ],
     "Properties": {
-      "ApplicationName": "Serilog.EngagementService.Api"
+      "ApplicationName": "Serilog.{{fullServiceName}}"
     }
   },
   "MailSettings": {
@@ -83,6 +83,20 @@
     "SmtpUser": "Jane.Doe@janedoe.email",
     "SmtpPass": "6X4wBQQYgU14F23VYc",
     "DisplayName": "Jane Doe"
+  },
+  "JWTSettings": {
+    "Key": "C1CF4B7DC4C4175B6618DE4F55CA4",
+    "Issuer": "CoreIdentity",
+    "Audience": "CoreIdentityUser",
+    "DurationInMinutes": 60
+  },
+  "Sts": {
+    "ServerUrl": "https://localhost:44310"
+  },
+  "ApiRoles": {
+    "EmployeeRole": "Employee",
+    "ManagerRole": "Manager",
+    "AdminRole": "Admin"
   },
   "AllowedHosts": "*"
 }

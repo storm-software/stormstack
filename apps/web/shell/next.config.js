@@ -21,6 +21,7 @@ const nextConfig = {
     ],
     transpilePackages: [
       "reflect-metadata",
+      "framer-motion",
       "@open-system/core-typescript-utilities",
       "@open-system/design-system-components",
     ],

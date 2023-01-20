@@ -30,6 +30,6 @@
     "**/*.jsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-, "../../../next-intl.config.ts"  ],
+, "../../../next-intl.config.ts", "../../../libs/shared/ui/components/src/horizontal-separator/divider-line-group.tsx"  ],
   "exclude": ["node_modules", "jest.config.ts"]
 }

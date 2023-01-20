@@ -13,6 +13,11 @@ export type LinkProps = PropsWithBase<
   Omit<NextLinkProps, "href"> &
     Partial<Pick<NextLinkProps, "href">> & {
       target?: HTMLAttributeAnchorTarget;
+
+      /**
+       * Indicator specifying if the URL should be opened in a new browser tab (while the current tab remains open).
+       */
+      inNewTab?: boolean;
     } & DesignComponentLinkProps
 >;
 
@@ -24,11 +29,17 @@ export function Link({
   children,
   className,
   variant,
+  target,
+  inNewTab = false,
   href = "/",
   ...props
 }: LinkProps) {
   return (
-    <NextLink href={href} className={className} {...props}>
+    <NextLink
+      href={href}
+      className={className}
+      target={inNewTab ? "_blank" : target}
+      {...props}>
       {typeof children === "string" ? (
         <DesignComponentLink
           {...props}

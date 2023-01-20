@@ -1,7 +1,14 @@
 "use client";
 
 import { Heading } from "@open-system/design-system-components";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { Link } from "@open-system/shared-ui-components/link";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ApiExtractorLogo from "../../../../../../assets/external-logos/api-extractor-logo.svg";
@@ -49,6 +56,11 @@ import webSphereLogo from "../../../../../../assets/external-logos/webSphere-log
 import Technology from "./technology";
 import TechnologyGroup from "./technology-group";
 
+export interface TechnologyGroupDetails {
+  name: string;
+  summary?: string | JSX.Element;
+}
+
 export default function Technologies() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const hiddenRef = useRef<HTMLDivElement>(null);
@@ -85,8 +97,45 @@ export default function Technologies() {
   );
   const x = useSpring(transform, { damping: 20 });
 
+  const [currentGroup, setCurrentGroupState] =
+    useState<TechnologyGroupDetails | null>(null);
+  const setCurrentGroup = useCallback(
+    (details: TechnologyGroupDetails, isDisplayed = false) => {
+      if (isDisplayed) {
+        setCurrentGroupState(details);
+      } else if (currentGroup?.name === details.name) {
+        setCurrentGroupState(null);
+      }
+    },
+    [currentGroup?.name]
+  );
+
   return (
-    <div className="relative h-[375vh] w-full">
+    <div className="relative z-content h-[375vh] w-full">
+      <AnimatePresence>
+        {currentGroup?.name && (
+          <motion.div
+            className="fixed top-20 left-40 z-like flex flex-col gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 1,
+              delay: 0.2,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}>
+            <Heading level={4} className="whitespace-nowrap text-5xl">
+              {currentGroup?.name}
+            </Heading>
+            {currentGroup?.summary && (
+              <p className="w-full font-body-1 text-body-1 lg:w-1/2">
+                {currentGroup?.summary}
+              </p>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="sticky top-10 left-0 right-0 overflow-hidden">
         <Heading level={2} className="absolute bottom-16 left-20">
           Technologies
@@ -94,8 +143,28 @@ export default function Technologies() {
         <motion.section
           ref={scrollRef}
           style={{ x }}
-          className="relative flex w-fit flex-row gap-[20rem] pl-[1600rem] pr-[1000rem]">
-          <TechnologyGroup name="Design System / Modeling">
+          className="relative flex w-fit flex-row gap-[45rem] pl-[1600rem] pr-[1000rem]">
+          <TechnologyGroup
+            name="Design System / Modeling"
+            summary={
+              <>
+                Libraries and applications that assist in the process of
+                creating{" "}
+                <Link
+                  href="https://designsystem.digital.gov/design-tokens/"
+                  inNewTab={true}>
+                  design systems/tokens
+                </Link>
+                , or{" "}
+                <Link
+                  href="https://www.educative.io/blog/software-architecture-diagramming-and-patterns"
+                  inNewTab={true}>
+                  software architecture diagrams/models
+                </Link>
+                .
+              </>
+            }
+            setCurrentGroup={setCurrentGroup}>
             <Technology
               name="Figma"
               description="Figma is an extremely helpful tool for designing wire-frames and specifying design tokens."
@@ -106,7 +175,7 @@ export default function Technologies() {
               name="Context Mapper"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://contextmapper.org/">
-              <div className="h-44 w-52">
+              <div className="h-52 w-52">
                 <Image
                   src={contextMapperLogo}
                   alt="Context Mapper"
@@ -161,7 +230,20 @@ export default function Technologies() {
             </Technology>
           </TechnologyGroup>
 
-          <TechnologyGroup name="Client-Side / User Interfaces">
+          <TechnologyGroup
+            name="Client-Side / User Interfaces"
+            summary={
+              <>
+                Frameworks and external libraries that help in creating{" "}
+                <Link
+                  href="https://www.computerhope.com/jargon/g/gui.htm"
+                  inNewTab={true}>
+                  graphical user interfaces
+                </Link>{" "}
+                for web, desktop, and mobile applications.
+              </>
+            }
+            setCurrentGroup={setCurrentGroup}>
             <Technology
               name="React"
               description="Figma is an extremely helpful tool for designing wire-frames and specifying design tokens."
@@ -212,7 +294,10 @@ export default function Technologies() {
             </Technology>
           </TechnologyGroup>
 
-          <TechnologyGroup name="Server-Side / Scripting">
+          <TechnologyGroup
+            name="Server-Side / Scripting"
+            summary="Languages, platforms, and tools that can be used to create services/applications meant to run on deployed servers or as individual scripts."
+            setCurrentGroup={setCurrentGroup}>
             <Technology
               name="Open-API"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -264,7 +349,26 @@ export default function Technologies() {
             </Technology>
           </TechnologyGroup>
 
-          <TechnologyGroup name="Databases / Messaging">
+          <TechnologyGroup
+            name="Databases / Messaging"
+            summary={
+              <>
+                Technologies used to access and store data to a{" "}
+                <Link
+                  href="https://www.techtarget.com/searchstorage/definition/Persistent-storage"
+                  inNewTab={true}>
+                  persistent storage
+                </Link>{" "}
+                and/or{" "}
+                <Link
+                  href="https://aws.amazon.com/message-queue/"
+                  inNewTab={true}>
+                  message queueing
+                </Link>{" "}
+                systems.
+              </>
+            }
+            setCurrentGroup={setCurrentGroup}>
             <Technology
               name="Kafka"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -317,7 +421,21 @@ export default function Technologies() {
             </Technology>
           </TechnologyGroup>
 
-          <TechnologyGroup name="DevOps / Repository Management">
+          <TechnologyGroup
+            name="DevOps / Repository Management"
+            summary={
+              <>
+                Tools used to manage various aspects of a{" "}
+                <Link
+                  href="https://aws.amazon.com/devops/source-control/"
+                  inNewTab={true}>
+                  source control repository
+                </Link>{" "}
+                (such as a Git or Team Foundation Server project), or to build,
+                deploy, and/or scale an application in a deployed environment.
+              </>
+            }
+            setCurrentGroup={setCurrentGroup}>
             <Technology
               name="Nx"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -380,7 +498,10 @@ export default function Technologies() {
             </Technology>
           </TechnologyGroup>
 
-          <TechnologyGroup name="Documentation">
+          <TechnologyGroup
+            name="Documentation"
+            summary="Various applications used to generate, format, and/or present a codebase's documentation automatically (or with minimal effort). This is possibly the most often underrated grouping in this list, in terms of importance."
+            setCurrentGroup={setCurrentGroup}>
             <Technology
               name="Docusaurus"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -433,7 +554,20 @@ export default function Technologies() {
             </Technology>
           </TechnologyGroup>
 
-          <TechnologyGroup name="Testing">
+          <TechnologyGroup
+            name="Testing"
+            summary={
+              <>
+                Tools used to create or document{" "}
+                <Link
+                  href="https://testsigma.com/blog/unit-test-vs-e2e-test/"
+                  inNewTab={true}>
+                  unit and end-to-end tests
+                </Link>{" "}
+                for both client and server-side code.
+              </>
+            }
+            setCurrentGroup={setCurrentGroup}>
             <Technology
               name="Jest"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
