@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  engagement_apis:
+    container_name: engagement_apis
+    image: apis-engagement:latest
+    restart: unless-stopped
+    hostname: engagement_apis
+    build:
+      context: .
+      dockerfile: apps/apis/engagement/Dockerfile
+    environment:
+      NODE_ENV: development
+      CI: true
+    networks:
+      - network-microservice
+    links:
+      - engagement_db
+      - consul
+    depends_on:
+      - engagement_db
+      - consul

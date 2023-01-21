@@ -10,9 +10,9 @@ namespace OpenSystem.Apis.Engagement.Extensions
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OpenSystem.Apis.Engagement");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                  "OpenSystem.Apis.Engagement");
             });
         }
-
     }
 }

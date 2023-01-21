@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\OpenSystem.Apis.Gateway.props" />
+</Project>

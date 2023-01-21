@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Core.DotNet.Doma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Core.DotNet.Infrastructure", "libs\core\dotnet\infrastructure\OpenSystem.Core.DotNet.Infrastructure.csproj", "{5B22B6F1-5BD3-45AA-B3C1-F0256CDB3CEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Apis.Gateway", "apps\apis\gateway\OpenSystem.Apis.Gateway.csproj", "{5974C606-0599-4EAA-B3B9-8E31AAF57477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{5B22B6F1-5BD3-45AA-B3C1-F0256CDB3CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B22B6F1-5BD3-45AA-B3C1-F0256CDB3CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B22B6F1-5BD3-45AA-B3C1-F0256CDB3CEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5974C606-0599-4EAA-B3B9-8E31AAF57477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5974C606-0599-4EAA-B3B9-8E31AAF57477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5974C606-0599-4EAA-B3B9-8E31AAF57477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5974C606-0599-4EAA-B3B9-8E31AAF57477}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B1A29E6C-6B59-429E-AB79-1F7F8AF61484} = {4F8600F6-7644-44FE-B568-FFCA0A389BEF}
@@ -86,5 +92,6 @@ Global
 		{ABAB4DF4-1C69-4B24-A9FA-7E9A0E490EE2} = {3C285E70-0E19-459A-8C6F-07C37449E48C}
 		{AF8359A1-9A55-4DF6-A56F-EB1B0312C68A} = {3C285E70-0E19-459A-8C6F-07C37449E48C}
 		{5B22B6F1-5BD3-45AA-B3C1-F0256CDB3CEF} = {3C285E70-0E19-459A-8C6F-07C37449E48C}
+		{5974C606-0599-4EAA-B3B9-8E31AAF57477} = {B1A29E6C-6B59-429E-AB79-1F7F8AF61484}
 	EndGlobalSection
 EndGlobal

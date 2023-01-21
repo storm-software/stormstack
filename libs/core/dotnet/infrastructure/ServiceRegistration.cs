@@ -6,6 +6,7 @@ using OpenSystem.Core.DotNet.Domain.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace OpenSystem.Core.DotNet.Infrastructure
 {
@@ -14,7 +15,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure
         public static void AddPersistenceInfrastructure(this IServiceCollection services,
           IConfiguration configuration)
         {
-            /*if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseInMemoryDatabase("ApplicationDb"));
@@ -25,7 +26,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure
                   options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }*/
+            }
 
             #region Repositories
 
@@ -38,9 +39,10 @@ namespace OpenSystem.Core.DotNet.Infrastructure
             #endregion Repositories
         }
 
-        public static void AddSharedInfrastructure(this IServiceCollection services, IConfiguration _config)
+        public static void AddServiceInfrastructure(this IServiceCollection services,
+          IConfiguration configuration)
         {
-            services.Configure<MailSettings>(_config.GetSection("MailSettings"));
+            services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
             services.AddTransient<IDateTimeService,
               DateTimeService>();
             services.AddTransient<IEmailService,

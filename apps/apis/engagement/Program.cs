@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using OpenSystem.Core.DotNet.Application;
 using OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts;
+using OpenSystem.Core.DotNet.Infrastructure.Extensions;
 using OpenSystem.Core.DotNet.Infrastructure;
 using OpenSystem.Core.DotNet.WebApi.Constants;
 using OpenSystem.Core.DotNet.WebApi.Extensions;
@@ -27,9 +28,11 @@ try
       .CreateLogger();
     builder.Host.UseSerilog(Log.Logger);
 
+    builder.Services.AddServiceDiscovery(builder.Configuration);
+
     builder.Services.AddApplicationLayer();
     builder.Services.AddPersistenceInfrastructure(builder.Configuration);
-    builder.Services.AddSharedInfrastructure(builder.Configuration);
+    builder.Services.AddServiceInfrastructure(builder.Configuration);
 
     builder.Services.AddSwaggerExtension();
 
@@ -81,15 +84,17 @@ try
     app.UseAuthorization();
     app.UseSwaggerExtension();
     app.UseErrorHandlingMiddleware();
-    app.UseHealthChecks("/health");
+    app.UseHealthChecks("/health-check");
     app.MapControllers();
     app.Run();
-    Log.Information("Application Starting");
+
+    Log.Information($"{SERVICE_NAME} has started successfully.");
 
 }
 catch (Exception ex)
 {
-    Log.Warning(ex, "An error occurred starting the application");
+    Log.Warning(ex,
+      $"An error occurred starting {SERVICE_NAME}");
 }
 finally
 {

@@ -25,6 +25,12 @@
     "Microsoft.Extensions.Configuration.Json": "7.0.0",
     "Swashbuckle.AspNetCore.SwaggerUI": "6.5.0",
     "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.1",
-    "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "2.0.0-preview1"
+    "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "2.0.0-preview1",
+    "NETStandard.Library": "2.0.3",
+    "Consul": "1.6.10.8",
+    "Microsoft.Extensions.Hosting": "7.0.0",
+    "Microsoft.AspNetCore.OpenApi": "7.0.2",
+    "Ocelot": "18.0.0",
+    "Ocelot.Provider.Consul": "18.0.0"
   }
 }

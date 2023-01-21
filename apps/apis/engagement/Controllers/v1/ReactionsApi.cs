@@ -22,58 +22,26 @@ using OpenSystem.Apis.Engagement.Attributes;
 using OpenSystem.Apis.Engagement.Contracts;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using OpenSystem.Core.DotNet.WebApi.Controllers;
 
-namespace OpenSystem.Apis.Engagement.Controllers
+namespace OpenSystem.Apis.Engagement.Controllers.v1
 {
     /// <summary>
     /// Controller for ReactionsApi service implementation(s)
     /// </summary>
     [Description("Controller for ReactionsApi service implementation(s)")]
-    [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    [Route("api/[controller]")]
     [ApiVersion("1.0")]
-    public sealed class ReactionsApiController : ControllerBase
+    public sealed class ReactionsApiController : BaseApiController
     {
-        private readonly ILogger<ReactionsApiController> _logger;
-        private readonly string _baseUrl;
-        private readonly HttpContext _context;
-
         /// <summary>
         /// Constructor method for ReactionsApiController
         /// </summary>
         /// <remarks>Constructor method to generate an instance of a ReactionsApiController</remarks>
-        public ReactionsApiController(ILogger<ReactionsApiController> logger,
-            IHttpContextAccessor context)
+        public ReactionsApiController(ILogger<ReactionsApiController> _logger,
+            IHttpContextAccessor _context)
+            : base(_logger,
+            _context)
         {
-          if (context.HttpContext != null)
-          {
-            _context = context.HttpContext;
-            var request = _context.Request;
-            _baseUrl = $"{request.Scheme}://{request.Host}";
-          }
-
-          _logger = logger;
-        }
-
-        /// <summary>
-        /// An end point to indicate if the current API is running
-        /// </summary>
-        /// <remarks>Add new message record</remarks>
-        /// <response code="200">Example response</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="404">Not Found</response>
-        /// <response code="500">Internal Server Error</response>
-        /// <response code="503">Service Unavailable</response>
-        [MapToApiVersion("1.0")]
-        [HttpGet]
-        [Route("/health-check")]
-        public async Task<IActionResult> HealthCheck()
-        {
-          var msg = $"{_context.Request.Host} is healthy";
-
-          _logger.LogInformation(msg);
-          return Ok(msg);
         }
 
         /// <summary>
@@ -90,9 +58,9 @@ namespace OpenSystem.Apis.Engagement.Controllers
         [Route("/status")]
         public async Task<IActionResult> Status()
         {
-          var msg = $"Running on {_context.Request.Host}";
+          var msg = $"Running on {Context.Request.Host}";
 
-          _logger.LogInformation(msg);
+          Logger.LogInformation(msg);
           return Ok(msg);
         }
 
@@ -110,7 +78,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1.0")]
         [HttpPost]
-        [Route("/article/{id}/reaction/{type}")]
+        [Route("/{id}/reaction/{type}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("AddArticleReaction")]
@@ -156,7 +124,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1.0")]
         [HttpDelete]
-        [Route("/article/{id}/reaction/{type}")]
+        [Route("/{id}/reaction/{type}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("DeleteArticleReaction")]
@@ -202,7 +170,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1.0")]
         [HttpGet]
-        [Route("/article/{id}/reaction/{type}")]
+        [Route("/{id}/reaction/{type}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetArticleReaction")]
@@ -247,7 +215,7 @@ namespace OpenSystem.Apis.Engagement.Controllers
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1.0")]
         [HttpGet]
-        [Route("/article/{id}")]
+        [Route("/{id}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetArticleReactions")]

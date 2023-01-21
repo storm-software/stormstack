@@ -1,0 +1,27 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/engagement",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/api/engagement",
+      "UpstreamHttpMethod": ["Post", "Get"],
+      "ServiceName": "Engagement",
+      "FileCacheOptions": { "TtlSeconds": 15 },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "SwaggerKey": "engagement"
+    },
+    {
+      "DownstreamPathTemplate": "/api/engagement/{id}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/api/engagement/{id}",
+      "ServiceName": "Engagement",
+      "FileCacheOptions": { "TtlSeconds": 15 },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "SwaggerKey": "engagement"
+    }
+  ]
+}

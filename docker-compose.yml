@@ -1,19 +1,97 @@
 version: "3.9"
 
+networks:
+  # Network for api gateway
+  network-gateway:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.2.0/24
+
+  # Network for microservices
+  network-microservice:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.4.0/24
+
 services:
-  apis-engagement:
-    container_name: apis-engagement
-    image: apis-engagement:latest
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+
+  engagement_db:
+    container_name: engagement_db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: engagement_db
+    ports:
+      - "5432:5432"
+    networks:
+      - network-microservice
+
+  consul:
+    image: consul
+    container_name: consul
     restart: on-failure
-    hostname: apis-engagement
+    volumes:
+      - consul-data:/consul/config
+    ports:
+      - "8500:8500"
+    networks:
+      - network-microservice
+
+  engagement_apis:
+    container_name: engagement_apis
+    image: apis-engagement:latest
+    restart: unless-stopped
+    hostname: engagement_apis
     build:
       context: .
       dockerfile: apps/apis/engagement/Dockerfile
     environment:
       NODE_ENV: development
+      CI: true
     networks:
-      - common_network
+      - network-microservice
+    links:
+      - engagement_db
+      - consul
+    depends_on:
+      - engagement_db
+      - consul
 
-networks:
-  common_network:
-    driver: bridge
+  gateway:
+    container_name: gateway
+    image: apis-gateway:latest
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      CI: true
+    build:
+      context: .
+      dockerfile: apps/apis/gateway/Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - network-gateway
+      - network-microservice
+    links:
+      - engagement_apis
+      - consul
+    depends_on:
+      - consul
+
+volumes:
+  consul-data:

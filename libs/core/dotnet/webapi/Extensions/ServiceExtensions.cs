@@ -39,8 +39,8 @@ namespace OpenSystem.Core.DotNet.WebApi.Extensions
                 builder =>
                 {
                     builder.AllowAnyOrigin()
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
                 });
             });
         }
@@ -67,7 +67,8 @@ namespace OpenSystem.Core.DotNet.WebApi.Extensions
             });
         }
 
-        public static void AddJWTAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static void AddJWTAuthentication(this IServiceCollection services,
+          IConfiguration configuration)
         {
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
@@ -78,30 +79,36 @@ namespace OpenSystem.Core.DotNet.WebApi.Extensions
             });
         }
 
-        public static void AddAuthorizationPolicies(this IServiceCollection services, IConfiguration configuration)
+        public static void AddAuthorizationPolicies(this IServiceCollection services,
+          IConfiguration configuration)
         {
             string admin = configuration["ApiRoles:AdminRole"],
-                    manager = configuration["ApiRoles:ManagerRole"], employee = configuration["ApiRoles:EmployeeRole"];
+              manager = configuration["ApiRoles:ManagerRole"],
+              employee = configuration["ApiRoles:EmployeeRole"];
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(AuthorizationConstants.AdminPolicy, policy => policy.RequireAssertion(context => HasRole(context.User, admin)));
-                options.AddPolicy(AuthorizationConstants.ManagerPolicy, policy => policy.RequireAssertion(context => HasRole(context.User, manager) || HasRole(context.User, admin)));
-                options.AddPolicy(AuthorizationConstants.EmployeePolicy, policy => policy.RequireAssertion(context => HasRole(context.User, employee) || HasRole(context.User, manager) || HasRole(context.User, admin)));
+                options.AddPolicy(AuthorizationConstants.AdminPolicy, policy =>
+                  policy.RequireAssertion(context => HasRole(context.User, admin)));
+                options.AddPolicy(AuthorizationConstants.ManagerPolicy, policy =>
+                  policy.RequireAssertion(context => HasRole(context.User, manager) ||
+                  HasRole(context.User, admin)));
+                options.AddPolicy(AuthorizationConstants.EmployeePolicy, policy =>
+                  policy.RequireAssertion(context => HasRole(context.User, employee) ||
+                  HasRole(context.User, manager) ||
+                  HasRole(context.User, admin)));
             });
         }
 
-        public static bool HasRole(ClaimsPrincipal user, string role)
+        public static bool HasRole(ClaimsPrincipal user,
+          string role)
         {
             if (string.IsNullOrEmpty(role))
                 return false;
 
-            return user.HasClaim(c =>
-                                (c.Type == JwtClaimTypes.Role || c.Type == $"client_{JwtClaimTypes.Role}") &&
-                                System.Array.Exists(c.Value.Split(','), e => e == role)
-                            );
+            return user.HasClaim(c => (c.Type == JwtClaimTypes.Role ||
+              c.Type == $"client_{JwtClaimTypes.Role}") &&
+              System.Array.Exists(c.Value.Split(','), e => e == role));
         }
-
     }
-
 }

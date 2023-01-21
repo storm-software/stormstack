@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  gateway:
+    container_name: gateway
+    image: apis-gateway:latest
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      CI: true
+    build:
+      context: .
+      dockerfile: apps/apis/gateway/Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - network-gateway
+      - network-microservice
+    links:
+      - engagement_apis
+      - consul
+    depends_on:
+      - consul

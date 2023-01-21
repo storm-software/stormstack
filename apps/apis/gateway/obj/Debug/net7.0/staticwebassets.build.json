@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "E35MdU7yLHkIPfHD8g4QWnAkV2AbVYCL+9BUJdWfMvA=",
+  "Source": "OpenSystem.Apis.Gateway",
+  "BasePath": "_content/OpenSystem.Apis.Gateway",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

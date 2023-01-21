@@ -28,7 +28,7 @@
     "core-dotnet-webapi": "libs/core/dotnet/webapi",
     "core-dotnet-application": "libs/core/dotnet/application",
     "core-dotnet-domain": "libs/core/dotnet/domain",
-    "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure"
+    "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",
+    "apis-gateway": "apps/apis/gateway"
   }
 }
-

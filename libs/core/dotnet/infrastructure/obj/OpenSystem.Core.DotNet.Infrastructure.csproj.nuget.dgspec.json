@@ -163,7 +163,10 @@
           "net7.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
+          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
         },
         "frameworks": {
           "net7.0": {
@@ -191,9 +194,17 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Consul": {
+              "target": "Package",
+              "version": "[1.6.10.8, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[3.4.3, )"
+            },
+            "Microsoft.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[2.2.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -215,6 +226,10 @@
               "target": "Package",
               "version": "[7.0.2, )"
             },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
               "version": "[7.0.0, )"
@@ -222,6 +237,10 @@
             "MimeKit": {
               "target": "Package",
               "version": "[3.4.3, )"
+            },
+            "NETStandard.Library": {
+              "target": "Package",
+              "version": "[2.0.3, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
