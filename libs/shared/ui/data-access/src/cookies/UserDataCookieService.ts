@@ -16,7 +16,8 @@ export class UserDataCookieService {
 
   public async addUserData(
     userId?: string,
-    type: UserTypes = UserTypes.GUEST
+    type: UserTypes = UserTypes.GUEST,
+    hasAgreedToCookiePolicy = false
   ): Promise<undefined> {
     if (!this.cookieExists()) {
       setCookie(
@@ -26,6 +27,7 @@ export class UserDataCookieService {
           userId: userId ? userId : `${type}-${getUniqueNumericId(9)}`,
           type,
           createdDateTime: DateTime.current,
+          hasAgreedToCookiePolicy,
         })
       );
     }
@@ -35,7 +37,8 @@ export class UserDataCookieService {
 
   public async updateUserData(
     userId: string,
-    type?: UserTypes
+    type?: UserTypes,
+    hasAgreedToCookiePolicy = false
   ): Promise<undefined> {
     const userData: UserData = await this.getUserData(userId);
 
@@ -46,6 +49,9 @@ export class UserDataCookieService {
         ...userData,
         userId,
         type: type ? type : userData.type,
+        hasAgreedToCookiePolicy: hasAgreedToCookiePolicy
+          ? hasAgreedToCookiePolicy
+          : userData.hasAgreedToCookiePolicy,
       })
     );
 

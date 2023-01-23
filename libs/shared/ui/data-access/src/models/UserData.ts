@@ -5,4 +5,5 @@ export interface UserData {
   userId: string;
   type: UserTypes;
   createdDateTime: DateTime;
+  hasAgreedToCookiePolicy: boolean;
 }

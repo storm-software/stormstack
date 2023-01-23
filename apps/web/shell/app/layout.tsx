@@ -12,6 +12,7 @@ import React from "react";
 import "reflect-metadata";
 import "../dependency-inversion.config";
 import "../styles/globals.css";
+import CookiePolicyBanner from "./(components)/cookie-policy-banner.server";
 import NavHeader from "./nav-header";
 import RootProvider from "./store-provider";
 
@@ -70,6 +71,8 @@ export default function RootLayout({
           <div className="h-fit w-full">
             <RootProvider>{children}</RootProvider>
           </div>
+
+          <CookiePolicyBanner />
 
           <Footer />
         </div>

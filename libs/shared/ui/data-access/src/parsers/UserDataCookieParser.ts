@@ -19,6 +19,7 @@ export class UserDataCookieParser {
 
     userData.createdDateTime = createdDateTime;
     userData.type ??= UserTypes.GUEST;
+    userData.hasAgreedToCookiePolicy ??= false;
 
     return userData;
   }
