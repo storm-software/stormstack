@@ -561,12 +561,15 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         }
 
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", /*packageFolder,*/ packageName + ".csproj"));
+        supportingFiles.add(new SupportingFile("Extensions" + File.separator + "AppExtensions.mustache", /*packageFolder,*/ "Extensions", "AppExtensions.cs"));
+        supportingFiles.add(new SupportingFile("Extensions" + File.separator + "ServiceExtensions.mustache", /*packageFolder,*/ "Extensions", "ServiceExtensions.cs"));
+
         if (!isLibrary) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", /*packageFolder,*/ "Dockerfile"));
             supportingFiles.add(new SupportingFile("appsettings.json.mustache", "", "appsettings.json"));
             supportingFiles.add(new SupportingFile("appsettings.Development.json", /*packageFolder,*/ "appsettings.Development.json"));
 
-            supportingFiles.add(new SupportingFile("Startup.mustache", /*packageFolder,*/ "Startup.cs"));
+            // supportingFiles.add(new SupportingFile("Startup.mustache", /*packageFolder,*/ "Startup.cs"));
             supportingFiles.add(new SupportingFile("Program.mustache", /*packageFolder,*/ "Program.cs"));
             supportingFiles.add(
                 new SupportingFile("Properties" + File.separator + "launchSettings.mustache", /*packageFolder + File.separator +*/ "Properties",
@@ -600,7 +603,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + /*sourceFolder + File.separator + packageName +*/ File.separator + "Controllers";
+        return outputFolder + File.separator + /*sourceFolder + File.separator + packageName +*/ File.separator + "Controllers" + File.separator + "v1";
     }
 
     @Override

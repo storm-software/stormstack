@@ -4,72 +4,37 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Versioning;
-{{#operationResultTask}}
 using System.Threading.Tasks;
-{{/operationResultTask}}
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
-{{/useSwashbuckle}}
-using {{packageName}}.Attributes;
-using {{modelPackage}};
+using OpenSystem.Apis.{{domainName}}.Attributes;
+using OpenSystem.Apis.{{domainName}}.Contracts;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using OpenSystem.Core.DotNet.WebApi.Controllers;
 
-namespace {{apiPackage}}
+namespace {{apiPackage}}.v1
 { {{#operations}}
+
     /// <summary>
     /// Controller for {{classname}} service implementation(s)
     /// </summary>
     [Description("Controller for {{classname}} service implementation(s)")]
-    [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
-    [Route("api/[controller]")]
-    [ApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
-    public {{#classModifier}}{{.}} {{/classModifier}}class {{classname}}Controller : ControllerBase
+    [ApiVersion("{{{version}}}{{^version}}1{{/version}}")]
+    public {{#classModifier}}{{.}} {{/classModifier}}class {{classname}}Controller : BaseApiController
     {
-        private readonly ILogger<{{classname}}Controller> _logger;
-        private readonly string _baseUrl;
-        private readonly HttpContext _context;
-
         /// <summary>
         /// Constructor method for {{classname}}Controller
         /// </summary>
         /// <remarks>Constructor method to generate an instance of a {{classname}}Controller</remarks>
-        public {{classname}}Controller(ILogger<{{classname}}Controller> logger,
-            IHttpContextAccessor context)
+        public {{classname}}Controller(ILogger<{{classname}}Controller> _logger,
+            IHttpContextAccessor _context)
+            : base(_logger,
+            _context)
         {
-          if (context.HttpContext != null)
-          {
-            _context = context.HttpContext;
-            var request = _context.Request;
-            _baseUrl = $"{request.Scheme}://{request.Host}";
-          }
-
-          _logger = logger;
-        }
-
-        /// <summary>
-        /// An end point to indicate if the current API is running
-        /// </summary>
-        /// <remarks>Add new message record</remarks>
-        /// <response code="200">Example response</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="404">Not Found</response>
-        /// <response code="500">Internal Server Error</response>
-        /// <response code="503">Service Unavailable</response>
-        [MapToApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
-        [HttpGet]
-        [Route("/health-check")]
-        public {{#operationModifier}}{{.}} {{/operationModifier}}{{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} HealthCheck()
-        {
-          var msg = $"{_context.Request.Host} is healthy";
-
-          _logger.LogInformation(msg);
-          return Ok(msg);
         }
 
         /// <summary>
@@ -81,14 +46,14 @@ namespace {{apiPackage}}
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
-        [MapToApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
+        [MapToApiVersion("{{{version}}}{{^version}}1{{/version}}")]
         [HttpGet]
         [Route("/status")]
         public {{#operationModifier}}{{.}} {{/operationModifier}}{{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} Status()
         {
-          var msg = $"Running on {_context.Request.Host}";
+          var msg = $"Running on {Context.Request.Host}";
 
-          _logger.LogInformation(msg);
+          Logger.LogInformation(msg);
           return Ok(msg);
         }
 
@@ -99,7 +64,7 @@ namespace {{apiPackage}}
         /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
         /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
-        [MapToApiVersion("{{{version}}}{{^version}}1.0{{/version}}")]
+        [MapToApiVersion("{{{version}}}{{^version}}1{{/version}}")]
         [{{httpMethod}}]
         [Route("{{{path}}}")]
 {{#authMethods}}

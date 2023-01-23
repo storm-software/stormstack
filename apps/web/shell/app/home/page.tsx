@@ -1,6 +1,6 @@
 import { ArticleJsonLd, LogoJsonLd, SocialProfileJsonLd } from "next-seo";
-import { Suspense } from "react";
-import LikeButton from "../(components)/like-button.server";
+//import { Suspense } from "react";
+//import LikeButton from "../(components)/like-button.server";
 import {
   ARTICLE_JSON_LD_DEFAULT,
   LOGO_JSON_LD_DEFAULT,
@@ -19,9 +19,9 @@ export default function Page() {
 
       <Client />
 
-      <Suspense>
+      {/*<Suspense>
         <LikeButton pageId={PAGE_ID} />
-      </Suspense>
+  </Suspense>*/}
     </>
   );
 }

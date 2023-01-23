@@ -19,15 +19,6 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@open-system/asyncapi-rabbitmq": ["tools/asyncapi/rabbitmq/index.ts"],
-      "@open-system/blog-engagement-config": [
-        "libs/blog/engagement/config/src/index.ts"
-      ],
-      "@open-system/blog-engagement-ui-data-access": [
-        "libs/blog/engagement/ui/data-access/src/index.ts"
-      ],
-      "@open-system/blog-engagement-ui-feature-reaction": [
-        "libs/blog/engagement/ui/feature-reaction/src/index.ts"
-      ],
       "@open-system/core-typescript-utilities": [
         "libs/core/typescript/utilities/src/index.ts"
       ],
@@ -36,9 +27,6 @@
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
-      "@open-system/blog-engagement-ui-feature-reaction/*": [
-        "libs/blog/engagement/ui/feature-reaction/src/*"
-      ],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
       "@open-system/executors-typescript": [
@@ -48,6 +36,16 @@
       "@open-system/generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
+      "@open-system/reaction-ui-data-access": [
+        "libs/reaction/ui/data-access/src/index.ts"
+      ],
+      "@open-system/reaction-ui-feature-like": [
+        "libs/reaction/ui/src/index.ts"
+      ],
+      "@open-system/reaction-ui-feature-like/*": [
+        "libs/reaction/ui/feature-like/src/*"
+      ],
+      "@open-system/reaction/config": ["libs/reaction/config/src/index.ts"],
       "@open-system/shared-config": ["libs/shared/config/src/index.ts"],
       "@open-system/shared-ui-components": [
         "libs/shared/ui/components/src/index.ts"
@@ -58,17 +56,17 @@
       "@open-system/shared-ui-data-access": [
         "libs/shared/ui/data-access/src/index.ts"
       ],
-      "@open-system/shared-ui-feature-layout/*": [
-        "libs/shared/ui/feature-layout/src/*"
-      ],
-      "@open-system/shared-ui-feature-notifications/*": [
-        "libs/shared/ui/feature-notifications/src/*"
-      ],
       "@open-system/shared-ui-feature-layout": [
         "libs/shared/ui/feature-layout/src/index.ts"
       ],
+      "@open-system/shared-ui-feature-layout/*": [
+        "libs/shared/ui/feature-layout/src/*"
+      ],
       "@open-system/shared-ui-feature-notifications": [
         "libs/shared/ui/feature-notifications/src/index.ts"
+      ],
+      "@open-system/shared-ui-feature-notifications/*": [
+        "libs/shared/ui/feature-notifications/src/*"
       ],
       "@open-system/static-message-config": [
         "libs/static/message/config/src/index.ts"

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: opensystem.dotnet.server.OpenSystemDotnetServerGeneratorTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.648 sec
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.207 sec

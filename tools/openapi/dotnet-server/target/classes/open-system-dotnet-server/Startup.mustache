@@ -89,8 +89,9 @@ namespace {{packageName}}
                 options.ReportApiVersions = true;
                 options.ApiVersionReader =
                     ApiVersionReader.Combine(
-                        new HeaderApiVersionReader("X-Api-Version"),
-                        new QueryStringApiVersionReader("version"));
+                        new UrlSegmentApiVersionReader(),
+                        new HeaderApiVersionReader("X-Api-Version")
+                        /* new QueryStringApiVersionReader("version") */ );
                 });
 
 {{#useSwashbuckle}}

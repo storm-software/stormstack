@@ -23,7 +23,7 @@ namespace OpenSystem.Apis.Gateway
 
         public Startup(IWebHostEnvironment env)
         {
-            string ocelotJson = null;
+            /*string ocelotJson = null;
             foreach (var jsonFilename in Directory.EnumerateFiles("Configuration",
               "ocelot.*.json",
               SearchOption.AllDirectories))
@@ -37,7 +37,7 @@ namespace OpenSystem.Apis.Gateway
             if (!string.IsNullOrEmpty(ocelotJson)) {
               File.WriteAllText("ocelot.json",
                 ocelotJson);
-            }
+            }*/
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)

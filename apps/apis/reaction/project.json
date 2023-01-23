@@ -1,0 +1,100 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "apis-reaction",
+  "projectType": "application",
+  "sourceRoot": "apps/apis/Reaction",
+  "targets": {
+    "build": {
+      "executor": "@open-system/executors-dotnet:build",
+      "output": ["dist/apps/apis/Reaction"],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": false
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        },
+        "docker": {
+          "configuration": "Debug",
+          "noDependencies": false
+        }
+      }
+    },
+    "build-base": {
+      "executor": "@nx-dotnet/core:build",
+      "output": ["dist/apps/apis/Reaction"],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": false
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        },
+        "docker": {
+          "configuration": "Debug"
+        }
+      }
+    },
+    "publish": {
+      "executor": "@nx-dotnet/core:publish",
+      "selfContained": true,
+      "output": ["dist/apps/apis/Reaction/publish"],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": true
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        },
+        "docker": {
+          "configuration": "Debug",
+          "output": "/app/publish"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx-dotnet/core:serve",
+      "options": {
+        "configuration": "Debug"
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx-dotnet/core:format"
+    },
+    "server-api-sync": {
+      "executor": "@open-system/executors-dotnet:server-api-sync",
+      "options": {
+        "domainName": "Reaction",
+        "serviceName": "Reaction",
+        "specJsonFile": "libs/reaction/config/src/reaction.api-spec.json",
+        "packageName": "OpenSystem.Apis.Reaction"
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-container",
+      "options": {
+        "file": "./Dockerfile",
+        "load": true,
+        "tags": ["apis-reaction:latest"]
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "apis-reaction-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["domain:Reaction", "type:apps", "target:apis"]
+}

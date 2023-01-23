@@ -1,0 +1,274 @@
+{
+  "asyncapi": "2.4.0",
+  "info": {
+    "title": "Reaction Services",
+    "version": "1.0.0",
+    "description": "The services responsible for processing user reaction data\r\n### Reaction Types: \r\n* Like\r\n* Dislike\r\n* Love\r\n* Hate\r\n* Laugh\r\n* Cry",
+    "termsOfService": "https://PatSullivan.dev/terms",
+    "contact": {
+      "name": "Pat Sullivan",
+      "url": "https://PatSullivan.dev",
+      "email": "Patrick.Joseph.Sullivan@ProtonMail.com"
+    },
+    "license": {
+      "name": "BSD 2-Clause License",
+      "url": "https://opensource.org/licenses/BSD-2-Clause"
+    }
+  },
+  "tags": [
+    {
+      "name": "reaction",
+      "description": "User-provided reaction data/actions."
+    }
+  ],
+  "defaultContentType": "application/json",
+  "servers": {
+    "development": {
+      "url": "http://localhost:5100/services/reaction",
+      "description": "Local development server",
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
+    },
+    "staging": {
+      "url": "https://PatSullivan.tech/services/reaction",
+      "description": "Staging environment",
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
+    },
+    "production": {
+      "url": "https://PatSullivan.dev/services/reaction",
+      "description": "Cloud-based production environment",
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
+    }
+  },
+  "channels": {
+    "os/reaction/command/add-reaction": {
+      "description": "A topic on which an add-reaction command may be produced and consumed.",
+      "subscribe": {
+        "operationId": "SendAddReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "tags": [
+          {
+            "name": "reaction",
+            "description": "User-provided reaction data/actions."
+          }
+        ]
+      },
+      "publish": {
+        "operationId": "ReceiveAddReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        },
+        "tags": [
+          {
+            "name": "reaction",
+            "description": "User-provided reaction data/actions."
+          }
+        ]
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OpenSystem.Reaction",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactionAdd" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/reaction/event/reaction-added": {
+      "description": "A topic on which an add-reaction event may be produced and consumed.",
+      "subscribe": {
+        "operationId": "SendAddReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "tags": [
+          {
+            "name": "reaction",
+            "description": "User-provided reaction data/actions."
+          }
+        ]
+      },
+      "publish": {
+        "operationId": "ReceiveAddReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        },
+        "tags": [
+          {
+            "name": "reaction",
+            "description": "User-provided reaction data/actions."
+          }
+        ]
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OpenSystem.Reaction",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactionAdded" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/reaction/command/remove-reaction": {
+      "description": "A topic on which an remove-reaction command may be produced and consumed.",
+      "subscribe": {
+        "operationId": "SendRemoveReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "tags": [
+          {
+            "name": "reaction",
+            "description": "User-provided reaction data/actions."
+          }
+        ]
+      },
+      "publish": {
+        "operationId": "ReceiveRemoveReactionCommand",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        },
+        "tags": [
+          {
+            "name": "reaction",
+            "description": "User-provided reaction data/actions."
+          }
+        ]
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OpenSystem.Reaction",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactionRemove" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    },
+    "os/reaction/event/reaction-removed": {
+      "description": "A topic on which an remove-reaction event may be produced and consumed.",
+      "subscribe": {
+        "operationId": "SendRemoveReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "tags": [
+          {
+            "name": "reaction",
+            "description": "User-provided reaction data/actions."
+          }
+        ]
+      },
+      "publish": {
+        "operationId": "ReceiveRemoveReactionEvent",
+        "message": {
+          "$ref": "#/components/messages/reaction"
+        },
+        "bindings": {
+          "amqp": {
+            "timestamp": true,
+            "ack": false,
+            "bindingVersion": "0.2.0"
+          }
+        },
+        "tags": [
+          {
+            "name": "reaction",
+            "description": "User-provided reaction data/actions."
+          }
+        ]
+      },
+      "bindings": {
+        "amqp": {
+          "is": "routingKey",
+          "exchange": {
+            "name": "OpenSystem.Reaction",
+            "type": "topic",
+            "vhost": "/",
+            "durable": true
+          },
+          "queue": { "name": "reactionRemoved" },
+          "bindingVersion": "0.2.0"
+        }
+      }
+    }
+  },
+  "components": {
+    "messages": {
+      "reaction": {
+        "name": "Reaction",
+        "title": "User Reaction",
+        "summary": "A reaction a user had to a specific piece of content in the application.",
+        "contentType": "application/json",
+        "payload": {
+          "$ref": "#/components/schemas/reactionPayload"
+        }
+      }
+    },
+    "schemas": {
+      "reactionPayload": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "A unique Id used to identify the the current user"
+          },
+          "contentId": {
+            "type": "string",
+            "example": "A unique Id used to identify the content the user is reacting to"
+          },
+          "contentType": {
+            "title": "contentType",
+            "type": "string",
+            "enum": ["article", "comment"]
+          },
+          "reactionType": {
+            "title": "reactionType",
+            "type": "string",
+            "enum": ["like", "dislike", "happy", "sad", "laugh", "cry"]
+          }
+        }
+      }
+    }
+  }
+}

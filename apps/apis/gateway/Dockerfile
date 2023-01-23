@@ -21,7 +21,7 @@ ENV NX_DAEMON=false
 RUN npm install --legacy-peer-deps
 RUN npx nx reset
 
-RUN npm run build:tools
+RUN npm run build:tools-dotnet
 RUN npx run restore
 
 # Build the API

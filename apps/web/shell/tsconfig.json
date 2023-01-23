@@ -29,7 +29,8 @@
     "**/*.js",
     "**/*.jsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
-, "../../../next-intl.config.ts", "../../../libs/shared/ui/components/src/horizontal-separator/divider-line-group.tsx"  ],
+    ".next/types/**/*.ts",
+    "../../../next-intl.config.ts"
+  ],
   "exclude": ["node_modules", "jest.config.ts"]
 }

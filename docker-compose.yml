@@ -18,33 +18,40 @@ networks:
         - subnet: 172.28.4.0/24
 
 services:
-  pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
-
-  engagement_db:
-    container_name: engagement_db
+  reaction_db:
+    container_name: reaction_db
     image: postgres
     restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: engagement_db
+      POSTGRES_DB: reaction_db
+      CI: true
     ports:
       - "5432:5432"
     networks:
       - network-microservice
 
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      CI: true
+    ports:
+      - "5050:80"
+    networks:
+      - network-microservice
+
   consul:
-    image: consul
     container_name: consul
+    image: consul
     restart: on-failure
+    environment:
+      NODE_ENV: development
+      CI: true
     volumes:
       - consul-data:/consul/config
     ports:
@@ -52,24 +59,24 @@ services:
     networks:
       - network-microservice
 
-  engagement_apis:
-    container_name: engagement_apis
-    image: apis-engagement:latest
+  reaction_apis:
+    container_name: reaction_apis
+    image: apis-reaction:latest
     restart: unless-stopped
-    hostname: engagement_apis
+    hostname: reaction_apis
     build:
       context: .
-      dockerfile: apps/apis/engagement/Dockerfile
+      dockerfile: apps/apis/reaction/Dockerfile
     environment:
       NODE_ENV: development
       CI: true
     networks:
       - network-microservice
     links:
-      - engagement_db
+      - reaction_db
       - consul
     depends_on:
-      - engagement_db
+      - reaction_db
       - consul
 
   gateway:
@@ -88,7 +95,7 @@ services:
       - network-gateway
       - network-microservice
     links:
-      - engagement_apis
+      - reaction_apis
       - consul
     depends_on:
       - consul

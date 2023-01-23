@@ -1,0 +1,73 @@
+{
+  "GlobalConfiguration": {
+    "RequestIdKey": "x-correlation-id",
+    "UseServiceDiscovery": true,
+    "DownstreamScheme": "http"
+  },
+
+  "RateLimitOptions": {
+    "ClientWhitelist": [],
+    "EnableRateLimiting": true,
+    "Period": "1s",
+    "HttpStatusCode": 428,
+    "QuotaExceededMessage": "Too many requests...",
+    "PeriodTimespan": 1,
+    "Limit": 1
+  },
+
+  "HttpHandlerOptions": {
+    "UseTracing": true
+  },
+
+  "LoadBalancerOptions": {
+    "Type": "LeastConnection",
+    "Key": null,
+    "Expiry": 0
+  },
+
+  "QoSOptions": {
+    "ExceptionsAllowedBeforeBreaking": 3,
+    "DurationOfBreak": 10000,
+    "TimeoutValue": 5000
+  },
+
+  "SwaggerEndPoints": [
+    {
+      "Key": "reaction",
+      "Config": [
+        {
+          "Name": "Reaction API",
+          "Version": "v1",
+          "Url": "http://reaction_apis/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/{url}",
+      "UpstreamHttpMethod": ["Post", "Get"],
+      "ServiceName": "reaction_apis",
+      "RouteIsCaseSensitive": false,
+      "FileCacheOptions": { "TtlSeconds": 15 },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "SwaggerKey": "reaction"
+    },
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/{url}",
+      "ServiceName": "reaction_apis",
+      "FileCacheOptions": { "TtlSeconds": 15 },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "SwaggerKey": "reaction"
+    }
+  ]
+}

@@ -31,6 +31,8 @@
     "Microsoft.Extensions.Hosting": "7.0.0",
     "Microsoft.AspNetCore.OpenApi": "7.0.2",
     "Ocelot": "18.0.0",
-    "Ocelot.Provider.Consul": "18.0.0"
+    "Ocelot.Provider.Consul": "18.0.0",
+    "Ocelot.Administration": "18.0.0",
+    "Swashbuckle.AspNetCore": "6.5.0"
   }
 }

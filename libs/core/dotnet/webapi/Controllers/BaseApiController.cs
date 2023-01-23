@@ -37,7 +37,7 @@ namespace OpenSystem.Core.DotNet.WebApi.Controllers
             BaseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}";
           }
 
-          Logger = _logger;
+          Logger = logger;
         }
 
         /// <summary>

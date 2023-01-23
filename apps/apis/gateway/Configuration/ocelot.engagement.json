@@ -1,27 +1,27 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/engagement",
+      "DownstreamPathTemplate": "/api/v1/reactions/{contentType}/{contentId}",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/api/engagement",
+      "UpstreamPathTemplate": "/api/v1/reactions/{contentType}/{contentId}",
       "UpstreamHttpMethod": ["Post", "Get"],
-      "ServiceName": "Engagement",
+      "ServiceName": "reaction_apis",
       "FileCacheOptions": { "TtlSeconds": 15 },
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "SwaggerKey": "engagement"
+      "SwaggerKey": "reaction"
     },
     {
-      "DownstreamPathTemplate": "/api/engagement/{id}",
+      "DownstreamPathTemplate": "/api/v1/reactions/{contentType}/{contentId}",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/api/engagement/{id}",
-      "ServiceName": "Engagement",
+      "UpstreamPathTemplate": "/api/v1/reactions/{contentType}/{contentId}",
+      "ServiceName": "reaction_apis",
       "FileCacheOptions": { "TtlSeconds": 15 },
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "SwaggerKey": "engagement"
+      "SwaggerKey": "reaction"
     }
   ]
 }

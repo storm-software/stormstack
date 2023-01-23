@@ -1,7 +1,7 @@
 import { INVERSION_CONTAINER } from "@open-system/core-typescript-utilities";
 import { PropsWithBase } from "@open-system/design-system-components";
-import { AbstractReactionsApi } from "@open-system/blog-engagement-ui-data-access";
-import { UserLikeHistoryConstants } from "@open-system/blog-engagement-ui-feature-reaction/constants";
+import { AbstractReactionsApi } from "@open-system/reaction-ui-data-access";
+import { UserLikeHistoryConstants } from "@open-system/reaction-ui-feature-like/constants";
 import { cookies } from "next/headers";
 import LikeButtonClient from "./like-button.client";
 

@@ -21,44 +21,30 @@
     <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <RootNamespace>{{packageName}}</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
 
+  <ItemGroup>
 {{#useSeperateModelProject}}
     <ProjectReference Include="../{{modelPackage}}/{{modelPackage}}.csproj"/>
 {{/useSeperateModelProject}}
+
 {{#useFrameworkReference}}
 {{#isLibrary}}
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
 {{/isLibrary}}
 {{/useFrameworkReference}}
-{{^useFrameworkReference}}
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-{{/useFrameworkReference}}
 {{^useSeperateModelProject}}
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0-rc.2.22472.3" />
+     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
 {{/useSeperateModelProject}}
-{{#useSwashbuckle}}
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-{{#useNewtonsoft}}
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="{{swashbuckleVersion}}"/>
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="{{swashbuckleVersion}}"/>
-{{/useNewtonsoft}}
-{{^useNewtonsoft}}
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="{{swashbuckleVersion}}"/>
-{{/useNewtonsoft}}
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="{{swashbuckleVersion}}" />
-{{/useSwashbuckle}}
-{{^useSwashbuckle}}
-{{#useNewtonsoft}}
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="{{newtonsoftVersion}}" />
-{{/useNewtonsoft}}
-{{/useSwashbuckle}}
-
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="{{swashbuckleVersion}}" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Serilog.Expressions" Version="3.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0-rc.2.22472.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="JsonSubTypes" Version="1.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
@@ -66,7 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="{{aspnetCoreVersion}}.0" />-->
+    <ProjectReference Include="..\..\..\libs\core\dotnet\application\OpenSystem.Core.DotNet.Application.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\infrastructure\OpenSystem.Core.DotNet.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\webapi\OpenSystem.Core.DotNet.WebApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,6 +6,15 @@
       "Microsoft.Hosting.Lifetime": "Information"
     }
   },
+  "ServiceDiscoverySettings": {
+    "Id": "{{fullServiceName}}",
+    "Name": "{{fullServiceName}}",
+    "DiscoveryAddress": "http://consul:8500",
+    "Address": "http://{{fullServiceName}}",
+    "HealthCheckEndPoint": "health-check",
+    "DisableAgentCheck": false,
+    "Tags": []
+  },
   "Serilog": {
     "Using": [],
     "MinimumLevel": {

@@ -1,15 +1,19 @@
 {
   "version": 2,
   "projects": {
-    "apis-engagement": "apps/apis/engagement",
-    "apis-message": "apps/apis/message",
-    "blog-engagement-config": "libs/blog/engagement/config",
-    "blog-engagement-ui-data-access": "libs/blog/engagement/ui/data-access",
-    "blog-engagement-ui-feature-reaction": "libs/blog/engagement/ui/feature-reaction",
+    "apis-gateway": "apps/apis/gateway",
+    "apis-reaction": "apps/apis/reaction",
+    "core-dotnet-application": "libs/core/dotnet/application",
+    "core-dotnet-domain": "libs/core/dotnet/domain",
+    "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",
+    "core-dotnet-webapi": "libs/core/dotnet/webapi",
     "core-typescript-utilities": "libs/core/typescript/utilities",
     "design-system-components": "design-system/components",
     "design-system-tokens": "design-system/tokens",
     "docs": "docs",
+    "reaction-config": "libs/reaction/config",
+    "reaction-ui-data-access": "libs/reaction/ui/data-access",
+    "reaction-ui-feature-like": "libs/reaction/ui/feature-like",
     "shared-config": "libs/shared/config",
     "shared-ui-components": "libs/shared/ui/components",
     "shared-ui-data-access": "libs/shared/ui/data-access",
@@ -24,11 +28,6 @@
     "tools-generators-dotnet": "tools/generators/dotnet",
     "tools-generators-typescript": "tools/generators/typescript",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell",
-    "core-dotnet-webapi": "libs/core/dotnet/webapi",
-    "core-dotnet-application": "libs/core/dotnet/application",
-    "core-dotnet-domain": "libs/core/dotnet/domain",
-    "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",
-    "apis-gateway": "apps/apis/gateway"
+    "web-shell": "apps/web/shell"
   }
 }

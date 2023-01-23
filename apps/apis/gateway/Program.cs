@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using Ocelot.Provider.Consul;
 
 namespace OpenSystem.Apis.Gateway
 {
@@ -7,6 +7,7 @@ namespace OpenSystem.Apis.Gateway
     {
         public static void Main(string[] args)
         {
+          // Host builder
             CreateHostBuilder(args).Build().Run();
         }
 

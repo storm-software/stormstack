@@ -14,6 +14,10 @@
       "type": "string",
       "description": "The path of the service project relative to the workspace root."
     },
+    "packageName": {
+      "type": "string",
+      "description": "The name to use for the package."
+    },
     "projectName": {
       "type": "string",
       "description": "The name to use for the project in the Nx workspace."

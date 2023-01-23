@@ -1,5 +1,7 @@
 using OpenSystem.Core.DotNet.Domain.Settings;
 using Consul;
+using Ocelot;
+using Ocelot.Provider.Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http.Features;
@@ -51,11 +53,15 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
             var address = settings.Value.Address;
             if (string.IsNullOrWhiteSpace(address))
             {
-                var features = app.Properties["server.Features"] as FeatureCollection;
-                var addresses = features.Get<IServerAddressesFeature>();
-                address = addresses.Addresses.First();
+              var features = app.Properties["server.Features"] as FeatureCollection;
+              if (features != null)
+              {
+                address = features.Get<IServerAddressesFeature>()
+                  .Addresses
+                  .First();
 
                 logger.LogInformation($"Could not find service address in config. Using '{address}'");
+              }
             }
 
             // Register service with consul
@@ -64,8 +70,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
               AppDomain.CurrentDomain.FriendlyName.Trim().Trim('_');
             var registration = new AgentServiceRegistration
             {
-                ID = $"{name.ToLowerInvariant()}-{settings.Value.Id ??
-                  Guid.NewGuid().ToString()}",
+                ID = name,
                 Name = name,
                 Address = uri.Host,
                 Port = uri.Port,
@@ -79,7 +84,8 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
                 {
                     DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
                     Interval = TimeSpan.FromSeconds(30),
-                    HTTP = new Uri(uri, settings.Value.HealthCheckEndPoint).OriginalString
+                    HTTP = new Uri(uri,
+                      settings.Value.HealthCheckEndPoint).OriginalString
                 };
             }
 

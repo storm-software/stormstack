@@ -33,12 +33,12 @@
 
   "SwaggerEndPoints": [
     {
-      "Key": "engagement",
+      "Key": "reaction",
       "Config": [
         {
-          "Name": "Engagement API",
+          "Name": "Reaction API",
           "Version": "v1",
-          "Url": "http://engagement_apis/swagger/v1/swagger.json"
+          "Url": "http://reaction_apis/swagger/v1/swagger.json"
         }
       ]
     }
