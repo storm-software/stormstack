@@ -71,6 +71,9 @@
       "@open-system/static-message-config": [
         "libs/static/message/config/src/index.ts"
       ],
+      "@open-system/user-ui-data-access": [
+        "libs/user/ui/data-access/src/index.ts"
+      ],
       "@open-system/user/config": ["libs/user/config/src/index.ts"]
     }
   },

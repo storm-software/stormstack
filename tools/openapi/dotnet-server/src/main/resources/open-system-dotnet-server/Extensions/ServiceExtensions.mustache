@@ -8,13 +8,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
-using OpenSystem.Apis.{{domainName}}.Authentication;
-using OpenSystem.Apis.{{domainName}}.Filters;
-using OpenSystem.Apis.{{domainName}}.OpenApi;
-using OpenSystem.Apis.{{domainName}}.Formatters;
+using {{packageName}}.Authentication;
+using {{packageName}}.Filters;
+using {{packageName}}.Formatters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace OpenSystem.Apis.{{domainName}}.Extensions
+namespace {{packageName}}.Extensions
 {
     public static class ServiceExtensions
     {

@@ -8,21 +8,23 @@ using System.Xml.Serialization;
 
 namespace OpenSystem.Core.DotNet.Domain.Entities
 {
-    public class Entity : DynamicObject, IXmlSerializable, IDictionary<string, object>
+    public class Entity
+      : DynamicObject, IXmlSerializable, IDictionary<string, object>
     {
         private readonly string _root = "Entity";
-        private readonly IDictionary<string, object> _expando = null;
+
+        private readonly IDictionary<string, object> _expando;
 
         public Entity()
         {
-            _expando = new ExpandoObject();
+            _expando = new ExpandoObject() as IDictionary<string, object>;
         }
 
         public override bool TryGetMember(GetMemberBinder binder,
-          out object result)
+          out object? result)
         {
             if (_expando.TryGetValue(binder.Name,
-              out object value))
+              out object? value))
             {
                 result = value;
                 return true;
@@ -33,9 +35,12 @@ namespace OpenSystem.Core.DotNet.Domain.Entities
         }
 
         public override bool TrySetMember(SetMemberBinder binder,
-          object value)
+          object? value)
         {
-            _expando[binder.Name] = value;
+            if (value != null)
+            {
+              _expando[binder.Name] = value;
+            }
 
             return true;
         }
@@ -57,9 +62,16 @@ namespace OpenSystem.Core.DotNet.Domain.Entities
 
                 reader.MoveToAttribute("type");
                 typeContent = reader.ReadContentAsString();
-                underlyingType = Type.GetType(typeContent);
-                reader.MoveToContent();
-                _expando[name] = reader.ReadElementContentAs(underlyingType, null);
+
+                var type = Type.GetType(typeContent);
+                if (type != null)
+                {
+                  underlyingType = type;
+
+                  reader.MoveToContent();
+                  _expando[name] = reader.ReadElementContentAs(underlyingType,
+                    null);
+                }
             }
         }
 

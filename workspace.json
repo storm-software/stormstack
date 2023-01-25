@@ -28,7 +28,10 @@
     "tools-generators-dotnet": "tools/generators/dotnet",
     "tools-generators-typescript": "tools/generators/typescript",
     "user-config": "libs/user/config",
+    "user-ui-data-access": "libs/user/ui/data-access",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell"
+    "web-shell": "apps/web/shell",
+    "user-server-domain": "libs/user/server/domain",
+    "shared-server-domain": "libs/shared/server/domain"
   }
 }

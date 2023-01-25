@@ -73,7 +73,7 @@
       "executor": "@open-system/executors-dotnet:server-api-sync",
       "options": {
         "domainName": "user",
-        "serviceName": "user",
+        "serviceName": "user_apis",
         "specJsonFile": "libs/user/config/src/user.api-spec.json",
         "packageName": "OpenSystem.Apis.User"
       }

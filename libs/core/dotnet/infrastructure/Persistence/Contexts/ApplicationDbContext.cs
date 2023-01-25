@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts
 {
@@ -21,27 +22,58 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts
             : base(options)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
             _dateTime = dateTime;
             _loggerFactory = loggerFactory;
         }
 
-        // public DbSet<Position> Positions { get; set; }
+        public override int SaveChanges()
+        {
+            ChangeTracker.Entries()
+                .Where(e => e.State is EntityState.Added or EntityState.Modified)
+                .Select(e => e.Entity)
+                .ToList()
+                .ForEach(entity =>
+                {
+                    var validationContext = new ValidationContext(entity);
+                    Validator.ValidateObject(
+                        entity,
+                        validationContext,
+                        validateAllProperties: true);
+                });
+
+            return base.SaveChanges();
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            foreach (var entry in ChangeTracker.Entries<AuditableBaseEntity>())
+            ChangeTracker.Entries()
+              .Where(e => e.State is EntityState.Added or EntityState.Modified)
+              .Select(e => e.Entity)
+              .ToList()
+              .ForEach(entity =>
+              {
+                  var validationContext = new ValidationContext(entity);
+                  Validator.ValidateObject(
+                      entity,
+                      validationContext,
+                      validateAllProperties: true);
+              });
+
+            foreach (var entry in ChangeTracker.Entries<AuditableBaseEntity<EntityId>>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Created = _dateTime.NowUtc;
+                        entry.Entity.CreatedOn = _dateTime.NowUtc;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.LastModified = _dateTime.NowUtc;
+                        entry.Entity.ModifiedOn = _dateTime.NowUtc;
                         break;
                 }
             }
+
             return base.SaveChangesAsync(cancellationToken);
         }
 

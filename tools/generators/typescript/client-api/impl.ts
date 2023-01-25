@@ -26,7 +26,7 @@ export default async function (host: Tree, options?: ClientApiGeneratorSchema) {
       return { success: false };
     }
 
-    let result;
+    /*let result;
     if (!existsSync(Path.join(`${rootPath}/`, sourceRoot))) {
       ConsoleLogger.warn(
         `The file location ${Path.join(
@@ -44,11 +44,11 @@ export default async function (host: Tree, options?: ClientApiGeneratorSchema) {
         return { success: false };
       }
       ConsoleLogger.info("Directory successfully cleared.");
-    }
+    }*/
 
     ConsoleLogger.info("Syncing client API code...");
 
-    result = await execute(
+    const result = await execute(
       `java -cp tools/openapi/typescript-client/target/open-system-typescript-client-openapi-generator-1.0.0.jar;tools/openapi/openapi-generator-cli-6.2.1.jar org.openapitools.codegen.OpenAPIGenerator generate --input-spec=${specJsonFile} -g ${
         generator ?? "open-system-typescript-client"
       } -o ${sourceRoot} --remove-operation-id-prefix --enable-post-process-file --global-property="apiDocs=true" --additional-properties="enumNameSuffix=Types,enumPropertyNaming=UPPERCASE,supportsES6=true,libraryName=${projectName},${

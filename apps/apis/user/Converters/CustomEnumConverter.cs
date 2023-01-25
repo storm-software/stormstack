@@ -1,7 +1,9 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using Newtonsoft.Json;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OpenSystem.Apis.User.Converters
 {
@@ -36,7 +38,7 @@ namespace OpenSystem.Apis.User.Converters
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<T>(@"""" + value.ToString() + @"""");
+            return JsonSerializer.Deserialize<T>(@"""" + value.ToString() + @"""");
         }
     }
 }

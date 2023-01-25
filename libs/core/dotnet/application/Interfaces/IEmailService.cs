@@ -1,4 +1,4 @@
-using OpenSystem.Core.DotNet.Application.DTOs;
+using OpenSystem.Core.DotNet.Application.Models.DTOs;
 using System.Threading.Tasks;
 
 namespace OpenSystem.Core.DotNet.Application.Interfaces

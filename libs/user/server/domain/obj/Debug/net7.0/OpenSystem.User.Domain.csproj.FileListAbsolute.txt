@@ -1,0 +1,13 @@
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\OpenSystem.User.Domain.csproj.AssemblyReference.cache
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\OpenSystem.User.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\OpenSystem.User.Domain.AssemblyInfoInputs.cache
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\OpenSystem.User.Domain.AssemblyInfo.cs
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\OpenSystem.User.Domain.csproj.CoreCompileInputs.cache
+C:\Development\open-system\dist\libs\user\server\domain\net7.0\OpenSystem.User.Domain.deps.json
+C:\Development\open-system\dist\libs\user\server\domain\net7.0\OpenSystem.User.Domain.dll
+C:\Development\open-system\dist\libs\user\server\domain\net7.0\OpenSystem.User.Domain.pdb
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\OpenSystem.User.Domain.csproj.CopyComplete
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\OpenSystem.User.Domain.dll
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\refint\OpenSystem.User.Domain.dll
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\OpenSystem.User.Domain.pdb
+C:\Development\open-system\libs\user\server\domain\obj\Debug\net7.0\ref\OpenSystem.User.Domain.dll

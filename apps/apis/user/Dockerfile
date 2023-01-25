@@ -8,7 +8,7 @@ EXPOSE 443
 
 FROM node:latest AS node_base
 
-# Setup the container
+# Build container
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS setup
 COPY --from=node_base . .
 
@@ -25,9 +25,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 RUN npx nx reset
-
 RUN npx nx run tools-executors-dotnet:build:build
-# RUN npm run restore
 
 # Build the API
 FROM setup AS build

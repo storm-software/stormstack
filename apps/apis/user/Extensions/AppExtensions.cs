@@ -1,7 +1,7 @@
 
 using Microsoft.AspNetCore.Builder;
 
-namespace OpenSystem.Apis.user.Extensions
+namespace OpenSystem.Apis.User.Extensions
 {
     public static class AppExtensions
     {

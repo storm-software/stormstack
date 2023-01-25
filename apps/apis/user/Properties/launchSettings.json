@@ -19,7 +19,7 @@
       "sqlDebugging": false,
       "nativeDebugging": false
     },
-    "UserService.Api": {
+    "user_apis": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

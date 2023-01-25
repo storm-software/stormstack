@@ -26,11 +26,15 @@ namespace OpenSystem.Core.DotNet.Application.Exceptions
         public ValidationException(string message)
           : base(message)
         {
+          Errors = new List<string>();
+          Errors.Add(message);
         }
 
         public ValidationException(string message, Exception innerException)
           : base(message, innerException)
         {
+          Errors = new List<string>();
+          Errors.Add(message);
         }
     }
 }

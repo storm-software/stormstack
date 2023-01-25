@@ -5,9 +5,10 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using OpenSystem.Core.DotNet.Application.DTOs;
-using OpenSystem.Core.DotNet.Application.Parameters;
+using OpenSystem.Core.DotNet.Application.Models.DTOs;
+using OpenSystem.Core.DotNet.Application.Models.Parameters;
 using OpenSystem.Core.DotNet.Application.Exceptions;
+using OpenSystem.Core.DotNet.Application.Models;
 
 namespace OpenSystem.Core.DotNet.WebApi.Middleware
 {
@@ -79,7 +80,7 @@ namespace OpenSystem.Core.DotNet.WebApi.Middleware
                         break;
                 }
 
-                var responseModel = new Response<ErrorDetails>()
+                var Result = new Result<ErrorDetails>()
                 {
                   Succeeded = false,
                   Message = errorDetails.Title,
@@ -87,11 +88,9 @@ namespace OpenSystem.Core.DotNet.WebApi.Middleware
                 };
 
                 // use ILogger to log the exception message
-                _logger.LogError(error.Message);
+                _logger.LogError(error?.Message);
 
-                var result = JsonSerializer.Serialize(responseModel);
-
-                await response.WriteAsync(result);
+                await response.WriteAsync(JsonSerializer.Serialize(Result));
             }
         }
     }

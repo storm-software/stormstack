@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 Attributes/ValidateModelStateAttribute.cs
 Authentication/ApiAuthentication.cs
 Contracts/ProblemDetailsDto.cs

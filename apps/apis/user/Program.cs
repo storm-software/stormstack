@@ -13,7 +13,7 @@ using OpenSystem.Core.DotNet.Infrastructure.Extensions;
 using OpenSystem.Core.DotNet.Infrastructure;
 using OpenSystem.Core.DotNet.WebApi.Constants;
 using OpenSystem.Core.DotNet.WebApi.Extensions;
-using OpenSystem.Apis.user.Extensions;
+using OpenSystem.Apis.User.Extensions;
 
 const string SERVICE_NAME = "UserService.Api";
 

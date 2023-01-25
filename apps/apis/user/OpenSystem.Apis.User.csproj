@@ -10,7 +10,7 @@
     <Nullable>annotations</Nullable>
     <AssemblyName>OpenSystem.Apis.User</AssemblyName>
     <PackageId>OpenSystem.Apis.User</PackageId>
-    <UserSecretsId>b75bc45a-9dad-4c01-a7c8-2e11a345a6b1</UserSecretsId>
+    <UserSecretsId>1f749708-b808-465d-825a-2f6c3049444d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>

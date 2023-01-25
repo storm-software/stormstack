@@ -1,0 +1,13 @@
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\OpenSystem.Shared.Server.Domain.csproj.AssemblyReference.cache
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\OpenSystem.Shared.Server.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\OpenSystem.Shared.Server.Domain.AssemblyInfoInputs.cache
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\OpenSystem.Shared.Server.Domain.AssemblyInfo.cs
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\OpenSystem.Shared.Server.Domain.csproj.CoreCompileInputs.cache
+C:\Development\open-system\dist\libs\shared\server\domain\net7.0\OpenSystem.Shared.Domain.deps.json
+C:\Development\open-system\dist\libs\shared\server\domain\net7.0\OpenSystem.Shared.Domain.dll
+C:\Development\open-system\dist\libs\shared\server\domain\net7.0\OpenSystem.Shared.Domain.pdb
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\OpenSystem.Shared.Server.Domain.csproj.CopyComplete
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\OpenSystem.Shared.Domain.dll
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\refint\OpenSystem.Shared.Domain.dll
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\OpenSystem.Shared.Domain.pdb
+C:\Development\open-system\libs\shared\server\domain\obj\Debug\net7.0\ref\OpenSystem.Shared.Domain.dll

@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace OpenSystem.Core.DotNet.Infrastructure.Persistence.Repositories
 {
-    public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : class
+    public class GenericRepositoryAsync<T>
+      : IGenericRepositoryAsync<T>
+      where T : class
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -53,6 +55,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence.Repositories
         {
             await _dbContext.Set<T>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
+
             return entity;
         }
 

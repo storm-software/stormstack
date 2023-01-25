@@ -1,0 +1,118 @@
+{
+  "version": 3,
+  "targets": {
+    "net7.0": {
+      "OpenSystem.Core.DotNet.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/OpenSystem.Core.DotNet.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/OpenSystem.Core.DotNet.Domain.dll": {}
+        }
+      },
+      "OpenSystem.Shared.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "OpenSystem.Core.DotNet.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/OpenSystem.Shared.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/OpenSystem.Shared.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "OpenSystem.Core.DotNet.Domain/1.0.0": {
+      "type": "project",
+      "path": "../../../core/dotnet/domain/OpenSystem.Core.DotNet.Domain.csproj",
+      "msbuildProject": "../../../core/dotnet/domain/OpenSystem.Core.DotNet.Domain.csproj"
+    },
+    "OpenSystem.Shared.Domain/1.0.0": {
+      "type": "project",
+      "path": "../../../shared/server/domain/OpenSystem.Shared.Domain.csproj",
+      "msbuildProject": "../../../shared/server/domain/OpenSystem.Shared.Domain.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net7.0": [
+      "OpenSystem.Core.DotNet.Domain >= 1.0.0",
+      "OpenSystem.Shared.Domain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\sullivanp\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Development\\open-system\\libs\\user\\server\\domain\\OpenSystem.User.Domain.csproj",
+      "projectName": "OpenSystem.User.Domain",
+      "projectPath": "C:\\Development\\open-system\\libs\\user\\server\\domain\\OpenSystem.User.Domain.csproj",
+      "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
+      "outputPath": "C:\\Development\\open-system\\libs\\user\\server\\domain\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net7.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
+        "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "projectReferences": {
+            "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
+              "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
+            },
+            "C:\\Development\\open-system\\libs\\shared\\server\\domain\\OpenSystem.Shared.Domain.csproj": {
+              "projectPath": "C:\\Development\\open-system\\libs\\shared\\server\\domain\\OpenSystem.Shared.Domain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreLockProperties": {
+        "restorePackagesWithLockFile": "false"
+      }
+    },
+    "frameworks": {
+      "net7.0": {
+        "targetAlias": "net7.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
