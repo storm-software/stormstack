@@ -327,3 +327,4 @@ C:\Development\open-system\apps\apis\gateway\obj\Debug\net7.0\OpenSystem.Apis.Ga
 C:\Development\open-system\apps\apis\gateway\obj\Debug\net7.0\OpenSystem.Apis.Gateway.pdb
 C:\Development\open-system\apps\apis\gateway\obj\Debug\net7.0\OpenSystem.Apis.Gateway.genruntimeconfig.cache
 C:\Development\open-system\apps\apis\gateway\obj\Debug\net7.0\ref\OpenSystem.Apis.Gateway.dll
+C:\Development\open-system\dist\apps\apis\gateway\net7.0\ocelot.json

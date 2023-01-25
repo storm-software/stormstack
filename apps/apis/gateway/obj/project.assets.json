@@ -11593,7 +11593,10 @@
         "net7.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
+        "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
       },
       "frameworks": {
         "net7.0": {

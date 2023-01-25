@@ -70,7 +70,8 @@
       ],
       "@open-system/static-message-config": [
         "libs/static/message/config/src/index.ts"
-      ]
+      ],
+      "@open-system/user/config": ["libs/user/config/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],

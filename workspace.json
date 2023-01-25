@@ -27,6 +27,7 @@
     "tools-executors-typescript": "tools/executors/typescript",
     "tools-generators-dotnet": "tools/generators/dotnet",
     "tools-generators-typescript": "tools/generators/typescript",
+    "user-config": "libs/user/config",
     "web-contact": "apps/web/contact",
     "web-shell": "apps/web/shell"
   }

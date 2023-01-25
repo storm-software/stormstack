@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { ICustomUtilityClass } from "../types";
-import { getUUID } from "./get-unique-id";
+import { getGuid } from "./get-unique-id";
 
 /**
  * A base abstract class to be inherited by all utility classes added.
@@ -16,7 +16,7 @@ export abstract class CustomUtilityClass implements ICustomUtilityClass {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public _id = getUUID();
+  public _id = getGuid();
 
   /**
    * The string identifier of this specific class type

@@ -22,7 +22,7 @@ RUN npm install --legacy-peer-deps
 RUN npx nx reset
 
 RUN npm run build:tools-dotnet
-RUN npm run restore
+# RUN npm run restore
 
 # Build the API
 FROM setup AS build

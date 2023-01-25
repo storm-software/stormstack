@@ -43,8 +43,8 @@ try
     builder.Services.AddHealthChecks();
 
     //API Security
-    builder.Services.AddJWTAuthentication(builder.Configuration);
-    builder.Services.AddAuthorizationPolicies(builder.Configuration);
+    // builder.Services.AddJWTAuthentication(builder.Configuration);
+    // builder.Services.AddAuthorizationPolicies(builder.Configuration);
 
     // API version
     builder.Services.AddApiVersioningExtension();

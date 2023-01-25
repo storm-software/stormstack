@@ -12,17 +12,21 @@ FROM node:latest AS node_base
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS setup
 COPY --from=node_base . .
 
-# Copy the code into the container
 WORKDIR /src
-COPY . .
 
+# Install app dependencies
 ENV NX_DAEMON=false
 
+COPY package.json /src
+COPY package-lock.json /src
 RUN npm install --legacy-peer-deps
+
+# Copy the code into the container
+COPY . .
+
 RUN npx nx reset
 
-RUN npm run build:tools-dotnet
-RUN npm run restore
+RUN npx nx run tools-executors-dotnet:build:build
 
 # Build the API
 FROM setup AS build

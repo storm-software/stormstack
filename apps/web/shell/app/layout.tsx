@@ -64,17 +64,17 @@ export default function RootLayout({
       <head />
       <body className="relative h-fit min-h-screen bg-gradient-to-tl from-black via-bg-1 to-bg-1/80 antialiased">
         <div className="bg-gradient-to-t from-black via-black/20">
-          <NavHeader />
+          <RootProvider>
+            <NavHeader />
 
-          <div id="root-portal" />
+            <div id="root-portal" />
 
-          <div className="h-fit w-full">
-            <RootProvider>{children}</RootProvider>
-          </div>
+            <div className="h-fit w-full">{children}</div>
 
-          <CookiePolicyBanner />
+            <CookiePolicyBanner />
 
-          <Footer />
+            <Footer />
+          </RootProvider>
         </div>
       </body>
     </html>

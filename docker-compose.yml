@@ -18,14 +18,14 @@ networks:
         - subnet: 172.28.4.0/24
 
 services:
-  reaction_db:
-    container_name: reaction_db
+  user_db:
+    container_name: user_db
     image: postgres
     restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: reaction_db
+      POSTGRES_DB: user_db
       CI: true
     ports:
       - "5432:5432"
@@ -59,24 +59,24 @@ services:
     networks:
       - network-microservice
 
-  reaction_apis:
-    container_name: reaction_apis
-    image: apis-reaction:latest
+  user_apis:
+    container_name: user_apis
+    image: apis-user:latest
     restart: unless-stopped
-    hostname: reaction_apis
+    hostname: user_apis
     build:
       context: .
-      dockerfile: apps/apis/reaction/Dockerfile
+      dockerfile: apps/apis/user/Dockerfile
     environment:
       NODE_ENV: development
       CI: true
     networks:
       - network-microservice
     links:
-      - reaction_db
+      - user_db
       - consul
     depends_on:
-      - reaction_db
+      - user_db
       - consul
 
   gateway:
@@ -95,7 +95,7 @@ services:
       - network-gateway
       - network-microservice
     links:
-      - reaction_apis
+      - user_apis
       - consul
     depends_on:
       - consul

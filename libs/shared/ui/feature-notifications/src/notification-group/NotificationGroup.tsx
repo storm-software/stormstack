@@ -1,6 +1,6 @@
 "use client";
 
-import { getUUID } from "@open-system/core-typescript-utilities";
+import { getGuid } from "@open-system/core-typescript-utilities";
 import { PropsWithBase } from "@open-system/design-system-components";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -23,7 +23,7 @@ export const NotificationGroup = ({
   useEffect(() => {
     setNotifications(
       (props.notifications ?? []).map((notification: Notification) => ({
-        id: getUUID(),
+        id: getGuid(),
         ...notification,
       }))
     );

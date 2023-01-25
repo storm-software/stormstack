@@ -33,12 +33,12 @@
 
   "SwaggerEndPoints": [
     {
-      "Key": "reaction",
+      "Key": "user",
       "Config": [
         {
-          "Name": "Reaction API",
+          "Name": "User API",
           "Version": "v1",
-          "Url": "http://reaction_apis/swagger/v1/swagger.json"
+          "Url": "http://user_apis/swagger/v1/swagger.json"
         }
       ]
     }
@@ -50,24 +50,24 @@
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/{url}",
       "UpstreamHttpMethod": ["Post", "Get"],
-      "ServiceName": "reaction_apis",
+      "ServiceName": "user_apis",
       "RouteIsCaseSensitive": false,
       "FileCacheOptions": { "TtlSeconds": 15 },
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "SwaggerKey": "reaction"
+      "SwaggerKey": "user"
     },
     {
       "DownstreamPathTemplate": "/{url}",
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/{url}",
-      "ServiceName": "reaction_apis",
+      "ServiceName": "user_apis",
       "FileCacheOptions": { "TtlSeconds": 15 },
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "SwaggerKey": "reaction"
+      "SwaggerKey": "user"
     }
   ]
 }

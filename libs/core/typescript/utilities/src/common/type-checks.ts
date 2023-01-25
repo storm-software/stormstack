@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   isFunction as isFunctionExternal,
   isNumber as isNumberExternal,
@@ -162,6 +163,19 @@ export const isEmpty = (obj: unknown) => {
 export const isEmptyObject = (obj: unknown) => {
   try {
     return isEmpty(obj) || Object.keys(obj ?? {}).length === 0;
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * The inverse of the `isEmpty` function
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the value provided is **NOT** of type `null` or `undefined`
+ */
+export const isSet = (obj: unknown): obj is NonNullable<unknown> => {
+  try {
+    return !isEmpty(obj);
   } catch (e) {
     return false;
   }

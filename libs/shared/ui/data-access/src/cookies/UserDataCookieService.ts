@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   DateTime,
-  getUniqueNumericId,
+  getGuid,
+  isSet,
 } from "@open-system/core-typescript-utilities";
 import { inject, injectable } from "inversify";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
@@ -14,17 +16,19 @@ export class UserDataCookieService {
     private parser: AbstractUserDataCookieParser
   ) {}
 
-  public async addUserData(
-    userId?: string,
-    type: UserTypes = UserTypes.GUEST,
-    hasAgreedToCookiePolicy = false
-  ): Promise<undefined> {
+  public async addUserData({
+    userId,
+    name = UserDataConstants.DEFAULT_NAME,
+    type = UserTypes.GUEST,
+    hasAgreedToCookiePolicy = false,
+  }: Partial<UserData>): Promise<undefined> {
     if (!this.cookieExists()) {
       setCookie(
         null,
         UserDataConstants.COOKIE_NAME,
         this.parser.toString({
-          userId: userId ? userId : `${type}-${getUniqueNumericId(9)}`,
+          userId: isSet(userId) ? userId : getGuid(),
+          name,
           type,
           createdDateTime: DateTime.current,
           hasAgreedToCookiePolicy,
@@ -35,11 +39,12 @@ export class UserDataCookieService {
     return Promise.resolve(undefined);
   }
 
-  public async updateUserData(
-    userId: string,
-    type?: UserTypes,
-    hasAgreedToCookiePolicy = false
-  ): Promise<undefined> {
+  public async updateUserData({
+    userId,
+    name,
+    type,
+    hasAgreedToCookiePolicy,
+  }: Partial<UserData>): Promise<undefined> {
     const userData: UserData = await this.getUserData(userId);
 
     setCookie(
@@ -47,9 +52,10 @@ export class UserDataCookieService {
       UserDataConstants.COOKIE_NAME,
       this.parser.toString({
         ...userData,
-        userId,
-        type: type ? type : userData.type,
-        hasAgreedToCookiePolicy: hasAgreedToCookiePolicy
+        userId: isSet(userId) ? userId : userData.userId,
+        name: isSet(name) ? name : userData.name,
+        type: isSet(type) ? type : userData.type,
+        hasAgreedToCookiePolicy: isSet(hasAgreedToCookiePolicy)
           ? hasAgreedToCookiePolicy
           : userData.hasAgreedToCookiePolicy,
       })
@@ -69,7 +75,7 @@ export class UserDataCookieService {
   public async getUserData(userId?: string): Promise<UserData> {
     let cookie = parseCookies()?.[UserDataConstants.COOKIE_NAME];
     if (!cookie) {
-      await this.addUserData(userId);
+      await this.addUserData({ userId });
 
       cookie = parseCookies()?.[UserDataConstants.COOKIE_NAME];
       if (!cookie) {

@@ -3,6 +3,7 @@ import { UserTypes } from "./UserTypes";
 
 export interface UserData {
   userId: string;
+  name: string;
   type: UserTypes;
   createdDateTime: DateTime;
   hasAgreedToCookiePolicy: boolean;

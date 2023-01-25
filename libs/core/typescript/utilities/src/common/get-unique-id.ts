@@ -7,7 +7,7 @@ import { customAlphabet, nanoid } from "nanoid";
  *
  * @returns A unique Id string
  */
-export const getUUID = (): string => nanoid();
+export const getGuid = (): string => nanoid();
 
 /**
  * Returns back a unique numeric Id string

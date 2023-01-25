@@ -1,0 +1,8 @@
+{
+  "name": "user-config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/user/config/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}

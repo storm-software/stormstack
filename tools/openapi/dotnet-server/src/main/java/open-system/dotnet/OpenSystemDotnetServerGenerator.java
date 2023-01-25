@@ -552,7 +552,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
           aspnetCoreVersion.getOptValue().startsWith("5.0") ||
           aspnetCoreVersion.getOptValue().startsWith("6.") ||
           aspnetCoreVersion.getOptValue().startsWith("7.")) {
-            supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", /*packageFolder + File.separator +*/ "OpenApi", "TypeExtensions.cs"));
+            supportingFiles.add(new SupportingFile("Extensions" + File.separator + "TypeExtensions.mustache", /*packageFolder + File.separator +*/ "Extensions", "TypeExtensions.cs"));
         }
 
         if (useSeperateModelProject)
