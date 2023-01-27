@@ -8,14 +8,11 @@ namespace OpenSystem.Core.DotNet.Application.Models
         public PagedDataTableResult(T data,
           int pageNumber,
           RecordsCount recordsCount)
+          : base(data)
         {
             this.Draw = pageNumber;
             this.RecordsFiltered = recordsCount.RecordsFiltered;
             this.RecordsTotal = recordsCount.RecordsTotal;
-            this.Data = data;
-            this.Message = null;
-            this.Succeeded = true;
-            this.Errors = null;
         }
 
         public int Draw { get; set; }

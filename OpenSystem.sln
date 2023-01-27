@@ -27,11 +27,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Apis.Gateway", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user", "user", "{4E8C0093-2CB7-40AF-BFFD-85901D0F7CDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.User.Domain", "libs\user\server\domain\OpenSystem.User.Server.Domain.csproj", "{5361C1C5-5EE0-4FAC-A490-789BE10E3304}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.User.Domain", "libs\user\server\domain\OpenSystem.User.Domain.csproj", "{5361C1C5-5EE0-4FAC-A490-789BE10E3304}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{4FDDF805-0410-476D-BD0D-B79C8C798637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Shared.Domain", "libs\shared\server\domain\OpenSystem.Shared.Server.Domain.csproj", "{984BB7D0-144F-4631-B57E-19DF5675D9DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Shared.Domain", "libs\shared\server\domain\OpenSystem.Shared.Domain.csproj", "{984BB7D0-144F-4631-B57E-19DF5675D9DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.User.Application", "libs\user\server\application\OpenSystem.User.Application.csproj", "{2C438603-2A28-4B7F-B715-280EDEEB6D19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.User.Server.Infrastructure", "libs\user\server\infrastructure\OpenSystem.User.Infrastructure.csproj", "{F6C742C1-252E-4D36-B16F-31849D3F6474}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +78,14 @@ Global
 		{984BB7D0-144F-4631-B57E-19DF5675D9DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{984BB7D0-144F-4631-B57E-19DF5675D9DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{984BB7D0-144F-4631-B57E-19DF5675D9DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C438603-2A28-4B7F-B715-280EDEEB6D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C438603-2A28-4B7F-B715-280EDEEB6D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C438603-2A28-4B7F-B715-280EDEEB6D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C438603-2A28-4B7F-B715-280EDEEB6D19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6C742C1-252E-4D36-B16F-31849D3F6474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C742C1-252E-4D36-B16F-31849D3F6474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C742C1-252E-4D36-B16F-31849D3F6474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C742C1-252E-4D36-B16F-31849D3F6474}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B1A29E6C-6B59-429E-AB79-1F7F8AF61484} = {4F8600F6-7644-44FE-B568-FFCA0A389BEF}
@@ -87,5 +99,7 @@ Global
 		{5974C606-0599-4EAA-B3B9-8E31AAF57477} = {B1A29E6C-6B59-429E-AB79-1F7F8AF61484}
 		{4E8C0093-2CB7-40AF-BFFD-85901D0F7CDF} = {64671ADE-E909-49DC-B2E5-FAC1362B5894}
 		{4FDDF805-0410-476D-BD0D-B79C8C798637} = {64671ADE-E909-49DC-B2E5-FAC1362B5894}
+		{2C438603-2A28-4B7F-B715-280EDEEB6D19} = {4E8C0093-2CB7-40AF-BFFD-85901D0F7CDF}
+		{F6C742C1-252E-4D36-B16F-31849D3F6474} = {4E8C0093-2CB7-40AF-BFFD-85901D0F7CDF}
 	EndGlobalSection
 EndGlobal

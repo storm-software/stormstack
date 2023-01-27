@@ -1,12 +1,10 @@
 ﻿using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts;
-using OpenSystem.Core.DotNet.Infrastructure.Persistence.Repositories;
+using OpenSystem.Core.DotNet.Infrastructure.Persistence;
 using OpenSystem.Core.DotNet.Infrastructure.Services;
 using OpenSystem.Core.DotNet.Domain.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace OpenSystem.Core.DotNet.Infrastructure
 {
@@ -30,8 +28,8 @@ namespace OpenSystem.Core.DotNet.Infrastructure
 
             #region Repositories
 
-            services.AddTransient(typeof(IGenericRepositoryAsync<>),
-              typeof(GenericRepositoryAsync<>));
+            services.AddTransient(typeof(IGenericRepository<>),
+              typeof(GenericRepository<>));
 
             //services.AddTransient<IPositionRepositoryAsync, PositionRepositoryAsync>();
             //services.AddTransient<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();

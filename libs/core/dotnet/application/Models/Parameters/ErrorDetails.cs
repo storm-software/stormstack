@@ -37,5 +37,7 @@ namespace OpenSystem.Core.DotNet.Application.Models.Parameters
         /// A list of error messages that occurred during the request.
         /// </summary>
         public List<string> Errors { get; set; }
+
+
     }
 }

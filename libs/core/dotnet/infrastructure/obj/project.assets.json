@@ -2900,15 +2900,6 @@
           "lib/netstandard1.6/System.Linq.dll": {}
         }
       },
-      "System.Linq.Dynamic/1.0.8": {
-        "type": "package",
-        "compile": {
-          "lib/net40/System.Linq.Dynamic.dll": {}
-        },
-        "runtime": {
-          "lib/net40/System.Linq.Dynamic.dll": {}
-        }
-      },
       "System.Linq.Dynamic.Core/1.2.24": {
         "type": "package",
         "compile": {
@@ -8110,19 +8101,6 @@
         "system.linq.nuspec"
       ]
     },
-    "System.Linq.Dynamic/1.0.8": {
-      "sha512": "nh+3I/wcZcyQ4p8DKMhy/PH4sGKONrrGlx+eqpqrRTDHe6gyDTF5nK0AIXitDuzvtNTOkvpJWvPd0xdzEmlQjA==",
-      "type": "package",
-      "path": "system.linq.dynamic/1.0.8",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "NuGet.exe",
-        "lib/net40/System.Linq.Dynamic.dll",
-        "system.linq.dynamic.1.0.8.nupkg.sha512",
-        "system.linq.dynamic.nuspec"
-      ]
-    },
     "System.Linq.Dynamic.Core/1.2.24": {
       "sha512": "fzE8wSOiDvhs8ROYkfwlw8A8xiw4PnwIu/tAL3MdIJIVmV/KLJqIAGeS20y82kbKPZ5Kp0ShkQolgf6nIAT/Rg==",
       "type": "package",
@@ -10822,7 +10800,6 @@
       "Ocelot.Provider.Consul >= 18.0.0",
       "OpenSystem.Core.DotNet.Application >= 1.0.0",
       "OpenSystem.Core.DotNet.Domain >= 1.0.0",
-      "System.Linq.Dynamic >= 1.0.8",
       "System.Linq.Dynamic.Core >= 1.2.24"
     ]
   },
@@ -10941,10 +10918,6 @@
             "target": "Package",
             "version": "[18.0.0, )"
           },
-          "System.Linq.Dynamic": {
-            "target": "Package",
-            "version": "[1.0.8, )"
-          },
           "System.Linq.Dynamic.Core": {
             "target": "Package",
             "version": "[1.2.24, )"
@@ -10969,17 +10942,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.Linq.Dynamic 1.0.8' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "System.Linq.Dynamic",
-      "targetGraphs": [
-        "net7.0"
-      ]
-    }
-  ]
+  }
 }

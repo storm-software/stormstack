@@ -32,6 +32,8 @@
     "web-contact": "apps/web/contact",
     "web-shell": "apps/web/shell",
     "user-server-domain": "libs/user/server/domain",
-    "shared-server-domain": "libs/shared/server/domain"
+    "shared-server-domain": "libs/shared/server/domain",
+    "user-server-application": "libs/user/server/application",
+    "user-server-infrastructure": "libs/user/server/infrastructure"
   }
 }

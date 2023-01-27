@@ -2,7 +2,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
 using OpenSystem.Core.DotNet.Domain.Extensions;
-using OpenSystem.Core.DotNet.Domain.Common;
+using OpenSystem.Core.DotNet.Domain.ValueObjects;
+using OpenSystem.Core.DotNet.Domain.ResultCodes;
 using System.Linq;
 
 namespace OpenSystem.Shared.Domain.ValueObjects
@@ -36,7 +37,8 @@ namespace OpenSystem.Shared.Domain.ValueObjects
            + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
            + @"[a-zA-Z]{2,}))$").IsMatch(Value))
       {
-          yield return new ValidationResult("Email address is not formatted correctly.");
+          yield return GetValidationResult(typeof(ResultCodeShared),
+            ResultCodeShared.InvalidEmailFormat);
       }
     }
 	}

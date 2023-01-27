@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using OpenSystem.Core.DotNet.Domain.Enums;
+using OpenSystem.Core.DotNet.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.Common
+namespace OpenSystem.Core.DotNet.Domain.ValueObjects
 {
     [Serializable]
     public abstract class ValueObject
@@ -11,6 +13,13 @@ namespace OpenSystem.Core.DotNet.Domain.Common
         private int? _cachedHashCode;
 
         protected abstract IEnumerable<object> GetEqualityComponents();
+
+        protected ValidationResult GetValidationResult(Type resultCodeType,
+          int code)
+        {
+          return new ValidationResult(ResultCode.Serialize(resultCodeType,
+            code));
+        }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

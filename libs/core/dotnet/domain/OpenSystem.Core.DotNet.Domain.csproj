@@ -11,5 +11,7 @@
     <PackageId>OpenSystem.Core.DotNet.Domain</PackageId>
     <RootNamespace>OpenSystem.Core.DotNet.Domain</RootNamespace>
   </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+  </ItemGroup>
 </Project>

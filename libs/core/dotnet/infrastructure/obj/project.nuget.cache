@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "dvjiA48Jl1/I28R3L+5V/nq1OEn7m2/qp8MmOX1pPZIvd9I9f2wYKASycM5M4iFJF1xKss+9+jsLvyl7ZSLrjQ==",
+  "dgSpecHash": "fKHL2wV09gFCXjAnNDLDBWN912qLfPDClTqEAl7lvvJPS3heZRnxzvMo2U1oipFqdo1gChstUn2Y9yYXkOlDPA==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -171,7 +171,6 @@
     "C:\\Users\\sullivanp\\.nuget\\packages\\system.io.filesystem\\4.3.0\\system.io.filesystem.4.3.0.nupkg.sha512",
     "C:\\Users\\sullivanp\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\sullivanp\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
-    "C:\\Users\\sullivanp\\.nuget\\packages\\system.linq.dynamic\\1.0.8\\system.linq.dynamic.1.0.8.nupkg.sha512",
     "C:\\Users\\sullivanp\\.nuget\\packages\\system.linq.dynamic.core\\1.2.24\\system.linq.dynamic.core.1.2.24.nupkg.sha512",
     "C:\\Users\\sullivanp\\.nuget\\packages\\system.linq.expressions\\4.3.0\\system.linq.expressions.4.3.0.nupkg.sha512",
     "C:\\Users\\sullivanp\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
@@ -227,16 +226,5 @@
     "C:\\Users\\sullivanp\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
     "C:\\Users\\sullivanp\\.nuget\\packages\\system.xml.xpath.xdocument\\4.3.0\\system.xml.xpath.xdocument.4.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.Linq.Dynamic 1.0.8' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "System.Linq.Dynamic",
-      "targetGraphs": [
-        "net7.0"
-      ]
-    }
-  ]
+  "logs": []
 }

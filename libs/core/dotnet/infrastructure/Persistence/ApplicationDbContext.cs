@@ -1,14 +1,12 @@
 using OpenSystem.Core.DotNet.Application.Interfaces;
 using OpenSystem.Core.DotNet.Domain.Common;
-using OpenSystem.Core.DotNet.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using OpenSystem.Core.DotNet.Domain.ValueObjects;
+using System.Reflection;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts
+namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
@@ -60,7 +58,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts
                       validateAllProperties: true);
               });
 
-            foreach (var entry in ChangeTracker.Entries<AuditableBaseEntity<EntityId>>())
+            foreach (var entry in ChangeTracker.Entries<AuditableBaseEntity<EntityId<object>, object>>())
             {
                 switch (entry.State)
                 {
@@ -83,12 +81,19 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts
             //var seedPositions = _mockData.SeedPositions(1000);
             //builder.Entity<Position>().HasData(seedPositions);
 
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
             base.OnModelCreating(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLoggerFactory(_loggerFactory);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
         }
     }
 }

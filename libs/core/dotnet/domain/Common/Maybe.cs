@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using OpenSystem.Core.DotNet.Domain.Enums;
+using OpenSystem.Core.DotNet.Domain.Exceptions;
+using OpenSystem.Core.DotNet.Domain.ResultCodes;
 
 namespace OpenSystem.Core.DotNet.Domain.Common
 {
@@ -10,7 +13,6 @@ namespace OpenSystem.Core.DotNet.Domain.Common
     public readonly partial struct Maybe<T>
       : IEquatable<Maybe<T>>, IEquatable<object>, IMaybe<T>
     {
-
         private readonly bool _isValueSet;
 
         private readonly T _value;
@@ -19,10 +21,10 @@ namespace OpenSystem.Core.DotNet.Domain.Common
         /// Returns the inner value if there's one, otherwise throws an InvalidOperationException with <paramref name="errorMessage"/>
         /// </summary>
         /// <exception cref="InvalidOperationException">Maybe has no value.</exception>
-        public T GetValueOrThrow(string errorMessage = "Maybe has no value.")
+        public T GetValueOrThrow()
         {
             if (HasNoValue)
-                throw new InvalidOperationException(errorMessage);
+                throw new ValueCannotBeEmptyException();
 
             return _value;
         }
@@ -55,6 +57,7 @@ namespace OpenSystem.Core.DotNet.Domain.Common
         public static Maybe<T> None => new Maybe<T>();
 
         public bool HasValue => _isValueSet;
+
         public bool HasNoValue => !HasValue;
 
         private Maybe(T value)

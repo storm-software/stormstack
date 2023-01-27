@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup>
+    <Description>The User Infrastructure .NET Core Library used by the Open System repository</Description>
+    <Copyright>Copyright (c) 2022 Patrick Sullivan</Copyright>
+    <Authors>Patrick Sullivan</Authors>
+    <TargetFramework>net7.0</TargetFramework>
+    <Version>1.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>OpenSystem.User.Infrastructure</AssemblyName>
+    <PackageId>OpenSystem.User.Infrastructure</PackageId>
+    <RootNamespace>OpenSystem.User.Infrastructure</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.DotNet.Domain.csproj" />
+    <ProjectReference Include="..\domain\OpenSystem.User.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

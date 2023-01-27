@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace OpenSystem.Core.DotNet.Domain.Extensions
 {
     public static class StringExtensions

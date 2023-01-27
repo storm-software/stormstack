@@ -15,7 +15,6 @@
     "MailKit": "3.4.3",
     "MimeKit": "3.4.3",
     "Microsoft.EntityFrameworkCore": "7.0.2",
-    "System.Linq.Dynamic": "1.0.8",
     "System.Linq.Dynamic.Core": "1.2.24",
     "Microsoft.Extensions.Configuration": "7.0.0",
     "Microsoft.Extensions.Configuration.Binder": "7.0.2",
@@ -33,6 +32,7 @@
     "Ocelot": "18.0.0",
     "Ocelot.Provider.Consul": "18.0.0",
     "Ocelot.Administration": "18.0.0",
-    "Swashbuckle.AspNetCore": "6.5.0"
+    "Swashbuckle.AspNetCore": "6.5.0",
+    "Microsoft.Extensions.Logging": "7.0.0"
   }
 }

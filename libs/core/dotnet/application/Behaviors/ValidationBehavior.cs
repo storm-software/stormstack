@@ -1,9 +1,5 @@
 using FluentValidation;
 using MediatR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OpenSystem.Core.DotNet.Application.Behaviors
 {
@@ -24,12 +20,17 @@ namespace OpenSystem.Core.DotNet.Application.Behaviors
         {
             if (_validators.Any())
             {
-                var context = new FluentValidation.ValidationContext<TRequest>(request);
-                var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-                var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+                var context = new ValidationContext<TRequest>(request);
 
-                if (failures.Count != 0)
-                    throw new Exceptions.ValidationException(failures);
+                var validationResults = await Task.WhenAll(
+                  _validators.Select(v =>
+                  v.ValidateAsync(context, cancellationToken)));
+                var failures = validationResults.Where(r => r.Errors.Any())
+                  .SelectMany(r => r.Errors)
+                  .ToList();
+
+                if (failures.Count > 0)
+                    throw new ValidationException(failures);
             }
 
             return await next();
