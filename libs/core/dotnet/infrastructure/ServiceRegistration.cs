@@ -8,6 +8,9 @@ using OpenSystem.Core.DotNet.Infrastructure.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Duende.IdentityServer.Configuration;
 
 namespace OpenSystem.Core.DotNet.Infrastructure
 {
@@ -34,14 +37,6 @@ namespace OpenSystem.Core.DotNet.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider =>
               provider.GetRequiredService<ApplicationDbContext>());
 
-              services
-                .AddIdentity<ApplicationUser, IdentityRole>()
-                .AddRoles<IdentityRole>()
-                .AddUserStore<ApplicationDbContext>();
-
-              services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
             #region Repositories
 
             services.AddTransient(typeof(IGenericRepository<>),
@@ -66,6 +61,65 @@ namespace OpenSystem.Core.DotNet.Infrastructure
               IdentityService>();
             services.AddTransient<ICsvFileExportService,
               CsvFileExportService>();
+        }
+
+        public static void AddAuthenticationInfrastructure(this IServiceCollection services,
+          IConfiguration configuration)
+        {
+            services
+              .AddIdentity<ApplicationUser, IdentityRole>()
+              .AddRoles<IdentityRole>()
+              .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityServer(options =>
+            {
+                options.UserInteraction.LoginUrl = "/user/login";
+                options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
+
+                options.UserInteraction.LogoutUrl = "/user/logout";
+
+                options.UserInteraction.ConsentUrl = "/user/login/consent";
+                options.UserInteraction.ConsentReturnUrlParameter = "returnUrl";
+
+                options.UserInteraction.ErrorUrl = "/user/login/access-denied";
+                options.UserInteraction.ErrorIdParameter = "errorId";
+
+                options.UserInteraction.DeviceVerificationUrl = "/user/login/device-verification";
+            })
+              .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = new PathString("/user/login");
+                options.LogoutPath = new PathString("/user/logout");
+                //options.ReturnUrlParameter = new PathString("/user");
+                options.AccessDeniedPath = new PathString("/user/login/access-denied");
+
+                /*options.SlidingExpiration = true;
+
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+
+                options.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = x =>
+                    {
+                        x.Response.Redirect("user/login");
+                        return Task.CompletedTask;
+                    }
+                };*/
+            });
+
+            if (configuration != null)
+            {
+              services.AddAuthentication().AddGoogle(googleOptions =>
+              {
+                  googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+                  googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+                  googleOptions.AuthorizationEndpoint = configuration["Authentication:Google:AuthorizationEndpoint"];
+                  googleOptions.TokenEndpoint = configuration["Authentication:Google:TokenEndpoint"];
+              });
+            }
 
             services.AddAuthentication()
             .AddIdentityServerJwt();

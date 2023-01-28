@@ -6,6 +6,8 @@ namespace OpenSystem.Core.DotNet.Domain.Common
 {
     public abstract class BaseEntity
     {
+      public Guid EntityGuid { get; init; }
+
       public EntityId<Guid>? Id { get; init; }
 
       private readonly List<BaseEvent> _domainEvents = new();

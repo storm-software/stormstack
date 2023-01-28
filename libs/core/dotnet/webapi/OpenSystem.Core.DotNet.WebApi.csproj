@@ -20,7 +20,7 @@
     <PackageReference Include="Microsoft.OpenApi" Version="1.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\application\OpenSystem.Core.DotNet.Domain.csproj" />
+    <ProjectReference Include="..\domain\OpenSystem.Core.DotNet.Domain.csproj" />
     <ProjectReference Include="..\application\OpenSystem.Core.DotNet.Application.csproj" />
   </ItemGroup>
 

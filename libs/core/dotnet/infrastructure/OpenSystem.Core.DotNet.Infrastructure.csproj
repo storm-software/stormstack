@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\application\OpenSystem.Core.DotNet.Application.csproj" />
     <ProjectReference Include="..\domain\OpenSystem.Core.DotNet.Domain.csproj" />
@@ -9,6 +9,8 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Ocelot" Version="18.0.0" />
@@ -39,6 +41,7 @@
     <AssemblyName>OpenSystem.Core.DotNet.Infrastructure</AssemblyName>
     <PackageId>OpenSystem.Core.DotNet.Infrastructure</PackageId>
     <RootNamespace>OpenSystem.Core.DotNet.Infrastructure</RootNamespace>
+    <UserSecretsId>bf3bea0a-320b-4ef5-a87d-296e38f3e5b6</UserSecretsId>
   </PropertyGroup>
 
 </Project>

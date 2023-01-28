@@ -1,6 +1,20 @@
 version: "3.9"
 
 services:
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    networks:
+      - network-microservice
+    volumes:
+      - pgadmin-data:/root/.pgadmin
+
   consul:
     container_name: consul
     image: consul

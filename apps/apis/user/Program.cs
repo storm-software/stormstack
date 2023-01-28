@@ -17,7 +17,7 @@ using OpenSystem.Core.DotNet.WebApi.Extensions;
 using OpenSystem.Core.DotNet.WebApi.Services;
 using OpenSystem.Apis.User.Extensions;
 
-const string SERVICE_NAME = "UserService.Api";
+const string SERVICE_NAME = "user-api.service";
 
 try
 {
@@ -35,6 +35,7 @@ try
     builder.Services.AddApplicationLayer();
     builder.Services.AddPersistenceInfrastructure(builder.Configuration);
     builder.Services.AddServiceInfrastructure(builder.Configuration);
+    builder.Services.AddAuthenticationInfrastructure(builder.Configuration);
 
     builder.Services.AddSwaggerExtension();
 
@@ -70,22 +71,22 @@ try
     }
     else
     {
-        app.UseExceptionHandler("/Error");
+        app.UseExceptionHandler("/error");
 
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
 
-    using (var scope = app.Services.CreateScope())
+    /*using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         // use context
         dbContext.Database.EnsureCreated();
-    }
+    }*/
 
     // Add this line; you'll need `using Serilog;` up the top, too
     app.UseSerilogRequestLogging();
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseRouting();
 
@@ -105,7 +106,7 @@ try
       name: "default",
       pattern: "{controller}/{action=Index}/{id?}");*/
 
-    app.MapFallbackToFile("index.html");
+    // app.MapFallbackToFile("index.html");
 
     app.Run();
 

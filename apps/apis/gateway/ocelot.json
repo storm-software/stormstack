@@ -10,7 +10,7 @@
     "EnableRateLimiting": true,
     "Period": "1s",
     "HttpStatusCode": 428,
-    "QuotaExceededMessage": "Too many requests...",
+    "QuotaExceededMessage": "Too many requests are currently being processed",
     "PeriodTimespan": 1,
     "Limit": 1
   },
@@ -38,7 +38,7 @@
         {
           "Name": "User API",
           "Version": "v1",
-          "Url": "http://user_apis/swagger/v1/swagger.json"
+          "Url": "http://user-api.service/swagger/v1/swagger.json"
         }
       ]
     }
@@ -46,11 +46,11 @@
 
   "Routes": [
     {
-      "DownstreamPathTemplate": "/{url}",
+      "UpstreamPathTemplate": "/api/users/{id}",
+      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete"],
+      "DownstreamPathTemplate": "/api/v1/users/{id}",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/{url}",
-      "UpstreamHttpMethod": ["Post", "Get"],
-      "ServiceName": "user_apis",
+      "ServiceName": "user-api.service",
       "RouteIsCaseSensitive": false,
       "FileCacheOptions": { "TtlSeconds": 15 },
       "LoadBalancerOptions": {
@@ -59,10 +59,11 @@
       "SwaggerKey": "user"
     },
     {
-      "DownstreamPathTemplate": "/{url}",
+      "UpstreamPathTemplate": "/api/users",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/v1/users",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/{url}",
-      "ServiceName": "user_apis",
+      "ServiceName": "user-api.service",
       "FileCacheOptions": { "TtlSeconds": 15 },
       "LoadBalancerOptions": {
         "Type": "LeastConnection"

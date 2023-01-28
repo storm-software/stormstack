@@ -52,6 +52,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "AspNetCore.HealthChecks.UI.Client": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "AspNetCore.HealthChecks.Uris": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.2, )"
@@ -71,6 +79,18 @@
             "Ocelot.Provider.Consul": {
               "target": "Package",
               "version": "[18.0.0, )"
+            },
+            "Polly": {
+              "target": "Package",
+              "version": "[7.2.3, )"
+            },
+            "Polly.Extensions.Http": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[6.1.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -149,7 +169,15 @@
               "target": "Package",
               "version": "[12.0.1, )"
             },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
             "FluentValidation": {
+              "target": "Package",
+              "version": "[11.4.0, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
               "target": "Package",
               "version": "[11.4.0, )"
             },
@@ -157,7 +185,19 @@
               "target": "Package",
               "version": "[11.1.0, )"
             },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
             "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.Extensions.Logging": {
               "target": "Package",
               "version": "[7.0.0, )"
             }
@@ -222,6 +262,16 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.4.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -290,13 +340,45 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
             "Consul": {
               "target": "Package",
               "version": "[1.6.10.8, )"
             },
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[30.0.1, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[3.4.3, )"
+            },
+            "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Cookies": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Google": {
+              "target": "Package",
+              "version": "[7.0.2, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.2, )"
             },
             "Microsoft.AspNetCore.Mvc": {
               "target": "Package",
@@ -353,10 +435,6 @@
             "Ocelot.Provider.Consul": {
               "target": "Package",
               "version": "[18.0.0, )"
-            },
-            "System.Linq.Dynamic": {
-              "target": "Package",
-              "version": "[1.0.8, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",

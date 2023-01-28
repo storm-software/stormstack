@@ -18,32 +18,87 @@ networks:
         - subnet: 172.28.4.0/24
 
 services:
-  user_db:
-    container_name: user_db
+  discovery.service:
+    container_name: discovery.service
+    image: consul
+    restart: on-failure
+    hostname: discovery.service
+    ports:
+      - "8500:8500"
+    networks:
+      - network-microservice
+    volumes:
+      - consul-data:/consul/config
+
+  static-cache.service:
+    container_name: static-cache.service
+    image: redis:alpine
+    restart: on-failure
+    ports:
+      - "5430:5430"
+    networks:
+      - network-microservice
+
+  user.db:
+    container_name: user.db
     image: postgres
     restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: user_db
-      CI: true
+      POSTGRES_DB: user.db
     ports:
       - "5432:5432"
     networks:
       - network-microservice
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
+  event-bus.service:
+    container_name: event-bus.service
+    image: rabbitmq:3-management-alpine
+    hostname: event-bus.service
     restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-      CI: true
     ports:
-      - "5050:80"
+      - "5434:5434"
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - network-microservice
 
+  user-api.service:
+    container_name: user-api.service
+    image: apis-user:latest
+    restart: unless-stopped
+    hostname: user-api.service
+    build:
+      context: .
+      dockerfile: apps/apis/user/Dockerfile
+    ports:
+      - "7000:7000"
+    networks:
+      - network-microservice
+
+  gateway-api.service:
+    container_name: gateway-api.service
+    image: apis-gateway:latest
+    restart: unless-stopped
+    hostname: gateway-api.service
+    build:
+      context: .
+      dockerfile: apps/apis/gateway/Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - network-gateway
+      - network-microservice
+    links:
+      - discovery.service
+      - user-api.service
+    depends_on:
+      - discovery.service
+
 volumes:
   consul-data:
+  postgresql-data:
+  pgadmin-data:

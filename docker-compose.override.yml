@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  discovery.service:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+  static-cache.service:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+  user.db:
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: user.db
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+  event-bus.service:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+  user-api.service:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+  gateway-api.service:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"

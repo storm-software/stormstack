@@ -40,7 +40,7 @@
     "publish": {
       "executor": "@nx-dotnet/core:publish",
       "selfContained": true,
-      "outputs": ["dist/{{sourceRoot}}/publish"],
+      "output": ["dist/{{sourceRoot}}/publish"],
       "options": {
         "configuration": "Debug",
         "noDependencies": true
@@ -51,7 +51,7 @@
         },
         "docker": {
           "configuration": "Debug",
-          "outputs": "/app/publish"
+          "output": "/app/publish"
         }
       }
     },

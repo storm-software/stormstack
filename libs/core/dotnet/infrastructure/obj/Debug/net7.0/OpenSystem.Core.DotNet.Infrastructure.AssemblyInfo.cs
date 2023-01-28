@@ -10,6 +10,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("bf3bea0a-320b-4ef5-a87d-296e38f3e5b6")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Patrick Sullivan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright (c) 2022 Patrick Sullivan")]

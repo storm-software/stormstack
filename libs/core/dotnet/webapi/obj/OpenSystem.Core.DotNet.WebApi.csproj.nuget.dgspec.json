@@ -204,6 +204,9 @@
             "projectReferences": {
               "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
                 "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj"
+              },
+              "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
+                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
               }
             }
           }

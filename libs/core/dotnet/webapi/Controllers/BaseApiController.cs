@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 namespace OpenSystem.Core.DotNet.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
     public abstract class BaseApiController : ControllerBase
     {
         private IMediator _mediator;

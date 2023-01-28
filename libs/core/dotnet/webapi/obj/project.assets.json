@@ -8953,7 +8953,8 @@
       "Microsoft.AspNetCore.Mvc >= 2.2.0",
       "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer >= 5.0.0",
       "Microsoft.OpenApi >= 1.5.0",
-      "OpenSystem.Core.DotNet.Application >= 1.0.0"
+      "OpenSystem.Core.DotNet.Application >= 1.0.0",
+      "OpenSystem.Core.DotNet.Domain >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -8987,6 +8988,9 @@
           "projectReferences": {
             "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
               "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj"
+            },
+            "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
+              "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
             }
           }
         }

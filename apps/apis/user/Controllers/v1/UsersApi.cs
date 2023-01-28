@@ -32,6 +32,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
     /// </summary>
     [Description("Controller for UsersApi service implementation(s)")]
     [ApiVersion("1")]
+    [Route("api/v{version:apiVersion}/users")]
     public sealed class UsersApiController : BaseApiController
     {
         /// <summary>
@@ -78,7 +79,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1")]
         [HttpPost]
-        [Route("/users/{userId}")]
+        [Route("{userId}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("AddUser")]
@@ -122,7 +123,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1")]
         [HttpDelete]
-        [Route("/users/{userId}")]
+        [Route("{userId}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("DeleteUser")]
@@ -133,7 +134,6 @@ namespace OpenSystem.Apis.User.Controllers.v1
         [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsDto), description: "Service Unavailable")]
         public async Task<IActionResult> DeleteUser([FromRoute (Name = "userId")][Required]Guid userId)
         {
-
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(UpdateSuccessResponseDto));
             //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -166,7 +166,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1")]
         [HttpGet]
-        [Route("/users/{userId}")]
+        [Route("{userId}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetUser")]
@@ -177,6 +177,10 @@ namespace OpenSystem.Apis.User.Controllers.v1
         [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsDto), description: "Service Unavailable")]
         public async Task<IActionResult> GetUser([FromRoute (Name = "userId")][Required]Guid userId)
         {
+
+            System.Console.WriteLine("    *****  *****    ");
+            System.Console.WriteLine(userId);
+            System.Console.WriteLine("    *****  *****    ");
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(UserDto));
@@ -211,7 +215,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1")]
         [HttpGet]
-        [Route("/users")]
+        [Route("/")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetUsers")]
@@ -256,7 +260,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
         /// <response code="503">Service Unavailable</response>
         [MapToApiVersion("1")]
         [HttpPut]
-        [Route("/users/{userId}")]
+        [Route("{userId}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
