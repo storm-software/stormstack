@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace OpenSystem.User.Application.Queries.GetUserById
 {
-    public class GetUserByIdQuery : IRequest<Result<User>>
+    public class GetUserByIdQuery : IRequest<Result>
     {
         public Guid Id { get; set; }
 
         public class GetUserByIdQueryHandler
-          : IRequestHandler<GetUserByIdQuery, Result<User>>
+          : IRequestHandler<GetUserByIdQuery, Result>
         {
             private readonly IUserRepository _userRepository;
 
@@ -23,14 +23,14 @@ namespace OpenSystem.User.Application.Queries.GetUserById
                 _userRepository = userRepository;
             }
 
-            public async Task<Result<User>> Handle(GetUserByIdQuery query,
+            public async Task<Result> Handle(GetUserByIdQuery query,
               CancellationToken cancellationToken)
             {
                 var user = await _userRepository.GetByIdAsync(query.Id);
                 if (user == null)
                   throw new ApiException($"User Not Found.");
 
-                return new Result<User>(user);
+                return new Result(user);
             }
         }
     }

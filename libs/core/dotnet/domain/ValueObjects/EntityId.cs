@@ -6,7 +6,7 @@ namespace OpenSystem.Core.DotNet.Domain.ValueObjects
 	public class EntityId<T>
     : ValueObject
 	{
-		public readonly T Value;
+		public virtual T? Value { get; init; }
 
     protected EntityId(T value)
 		{
@@ -25,7 +25,8 @@ namespace OpenSystem.Core.DotNet.Domain.ValueObjects
 
     public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-      if (Value != null)
+      if (Value is null ||
+        Value.Equals(default(T)))
       {
           yield return GetValidationResult(typeof(ResultCodeValidation),
             ResultCodeValidation.IdentifierCannotBeNull);

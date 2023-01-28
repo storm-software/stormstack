@@ -6,7 +6,7 @@ using OpenSystem.Core.DotNet.Domain.ResultCodes;
 
 namespace OpenSystem.Core.DotNet.Domain.Exceptions
 {
-    public class BaseException : InvalidOperationException
+    public class BaseException : Exception
     {
         public BaseException()
           : base(ResultCode.Serialize(typeof(ResultCodeGeneral),
@@ -29,6 +29,18 @@ namespace OpenSystem.Core.DotNet.Domain.Exceptions
                 ResultCodeGeneral.GeneralError)
             : ResultCode.Serialize(resultCodeType,
                 code))
+        {
+        }
+
+         public BaseException(Type? resultCodeType,
+          int code,
+          Exception exception)
+          : base((resultCodeType == null || !code.IsSet()
+            ? ResultCode.Serialize(typeof(ResultCodeGeneral),
+                ResultCodeGeneral.GeneralError)
+            : ResultCode.Serialize(resultCodeType,
+                code)),
+                exception)
         {
         }
     }

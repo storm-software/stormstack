@@ -10,9 +10,11 @@ namespace OpenSystem.Core.DotNet.Domain.ResultCodes
 
 		#region Constants
 
-		public const int IdentifierCannotBeNull = 1;
+    public const int OneOrMoreValidationFailuresHaveOccurred = 1;
 
-    public const int InvalidEmailFormat = 2;
+		public const int IdentifierCannotBeNull = 2;
+
+    public const int InvalidEmailFormat = 3;
 
 		#endregion Constants
 

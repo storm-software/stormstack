@@ -1,3 +1,4 @@
+using OpenSystem.Core.DotNet.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
 
@@ -23,14 +24,17 @@ namespace OpenSystem.Core.DotNet.Application.Behaviors
                 var context = new ValidationContext<TRequest>(request);
 
                 var validationResults = await Task.WhenAll(
-                  _validators.Select(v =>
-                  v.ValidateAsync(context, cancellationToken)));
-                var failures = validationResults.Where(r => r.Errors.Any())
-                  .SelectMany(r => r.Errors)
+                  _validators.Select(validator =>
+                    validator.ValidateAsync(context,
+                      cancellationToken)));
+
+                var failures = validationResults.Where(result => result.Errors.Any())
+                  .SelectMany(result =>
+                    result.Errors)
                   .ToList();
 
                 if (failures.Count > 0)
-                    throw new ValidationException(failures);
+                    throw new Domain.Exceptions.ValidationException(failures);
             }
 
             return await next();

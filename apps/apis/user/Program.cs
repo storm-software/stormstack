@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using OpenSystem.Core.DotNet.Application;
-using OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts;
+using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.DotNet.Infrastructure.Persistence;
 using OpenSystem.Core.DotNet.Infrastructure.Extensions;
 using OpenSystem.Core.DotNet.Infrastructure;
 using OpenSystem.Core.DotNet.WebApi.Constants;
 using OpenSystem.Core.DotNet.WebApi.Extensions;
+using OpenSystem.Core.DotNet.WebApi.Services;
 using OpenSystem.Apis.User.Extensions;
 
 const string SERVICE_NAME = "UserService.Api";
@@ -42,6 +44,11 @@ try
     builder.Services.AddCorsExtension();
     builder.Services.AddHealthChecks();
 
+    builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+    builder.Services.AddSingleton<ICurrentUserService,
+      CurrentUserService>();
+    builder.Services.AddHttpContextAccessor();
+
     //API Security
     builder.Services.AddJWTAuthentication(builder.Configuration);
     builder.Services.AddAuthorizationPolicies(builder.Configuration);
@@ -59,10 +66,13 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
+        // app.UseMigrationsEndPoint();
     }
     else
     {
         app.UseExceptionHandler("/Error");
+
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
 
@@ -76,16 +86,27 @@ try
     // Add this line; you'll need `using Serilog;` up the top, too
     app.UseSerilogRequestLogging();
     app.UseHttpsRedirection();
+    app.UseStaticFiles();
     app.UseRouting();
 
     //Enable CORS
     app.UseCors("AllowAll");
+
     app.UseAuthentication();
+    app.UseIdentityServer();
     app.UseAuthorization();
+
     app.UseSwaggerExtension();
     app.UseErrorHandlingMiddleware();
     app.UseHealthChecks("/health-check");
     app.MapControllers();
+
+    /*app.MapControllerRoute(
+      name: "default",
+      pattern: "{controller}/{action=Index}/{id?}");*/
+
+    app.MapFallbackToFile("index.html");
+
     app.Run();
 
     Log.Information($"{SERVICE_NAME} has started successfully.");

@@ -1,7 +1,7 @@
 /*
  * User APIs
  *
- * A collection of APIs used to get and set user related data 
+ * A collection of APIs used to get and set user related data
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -25,7 +25,7 @@ using System.Text.Json;
 using OpenSystem.Core.DotNet.WebApi.Controllers;
 
 namespace OpenSystem.Apis.User.Controllers.v1
-{ 
+{
 
     /// <summary>
     /// Controller for UsersApi service implementation(s)
@@ -102,7 +102,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
             exampleJson = "{\r\n  \"guid\" : \"123e4567-e89b-12d3-a456-426614174000\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<UpdateSuccessResponseDto>(exampleJson)
             : default(UpdateSuccessResponseDto);
@@ -146,7 +146,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
             exampleJson = "{\r\n  \"guid\" : \"123e4567-e89b-12d3-a456-426614174000\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<UpdateSuccessResponseDto>(exampleJson)
             : default(UpdateSuccessResponseDto);
@@ -190,7 +190,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
             exampleJson = "null";
-            
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<UserDto>(exampleJson)
             : default(UserDto);
@@ -235,7 +235,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
             exampleJson = "null";
-            
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<List<UserDto>>(exampleJson)
             : default(List<UserDto>);
@@ -280,7 +280,7 @@ namespace OpenSystem.Apis.User.Controllers.v1
             // return StatusCode(503, default(ProblemDetailsDto));
             string exampleJson = null;
             exampleJson = "{\r\n  \"guid\" : \"123e4567-e89b-12d3-a456-426614174000\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonSerializer.Deserialize<UpdateSuccessResponseDto>(exampleJson)
             : default(UpdateSuccessResponseDto);

@@ -1,5 +1,6 @@
 using System;
 using OpenSystem.Core.DotNet.Application.Models;
+using OpenSystem.Core.DotNet.Domain.ResultCodes;
 
 namespace OpenSystem.Core.DotNet.Application.Interfaces
 {
@@ -11,9 +12,9 @@ namespace OpenSystem.Core.DotNet.Application.Interfaces
 
       Task<bool> AuthorizeAsync(string userId, string policyName);
 
-      Task<(Result<object?> Result, string UserId)> CreateUserAsync(string userName,
+      Task<(Result Result, string UserId)> CreateUserAsync(string userName,
         string password);
 
-      Task<Result<object?>> DeleteUserAsync(string userId);
+      Task<Result> DeleteUserAsync(string userId);
   }
 }

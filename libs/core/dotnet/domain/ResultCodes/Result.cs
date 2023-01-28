@@ -1,14 +1,12 @@
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using OpenSystem.Core.DotNet.Application.Models.Parameters;
 
-namespace OpenSystem.Core.DotNet.Application.Models
+namespace OpenSystem.Core.DotNet.Domain.ResultCodes
 {
     [Serializable]
-    public class Result<T> : ISerializable
+    public class Result : ISerializable, IResult<object>
     {
       public bool Succeeded { get; set; }
 
@@ -22,21 +20,22 @@ namespace OpenSystem.Core.DotNet.Application.Models
 
       public string? StackTrace { get; set; }
 
-      public T? Data { get; set; }
+      public object? Data { get; set; }
 
-      public static Result<object?> Success()
+      public static Result Success()
       {
-        return new Result<object?>();
+        return new Result();
       }
 
-      public static Result<TData> Success<TData>(TData data,
+      public static Result Success(object data,
         string? message = null)
       {
-        return new Result<TData>(data,
+        return new Result(data,
           message);
       }
 
-      public static Result<TData> Fail<TData>(string message,
+      public static Result Failure(Type resultCodeType,
+        int code,
         string? details = null)
       {
         List<string>? detailsList = null;
@@ -46,20 +45,44 @@ namespace OpenSystem.Core.DotNet.Application.Models
           detailsList.Add(details);
         }
 
-        return new Result<TData>(message,
+        return Result.Failure(ResultCode.Serialize(resultCodeType,
+          code),
           detailsList);
       }
 
-        public static Result<TData> Fail<TData>(string message,
-          List<string>? details)
+      public static Result Failure(string message,
+        string? details = null)
       {
-        return new Result<TData>(message,
+        List<string>? detailsList = null;
+        if (!string.IsNullOrEmpty(details))
+        {
+          detailsList = new List<string>();
+          detailsList.Add(details);
+        }
+
+        return new Result(message,
+          detailsList);
+      }
+
+      public static Result Failure(Type resultCodeType,
+        int code,
+        List<string>? details)
+      {
+        return Result.Failure(ResultCode.Serialize(resultCodeType,
+          code),
           details);
       }
 
-      public static Result<TData> Fail<TData>(Exception exception)
+      public static Result Failure(string message,
+          List<string>? details)
       {
-        return new Result<TData>(exception);
+        return new Result(message,
+          details);
+      }
+
+      public static Result Failure(Exception exception)
+      {
+        return new Result(exception);
       }
 
       protected Result()
@@ -67,7 +90,7 @@ namespace OpenSystem.Core.DotNet.Application.Models
         Succeeded = true;
       }
 
-      protected Result(T data,
+      protected Result(object data,
         string? message = null)
       {
           Succeeded = true;
@@ -121,7 +144,7 @@ namespace OpenSystem.Core.DotNet.Application.Models
 
     private string GetStackTrace()
 		{
-      lock (typeof(Result<T>))
+      lock (typeof(Result))
       {
         StringBuilder sbStackTrace = new StringBuilder();
 

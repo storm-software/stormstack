@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "QW4mCXEoBVR3A4d3aPofeizomSDINKoi4qikAPS1NqJuds4IL0QYlDG+7Plp0ZGWMElGHXSi7djUX1fW1TyrjQ==",
+  "dgSpecHash": "3U/UhkG9+BA2ZjmBIY2hA7rVkR8bu6hvmZ5pXEh56cjBuf66rrILBaJr8DhQFXdDySA6hAQhCb4OiG0lyrbWJg==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\sullivanp\\.nuget\\packages\\fluentvalidation\\11.4.0\\fluentvalidation.11.4.0.nupkg.sha512",
+    "C:\\Users\\sullivanp\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\sullivanp\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -6,7 +6,6 @@ using OpenSystem.Core.DotNet.Domain.ResultCodes;
 
 namespace OpenSystem.Core.DotNet.Domain.ValueObjects
 {
-    [Serializable]
     public abstract class ValueObject
       : IComparable, IValidatableObject, IComparable<ValueObject>
     {
@@ -151,7 +150,6 @@ namespace OpenSystem.Core.DotNet.Domain.ValueObjects
     /// <summary>
     /// Use non-generic ValueObject whenever possible: http://bit.ly/vo-new
     /// </summary>
-    [Serializable]
     public abstract class ValueObject<T>
         where T : ValueObject<T>
     {

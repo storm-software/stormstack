@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace OpenSystem.User.Domain.Entities
 {
-    public class User : StringIndexedAuditableBaseEntity
+    public class User : StringIndexedAuditableEntity
     {
         public string UserId { get; set; }
 
@@ -21,8 +21,5 @@ namespace OpenSystem.User.Domain.Entities
         public EmailAddress Email { get; set; }
 
         public CultureInfo Culture { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal PositionSalary { get; set; }
     }
 }

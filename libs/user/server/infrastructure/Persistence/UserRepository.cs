@@ -35,7 +35,7 @@ namespace OpenSystem.User.Infrastructure.Persistence
                 .AllAsync(p => p.UserId != userId);
         }
 
-        public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetUsersAsync(GetUsersQuery requestParameter)
+        public async Task<(IEnumerable<User> data, RecordsCount recordsCount)> GetUsersAsync(GetUsersQuery requestParameter)
         {
             var userId = requestParameter.UserId;
             var userType = requestParameter.UserType;

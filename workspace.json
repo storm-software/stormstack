@@ -3,6 +3,7 @@
   "projects": {
     "apis-gateway": "apps/apis/gateway",
     "apis-reaction": "apps/apis/reaction",
+    "apis-user": "apps/apis/user",
     "core-dotnet-application": "libs/core/dotnet/application",
     "core-dotnet-domain": "libs/core/dotnet/domain",
     "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",
@@ -37,3 +38,4 @@
     "user-server-infrastructure": "libs/user/server/infrastructure"
   }
 }
+

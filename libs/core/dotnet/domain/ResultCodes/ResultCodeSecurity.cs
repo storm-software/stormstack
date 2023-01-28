@@ -12,6 +12,10 @@ namespace OpenSystem.Core.DotNet.Domain.ResultCodes
 
 		public const int InvalidPermissions = 1;
 
+    public const int IdentityVerificationFailure = 2;
+
+    public const int ForbiddenAccess = 3;
+
 		#endregion Constants
 
 		#endregion Public

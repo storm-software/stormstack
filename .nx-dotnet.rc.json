@@ -33,6 +33,16 @@
     "Ocelot.Provider.Consul": "18.0.0",
     "Ocelot.Administration": "18.0.0",
     "Swashbuckle.AspNetCore": "6.5.0",
-    "Microsoft.Extensions.Logging": "7.0.0"
+    "Microsoft.Extensions.Logging": "7.0.0",
+    "CsvHelper": "30.0.1",
+    "Microsoft.AspNetCore.Identity": "2.2.0",
+    "Microsoft.AspNetCore.Authentication": "2.2.0",
+    "FluentValidation.DependencyInjectionExtensions": "11.4.0",
+    "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.0",
+    "MediatR.Extensions.Microsoft.DependencyInjection": "11.0.0",
+    "Microsoft.AspNetCore.ApiAuthorization.IdentityServer": "7.0.2",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.2",
+    "IdentityServer4": "4.1.2",
+    "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "7.0.2"
   }
 }

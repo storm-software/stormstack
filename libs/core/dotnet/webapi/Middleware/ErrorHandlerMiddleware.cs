@@ -1,14 +1,11 @@
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.DotNet.Application.Models.DTOs;
 using OpenSystem.Core.DotNet.Domain.Constants;
 using OpenSystem.Core.DotNet.Application.Exceptions;
-using OpenSystem.Core.DotNet.Application.Models;
+using OpenSystem.Core.DotNet.Domain.Exceptions;
 
 namespace OpenSystem.Core.DotNet.WebApi.Middleware
 {

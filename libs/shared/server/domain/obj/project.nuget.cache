@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "cOVevAFge6oJ6M61OkyNDvamrJFnInT+CTppZ7oyGrRedROmHG3gRGIKI1LgF2QIUPwO7h+qdLDyDWsHrMGGVQ==",
+  "dgSpecHash": "0ZGagjDEdu4w6rBE8x3vjMHvAGCtQv2WdBrXZXkWc2obmkuaZt0EkYuv1sO9Xl0xfxN28lVL6i/YDmX+uqvyRA==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\shared\\server\\domain\\OpenSystem.Shared.Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\sullivanp\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\sullivanp\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

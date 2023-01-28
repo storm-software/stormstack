@@ -1,25 +1,27 @@
 using OpenSystem.Core.DotNet.Domain.Common;
 using Microsoft.EntityFrameworkCore;
-using OpenSystem.Core.DotNet.Domain.Entities;
+using MediatR;
 
-namespace MediatR;
-
-public static class MediatorExtensions
+namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
 {
-    public static async Task DispatchDomainEvents(this IMediator mediator, DbContext context)
-    {
-        var entities = context.ChangeTracker
-            .Entries<BaseEntity>()
-            .Where(e => e.Entity.DomainEvents.Any())
-            .Select(e => e.Entity);
+  public static class MediatorExtensions
+  {
+      public static async Task DispatchDomainEvents(this IMediator mediator,
+        DbContext context)
+      {
+          var entities = context.ChangeTracker
+              .Entries<BaseEntity>()
+              .Where(e => e.Entity.DomainEvents.Any())
+              .Select(e => e.Entity);
 
-        var domainEvents = entities
-            .SelectMany(e => e.DomainEvents)
-            .ToList();
+          var domainEvents = entities
+              .SelectMany(e => e.DomainEvents)
+              .ToList();
 
-        entities.ToList().ForEach(e => e.ClearDomainEvents());
+          entities.ToList().ForEach(e => e.ClearDomainEvents());
 
-        foreach (var domainEvent in domainEvents)
-            await mediator.Publish(domainEvent);
-    }
+          foreach (var domainEvent in domainEvents)
+              await mediator.Publish(domainEvent);
+      }
+  }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace OpenSystem.User.Application.Queries.GetUsersQuery
 {
     public class GetUsersQuery
-      : QueryParameter, IRequest<PagedResult<IEnumerable<Entity>>>
+      : QueryParameter, IRequest<PagedResult<IEnumerable<User>>>
     {
         public string UserId { get; set; }
 
@@ -22,7 +22,7 @@ namespace OpenSystem.User.Application.Queries.GetUsersQuery
     }
 
     public class GetAllUsersQueryHandler
-      : IRequestHandler<GetUsersQuery, PagedResult<IEnumerable<Entity>>>
+      : IRequestHandler<GetUsersQuery, PagedResult<IEnumerable<User>>>
     {
         private readonly IUserRepository _userRepository;
 
@@ -39,7 +39,7 @@ namespace OpenSystem.User.Application.Queries.GetUsersQuery
             _modelHelper = modelHelper;
         }
 
-        public async Task<PagedResult<IEnumerable<Entity>>> Handle(GetUsersQuery request,
+        public async Task<PagedResult<IEnumerable<User>>> Handle(GetUsersQuery request,
           CancellationToken cancellationToken)
         {
             var validFilter = request;
@@ -61,7 +61,7 @@ namespace OpenSystem.User.Application.Queries.GetUsersQuery
             RecordsCount recordCount = result.recordsCount;
 
             // Result wrapper
-            return new PagedResult<IEnumerable<Entity>>(data,
+            return new PagedResult<IEnumerable<User>>(data,
               validFilter.PageNumber,
               validFilter.PageSize,
               recordCount);

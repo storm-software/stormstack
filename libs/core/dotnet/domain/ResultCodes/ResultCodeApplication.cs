@@ -12,6 +12,10 @@ namespace OpenSystem.Core.DotNet.Domain.ResultCodes
 
 		public const int FieldNotSet = 1;
 
+    public const int FileExportFailure = 2;
+
+    public const int NoResultsFound = 3;
+
 		#endregion Constants
 
 		#endregion Public

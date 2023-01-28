@@ -8,8 +8,8 @@ namespace OpenSystem.User.Application.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        Task<bool> IsUserUniqueAsync(string positionNumber);
+        Task<bool> IsUniqueAsync(string userId);
 
-        Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetUsersAsync(GetUsersQuery requestParameters);
+        Task<(IEnumerable<User> data, RecordsCount recordsCount)> GetUsersAsync(GetUsersQuery requestParameters);
     }
 }

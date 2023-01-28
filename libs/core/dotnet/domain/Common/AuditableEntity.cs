@@ -4,9 +4,8 @@ using OpenSystem.Core.DotNet.Domain.ValueObjects;
 
 namespace OpenSystem.Core.DotNet.Domain.Common
 {
-    public abstract class AuditableBaseEntity<TEntityId, TValueId>
-      : BaseEntity<TEntityId, TValueId>
-      where TEntityId : EntityId<TValueId>
+    public abstract class AuditableEntity
+      : BaseEntity
     {
         public int EventCounter { get; set; }
 

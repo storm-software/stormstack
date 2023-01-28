@@ -3,26 +3,40 @@ using OpenSystem.Core.DotNet.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
-using OpenSystem.Core.DotNet.Domain.ValueObjects;
 using System.Reflection;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using OpenSystem.Core.DotNet.Infrastructure.Services;
+using Microsoft.Extensions.Options;
+using MediatR;
+using Duende.IdentityServer.EntityFramework.Options;
 
 namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
-        private readonly IDateTimeService _dateTime;
+        private readonly IDateTimeService _dateTimeService;
 
         private readonly ILoggerFactory _loggerFactory;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
-            IDateTimeService dateTime,
+        private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
+
+        private readonly IMediator _mediator;
+
+        public ApplicationDbContext(
+          DbContextOptions<ApplicationDbContext> options,
+          IOptions<OperationalStoreOptions> operationalStoreOptions,
+          IMediator mediator,
+          AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor,
+          IDateTimeService dateTimeService,
             ILoggerFactory loggerFactory)
-            : base(options)
+            : base(options, operationalStoreOptions)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-            _dateTime = dateTime;
+            _dateTimeService = dateTimeService;
             _loggerFactory = loggerFactory;
+            _mediator = mediator;
+            _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
         }
 
         public override int SaveChanges()
@@ -43,7 +57,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
             return base.SaveChanges();
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             ChangeTracker.Entries()
               .Where(e => e.State is EntityState.Added or EntityState.Modified)
@@ -58,21 +72,21 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
                       validateAllProperties: true);
               });
 
-            foreach (var entry in ChangeTracker.Entries<AuditableBaseEntity<EntityId<object>, object>>())
+            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedOn = _dateTime.NowUtc;
+                        entry.Entity.CreatedOn = _dateTimeService.NowUtc;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.ModifiedOn = _dateTime.NowUtc;
+                        entry.Entity.ModifiedOn = _dateTimeService.NowUtc;
                         break;
                 }
             }
 
-            return base.SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -89,10 +103,6 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLoggerFactory(_loggerFactory);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
             optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
         }
     }

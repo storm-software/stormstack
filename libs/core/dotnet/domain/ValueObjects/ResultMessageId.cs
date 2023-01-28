@@ -22,7 +22,7 @@ namespace OpenSystem.Core.DotNet.Domain.ValueObjects
     public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
       if (Value == null ||
-        Value?.ResultCodeType == null ||
+        Value.ResultCodeType == null ||
         !Value.Code.IsSet())
       {
           yield return GetValidationResult(typeof(ResultCodeValidation),
