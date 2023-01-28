@@ -1,5 +1,5 @@
 import { ExecutorContext } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+// import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 import { existsSync } from "fs";
 import Path from "path";
 import { execute } from "../utilities";
@@ -10,9 +10,9 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    ConsoleLogger.info("Executing client-api-sync executor...");
-    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
-    ConsoleLogger.info(`Current Directory: ${__dirname}`);
+    console.info("Executing client-api-sync executor...");
+    console.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    console.info(`Current Directory: ${__dirname}`);
 
     const { domainName, specJsonFile, generator } = options;
 
@@ -30,20 +30,20 @@ export default async function (
         ? sourceRoot.substring(0, sourceRoot.lastIndexOf("/src"))
         : sourceRoot;
     if (!sourceRoot || sourceRoot.length <= 1) {
-      ConsoleLogger.error(`No sourceRoot could be found: "${sourceRoot}" `);
+      console.error(`No sourceRoot could be found: "${sourceRoot}" `);
       return { success: false };
     }
 
     let result;
     if (!existsSync(Path.join(`${rootPath}/`, sourceRoot))) {
-      ConsoleLogger.warn(
+      console.warn(
         `The file location ${Path.join(
           `${rootPath}/`,
           sourceRoot
         )} could no be found... Skipping deletes`
       );
     } else {
-      ConsoleLogger.info("Clearing previously generated types.");
+      console.info("Clearing previously generated types.");
       result = await execute(
         `rmdir /S /Q "${Path.join(`${rootPath}/`, sourceRoot)}" `
       );
@@ -51,10 +51,10 @@ export default async function (
         console.error(result);
         return { success: false };
       }
-      ConsoleLogger.info("Directory successfully cleared.");
+      console.info("Directory successfully cleared.");
     }
 
-    ConsoleLogger.info("Syncing client API code...");
+    console.info("Syncing client API code...");
 
     result = await execute(
       `java -cp tools/openapi/typescript-client/target/open-system-typescript-client-openapi-generator-1.0.0.jar;tools/openapi/openapi-generator-cli-6.2.1.jar org.openapitools.codegen.OpenAPIGenerator generate --input-spec=${specJsonFile} -g ${
@@ -64,10 +64,10 @@ export default async function (
       }withInterfaces=true,useInversify=true,useObjectParameters=true,useRxJS=false,npmName=@open-system/${projectName},npmVersion=0.0.1,gitHost=github.com,gitUserId=sullivanpj,gitRepoId=open-system,projectName=${projectName},sourceRoot=${sourceRoot},specJsonFile=${specJsonFile},domainName=${domainName}" `
     );
     if (result) {
-      ConsoleLogger.error(result);
+      console.error(result);
       return { success: false };
     }
-    ConsoleLogger.success("Client API sync succeeded.");
+    console.info("Client API sync succeeded.");
 
     /*if (!existsSync(Path.join(`${rootPath}/`, `libs/${domainName}/services`))) {
       ConsoleLogger.error(
@@ -79,9 +79,7 @@ export default async function (
       return { success: false };
     }*/
 
-    ConsoleLogger.info(
-      "Moving parser service files over to the 'service' folder..."
-    );
+    console.info("Moving parser service files over to the 'service' folder...");
     result = await execute(
       `move "${Path.join(
         rootPath,
@@ -92,10 +90,10 @@ export default async function (
       )}" "${Path.join(`${rootPath}/`, sourceRoot, "src", "services")}"`
     );
     if (result) {
-      ConsoleLogger.error(result);
+      console.error(result);
       return { success: false };
     }
-    ConsoleLogger.success("Moved parser service files successfully.");
+    console.info("Moved parser service files successfully.");
 
     /*if (
       !existsSync(
@@ -129,10 +127,10 @@ export default async function (
 
     return { success: !result };
   } catch (e) {
-    ConsoleLogger.error(
+    console.error(
       `An error occurred syncing client API for ${context.projectName}`
     );
-    ConsoleLogger.error(e);
+    console.error(e);
 
     return { success: false };
   }
