@@ -30,6 +30,24 @@ services:
     volumes:
       - consul-data:/consul/config
 
+    mailhog:
+      image: mailhog/mailhog
+      ports:
+        - 1025:1025 # smtp server
+        - 8025:8025 # web ui
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    restart: always
+    ports:
+      - "5434:5434"
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - network-microservice
+
   static-cache.service:
     container_name: static-cache.service
     image: redis:alpine
@@ -53,18 +71,6 @@ services:
       - network-microservice
     volumes:
       - postgresql-data:/var/lib/postgresql/data
-
-  event-bus.service:
-    container_name: event-bus.service
-    image: rabbitmq:3-management-alpine
-    hostname: event-bus.service
-    restart: always
-    ports:
-      - "5434:5434"
-      - "5672:5672"
-      - "15672:15672"
-    networks:
-      - network-microservice
 
   user-api.service:
     container_name: user-api.service

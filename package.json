@@ -59,6 +59,7 @@
     "build:tools-typescript": "npm run build:tools-executors-typescript && npm run build:tools-generators-typescript",
     "build:tools-dotnet": "npm run build:tools-executors-dotnet && npm run build:tools-generators-dotnet",
     "build:tools": "npm run build:tools-typescript && npm run build:tools-dotnet && npm run build:tools-executors-docs",
+    "build:tools-essential": "npx nx run tools-executors-typescript:build:design-tokens-clean && npx nx run tools-executors-typescript:build:design-tokens-build && npx nx run tools-executors-dotnet:build:build",
     "build:storybook": "build-storybook -s public",
     "build": "nx run-many --target build --all --parallel 8 --exclude docs",
     "lint:spellcheck": "cspell --no-progress --relative --dot --gitignore",

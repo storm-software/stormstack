@@ -3,18 +3,10 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
 using OpenSystem.Core.DotNet.Infrastructure.Extensions;
-using Consul;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Polly.Extensions.Http;
 using Polly;
 using Serilog;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
 
 namespace OpenSystem.Apis.Gateway
 {

@@ -35,8 +35,11 @@ jobs:
           name: Initialize the Nx Cloud distributed CI run
           command: npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
       - run:
-          name: Build the tool projects
-          command: npm run build:tools
+          name: Build the repository tools used in the later build steps
+          command: npm run build:tools-essential
+      - run:
+          name: Build the design tokens (used to style the applications in the repository)
+          command: npx nx run design-system-tokens:build:open-system
       - run:
           name: Run workspace lint
           command: npx nx-cloud record -- npx nx workspace-lint
@@ -51,7 +54,10 @@ jobs:
           command: npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=test --parallel=3 --ci --code-coverage
       - run:
           name: Run build
-          command: npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=build --parallel=3
+          command: npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=build --parallel=3 --exclude=tools-asyncapi-rabbitmq,docs
+      - run:
+          name: Run semantic release
+          command: npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=semantic-release --parallel=5
       - run:
           name: Stop all agents
           command: npx nx-cloud stop-all-agents
