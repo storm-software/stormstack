@@ -36,7 +36,7 @@ jobs:
           command: npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
       - run:
           name: Build the repository tools used in the later build steps
-          command: npm run build:tools-essential
+          command: npm run build:tools-ci
       - run:
           name: Build the design tokens (used to style the applications in the repository)
           command: npx nx run design-system-tokens:build:open-system
