@@ -32,14 +32,14 @@ jobs:
       - nx/set-shas:
           main-branch-name: "master"
       - run:
-          name: Initialize the Nx Cloud distributed CI run
-          command: npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
-      - run:
           name: Build the repository tools used in the later build steps
           command: npm run build:tools-ci
       - run:
           name: Build the design tokens (used to style the applications in the repository)
           command: npx nx run design-system-tokens:build:open-system
+      - run:
+          name: Initialize the Nx Cloud distributed CI run
+          command: npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
       - run:
           name: Run workspace lint
           command: npx nx-cloud record -- npx nx workspace-lint
