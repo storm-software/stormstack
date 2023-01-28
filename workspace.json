@@ -16,6 +16,7 @@
     "reaction-ui-data-access": "libs/reaction/ui/data-access",
     "reaction-ui-feature-like": "libs/reaction/ui/feature-like",
     "shared-config": "libs/shared/config",
+    "shared-server-domain": "libs/shared/server/domain",
     "shared-ui-components": "libs/shared/ui/components",
     "shared-ui-data-access": "libs/shared/ui/data-access",
     "shared-ui-feature-layout": "libs/shared/ui/feature-layout",
@@ -29,13 +30,11 @@
     "tools-generators-dotnet": "tools/generators/dotnet",
     "tools-generators-typescript": "tools/generators/typescript",
     "user-config": "libs/user/config",
+    "user-server-application": "libs/user/server/application",
+    "user-server-domain": "libs/user/server/domain",
+    "user-server-infrastructure": "libs/user/server/infrastructure",
     "user-ui-data-access": "libs/user/ui/data-access",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell",
-    "user-server-domain": "libs/user/server/domain",
-    "shared-server-domain": "libs/shared/server/domain",
-    "user-server-application": "libs/user/server/application",
-    "user-server-infrastructure": "libs/user/server/infrastructure"
+    "web-shell": "apps/web/shell"
   }
 }
-
