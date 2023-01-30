@@ -5,10 +5,8 @@ using OpenSystem.Core.DotNet.Domain.ResultCodes;
 namespace OpenSystem.Core.DotNet.Application.Models
 {
     [Serializable]
-    public class PagedResult<T> : Result
+    public class PagedResponse<T> : Response<List<T>>
     {
-        public new List<T> Data { get; set; }
-
         public int PageNumber { get; set; }
 
         public int PageSize { get; set; }
@@ -26,7 +24,7 @@ namespace OpenSystem.Core.DotNet.Application.Models
 
         public bool HasNextPage => PageNumber < TotalPages;
 
-        public PagedResult(List<T> data,
+        public PagedResponse(List<T> data,
           int pageNumber,
           int pageSize,
           RecordsCount recordsCount)
@@ -38,14 +36,14 @@ namespace OpenSystem.Core.DotNet.Application.Models
             this.RecordsTotal = recordsCount.RecordsTotal;
         }
 
-        public static async Task<PagedResult<T>> CreateAsync(IQueryable<T> source,
+        public static async Task<PagedResponse<T>> CreateAsync(IQueryable<T> source,
           int pageNumber,
           int pageSize)
         {
             var count = await source.CountAsync();
             var data = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            return new PagedResult<T>(data,
+            return new PagedResponse<T>(data,
                 pageNumber,
               count,
               new RecordsCount(0,

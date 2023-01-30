@@ -2,7 +2,7 @@ namespace OpenSystem.Core.DotNet.Application.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<T> GetByGuidAsync(Guid guid);
+        Task<T> GetByIdAsync(Guid guid);
 
         Task<IEnumerable<T>> GetAllAsync();
 

@@ -47,9 +47,15 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/api/users/{id}",
-      "UpstreamHttpMethod": ["Get", "Post", "Put", "Delete"],
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
       "DownstreamPathTemplate": "/api/v1/users/{id}",
       "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user-api.service",
+          "Port": "5000"
+        }
+      ],
       "ServiceName": "user-api.service",
       "RouteIsCaseSensitive": false,
       "FileCacheOptions": { "TtlSeconds": 15 },
@@ -60,9 +66,15 @@
     },
     {
       "UpstreamPathTemplate": "/api/users",
-      "UpstreamHttpMethod": ["Get"],
+      "UpstreamHttpMethod": ["GET"],
       "DownstreamPathTemplate": "/api/v1/users",
       "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user-api.service",
+          "Port": "5000"
+        }
+      ],
       "ServiceName": "user-api.service",
       "FileCacheOptions": { "TtlSeconds": 15 },
       "LoadBalancerOptions": {

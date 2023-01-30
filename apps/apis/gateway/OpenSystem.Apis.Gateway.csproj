@@ -25,7 +25,9 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="Ocelot" Version="18.0.0" />
     <PackageReference Include="Ocelot.Administration" Version="18.0.0" />
+    <PackageReference Include="Ocelot.Cache.CacheManager" Version="18.0.0" />
     <PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />
+    <PackageReference Include="Ocelot.Provider.Polly" Version="18.0.0" />
     <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -35,5 +37,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\libs\core\dotnet\application\OpenSystem.Core.DotNet.Application.csproj" />
     <ProjectReference Include="..\..\..\libs\core\dotnet\infrastructure\OpenSystem.Core.DotNet.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\webapi\OpenSystem.Core.DotNet.WebApi.csproj" />
   </ItemGroup>
 </Project>

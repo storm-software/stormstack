@@ -84,6 +84,18 @@
             "Microsoft.Extensions.Logging": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[6.1.0, )"
+            },
+            "Serilog.Enrichers.Environment": {
+              "target": "Package",
+              "version": "[2.3.0-dev-00791, )"
+            },
+            "Serilog.Sinks.Elasticsearch": {
+              "target": "Package",
+              "version": "[9.0.0-beta9, )"
             }
           },
           "imports": [

@@ -7,11 +7,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using OpenSystem.Core.DotNet.Application;
+using OpenSystem.User.Application;
 using OpenSystem.Core.DotNet.Application.Interfaces;
 using OpenSystem.Core.DotNet.Infrastructure.Persistence;
 using OpenSystem.Core.DotNet.Infrastructure.Extensions;
 using OpenSystem.Core.DotNet.Infrastructure;
+using OpenSystem.User.Infrastructure;
 using OpenSystem.Core.DotNet.WebApi.Constants;
 using OpenSystem.Core.DotNet.WebApi.Extensions;
 using OpenSystem.Core.DotNet.WebApi.Services;
@@ -32,10 +33,12 @@ try
 
     builder.Services.AddServiceDiscovery(builder.Configuration);
 
-    builder.Services.AddApplicationLayer();
-    builder.Services.AddPersistenceInfrastructure(builder.Configuration);
-    builder.Services.AddServiceInfrastructure(builder.Configuration);
     builder.Services.AddAuthenticationInfrastructure(builder.Configuration);
+
+    builder.Services.AddUserApplicationLayer();
+    builder.Services.AddUserPersistenceInfrastructure(builder.Configuration);
+    builder.Services.AddUserServiceInfrastructure(builder.Configuration);
+
 
     builder.Services.AddSwaggerExtension();
 
@@ -59,7 +62,7 @@ try
 
     // API explorer
     builder.Services.AddMvcCore()
-        .AddApiExplorer();
+      .AddApiExplorer();
 
     // API explorer version
     builder.Services.AddVersionedApiExplorerExtension();

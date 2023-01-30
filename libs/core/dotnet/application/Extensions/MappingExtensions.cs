@@ -7,11 +7,11 @@ namespace OpenSystem.Core.DotNet.Application.Extensions
 {
   public static class MappingExtensions
   {
-      public static Task<PagedResult<TDestination>> PagedResultAsync<TDestination>(this IQueryable<TDestination> queryable,
+      public static Task<PagedResponse<TDestination>> PagedResultAsync<TDestination>(this IQueryable<TDestination> queryable,
         int pageNumber,
         int pageSize)
         where TDestination : class
-          => PagedResult<TDestination>.CreateAsync(queryable.AsNoTracking(),
+          => PagedResponse<TDestination>.CreateAsync(queryable.AsNoTracking(),
             pageNumber,
             pageSize);
 

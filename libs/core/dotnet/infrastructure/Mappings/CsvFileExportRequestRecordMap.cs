@@ -4,7 +4,7 @@ using CsvHelper.Configuration;
 
 namespace OpenSystem.Core.DotNet.Infrastructure.Mappings
 {
-  public class CsvFileExportRequestRecordMap : ClassMap<PagedDataTableResult>
+  public class CsvFileExportRequestRecordMap : ClassMap<PagedResponse<object>>
   {
       public CsvFileExportRequestRecordMap()
       {

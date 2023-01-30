@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj": {}
+    "c:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj": {}
   },
   "projects": {
-    "C:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj": {
+    "c:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj",
+        "projectUniqueName": "c:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj",
         "projectName": "OpenSystem.Apis.Gateway",
-        "projectPath": "C:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj",
+        "projectPath": "c:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj",
         "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\open-system\\apps\\apis\\gateway\\obj\\",
+        "outputPath": "c:\\Development\\open-system\\apps\\apis\\gateway\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -30,11 +30,14 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj"
+              "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
+                "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj"
               },
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj"
+              "c:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj": {
+                "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj"
+              },
+              "c:\\Development\\open-system\\libs\\core\\dotnet\\webapi\\OpenSystem.Core.DotNet.WebApi.csproj": {
+                "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\webapi\\OpenSystem.Core.DotNet.WebApi.csproj"
               }
             }
           }
@@ -76,7 +79,15 @@
               "target": "Package",
               "version": "[18.0.0, )"
             },
+            "Ocelot.Cache.CacheManager": {
+              "target": "Package",
+              "version": "[18.0.0, )"
+            },
             "Ocelot.Provider.Consul": {
+              "target": "Package",
+              "version": "[18.0.0, )"
+            },
+            "Ocelot.Provider.Polly": {
               "target": "Package",
               "version": "[18.0.0, )"
             },
@@ -120,14 +131,14 @@
         }
       }
     },
-    "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
+    "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
+        "projectUniqueName": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
         "projectName": "OpenSystem.Core.DotNet.Application",
-        "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
+        "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
         "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\obj\\",
+        "outputPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -146,8 +157,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
+              "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
+                "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
               }
             }
           }
@@ -200,6 +211,18 @@
             "Microsoft.Extensions.Logging": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[6.1.0, )"
+            },
+            "Serilog.Enrichers.Environment": {
+              "target": "Package",
+              "version": "[2.3.0-dev-00791, )"
+            },
+            "Serilog.Sinks.Elasticsearch": {
+              "target": "Package",
+              "version": "[9.0.0-beta9, )"
             }
           },
           "imports": [
@@ -222,14 +245,14 @@
         }
       }
     },
-    "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
+    "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
+        "projectUniqueName": "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
         "projectName": "OpenSystem.Core.DotNet.Domain",
-        "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
+        "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
         "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\obj\\",
+        "outputPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -292,14 +315,14 @@
         }
       }
     },
-    "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj": {
+    "c:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj",
+        "projectUniqueName": "c:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj",
         "projectName": "OpenSystem.Core.DotNet.Infrastructure",
-        "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj",
+        "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\obj\\",
+        "outputPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -318,11 +341,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj"
+              "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
+                "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj"
               },
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
+              "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
+                "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
               }
             }
           }
@@ -439,6 +462,99 @@
             "System.Linq.Dynamic.Core": {
               "target": "Package",
               "version": "[1.2.24, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "c:\\Development\\open-system\\libs\\core\\dotnet\\webapi\\OpenSystem.Core.DotNet.WebApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\Development\\open-system\\libs\\core\\dotnet\\webapi\\OpenSystem.Core.DotNet.WebApi.csproj",
+        "projectName": "OpenSystem.Core.DotNet.WebApi",
+        "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\webapi\\OpenSystem.Core.DotNet.WebApi.csproj",
+        "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
+        "outputPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\webapi\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
+          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
+                "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj"
+              },
+              "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
+                "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreLockProperties": {
+          "restorePackagesWithLockFile": "false"
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "IdentityModel": {
+              "target": "Package",
+              "version": "[6.1.0-preview.1, )"
+            },
+            "IdentityServer4.AccessTokenValidation": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.OpenApi": {
+              "target": "Package",
+              "version": "[1.5.0, )"
             }
           },
           "imports": [

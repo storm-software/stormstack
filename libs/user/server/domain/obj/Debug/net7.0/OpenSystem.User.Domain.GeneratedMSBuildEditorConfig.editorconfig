@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = OpenSystem.User.Domain
-build_property.ProjectDir = c:\Development\open-system\libs\user\server\domain\
+build_property.ProjectDir = C:\Development\open-system\libs\user\server\domain\

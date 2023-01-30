@@ -3,26 +3,28 @@ using MediatR;
 using OpenSystem.User.Application.Interfaces;
 using OpenSystem.Core.DotNet.Application.Models.Parameters;
 using OpenSystem.Core.DotNet.Application.Models;
-using OpenSystem.Core.DotNet.Domain.Entities;
+using OpenSystem.User.Domain.Entities;
 using OpenSystem.User.Domain.Enums;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.DotNet.Domain.Entities;
 
-namespace OpenSystem.User.Application.Queries.GetUsersQuery
+namespace OpenSystem.User.Application.Queries.GetUsers
 {
     public class GetUsersQuery
-      : QueryParameter, IRequest<PagedResult<IEnumerable<User>>>
+      : QueryParameter, IRequest<PagedResponse<IEnumerable<Entity>>>
     {
         public string UserId { get; set; }
 
-        public UserTypes UserType { get; set; }
+        public UserTypes? UserType { get; set; }
 
-        public UserStatusTypes UserStatusType { get; set; }
+        public UserStatusTypes? UserStatusType { get; set; }
     }
 
     public class GetAllUsersQueryHandler
-      : IRequestHandler<GetUsersQuery, PagedResult<IEnumerable<User>>>
+      : IRequestHandler<GetUsersQuery, PagedResponse<IEnumerable<Entity>>>
     {
         private readonly IUserRepository _userRepository;
 
@@ -39,7 +41,7 @@ namespace OpenSystem.User.Application.Queries.GetUsersQuery
             _modelHelper = modelHelper;
         }
 
-        public async Task<PagedResult<IEnumerable<User>>> Handle(GetUsersQuery request,
+        public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetUsersQuery request,
           CancellationToken cancellationToken)
         {
             var validFilter = request;
@@ -47,12 +49,12 @@ namespace OpenSystem.User.Application.Queries.GetUsersQuery
             if (!string.IsNullOrEmpty(validFilter.Fields))
             {
                 //limit to fields in view model
-                validFilter.Fields = _modelHelper.ValidateModelFields<UserDto>(validFilter.Fields);
+                validFilter.Fields = _modelHelper.ValidateModelFields<GetUsersViewModel>(validFilter.Fields);
             }
             if (string.IsNullOrEmpty(validFilter.Fields))
             {
                 //default fields from view model
-                validFilter.Fields = _modelHelper.GetModelFields<UserDto>();
+                validFilter.Fields = _modelHelper.GetModelFields<GetUsersViewModel>();
             }
 
             // query based on filter
@@ -61,7 +63,7 @@ namespace OpenSystem.User.Application.Queries.GetUsersQuery
             RecordsCount recordCount = result.recordsCount;
 
             // Result wrapper
-            return new PagedResult<IEnumerable<User>>(data,
+            return new PagedResponse<IEnumerable<Entity>>((List<IEnumerable<Entity>>)data,
               validFilter.PageNumber,
               validFilter.PageSize,
               recordCount);

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using OpenSystem.Core.DotNet.Domain.ValueObjects;
 
@@ -6,9 +7,12 @@ namespace OpenSystem.Core.DotNet.Domain.Common
 {
     public abstract class BaseEntity
     {
-      public Guid EntityGuid { get; init; }
+      public Guid Id { get; init; }
 
-      public EntityId<Guid>? Id { get; init; }
+      // public EntityId<Guid>? Id { get; init; }
+
+      [Timestamp]
+      public byte[] RowVersion { get; set; }
 
       private readonly List<BaseEvent> _domainEvents = new();
 
@@ -49,7 +53,7 @@ namespace OpenSystem.Core.DotNet.Domain.Common
 
       private bool IsTransient()
       {
-          return Id is null || Id.Value == default(Guid);
+          return Id == default(Guid);
       }
 
       public static bool operator ==(BaseEntity a,

@@ -19,7 +19,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
         }
 
 
-        public virtual async Task<T> GetByGuidAsync(Guid guid)
+        public virtual async Task<T> GetByIdAsync(Guid guid)
         {
             return await DbContext.Set<T>().FindAsync(guid);
         }

@@ -21,7 +21,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure
         {
             services.AddScoped<AuditableEntitySaveChangesInterceptor>();
 
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+           /* if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseInMemoryDatabase("ApplicationDb"));
@@ -35,15 +35,12 @@ namespace OpenSystem.Core.DotNet.Infrastructure
             }
 
             services.AddScoped<IApplicationDbContext>(provider =>
-              provider.GetRequiredService<ApplicationDbContext>());
+              provider.GetRequiredService<ApplicationDbContext>());*/
 
             #region Repositories
 
             services.AddTransient(typeof(IGenericRepository<>),
               typeof(GenericRepository<>));
-
-            //services.AddTransient<IPositionRepositoryAsync, PositionRepositoryAsync>();
-            //services.AddTransient<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();
 
             #endregion Repositories
         }

@@ -1,8 +1,6 @@
 using OpenSystem.User.Application.Queries.GetUsers;
 using OpenSystem.Core.DotNet.Application.Models;
 using OpenSystem.User.Application.Interfaces;
-using OpenSystem.User.Application.Interfaces.Repositories;
-using OpenSystem.User.Application.Parameters;
 using OpenSystem.User.Domain.Entities;
 using OpenSystem.User.Domain.Enums;
 using LinqKit;
@@ -11,31 +9,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using OpenSystem.Core.DotNet.Infrastructure.Persistence;
+using OpenSystem.Core.DotNet.Application.Models.Parameters;
+using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.DotNet.Domain.Exceptions;
+using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.DotNet.Domain.Entities;
 
 namespace OpenSystem.User.Infrastructure.Persistence
 {
-    public class UserRepository : GenericRepository<User>, IUserRepository
+    public class UserRepository : GenericRepository<UserEntity>, IUserRepository
     {
-        private readonly DbSet<User> _users;
+        private readonly DbSet<UserEntity> _userAccounts;
 
-        private IDataShapeHelper<User> _dataShaper;
+        private IDataShapeHelper<UserEntity> _dataShaper;
 
 
-        public PositionRepositoryAsync(ApplicationDbContext dbContext,
-            IDataShapeHelper<User> dataShaper)
+        public UserRepository(ApplicationDbContext dbContext,
+            IDataShapeHelper<UserEntity> dataShaper)
             : base(dbContext)
         {
-            _users = dbContext.Set<User>();
+            _userAccounts = dbContext.Set<UserEntity>();
             _dataShaper = dataShaper;
         }
 
-        public async Task<bool> IsUniqueAsync(string userId)
+        public async Task<bool> IsUniqueUserIdAsync(string userId)
         {
-            return await _users
+            return await _userAccounts
                 .AllAsync(p => p.UserId != userId);
         }
 
-        public async Task<(IEnumerable<User> data, RecordsCount recordsCount)> GetUsersAsync(GetUsersQuery requestParameter)
+        public async Task<(IEnumerable<Entity> data,
+          RecordsCount recordsCount)> GetUsersAsync(GetUsersQuery requestParameter)
         {
             var userId = requestParameter.UserId;
             var userType = requestParameter.UserType;
@@ -49,7 +54,7 @@ namespace OpenSystem.User.Infrastructure.Persistence
             int recordsTotal, recordsFiltered;
 
             // Setup IQueryable
-            var record = _users
+            var record = _userAccounts
                 .AsNoTracking()
                 .AsExpandable();
 
@@ -61,18 +66,15 @@ namespace OpenSystem.User.Infrastructure.Persistence
               userId,
               userType,
               userStatusType);
-            if (ret.Failed())
-              return ret;
+            if (ret.Failed)
+              throw new GeneralProcessingException();
 
             // Count records after filter
             recordsFiltered = await record.CountAsync();
 
             //set Record counts
-            var recordsCount = new RecordsCount
-            {
-                RecordsFiltered = recordsFiltered,
-                RecordsTotal = recordsTotal
-            };
+            var recordsCount = new RecordsCount(recordsFiltered,
+                recordsTotal);
 
             // set order by
             if (!string.IsNullOrWhiteSpace(orderBy))
@@ -83,7 +85,7 @@ namespace OpenSystem.User.Infrastructure.Persistence
             // select columns
             if (!string.IsNullOrWhiteSpace(fields))
             {
-                record = record.Select<User>("new(" + fields + ")");
+                record = record.Select<UserEntity>("new(" + fields + ")");
             }
 
             // paging
@@ -99,12 +101,12 @@ namespace OpenSystem.User.Infrastructure.Persistence
             return (shapeData, recordsCount);
         }
 
-        private Result FilterByColumn(ref IQueryable<User> users,
+        private Result FilterByColumn(ref IQueryable<UserEntity> userAccounts,
           string? userId,
-          UserType? userType,
+          UserTypes? userType,
           UserStatusTypes? userStatusType)
         {
-            if (!users.Any())
+            if (!userAccounts.Any())
                 return Result.Success();
 
             if (string.IsNullOrEmpty(userId) &&
@@ -112,7 +114,7 @@ namespace OpenSystem.User.Infrastructure.Persistence
                 userStatusType == null)
                 return Result.Success();
 
-            var predicate = PredicateBuilder.New<User>();
+            var predicate = PredicateBuilder.New<UserEntity>();
 
             if (!string.IsNullOrEmpty(userId))
                 predicate = predicate.Or(p =>
@@ -120,15 +122,15 @@ namespace OpenSystem.User.Infrastructure.Persistence
 
             if (userType != null)
                 predicate = predicate.Or(p =>
-                  p.UserType.Contains(userType.ToString()));
+                  p.Type == userType);
 
             if (userStatusType != null)
                 predicate = predicate.Or(p =>
-                  p.UserStatusType.Contains(userStatusType.ToString()));
+                  p.Status == userStatusType);
 
-            users = users.Where(predicate);
+            userAccounts = userAccounts.Where(predicate);
 
             return Result.Success();
         }
-    }
+  }
 }

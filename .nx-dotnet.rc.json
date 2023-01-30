@@ -49,6 +49,11 @@
     "AspNetCore.HealthChecks.UI.Client": "6.0.5",
     "AspNetCore.HealthChecks.Uris": "6.0.3",
     "Polly": "7.2.3",
-    "Polly.Extensions.Http": "3.0.0"
+    "Polly.Extensions.Http": "3.0.0",
+    "Serilog.Sinks.Elasticsearch": "9.0.0-beta9",
+    "Serilog.Enrichers.Environment": "2.3.0-dev-00791",
+    "Ocelot.Cache.CacheManager": "18.0.0",
+    "Ocelot.Provider.Polly": "18.0.0",
+    "LinqKit": "1.2.3"
   }
 }

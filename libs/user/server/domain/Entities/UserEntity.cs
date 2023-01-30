@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace OpenSystem.User.Domain.Entities
 {
-    public class User : StringIndexedAuditableEntity
+    public class UserEntity : AuditableEntity
     {
         public string UserId { get; set; }
 

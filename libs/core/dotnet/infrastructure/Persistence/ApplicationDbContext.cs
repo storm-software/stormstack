@@ -9,12 +9,14 @@ using OpenSystem.Core.DotNet.Infrastructure.Services;
 using Microsoft.Extensions.Options;
 using MediatR;
 using Duende.IdentityServer.EntityFramework.Options;
+using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.DotNet.Domain.Exceptions;
 
 namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
-        private readonly IDateTimeService _dateTimeService;
+        protected readonly IDateTimeService DateTimeService;
 
         private readonly ILoggerFactory _loggerFactory;
 
@@ -33,7 +35,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-            _dateTimeService = dateTimeService;
+            DateTimeService = dateTimeService;
             _loggerFactory = loggerFactory;
             _mediator = mediator;
             _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
@@ -77,11 +79,11 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedOn = _dateTimeService.NowUtc;
+                        entry.Entity.CreatedOn = DateTimeService.NowUtc;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.ModifiedOn = _dateTimeService.NowUtc;
+                        entry.Entity.ModifiedOn = DateTimeService.NowUtc;
                         break;
                 }
             }
@@ -91,9 +93,9 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-           //var _mockData = this.Database.GetService<IMockService>();
-            //var seedPositions = _mockData.SeedPositions(1000);
-            //builder.Entity<Position>().HasData(seedPositions);
+            var ret = InnerOnModelCreating(builder);
+            if (ret.Failed)
+              throw new GeneralProcessingException();
 
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
@@ -104,6 +106,11 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
         {
             optionsBuilder.UseLoggerFactory(_loggerFactory);
             optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
+        }
+
+        protected virtual Result InnerOnModelCreating(ModelBuilder builder)
+        {
+            return Result.Success();
         }
     }
 }
