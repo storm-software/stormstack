@@ -48,7 +48,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "shared-ui-feat-notifications-v${VERSION}"
+        "tagFormat": "shared-ui-feature-notifications-v${VERSION}"
       }
     }
   }

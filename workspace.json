@@ -6,6 +6,9 @@
     "apis-reaction": "apps/apis/reaction",
     "apis-user": "apps/apis/user",
     "contact-config": "libs/contact/config",
+    "contact-server-application": "libs/contact/server/application",
+    "contact-server-domain": "libs/contact/server/domain",
+    "contact-server-infrastructure": "libs/contact/server/infrastructure",
     "core-dotnet-application": "libs/core/dotnet/application",
     "core-dotnet-domain": "libs/core/dotnet/domain",
     "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",
@@ -23,6 +26,7 @@
     "shared-ui-data-access": "libs/shared/ui/data-access",
     "shared-ui-feature-layout": "libs/shared/ui/feature-layout",
     "shared-ui-feature-notifications": "libs/shared/ui/feature-notifications",
+    "shared-ui-feature-pdf": "libs/shared/ui/feature-pdf",
     "static-message-config": "libs/static/message/config",
     "tests-design-system-components-e2e": "apps/tests/design-system/components-e2e",
     "tools-asyncapi-rabbitmq": "tools/asyncapi/rabbitmq",
@@ -37,10 +41,6 @@
     "user-server-infrastructure": "libs/user/server/infrastructure",
     "user-ui-data-access": "libs/user/ui/data-access",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell",
-    "contact-server-domain": "libs/contact/server/domain",
-    "contact-server-application": "libs/contact/server/application",
-    "contact-server-infrastructure": "libs/contact/server/infrastructure"
+    "web-shell": "apps/web/shell"
   }
 }
-

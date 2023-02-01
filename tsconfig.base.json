@@ -69,6 +69,9 @@
       "@open-system/shared-ui-feature-notifications/*": [
         "libs/shared/ui/feature-notifications/src/*"
       ],
+      "@open-system/shared-ui-feature-pdf": [
+        "libs/shared/ui/feature-pdf/src/index.ts"
+      ],
       "@open-system/static-message-config": [
         "libs/static/message/config/src/index.ts"
       ],
