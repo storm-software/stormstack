@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.7.0...web-shell-v1.8.0) (2023-02-01)
+
+
+### Features
+
+* **shared-ui-feature-pdf:** Added wrapper library for PDF generator/renderer ([5ddc724](https://github.com/sullivanpj/open-system/commit/5ddc724af3ae9ae7237452e71a3fae3d20f7a6b9))
+
 # [1.7.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.6.0...web-shell-v1.7.0) (2023-02-01)
 
 
