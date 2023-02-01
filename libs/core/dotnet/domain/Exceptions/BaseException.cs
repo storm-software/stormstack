@@ -1,10 +1,10 @@
 
 
 
-using OpenSystem.Core.DotNet.Domain.Extensions;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.Exceptions
+namespace OpenSystem.Core.Domain.Exceptions
 {
     public class BaseException : Exception
     {

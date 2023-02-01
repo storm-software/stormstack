@@ -1,9 +1,11 @@
 {
   "version": 2,
   "projects": {
+    "apis-contact": "apps/apis/contact",
     "apis-gateway": "apps/apis/gateway",
     "apis-reaction": "apps/apis/reaction",
     "apis-user": "apps/apis/user",
+    "contact-config": "libs/contact/config",
     "core-dotnet-application": "libs/core/dotnet/application",
     "core-dotnet-domain": "libs/core/dotnet/domain",
     "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",
@@ -35,6 +37,10 @@
     "user-server-infrastructure": "libs/user/server/infrastructure",
     "user-ui-data-access": "libs/user/ui/data-access",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell"
+    "web-shell": "apps/web/shell",
+    "contact-server-domain": "libs/contact/server/domain",
+    "contact-server-application": "libs/contact/server/application",
+    "contact-server-infrastructure": "libs/contact/server/infrastructure"
   }
 }
+

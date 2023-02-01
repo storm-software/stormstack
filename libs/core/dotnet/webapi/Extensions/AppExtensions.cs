@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Builder;
-using OpenSystem.Core.DotNet.WebApi.Middleware;
+using OpenSystem.Core.WebApi.Middleware;
 
-namespace OpenSystem.Core.DotNet.WebApi.Extensions
+namespace OpenSystem.Core.WebApi.Extensions
 {
     public static class AppExtensions
     {

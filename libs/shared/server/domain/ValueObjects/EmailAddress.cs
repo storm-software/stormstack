@@ -1,9 +1,9 @@
 using System;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
-using OpenSystem.Core.DotNet.Domain.Extensions;
-using OpenSystem.Core.DotNet.Domain.ValueObjects;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.ValueObjects;
+using OpenSystem.Shared.Domain.ResultCodes;
 using System.Linq;
 
 namespace OpenSystem.Shared.Domain.ValueObjects

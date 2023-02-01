@@ -1,15 +1,15 @@
-namespace OpenSystem.Core.DotNet.Application.Interfaces
+namespace OpenSystem.Core.Application.Interfaces
 {
-    public interface IGenericRepository<T> where T : class
+  public interface IGenericRepository<T> where T : class
     {
-        Task<T> GetByIdAsync(Guid guid);
+        Task<T> GetByIdAsync(Guid id);
 
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<IEnumerable<T>> GetPagedResultAsync(int pageNumber,
+        Task<IEnumerable<T>> GetPagedResponseAsync(int pageNumber,
           int pageSize);
 
-        Task<IEnumerable<T>> GetPagedAdvancedResultAsync(int pageNumber,
+        Task<IEnumerable<T>> GetPagedAdvancedResponseAsync(int pageNumber,
           int pageSize,
           string orderBy,
           string fields);

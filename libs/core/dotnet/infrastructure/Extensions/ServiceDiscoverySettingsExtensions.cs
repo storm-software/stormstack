@@ -1,4 +1,4 @@
-using OpenSystem.Core.DotNet.Domain.Settings;
+using OpenSystem.Core.Domain.Settings;
 using Consul;
 using Ocelot;
 using Ocelot.Provider.Consul;
@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
+namespace OpenSystem.Core.Infrastructure.Extensions
 {
    public static class ServiceDiscoverySettingsExtensions
     {

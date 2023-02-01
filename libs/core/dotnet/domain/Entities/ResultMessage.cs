@@ -1,13 +1,12 @@
 using System.Globalization;
-using OpenSystem.Core.DotNet.Domain.Common;
-using OpenSystem.Core.DotNet.Domain.ValueObjects;
+using OpenSystem.Core.Domain.ValueObjects;
 
-namespace OpenSystem.Core.DotNet.Domain.Entities
+namespace OpenSystem.Core.Domain.Entities
 {
     public class ResultMessage
-      : BaseEntity
+      : Entity<ResultMessageId>
     {
-      public new ResultMessageId? Id { get; init; }
+      public ResultMessageId? Id { get; init; }
 
       public CultureInfo Culture { get; set; }
 

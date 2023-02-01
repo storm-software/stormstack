@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Domain.Settings
+namespace OpenSystem.Core.Domain.Settings
 {
   public class JWTSettings
   {

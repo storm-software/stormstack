@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using OpenSystem.User.Application;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Infrastructure.Persistence;
-using OpenSystem.Core.DotNet.Infrastructure.Extensions;
-using OpenSystem.Core.DotNet.Infrastructure;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Infrastructure.Persistence;
+using OpenSystem.Core.Infrastructure.Extensions;
+using OpenSystem.Core.Infrastructure;
 using OpenSystem.User.Infrastructure;
-using OpenSystem.Core.DotNet.WebApi.Constants;
-using OpenSystem.Core.DotNet.WebApi.Extensions;
-using OpenSystem.Core.DotNet.WebApi.Services;
+using OpenSystem.Core.WebApi.Constants;
+using OpenSystem.Core.WebApi.Extensions;
+using OpenSystem.Core.WebApi.Services;
 using OpenSystem.Apis.User.Extensions;
 
 const string SERVICE_NAME = "user-api.service";
@@ -33,12 +33,9 @@ try
 
     builder.Services.AddServiceDiscovery(builder.Configuration);
 
-    builder.Services.AddAuthenticationInfrastructure(builder.Configuration);
-
     builder.Services.AddUserApplicationLayer();
     builder.Services.AddUserPersistenceInfrastructure(builder.Configuration);
     builder.Services.AddUserServiceInfrastructure(builder.Configuration);
-
 
     builder.Services.AddSwaggerExtension();
 
@@ -96,7 +93,8 @@ try
     //Enable CORS
     app.UseCors("AllowAll");
 
-    app.UseAuthentication();
+    //app.UseAuthentication();
+
     app.UseIdentityServer();
     app.UseAuthorization();
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OpenSystem.Core.DotNet.Application.Models
+namespace OpenSystem.Core.Application.Models
 {
     public class Response<T>
     {

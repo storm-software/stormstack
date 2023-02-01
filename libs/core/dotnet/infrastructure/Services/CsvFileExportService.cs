@@ -1,16 +1,16 @@
-using OpenSystem.Core.DotNet.Application.Models.DTOs;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.Settings;
+using OpenSystem.Core.Application.Models.DTOs;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OpenSystem.Core.DotNet.Domain.Common;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
-using OpenSystem.Core.DotNet.Domain.Exceptions;
-using OpenSystem.Core.DotNet.Infrastructure.Mappings;
+using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Exceptions;
+using OpenSystem.Core.Infrastructure.Mappings;
 using System.Globalization;
 using CsvHelper;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Services
+namespace OpenSystem.Core.Infrastructure.Services
 {
   public class CsvFileExportService : BaseFileExportService, ICsvFileExportService
   {
@@ -19,7 +19,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Services
 
     public CsvFileExportService(IOptions<CsvFileExportServiceSettings> settings,
       ILogger<CsvFileExportService> logger,
-      IDateTimeService dateTimeService)
+      IDateTimeProvider dateTimeService)
       : base(settings,
           logger,
           dateTimeService)
@@ -27,7 +27,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Services
       Settings = (CsvFileExportServiceSettings)settings;
     }
 
-    protected override Result BuildFileData(FileExportRequest<BaseEntity> request,
+    protected override Result BuildFileData(FileExportRequest<Entity<Guid>> request,
       out byte[]? oData)
     {
       oData = null;

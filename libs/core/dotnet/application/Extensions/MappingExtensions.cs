@@ -1,9 +1,9 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using OpenSystem.Core.DotNet.Application.Models;
+using OpenSystem.Core.Application.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace OpenSystem.Core.DotNet.Application.Extensions
+namespace OpenSystem.Core.Application.Extensions
 {
   public static class MappingExtensions
   {

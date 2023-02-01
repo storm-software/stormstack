@@ -1,13 +1,13 @@
-using OpenSystem.Core.DotNet.Application.Behaviors;
-using OpenSystem.Core.DotNet.Application.Helpers;
-using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.Application.Behaviors;
+using OpenSystem.Core.Application.Helpers;
+using OpenSystem.Core.Application.Interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using AutoMapper;
 
-namespace OpenSystem.Core.DotNet.Application
+namespace OpenSystem.Core.Application
 {
     public static class ServiceExtensions
     {

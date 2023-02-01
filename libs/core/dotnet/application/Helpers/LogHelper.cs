@@ -4,7 +4,7 @@ using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using System;
 
-namespace OpenSystem.Core.DotNet.Application.Helpers
+namespace OpenSystem.Core.Application.Helpers
 {
     public static class LogHelper
     {

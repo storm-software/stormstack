@@ -1,4 +1,6 @@
-namespace OpenSystem.Core.DotNet.Domain.ResultCodes
+using OpenSystem.Core.Domain.ResultCodes;
+
+namespace OpenSystem.Shared.Domain.ResultCodes
 {
 	/// <summary>
 	/// Summary description for ResultCodeShared.

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
+namespace OpenSystem.Core.Infrastructure.Extensions
 {
   public static class IdentityResultExtensions
   {

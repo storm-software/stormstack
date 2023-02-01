@@ -44,18 +44,54 @@
           }
         }
       },
-      "OpenSystem.Core.DotNet.Domain/1.0.0": {
+      "Microsoft.Extensions.DependencyInjection/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0"
+        },
+        "compile": {
+          "lib/net7.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "OpenSystem.Core.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "FluentValidation": "11.4.0",
-          "MediatR": "11.1.0"
+          "MediatR": "11.1.0",
+          "Microsoft.Extensions.DependencyInjection": "7.0.0"
         },
         "compile": {
-          "bin/placeholder/OpenSystem.Core.DotNet.Domain.dll": {}
+          "bin/placeholder/OpenSystem.Core.Domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/OpenSystem.Core.DotNet.Domain.dll": {}
+          "bin/placeholder/OpenSystem.Core.Domain.dll": {}
         }
       }
     }
@@ -114,15 +150,73 @@
         "mediatr.contracts.nuspec"
       ]
     },
-    "OpenSystem.Core.DotNet.Domain/1.0.0": {
+    "Microsoft.Extensions.DependencyInjection/7.0.0": {
+      "sha512": "elNeOmkeX3eDVG6pYVeV82p29hr+UKDaBhrZyWvWLw/EVZSYEkZlQdkp0V39k/Xehs2Qa0mvoCvkVj3eQxNQ1Q==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection/7.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.targets",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/net6.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net6.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/net7.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net7.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.xml",
+        "microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0": {
+      "sha512": "h3j/QfmFN4S0w4C2A6X7arXij/M/OVw3uQHSOFxnND4DyAzO1F9eMX7Eti7lU/OkSthEE0WzRsfT/Dmx86jzCw==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/7.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.DependencyInjection.Abstractions.targets",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net462/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "OpenSystem.Core.Domain/1.0.0": {
       "type": "project",
-      "path": "../../../core/dotnet/domain/OpenSystem.Core.DotNet.Domain.csproj",
-      "msbuildProject": "../../../core/dotnet/domain/OpenSystem.Core.DotNet.Domain.csproj"
+      "path": "../../../core/dotnet/domain/OpenSystem.Core.Domain.csproj",
+      "msbuildProject": "../../../core/dotnet/domain/OpenSystem.Core.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "OpenSystem.Core.DotNet.Domain >= 1.0.0"
+      "OpenSystem.Core.Domain >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -154,8 +248,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
-              "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
+            "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj": {
+              "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj"
             }
           }
         }

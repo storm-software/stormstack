@@ -1,8 +1,8 @@
-using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.Application.Interfaces;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 
-namespace OpenSystem.Core.DotNet.Application.Behaviors
+namespace OpenSystem.Core.Application.Behaviors
 {
   public class LoggingBehavior<TRequest>
     : IRequestPreProcessor<TRequest>

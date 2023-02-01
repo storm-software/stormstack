@@ -1,22 +1,23 @@
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.Common;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using OpenSystem.Core.DotNet.Infrastructure.Services;
+using OpenSystem.Core.Infrastructure.Services;
 using Microsoft.Extensions.Options;
 using MediatR;
 using Duende.IdentityServer.EntityFramework.Options;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
-using OpenSystem.Core.DotNet.Domain.Exceptions;
+using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Exceptions;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
+namespace OpenSystem.Core.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext
+      : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
-        protected readonly IDateTimeService DateTimeService;
+        protected readonly IDateTimeProvider DateTimeProvider;
 
         private readonly ILoggerFactory _loggerFactory;
 
@@ -25,17 +26,17 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
         private readonly IMediator _mediator;
 
         public ApplicationDbContext(
-          DbContextOptions<ApplicationDbContext> options,
+          DbContextOptions options,
           IOptions<OperationalStoreOptions> operationalStoreOptions,
           IMediator mediator,
           AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor,
-          IDateTimeService dateTimeService,
+          IDateTimeProvider dateTimeProvider,
             ILoggerFactory loggerFactory)
             : base(options, operationalStoreOptions)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-            DateTimeService = dateTimeService;
+            DateTimeProvider = dateTimeProvider;
             _loggerFactory = loggerFactory;
             _mediator = mediator;
             _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
@@ -74,16 +75,16 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
                       validateAllProperties: true);
               });
 
-            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+            foreach (var entry in ChangeTracker.Entries<Entity<Guid>>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedOn = DateTimeService.NowUtc;
+                        entry.Entity.CreatedDateTime = DateTimeProvider.OffsetUtcNow;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.ModifiedOn = DateTimeService.NowUtc;
+                        entry.Entity.UpdatedDateTime = DateTimeProvider.OffsetUtcNow;
                         break;
                 }
             }

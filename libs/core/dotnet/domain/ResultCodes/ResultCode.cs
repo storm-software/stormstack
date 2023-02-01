@@ -1,6 +1,6 @@
-using OpenSystem.Core.DotNet.Domain.Constants;
+using OpenSystem.Core.Domain.Constants;
 
-namespace OpenSystem.Core.DotNet.Domain.ResultCodes
+namespace OpenSystem.Core.Domain.ResultCodes
 {
 	/// <summary>
 	/// The base class for all ResultCodes classes.

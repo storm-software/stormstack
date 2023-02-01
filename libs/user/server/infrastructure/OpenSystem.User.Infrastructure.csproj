@@ -12,9 +12,9 @@
     <RootNamespace>OpenSystem.User.Infrastructure</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.DotNet.Domain.csproj" />
-    <ProjectReference Include="..\..\..\core\dotnet\application\OpenSystem.Core.DotNet.Application.csproj" />
-    <ProjectReference Include="..\..\..\core\dotnet\infrastructure\OpenSystem.Core.DotNet.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\..\core\dotnet\application\OpenSystem.Core.Application.csproj" />
+    <ProjectReference Include="..\..\..\core\dotnet\infrastructure\OpenSystem.Core.Infrastructure.csproj" />
     <ProjectReference Include="..\domain\OpenSystem.User.Domain.csproj" />
     <ProjectReference Include="..\application\OpenSystem.User.Application.csproj" />
   </ItemGroup>

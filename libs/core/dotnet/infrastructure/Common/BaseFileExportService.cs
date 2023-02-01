@@ -1,13 +1,14 @@
-using OpenSystem.Core.DotNet.Application.Models.DTOs;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.Settings;
+using OpenSystem.Core.Application.Models.DTOs;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OpenSystem.Core.DotNet.Domain.Common;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
-using OpenSystem.Core.DotNet.Domain.Exceptions;
+using OpenSystem.Core.Domain.Common;
+using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Exceptions;
+using OpenSystem.Core.Domain.Entities;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Services
+namespace OpenSystem.Core.Infrastructure.Services
 {
   public abstract class BaseFileExportService : IFileExportService
   {
@@ -15,18 +16,18 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Services
 
     protected ILogger<BaseFileExportService> Logger { get; }
 
-    private IDateTimeService _dateTimeService { get; }
+    private IDateTimeProvider _dateTimeService { get; }
 
     public BaseFileExportService(IOptions<FileExportServiceSettings> settings,
       ILogger<BaseFileExportService> logger,
-      IDateTimeService dateTimeService)
+      IDateTimeProvider dateTimeService)
     {
         Settings = settings.Value;
         Logger = logger;
         _dateTimeService = dateTimeService;
     }
 
-    public async Task<Result> ExportAsync(FileExportRequest<BaseEntity> request)
+    public async Task<Result> ExportAsync(FileExportRequest<Entity<Guid>> request)
     {
         try
         {
@@ -48,7 +49,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Services
         }
     }
 
-    protected abstract Result BuildFileData(FileExportRequest<BaseEntity> request,
+    protected abstract Result BuildFileData(FileExportRequest<Entity<Guid>> request,
       out byte[]? data);
 
     protected async Task<Result> ExportFileDataAsync(byte[] data)
@@ -60,7 +61,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Services
           Path.DirectorySeparatorChar,
           Settings.FileName,
           Settings.AppendTimestamp == true
-            ? $"-{_dateTimeService.NowUtc.ToString("yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss")}"
+            ? $"-{_dateTimeService.OffsetUtcNow.ToString("yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss")}"
             : string.Empty,
           Settings.FileExtension);
 

@@ -19,6 +19,7 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@open-system/asyncapi-rabbitmq": ["tools/asyncapi/rabbitmq/index.ts"],
+      "@open-system/contacts/config": ["libs/contacts/config/src/index.ts"],
       "@open-system/core-typescript-utilities": [
         "libs/core/typescript/utilities/src/index.ts"
       ],

@@ -1,7 +1,7 @@
-using OpenSystem.Core.DotNet.Application.Behaviors;
-using OpenSystem.Core.DotNet.Application.Helpers;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Application;
+using OpenSystem.Core.Application.Behaviors;
+using OpenSystem.Core.Application.Helpers;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Application;
 using OpenSystem.User.Domain.Entities;
 using FluentValidation;
 using MediatR;
@@ -21,8 +21,8 @@ namespace OpenSystem.User.Application
 
             services.AddApplicationLayer();
 
-            services.AddScoped<IDataShapeHelper<UserEntity>,
-              DataShapeHelper<UserEntity>>();
+            /*services.AddScoped<IDataShapeHelper<UserEntity>,
+              DataShapeHelper<UserEntity>>();*/
 
             return services;
         }

@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace OpenSystem.Core.DotNet.Application.Exceptions
+namespace OpenSystem.Core.Application.Exceptions
 {
     public class ApiException : Exception
     {

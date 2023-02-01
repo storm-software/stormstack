@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.WebApi.Constants
+namespace OpenSystem.Core.WebApi.Constants
 {
     public class AuthorizationConstants
     {

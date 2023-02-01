@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Application.Models.Parameters
+namespace OpenSystem.Core.Application.Models.Parameters
 {
     public class PagingParameter
     {

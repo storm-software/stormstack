@@ -1,10 +1,10 @@
 using System.Reflection;
 using MediatR;
-using OpenSystem.Core.DotNet.Application.Attributes;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.Exceptions;
+using OpenSystem.Core.Application.Attributes;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Exceptions;
 
-namespace OpenSystem.Core.DotNet.Application.Behaviors
+namespace OpenSystem.Core.Application.Behaviors
 {
     public class AuthorizationBehavior<TRequest, TResponse>
       : IPipelineBehavior<TRequest, TResponse>

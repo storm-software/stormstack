@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OpenSystem.Core.DotNet.Application.Helpers
+namespace OpenSystem.Core.Application.Helpers
 {
 public class LoggingDelegatingHandler : DelegatingHandler
     {

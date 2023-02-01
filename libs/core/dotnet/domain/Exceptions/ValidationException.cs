@@ -1,16 +1,30 @@
 using FluentValidation.Results;
-using OpenSystem.Core.DotNet.Domain.Extensions;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.Exceptions
+namespace OpenSystem.Core.Domain.Exceptions
 {
     public class ValidationException : BaseException
     {
+        public static void Requires(bool expected,
+          int code)
+        {
+            if (!expected)
+                throw new ValidationException(typeof(ResultCodeValidation),
+                  code);
+        }
+
         public IDictionary<string, string[]> Errors { get; }
 
         public ValidationException()
           : base(typeof(ResultCodeValidation),
             ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred)
+        {
+          Errors = new Dictionary<string, string[]>();
+        }
+
+        public ValidationException(string errorMessage)
+          : base(errorMessage)
         {
           Errors = new Dictionary<string, string[]>();
         }

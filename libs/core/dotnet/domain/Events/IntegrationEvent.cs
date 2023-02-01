@@ -1,6 +1,4 @@
-using OpenSystem.Core.DotNet.Domain.Common;
-
-namespace OpenSystem.Core.DotNet.Domain.Events
+namespace OpenSystem.Core.Domain.Events
 {
   public class IntegrationEvent : BaseEvent
   {

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using OpenSystem.Core.DotNet.Domain.Enums;
-using OpenSystem.Core.DotNet.Domain.Exceptions;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.Exceptions;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.Common
+namespace OpenSystem.Core.Domain.Common
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]

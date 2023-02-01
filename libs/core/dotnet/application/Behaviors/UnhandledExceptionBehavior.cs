@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using MediatR;
 
-namespace OpenSystem.Core.DotNet.Application.Behaviors
+namespace OpenSystem.Core.Application.Behaviors
 {
   public class UnhandledExceptionBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
@@ -26,7 +26,10 @@ namespace OpenSystem.Core.DotNet.Application.Behaviors
         {
             var requestName = typeof(TRequest).Name;
 
-            _logger.LogError(ex, "CleanArchitecture Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+            _logger.LogError(ex,
+              "OpenSystem Request: Unhandled Exception for Request {Name} {@Request}",
+              requestName,
+              request);
 
             throw;
         }

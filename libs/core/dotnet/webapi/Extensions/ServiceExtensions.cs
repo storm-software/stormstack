@@ -11,9 +11,9 @@ using System.IO;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;
-using OpenSystem.Core.DotNet.WebApi.Constants;
+using OpenSystem.Core.WebApi.Constants;
 
-namespace OpenSystem.Core.DotNet.WebApi.Extensions
+namespace OpenSystem.Core.WebApi.Extensions
 {
     public static class ServiceExtensions
     {

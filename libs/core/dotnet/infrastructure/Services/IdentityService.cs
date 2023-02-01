@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
-using OpenSystem.Core.DotNet.Infrastructure.Extensions;
-using OpenSystem.Core.DotNet.Infrastructure.Services;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Infrastructure.Extensions;
+using OpenSystem.Core.Infrastructure.Services;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Service
+namespace OpenSystem.Core.Infrastructure.Service
 {
   public class IdentityService : IIdentityService
   {

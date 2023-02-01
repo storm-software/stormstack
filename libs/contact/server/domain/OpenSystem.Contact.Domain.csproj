@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup>
+    <Description>The Contact Domain .NET Core Library used by the Open System repository</Description>
+    <Copyright>Copyright (c) 2022 Patrick Sullivan</Copyright>
+    <Authors>Patrick Sullivan</Authors>
+    <TargetFramework>net7.0</TargetFramework>
+    <Version>1.0.0</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>OpenSystem.Contact.Domain</AssemblyName>
+    <PackageId>OpenSystem.Contact.Domain</PackageId>
+    <RootNamespace>OpenSystem.Contact.Domain</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\..\shared\server\domain\OpenSystem.Shared.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

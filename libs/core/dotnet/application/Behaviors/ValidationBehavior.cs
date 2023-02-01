@@ -1,8 +1,8 @@
-using OpenSystem.Core.DotNet.Domain.Exceptions;
+using OpenSystem.Core.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
 
-namespace OpenSystem.Core.DotNet.Application.Behaviors
+namespace OpenSystem.Core.Application.Behaviors
 {
     public class ValidationBehavior<TRequest, TResponse>
       : IPipelineBehavior<TRequest, TResponse>

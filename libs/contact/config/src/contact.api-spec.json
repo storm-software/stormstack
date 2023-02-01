@@ -1,0 +1,939 @@
+{
+  "openapi": "3.0.0",
+  "x-stoplight": {
+    "id": "2a667a1quawfq"
+  },
+  "info": {
+    "title": "Contact APIs",
+    "version": "1",
+    "description": "A collection of APIs used to get and set contact related data ",
+    "contact": {
+      "name": "Patrick Sullivan",
+      "email": "Patrick.Joseph.Sullivan@protonmail.com",
+      "url": "https://sullivanpj.github.io/open-system/services/contact"
+    },
+    "termsOfService": "https://sullivanpj.github.io/open-system/services/contact",
+    "license": {
+      "name": "BSD 2-Clause License",
+      "url": "https://opensource.org/licenses/BSD-2-Clause"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Local Development"
+    }
+  ],
+  "paths": {
+    "/requests": {
+      "parameters": [],
+      "get": {
+        "summary": "Get Contact Requests",
+        "operationId": "get-contact-requests",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetContactsResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "description": "An end point that returns the list of contact requests",
+        "tags": [
+          "Contact"
+        ]
+      }
+    },
+    "/requests/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "The reason for the current contact request"
+        }
+      ],
+      "get": {
+        "summary": "Get Contact Request",
+        "operationId": "get-contact-request",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetContactResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "description": "An end point that returns data for a specific user",
+        "tags": [
+          "Contact"
+        ]
+      },
+      "post": {
+        "summary": "Add Contact Request",
+        "operationId": "add-contact-request",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Sample Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Add a new contact request",
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AddContactRequest"
+        },
+        "tags": [
+          "Contact"
+        ]
+      }
+    },
+    "/subscriptions": {
+      "parameters": [],
+      "get": {
+        "summary": "Get Subscriptions",
+        "operationId": "get-subscriptions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "description": "An end point that returns a list of emails on the subscription list",
+        "tags": [
+          "Contact"
+        ]
+      }
+    },
+    "/subscriptions/{email}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "format": "email",
+            "example": "example@abc.com"
+          },
+          "name": "email",
+          "in": "path",
+          "required": true,
+          "description": "The email of the subscription"
+        }
+      ],
+      "get": {
+        "summary": "Get Subscription",
+        "operationId": "get-subscription",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "A boolean value indicating if the specified email is subscribed"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "description": "An end point that returns a boolean value indicating if the specified email is on the subscription list",
+        "tags": [
+          "Contact"
+        ]
+      },
+      "post": {
+        "summary": "Subscribe",
+        "operationId": "subscribe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Sample Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Add a new email address to the subcription list",
+        "parameters": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AddContactRequest"
+        },
+        "tags": [
+          "Contact"
+        ]
+      },
+      "delete": {
+        "summary": "Unsubscribe",
+        "operationId": "unsubscribe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                },
+                "examples": {
+                  "Sample Response": {
+                    "value": {
+                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Add an existing email address from the subcription list",
+        "tags": [
+          "Contact"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Contact": {
+        "allOf": [
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/RecordBase"
+          },
+          {
+            "$ref": "#/components/schemas/ContactDetail"
+          }
+        ],
+        "type": "object"
+      },
+      "ContactDetail": {
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the contact",
+            "format": "email"
+          },
+          "reason": {
+            "type": "string",
+            "example": "business",
+            "description": "The type of contact request",
+            "default": "business",
+            "enum": [
+              "business",
+              "question",
+              "casual",
+              "other"
+            ]
+          },
+          "details": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "isSubscribed": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "email",
+          "isSubscribed"
+        ],
+        "type": "object",
+        "title": "ContactDetail",
+        "description": "",
+        "x-stoplight": {
+          "id": "78659ef055685"
+        }
+      }
+    },
+    "requestBodies": {
+      "AddContactRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ContactDetail"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "GetContactsResponse": {
+        "description": "Successful response to Get Users end point",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Contact"
+              }
+            }
+          }
+        }
+      },
+      "GetContactResponse": {
+        "description": "Successful response to Get User end point",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Contact"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "type": {
+        "name": "type",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "guest",
+            "internal",
+            "external"
+          ],
+          "example": "guest"
+        },
+        "description": "The type of the user"
+      }
+    },
+    "securitySchemes": {}
+  },
+  "x-all-of-name": "DTO_AllOf",
+  "x-one-of-name": "DTO_OneOf",
+  "tags": [
+    {
+      "name": "Contact"
+    }
+  ]
+}

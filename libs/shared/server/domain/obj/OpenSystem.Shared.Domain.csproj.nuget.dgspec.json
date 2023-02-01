@@ -4,12 +4,12 @@
     "C:\\Development\\open-system\\libs\\shared\\server\\domain\\OpenSystem.Shared.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
+    "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
-        "projectName": "OpenSystem.Core.DotNet.Domain",
-        "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
+        "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj",
+        "projectName": "OpenSystem.Core.Domain",
+        "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj",
         "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
         "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\obj\\",
         "projectStyle": "PackageReference",
@@ -52,6 +52,10 @@
             "MediatR": {
               "target": "Package",
               "version": "[11.1.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             }
           },
           "imports": [
@@ -100,8 +104,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
+              "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj": {
+                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj"
               }
             }
           }

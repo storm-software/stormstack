@@ -1,7 +1,7 @@
-using OpenSystem.Core.DotNet.Application.Models.DTOs;
-using OpenSystem.Core.DotNet.Application.Exceptions;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.Settings;
+using OpenSystem.Core.Application.Models.DTOs;
+using OpenSystem.Core.Application.Exceptions;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Settings;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Logging;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using System.Threading.Tasks;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Services
+namespace OpenSystem.Core.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {

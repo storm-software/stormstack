@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace OpenSystem.Core.DotNet.Domain.ResultCodes
+namespace OpenSystem.Core.Domain.ResultCodes
 {
     [Serializable]
     public class Result : ISerializable, IResult<object>

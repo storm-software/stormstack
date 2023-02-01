@@ -2,7 +2,7 @@ using System.Text;
 using System.Text.Json;
 using System.Buffers;
 
-namespace OpenSystem.Core.DotNet.Application.Helpers
+namespace OpenSystem.Core.Application.Helpers
 {
   public static class JsonHelper
   {

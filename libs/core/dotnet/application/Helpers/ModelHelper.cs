@@ -1,8 +1,8 @@
-using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.Application.Interfaces;
 using System;
 using System.Linq;
 
-namespace OpenSystem.Core.DotNet.Application.Helpers
+namespace OpenSystem.Core.Application.Helpers
 {
    public class ModelHelper : IModelHelper
     {

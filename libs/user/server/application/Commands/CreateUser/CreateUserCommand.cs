@@ -1,6 +1,6 @@
 using AutoMapper;
 using MediatR;
-using OpenSystem.Core.DotNet.Application.Models;
+using OpenSystem.Core.Application.Models;
 using OpenSystem.User.Application.Interfaces;
 using OpenSystem.User.Domain.Entities;
 using OpenSystem.User.Domain.Enums;
@@ -13,7 +13,7 @@ namespace OpenSystem.User.Application.Commands.CreateUser
     public partial class CreateUserCommand
       : IRequest<Response<Guid>>
     {
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public string Name { get; set; }
 

@@ -159,12 +159,12 @@
             "schema": {
               "type": "object",
               "properties": {
-                "guid": {
+                "id": {
                   "$ref": "#/components/schemas/Guid"
                 }
               },
               "required": [
-                "guid"
+                "id"
               ]
             },
             "examples": {

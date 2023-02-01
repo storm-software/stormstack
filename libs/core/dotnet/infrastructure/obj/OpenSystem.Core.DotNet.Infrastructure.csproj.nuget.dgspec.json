@@ -4,190 +4,6 @@
     "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
-        "projectName": "OpenSystem.Core.DotNet.Application",
-        "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
-        "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net7.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
-          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
-        },
-        "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
-            "projectReferences": {
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreLockProperties": {
-          "restorePackagesWithLockFile": "false"
-        }
-      },
-      "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
-          "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.0, )"
-            },
-            "FluentValidation": {
-              "target": "Package",
-              "version": "[11.4.0, )"
-            },
-            "FluentValidation.DependencyInjectionExtensions": {
-              "target": "Package",
-              "version": "[11.4.0, )"
-            },
-            "MediatR": {
-              "target": "Package",
-              "version": "[11.1.0, )"
-            },
-            "MediatR.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[11.0.0, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[7.0.2, )"
-            },
-            "Microsoft.Extensions.DependencyInjection": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            },
-            "Microsoft.Extensions.Logging": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            },
-            "Serilog.AspNetCore": {
-              "target": "Package",
-              "version": "[6.1.0, )"
-            },
-            "Serilog.Enrichers.Environment": {
-              "target": "Package",
-              "version": "[2.3.0-dev-00791, )"
-            },
-            "Serilog.Sinks.Elasticsearch": {
-              "target": "Package",
-              "version": "[9.0.0-beta9, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
-        "projectName": "OpenSystem.Core.DotNet.Domain",
-        "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj",
-        "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net7.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
-          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
-        },
-        "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreLockProperties": {
-          "restorePackagesWithLockFile": "false"
-        }
-      },
-      "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
-          "dependencies": {
-            "FluentValidation": {
-              "target": "Package",
-              "version": "[11.4.0, )"
-            },
-            "MediatR": {
-              "target": "Package",
-              "version": "[11.1.0, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
     "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.DotNet.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -205,22 +21,12 @@
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
-          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
-            "projectReferences": {
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj"
-              },
-              "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
-                "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -331,6 +137,10 @@
             "Ocelot.Provider.Consul": {
               "target": "Package",
               "version": "[18.0.0, )"
+            },
+            "Quartz": {
+              "target": "Package",
+              "version": "[3.6.0, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",

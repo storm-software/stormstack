@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
-using OpenSystem.Core.DotNet.Domain.Enums;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.ValueObjects
+namespace OpenSystem.Core.Domain.ValueObjects
 {
     public abstract class ValueObject
       : IComparable, IValidatableObject, IComparable<ValueObject>

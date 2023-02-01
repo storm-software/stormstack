@@ -2,12 +2,11 @@
 
 import { Heading } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components/link";
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import StackLayer from "./stack-layer";
 
 const list = { hidden: { opacity: 1 } };
-const item = { hidden: { y: -20, opacity: 1 } };
 
 export default function Stack() {
   const ref = useRef(null);
@@ -39,62 +38,40 @@ export default function Stack() {
           </div>
         </div>
         <div ref={ref}>
-          <AnimatePresence>
-            {isInView && (
-              <motion.ul
-                className="relative flex w-full flex-col pt-12"
-                initial={{ opacity: 0 }}
-                animate="hidden"
-                variants={list}
-                transition={{ duration: 1, delay: 2 }}>
-                <motion.li
-                  variants={item}
-                  initial={{ opacity: 0 }}
-                  transition={{ duration: 1, delay: 7 }}>
-                  <StackLayer
-                    className="absolute top-[600px] left-[25%] z-10"
-                    header="Hardware"
-                  />
-                </motion.li>
-                <motion.li
-                  variants={item}
-                  initial={{ opacity: 0 }}
-                  transition={{ duration: 1, delay: 6 }}>
-                  <StackLayer
-                    className="absolute top-[525px] left-[25%] z-20"
-                    header="Database"
-                  />
-                </motion.li>
-                <motion.li
-                  variants={item}
-                  initial={{ opacity: 0 }}
-                  transition={{ duration: 1, delay: 5 }}>
-                  <StackLayer
-                    className="absolute top-[450px] left-[25%] z-30"
-                    header="Server-Side"
-                  />
-                </motion.li>
-                <motion.li
-                  variants={item}
-                  initial={{ opacity: 0 }}
-                  transition={{ duration: 1, delay: 4 }}>
-                  <StackLayer
-                    className="absolute top-[375px] left-[25%] z-40"
-                    header="Client-Side"
-                  />
-                </motion.li>
-                <motion.li
-                  variants={item}
-                  initial={{ opacity: 0 }}
-                  transition={{ duration: 1, delay: 3 }}>
-                  <StackLayer
-                    className="absolute top-[300px] left-[25%] z-50"
-                    header="Design System"
-                  />
-                </motion.li>
-              </motion.ul>
-            )}
-          </AnimatePresence>
+          {isInView && (
+            <motion.ul
+              className="relative flex w-full flex-col pt-12"
+              initial={{ opacity: 0 }}
+              animate="hidden"
+              variants={list}
+              transition={{ duration: 1, delay: 1 }}>
+              <StackLayer
+                className="absolute top-[600px] left-[25%] z-10"
+                header="Hardware"
+                delay={0.4}
+              />
+              <StackLayer
+                className="absolute top-[525px] left-[25%] z-20"
+                header="Database"
+                delay={0.3}
+              />
+              <StackLayer
+                className="absolute top-[450px] left-[25%] z-30"
+                header="Server-Side"
+                delay={0.2}
+              />
+              <StackLayer
+                className="absolute top-[375px] left-[25%] z-40"
+                header="Client-Side"
+                delay={0.1}
+              />
+              <StackLayer
+                className="absolute top-[300px] left-[25%] z-50"
+                header="Design System"
+                delay={0}
+              />
+            </motion.ul>
+          )}
         </div>
       </div>
     </section>

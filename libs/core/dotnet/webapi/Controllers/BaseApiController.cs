@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace OpenSystem.Core.DotNet.WebApi.Controllers
+namespace OpenSystem.Core.WebApi.Controllers
 {
     [ApiController]
     public abstract class BaseApiController : ControllerBase

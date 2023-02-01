@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Domain.Enums
+namespace OpenSystem.Core.Domain.Enums
 {
   /// <summary>
   /// Summary description for VerificationCodeTypes

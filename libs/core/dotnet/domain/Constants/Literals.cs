@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Domain.Constants
+namespace OpenSystem.Core.Domain.Constants
 {
 	/// <summary>
 	/// Place to put non-localized code literals where we can

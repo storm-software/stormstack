@@ -1,30 +1,32 @@
 using AutoMapper;
 using MediatR;
 using OpenSystem.User.Application.Interfaces;
-using OpenSystem.Core.DotNet.Application.Models.Parameters;
-using OpenSystem.Core.DotNet.Application.Models;
+using OpenSystem.Core.Application.Models.Parameters;
+using OpenSystem.Core.Application.Models;
 using OpenSystem.User.Domain.Entities;
 using OpenSystem.User.Domain.Enums;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.Entities;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Entities;
 
 namespace OpenSystem.User.Application.Queries.GetUsers
 {
     public class GetUsersQuery
-      : QueryParameter, IRequest<PagedResponse<IEnumerable<Entity>>>
+      : QueryParameter, IRequest<PagedResponse<IEnumerable<Entity<Guid>>>>
     {
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
-        public UserTypes? UserType { get; set; }
+        public string? Email { get; set; }
+
+        public string? UserName { get; set; }
 
         public UserStatusTypes? UserStatusType { get; set; }
     }
 
     public class GetAllUsersQueryHandler
-      : IRequestHandler<GetUsersQuery, PagedResponse<IEnumerable<Entity>>>
+      : IRequestHandler<GetUsersQuery, PagedResponse<IEnumerable<Entity<Guid>>>>
     {
         private readonly IUserRepository _userRepository;
 
@@ -41,7 +43,7 @@ namespace OpenSystem.User.Application.Queries.GetUsers
             _modelHelper = modelHelper;
         }
 
-        public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetUsersQuery request,
+        public async Task<PagedResponse<IEnumerable<Entity<Guid>>>> Handle(GetUsersQuery request,
           CancellationToken cancellationToken)
         {
             var validFilter = request;
@@ -63,7 +65,7 @@ namespace OpenSystem.User.Application.Queries.GetUsers
             RecordsCount recordCount = result.recordsCount;
 
             // Result wrapper
-            return new PagedResponse<IEnumerable<Entity>>((List<IEnumerable<Entity>>)data,
+            return new PagedResponse<IEnumerable<Entity<Guid>>>((List<IEnumerable<Entity<Guid>>>)data,
               validFilter.PageNumber,
               validFilter.PageSize,
               recordCount);

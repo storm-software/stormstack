@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using OpenSystem.Core.DotNet.Domain.Extensions;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.ValueObjects
+namespace OpenSystem.Core.Domain.ValueObjects
 {
 	public class IntegerEntityId
     : EntityId<int>

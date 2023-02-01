@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Domain.Extensions
+namespace OpenSystem.Core.Domain.Extensions
 {
     public static class IntegerExtensions
     {

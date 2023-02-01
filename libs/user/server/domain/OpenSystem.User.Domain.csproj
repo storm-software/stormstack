@@ -12,7 +12,7 @@
     <RootNamespace>OpenSystem.User.Domain</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.DotNet.Domain.csproj" />
+    <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.Domain.csproj" />
     <ProjectReference Include="..\..\..\shared\server\domain\OpenSystem.Shared.Domain.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Domain.ValueObjects
+namespace OpenSystem.Core.Domain.ValueObjects
 {
 	public class GuidEntityId
     : EntityId<Guid>

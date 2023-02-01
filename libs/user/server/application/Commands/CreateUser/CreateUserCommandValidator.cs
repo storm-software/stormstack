@@ -16,8 +16,6 @@ namespace OpenSystem.User.Application.Commands.CreateUser
             RuleFor(user => user.UserId)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
-                .MaximumLength(50)
-                .WithMessage("{PropertyName} must not exceed 50 characters.")
                 .MustAsync(IsUniqueUserIdAsync)
                 .WithMessage("{PropertyName} already exists.");
 
@@ -51,7 +49,7 @@ namespace OpenSystem.User.Application.Commands.CreateUser
                 .WithMessage("{PropertyName} must not exceed 50 characters.");
         }
 
-        private async Task<bool> IsUniqueUserIdAsync(string userId,
+        private async Task<bool> IsUniqueUserIdAsync(Guid userId,
           CancellationToken cancellationToken)
         {
             return await _userRepository.IsUniqueUserIdAsync(userId);

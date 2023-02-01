@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.ValueObjects
+namespace OpenSystem.Core.Domain.ValueObjects
 {
 	public class EntityId<T>
     : ValueObject

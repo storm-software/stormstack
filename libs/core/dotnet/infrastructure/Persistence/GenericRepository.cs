@@ -1,8 +1,8 @@
-using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
+namespace OpenSystem.Core.Infrastructure.Persistence
 {
     public class GenericRepository<T>
       : IGenericRepository<T>
@@ -10,12 +10,9 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
     {
         protected readonly ApplicationDbContext DbContext;
 
-        protected readonly DbSet<T> RootDataSet;
-
         public GenericRepository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
-            RootDataSet = DbContext.Set<T>();
         }
 
 
@@ -24,7 +21,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
             return await DbContext.Set<T>().FindAsync(guid);
         }
 
-        public async Task<IEnumerable<T>> GetPagedResultAsync(int pageNumber,
+        public async Task<IEnumerable<T>> GetPagedResponseAsync(int pageNumber,
           int pageSize)
         {
             return await DbContext
@@ -35,7 +32,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
               .ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetPagedAdvancedResultAsync(int pageNumber,
+        public async Task<IEnumerable<T>> GetPagedAdvancedResponseAsync(int pageNumber,
           int pageSize,
           string orderBy,
           string fields)

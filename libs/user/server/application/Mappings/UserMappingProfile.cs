@@ -2,7 +2,7 @@ using OpenSystem.User.Application.Queries.GetUsers;
 using OpenSystem.User.Application.Commands.CreateUser;
 using OpenSystem.User.Domain.Entities;
 using AutoMapper;
-using OpenSystem.Core.DotNet.Application.Mappings;
+using OpenSystem.Core.Application.Mappings;
 
 namespace OpenSystem.User.Application.Mappings
 {

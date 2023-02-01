@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Domain.Common
+namespace OpenSystem.Core.Domain.Common
 {
     /// <summary>
     /// Useful in scenarios where you need to determine if a value is Maybe or not

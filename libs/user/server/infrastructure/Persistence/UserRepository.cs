@@ -1,5 +1,5 @@
 using OpenSystem.User.Application.Queries.GetUsers;
-using OpenSystem.Core.DotNet.Application.Models;
+using OpenSystem.Core.Application.Models;
 using OpenSystem.User.Application.Interfaces;
 using OpenSystem.User.Domain.Entities;
 using OpenSystem.User.Domain.Enums;
@@ -9,12 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using OpenSystem.Core.DotNet.Infrastructure.Persistence;
-using OpenSystem.Core.DotNet.Application.Models.Parameters;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
-using OpenSystem.Core.DotNet.Domain.Exceptions;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.Entities;
+using OpenSystem.Core.Infrastructure.Persistence;
+using OpenSystem.Core.Application.Models.Parameters;
+using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Exceptions;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Entities;
 
 namespace OpenSystem.User.Infrastructure.Persistence
 {
@@ -22,29 +22,24 @@ namespace OpenSystem.User.Infrastructure.Persistence
     {
         private readonly DbSet<UserEntity> _userAccounts;
 
-        private IDataShapeHelper<UserEntity> _dataShaper;
-
-
-        public UserRepository(ApplicationDbContext dbContext,
-            IDataShapeHelper<UserEntity> dataShaper)
+        public UserRepository(UserApplicationDbContext dbContext)
             : base(dbContext)
         {
             _userAccounts = dbContext.Set<UserEntity>();
-            _dataShaper = dataShaper;
         }
 
-        public async Task<bool> IsUniqueUserIdAsync(string userId)
+        public async Task<bool> IsUniqueUserIdAsync(Guid userId)
         {
             return await _userAccounts
-                .AllAsync(p => p.UserId != userId);
+                .AllAsync(p => p.Id != userId);
         }
 
-        public async Task<(IEnumerable<Entity> data,
+        public async Task<(IEnumerable<UserEntity> data,
           RecordsCount recordsCount)> GetUsersAsync(GetUsersQuery requestParameter)
         {
             var userId = requestParameter.UserId;
-            var userType = requestParameter.UserType;
-            var userStatusType = requestParameter.UserStatusType;
+            var email = requestParameter.Email;
+            var userName = requestParameter.UserName;
 
             var pageNumber = requestParameter.PageNumber;
             var pageSize = requestParameter.PageSize;
@@ -64,8 +59,8 @@ namespace OpenSystem.User.Infrastructure.Persistence
             // filter data
             Result ret = FilterByColumn(ref record,
               userId,
-              userType,
-              userStatusType);
+              email,
+              userName);
             if (ret.Failed)
               throw new GeneralProcessingException();
 
@@ -95,38 +90,43 @@ namespace OpenSystem.User.Infrastructure.Persistence
 
             // retrieve data to list
             var resultData = await record.ToListAsync();
-            var shapeData = _dataShaper.ShapeData(resultData,
-              fields);
+            /*var shapeData = _dataShaper.ShapeData(resultData,
+              fields);*/
 
-            return (shapeData, recordsCount);
+            return (resultData, recordsCount);
         }
 
         private Result FilterByColumn(ref IQueryable<UserEntity> userAccounts,
-          string? userId,
-          UserTypes? userType,
-          UserStatusTypes? userStatusType)
+          Guid? userId,
+          string? email,
+          string? userName)
         {
             if (!userAccounts.Any())
                 return Result.Success();
 
-            if (string.IsNullOrEmpty(userId) &&
-                 userType == null &&
-                userStatusType == null)
+            if (userId == null)
                 return Result.Success();
 
             var predicate = PredicateBuilder.New<UserEntity>();
-
-            if (!string.IsNullOrEmpty(userId))
+            if (userId != null)
                 predicate = predicate.Or(p =>
-                  p.UserId.Contains(userId.Trim()));
+                  p.Id == userId);
 
-            if (userType != null)
+            if (!string.IsNullOrEmpty(email))
+                predicate = predicate.Or(p =>
+                  p.NormalizedEmail.Contains(email.Trim()));
+
+            if (!string.IsNullOrEmpty(userName))
+                predicate = predicate.Or(p =>
+                  p.NormalizedUserName.Contains(userName.Trim()));
+
+            /*if (userType != null)
                 predicate = predicate.Or(p =>
                   p.Type == userType);
 
             if (userStatusType != null)
                 predicate = predicate.Or(p =>
-                  p.Status == userStatusType);
+                  p.Status == userStatusType);*/
 
             userAccounts = userAccounts.Where(predicate);
 

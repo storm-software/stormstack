@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Application.Models.DTOs
+namespace OpenSystem.Core.Application.Models.DTOs
 {
     public class EmailRequest
     {

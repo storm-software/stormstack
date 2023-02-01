@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-<PropertyGroup>
+  <PropertyGroup>
     <Description>The User Application .NET Core Library used by the Open System repository</Description>
     <Copyright>Copyright (c) 2022 Patrick Sullivan</Copyright>
     <Authors>Patrick Sullivan</Authors>
@@ -26,8 +26,8 @@
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.0-beta9" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.DotNet.Domain.csproj" />
-    <ProjectReference Include="..\..\..\core\dotnet\application\OpenSystem.Core.DotNet.Application.csproj" />
+    <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\..\core\dotnet\application\OpenSystem.Core.Application.csproj" />
     <ProjectReference Include="..\domain\OpenSystem.User.Domain.csproj" />
   </ItemGroup>
 

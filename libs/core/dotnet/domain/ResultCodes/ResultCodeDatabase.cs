@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Domain.ResultCodes
+namespace OpenSystem.Core.Domain.ResultCodes
 {
 	/// <summary>
 	/// Summary description for ResultCodeDatabase.

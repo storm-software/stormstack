@@ -2,19 +2,20 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using OpenSystem.Core.DotNet.Application.Models.DTOs;
-using OpenSystem.Core.DotNet.Domain.Constants;
-using OpenSystem.Core.DotNet.Application.Exceptions;
-using OpenSystem.Core.DotNet.Domain.Exceptions;
+using OpenSystem.Core.Application.Models.DTOs;
+using OpenSystem.Core.Domain.Constants;
+using OpenSystem.Core.Application.Exceptions;
+using OpenSystem.Core.Domain.Exceptions;
 
-namespace OpenSystem.Core.DotNet.WebApi.Middleware
+namespace OpenSystem.Core.WebApi.Middleware
 {
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ErrorHandlerMiddleware> _logger;
 
-        public ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMiddleware> logger)
+        public ErrorHandlerMiddleware(RequestDelegate next,
+          ILogger<ErrorHandlerMiddleware> logger)
         {
             _next = next;
             _logger = logger;
@@ -44,7 +45,7 @@ namespace OpenSystem.Core.DotNet.WebApi.Middleware
                         // custom application error
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-                        errorResponse.Title = "The request could not be understood by the server";
+                        errorResponse.Title = "An invalid request has been sent to the server.";
                         errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-badrequest";
 
                         break;
@@ -53,10 +54,10 @@ namespace OpenSystem.Core.DotNet.WebApi.Middleware
                         // custom application error
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-                        errorResponse.Title = "An invalid request has been sent to the server";
+                        errorResponse.Title = "The request has failed a server-side validation.";
                         errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-badrequest";
 
-                        if (e.Errors != null &&
+                        if (e?.Errors != null &&
                           e.Errors.Count > 0)
                         {
                           if (!string.IsNullOrEmpty(error?.Message))
@@ -68,20 +69,32 @@ namespace OpenSystem.Core.DotNet.WebApi.Middleware
 
                         break;
 
+                    case ForbiddenAccessException:
+                        // custom application error
+                        response.StatusCode = (int)HttpStatusCode.Forbidden;
+
+                        errorResponse.Title = "The user does not have access to this resource.";
+                        errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-forbidden";
+
+                        break;
+
                     case KeyNotFoundException:
+                    case NotFoundException:
                         // not found error
                         response.StatusCode = (int)HttpStatusCode.NotFound;
 
-                        errorResponse.Title = "The requested resource does not exist on the server";
+                        errorResponse.Title = "The requested resource does not exist.";
                         errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-notfound";
 
                         break;
 
+                    case FileExportException:
+                    case GeneralProcessingException:
                     default:
                         // unhandled error
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                        errorResponse.Title = "A generic error has occurred on the server";
+                        errorResponse.Title = "A generic error has occurred on the server.";
                         errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-internalservererror";
 
                         break;

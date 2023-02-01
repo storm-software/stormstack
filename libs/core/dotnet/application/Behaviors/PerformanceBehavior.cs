@@ -1,9 +1,9 @@
-using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.Application.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using MediatR;
 
-namespace OpenSystem.Core.DotNet.Application.Behaviors
+namespace OpenSystem.Core.Application.Behaviors
 {
   public class PerformanceBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>

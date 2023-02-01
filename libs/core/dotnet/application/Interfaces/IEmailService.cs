@@ -1,7 +1,7 @@
-using OpenSystem.Core.DotNet.Application.Models.DTOs;
+using OpenSystem.Core.Application.Models.DTOs;
 using System.Threading.Tasks;
 
-namespace OpenSystem.Core.DotNet.Application.Interfaces
+namespace OpenSystem.Core.Application.Interfaces
 {
     public interface IEmailService
     {

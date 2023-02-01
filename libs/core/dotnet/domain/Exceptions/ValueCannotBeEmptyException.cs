@@ -1,12 +1,12 @@
 
 
 
-using OpenSystem.Core.DotNet.Domain.Extensions;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.Exceptions
+namespace OpenSystem.Core.Domain.Exceptions
 {
-    public class ValueCannotBeEmptyException : BaseException
+    public class ValueCannotBeEmptyException : ValidationException
     {
         public ValueCannotBeEmptyException()
           : base(typeof(ResultCodeApplication),

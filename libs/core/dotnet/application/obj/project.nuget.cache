@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tFK87reYRBwSMs3DWzvmSfd/lVv/s7XzqT4HFZQx3a0TSN8rwn3ZAVPjJH4Sk1givjyT388GvJBshItTvJJiNw==",
+  "dgSpecHash": "+wguIbZ75qjytg5HXp/RVA32vX6+EUjyaR4BS6pJ3kcVzg1O0hiEVVBgn5pyBHj1hxWeqTE2e9RClj5OHF/O2g==",
   "success": true,
-  "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
+  "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sullivanp\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\sullivanp\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

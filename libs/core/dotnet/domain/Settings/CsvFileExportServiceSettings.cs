@@ -1,6 +1,6 @@
-using OpenSystem.Core.DotNet.Domain.Constants;
+using OpenSystem.Core.Domain.Constants;
 
-namespace OpenSystem.Core.DotNet.Domain.Settings
+namespace OpenSystem.Core.Domain.Settings
 {
   public class CsvFileExportServiceSettings : FileExportServiceSettings
   {

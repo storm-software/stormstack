@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace OpenSystem.Core.DotNet.Application.Interfaces
+namespace OpenSystem.Core.Application.Interfaces
 {
    public interface IApplicationUser
   {

@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Application.Enums
+namespace OpenSystem.Core.Application.Enums
 {
     public enum Roles
     {

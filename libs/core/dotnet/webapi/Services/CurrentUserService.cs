@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using OpenSystem.Core.DotNet.Application.Interfaces;
+using OpenSystem.Core.Application.Interfaces;
 
-namespace OpenSystem.Core.DotNet.WebApi.Services
+namespace OpenSystem.Core.WebApi.Services
 {
   public class CurrentUserService : ICurrentUserService
   {
@@ -13,7 +13,19 @@ namespace OpenSystem.Core.DotNet.WebApi.Services
           _httpContextAccessor = httpContextAccessor;
       }
 
-      public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(
+      public bool IsAuthenticated
+        {
+            get
+            {
+              return _httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true;
+            }
+        }
+
+      public string UserId => _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+          ?? _httpContextAccessor.HttpContext?.User.FindFirst("sub")?.Value
+          ?? string.Empty;
+
+      public string? UserName => _httpContextAccessor.HttpContext?.User?.FindFirstValue(
         ClaimTypes.NameIdentifier);
   }
 }

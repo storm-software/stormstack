@@ -1,16 +1,16 @@
-using OpenSystem.Core.DotNet.Domain.Common;
+using OpenSystem.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
+namespace OpenSystem.Core.Infrastructure.Extensions
 {
   public static class MediatorExtensions
   {
       public static async Task DispatchDomainEvents(this IMediator mediator,
         DbContext context)
       {
-          var entities = context.ChangeTracker
-              .Entries<BaseEntity>()
+          /*var entities = context.ChangeTracker
+              .Entries<Entity<Guid>>()
               .Where(e => e.Entity.DomainEvents.Any())
               .Select(e => e.Entity);
 
@@ -21,7 +21,7 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
           entities.ToList().ForEach(e => e.ClearDomainEvents());
 
           foreach (var domainEvent in domainEvents)
-              await mediator.Publish(domainEvent);
+              await mediator.Publish(domainEvent);*/
       }
   }
 }

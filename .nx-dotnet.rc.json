@@ -54,6 +54,9 @@
     "Serilog.Enrichers.Environment": "2.3.0-dev-00791",
     "Ocelot.Cache.CacheManager": "18.0.0",
     "Ocelot.Provider.Polly": "18.0.0",
-    "LinqKit": "1.2.3"
+    "LinqKit": "1.2.3",
+    "Quartz": "3.6.0",
+    "Microsoft.AspNetCore.Authentication.Facebook": "7.0.2",
+    "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "7.0.2"
   }
 }

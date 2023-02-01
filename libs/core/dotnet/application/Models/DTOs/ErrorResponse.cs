@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
 
-namespace OpenSystem.Core.DotNet.Application.Models.DTOs
+namespace OpenSystem.Core.Application.Models.DTOs
 {
     /// <summary>
     /// A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.

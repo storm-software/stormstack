@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Application.Attributes
+namespace OpenSystem.Core.Application.Attributes
 {
   /// <summary>
   /// Specifies the class this attribute is applied to requires authorization.

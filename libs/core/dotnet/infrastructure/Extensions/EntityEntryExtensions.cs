@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Extensions
+namespace OpenSystem.Core.Infrastructure.Extensions
 {
   public static class EntityEntryExtensions
   {

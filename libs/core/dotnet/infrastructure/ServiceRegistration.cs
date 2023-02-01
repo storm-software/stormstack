@@ -1,10 +1,10 @@
-﻿using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Infrastructure.Persistence;
-using OpenSystem.Core.DotNet.Infrastructure.Services;
-using OpenSystem.Core.DotNet.Domain.Settings;
+﻿using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Infrastructure.Persistence;
+using OpenSystem.Core.Infrastructure.Services;
+using OpenSystem.Core.Domain.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using OpenSystem.Core.DotNet.Infrastructure.Service;
+using OpenSystem.Core.Infrastructure.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Duende.IdentityServer.Configuration;
 
-namespace OpenSystem.Core.DotNet.Infrastructure
+namespace OpenSystem.Core.Infrastructure
 {
     public static class ServiceRegistration
     {
@@ -50,25 +50,25 @@ namespace OpenSystem.Core.DotNet.Infrastructure
         {
             services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
 
-            services.AddTransient<IDateTimeService,
-              DateTimeService>();
+            services.AddTransient<IDateTimeProvider,
+              DateTimeProvider>();
             services.AddTransient<IEmailService,
               EmailService>();
-            services.AddTransient<IIdentityService,
-              IdentityService>();
             services.AddTransient<ICsvFileExportService,
               CsvFileExportService>();
+            services.AddTransient<IIdentityService,
+              IdentityService>();
         }
 
         public static void AddAuthenticationInfrastructure(this IServiceCollection services,
           IConfiguration configuration)
         {
-            services
+            /*services
               .AddIdentity<ApplicationUser, IdentityRole>()
               .AddRoles<IdentityRole>()
-              .AddEntityFrameworkStores<ApplicationDbContext>();
+              .AddEntityFrameworkStores<ApplicationDbContext>();*/
 
-            services.AddIdentityServer(options =>
+            /*services.AddIdentityServer(options =>
             {
                 options.UserInteraction.LoginUrl = "/user/login";
                 options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
@@ -83,7 +83,28 @@ namespace OpenSystem.Core.DotNet.Infrastructure
 
                 options.UserInteraction.DeviceVerificationUrl = "/user/login/device-verification";
             })
-              .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+              .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();*/
+
+              services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                      configuration.GetSection("Authentication:Google");
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                })
+                /*.AddFacebook(options =>
+                {
+                    IConfigurationSection FBAuthNSection =
+                      configuration.GetSection("Authentication:FB");
+                    options.ClientId = FBAuthNSection["ClientId"];
+                    options.ClientSecret = FBAuthNSection["ClientSecret"];
+                })
+                .AddMicrosoftAccount(microsoftOptions =>
+                {
+                    microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
+                    microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+                })*/.AddIdentityServerJwt();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -106,20 +127,6 @@ namespace OpenSystem.Core.DotNet.Infrastructure
                     }
                 };*/
             });
-
-            if (configuration != null)
-            {
-              services.AddAuthentication().AddGoogle(googleOptions =>
-              {
-                  googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-                  googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-                  googleOptions.AuthorizationEndpoint = configuration["Authentication:Google:AuthorizationEndpoint"];
-                  googleOptions.TokenEndpoint = configuration["Authentication:Google:TokenEndpoint"];
-              });
-            }
-
-            services.AddAuthentication()
-            .AddIdentityServerJwt();
 
             services.AddAuthorization(options =>
                 options.AddPolicy("CanPurge",

@@ -5,9 +5,7 @@ namespace OpenSystem.User.Application.Queries.GetUsers
 {
  public class GetUsersViewModel
     {
-        public Guid Id { get; set; }
-
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public string Name { get; set; }
 

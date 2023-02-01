@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using OpenSystem.Core.DotNet.Application.Models.Parameters;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Application.Models.Parameters;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Application.Models
+namespace OpenSystem.Core.Application.Models
 {
     [Serializable]
     public class PagedResponse<T> : Response<List<T>>

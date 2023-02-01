@@ -1,8 +1,6 @@
-using System;
-using OpenSystem.Core.DotNet.Application.Models;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Application.Interfaces
+namespace OpenSystem.Core.Application.Interfaces
 {
   public interface IIdentityService
   {
@@ -12,8 +10,7 @@ namespace OpenSystem.Core.DotNet.Application.Interfaces
 
       Task<bool> AuthorizeAsync(string userId, string policyName);
 
-      Task<(Result Result, string UserId)> CreateUserAsync(string userName,
-        string password);
+      Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
 
       Task<Result> DeleteUserAsync(string userId);
   }

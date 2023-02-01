@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Domain.Constants
+namespace OpenSystem.Core.Domain.Constants
 {
 	/// <summary>
 	/// A object containing various File Extension string constants

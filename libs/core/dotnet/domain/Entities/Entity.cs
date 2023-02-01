@@ -1,189 +1,70 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.ValueObjects;
 
-namespace OpenSystem.Core.DotNet.Domain.Entities
+namespace OpenSystem.Core.Domain.Entities
 {
-    public class Entity
-      : DynamicObject, IXmlSerializable, IDictionary<string, object>
+    public abstract class Entity<T> : IIndexed<T>, IAuditable
     {
-        private readonly string _root = "Entity";
+      public T Id { get; set; }
 
-        private readonly IDictionary<string, object> _expando;
+      public int EventCounter { get; set; }
 
-        public Entity()
-        {
-            _expando = new ExpandoObject() as IDictionary<string, object>;
-        }
+      public VerificationCodeTypes VerificationCode { get; set; }
 
-        public override bool TryGetMember(GetMemberBinder binder,
-          out object? result)
-        {
-            if (_expando.TryGetValue(binder.Name,
-              out object? value))
-            {
-                result = value;
-                return true;
-            }
+      public string CreatedBy { get; set; }
 
-            return base.TryGetMember(binder,
-              out result);
-        }
+      public DateTimeOffset CreatedDateTime { get; set; }
 
-        public override bool TrySetMember(SetMemberBinder binder,
-          object? value)
-        {
-            if (value != null)
-            {
-              _expando[binder.Name] = value;
-            }
+      public string? UpdatedBy { get; set; }
 
-            return true;
-        }
+      public DateTimeOffset? UpdatedDateTime { get; set; }
 
-        public XmlSchema GetSchema()
-        {
-            throw new NotImplementedException();
-        }
+      public override bool Equals(object? obj)
+      {
+          if (!(obj is Entity<T> other))
+              return false;
 
-        public void ReadXml(XmlReader reader)
-        {
-            reader.ReadStartElement(_root);
+          if (ReferenceEquals(this, other))
+              return true;
 
-            while (!reader.Name.Equals(_root))
-            {
-                string typeContent;
-                Type underlyingType;
-                var name = reader.Name;
+          if (ValueObject.GetUnproxiedType(this) != ValueObject.GetUnproxiedType(other))
+              return false;
 
-                reader.MoveToAttribute("type");
-                typeContent = reader.ReadContentAsString();
+          if (IsTransient() || other.IsTransient())
+              return false;
 
-                var type = Type.GetType(typeContent);
-                if (type != null)
-                {
-                  underlyingType = type;
+          return Id.Equals(other.Id);
+      }
 
-                  reader.MoveToContent();
-                  _expando[name] = reader.ReadElementContentAs(underlyingType,
-                    null);
-                }
-            }
-        }
+      private bool IsTransient()
+      {
+          return Id is not null;
+      }
 
-        public void WriteXml(XmlWriter writer)
-        {
-            foreach (var key in _expando.Keys)
-            {
-                var value = _expando[key];
-                WriteLinksToXml(key,
-                  value,
-                  writer);
-            }
-        }
+      public static bool operator ==(Entity<T> a,
+        Entity<T> b)
+      {
+          if (a is null && b is null)
+              return true;
 
-        private void WriteLinksToXml(string key,
-          object value,
-          XmlWriter writer)
-        {
-            writer.WriteStartElement(key);
-            writer.WriteString(value.ToString());
-            writer.WriteEndElement();
-        }
+          if (a is null || b is null)
+              return false;
 
-        public void Add(string key,
-          object value)
-        {
-            _expando.Add(key, value);
-        }
+          return a.Equals(b);
+      }
 
-        public bool ContainsKey(string key)
-        {
-            return _expando.ContainsKey(key);
-        }
+      public static bool operator !=(Entity<T> a,
+        Entity<T> b)
+      {
+          return !(a == b);
+      }
 
-        public ICollection<string> Keys
-        {
-            get { return _expando.Keys; }
-        }
-
-        public bool Remove(string key)
-        {
-            return _expando.Remove(key);
-        }
-
-        public bool TryGetValue(string key,
-          out object value)
-        {
-            return _expando.TryGetValue(key,
-              out value);
-        }
-
-        public ICollection<object> Values
-        {
-            get { return _expando.Values; }
-        }
-
-        public object this[string key]
-        {
-            get
-            {
-                return _expando[key];
-            }
-            set
-            {
-                _expando[key] = value;
-            }
-        }
-
-        public void Add(KeyValuePair<string, object> item)
-        {
-            _expando.Add(item);
-        }
-
-        public void Clear()
-        {
-            _expando.Clear();
-        }
-
-        public bool Contains(KeyValuePair<string, object> item)
-        {
-            return _expando.Contains(item);
-        }
-
-        public void CopyTo(KeyValuePair<string, object>[] array,
-          int arrayIndex)
-        {
-            _expando.CopyTo(array, arrayIndex);
-        }
-
-        public int Count
-        {
-            get { return _expando.Count; }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return _expando.IsReadOnly; }
-        }
-
-        public bool Remove(KeyValuePair<string, object> item)
-        {
-            return _expando.Remove(item);
-        }
-
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
-        {
-            return _expando.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
+      public override int GetHashCode()
+      {
+          return (ValueObject.GetUnproxiedType(this)?.ToString() + Id).GetHashCode();
+      }
+   }
 }

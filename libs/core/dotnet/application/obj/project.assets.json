@@ -727,18 +727,19 @@
           }
         }
       },
-      "OpenSystem.Core.DotNet.Domain/1.0.0": {
+      "OpenSystem.Core.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "FluentValidation": "11.4.0",
-          "MediatR": "11.1.0"
+          "MediatR": "11.1.0",
+          "Microsoft.Extensions.DependencyInjection": "7.0.0"
         },
         "compile": {
-          "bin/placeholder/OpenSystem.Core.DotNet.Domain.dll": {}
+          "bin/placeholder/OpenSystem.Core.Domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/OpenSystem.Core.DotNet.Domain.dll": {}
+          "bin/placeholder/OpenSystem.Core.Domain.dll": {}
         }
       }
     }
@@ -1716,10 +1717,10 @@
         "version.txt"
       ]
     },
-    "OpenSystem.Core.DotNet.Domain/1.0.0": {
+    "OpenSystem.Core.Domain/1.0.0": {
       "type": "project",
-      "path": "../domain/OpenSystem.Core.DotNet.Domain.csproj",
-      "msbuildProject": "../domain/OpenSystem.Core.DotNet.Domain.csproj"
+      "path": "../domain/OpenSystem.Core.Domain.csproj",
+      "msbuildProject": "../domain/OpenSystem.Core.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -1733,7 +1734,7 @@
       "Microsoft.EntityFrameworkCore >= 7.0.2",
       "Microsoft.Extensions.DependencyInjection >= 7.0.0",
       "Microsoft.Extensions.Logging >= 7.0.0",
-      "OpenSystem.Core.DotNet.Domain >= 1.0.0",
+      "OpenSystem.Core.Domain >= 1.0.0",
       "Serilog.AspNetCore >= 6.1.0",
       "Serilog.Enrichers.Environment >= 2.3.0-dev-00791",
       "Serilog.Sinks.Elasticsearch >= 9.0.0-beta9"
@@ -1745,9 +1746,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
-      "projectName": "OpenSystem.Core.DotNet.Application",
-      "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.DotNet.Application.csproj",
+      "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
+      "projectName": "OpenSystem.Core.Application",
+      "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
       "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
       "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\obj\\",
       "projectStyle": "PackageReference",
@@ -1768,8 +1769,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj": {
-              "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.DotNet.Domain.csproj"
+            "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj": {
+              "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj"
             }
           }
         }

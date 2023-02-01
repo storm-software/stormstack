@@ -1,12 +1,12 @@
 using System;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
-using OpenSystem.Core.DotNet.Domain.Extensions;
-using OpenSystem.Core.DotNet.Domain.ValueObjects;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.ValueObjects;
 using System.Linq;
-using OpenSystem.Core.DotNet.Domain.ResultCodes;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.DotNet.Domain.ValueObjects
+namespace OpenSystem.Core.Domain.ValueObjects
 {
 	public class EmailAddress
     : ValueObject

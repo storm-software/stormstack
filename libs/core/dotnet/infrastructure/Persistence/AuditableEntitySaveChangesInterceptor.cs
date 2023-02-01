@@ -1,22 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using OpenSystem.Core.DotNet.Application.Interfaces;
-using OpenSystem.Core.DotNet.Domain.Common;
-using OpenSystem.Core.DotNet.Infrastructure.Extensions;
+using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Infrastructure.Extensions;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
+namespace OpenSystem.Core.Infrastructure.Persistence
 {
   public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
   {
       private readonly ICurrentUserService _currentUserService;
-      private readonly IDateTimeService _dateTimeService;
+      private readonly IDateTimeProvider _dateTimeProvider;
 
       public AuditableEntitySaveChangesInterceptor(
           ICurrentUserService currentUserService,
-          IDateTimeService dateTimeService)
+          IDateTimeProvider dateTimeProvider)
       {
           _currentUserService = currentUserService;
-          _dateTimeService = dateTimeService;
+          _dateTimeProvider = dateTimeProvider;
       }
 
       public override InterceptionResult<int> SavingChanges(DbContextEventData eventData,
@@ -43,20 +43,20 @@ namespace OpenSystem.Core.DotNet.Infrastructure.Persistence
           if (context == null)
             return;
 
-          foreach (var entry in context.ChangeTracker.Entries<AuditableEntity>())
+          foreach (var entry in context.ChangeTracker.Entries<Entity<Guid>>())
           {
               if (entry.State == EntityState.Added)
               {
                   entry.Entity.CreatedBy = _currentUserService.UserId;
-                  entry.Entity.CreatedOn = _dateTimeService.NowUtc;
+                  entry.Entity.CreatedDateTime = _dateTimeProvider.OffsetUtcNow;
               }
 
               if (entry.State == EntityState.Added ||
                 entry.State == EntityState.Modified ||
                 entry.HasChangedOwnedEntities())
               {
-                  entry.Entity.ModifiedBy = _currentUserService.UserId;
-                  entry.Entity.ModifiedOn = _dateTimeService.NowUtc;
+                  entry.Entity.UpdatedBy = _currentUserService.UserId;
+                  entry.Entity.UpdatedDateTime = _dateTimeProvider.OffsetUtcNow;
               }
           }
       }

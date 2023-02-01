@@ -16,13 +16,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using OpenSystem.Apis.User.Attributes;
 using OpenSystem.Apis.User.Contracts;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using OpenSystem.Core.DotNet.WebApi.Controllers;
+using OpenSystem.Core.WebApi.Controllers;
+using OpenSystem.User.Application.Queries.GetUserById;
+using OpenSystem.User.Domain.Entities;
 
 namespace OpenSystem.Apis.User.Controllers.v1
 {
@@ -35,15 +38,19 @@ namespace OpenSystem.Apis.User.Controllers.v1
     [Route("api/v{version:apiVersion}/users")]
     public sealed class UsersApiController : BaseApiController
     {
+        private readonly UserManager<UserEntity> _userManager;
+
         /// <summary>
         /// Constructor method for UsersApiController
         /// </summary>
         /// <remarks>Constructor method to generate an instance of a UsersApiController</remarks>
-        public UsersApiController(ILogger<UsersApiController> _logger,
+        public UsersApiController(UserManager<UserEntity> userManager,
+          ILogger<UsersApiController> _logger,
             IHttpContextAccessor _context)
             : base(_logger,
             _context)
         {
+          _userManager = userManager;
         }
 
         /// <summary>
@@ -195,12 +202,14 @@ namespace OpenSystem.Apis.User.Controllers.v1
             string exampleJson = null;
             exampleJson = "null";
 
-            var example = exampleJson != null
+            return Ok(await Mediator.Send(new GetUserByIdQuery { UserId = userId }));
+
+           /* var example = exampleJson != null
             ? JsonSerializer.Deserialize<UserDto>(exampleJson)
             : default(UserDto);
 
             //TODO: Change the data returned
-            return await Task.FromResult<IActionResult>(new ObjectResult(example));
+            return await Task.FromResult<IActionResult>(new ObjectResult(example));*/
         }
         /// <summary>
         /// Get Users

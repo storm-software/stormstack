@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.DotNet.Application.Models.Parameters
+namespace OpenSystem.Core.Application.Models.Parameters
 {
     /// <summary>
     /// A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.

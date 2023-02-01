@@ -37,9 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\libs\core\dotnet\application\OpenSystem.Core.DotNet.Application.csproj" />
-    <ProjectReference Include="..\..\..\libs\core\dotnet\infrastructure\OpenSystem.Core.DotNet.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\libs\core\dotnet\webapi\OpenSystem.Core.DotNet.WebApi.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\application\OpenSystem.Core.Application.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\infrastructure\OpenSystem.Core.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\webapi\OpenSystem.Core.WebApi.csproj" />
     <ProjectReference Include="..\..\..\libs\user\server\application\OpenSystem.User.Application.csproj" />
     <ProjectReference Include="..\..\..\libs\user\server\infrastructure\OpenSystem.User.Infrastructure.csproj" />
   </ItemGroup>

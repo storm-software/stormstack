@@ -1,8 +1,8 @@
 using System.Globalization;
-using OpenSystem.Core.DotNet.Application.Models;
+using OpenSystem.Core.Application.Models;
 using CsvHelper.Configuration;
 
-namespace OpenSystem.Core.DotNet.Infrastructure.Mappings
+namespace OpenSystem.Core.Infrastructure.Mappings
 {
   public class CsvFileExportRequestRecordMap : ClassMap<PagedResponse<object>>
   {

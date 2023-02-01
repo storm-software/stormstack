@@ -9,18 +9,8 @@ import { useCallback, useState } from "react";
 export interface StackLayerProps {
   className?: string;
   header: string;
+  delay?: number;
 }
-
-const container: Variants = {
-  opened: {
-    zIndex: 101,
-    transition: {
-      duration: 1.5,
-      stiffness: 1000,
-      velocity: -100,
-    },
-  },
-};
 
 const top: Variants = {
   opened: {
@@ -105,6 +95,7 @@ const rightSide: Variants = {
 export default function StackLayer({
   header,
   className,
+  delay = 0,
   ...props
 }: StackLayerProps) {
   const [opened, setOpened] = useState(false);
@@ -113,25 +104,43 @@ export default function StackLayer({
 
   // const ref = useClickOutside(handleClose);
 
+  const container: Variants = {
+    initial: { y: -20, opacity: 1, transition: { duration: 1, delay } },
+    opened: {
+      zIndex: 101,
+      opacity: 1,
+      y: -20,
+      transition: {
+        duration: 1.5,
+        stiffness: 1000,
+        velocity: -100,
+      },
+    },
+  };
+
   return (
     <motion.div
       className={clsx(className, "h-0 w-0")}
       variants={container}
-      initial={false}
+      whileInView="initial"
+      initial={{ y: 0, opacity: 0 }}
+      viewport={{ once: true }}
       animate={opened ? "opened" : "closed"}>
       <motion.div
         onClick={handleOpen}
         variants={rightSide}
+        initial={false}
         className={clsx(
-          "z-115 h-[300px] w-[46px] origin-[0%_0%] border-2 border-slate-900 bg-teal-500",
+          "z-[114] h-[300px] w-[46px] origin-[0%_0%] border-2 border-slate-900 bg-teal-500",
           { "cursor-pointer": !opened }
         )}
       />
       <motion.div
         onClick={handleOpen}
         variants={leftSide}
+        initial={false}
         className={clsx(
-          "z-115 relative bottom-[300px] h-[40px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-600",
+          "relative bottom-[300px] z-[115] h-[40px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-600",
           { "cursor-pointer": !opened }
         )}
       />
@@ -147,6 +156,7 @@ export default function StackLayer({
       <motion.div
         onClick={handleOpen}
         variants={top}
+        initial={false}
         className={clsx(
           "relative bottom-[340px] z-modal h-[300px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-400 p-2",
           { "cursor-pointer": !opened }
