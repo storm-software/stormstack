@@ -41,7 +41,7 @@ export function HorizontalSeparator({ className }: BaseComponentProps) {
                     transition={{
                       yoyo: Infinity,
                       ease: "linear",
-                      duration: 6,
+                      duration: 4,
                       repeatType: "reverse",
                       repeat: Infinity,
                       repeatDelay: 1,
@@ -56,7 +56,7 @@ export function HorizontalSeparator({ className }: BaseComponentProps) {
                     transition={{
                       yoyo: Infinity,
                       ease: "linear",
-                      duration: 8,
+                      duration: 3,
                       repeatType: "reverse",
                       repeat: Infinity,
                       repeatDelay: 1,

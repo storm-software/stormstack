@@ -24,19 +24,19 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
       - uses: nrwl/nx-set-shas@v3
-      - run: npm install --legacy-peer-deps
+      # - run: npm install --legacy-peer-deps
       # - run: npx nx reset
 
-      - run: npm run build:tools-ci
+      # - run: npm run build:tools-ci
 
       # Run design tokens build prior to linting so tailwindcss is configured
-      - run: npx nx run design-system-tokens:build:open-system
+      # - run: npx nx run design-system-tokens:build:open-system
 
       # - run: npx nx workspace-lint
       # - run: npx nx format:check
       # - run: npx nx affected --target=lint --parallel=3
       # - run: npx nx affected --target=test --parallel=3 --base=${{env.NX_BASE}} --head=${{env.NX_HEAD}} --ci --code-coverage
-      - run: npx nx affected --target=build --parallel=5 --nx-bail --exclude=tools-asyncapi-rabbitmq,docs --base=${{env.NX_BASE}} --head=${{env.NX_HEAD}}
+      # - run: npx nx affected --target=build --parallel=5 --nx-bail --exclude=tools-asyncapi-rabbitmq,docs --base=${{env.NX_BASE}} --head=${{env.NX_HEAD}}
       - run: npx nx affected --target=semantic-release --parallel=5 --exclude=tools-asyncapi-rabbitmq,docs --base=${{env.NX_BASE}} --head=${{env.NX_HEAD}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

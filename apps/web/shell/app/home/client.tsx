@@ -50,14 +50,20 @@ export default function Client() {
 
         <Aside />
 
-        <main className="flex snap-both snap-mandatory flex-col gap-16 scroll-smooth">
-          <Introduction />
+        <main className="flex snap-y snap-proximity flex-col gap-16">
+          <div className="snap-center snap-always scroll-px-9">
+            <Introduction />
+          </div>
 
           <HorizontalSeparator />
 
-          <Stack />
+          <div className="snap-center snap-always scroll-px-9">
+            <Stack />
+          </div>
 
-          <Technologies />
+          <div className="snap-center snap-always scroll-px-9">
+            <Technologies />
+          </div>
 
           <HorizontalSeparator />
 
