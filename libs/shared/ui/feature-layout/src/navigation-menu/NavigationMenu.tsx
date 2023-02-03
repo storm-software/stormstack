@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  BaseComponentProps,
   Button,
   ButtonCornerRoundingTypes,
   ButtonGlowTypes,
@@ -9,7 +10,7 @@ import {
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import React, { ReactElement } from "react";
 import Logo from "../../../../../../assets/box-logo-white.svg";
 import { NavigationMenuButton } from "./navigation-menu-button/NavigationMenuButton";
 import {
@@ -19,6 +20,7 @@ import {
 
 export type NavigationMenuProps = PropsWithBase<{
   items: NavigationMenuItemProps[];
+  footer?: ReactElement<BaseComponentProps>;
 }>;
 
 const navMenu = {
@@ -48,7 +50,11 @@ const navMenu = {
  * A component to facilitate application navigation. It is rendered with
  * a fixed position at the top of the page.
  */
-export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
+export function NavigationMenu({
+  items,
+  footer,
+  ...props
+}: NavigationMenuProps) {
   const [opened, setOpened] = React.useState(false);
   const onClick = React.useCallback(() => {
     setOpened(!opened);
@@ -93,7 +99,7 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ delay: 2 }}>
+                  transition={{ duration: 0.5, delay: 2 + i * 0.5 }}>
                   <NavigationMenuItem {...item} />
                 </motion.div>
               ))}
@@ -103,13 +109,20 @@ export function NavigationMenu({ items, ...props }: NavigationMenuProps) {
         <AnimatePresence>
           {opened && (
             <motion.div
-              className="fixed bottom-0 flex w-full items-center justify-center pb-8"
+              className="fixed bottom-0 left-0 right-0 px-6 pb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}>
-              <Link className="mr-16 h-fit w-fit">
-                <Logo className="h-[12rem]" />
-              </Link>
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: 0.5,
+              }}>
+              {footer ? (
+                footer
+              ) : (
+                <Link className="mr-16 h-fit w-fit">
+                  <Logo className="h-[12rem]" />
+                </Link>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

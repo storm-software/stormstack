@@ -1,6 +1,5 @@
 "use client";
 
-import { PdfResumeDownload } from "@open-system/portfolio-ui-feature-resume/pdf-resume-download";
 import {
   ScrollArrowIndicator,
   ScrollProgressBar,
@@ -103,7 +102,6 @@ export default function Client() {
             Download Resume
           </Link>
   */}
-          <PdfResumeDownload />
 
           <section className="flex snap-center snap-always justify-center">
             <div className="relative h-[38rem] max-w-[65rem] md:w-3/4 lg:w-2/3">

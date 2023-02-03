@@ -19,6 +19,12 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@open-system/asyncapi-rabbitmq": ["tools/asyncapi/rabbitmq/index.ts"],
+      "@open-system/contact-ui-feature-form": [
+        "libs/contact/ui/feature-form/src/index.ts"
+      ],
+      "@open-system/contact-ui-feature-form/*": [
+        "libs/contact/ui/feature-form/src/*"
+      ],
       "@open-system/contacts/config": ["libs/contacts/config/src/index.ts"],
       "@open-system/core-typescript-utilities": [
         "libs/core/typescript/utilities/src/index.ts"

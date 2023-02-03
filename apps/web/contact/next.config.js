@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require("@nrwl/next/plugins/with-nx");
+const withNextIntl = require("next-intl/withNextIntl");
 const { API_URL } = process.env;
 
 /**
@@ -13,10 +14,18 @@ const nextConfig = {
     svgr: true,
   },
   swcMinify: true,
+  reactStrictMode: true,
+
   experimental: {
     appDir: true,
     fontLoaders: [
       { loader: "@next/font/google", options: { subsets: ["latin"] } },
+    ],
+    transpilePackages: [
+      "reflect-metadata",
+      "framer-motion",
+      "@open-system/core-typescript-utilities",
+      "@open-system/design-system-components",
     ],
   },
 
@@ -30,4 +39,7 @@ const nextConfig = {
   },
 };
 
-module.exports = withNx(nextConfig);
+module.exports = withNextIntl({
+  ...withNx(nextConfig),
+  i18nConfig: "./i18n.config.ts",
+});

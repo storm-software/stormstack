@@ -89,7 +89,7 @@ export function PdfResume(props: PdfResumeProps) {
                   dolore eu fugiat nulla pariatur.
                 </PdfResumeItem>
                 <PdfResumeItem
-                  header="Web Development"
+                  header="Web Developer"
                   detail="Freelance"
                   timeline="2010 - Present">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed

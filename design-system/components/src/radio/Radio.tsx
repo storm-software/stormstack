@@ -19,9 +19,9 @@ import {
   getInputTextStyle,
   getStrokeStyle,
 } from "../utilities/field-style-utils";
-import { SelectOption } from "./Select.types";
+import { RadioOption } from "./Radio.types";
 
-export type SelectProps = BaseFieldProps & {
+export type RadioProps = BaseFieldProps & {
   /**
    * Placeholder text when the field value is empty
    */
@@ -30,13 +30,13 @@ export type SelectProps = BaseFieldProps & {
   /**
    * A list of options to display in the dropdown
    */
-  options?: SelectOption[];
+  options?: RadioOption[];
 };
 
 /**
  * The base Input component used by the Open System repository
  */
-export const Select = forwardRef<FieldReference<string>, SelectProps>(
+export const Radio = forwardRef<FieldReference<string>, RadioProps>(
   (
     {
       className,
@@ -54,7 +54,7 @@ export const Select = forwardRef<FieldReference<string>, SelectProps>(
       onChanged,
       onFocus,
       onBlur,
-    }: SelectProps,
+    }: RadioProps,
     ref: ForwardedRef<FieldReference<string>>
   ) => {
     const innerRef = useRef<HTMLSelectElement>(null);
@@ -151,7 +151,7 @@ export const Select = forwardRef<FieldReference<string>, SelectProps>(
           onChange={handleChanged}
           onFocus={handleFocus}
           onBlur={handleBlur}>
-          {options.map((option: SelectOption) => (
+          {options.map((option: RadioOption) => (
             <option
               key={option.value}
               label={option.name}

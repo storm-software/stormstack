@@ -9,6 +9,7 @@
     "contact-server-application": "libs/contact/server/application",
     "contact-server-domain": "libs/contact/server/domain",
     "contact-server-infrastructure": "libs/contact/server/infrastructure",
+    "contact-ui-feature-form": "libs/contact/ui/feature-form",
     "core-dotnet-application": "libs/core/dotnet/application",
     "core-dotnet-domain": "libs/core/dotnet/domain",
     "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",

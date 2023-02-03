@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable react/jsx-no-useless-fragment */
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import { Link } from "@open-system/design-system-components";
