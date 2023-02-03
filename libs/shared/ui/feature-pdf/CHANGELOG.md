@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-pdf-v1.1.0...shared-ui-feature-pdf-v1.2.0) (2023-02-03)
+
+
+### Features
+
+* **contact-ui-feature-form:** Added the contact-ui-feature-form library ([156774e](https://github.com/sullivanpj/open-system/commit/156774ee66dc11ddb51a05fa4377c005635df5d7))
+
 # [1.1.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-pdf-v1.0.0...shared-ui-feature-pdf-v1.1.0) (2023-02-03)
 
 
