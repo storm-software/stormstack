@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/sullivanpj/open-system/compare/web-contact-v1.3.0...web-contact-v1.4.0) (2023-02-03)
+
+
+### Features
+
+* **contact-ui-feature-form:** Added the contact-ui-feature-form library ([156774e](https://github.com/sullivanpj/open-system/commit/156774ee66dc11ddb51a05fa4377c005635df5d7))
+
 # [1.3.0](https://github.com/sullivanpj/open-system/compare/web-contact-v1.2.0...web-contact-v1.3.0) (2023-02-03)
 
 
