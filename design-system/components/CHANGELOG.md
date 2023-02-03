@@ -3,6 +3,15 @@
 
 ### Features
 
+* **contact-ui-feature-form:** Added the contact-ui-feature-form library ([156774e](https://github.com/sullivanpj/open-system/commit/156774ee66dc11ddb51a05fa4377c005635df5d7))
+* **portfolio-ui-feature-resume:** Added code to dynamically generate Resume PDF ([6fa4d83](https://github.com/sullivanpj/open-system/commit/6fa4d8388d890045b734fb1594250e546278b831))
+* **shared-ui-feature-pdf:** Added wrapper library for PDF generator/renderer ([5ddc724](https://github.com/sullivanpj/open-system/commit/5ddc724af3ae9ae7237452e71a3fae3d20f7a6b9))
+
+# [1.4.0](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.3.0...design-system-components-v1.4.0) (2023-02-03)
+
+
+### Features
+
 * **portfolio-ui-feature-resume:** Added code to dynamically generate Resume PDF ([6fa4d83](https://github.com/sullivanpj/open-system/commit/6fa4d8388d890045b734fb1594250e546278b831))
 * **shared-ui-feature-pdf:** Added wrapper library for PDF generator/renderer ([5ddc724](https://github.com/sullivanpj/open-system/commit/5ddc724af3ae9ae7237452e71a3fae3d20f7a6b9))
 
