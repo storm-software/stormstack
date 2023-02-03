@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.9.0...web-shell-v1.10.0) (2023-02-03)
+
+
+### Features
+
+* **contact-ui-feature-form:** Added the contact-ui-feature-form library ([156774e](https://github.com/sullivanpj/open-system/commit/156774ee66dc11ddb51a05fa4377c005635df5d7))
+
 # [1.9.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.8.0...web-shell-v1.9.0) (2023-02-03)
 
 
