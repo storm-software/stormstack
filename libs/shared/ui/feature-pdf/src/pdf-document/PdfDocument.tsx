@@ -1,5 +1,6 @@
 import { BaseComponentProps } from "@open-system/design-system-components";
 import { Document } from "@react-pdf/renderer";
+import i18nConfig from "../../../../../../i18n.config";
 import { PDFVersion } from "../types";
 
 interface OnPdfRenderProps {
@@ -20,7 +21,7 @@ export interface PdfDocumentProps extends BaseComponentProps {
 }
 
 export function PdfDocument({
-  language = process.env.DEFAULT_LOCALE,
+  language = i18nConfig.defaultLocale,
   isUIComponent = false,
   creator = "Open-System",
   producer = "Open-System",

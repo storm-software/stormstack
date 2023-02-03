@@ -204,6 +204,7 @@
     "react-test-renderer": "18.2.0",
     "redocusaurus": "^1.4.0",
     "reflect-metadata": "^0.1.13",
+    "rollup-plugin-url": "^3.0.1",
     "server-only": "^0.0.1",
     "style-dictionary": "^3.7.1",
     "style-loader": "^3.3.0",

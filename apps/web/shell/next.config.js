@@ -22,6 +22,7 @@ const nextConfig = {
     transpilePackages: [
       "reflect-metadata",
       "framer-motion",
+      "@react-pdf/renderer",
       "@open-system/core-typescript-utilities",
       "@open-system/design-system-components",
     ],
@@ -55,7 +56,7 @@ const nextConfig = {
   },
 
   /**
-   * @param {{ module: { rules: { loader: string; options: { prettier: boolean; svgo: boolean; svgoConfig: { plugins: { name: string; params: { overrides: { removeViewBox: boolean; }; }; }[]; }; titleProp: boolean; }; test: RegExp; }[]; }; }} config
+   * @param {{ module: { rules: { loader?: string; options?: { prettier: boolean; svgo: boolean; svgoConfig: { plugins: { name: string; params: { overrides: { removeViewBox: boolean; }; }; }[]; }; titleProp: boolean; }; test: RegExp; use?: { loader: string; options: { name: string; publicPath: string; outputPath: string; }; }; }[]; }; }} config
    */
   webpack(config) {
     config.module.rules.push({
@@ -76,6 +77,18 @@ const nextConfig = {
         titleProp: true,
       },
       test: /\.svg$/,
+    });
+
+    config.module.rules.push({
+      test: /\.(eot|ttf|woff|woff2)$/,
+      use: {
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]",
+          publicPath: "fonts",
+          outputPath: "fonts",
+        },
+      },
     });
     return config;
   },

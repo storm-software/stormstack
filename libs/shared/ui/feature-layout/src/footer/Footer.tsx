@@ -9,10 +9,7 @@ import {
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
 import Logo from "../../../../../../assets/box-logo-gradient.svg";
-import GithubLogo from "../../assets/github-icon.svg";
-import KeybaseLogo from "../../assets/keybase-icon.svg";
-import LinkedInLogo from "../../assets/linkedin-icon.svg";
-import MediumLogo from "../../assets/medium-icon.svg";
+import { SocialMediaLinks } from "../social-media-links";
 import { FooterForm } from "./footer-form";
 
 export function Footer({ className, ...props }: BaseComponentProps) {
@@ -46,7 +43,6 @@ export function Footer({ className, ...props }: BaseComponentProps) {
                 </div>
               </div>
             </div>
-
             <div className="flex flex-col gap-1">
               <h3 className="whitespace-nowrap text-center font-footer-name text-4xl text-slate-300">
                 Blog
@@ -62,33 +58,10 @@ export function Footer({ className, ...props }: BaseComponentProps) {
               <Link variant={LinkVariants.SECONDARY}>Design System</Link>
               <Link variant={LinkVariants.SECONDARY}>Storybook</Link>
             </div>
+            <div></div>
             <div className="flex flex-1 flex-col items-center justify-center sm:flex-row">
               <div className="flex w-fit flex-col gap-0.5">
-                <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                  <Link
-                    className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-110"
-                    inNewTab={true}
-                    href="https://github.com/sullivanpj">
-                    <GithubLogo className="h-[5rem] w-[5rem]" />
-                  </Link>
-                  <Link
-                    className="h-[5.5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-110"
-                    inNewTab={true}
-                    href="https://www.linkedin.com/in/patrick-sullivan-865526b0">
-                    <LinkedInLogo className="h-[5.5rem] w-[5rem]" />
-                  </Link>
-                  <Link
-                    className="h-[5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-110"
-                    inNewTab={true}
-                    href="https://keybase.io/sullivanp">
-                    <KeybaseLogo className="h-[5rem] w-[5rem]" />
-                  </Link>
-                  <Link
-                    className="h-[5.5rem] w-[5rem] transition-transform hover:translate-y-0.5 hover:scale-110"
-                    inNewTab={true}>
-                    <MediumLogo className="h-[5.5rem] w-[5rem]" />
-                  </Link>
-                </div>
+                <SocialMediaLinks />
                 <div className="flex flex-col text-center">
                   <label className="font-footer-name text-lg text-primary">
                     Patrick J. Sullivan

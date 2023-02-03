@@ -1,23 +1,24 @@
 import { BaseComponentProps } from "@open-system/design-system-components";
 import { Page } from "@react-pdf/renderer";
-import { Bookmark, Orientation, PageSize } from "../types";
+import { Bookmark, Orientation, PageSize, PdfNodeProps } from "../types";
 
-export interface PdfPageProps extends BaseComponentProps {
-  /**
-   * Enable page wrapping for this page.
-   * @see https://react-pdf.org/components#page-wrapping
-   */
-  wrap?: boolean;
-  /**
-   * Enables debug mode on page bounding box.
-   * @see https://react-pdf.org/advanced#debugging
-   */
-  debug?: boolean;
-  size?: PageSize;
-  orientation?: Orientation;
-  dpi?: number;
-  bookmark?: Bookmark;
-}
+export type PdfPageProps = BaseComponentProps &
+  PdfNodeProps & {
+    /**
+     * Enable page wrapping for this page.
+     * @see https://react-pdf.org/components#page-wrapping
+     */
+    wrap?: boolean;
+    /**
+     * Enables debug mode on page bounding box.
+     * @see https://react-pdf.org/advanced#debugging
+     */
+    debug?: boolean;
+    size?: PageSize;
+    orientation?: Orientation;
+    dpi?: number;
+    bookmark?: Bookmark;
+  };
 
 export function PdfPage({
   size = "A4",

@@ -17,6 +17,7 @@
     "design-system-components": "design-system/components",
     "design-system-tokens": "design-system/tokens",
     "docs": "docs",
+    "portfolio-ui-feature-resume": "libs/portfolio/ui/feature-resume",
     "reaction-config": "libs/reaction/config",
     "reaction-ui-data-access": "libs/reaction/ui/data-access",
     "reaction-ui-feature-like": "libs/reaction/ui/feature-like",

@@ -185,3 +185,17 @@ export interface ImageWithSrcProp extends BaseImageProps {
 export interface ImageWithSourceProp extends BaseImageProps {
   source: SourceObject;
 }
+
+export interface BlobProviderParams {
+  blob: Blob | null;
+  url: string | null;
+  loading: boolean;
+  error: Error | null;
+}
+
+export interface UsePdfInstance {
+  loading: boolean;
+  blob: Blob | null;
+  url: string | null;
+  error: string | null;
+}
