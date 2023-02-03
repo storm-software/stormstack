@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-pdf-v1.0.0...shared-ui-feature-pdf-v1.1.0) (2023-02-03)
+
+
+### Features
+
+* **portfolio-ui-feature-resume:** Added code to dynamically generate Resume PDF ([6fa4d83](https://github.com/sullivanpj/open-system/commit/6fa4d8388d890045b734fb1594250e546278b831))
+
 # 1.0.0 (2023-02-01)
 
 

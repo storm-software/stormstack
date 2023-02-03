@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.8.0...web-shell-v1.9.0) (2023-02-03)
+
+
+### Features
+
+* **portfolio-ui-feature-resume:** Added code to dynamically generate Resume PDF ([6fa4d83](https://github.com/sullivanpj/open-system/commit/6fa4d8388d890045b734fb1594250e546278b831))
+
 # [1.8.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.7.0...web-shell-v1.8.0) (2023-02-01)
 
 
