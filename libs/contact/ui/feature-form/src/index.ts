@@ -1,1 +1,1 @@
-export * from "./lib/ContactUiFeatureForm";
+export * from "./contact-footer-form";

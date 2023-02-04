@@ -154,7 +154,7 @@ export function NavigationMenu({
           delay: 0,
           ease: [0, 0.71, 0.2, 1.01],
         }}>
-        <Link href="/about">
+        <Link href="/contact">
           <Button
             variant={ButtonVariants.PRIMARY}
             glowType={ButtonGlowTypes.ALWAYS}

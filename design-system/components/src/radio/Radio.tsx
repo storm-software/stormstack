@@ -31,6 +31,11 @@ export type RadioProps = BaseFieldProps & {
    * A list of options to display in the dropdown
    */
   options?: RadioOption[];
+
+  /**
+   * An indicator specifying if the radio options should be displayed vertically (default is horizontally)
+   */
+  isVertical?: boolean;
 };
 
 /**
@@ -51,13 +56,14 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
       placeholder,
       tabIndex,
       autoFocus = false,
+      isVertical = false,
       onChanged,
       onFocus,
       onBlur,
     }: RadioProps,
     ref: ForwardedRef<FieldReference<string>>
   ) => {
-    const innerRef = useRef<HTMLSelectElement>(null);
+    const innerRef = useRef<HTMLInputElement>(null);
 
     const [error, setError] = useState<string | null>(null);
     const [warning, setWarning] = useState<string | null>(null);
@@ -65,7 +71,7 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
     const [focused, setFocused] = useState<boolean>(false);
 
     const handleChanged = useCallback(
-      (event: ChangeEvent<HTMLSelectElement>) => {
+      (event: ChangeEvent<HTMLInputElement>) => {
         const nextValue: string | null = event?.target?.value ?? null;
         if (nextValue !== value) {
           setValue(nextValue);
@@ -108,6 +114,11 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
 
     return (
       <FieldWrapper
+        className={clsx(
+          className,
+          { "h-[85px]": !isVertical },
+          { "h-fit": isVertical }
+        )}
         name={name}
         label={label}
         info={info}
@@ -117,51 +128,80 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
         disabled={disabled}
         required={required}
         noBorder={noBorder}>
-        <select
-          id={name}
-          name={name}
-          ref={innerRef}
+        <div
           className={clsx(
-            getStrokeStyle(error, warning, info, focused, disabled),
-            getInputFillColor(disabled),
-            {
-              "ring-1 ring-active ring-offset-0": focused,
-            },
-            {
-              "focus:shadow-active-glow": focused && glow,
-            },
-            "flex w-full cursor-pointer rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0 disabled:bg-disabled-fill",
-            getInputTextStyle(error, warning, info, focused, disabled, value),
-            { "border-3": disabled },
-            {
-              "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
-                !disabled && glow,
-            }
-          )}
-          value={value ?? undefined}
-          placeholder={placeholder}
-          disabled={disabled}
-          required={required}
-          tabIndex={tabIndex}
-          autoFocus={autoFocus}
-          aria-invalid={!!error}
-          aria-required={required}
-          aria-disabled={disabled}
-          onInput={handleChanged}
-          onChange={handleChanged}
-          onFocus={handleFocus}
-          onBlur={handleBlur}>
-          {options.map((option: RadioOption) => (
-            <option
-              key={option.value}
-              label={option.name}
-              disabled={option.disabled}
-              value={option.value}
-              selected={option.selected}>
-              {option.name}
-            </option>
+            "flex gap-6 pl-[3px]",
+            { "flex-row": !isVertical },
+            { "flex-col": isVertical },
+            { "pt-4": label }
+          )}>
+          {options.map((option: RadioOption, i: number) => (
+            <div
+              key={i}
+              className={clsx("flex w-full flex-row items-center gap-4", {
+                "justify-between": isVertical,
+              })}>
+              <label
+                className={clsx(
+                  "transition",
+                  getInputTextStyle(
+                    error,
+                    warning,
+                    info,
+                    focused && (!value || option.value === value),
+                    disabled,
+                    option.value === value ? value : null
+                  ),
+                  { "font-bold": option.value === value }
+                )}
+                htmlFor={option.value}>
+                {option.name}
+              </label>
+              <input
+                type="radio"
+                id={option.value}
+                name={name}
+                ref={innerRef}
+                className={clsx(
+                  getStrokeStyle(error, warning, info, focused, disabled),
+                  getInputFillColor(disabled),
+                  {
+                    "ring-1 ring-active ring-offset-0": focused,
+                  },
+                  {
+                    "focus:shadow-active-glow": focused && glow,
+                  },
+                  "max-w-5 flex h-5 w-5 cursor-pointer rounded-full font-label-1 leading-label-1 transition focus:ring-0 focus:ring-active focus:ring-offset-0 disabled:bg-disabled-fill",
+                  getInputTextStyle(
+                    error,
+                    warning,
+                    info,
+                    focused,
+                    disabled,
+                    value
+                  ),
+                  { "border-3": disabled },
+                  {
+                    "border-1 shadow-sm duration-300 ease-in-out hover:shadow-active-glow":
+                      !disabled && glow,
+                  },
+                  { "scale-110": option.value === value }
+                )}
+                value={option.value ?? undefined}
+                placeholder={placeholder}
+                disabled={disabled}
+                required={required}
+                tabIndex={tabIndex}
+                autoFocus={autoFocus}
+                aria-disabled={disabled}
+                onInput={handleChanged}
+                onChange={handleChanged}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+            </div>
           ))}
-        </select>
+        </div>
       </FieldWrapper>
     );
   }

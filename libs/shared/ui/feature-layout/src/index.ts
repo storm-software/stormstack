@@ -1,6 +1,7 @@
 "use client";
 
 export * from "./cookie-policy-banner";
+export * from "./error-boundary";
 export * from "./footer";
 export * from "./navigation-menu";
 export * from "./page-loading";

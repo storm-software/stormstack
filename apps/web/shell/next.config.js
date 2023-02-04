@@ -40,14 +40,14 @@ const nextConfig = {
 
   async rewrites() {
     return [
-      {
+      /*{
         source: "/contact",
         destination: `${CONTACT_URL}`,
       },
       {
         source: "/contact/:path*",
         destination: `${CONTACT_URL}/:path*`,
-      },
+      },*/
       {
         source: "/api/:path*",
         destination: `${API_URL}/api/:path*`,

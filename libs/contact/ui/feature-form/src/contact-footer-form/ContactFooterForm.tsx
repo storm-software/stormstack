@@ -13,7 +13,7 @@ import {
 import { Link } from "@open-system/shared-ui-components";
 import clsx from "clsx";
 
-export function ContactFormFooter({ className, ...props }: BaseComponentProps) {
+export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
   return (
     <div className={clsx("flex flex-1 grow flex-col", className)}>
       <h1 className="ml-3 text-7xl font-header-1 text-primary">

@@ -6,7 +6,7 @@ import {
   Permanent_Marker,
 } from "@next/font/google";
 import localFont from "@next/font/local";
-import { ContactFormFooter } from "@open-system/contact-ui-feature-form/contact-form-footer";
+import { ContactFooterForm } from "@open-system/contact-ui-feature-form/contact-footer-form";
 import { Link } from "@open-system/shared-ui-components/link";
 import { Footer } from "@open-system/shared-ui-feature-layout/footer";
 import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links";
@@ -25,6 +25,11 @@ import RootProvider from "./store-provider";
 const melody = localFont({
   variable: "--font-melody",
   src: "../../../../assets/fonts/BLMelody-Bold.woff2",
+});
+
+const satoshi = localFont({
+  variable: "--font-satoshi",
+  src: "../../../../assets/fonts/Satoshi-Bold.otf",
 });
 
 const permanentMarker = Permanent_Marker({
@@ -65,6 +70,7 @@ export default function RootLayout({
         frankRuhlLibre.variable,
         abrilFatface.variable,
         permanentMarker.variable,
+        satoshi.variable,
         "bg-bg-1 antialiased"
       )}>
       <head />
@@ -81,7 +87,7 @@ export default function RootLayout({
           <Footer
             top={
               <div className="flex flex-row gap-16">
-                <ContactFormFooter className="w-full" />
+                <ContactFooterForm className="w-full" />
                 <div className="hidden flex-row items-center justify-center lg:flex">
                   <Link className="h-[20rem] w-[28rem]">
                     <Logo className="h-[20rem] w-[28rem]" />

@@ -36,7 +36,7 @@ export type BaseFieldProps = PropsWithBaseRef<{
   /**
    * The text label displayed above the input field
    */
-  label: string | JSX.Element;
+  label?: string | JSX.Element | null;
 
   /**
    * Decides if input is disabled

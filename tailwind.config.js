@@ -2,7 +2,7 @@ const { fontFamily } = require("tailwindcss/defaultTheme");
 const extend = require("./dist/design-system/tokens/js/theme");
 const plugin = require("tailwindcss/plugin");
 const { join } = require("path");
-// const { createGlobPatternsForDependencies } = require("@nrwl/react/tailwind");
+const { createGlobPatternsForDependencies } = require("@nrwl/react/tailwind");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -35,6 +35,7 @@ module.exports = {
         "body-2": ["var(--font-inter)", ...fontFamily.sans],
         "label-1": ["var(--font-anybody)", ...fontFamily.sans],
         "label-2": ["var(--font-permanent-marker)", ...fontFamily.sans],
+        "label-3": ["var(--font-satoshi)", ...fontFamily.sans],
         "btn-label-1": ["var(--font-poppins)", ...fontFamily.sans],
         "like-label": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "footer-name": ["var(--font-permanent-marker)", ...fontFamily.sans],

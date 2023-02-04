@@ -39,6 +39,40 @@ Primary.args = {
 };
 
 /**
+ * Vertical
+ */
+export const Vertical = Template.bind({});
+
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Vertical.args = {
+  label: "Sample Label",
+  name: "sample",
+  isVertical: true,
+  options: [
+    { name: "Option 1", value: "option1" },
+    { name: "Option 2", value: "option2" },
+    { name: "Option 3 is longer than the other two", value: "option3" },
+  ],
+};
+
+/**
+ * No Label
+ */
+export const NoLabel = Template.bind({});
+
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+NoLabel.args = {
+  label: null,
+  name: "sample",
+  isVertical: true,
+  options: [
+    { name: "Option 1", value: "option1" },
+    { name: "Option 2", value: "option2" },
+    { name: "Option 3 is longer than the other two", value: "option3" },
+  ],
+};
+
+/**
  * Required
  */
 export const Required = Template.bind({});
