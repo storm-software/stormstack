@@ -241,3 +241,44 @@ export enum HttpMethod {
  * Represents an HTTP file which will be transferred from or to a server.
  */
 export type HttpFile = Blob & { readonly name: string };
+
+declare const $NestedValue: unique symbol;
+/**
+ * @deprecated to be removed in the next major version
+ */
+export type NestedValue<TValue extends object = object> = {
+  [$NestedValue]: never;
+} & TValue;
+
+interface File extends Blob {
+  readonly lastModified: number;
+  readonly name: string;
+}
+interface FileList {
+  readonly length: number;
+  item(index: number): File | null;
+  [index: number]: File;
+}
+
+export type LiteralUnion<T extends U, U extends Primitive> =
+  | T
+  | (U & {
+      _?: never;
+    });
+
+export type Primitive =
+  | null
+  | undefined
+  | string
+  | number
+  | boolean
+  | symbol
+  | bigint;
+
+export type BrowserNativeObject = Date | FileList | File;
+
+export type EmptyObject = {
+  [K in string | number]: never;
+};
+
+export type NonUndefined<T> = T extends undefined ? never : T;

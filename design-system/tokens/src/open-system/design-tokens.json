@@ -279,6 +279,38 @@
           "exportKey": "gradient"
         }
       }
+    },
+    "gradient-primary": {
+      "description": "",
+      "type": "custom-gradient",
+      "value": {
+        "gradientType": "linear",
+        "rotation": 135,
+        "stops": [
+          {
+            "position": 0,
+            "color": "#f25488ff"
+          },
+          {
+            "position": 0.5,
+            "color": "#9747ffff"
+          },
+          {
+            "position": 0.86,
+            "color": "#5590f6ff"
+          },
+          {
+            "position": 1,
+            "color": "#3cacf2ff"
+          }
+        ]
+      },
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:125eb7f8df87cb2e85ddc937602ed910a11de114,",
+          "exportKey": "gradient"
+        }
+      }
     }
   },
   "color": {
@@ -1131,7 +1163,7 @@
     "message-1": {
       "type": "custom-fontStyle",
       "value": {
-        "fontSize": 12,
+        "fontSize": 14,
         "textDecoration": "none",
         "fontFamily": "Inter",
         "fontWeight": 400,
@@ -1577,7 +1609,7 @@
     "message-1": {
       "fontSize": {
         "type": "dimension",
-        "value": 12
+        "value": 14
       },
       "textDecoration": {
         "type": "string",

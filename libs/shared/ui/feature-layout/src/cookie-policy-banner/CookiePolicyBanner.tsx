@@ -8,10 +8,13 @@ import {
   ButtonVariants,
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
-import { AbstractUserDataService } from "@open-system/shared-ui-data-access";
+import {
+  agreeToPrivacyPolicy,
+  UserState,
+} from "@open-system/shared-ui-data-access";
 import { AnimatePresence, motion } from "framer-motion";
-import { useInjection } from "inversify-react";
 import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Cookie from "../../assets/cookie-icon.svg";
 
 const variants = {
@@ -38,16 +41,26 @@ const variants = {
 export function CookiePolicyBanner() {
   const [isHidden, setIsHidden] = useState(false);
 
-  const service = useInjection(AbstractUserDataService);
-  const handleAgree = useCallback(async () => {
-    await service.updateUserData({ hasAgreedToCookiePolicy: true });
+  const dispatch = useDispatch();
+  const handleAgree = useCallback(() => {
+    dispatch(agreeToPrivacyPolicy());
+
+    // await service.updateUserData({ hasAgreedToCookiePolicy: true });
 
     setIsHidden(true);
-  }, [service]);
+  }, [dispatch]);
 
   const handleClose = useCallback(() => {
     setIsHidden(true);
   }, []);
+
+  const hasAgreedToPrivacyPolicy = useSelector(
+    (state: { user: UserState }) => state.user?.hasAgreedToPrivacyPolicy
+  );
+
+  if (hasAgreedToPrivacyPolicy) {
+    return null;
+  }
 
   return (
     <AnimatePresence>

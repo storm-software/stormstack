@@ -1,5 +1,6 @@
 "use client";
 
+import { isEmptyObject } from "@open-system/core-typescript-utilities";
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
@@ -8,12 +9,10 @@ import {
   ForwardedRef,
   forwardRef,
   useCallback,
-  useImperativeHandle,
-  useRef,
   useState,
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
-import { BaseFieldProps, FieldReference } from "../types";
+import { BaseFieldProps } from "../types";
 import {
   getInputFillColor,
   getInputTextStyle,
@@ -36,13 +35,16 @@ export type SelectProps = BaseFieldProps & {
 /**
  * The base Input component used by the Open System repository
  */
-export const Select = forwardRef<FieldReference<string>, SelectProps>(
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   (
     {
       className,
       name,
+      value,
       options = [],
       info = null,
+      warning,
+      errors,
       disabled = false,
       required = false,
       noBorder = false,
@@ -51,59 +53,25 @@ export const Select = forwardRef<FieldReference<string>, SelectProps>(
       placeholder,
       tabIndex,
       autoFocus = false,
-      onChanged,
+      onChange,
       onFocus,
       onBlur,
+      ...props
     }: SelectProps,
-    ref: ForwardedRef<FieldReference<string>>
+    ref: ForwardedRef<HTMLSelectElement>
   ) => {
-    const innerRef = useRef<HTMLSelectElement>(null);
-
-    const [error, setError] = useState<string | null>(null);
-    const [warning, setWarning] = useState<string | null>(null);
-    const [value, setValue] = useState<string | null>(null);
     const [focused, setFocused] = useState<boolean>(false);
-
-    const handleChanged = useCallback(
-      (event: ChangeEvent<HTMLSelectElement>) => {
-        const nextValue: string | null = event?.target?.value ?? null;
-        if (nextValue !== value) {
-          setValue(nextValue);
-          onChanged?.(nextValue);
-        }
-      },
-      [onChanged, value]
-    );
-
     const handleFocus = useCallback(() => {
       setFocused(true);
       onFocus?.();
     }, [onFocus]);
 
-    const handleBlur = useCallback(() => {
-      setFocused(false);
-      onBlur?.();
-    }, [onBlur]);
-
-    useImperativeHandle<FieldReference<string>, FieldReference<string>>(
-      ref,
-      () => ({
-        error,
-        setError,
-        warning,
-        setWarning,
-        value: value || typeof value === "number" ? value : null,
-        setValue: (nextValue: string | null) => {
-          setValue(
-            nextValue || typeof nextValue === "number" ? nextValue : null
-          );
-        },
-        focus: () => {
-          innerRef.current?.focus?.();
-        },
-        selectText: () => {},
-      }),
-      [error, value, warning]
+    const handleBlur = useCallback(
+      (event: ChangeEvent<HTMLSelectElement>) => {
+        setFocused(false);
+        onBlur?.(event);
+      },
+      [onBlur]
     );
 
     return (
@@ -111,7 +79,7 @@ export const Select = forwardRef<FieldReference<string>, SelectProps>(
         name={name}
         label={label}
         info={info}
-        error={error}
+        errors={errors}
         warning={warning}
         focused={focused}
         disabled={disabled}
@@ -120,9 +88,15 @@ export const Select = forwardRef<FieldReference<string>, SelectProps>(
         <select
           id={name}
           name={name}
-          ref={innerRef}
+          ref={ref}
           className={clsx(
-            getStrokeStyle(error, warning, info, focused, disabled),
+            getStrokeStyle(
+              !isEmptyObject(errors),
+              !!warning,
+              !!info,
+              focused,
+              disabled
+            ),
             getInputFillColor(disabled),
             {
               "ring-1 ring-active ring-offset-0": focused,
@@ -131,24 +105,30 @@ export const Select = forwardRef<FieldReference<string>, SelectProps>(
               "focus:shadow-active-glow": focused && glow,
             },
             "flex w-full cursor-pointer rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0 disabled:bg-disabled-fill",
-            getInputTextStyle(error, warning, info, focused, disabled, value),
+            getInputTextStyle(
+              !isEmptyObject(errors),
+              !!warning,
+              !!info,
+              focused,
+              disabled,
+              value
+            ),
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
                 !disabled && glow,
             }
           )}
-          value={value ?? undefined}
           placeholder={placeholder}
           disabled={disabled}
           required={required}
           tabIndex={tabIndex}
           autoFocus={autoFocus}
-          aria-invalid={!!error}
+          aria-invalid={!isEmptyObject(errors)}
           aria-required={required}
           aria-disabled={disabled}
-          onInput={handleChanged}
-          onChange={handleChanged}
+          onInput={onChange}
+          onChange={onChange}
           onFocus={handleFocus}
           onBlur={handleBlur}>
           {options.map((option: SelectOption) => (

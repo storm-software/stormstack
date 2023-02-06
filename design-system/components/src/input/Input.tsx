@@ -1,18 +1,18 @@
 "use client";
 
+import { isEmptyObject } from "@open-system/core-typescript-utilities";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
 import {
   ChangeEvent,
+  FocusEvent,
   ForwardedRef,
   forwardRef,
   useCallback,
-  useImperativeHandle,
-  useRef,
   useState,
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
-import { BaseFieldProps, FieldReference } from "../types";
+import { BaseFieldProps } from "../types";
 import {
   getInputFillColor,
   getInputTextStyle,
@@ -98,19 +98,22 @@ export type InputProps = BaseFieldProps & {
 /**
  * The base Input component used by the Open System repository
  */
-export const Input = forwardRef<FieldReference<string>, InputProps>(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       className,
       name,
+      value,
       type = InputTypes.TEXT,
-      info = null,
       disabled = false,
       required = false,
       noBorder = false,
       glow = true,
       label,
       placeholder,
+      info,
+      warning,
+      errors,
       min,
       max,
       minLength,
@@ -123,61 +126,32 @@ export const Input = forwardRef<FieldReference<string>, InputProps>(
       autoComplete = InputAutoCompleteTypes.ON,
       autoFocus = false,
       spellCheck = false,
-      onChanged,
+      onChange,
       onFocus,
       onBlur,
+      ...props
     }: InputProps,
-    ref: ForwardedRef<FieldReference<string>>
+    ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const innerRef = useRef<HTMLInputElement>(null);
-
-    const [error, setError] = useState<string | null>(null);
-    const [warning, setWarning] = useState<string | null>(null);
-    const [value, setValue] = useState<string | null>(null);
     const [focused, setFocused] = useState<boolean>(false);
+    const handleFocus = useCallback(
+      (event: FocusEvent<HTMLInputElement>) => {
+        event.stopPropagation();
 
-    const handleChanged = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        const nextValue: string | null = event?.target?.value ?? null;
-        if (nextValue !== value) {
-          setValue(nextValue);
-          onChanged?.(nextValue);
-        }
+        setFocused(true);
+        onFocus?.();
       },
-      [onChanged, value]
+      [onFocus]
     );
 
-    const handleFocus = useCallback(() => {
-      setFocused(true);
-      onFocus?.();
-    }, [onFocus]);
+    const handleBlur = useCallback(
+      (event: ChangeEvent<HTMLInputElement>) => {
+        event.stopPropagation();
 
-    const handleBlur = useCallback(() => {
-      setFocused(false);
-      onBlur?.();
-    }, [onBlur]);
-
-    useImperativeHandle<FieldReference<string>, FieldReference<string>>(
-      ref,
-      () => ({
-        error,
-        setError,
-        warning,
-        setWarning,
-        value: value || typeof value === "number" ? value : null,
-        setValue: (nextValue: string | null) => {
-          setValue(
-            nextValue || typeof nextValue === "number" ? nextValue : null
-          );
-        },
-        focus: () => {
-          innerRef.current?.focus?.();
-        },
-        selectText: () => {
-          innerRef.current?.select?.();
-        },
-      }),
-      [error, value, warning]
+        setFocused(false);
+        onBlur?.(event);
+      },
+      [onBlur]
     );
 
     return (
@@ -185,7 +159,7 @@ export const Input = forwardRef<FieldReference<string>, InputProps>(
         name={name}
         label={label}
         info={info}
-        error={error}
+        errors={errors}
         warning={warning}
         focused={focused}
         disabled={disabled}
@@ -194,9 +168,15 @@ export const Input = forwardRef<FieldReference<string>, InputProps>(
         <input
           id={name}
           name={name}
-          ref={innerRef}
+          ref={ref}
           className={clsx(
-            getStrokeStyle(error, warning, info, focused, disabled),
+            getStrokeStyle(
+              !isEmptyObject(errors),
+              !!warning,
+              !!info,
+              focused,
+              disabled
+            ),
             getInputFillColor(disabled),
             {
               "ring-1 ring-active ring-offset-0": focused,
@@ -205,7 +185,14 @@ export const Input = forwardRef<FieldReference<string>, InputProps>(
               "focus:shadow-active-glow": focused && glow,
             },
             "w-full rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
-            getInputTextStyle(error, warning, info, focused, disabled, value),
+            getInputTextStyle(
+              !isEmptyObject(errors),
+              !!warning,
+              !!info,
+              focused,
+              disabled,
+              value
+            ),
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
@@ -213,17 +200,16 @@ export const Input = forwardRef<FieldReference<string>, InputProps>(
             },
             className
           )}
-          type={type}
-          value={value ?? undefined}
+          type={type === InputTypes.EMAIL ? InputTypes.TEXT : type}
           placeholder={placeholder}
           disabled={disabled}
           readOnly={disabled}
-          required={required}
+          // required={required}
           min={min}
           max={max}
           minLength={minLength}
           maxLength={maxLength}
-          pattern={pattern}
+          // pattern={pattern}
           multiple={multiple}
           tabIndex={tabIndex}
           inputMode={
@@ -241,7 +227,9 @@ export const Input = forwardRef<FieldReference<string>, InputProps>(
               ? InputModeTypes.SEARCH
               : undefined
           }
-          autoCorrect={autoCorrect ? "on" : "off"}
+          autoCorrect={
+            autoCorrect ? InputAutoCompleteTypes.ON : InputAutoCompleteTypes.OFF
+          }
           autoFocus={autoFocus}
           autoComplete={
             autoComplete === false
@@ -251,11 +239,11 @@ export const Input = forwardRef<FieldReference<string>, InputProps>(
               : autoComplete
           }
           spellCheck={spellCheck}
-          aria-invalid={!!error}
+          aria-invalid={!isEmptyObject(errors)}
           aria-required={required}
           aria-disabled={disabled}
-          onInput={handleChanged}
-          onChange={handleChanged}
+          onInput={onChange}
+          onChange={onChange}
           onFocus={handleFocus}
           onBlur={handleBlur}></input>
       </FieldWrapper>

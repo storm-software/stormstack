@@ -142,6 +142,32 @@
               "output": "."
             }
           ]
+        },
+        "client-api-joi-sync": {
+          "outputPath": "dist/tools/executors/typescript/client-api-joi-sync",
+          "rollupConfig": "tools/executors/typescript/client-api-joi-sync/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/typescript",
+              "glob": "**/*!(design-token-parsers)/**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/typescript/client-api-joi-sync",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
         }
       }
     },

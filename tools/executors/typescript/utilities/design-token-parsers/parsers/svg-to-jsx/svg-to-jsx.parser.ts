@@ -1,13 +1,14 @@
-import * as _ from 'lodash';
-import { LibsType } from '../global-libs';
-import Template from '../../libs/template';
-import prettier from 'prettier';
-import { IToken, TokensType } from '../../types';
-import * as os from 'os';
-import { create } from 'xmlbuilder2';
-import { parseStringPromise } from 'xml2js';
-import { xml2jsElementType } from './svg-to-jsx.type';
-import { ExpandObject } from 'xmlbuilder2/lib/interfaces';
+/* eslint-disable no-useless-catch */
+import * as _ from "lodash";
+import * as os from "os";
+import prettier from "prettier";
+import Template from "../../libs/template";
+import { IToken, TokensType } from "../../types";
+import { LibsType } from "../global-libs";
+//import { create } from 'xmlbuilder2';
+//import { parseStringPromise } from 'xml2js';
+import { xml2jsElementType } from "./svg-to-jsx.type";
+//import { ExpandObject } from 'xmlbuilder2/lib/interfaces';
 
 export type InputDataType = Array<
   IToken & {
@@ -18,17 +19,19 @@ export type InputDataType = Array<
 >;
 
 export type OutputDataType = Array<
-  InputDataType[0] & { value: { content: string; fileName: string; [key: string]: any } }
+  InputDataType[0] & {
+    value: { content: string; fileName: string; [key: string]: any };
+  }
 >;
 
 export type OptionsType =
   | undefined
   | {
       prepend?: string; // import React from 'react';
-      variableFormat?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase'; // default: pascalCase
+      variableFormat?: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase"; // default: pascalCase
       formatConfig?: Partial<{
         exportDefault: boolean;
-        endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+        endOfLine: "auto" | "lf" | "crlf" | "cr";
         tabWidth: number;
         useTabs: boolean;
         singleQuote: boolean;
@@ -40,11 +43,15 @@ export type OptionsType =
       };
     };
 
-function formatObject4XMLBuilder(xpath: string, _: never, element: xml2jsElementType) {
-  const tag = element['#name'];
+function formatObject4XMLBuilder(
+  xpath: string,
+  _: never,
+  element: xml2jsElementType
+) {
+  const tag = element["#name"];
   let value = element._;
   if (!value && element.$$) {
-    value = { '#': element.$$ };
+    value = { "#": element.$$ };
   }
   if (element.$) {
     value = { ...value, ...element.$ };
@@ -54,16 +61,16 @@ function formatObject4XMLBuilder(xpath: string, _: never, element: xml2jsElement
   };
 }
 
-function convertObjectToXMLString(xmlObject: ExpandObject) {
-  return create(xmlObject).end({ headless: true, prettyPrint: false, indent: '\t', newline: '\n' });
+function convertObjectToXMLString(xmlObject: any) {
+  // return create(xmlObject).end({ headless: true, prettyPrint: false, indent: '\t', newline: '\n' });
 }
 
 function camelCaseAttribute(attrName: string) {
   const specificAttributeToConvert: Record<string, string> = {
-    viewbox: 'viewBox',
-    maskunits: 'maskUnits',
-    gradientunits: 'gradientUnits',
-    gradienttransform: 'gradientTransform',
+    viewbox: "viewBox",
+    maskunits: "maskUnits",
+    gradientunits: "gradientUnits",
+    gradienttransform: "gradientTransform",
   };
   attrName = attrName.toLowerCase();
 
@@ -72,24 +79,27 @@ function camelCaseAttribute(attrName: string) {
     return `@${specificAttributeToConvert[attrName]}`;
   }
 
-  return attrName.startsWith('data-') || attrName.startsWith('aria-')
+  return attrName.startsWith("data-") || attrName.startsWith("aria-")
     ? `@${attrName}`
-    : '@' + _.camelCase(attrName);
+    : "@" + _.camelCase(attrName);
 }
 
 function convertStyleAttrAsJsxObject(content: string) {
-  return content.replace(/style="([^"\\]*)"/, function (styleAttr: string, styleContent: string) {
-    const style = styleContent
-      .split(/\s*;\s*/g)
-      .filter(Boolean)
-      .reduce(function (hash: Record<string, string>, rule: string) {
-        const keyValue: string[] = rule.split(/\s*:\s*(.*)/);
-        hash[_.camelCase(keyValue[0])] = keyValue[1];
-        return hash;
-      }, {});
-    //JSX style must be in json object format surrounded by curly braces
-    return `style={${JSON.stringify(style)}}`;
-  });
+  return content.replace(
+    /style="([^"\\]*)"/,
+    function (styleAttr: string, styleContent: string) {
+      const style = styleContent
+        .split(/\s*;\s*/g)
+        .filter(Boolean)
+        .reduce(function (hash: Record<string, string>, rule: string) {
+          const keyValue: string[] = rule.split(/\s*:\s*(.*)/);
+          hash[_.camelCase(keyValue[0])] = keyValue[1];
+          return hash;
+        }, {});
+      //JSX style must be in json object format surrounded by curly braces
+      return `style={${JSON.stringify(style)}}`;
+    }
+  );
 }
 
 const templateExportDefaultModel = `export {{#options.formatConfig.exportDefault}}default{{/options.formatConfig.exportDefault}}{{^options.formatConfig.exportDefault}}const {{variableName}} ={{/options.formatConfig.exportDefault}} () => (
@@ -101,7 +111,7 @@ const templateExportDefaultModel = `export {{#options.formatConfig.exportDefault
 export default async function (
   tokens: InputDataType,
   options: OptionsType,
-  { SpServices }: Pick<LibsType, 'SpServices'>,
+  { SpServices }: Pick<LibsType, "SpServices">
 ): Promise<OutputDataType | Error> {
   try {
     const template = new Template(templateExportDefaultModel);
@@ -120,18 +130,22 @@ export default async function (
     return await Promise.all(
       tokens
         // This parser only works on svg, not pdf
-        .filter(({ value, type }) => type === 'vector' && value.format === 'svg')
+        .filter(
+          ({ value, type }) => type === "vector" && value.format === "svg"
+        )
         .map(async (token): Promise<OutputDataType[0]> => {
           if (token.value.url && !token.value.content) {
             token.value.content = await SpServices.assets.getSource<string>(
               token.value.url!,
-              'text',
+              "text"
             );
           }
           const className = classNameTemplate?.render(token);
-          const variableName = _[options?.variableFormat || 'pascalCase'](token.name);
+          const variableName = _[options?.variableFormat || "pascalCase"](
+            token.name
+          );
 
-          const xmlObject = await parseStringPromise(token.value.content, {
+          /*const xmlObject = await parseStringPromise(token.value.content, {
             explicitArray: true,
             explicitChildren: true,
             explicitRoot: false,
@@ -143,24 +157,36 @@ export default async function (
             validator: formatObject4XMLBuilder,
           });
 
-          token.value.content = convertObjectToXMLString(xmlObject);
-          token.value.content = convertStyleAttrAsJsxObject(token.value.content);
+          token.value.content = convertObjectToXMLString(xmlObject);*/
+          token.value.content = convertStyleAttrAsJsxObject(
+            token.value.content
+          );
 
           token.value.content = prettier.format(
-            (options?.prepend ? `${options?.prepend}${os.EOL}${os.EOL}` : '') +
+            (options?.prepend ? `${options?.prepend}${os.EOL}${os.EOL}` : "") +
               template.render({ token, variableName, options, className }),
             {
-              parser: 'babel',
+              parser: "babel",
               ...(options?.formatConfig
-                ? _.pick(options.formatConfig, ['endOfLine', 'tabWidth', 'useTabs', 'singleQuote'])
+                ? _.pick(options.formatConfig, [
+                    "endOfLine",
+                    "tabWidth",
+                    "useTabs",
+                    "singleQuote",
+                  ])
                 : {}),
-            },
+            }
           );
           token.value.fileName = token.value.fileName
             ? token.value.fileName
-            : `${_.camelCase(token.name)}.${options?.formatConfig?.isTsx ? 'tsx' : 'jsx'}`;
-          return { ...token, value: _.omit(token.value, ['url']) } as OutputDataType[0];
-        }),
+            : `${_.camelCase(token.name)}.${
+                options?.formatConfig?.isTsx ? "tsx" : "jsx"
+              }`;
+          return {
+            ...token,
+            value: _.omit(token.value, ["url"]),
+          } as OutputDataType[0];
+        })
     );
   } catch (err) {
     throw err;

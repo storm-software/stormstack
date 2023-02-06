@@ -11,6 +11,11 @@
   color: #fff; /* Gecko Browsers */
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
 .flip-x {
   transform: rotateX(180deg);
 }

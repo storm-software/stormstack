@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { ILogger } from "../types";
-import { printError, printInfo, printSuccess, printWarning } from "./print";
+import {
+  endGroup,
+  printError,
+  printInfo,
+  printSuccess,
+  printWarning,
+  startGroup,
+} from "./print";
 
 export class ConsoleLogger implements ILogger {
   /**
@@ -52,6 +59,23 @@ export class ConsoleLogger implements ILogger {
    */
   static debug(message: string): Promise<void> {
     printInfo(message);
+
+    return new Promise(() => {});
+  }
+
+  /**
+   * The function `debug` is a static method of the class `Logger`. It takes a string as an argument and
+   * calls the function `printInfo` with that string as an argument.
+   * @param {string} message - The message to be printed.
+   */
+  static group(group: string): Promise<void> {
+    startGroup(group);
+
+    return new Promise(() => {});
+  }
+
+  static groupEnd(): Promise<void> {
+    endGroup();
 
     return new Promise(() => {});
   }

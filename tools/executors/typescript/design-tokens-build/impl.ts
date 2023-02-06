@@ -1,16 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext } from "@nrwl/devkit";
 import { ConsoleLogger } from "@open-system/core-typescript-utilities";
-import {
-  existsSync,
-  mkdirSync, readFileSync,
-  writeFileSync
-} from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import Path from "path";
-import {
-  execute, toCssFontImportParser,
-  toTailwindParser
-} from "../utilities";
+import { execute, toCssFontImportParser, toTailwindParser } from "../utilities";
 import { InputDataType as ToCssFontImportParserInputDataType } from "../utilities/design-token-parsers/parsers/to-css-font-import";
 import { InputDataType as ToTailwindInputDataType } from "../utilities/design-token-parsers/parsers/to-tailwind";
 import { IToken } from "../utilities/design-token-parsers/types";
@@ -186,7 +179,7 @@ export default async function (
                 []
               )
             : []),
-          ...(dataArray["gradient"]
+          /*...(dataArray["gradient"]
             ? Object.entries(dataArray["gradient"]).reduce(
                 (
                   ret: ToTailwindInputDataType,
@@ -221,7 +214,7 @@ export default async function (
                 },
                 []
               )
-            : []),
+            : []),*/
           ...(dataArray["effect"]
             ? Object.entries(dataArray["effect"]).reduce(
                 (

@@ -1,5 +1,6 @@
 "use client";
 
+import { isEmptyObject } from "@open-system/core-typescript-utilities";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
 import {
@@ -7,8 +8,6 @@ import {
   ForwardedRef,
   forwardRef,
   useCallback,
-  useImperativeHandle,
-  useRef,
   useState,
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
@@ -23,7 +22,7 @@ import {
 export type TextareaProps = Omit<
   InputProps,
   "type" | "min" | "max" | "pattern" | "multiple"
-> & {};
+>;
 
 /**
  * The base Input component used by the Open System repository
@@ -48,59 +47,28 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
       autoComplete = InputAutoCompleteTypes.ON,
       autoFocus = false,
       spellCheck = true,
-      onChanged,
+      onChange,
       onFocus,
       onBlur,
+      value,
+      errors,
+      warning,
+      ...props
     }: TextareaProps,
     ref: ForwardedRef<FieldReference<string>>
   ) => {
-    const innerRef = useRef<HTMLTextAreaElement>(null);
-
-    const [error, setError] = useState<string | null>(null);
-    const [warning, setWarning] = useState<string | null>(null);
-    const [value, setValue] = useState<string | null>(null);
     const [focused, setFocused] = useState<boolean>(false);
-
-    const handleChanged = useCallback(
-      (event: ChangeEvent<HTMLTextAreaElement>) => {
-        const nextValue: string | null = event?.target?.value ?? null;
-        if (nextValue !== value) {
-          setValue(nextValue);
-          onChanged?.(nextValue);
-        }
-      },
-      [onChanged, value]
-    );
-
     const handleFocus = useCallback(() => {
       setFocused(true);
       onFocus?.();
     }, [onFocus]);
 
-    const handleBlur = useCallback(() => {
-      setFocused(false);
-      onBlur?.();
-    }, [onBlur]);
-
-    useImperativeHandle<FieldReference<string>, FieldReference<string>>(
-      ref,
-      () => ({
-        error,
-        setError,
-        warning,
-        setWarning,
-        value: value ? value : null,
-        setValue: (nextValue: string | null) => {
-          setValue(nextValue ? nextValue : null);
-        },
-        focus: () => {
-          innerRef.current?.focus?.();
-        },
-        selectText: () => {
-          innerRef.current?.select?.();
-        },
-      }),
-      [error, value, warning]
+    const handleBlur = useCallback(
+      (event: ChangeEvent<HTMLTextAreaElement>) => {
+        setFocused(false);
+        onBlur?.(event);
+      },
+      [onBlur]
     );
 
     return (
@@ -108,7 +76,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
         name={name}
         label={label}
         info={info}
-        error={error}
+        errors={errors}
         warning={warning}
         focused={focused}
         disabled={disabled}
@@ -117,9 +85,15 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
         <textarea
           id={name}
           name={name}
-          ref={innerRef}
+          ref={ref as any}
           className={clsx(
-            getStrokeStyle(error, warning, info, focused, disabled),
+            getStrokeStyle(
+              !isEmptyObject(errors),
+              !!warning,
+              !!info,
+              focused,
+              disabled
+            ),
             getInputFillColor(disabled),
             {
               "ring-1 ring-active ring-offset-0": focused,
@@ -128,7 +102,14 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
               "focus:shadow-active-glow": focused && glow,
             },
             "flex w-full resize-none rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
-            getInputTextStyle(error, warning, info, focused, disabled, value),
+            getInputTextStyle(
+              !isEmptyObject(errors),
+              !!warning,
+              !!info,
+              focused,
+              disabled,
+              value
+            ),
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
@@ -136,7 +117,6 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
             },
             className
           )}
-          value={value ?? undefined}
           placeholder={placeholder}
           disabled={disabled}
           readOnly={disabled}
@@ -145,7 +125,9 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
           maxLength={maxLength}
           tabIndex={tabIndex}
           inputMode={inputMode}
-          autoCorrect={autoCorrect ? "on" : "off"}
+          autoCorrect={
+            autoCorrect ? InputAutoCompleteTypes.ON : InputAutoCompleteTypes.OFF
+          }
           autoFocus={autoFocus}
           autoComplete={
             autoComplete === false
@@ -155,11 +137,11 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
               : autoComplete
           }
           spellCheck={spellCheck}
-          aria-invalid={!!error}
+          aria-invalid={!isEmptyObject(errors)}
           aria-required={required}
           aria-disabled={disabled}
-          onInput={handleChanged}
-          onChange={handleChanged}
+          onInput={onChange}
+          onChange={onChange}
           onFocus={handleFocus}
           onBlur={handleBlur}></textarea>
       </FieldWrapper>

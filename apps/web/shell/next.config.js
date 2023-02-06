@@ -19,14 +19,17 @@ const nextConfig = {
     fontLoaders: [
       { loader: "@next/font/google", options: { subsets: ["latin"] } },
     ],
-    transpilePackages: [
-      "reflect-metadata",
-      "framer-motion",
-      "@react-pdf/renderer",
-      "@open-system/core-typescript-utilities",
-      "@open-system/design-system-components",
-    ],
   },
+
+  transpilePackages: [
+    "reflect-metadata",
+    "framer-motion",
+    "@react-pdf/renderer",
+    "react-hook-form",
+    "@open-system/core-typescript-utilities",
+    "@open-system/design-system-components",
+    "@open-system/shared-ui-feature-form",
+  ],
 
   async redirects() {
     return [

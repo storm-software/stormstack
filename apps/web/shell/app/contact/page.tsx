@@ -11,10 +11,10 @@ export default function Page() {
     <div className="flex flex-col gap-8">
       <div className="flex flex-row items-center gap-8">
         <div className="flex flex-col gap-2">
-          <label className="font-header-4 text-xl text-violet-500">
+          <label className="font-header-4 text-2xl text-violet-500">
             Contact Reason
           </label>
-          <h2 className="font-label-3 text-3xl text-primary">
+          <h2 className="font-label-4 text-4xl text-primary">
             What do you want to start a conversation about?
           </h2>
         </div>
@@ -30,7 +30,7 @@ export default function Page() {
                 value: "business",
               },
               {
-                name: "I would like your help on an upcoming open source project",
+                name: "I would like help on an upcoming open source project",
                 value: "project",
               },
               { name: "I have a question to ask", value: "question" },

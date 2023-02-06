@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 // Type definitions for svgo 1.3
 // Project: https://github.com/svg/svgo
 // Definitions by: Bradley Ayers <https://github.com/bradleyayers>
@@ -347,7 +348,7 @@ declare namespace SVGO {
 
   interface Options {
     /** Output as Data URI string. */
-    datauri?: 'base64' | 'enc' | 'unenc' | undefined;
+    datauri?: "base64" | "enc" | "unenc" | undefined;
 
     /** Precision of floating point numbers. Will be passed to each plugin that suppors this param. */
     floatPrecision?: number | undefined;
@@ -372,4 +373,4 @@ declare namespace SVGO {
   }
 }
 
-export = SVGO;
+export default SVGO;

@@ -164,7 +164,7 @@ export const isEmptyObject = (obj: unknown) => {
   try {
     return isEmpty(obj) || Object.keys(obj ?? {}).length === 0;
   } catch (e) {
-    return false;
+    return true;
   }
 };
 

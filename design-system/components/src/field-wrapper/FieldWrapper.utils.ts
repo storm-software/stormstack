@@ -1,7 +1,7 @@
 export function getBorderStyle(
-  error: string | null,
-  warning: string | null,
-  info: string | null,
+  error: boolean,
+  warning: boolean,
+  info: boolean,
   focused: boolean
 ) {
   return error
@@ -16,9 +16,9 @@ export function getBorderStyle(
 }
 
 export function getIsBorderDisplayed(
-  error: string | null,
-  warning: string | null,
-  info: string | null,
+  error: boolean,
+  warning: boolean,
+  info: boolean,
   focused: boolean,
   noBorder: boolean
 ) {
@@ -26,9 +26,9 @@ export function getIsBorderDisplayed(
 }
 
 export function getInputMessage(
-  error: string | null,
-  warning: string | null,
-  info: string | null
+  error?: string | null,
+  warning?: string | null,
+  info?: string | null
 ) {
   return error ? error : warning ? warning : info ? info : null;
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { isEmptyObject } from "@open-system/core-typescript-utilities";
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
@@ -8,12 +9,10 @@ import {
   ForwardedRef,
   forwardRef,
   useCallback,
-  useImperativeHandle,
-  useRef,
   useState,
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
-import { BaseFieldProps, FieldReference } from "../types";
+import { BaseFieldProps } from "../types";
 import {
   getInputFillColor,
   getInputTextStyle,
@@ -41,13 +40,16 @@ export type RadioProps = BaseFieldProps & {
 /**
  * The base Input component used by the Open System repository
  */
-export const Radio = forwardRef<FieldReference<string>, RadioProps>(
+export const Radio = forwardRef<HTMLInputElement, RadioProps>(
   (
     {
       className,
       name,
+      value,
       options = [],
       info = null,
+      errors,
+      warning,
       disabled = false,
       required = false,
       noBorder = false,
@@ -57,59 +59,25 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
       tabIndex,
       autoFocus = false,
       isVertical = false,
-      onChanged,
+      onChange,
       onFocus,
       onBlur,
+      ...props
     }: RadioProps,
-    ref: ForwardedRef<FieldReference<string>>
+    ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const innerRef = useRef<HTMLInputElement>(null);
-
-    const [error, setError] = useState<string | null>(null);
-    const [warning, setWarning] = useState<string | null>(null);
-    const [value, setValue] = useState<string | null>(null);
     const [focused, setFocused] = useState<boolean>(false);
-
-    const handleChanged = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        const nextValue: string | null = event?.target?.value ?? null;
-        if (nextValue !== value) {
-          setValue(nextValue);
-          onChanged?.(nextValue);
-        }
-      },
-      [onChanged, value]
-    );
-
     const handleFocus = useCallback(() => {
       setFocused(true);
       onFocus?.();
     }, [onFocus]);
 
-    const handleBlur = useCallback(() => {
-      setFocused(false);
-      onBlur?.();
-    }, [onBlur]);
-
-    useImperativeHandle<FieldReference<string>, FieldReference<string>>(
-      ref,
-      () => ({
-        error,
-        setError,
-        warning,
-        setWarning,
-        value: value || typeof value === "number" ? value : null,
-        setValue: (nextValue: string | null) => {
-          setValue(
-            nextValue || typeof nextValue === "number" ? nextValue : null
-          );
-        },
-        focus: () => {
-          innerRef.current?.focus?.();
-        },
-        selectText: () => {},
-      }),
-      [error, value, warning]
+    const handleBlur = useCallback(
+      (event: ChangeEvent<HTMLInputElement>) => {
+        setFocused(false);
+        onBlur?.(event);
+      },
+      [onBlur]
     );
 
     return (
@@ -122,7 +90,7 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
         name={name}
         label={label}
         info={info}
-        error={error}
+        errors={errors}
         warning={warning}
         focused={focused}
         disabled={disabled}
@@ -145,14 +113,13 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
                 className={clsx(
                   "transition",
                   getInputTextStyle(
-                    error,
-                    warning,
-                    info,
+                    isEmptyObject(errors),
+                    !!warning,
+                    !!info,
                     focused && (!value || option.value === value),
                     disabled,
                     option.value === value ? value : null
-                  ),
-                  { "font-bold": option.value === value }
+                  )
                 )}
                 htmlFor={option.value}>
                 {option.name}
@@ -161,9 +128,15 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
                 type="radio"
                 id={option.value}
                 name={name}
-                ref={innerRef}
+                ref={ref}
                 className={clsx(
-                  getStrokeStyle(error, warning, info, focused, disabled),
+                  getStrokeStyle(
+                    isEmptyObject(errors),
+                    !!warning,
+                    !!info,
+                    focused,
+                    disabled
+                  ),
                   getInputFillColor(disabled),
                   {
                     "ring-1 ring-active ring-offset-0": focused,
@@ -173,9 +146,9 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
                   },
                   "max-w-5 flex h-5 w-5 cursor-pointer rounded-full font-label-1 leading-label-1 transition focus:ring-0 focus:ring-active focus:ring-offset-0 disabled:bg-disabled-fill",
                   getInputTextStyle(
-                    error,
-                    warning,
-                    info,
+                    isEmptyObject(errors),
+                    !!warning,
+                    !!info,
                     focused,
                     disabled,
                     value
@@ -187,15 +160,14 @@ export const Radio = forwardRef<FieldReference<string>, RadioProps>(
                   },
                   { "scale-110": option.value === value }
                 )}
-                value={option.value ?? undefined}
                 placeholder={placeholder}
                 disabled={disabled}
                 required={required}
                 tabIndex={tabIndex}
                 autoFocus={autoFocus}
                 aria-disabled={disabled}
-                onInput={handleChanged}
-                onChange={handleChanged}
+                onInput={onChange}
+                onChange={onChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
               />

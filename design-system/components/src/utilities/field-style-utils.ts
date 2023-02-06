@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export function getTextStyle(
-  error: string | null,
-  warning: string | null,
-  info: string | null,
-  focused: boolean
+  errors?: boolean,
+  warning?: boolean,
+  info?: boolean,
+  focused?: boolean
 ) {
-  return error
+  return errors
     ? "text-error"
     : warning
     ? "text-warning"
@@ -22,28 +22,28 @@ export function getInputFillColor(disabled: boolean) {
 }
 
 export function getInputTextStyle(
-  error: string | null,
-  warning: string | null,
-  info: string | null,
-  focused: boolean,
-  disabled: boolean,
-  value: any
+  errors?: boolean,
+  warning?: boolean,
+  info?: boolean,
+  focused?: boolean,
+  disabled?: boolean,
+  value?: any
 ) {
   return disabled
     ? "text-input-fill"
     : value !== undefined && value !== null
     ? "text-active"
-    : getTextStyle(error, warning, info, focused);
+    : getTextStyle(errors, warning, info, focused);
 }
 
 export function getStrokeStyle(
-  error: string | null,
-  warning: string | null,
-  info: string | null,
-  focused: boolean,
-  disabled: boolean
+  errors?: boolean,
+  warning?: boolean,
+  info?: boolean,
+  focused?: boolean,
+  disabled?: boolean
 ) {
-  return error
+  return errors
     ? "border-error focus:border-error"
     : warning
     ? "border-warning focus:border-warning"

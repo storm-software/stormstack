@@ -6,7 +6,7 @@ import {
   Permanent_Marker,
 } from "@next/font/google";
 import localFont from "@next/font/local";
-import { ContactFooterForm } from "@open-system/contact-ui-feature-form/contact-footer-form";
+// import { ContactFooterForm } from "@open-system/contact-ui-feature-form/contact-footer-form";
 import { Link } from "@open-system/shared-ui-components/link";
 import { Footer } from "@open-system/shared-ui-feature-layout/footer";
 import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links";
@@ -17,6 +17,7 @@ import "reflect-metadata";
 import Logo from "../../../../assets/box-logo-gradient.svg";
 import "../dependency-inversion.config";
 import "../styles/globals.css";
+import ContactFooterForm from "./(components)/contact-footer-form";
 import CookiePolicyBanner from "./(components)/cookie-policy-banner.server";
 import PdfResumeDownload from "./(components)/pdf-resume-download.client";
 import NavHeader from "./nav-header";
@@ -30,6 +31,11 @@ const melody = localFont({
 const satoshi = localFont({
   variable: "--font-satoshi",
   src: "../../../../assets/fonts/Satoshi-Bold.otf",
+});
+
+const antiqueOlive = localFont({
+  variable: "--font-antique-olive",
+  src: "../../../../assets/fonts/Antique-Olive-Black.ttf",
 });
 
 const permanentMarker = Permanent_Marker({
@@ -67,6 +73,7 @@ export default function RootLayout({
         melody.variable,
         inter.variable,
         anybody.variable,
+        antiqueOlive.variable,
         frankRuhlLibre.variable,
         abrilFatface.variable,
         permanentMarker.variable,
@@ -87,7 +94,7 @@ export default function RootLayout({
           <Footer
             top={
               <div className="flex flex-row gap-16">
-                <ContactFooterForm className="w-full" />
+                <ContactFooterForm />
                 <div className="hidden flex-row items-center justify-center lg:flex">
                   <Link className="h-[20rem] w-[28rem]">
                     <Logo className="h-[20rem] w-[28rem]" />
@@ -98,7 +105,7 @@ export default function RootLayout({
             bottom={
               <div className="flex flex-col items-center justify-center gap-16 lg:flex-row lg:items-start">
                 <div className="flex flex-col gap-2">
-                  <h3 className="whitespace-nowrap text-center font-footer-name text-4xl text-slate-300">
+                  <h3 className="whitespace-nowrap font-label-4 text-4xl text-slate-200 underline">
                     Navigation
                   </h3>
                   <div className="flex flex-row gap-16">
@@ -114,14 +121,14 @@ export default function RootLayout({
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h3 className="whitespace-nowrap text-center font-footer-name text-4xl text-slate-300">
+                  <h3 className="whitespace-nowrap font-label-4 text-4xl text-slate-200 underline">
                     Blog
                   </h3>
                   <Link variant={LinkVariants.SECONDARY}>Articles</Link>
                   <Link variant={LinkVariants.SECONDARY}>Latest</Link>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h3 className="whitespace-nowrap text-center font-footer-name text-4xl text-slate-300">
+                  <h3 className="whitespace-nowrap font-label-4 text-4xl text-slate-200 underline">
                     Docs
                   </h3>
                   <Link variant={LinkVariants.SECONDARY}>Open System</Link>

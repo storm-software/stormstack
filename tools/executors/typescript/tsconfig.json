@@ -4,7 +4,8 @@
     "outDir": "../../../dist/tools/executors/typescript",
     "declaration": true,
     "rootDir": ".",
-    "types": ["node"]
+    "types": ["node"],
+    "downlevelIteration": true
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts"]

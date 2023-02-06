@@ -32,7 +32,17 @@
         "operationId": "get-contact-requests",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetContactsResponse"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contact"
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -144,7 +154,14 @@
         "operationId": "get-contact-request",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/GetContactResponse"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -345,12 +362,18 @@
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/AddContactRequest"
-        },
         "tags": [
           "Contact"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactDetail"
+              }
+            }
+          }
+        }
       }
     },
     "/subscriptions": {
@@ -823,6 +846,11 @@
         "type": "object"
       },
       "ContactDetail": {
+        "type": "object",
+        "title": "ContactDetail",
+        "x-stoplight": {
+          "id": "78659ef055685"
+        },
         "properties": {
           "firstName": {
             "type": "string"
@@ -846,8 +874,9 @@
             "enum": [
               "business",
               "question",
-              "casual",
-              "other"
+              "other",
+              "project",
+              "interest"
             ]
           },
           "details": {
@@ -866,12 +895,7 @@
           "email",
           "isSubscribed"
         ],
-        "type": "object",
-        "title": "ContactDetail",
-        "description": "",
-        "x-stoplight": {
-          "id": "78659ef055685"
-        }
+        "description": "The base model for contact data"
       }
     },
     "requestBodies": {

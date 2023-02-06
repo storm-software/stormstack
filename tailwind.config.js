@@ -36,6 +36,7 @@ module.exports = {
         "label-1": ["var(--font-anybody)", ...fontFamily.sans],
         "label-2": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "label-3": ["var(--font-satoshi)", ...fontFamily.sans],
+        "label-4": ["var(--font-antique-olive)", ...fontFamily.sans],
         "btn-label-1": ["var(--font-poppins)", ...fontFamily.sans],
         "like-label": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "footer-name": ["var(--font-permanent-marker)", ...fontFamily.sans],

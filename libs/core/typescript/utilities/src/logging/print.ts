@@ -98,3 +98,15 @@ export const printError = (
 ) => {
   console.error(print(message, newLine, newLineAfter, chalk.red("!")));
 };
+
+/**
+ * `printGroup` is a function that takes a string and returns nothing
+ * @param {string} group - string
+ */
+export const startGroup = (group: string) => {
+  console.group(group);
+};
+
+export const endGroup = () => {
+  console.groupEnd();
+};

@@ -19,6 +19,9 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@open-system/asyncapi-rabbitmq": ["tools/asyncapi/rabbitmq/index.ts"],
+      "@open-system/contact-ui-data-access": [
+        "libs/contact/ui/data-access/src/index.ts"
+      ],
       "@open-system/contact-ui-feature-form": [
         "libs/contact/ui/feature-form/src/index.ts"
       ],
@@ -68,6 +71,12 @@
       ],
       "@open-system/shared-ui-data-access": [
         "libs/shared/ui/data-access/src/index.ts"
+      ],
+      "@open-system/shared-ui-feature-form": [
+        "libs/shared/ui/feature-form/src/index.ts"
+      ],
+      "@open-system/shared-ui-feature-form/*": [
+        "libs/shared/ui/feature-form/src/*"
       ],
       "@open-system/shared-ui-feature-layout": [
         "libs/shared/ui/feature-layout/src/index.ts"

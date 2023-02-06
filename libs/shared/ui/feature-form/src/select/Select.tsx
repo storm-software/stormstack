@@ -1,0 +1,34 @@
+"use client";
+
+import {
+  Select as OsSelect,
+  SelectProps,
+} from "@open-system/design-system-components";
+import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import { useFieldErrors } from "../hooks/use-field-errors";
+import { useFieldValue } from "../hooks/use-field-value";
+import { useIsSubmitting } from "../hooks/use-is-submitting";
+
+export function Select({ name, required, disabled, ...props }: SelectProps) {
+  const { register, unregister } = useFormContext();
+  const errors = useFieldErrors(name);
+  const value = useFieldValue(name);
+
+  useEffect(
+    () => () => unregister(name, { keepDefaultValue: true }),
+    [name, unregister]
+  );
+
+  return (
+    <OsSelect
+      {...props}
+      {...register(name, {
+        required: required ? "This field is required." : undefined,
+        disabled: useIsSubmitting() || disabled,
+      })}
+      value={value}
+      errors={errors as Record<string, string>}
+    />
+  );
+}

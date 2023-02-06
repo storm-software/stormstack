@@ -2,15 +2,17 @@
 
 import {
   BaseComponentProps,
-  Button,
   ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
-  ButtonTypes,
-  Checkbox,
-  Input,
-  Textarea,
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
+import {
+  EmailInput,
+  Form,
+  SubmitButton,
+  Textarea,
+} from "@open-system/shared-ui-feature-form";
+import { Checkbox } from "@open-system/shared-ui-feature-form/checkbox";
 import clsx from "clsx";
 
 export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
@@ -26,9 +28,11 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
         !
       </h1>
 
-      <div className="flex flex-col gap-3">
+      <Form
+        className="flex flex-col gap-3"
+        defaultValues={{ email: "", comment: "", subscribe: true }}>
         <div className="flex flex-col">
-          <Input
+          <EmailInput
             name="email"
             label="Email"
             required={true}
@@ -47,7 +51,7 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
               <>
                 I want to receive emails with future updates from this
                 developer. Please see our{" "}
-                <Link href="/about" target="_blank">
+                <Link href="/about" inNewTab={true}>
                   email policy
                 </Link>
                 .
@@ -57,15 +61,13 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
           />
         </div>
         <div className="flex flex-row-reverse">
-          <Button
-            type={ButtonTypes.SUBMIT}
+          <SubmitButton
             transitionDirection={ButtonTransitionDirections.RIGHT}
-            rounding={ButtonCornerRoundingTypes.PARTIAL}
-            hoverText="Submit">
+            rounding={ButtonCornerRoundingTypes.PARTIAL}>
             Send
-          </Button>
+          </SubmitButton>
         </div>
-      </div>
+      </Form>
     </div>
   );
 }

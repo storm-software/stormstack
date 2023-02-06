@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { RefObject } from "react";
 
 export type BaseComponentProps = React.PropsWithChildren<
   Partial<
@@ -42,6 +42,18 @@ export type BaseFieldProps = PropsWithBaseRef<{
    * Decides if input is disabled
    */
   disabled?: boolean;
+
+  /**
+   * An error messages displayed under the input
+   *
+   * @remarks Potentially multiple errors can be returned at once. The structure is a the dictionary with error type as the key and error message as the value.
+   */
+  errors?: Record<string, string> | null;
+
+  /**
+   * An warning message displayed under the input
+   */
+  warning?: string | null;
 
   /**
    * An info message displayed under the input
@@ -88,7 +100,7 @@ export type BaseFieldProps = PropsWithBaseRef<{
   /**
    * Event handler for input value changed event
    */
-  onChanged?: (nextValue: any) => void;
+  onChange?: ChangeHandler;
 
   /**
    * Event handler for input focused event
@@ -98,7 +110,12 @@ export type BaseFieldProps = PropsWithBaseRef<{
   /**
    * Event handler for input blur event
    */
-  onBlur?: () => void;
+  onBlur?: ChangeHandler;
+
+  /**
+   * The value of the input field
+   */
+  value?: any;
 }>;
 
 export type FieldReference<TValue = string> = {
@@ -110,4 +127,48 @@ export type FieldReference<TValue = string> = {
   setValue: (value: TValue | null) => void;
   focus: () => void;
   selectText: () => void;
+};
+
+export type ChangeHandler = (event: {
+  target: any;
+  type?: any;
+}) => Promise<void | boolean>;
+
+export type ValidationValue = boolean | number | string | RegExp;
+
+export type ValidationRule<
+  TValidationValue extends ValidationValue = ValidationValue
+> = TValidationValue | ValidationValueMessage<TValidationValue>;
+
+export type ValidationValueMessage<
+  TValidationValue extends ValidationValue = ValidationValue
+> = {
+  value: TValidationValue;
+  message: string;
+};
+
+export type FieldProxyConfig<
+  TValue = any,
+  TRef extends HTMLInputElement = HTMLInputElement
+> = {
+  ref: RefObject<TRef>;
+  noLabel?: boolean;
+  value: TValue | null;
+  setValue: (value: TValue | null) => void;
+  label: string | JSX.Element | null;
+  setLabel: (label: string | JSX.Element | null) => void;
+  error?: string | null;
+  setError: (error?: string | null) => void;
+  warning?: string | null;
+  setWarning: (warning?: string | null) => void;
+  info?: string | null;
+  setInfo: (info?: string | null) => void;
+  disabled: boolean;
+  setDisabled: (disabled: boolean) => void;
+  focused: boolean;
+  setFocused: (focused: boolean) => void;
+  required: boolean;
+  setRequired: (required: boolean) => void;
+  dirty: boolean;
+  setDirty: (dirty: boolean) => void;
 };

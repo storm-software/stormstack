@@ -1,18 +1,17 @@
 "use client";
 
+import { isEmptyObject } from "@open-system/core-typescript-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,
   ForwardedRef,
   forwardRef,
   useCallback,
-  useImperativeHandle,
-  useRef,
   useState,
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
 import { FieldLabelPlacementTypes } from "../field-wrapper/FieldWrapper.types";
-import { BaseFieldProps, FieldReference } from "../types";
+import { BaseFieldProps } from "../types";
 import {
   getInputFillColor,
   getStrokeStyle,
@@ -24,7 +23,7 @@ export type CheckboxProps = BaseFieldProps;
 /**
  * The base Checkbox component used by the Open System repository
  */
-export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (
     {
       className,
@@ -37,59 +36,28 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
       label,
       tabIndex,
       autoFocus = false,
-      onChanged,
+      onChange,
       onFocus,
       onBlur,
+      value,
+      errors,
+      warning,
+      ...props
     }: CheckboxProps,
-    ref: ForwardedRef<FieldReference<boolean>>
+    ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const innerRef = useRef<HTMLInputElement>(null);
-
-    const [error, setError] = useState<string | null>(null);
-    const [warning, setWarning] = useState<string | null>(null);
-    const [value, setValue] = useState<boolean>(false);
     const [focused, setFocused] = useState<boolean>(false);
-
-    const handleChanged = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        const nextValue = !!event?.target?.value;
-        if (nextValue !== value) {
-          setValue(nextValue);
-          onChanged?.(nextValue);
-        }
-      },
-      [onChanged, value]
-    );
-
     const handleFocus = useCallback(() => {
       setFocused(true);
       onFocus?.();
     }, [onFocus]);
 
-    const handleBlur = useCallback(() => {
-      setFocused(false);
-      onBlur?.();
-    }, [onBlur]);
-
-    useImperativeHandle<FieldReference<boolean>, FieldReference<boolean>>(
-      ref,
-      () => ({
-        error,
-        setError,
-        warning,
-        setWarning,
-        value: !!value,
-        setValue: (nextValue: boolean | null) => {
-          setValue(!!nextValue);
-        },
-        focus: () => {
-          innerRef.current?.focus?.();
-        },
-        selectText: () => {
-          innerRef.current?.select?.();
-        },
-      }),
-      [error, value, warning]
+    const handleBlur = useCallback(
+      (event: ChangeEvent<HTMLInputElement>) => {
+        setFocused(false);
+        onBlur?.(event);
+      },
+      [onBlur]
     );
 
     return (
@@ -97,7 +65,7 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
         name={name}
         label={label}
         info={info}
-        error={error}
+        errors={errors}
         warning={warning}
         focused={focused}
         disabled={disabled}
@@ -109,9 +77,15 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
         <input
           id={name}
           name={name}
-          ref={innerRef}
+          ref={ref}
           className={clsx(
-            getStrokeStyle(error, warning, info, focused, disabled),
+            getStrokeStyle(
+              !isEmptyObject(errors),
+              !!warning,
+              !!info,
+              focused,
+              disabled
+            ),
             getInputFillColor(disabled),
             {
               "focus:shadow-active-glow": focused && glow,
@@ -119,7 +93,7 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
             "max-w-6 flex h-6 w-6 rounded-md font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-offset-0",
             disabled
               ? "text-input-fill"
-              : getTextStyle(error, warning, info, false),
+              : getTextStyle(!isEmptyObject(errors), !!warning, !!info, false),
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
@@ -127,17 +101,16 @@ export const Checkbox = forwardRef<FieldReference<boolean>, CheckboxProps>(
             }
           )}
           type="checkbox"
-          value={value ? "true" : "false"}
           disabled={disabled}
           readOnly={disabled}
           required={required}
           tabIndex={tabIndex}
           autoFocus={autoFocus}
-          aria-invalid={!!error}
+          aria-invalid={!isEmptyObject(errors)}
           aria-required={required}
           aria-disabled={disabled}
-          onInput={handleChanged}
-          onChange={handleChanged}
+          onInput={onChange}
+          onChange={onChange}
           onFocus={handleFocus}
           onBlur={handleBlur}></input>
       </FieldWrapper>

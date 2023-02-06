@@ -5,6 +5,11 @@
       "schema": "../../../dist/tools/executors/typescript/client-api-sync/schema.json",
       "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec."
     },
+    "client-api-joi-sync": {
+      "implementation": "../../../dist/tools/executors/typescript/client-api-joi-sync/impl",
+      "schema": "../../../dist/tools/executors/typescript/client-api-joi-sync/schema.json",
+      "description": "Sync up TypeScript client-side Joi validator project code and types based on an OpenApi spec."
+    },
     "design-tokens-build": {
       "implementation": "../../../dist/tools/executors/typescript/design-tokens-build/impl",
       "schema": "../../../dist/tools/executors/typescript/design-tokens-build/schema.json",
