@@ -19,7 +19,7 @@ import "../dependency-inversion.config";
 import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
 import CookiePolicyBanner from "./(components)/cookie-policy-banner.server";
-import PdfResumeDownload from "./(components)/pdf-resume-download.client";
+import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
 import NavHeader from "./nav-header";
 import RootProvider from "./store-provider";
 
@@ -136,7 +136,7 @@ export default function RootLayout({
                   <Link variant={LinkVariants.SECONDARY}>Storybook</Link>
                 </div>
                 <div className="flex h-full flex-col items-center">
-                  <PdfResumeDownload />
+                  <PdfResumeDownloadLink />
                 </div>
                 <div className="flex flex-1 flex-col items-center justify-center sm:flex-row">
                   <div className="flex w-fit flex-col gap-0.5">

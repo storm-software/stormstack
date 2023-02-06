@@ -5,7 +5,7 @@ import { NavigationMenu } from "@open-system/shared-ui-feature-layout/navigation
 import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links/SocialMediaLinks";
 import { NotificationGroup } from "@open-system/shared-ui-feature-notifications/notification-group";
 import Logo from "../../../../assets/box-logo-white.svg";
-import PdfResumeDownload from "./(components)/pdf-resume-download.client";
+import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
 
 export default function NavHeader() {
   return (
@@ -25,7 +25,7 @@ export default function NavHeader() {
             <Link className="absolute left-[42%] -bottom-5 h-[9.5rem] w-[10rem]">
               <Logo className="h-[9.5rem] w-[10rem]" />
             </Link>
-            <PdfResumeDownload />
+            <PdfResumeDownloadLink />
           </div>
         }
       />
