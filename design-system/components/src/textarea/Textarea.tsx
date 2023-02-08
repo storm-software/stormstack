@@ -8,7 +8,7 @@ import {
   ForwardedRef,
   forwardRef,
   useCallback,
-  useState,
+  useState
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
 import { InputAutoCompleteTypes, InputProps } from "../input";
@@ -16,7 +16,7 @@ import { FieldReference } from "../types";
 import {
   getInputFillColor,
   getInputTextStyle,
-  getStrokeStyle,
+  getStrokeStyle
 } from "../utilities/field-style-utils";
 
 export type TextareaProps = Omit<
@@ -120,7 +120,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
           placeholder={placeholder}
           disabled={disabled}
           readOnly={disabled}
-          required={required}
+          // required={required}
           minLength={minLength}
           maxLength={maxLength}
           tabIndex={tabIndex}

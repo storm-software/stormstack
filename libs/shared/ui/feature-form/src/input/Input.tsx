@@ -18,11 +18,12 @@ export type InputProps = Omit<
   pattern?: ValidationPropType<RegExp>;
   min?: ValidationPropType<number>;
   max?: ValidationPropType<number>;
-  minLength?: ValidationPropType<number>;
-  maxLength?: ValidationPropType<number>;
+  minLength?: ValidationPropType<number> | number;
+  maxLength?: ValidationPropType<number> | number;
 };
 
 export function Input({
+  label,
   name,
   required,
   min,
@@ -41,8 +42,26 @@ export function Input({
     required: required ? "This field is required." : undefined,
     min,
     max,
-    minLength,
-    maxLength,
+    minLength: minLength
+      ? typeof minLength === "number"
+        ? {
+            value: minLength,
+            message: `${
+              label ? label : "Field"
+            } must be longer than ${minLength} characters.`,
+          }
+        : minLength
+      : undefined,
+    maxLength: maxLength
+      ? typeof maxLength === "number"
+        ? {
+            value: maxLength,
+            message: `${
+              label ? label : "Field"
+            } must be no more than ${maxLength} characters.`,
+          }
+        : maxLength
+      : undefined,
     pattern,
     disabled: useIsSubmitting() || disabled,
   });
@@ -55,6 +74,7 @@ export function Input({
     <OsInput
       {...props}
       {...field}
+      label={label}
       value={value}
       errors={errors as Record<string, string>}
       min={field.min as number}

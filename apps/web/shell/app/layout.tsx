@@ -3,6 +3,7 @@ import {
   Anybody,
   Frank_Ruhl_Libre,
   Inter,
+  Nothing_You_Could_Do,
   Permanent_Marker,
 } from "@next/font/google";
 import localFont from "@next/font/local";
@@ -61,6 +62,11 @@ const frankRuhlLibre = Frank_Ruhl_Libre({
   weight: "700",
 });
 
+const rockSalt = Nothing_You_Could_Do({
+  variable: "--font-rock-salt",
+  weight: "400",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -78,6 +84,7 @@ export default function RootLayout({
         abrilFatface.variable,
         permanentMarker.variable,
         satoshi.variable,
+        rockSalt.variable,
         "bg-bg-1 antialiased"
       )}>
       <head />

@@ -846,56 +846,65 @@
         "type": "object"
       },
       "ContactDetail": {
-        "type": "object",
-        "title": "ContactDetail",
-        "x-stoplight": {
-          "id": "78659ef055685"
-        },
-        "properties": {
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string",
-            "description": "The email address of the contact",
-            "format": "email"
-          },
-          "reason": {
-            "type": "string",
-            "example": "business",
-            "description": "The type of contact request",
-            "default": "business",
-            "enum": [
-              "business",
-              "question",
-              "other",
-              "project",
-              "interest"
+        "allOf": [
+          {
+            "properties": {
+              "firstName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "phoneNumber": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "description": "The email address of the contact",
+                "format": "email"
+              },
+              "companyName": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string",
+                "example": "business",
+                "description": "The type of contact request",
+                "default": "business",
+                "enum": [
+                  "business",
+                  "question",
+                  "other",
+                  "project",
+                  "interest"
+                ]
+              },
+              "details": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "isSubscribed": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "email",
+              "reason",
+              "isSubscribed"
             ]
           },
-          "details": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "isSubscribed": {
-            "type": "boolean",
-            "default": true
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/Address"
           }
-        },
-        "required": [
-          "email",
-          "isSubscribed"
         ],
-        "description": "The base model for contact data"
+        "type": "object"
       }
     },
     "requestBodies": {

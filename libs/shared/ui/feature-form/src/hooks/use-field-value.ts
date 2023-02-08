@@ -1,7 +1,5 @@
-import { useFormContext } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 
-export function useFieldValue(name?: string | string[]) {
-  const { getValues } = useFormContext();
-
-  return getValues<any>(name);
+export function useFieldValue(name: string) {
+  return useWatch({ name });
 }

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Open System - Client Redux Application Sync",
+  "description": "Sync up TypeScript client-side Redux API SDK project code and types based on an OpenApi spec",
+  "type": "object",
+  "properties": {
+    "output": {
+      "type": "string",
+      "description": "The output file or directory"
+    },
+    "prettierConfig": {
+      "type": "string",
+      "description": "The path to your custom Prettier configuration",
+      "default": "./.prettierrc"
+    },
+    "specJsonFile": {
+      "type": "string",
+      "alias": "dir",
+      "description": "The path (relative to the workspace root) where the OpenAPI JSON spec file is located",
+      "default": "api-spec.json"
+    }
+  },
+  "required": ["output", "specJsonFile"]
+}

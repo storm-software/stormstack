@@ -6,11 +6,14 @@ import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-m
 import { NotificationGroup } from "@open-system/shared-ui-feature-notifications/notification-group";
 import Logo from "../../../../assets/box-logo-white.svg";
 import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
+import PersistGate from "./(components)/persist-gate";
 
 export default function NavHeader() {
   return (
     <nav className="fixed top-0 z-nav h-0 w-full overflow-visible">
-      <NotificationGroup />
+      <PersistGate>
+        <NotificationGroup />
+      </PersistGate>
 
       <NavigationMenu
         items={[

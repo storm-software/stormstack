@@ -76,6 +76,7 @@ export type InputAutoCompleteTypes =
   | "address-level1"
   | "country"
   | "country-name"
+  | "postal-code"
   | "cc-name"
   | "cc-number"
   | "cc-exp"
@@ -107,6 +108,7 @@ export const InputAutoCompleteTypes = {
   ADDRESS: "street-address" as InputAutoCompleteTypes,
   CITY: "address-level2" as InputAutoCompleteTypes,
   STATE: "address-level1" as InputAutoCompleteTypes,
+  POSTAL_CODE: "postal-code" as InputAutoCompleteTypes,
   COUNTRY: "country" as InputAutoCompleteTypes,
   COUNTRY_NAME: "country-name" as InputAutoCompleteTypes,
   CC_NAME: "cc-name" as InputAutoCompleteTypes,

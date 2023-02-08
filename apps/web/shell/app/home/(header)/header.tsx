@@ -13,67 +13,29 @@ export default function Header() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
 
-  const titleRotateZ: any = useTransform(scrollYProgress, [0, 1], [0, -560]);
-  const logoRotateZ: any = useTransform(scrollYProgress, [0, 1], [0, 560]);
+  const titleRotateZ = useTransform(scrollYProgress, [0, 1], [0, -560]);
+  const logoRotateZ = useTransform(scrollYProgress, [0, 1], [0, 560]);
 
   return (
     <header className="relative flex snap-center snap-always justify-center overflow-hidden bg-bg-title bg-[length:100%_60%] bg-fixed bg-no-repeat bg-origin-border py-20 pt-[5.5rem]">
-      <div className="absolute top-12 left-32 z-scroll flex flex-col gap-5">
+      <div className="absolute top-20 left-20 z-scroll flex flex-col gap-8">
         <PdfResumeDownload>
           <motion.h2
-            className="group cursor-pointer font-link-title-1 text-6xl"
+            className="group cursor-pointer font-link-title-1 text-5xl"
             whileInView={{ y: -20, opacity: 1 }}
             initial={{ y: 0, opacity: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0 }}>
-            <span className="flex w-fit flex-row bg-gradient-to-r from-pink-400 to-fuchsia-900 bg-[length:100%_16px] bg-bottom bg-no-repeat px-1 transition group-hover:from-primary group-hover:to-primary">
-              <span className="bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent transition group-hover:from-pink-400 group-hover:to-fuchsia-900">
-                Resume
-              </span>{" "}
+            <span className="flex flex-row gap-2 text-primary transition group-hover:text-hover-link-2">
+              Take my resume{" "}
               <ArrowDownTrayIcon
-                className="stroke-primary group-hover:stroke-fuchsia-900"
-                height={65}
-                width={50}
+                className="stroke-primary transition group-hover:stroke-hover-link-2"
+                height={50}
+                width={40}
               />
             </span>
           </motion.h2>
         </PdfResumeDownload>
-        <motion.h2
-          className="group cursor-pointer font-link-title-1 text-6xl"
-          whileInView={{ y: -20, opacity: 1 }}
-          initial={{ y: 0, opacity: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.5 }}>
-          <span className="bg-gradient-to-r from-pink-400 to-fuchsia-900 bg-[length:100%_16px] bg-bottom bg-no-repeat px-1 transition group-hover:from-primary group-hover:to-primary">
-            <span className="bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent transition group-hover:from-pink-400 group-hover:to-fuchsia-900">
-              Projects
-            </span>
-          </span>
-        </motion.h2>
-        <motion.h2
-          className="group cursor-pointer font-link-title-1 text-6xl"
-          whileInView={{ y: -20, opacity: 1 }}
-          initial={{ y: 0, opacity: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 1 }}>
-          <span className="bg-gradient-to-r from-pink-400 to-fuchsia-900 bg-[length:100%_16px] bg-bottom bg-no-repeat px-1 transition group-hover:from-primary group-hover:to-primary">
-            <span className="bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent transition group-hover:from-pink-400 group-hover:to-fuchsia-900">
-              Articles
-            </span>
-          </span>
-        </motion.h2>
-        <motion.h2
-          className="group cursor-pointer font-link-title-1 text-6xl"
-          whileInView={{ y: -20, opacity: 1 }}
-          initial={{ y: 0, opacity: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 1.5 }}>
-          <span className="bg-gradient-to-r from-pink-400 to-fuchsia-900 bg-[length:100%_16px] bg-bottom bg-no-repeat px-1 transition group-hover:from-primary group-hover:to-primary">
-            <span className="bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent transition group-hover:from-pink-400 group-hover:to-fuchsia-900">
-              Open System
-            </span>
-          </span>
-        </motion.h2>
       </div>
       <div className="relative h-[36.5rem] w-[54rem]">
         <motion.div

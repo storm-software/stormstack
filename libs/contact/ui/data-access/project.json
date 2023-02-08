@@ -52,6 +52,15 @@
         "specJsonFile": "libs/contact/config/src/contact.api-spec.json",
         "output": "libs/contact/ui/data-access/src/validate/contact.ts"
       }
+    },
+    "client-api-redux-sync": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx @rtk-query/codegen-openapi libs/contact/ui/data-access/src/apis/openapi-config.ts"
+        ],
+        "parallel": true
+      }
     }
   }
 }

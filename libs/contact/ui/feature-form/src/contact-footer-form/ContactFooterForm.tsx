@@ -5,15 +5,14 @@ import {
   ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
 } from "@open-system/design-system-components";
-import { Link } from "@open-system/shared-ui-components";
 import {
   EmailInput,
   Form,
   SubmitButton,
   Textarea,
 } from "@open-system/shared-ui-feature-form";
-import { Checkbox } from "@open-system/shared-ui-feature-form/checkbox";
 import clsx from "clsx";
+import { SubscriptionCheckbox } from "../subscription-checkbox";
 
 export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
   return (
@@ -32,33 +31,14 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
         className="flex flex-col gap-3"
         defaultValues={{ email: "", comment: "", subscribe: true }}>
         <div className="flex flex-col">
-          <EmailInput
-            name="email"
-            label="Email"
-            required={true}
-            placeholder="mike.smith@example.com"
-            glow={false}
-          />
+          <EmailInput name="email" required={true} glow={false} />
           <Textarea
             name="comment"
             label="Message"
             placeholder="I am interested in working with you on a future project."
             glow={false}
           />
-          <Checkbox
-            name="subscribe"
-            label={
-              <>
-                I want to receive emails with future updates from this
-                developer. Please see our{" "}
-                <Link href="/about" inNewTab={true}>
-                  email policy
-                </Link>
-                .
-              </>
-            }
-            glow={false}
-          />
+          <SubscriptionCheckbox glow={false} />
         </div>
         <div className="flex flex-row-reverse">
           <SubmitButton

@@ -1,8 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
     "outDir": "../../dist/out-tsc",
-    "types": ["node"]
+    "declaration": true,
+    "types": ["node", "reflect-metadata"]
   },
   "files": [
     "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",

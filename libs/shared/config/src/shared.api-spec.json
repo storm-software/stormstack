@@ -148,6 +148,34 @@
         "required": [
           "type"
         ]
+      },
+      "Address": {
+        "title": "Address",
+        "x-stoplight": {
+          "id": "7l05pozs4dbii"
+        },
+        "type": "object",
+        "properties": {
+          "addressLine1": {
+            "type": "string"
+          },
+          "addressLine2": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          }
+        },
+        "description": "Data used to specify a location"
       }
     },
     "requestBodies": {},

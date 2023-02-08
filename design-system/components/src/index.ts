@@ -8,6 +8,7 @@ export * from "./input";
 export * from "./link";
 export * from "./message-bar";
 export * from "./modal";
+export * from "./progress-tracker";
 export * from "./radio";
 export * from "./section";
 export * from "./select";

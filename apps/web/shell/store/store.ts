@@ -10,13 +10,14 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import storage from "redux-persist-indexeddb-storage";
+import storage from "redux-persist/lib/storage";
 import { rootReducer } from "./reducers";
 
 const persistConfig = {
   key: "root",
   version: 1,
-  storage: storage("ps-dev"),
+  storage,
+  whitelist: ["user", "contact"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

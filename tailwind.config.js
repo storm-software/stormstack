@@ -25,7 +25,7 @@ module.exports = {
         ...extend.fontFamily,
         "app-title-1": ["var(--font-melody)", ...fontFamily.sans],
         "nyc-title-1": ["var(--font-frank-ruhl-libre)", ...fontFamily.sans],
-        "link-title-1": ["var(--font-antique-olive)", ...fontFamily.sans],
+        "link-title-1": ["var(--font-rock-salt)", ...fontFamily.sans],
         "header-1": ["var(--font-melody)", ...fontFamily.sans],
         "header-2": ["var(--font-melody)", ...fontFamily.sans],
         "header-3": ["var(--font-melody)", ...fontFamily.sans],

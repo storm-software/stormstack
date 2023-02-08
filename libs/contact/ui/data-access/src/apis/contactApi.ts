@@ -75,14 +75,12 @@ const injectedRtkApi = api
     overrideExisting: false,
   });
 export { injectedRtkApi as contactApi };
-export type GetRequestsApiResponse =
-  /** status 200 Successful response to Get Users end point */ Contact[];
+export type GetRequestsApiResponse = /** status 200 OK */ Contact[];
 export type GetRequestsApiArg = {
   /** The id of the current user sending the request */
   userId: string;
 };
-export type GetRequestsByIdApiResponse =
-  /** status 200 Successful response to Get User end point */ Contact;
+export type GetRequestsByIdApiResponse = /** status 200 OK */ Contact;
 export type GetRequestsByIdApiArg = {
   /** The reason for the current contact request */
   id: string;
@@ -130,10 +128,19 @@ export type ContactDetail = {
   lastName?: string;
   phoneNumber?: string;
   email: string;
-  reason?: "business" | "question" | "other" | "project" | "interest";
+  companyName?: string;
+  title?: string;
+  reason: "business" | "question" | "other" | "project" | "interest";
   details?: string;
   url?: string;
   isSubscribed: boolean;
+} & {
+  addressLine1?: string;
+  addressLine2?: string;
+  city?: string;
+  state?: string;
+  countryCode?: string;
+  postalCode?: string;
 };
 export type Contact = {
   guid: Guid;

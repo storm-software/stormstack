@@ -1,6 +1,6 @@
 import type { ComponentStory } from "@storybook/react";
-import { FieldReference } from "../types";
 import { Radio } from "./Radio";
+import { RadioOption } from "./RadioOption";
 
 export default {
   title: "Forms/Radio",
@@ -19,7 +19,11 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Radio> = args => (
-  <Radio {...args}></Radio>
+  <Radio {...args}>
+    <RadioOption name="Option 1" value="option1" />
+    <RadioOption name="Option 2" value="option2" />
+    <RadioOption name="Option 3" value="option3" />
+  </Radio>
 );
 
 /**
@@ -31,11 +35,6 @@ export const Primary = Template.bind({});
 Primary.args = {
   label: "Sample Label",
   name: "sample",
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
 
 /**
@@ -48,11 +47,6 @@ Vertical.args = {
   label: "Sample Label",
   name: "sample",
   isVertical: true,
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3 is longer than the other two", value: "option3" },
-  ],
 };
 
 /**
@@ -65,11 +59,6 @@ NoLabel.args = {
   label: null,
   name: "sample",
   isVertical: true,
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3 is longer than the other two", value: "option3" },
-  ],
 };
 
 /**
@@ -82,11 +71,6 @@ Required.args = {
   label: "Sample Label",
   name: "sample",
   required: true,
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
 
 /**
@@ -99,11 +83,6 @@ Disabled.args = {
   label: "Sample Label",
   name: "sample",
   disabled: true,
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
 
 /**
@@ -116,59 +95,4 @@ Information.args = {
   label: "Sample Label",
   name: "sample",
   info: "This is an information message",
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
 };
-
-/**
- * Warning
- */
-let warningRef;
-const WarningTemplate: ComponentStory<typeof Radio> = args => (
-  <Radio
-    ref={(el: FieldReference<string>) => (warningRef = el)}
-    {...args}></Radio>
-);
-
-export const Warning = WarningTemplate.bind({});
-
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Warning.args = {
-  label: "Sample Label",
-  name: "sample",
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
-};
-console.log(warningRef);
-//warningRef.setWarning("This is a warning message");
-
-/**
- * Error
- */
-let errorRef;
-const ErrorTemplate: ComponentStory<typeof Radio> = args => (
-  <Radio
-    ref={(el: FieldReference<string>) => (errorRef = el)}
-    {...args}></Radio>
-);
-
-export const Error = ErrorTemplate.bind({});
-
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Error.args = {
-  label: "Sample Label",
-  name: "sample",
-  options: [
-    { name: "Option 1", value: "option1" },
-    { name: "Option 2", value: "option2" },
-    { name: "Option 3", value: "option3" },
-  ],
-};
-console.log(errorRef);
-//errorRef.setError("This is an error message");

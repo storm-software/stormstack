@@ -6,6 +6,10 @@ import {
   PropsWithBase,
 } from "@open-system/design-system-components";
 import { ModalReference } from "@open-system/shared-ui-components";
+import {
+  NotificationTypes,
+  removeNotification,
+} from "@open-system/shared-ui-data-access";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -15,10 +19,14 @@ import {
   useImperativeHandle,
   useState,
 } from "react";
-
-import { NotificationTypes } from "../types";
+import { useDispatch } from "react-redux";
 
 export type NotificationBannerProps = PropsWithBase<{
+  /**
+   * Identifier of the notification in the store
+   */
+  id: string;
+
   /**
    * The type of the notification
    */
@@ -44,6 +52,7 @@ export const NotificationBanner = forwardRef<
 >(
   (
     {
+      id,
       className,
       message,
       initialOpened = true,
@@ -52,8 +61,14 @@ export const NotificationBanner = forwardRef<
     ref: ForwardedRef<ModalReference>
   ) => {
     const [opened, setOpened] = useState(initialOpened);
+
+    const dispatch = useDispatch();
+
     const handleOpen = useCallback(() => !opened && setOpened(true), [opened]);
-    const handleClose = useCallback(() => opened && setOpened(false), [opened]);
+    const handleClose = useCallback(() => {
+      opened && setOpened(false);
+      dispatch(removeNotification(id));
+    }, [dispatch, id, opened]);
 
     useImperativeHandle<ModalReference, ModalReference>(
       ref,

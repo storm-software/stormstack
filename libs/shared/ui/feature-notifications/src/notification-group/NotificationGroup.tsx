@@ -1,15 +1,14 @@
 "use client";
 
-import { getGuid } from "@open-system/core-typescript-utilities";
-import { PropsWithBase } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@open-system/design-system-components";
+import {
+  Notification,
+  selectNotificationList,
+} from "@open-system/shared-ui-data-access";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useSelector } from "react-redux";
 import { NotificationBanner } from "../notification-banner";
-import { Notification } from "../types";
-
-export type NotificationGroupProps = PropsWithBase<{
-  notifications?: Notification[];
-}>;
 
 /**
  * The base NotificationGroup component used by the Open System repository
@@ -17,17 +16,8 @@ export type NotificationGroupProps = PropsWithBase<{
 export const NotificationGroup = ({
   children,
   ...props
-}: NotificationGroupProps) => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  useEffect(() => {
-    setNotifications(
-      (props.notifications ?? []).map((notification: Notification) => ({
-        id: getGuid(),
-        ...notification,
-      }))
-    );
-  }, [props.notifications]);
+}: BaseComponentProps) => {
+  const notifications = useSelector(selectNotificationList);
 
   const portalRef = useRef<Element | null>(null);
 
@@ -42,7 +32,8 @@ export const NotificationGroup = ({
         <div className="fixed z-notification flex h-0 w-full flex-col gap-2 overflow-visible p-5">
           {notifications.map((notification: Notification, i: number) => (
             <NotificationBanner
-              key={notification.id ?? i}
+              key={notification.id}
+              id={notification.id}
               type={notification.type}
               message={notification.message}
             />

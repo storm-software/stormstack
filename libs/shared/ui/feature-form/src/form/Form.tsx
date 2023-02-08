@@ -1,5 +1,6 @@
 "use client";
 
+import { DevTool } from "@hookform/devtools";
 import { getGuid } from "@open-system/core-typescript-utilities";
 import {
   BaseComponentProps,
@@ -22,6 +23,7 @@ export type FormProps<
 };
 
 export function Form<TValues extends Record<string, any>, TContext = any>({
+  className,
   name,
   defaultValues,
   context,
@@ -31,7 +33,7 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   autoComplete = true,
   ...props
 }: FormProps<TValues>) {
-  const { trigger, ...methods } = useForm<TValues, TContext>({
+  const { trigger, control, ...methods } = useForm<TValues, TContext>({
     mode: "all",
     criteriaMode: "all",
     reValidateMode: "onChange",
@@ -49,17 +51,26 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   }, [trigger]);
 
   return (
-    <FormProvider trigger={trigger} {...methods}>
-      <form
-        name={formName}
-        autoComplete={
-          autoComplete ? InputAutoCompleteTypes.ON : InputAutoCompleteTypes.OFF
-        }
-        onSubmit={methods.handleSubmit(onSubmit)}>
-        <fieldset form={formName} disabled={disabled} aria-disabled={disabled}>
-          {children}
-        </fieldset>
-      </form>
-    </FormProvider>
+    <>
+      <FormProvider trigger={trigger} control={control} {...methods}>
+        <form
+          name={formName}
+          autoComplete={
+            autoComplete
+              ? InputAutoCompleteTypes.ON
+              : InputAutoCompleteTypes.OFF
+          }
+          onSubmit={methods.handleSubmit(onSubmit)}>
+          <fieldset
+            className={className}
+            form={formName}
+            disabled={disabled}
+            aria-disabled={disabled}>
+            {children}
+          </fieldset>
+        </form>
+      </FormProvider>
+      <DevTool control={control} />
+    </>
   );
 }
