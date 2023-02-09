@@ -1,5 +1,7 @@
 "use client";
 
+export * from "./accordion";
+export * from "./breadcrumb";
 export * from "./button";
 export * from "./checkbox";
 export * from "./divider";
@@ -8,6 +10,7 @@ export * from "./input";
 export * from "./link";
 export * from "./message-bar";
 export * from "./modal";
+export * from "./module";
 export * from "./progress-tracker";
 export * from "./radio";
 export * from "./section";

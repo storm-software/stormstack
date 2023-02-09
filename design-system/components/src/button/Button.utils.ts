@@ -13,6 +13,8 @@ export function getBackgroundColor(disabled: boolean, variant: ButtonVariants) {
     ? "bg-secondary"
     : variant === ButtonVariants.TERTIARY
     ? "bg-tertiary"
+    : variant === ButtonVariants.QUARTERNARY
+    ? "bg-quaternary"
     : "bg-primary";
 }
 
@@ -25,6 +27,8 @@ export function getTextColor(disabled: boolean, variant: ButtonVariants) {
     ? "text-secondary"
     : variant === ButtonVariants.TERTIARY
     ? "text-tertiary"
+    : variant === ButtonVariants.QUARTERNARY
+    ? "text-quaternary"
     : "text-primary";
 }
 

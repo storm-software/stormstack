@@ -29,6 +29,12 @@ export const Tertiary = Template.bind({});
 Tertiary.args = { variant: "tertiary" };
 
 /**
+ * Quaternary
+ */
+export const Quaternary = Template.bind({});
+Quaternary.args = { variant: "quaternary" };
+
+/**
  * Gradient
  */
 export const Gradient = Template.bind({});

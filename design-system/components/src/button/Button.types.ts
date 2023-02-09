@@ -1,9 +1,15 @@
-export type ButtonVariants = "gradient" | "primary" | "secondary" | "tertiary";
+export type ButtonVariants =
+  | "gradient"
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "quaternary";
 export const ButtonVariants = {
   GRADIENT: "gradient" as ButtonVariants,
   PRIMARY: "primary" as ButtonVariants,
   SECONDARY: "secondary" as ButtonVariants,
   TERTIARY: "tertiary" as ButtonVariants,
+  QUARTERNARY: "quaternary" as ButtonVariants,
 };
 
 export type ButtonTransitionDirections =

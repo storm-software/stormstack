@@ -22,7 +22,11 @@ export const Link = ({
   return (
     <label
       className={clsx(
-        "font-body-1 underline transition-colors duration-150 hover:cursor-pointer",
+        "transition-colors duration-150",
+        {
+          "font-body-1 underline hover:cursor-pointer":
+            variant !== LinkVariants.PLAIN,
+        },
         {
           "text-link-1 hover:text-hover-link-1":
             variant === LinkVariants.PRIMARY,
