@@ -52,7 +52,6 @@
     "storybook": {
       "executor": "@nrwl/storybook:storybook",
       "options": {
-        "uiFramework": "@storybook/react",
         "port": 4400,
         "configDir": "design-system/components/.storybook"
       },
@@ -66,9 +65,8 @@
       "executor": "@nrwl/storybook:build",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "uiFramework": "@storybook/react",
-        "configDir": "design-system/components/.storybook",
-        "outputDir": "dist/storybook/design-system-components"
+        "outputDir": "dist/storybook/design-system-components",
+        "configDir": "design-system/components/.storybook"
       },
       "configurations": {
         "ci": {

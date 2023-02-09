@@ -1,4 +1,3 @@
-import { injectable } from "inversify";
 import { ICustomUtilityClass } from "../types";
 import { getGuid } from "./get-unique-id";
 
@@ -7,7 +6,6 @@ import { getGuid } from "./get-unique-id";
  *
  * @remarks This class implements core functionality such as the id and symbol properties
  */
-@injectable()
 export abstract class CustomUtilityClass implements ICustomUtilityClass {
   public constructor(public readonly _symbol: symbol) {
     this._type = (this as unknown as object)?.constructor.name;

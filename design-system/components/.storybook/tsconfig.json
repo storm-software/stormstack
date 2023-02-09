@@ -2,23 +2,6 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "emitDecoratorMetadata": true,
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": false,
-    "noImplicitOverride": false,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "jsx": "preserve",
-    "skipLibCheck": true,
-    "noEmit": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "incremental": true,
     "outDir": "",
     "types": ["node", "reflect-metadata"]
   },
@@ -39,8 +22,6 @@
     "../src/**/*.stories.jsx",
     "../src/**/*.stories.tsx",
     "../src/**/*.stories.mdx",
-    "*.ts",
-    "*.js",
-    "preview.tsx"
+    "*.js"
   ]
 }

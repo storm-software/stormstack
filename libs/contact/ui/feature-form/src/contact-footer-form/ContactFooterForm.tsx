@@ -29,7 +29,7 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
 
       <Form
         className="flex flex-col gap-3"
-        defaultValues={{ email: "", comment: "", subscribe: true }}>
+        defaultValues={{ email: "", comment: "", isSubscribed: true }}>
         <div className="flex flex-col">
           <EmailInput name="email" required={true} glow={false} />
           <Textarea
