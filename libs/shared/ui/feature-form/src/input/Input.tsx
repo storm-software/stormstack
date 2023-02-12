@@ -34,7 +34,7 @@ export function Input({
   disabled,
   ...props
 }: InputProps) {
-  const { register, unregister } = useFormContext();
+  const { register, unregister, trigger } = useFormContext();
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
 
@@ -65,10 +65,10 @@ export function Input({
     pattern,
     disabled: useIsSubmitting() || disabled,
   });
-  useEffect(
-    () => () => unregister(name, { keepDefaultValue: true }),
-    [name, unregister]
-  );
+  useEffect(() => {
+    trigger();
+    return () => unregister(name, { keepIsValid: false });
+  }, [name, trigger, unregister]);
 
   return (
     <OsInput

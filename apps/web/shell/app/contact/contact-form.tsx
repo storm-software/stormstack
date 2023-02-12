@@ -6,6 +6,7 @@ import {
   saveFormState,
   selectContactFormValues,
 } from "@open-system/contact-ui-data-access";
+import { ContactFormSegments } from "@open-system/contact-ui-feature-form/constants";
 import {
   BaseComponentProps,
   Button,
@@ -13,21 +14,37 @@ import {
   ButtonTransitionDirections,
   ButtonTypes,
   ButtonVariants,
+  ModalVariants,
   ProgressTracker,
   ProgressTrackerItemStatus,
 } from "@open-system/design-system-components";
+import { ModalReference } from "@open-system/shared-ui-components";
+import { Link } from "@open-system/shared-ui-components/link";
+import { Modal } from "@open-system/shared-ui-components/modal";
 import { Form, SubmitButton } from "@open-system/shared-ui-feature-form";
 import clsx from "clsx";
-import { useRouter, useSelectedLayoutSegments } from "next/navigation";
-import { useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+export interface ContactFormProps extends BaseComponentProps {
+  nextPathname?: string;
+  previousPathname?: string;
+}
 
 export default function ContactForm({
   children,
   className,
+  nextPathname,
+  previousPathname,
   ...props
-}: BaseComponentProps) {
-  const segments = useSelectedLayoutSegments();
+}: ContactFormProps) {
+  const pathname = usePathname();
+  const segment = pathname?.split("/")?.length
+    ? pathname.split("/").at(-1)
+    : null;
+
   const router = useRouter();
 
   const formValues = useSelector(selectContactFormValues);
@@ -36,94 +53,228 @@ export default function ContactForm({
   const handleSubmit = useCallback(
     (values: Partial<ContactDetail>) => {
       dispatch(saveFormState(values));
-      if (values.reason) {
-        if (values.email) {
-          router.push(`/contact/${values.reason}/details`);
-        } else {
-          router.push(`/contact/${values.reason}`);
-        }
-      }
+      nextPathname && router.push(nextPathname);
     },
-    [dispatch, router]
+    [dispatch, nextPathname, router]
   );
+
+  const modalRef = useRef<ModalReference>(null);
+  const handleResetOpen = useCallback(() => {
+    modalRef.current?.open();
+  }, []);
+  const handleResetClose = useCallback(() => {
+    modalRef.current?.close();
+  }, []);
 
   const handleReset = useCallback(() => {
     dispatch(resetFormState());
-    router.push("/contact");
+    router.replace("/contact");
   }, [dispatch, router]);
 
+  const handlePrevious = useCallback(() => {
+    previousPathname && router.push(previousPathname);
+  }, [previousPathname, router]);
+
   return (
-    <Form<ContactDetail>
-      className="flex flex-col gap-8"
-      onSubmit={handleSubmit}
-      defaultValues={formValues}>
-      <div
-        className={clsx(
-          "flex flex-row items-center justify-between gap-20",
-          className
-        )}>
-        {children}
-        <div className="flex flex-1 flex-col gap-8">
-          <ProgressTracker
-            items={[
-              {
-                name: "reason",
-                label: "Reason",
-                status: !segments.length
-                  ? ProgressTrackerItemStatus.ACTIVE
-                  : ProgressTrackerItemStatus.COMPLETE,
-              },
-              {
-                name: "personal-info",
-                label: "Personal Info.",
-                status: !segments.length
-                  ? ProgressTrackerItemStatus.PENDING
-                  : segments.length === 1
-                  ? ProgressTrackerItemStatus.ACTIVE
-                  : ProgressTrackerItemStatus.COMPLETE,
-              },
-              {
-                name: "details",
-                label: "Details",
-                status:
-                  segments.length < 2
-                    ? ProgressTrackerItemStatus.PENDING
-                    : segments.length === 2
-                    ? ProgressTrackerItemStatus.ACTIVE
-                    : ProgressTrackerItemStatus.COMPLETE,
-              },
-              {
-                name: "summary",
-                label: "Summary",
-                status:
-                  segments.length < 3
-                    ? ProgressTrackerItemStatus.PENDING
-                    : segments.length === 3
-                    ? ProgressTrackerItemStatus.ACTIVE
-                    : ProgressTrackerItemStatus.COMPLETE,
-              },
-            ]}
-          />
+    <>
+      <Form<ContactDetail>
+        className="flex flex-col gap-8"
+        onSubmit={handleSubmit}
+        defaultValues={formValues}>
+        <motion.div
+          layout
+          className={clsx(
+            "flex flex-row items-center justify-between gap-20",
+            className
+          )}>
+          <AnimatePresence>
+            <motion.div
+              className="h-full w-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}>
+              {children}
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="flex flex-1 flex-col gap-8">
+            <ProgressTracker
+              items={[
+                {
+                  name: ContactFormSegments.REASON,
+                  label: "Reason",
+                  status:
+                    segment === ContactFormSegments.PERSONAL_INFO ||
+                    segment === ContactFormSegments.DETAILS ||
+                    segment === ContactFormSegments.SUCCESS ||
+                    segment === ContactFormSegments.REVIEW ||
+                    segment === ContactFormSegments.SUCCESS
+                      ? ProgressTrackerItemStatus.COMPLETE
+                      : ProgressTrackerItemStatus.ACTIVE,
+                  onClick:
+                    segment !== ContactFormSegments.SUCCESS
+                      ? () => router.replace("/contact")
+                      : undefined,
+                },
+                {
+                  name: ContactFormSegments.PERSONAL_INFO,
+                  label: "Personal Info.",
+                  status:
+                    segment === ContactFormSegments.DETAILS ||
+                    segment === ContactFormSegments.SUCCESS ||
+                    segment === ContactFormSegments.REVIEW
+                      ? ProgressTrackerItemStatus.COMPLETE
+                      : segment === ContactFormSegments.PERSONAL_INFO
+                      ? ProgressTrackerItemStatus.ACTIVE
+                      : ProgressTrackerItemStatus.PENDING,
+                  onClick:
+                    segment !== ContactFormSegments.SUCCESS
+                      ? () =>
+                          pathname &&
+                          router.replace(
+                            `${pathname.substring(
+                              0,
+                              pathname.lastIndexOf("/")
+                            )}/${ContactFormSegments.PERSONAL_INFO}`
+                          )
+                      : undefined,
+                },
+                {
+                  name: ContactFormSegments.DETAILS,
+                  label: "Details",
+                  status:
+                    segment === ContactFormSegments.SUCCESS ||
+                    segment === ContactFormSegments.REVIEW
+                      ? ProgressTrackerItemStatus.COMPLETE
+                      : segment === ContactFormSegments.DETAILS
+                      ? ProgressTrackerItemStatus.ACTIVE
+                      : ProgressTrackerItemStatus.PENDING,
+                  onClick:
+                    segment !== ContactFormSegments.SUCCESS
+                      ? () =>
+                          pathname &&
+                          router.replace(
+                            `${pathname.substring(
+                              0,
+                              pathname.lastIndexOf("/")
+                            )}/${ContactFormSegments.DETAILS}`
+                          )
+                      : undefined,
+                },
+                {
+                  name: ContactFormSegments.REVIEW,
+                  label: "Submit",
+                  status:
+                    segment === ContactFormSegments.SUCCESS
+                      ? ProgressTrackerItemStatus.COMPLETE
+                      : segment === ContactFormSegments.REVIEW
+                      ? ProgressTrackerItemStatus.ACTIVE
+                      : ProgressTrackerItemStatus.PENDING,
+                  onClick:
+                    segment !== ContactFormSegments.SUCCESS
+                      ? () =>
+                          pathname &&
+                          router.replace(
+                            `${pathname.substring(
+                              0,
+                              pathname.lastIndexOf("/")
+                            )}/${ContactFormSegments.REVIEW}`
+                          )
+                      : undefined,
+                },
+              ]}
+            />
+          </div>
+        </motion.div>
+        <div className="flex flex-row-reverse justify-between">
+          {segment !== ContactFormSegments.SUCCESS && nextPathname && (
+            <SubmitButton
+              variant={ButtonVariants.SECONDARY}
+              rounding={ButtonCornerRoundingTypes.PARTIAL}
+              transitionDirection={ButtonTransitionDirections.TOP}
+              hoverText={
+                segment === ContactFormSegments.REVIEW ? "Send" : "Next"
+              }>
+              {segment === ContactFormSegments.REVIEW ? "Submit" : "Continue"}
+            </SubmitButton>
+          )}
+          {segment === ContactFormSegments.SUCCESS && (
+            <Link className="h-fit w-fit">
+              <Button
+                variant={ButtonVariants.PRIMARY}
+                rounding={ButtonCornerRoundingTypes.PARTIAL}
+                transitionDirection={ButtonTransitionDirections.TOP}
+                hoverText="Home">
+                Home
+              </Button>
+            </Link>
+          )}
+          {segment &&
+            segment !== ContactFormSegments.REASON &&
+            segment !== ContactFormSegments.SUCCESS && (
+              <div className="flex flex-row gap-8">
+                {previousPathname && (
+                  <Link href={previousPathname} className="h-fit w-fit">
+                    <Button
+                      variant={ButtonVariants.TERTIARY}
+                      onClick={handlePrevious}
+                      rounding={ButtonCornerRoundingTypes.PARTIAL}
+                      transitionDirection={ButtonTransitionDirections.TOP}
+                      hoverText="Back">
+                      Previous
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  variant={ButtonVariants.QUARTERNARY}
+                  onClick={handleResetOpen}
+                  rounding={ButtonCornerRoundingTypes.PARTIAL}
+                  transitionDirection={ButtonTransitionDirections.TOP}
+                  hoverText="Clear">
+                  Reset
+                </Button>
+              </div>
+            )}
         </div>
-      </div>
-      <div className="flex flex-row-reverse justify-between">
-        <SubmitButton
-          variant={ButtonVariants.SECONDARY}
-          rounding={ButtonCornerRoundingTypes.PARTIAL}
-          transitionDirection={ButtonTransitionDirections.TOP}
-          hoverText="Next">
-          Continue
-        </SubmitButton>
-        <Button
-          variant={ButtonVariants.TERTIARY}
-          type={ButtonTypes.RESET}
-          onClick={handleReset}
-          rounding={ButtonCornerRoundingTypes.PARTIAL}
-          transitionDirection={ButtonTransitionDirections.TOP}
-          hoverText="Clear">
-          Reset
-        </Button>
-      </div>
-    </Form>
+        <Modal
+          className="h-fit min-h-fit w-[50rem]"
+          ref={modalRef}
+          initialOpened={false}
+          variant={ModalVariants.WARNING}
+          title="Reset Contact Information"
+          onClose={handleResetClose}>
+          <div className="flex flex-col gap-10">
+            <div className="flex flex-1">
+              <label className="whitespace-pre-wrap text-xl font-label-1 text-primary">
+                Are you sure you want to clear out all your previously entered
+                data? Selecting &quot;Reset&quot; below will start the contact
+                process from the beginning.
+              </label>
+            </div>
+            <div className="h-fit flex-none">
+              <div className="flex flex-row-reverse gap-8">
+                <Button
+                  variant={ButtonVariants.PRIMARY}
+                  type={ButtonTypes.RESET}
+                  onClick={handleReset}
+                  rounding={ButtonCornerRoundingTypes.NONE}
+                  inverse={true}
+                  hoverText="Confirm">
+                  Reset
+                </Button>
+                <Button
+                  variant={ButtonVariants.PRIMARY}
+                  onClick={handleResetClose}
+                  rounding={ButtonCornerRoundingTypes.NONE}
+                  hoverText="Cancel">
+                  Close
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </Form>
+    </>
   );
 }

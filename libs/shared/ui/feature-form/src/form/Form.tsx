@@ -1,6 +1,5 @@
 "use client";
 
-import { DevTool } from "@hookform/devtools";
 import { getGuid } from "@open-system/core-typescript-utilities";
 import {
   BaseComponentProps,
@@ -15,7 +14,7 @@ export type FormProps<
   TContext = any
 > = BaseComponentProps & {
   defaultValues?: DeepPartial<TValues>;
-  onSubmit: (values: TValues) => Promise<void>;
+  onSubmit: (values: TValues) => Promise<void> | void;
   context?: TContext;
   disabled?: boolean;
   name?: string;
@@ -70,7 +69,7 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
           </fieldset>
         </form>
       </FormProvider>
-      <DevTool control={control} />
+      {/*<DevTool control={control} />*/}
     </>
   );
 }

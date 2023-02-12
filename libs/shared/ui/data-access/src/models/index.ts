@@ -1,3 +1,4 @@
+export * from "./Address";
 export * from "./AddressConstants";
 export * from "./NotificationsState";
 export * from "./NotificationTypes";

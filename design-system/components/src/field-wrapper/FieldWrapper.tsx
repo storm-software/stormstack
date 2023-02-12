@@ -3,15 +3,16 @@
 
 import { isEmptyObject } from "@open-system/core-typescript-utilities";
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import { PropsWithBase } from "../types";
-import { getTextStyle } from "../utilities/field-style-utils";
+import { getFieldTextStyle } from "../utilities/field-style-utils";
 import { getSvgFillStyle } from "../utilities/svg-style-utils";
 import { FieldWrapperLabel } from "./field-wrapper-label";
 import { FieldLabelPlacementTypes } from "./FieldWrapper.types";
 import {
   getBorderStyle,
-  getInputMessage,
   getIsBorderDisplayed,
+  getPulseBackgroundStyle,
 } from "./FieldWrapper.utils";
 
 export type FieldWrapperProps = PropsWithBase<{
@@ -36,11 +37,6 @@ export type FieldWrapperProps = PropsWithBase<{
   focused: boolean;
 
   /**
-   * An info message displayed under the input
-   */
-  info?: string | null;
-
-  /**
    * An error messages displayed under the input
    *
    * @remarks Potentially multiple errors can be returned at once. The structure is a the dictionary with error type as the key and error message as the value.
@@ -50,7 +46,12 @@ export type FieldWrapperProps = PropsWithBase<{
   /**
    * An warning message displayed under the input
    */
-  warning?: string | null;
+  warning?: string | JSX.Element | null;
+
+  /**
+   * An info message displayed under the input
+   */
+  info?: string | JSX.Element | null;
 
   /**
    * Decides if input field required
@@ -71,6 +72,11 @@ export type FieldWrapperProps = PropsWithBase<{
    * Should a lock icon be displayed in the input field when it is disabled
    */
   noDisabledIcon?: boolean;
+
+  /**
+   * The class name for height of the component
+   */
+  heightClassName?: string | null;
 }>;
 
 /**
@@ -91,6 +97,7 @@ export const FieldWrapper = ({
   required = false,
   noBorder = false,
   noDisabledIcon = false,
+  heightClassName = "h-fit",
 }: FieldWrapperProps) => {
   const isBorderDisplayed = getIsBorderDisplayed(
     !isEmptyObject(errors),
@@ -103,12 +110,49 @@ export const FieldWrapper = ({
   return (
     <div
       className={clsx(
-        "duration-600 flex h-input-h flex-1 flex-row pl-xs pt-xs transition ease-in-out",
-        { "border-l-4": isBorderDisplayed },
-        isBorderDisplayed &&
-          getBorderStyle(!isEmptyObject(errors), !!warning, !!info, focused),
-        className
+        "duration-600 min-h-input-h relative flex flex-1 flex-row items-center gap-xs pl-5 pt-1 transition ease-in-out",
+        {
+          "py-1.5":
+            labelPlacement === FieldLabelPlacementTypes.LEFT ||
+            labelPlacement === FieldLabelPlacementTypes.RIGHT,
+        },
+        className,
+        heightClassName
       )}>
+      <motion.div
+        className={clsx(
+          "absolute left-0 top-0 bottom-0 flex w-[5px] flex-row items-center overflow-y-hidden"
+        )}
+        initial={false}
+        animate={isBorderDisplayed ? "opened" : "closed"}>
+        <svg viewBox="0 0 2 500">
+          <motion.path
+            className={clsx(
+              "fill-transparent transition-colors",
+              getBorderStyle(!isEmptyObject(errors), !!warning, !!info, focused)
+            )}
+            strokeWidth={2}
+            variants={{
+              opened: { d: "M 1 260 L 1 0" },
+              closed: { d: "M 1 250 L 1 250" },
+            }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          />
+          <motion.path
+            className={clsx(
+              "fill-transparent transition-colors",
+              getBorderStyle(!isEmptyObject(errors), !!warning, !!info, focused)
+            )}
+            strokeWidth={2}
+            variants={{
+              opened: { d: "M 1 240 L 1 500" },
+              closed: { d: "M 1 250 L 1 250" },
+            }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          />
+        </svg>
+      </motion.div>
+
       <div className="flex w-full flex-row items-center gap-3">
         {labelPlacement === FieldLabelPlacementTypes.LEFT && (
           <FieldWrapperLabel
@@ -122,7 +166,7 @@ export const FieldWrapper = ({
           />
         )}
 
-        <div className="flex h-fit grow flex-col gap-xxs self-start">
+        <div className="flex h-fit grow flex-col gap-xs self-start">
           <div className="flex flex-row">
             <>
               {labelPlacement === FieldLabelPlacementTypes.TOP && (
@@ -138,22 +182,31 @@ export const FieldWrapper = ({
                   />
 
                   {(!isEmptyObject(errors) || warning || info) && (
-                    <div className="pr-xxxs">
-                      <span className="inline-block h-fit animate-bounce">
+                    <div className="relative flex h-5 w-5 pr-xxxs">
+                      <span
+                        className={clsx(
+                          "absolute z-20 inline-flex h-full w-full animate-ping rounded-full opacity-75",
+                          getPulseBackgroundStyle(
+                            !isEmptyObject(errors),
+                            !!warning,
+                            !!info
+                          )
+                        )}
+                      />
+                      <span className="z-30 inline-flex h-fit">
                         <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 25 25"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg">
+                          className="inline-flex h-5 w-5"
+                          viewBox="0 0 25 25">
                           <path
                             fillRule="evenodd"
                             clipRule="evenodd"
                             d="M12.5 0C5.59644 0 0 5.59644 0 12.5C0 19.4035 5.59644 25 12.5 25C19.4035 25 25 19.4035 25 12.5C25 5.59644 19.4035 0 12.5 0ZM13.6364 6.81818C13.6364 6.19059 13.1276 5.68182 12.5 5.68182C11.8724 5.68182 11.3636 6.19059 11.3636 6.81818V13.6364C11.3636 14.264 11.8724 14.7727 12.5 14.7727C13.1276 14.7727 13.6364 14.264 13.6364 13.6364V6.81818ZM13.6364 17.6136C13.6364 16.986 13.1276 16.4773 12.5 16.4773C11.8724 16.4773 11.3636 16.986 11.3636 17.6136V18.1818C11.3636 18.8094 11.8724 19.3182 12.5 19.3182C13.1276 19.3182 13.6364 18.8094 13.6364 18.1818V17.6136Z"
-                            className={getSvgFillStyle(
-                              !isEmptyObject(errors),
-                              !!warning,
-                              !!info
+                            className={clsx(
+                              getSvgFillStyle(
+                                !isEmptyObject(errors),
+                                !!warning,
+                                !!info
+                              )
                             )}
                           />
                         </svg>
@@ -192,43 +245,53 @@ export const FieldWrapper = ({
             )}
           </div>
           <div className="flex flex-row gap-0.5 pl-xxxs">
-            {isEmptyObject(errors) ? (
-              <label
-                role="alert"
-                className={clsx(
-                  getTextStyle(
-                    !isEmptyObject(errors),
-                    !!warning,
-                    !!info,
-                    focused
-                  ),
-                  "flex text-message-1 font-message-1 italic leading-message-1 antialiased"
-                )}
-                htmlFor={name}>
-                {getInputMessage(null, warning, info) ?? " "}
-              </label>
-            ) : (
-              <>
-                {errors !== null && (
-                  <>
-                    {Object.entries(errors)
-                      .filter(([type, error]) => !!type)
-                      .map(([type, error]) => (
-                        <label
-                          key={type}
-                          role="alert"
-                          className={clsx(
-                            getTextStyle(true, false, false, focused),
-                            "flex text-message-1 font-message-1 italic leading-message-1 antialiased"
-                          )}
-                          htmlFor={name}>
-                          {error}
-                        </label>
-                      ))}
-                  </>
-                )}
-              </>
-            )}
+            <AnimatePresence>
+              {isEmptyObject(errors) ? (
+                <motion.label
+                  role="alert"
+                  className={clsx(
+                    getFieldTextStyle(
+                      !isEmptyObject(errors),
+                      !!warning,
+                      !!info,
+                      focused
+                    ),
+                    "flex h-fit text-message-1 font-message-1 italic antialiased"
+                  )}
+                  htmlFor={name}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}>
+                  {warning ?? info ?? " "}
+                </motion.label>
+              ) : (
+                <>
+                  {errors !== null && (
+                    <>
+                      {Object.entries(errors)
+                        .filter(([type, error]) => !!type)
+                        .map(([type, error]: [string, string], i: number) => (
+                          <motion.label
+                            key={type}
+                            role="alert"
+                            className={clsx(
+                              getFieldTextStyle(true, false, false, focused),
+                              "flex text-message-1 font-message-1 italic leading-message-1 antialiased"
+                            )}
+                            htmlFor={name}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.5, delay: i * 0.5 }}>
+                            {error}
+                          </motion.label>
+                        ))}
+                    </>
+                  )}
+                </>
+              )}
+            </AnimatePresence>
           </div>
         </div>
         {labelPlacement === FieldLabelPlacementTypes.RIGHT && (

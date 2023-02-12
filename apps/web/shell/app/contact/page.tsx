@@ -1,18 +1,35 @@
 "use client";
 
-import { selectContactFormCreatedDateTime } from "@open-system/contact-ui-data-access";
-import { ContactTypeForm } from "@open-system/contact-ui-feature-form";
+import {
+  selectContactFormCreatedDateTime,
+  selectContactFormValues,
+} from "@open-system/contact-ui-data-access";
+import {
+  ContactFormSegments,
+  ContactTypeForm,
+} from "@open-system/contact-ui-feature-form";
 import { isEmpty } from "@open-system/core-typescript-utilities";
 import { addInfoNotification } from "@open-system/shared-ui-data-access";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ContactForm from "./contact-form";
 
 export default function Page() {
   const createdDateTime = useSelector(selectContactFormCreatedDateTime);
-  const dispatch = useDispatch();
 
+  const router = useRouter();
+
+  const formValues = useSelector(selectContactFormValues);
+
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (!isEmpty(createdDateTime)) {
+    if (
+      !isEmpty(createdDateTime) &&
+      createdDateTime?.getDuration().minutes &&
+      router &&
+      formValues?.reason
+    ) {
       dispatch(
         addInfoNotification(
           `Reloaded details previously added on ${createdDateTime
@@ -22,8 +39,25 @@ export default function Page() {
             .toLocaleString(undefined, { timeStyle: "short" })}`
         )
       );
-    }
-  }, []);
 
-  return <ContactTypeForm />;
+      if (formValues.reason) {
+        if (formValues.email && formValues.firstName && formValues.lastName) {
+          router.replace(
+            `/contact/${formValues.reason}/${ContactFormSegments.DETAILS}`
+          );
+        } else {
+          router.replace(
+            `/contact/${formValues.reason}/${ContactFormSegments.PERSONAL_INFO}`
+          );
+        }
+      }
+    }
+  }, [createdDateTime?.toString()]);
+
+  return (
+    <ContactForm
+      nextPathname={`/contact/${formValues.reason}/${ContactFormSegments.PERSONAL_INFO}`}>
+      <ContactTypeForm />
+    </ContactForm>
+  );
 }

@@ -341,7 +341,7 @@
     "primary": {
       "description": "",
       "type": "color",
-      "value": "#ffffffff",
+      "value": "#faf9f6ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -413,7 +413,7 @@
     "active": {
       "description": "",
       "type": "color",
-      "value": "#ffffffff",
+      "value": "#faf9f6ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -485,7 +485,7 @@
     "header-1": {
       "description": "",
       "type": "color",
-      "value": "#ffffffff",
+      "value": "#faf9f6ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -593,7 +593,7 @@
     "input-active-stroke": {
       "description": "",
       "type": "color",
-      "value": "#ffffffff",
+      "value": "#faf9f6ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -761,7 +761,7 @@
     "link-2": {
       "description": "",
       "type": "color",
-      "value": "#ffffffff",
+      "value": "#faf9f6ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -826,6 +826,30 @@
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
           "styleId": "S:c8378c8a3dc4cefc113292f936f9afcf38822d33,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "breadcrumb-fill-1": {
+      "description": "",
+      "type": "color",
+      "value": "#545a60ff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:d20cd09fc567cb7f0aae4ee618be3c4d42710666,",
+          "exportKey": "color"
+        }
+      }
+    },
+    "breadcrumb-fill-2": {
+      "description": "",
+      "type": "color",
+      "value": "#0ddacaff",
+      "blendMode": "normal",
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:12560e0baa2db7563779ff4df7748e80245d06b7,",
           "exportKey": "color"
         }
       }

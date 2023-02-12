@@ -155,6 +155,7 @@
           "id": "7l05pozs4dbii"
         },
         "type": "object",
+        "description": "Data used to specify a location",
         "properties": {
           "addressLine1": {
             "type": "string"
@@ -174,8 +175,7 @@
           "postalCode": {
             "type": "string"
           }
-        },
-        "description": "Data used to specify a location"
+        }
       }
     },
     "requestBodies": {},

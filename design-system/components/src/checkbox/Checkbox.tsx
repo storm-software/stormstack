@@ -13,9 +13,9 @@ import { FieldWrapper } from "../field-wrapper";
 import { FieldLabelPlacementTypes } from "../field-wrapper/FieldWrapper.types";
 import { BaseFieldProps } from "../types";
 import {
+  getFieldTextStyle,
   getInputFillColor,
   getStrokeStyle,
-  getTextStyle,
 } from "../utilities/field-style-utils";
 
 export type CheckboxProps = BaseFieldProps;
@@ -73,7 +73,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         noBorder={noBorder}
         labelPlacement={FieldLabelPlacementTypes.RIGHT}
         noDisabledIcon={true}
-        className={clsx("w-fit", className)}>
+        className={clsx("w-fit", className)}
+        heightClassName="h-16">
         <input
           id={name}
           name={name}
@@ -93,11 +94,20 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             "max-w-6 flex h-6 w-6 rounded-md font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-offset-0",
             disabled
               ? "text-input-fill"
-              : getTextStyle(!isEmptyObject(errors), !!warning, !!info, false),
+              : getFieldTextStyle(
+                  !isEmptyObject(errors),
+                  !!warning,
+                  !!info,
+                  false
+                ),
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
                 !disabled && glow,
+            },
+            {
+              "hover:border-hover-link-2 hover:ring-0 hover:ring-hover-link-2 hover:ring-offset-0":
+                !disabled,
             }
           )}
           type="checkbox"

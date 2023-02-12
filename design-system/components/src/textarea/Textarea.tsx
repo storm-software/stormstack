@@ -8,7 +8,7 @@ import {
   ForwardedRef,
   forwardRef,
   useCallback,
-  useState
+  useState,
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
 import { InputAutoCompleteTypes, InputProps } from "../input";
@@ -16,13 +16,16 @@ import { FieldReference } from "../types";
 import {
   getInputFillColor,
   getInputTextStyle,
-  getStrokeStyle
+  getStrokeStyle,
 } from "../utilities/field-style-utils";
+import { TextareaSizes } from "./Textarea.types";
 
 export type TextareaProps = Omit<
   InputProps,
   "type" | "min" | "max" | "pattern" | "multiple"
->;
+> & {
+  size?: TextareaSizes;
+};
 
 /**
  * The base Input component used by the Open System repository
@@ -36,7 +39,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
       disabled = false,
       required = false,
       noBorder = false,
-      glow = true,
+      glow = false,
       label,
       placeholder,
       minLength,
@@ -53,6 +56,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
       value,
       errors,
       warning,
+      size = TextareaSizes.SMALL,
       ...props
     }: TextareaProps,
     ref: ForwardedRef<FieldReference<string>>
@@ -81,7 +85,14 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
         focused={focused}
         disabled={disabled}
         required={required}
-        noBorder={noBorder}>
+        noBorder={noBorder}
+        heightClassName={
+          size === TextareaSizes.SMALL
+            ? "h-[9rem]"
+            : size === TextareaSizes.MEDIUM
+            ? "h-[13rem]"
+            : "h-[19rem]"
+        }>
         <textarea
           id={name}
           name={name}
@@ -115,7 +126,14 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
                 !disabled && glow,
             },
-            className
+            {
+              "hover:border-hover-link-2 hover:ring-0 hover:ring-hover-link-2 hover:ring-offset-0":
+                !disabled,
+            },
+            className,
+            { "h-[5rem]": size === TextareaSizes.SMALL },
+            { "h-[9rem]": size === TextareaSizes.MEDIUM },
+            { "h-[15rem]": size === TextareaSizes.LARGE }
           )}
           placeholder={placeholder}
           disabled={disabled}

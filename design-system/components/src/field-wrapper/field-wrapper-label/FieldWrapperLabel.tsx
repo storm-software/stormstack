@@ -3,7 +3,7 @@
 import { isEmptyObject } from "@open-system/core-typescript-utilities";
 import clsx from "clsx";
 import { PropsWithBase } from "../../types";
-import { getTextStyle } from "../../utilities/field-style-utils";
+import { getFieldTextStyle } from "../../utilities/field-style-utils";
 import { FieldWrapperProps } from "../FieldWrapper";
 
 export type FieldWrapperLabelProps = PropsWithBase<
@@ -30,8 +30,9 @@ export const FieldWrapperLabel = ({
     <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
       <label
         className={clsx(
-          getTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),
-          "text-label-1 font-label-1 leading-label-1 antialiased"
+          getFieldTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),
+          "text-label-1 font-label-1 leading-label-1 antialiased",
+          { "font-bold": !isEmptyObject(errors) }
         )}
         htmlFor={name}>
         {label}

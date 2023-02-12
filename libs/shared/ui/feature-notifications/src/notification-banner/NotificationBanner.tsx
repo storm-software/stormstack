@@ -86,11 +86,11 @@ export const NotificationBanner = forwardRef<
           <motion.div
             layout={true}
             className={clsx("inset-0 mx-auto shadow-xl", className)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 0.5,
+              duration: 1.5,
               ease: [0, 0.71, 0.2, 1.01],
             }}>
             <MessageBar

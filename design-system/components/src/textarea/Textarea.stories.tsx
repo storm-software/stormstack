@@ -1,6 +1,7 @@
 import type { ComponentStory } from "@storybook/react";
 import { FieldReference } from "../types";
 import { Textarea } from "./Textarea";
+import { TextareaSizes } from "./Textarea.types";
 
 export default {
   title: "Forms/Textarea",
@@ -120,3 +121,33 @@ Error.args = {
 };
 console.log(errorRef);
 //errorRef.setError("This is an error message");
+
+/**
+ * Small
+ */
+export const Small = Template.bind({});
+Small.args = {
+  label: "Sample Label",
+  name: "sample",
+  size: TextareaSizes.SMALL,
+};
+
+/**
+ * Medium
+ */
+export const Medium = Template.bind({});
+Medium.args = {
+  label: "Sample Label",
+  name: "sample",
+  size: TextareaSizes.MEDIUM,
+};
+
+/**
+ * Large
+ */
+export const Large = Template.bind({});
+Large.args = {
+  label: "Sample Label",
+  name: "sample",
+  size: TextareaSizes.LARGE,
+};

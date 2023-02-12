@@ -12,5 +12,5 @@ export function getSvgFillStyle(
     ? "fill-info"
     : success
     ? "fill-success"
-    : undefined;
+    : "fill-primary";
 }

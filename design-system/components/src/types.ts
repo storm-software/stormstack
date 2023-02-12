@@ -53,12 +53,12 @@ export type BaseFieldProps = PropsWithBaseRef<{
   /**
    * An warning message displayed under the input
    */
-  warning?: string | null;
+  warning?: string | JSX.Element | null;
 
   /**
    * An info message displayed under the input
    */
-  info?: string | null;
+  info?: string | JSX.Element | null;
 
   /**
    * Placeholder text when the field value is empty

@@ -48,7 +48,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       disabled = false,
       required = false,
       noBorder = false,
-      glow = true,
+      glow = false,
       label,
       placeholder,
       tabIndex,
@@ -117,6 +117,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
                 !disabled && glow,
+            },
+            {
+              "hover:border-hover-link-2 hover:ring-0 hover:ring-hover-link-2 hover:ring-offset-0":
+                !disabled,
             }
           )}
           placeholder={placeholder}

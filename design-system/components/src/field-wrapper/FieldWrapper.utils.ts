@@ -5,14 +5,14 @@ export function getBorderStyle(
   focused: boolean
 ) {
   return error
-    ? "border-l-error"
+    ? "stroke-error"
     : warning
-    ? "border-l-warning"
+    ? "stroke-warning"
     : info
-    ? "border-l-info"
+    ? "stroke-info"
     : focused
-    ? "border-l-active"
-    : "border-l-input-label";
+    ? "stroke-active"
+    : "stroke-input-label";
 }
 
 export function getIsBorderDisplayed(
@@ -31,4 +31,21 @@ export function getInputMessage(
   info?: string | null
 ) {
   return error ? error : warning ? warning : info ? info : null;
+}
+
+export function getPulseBackgroundStyle(
+  error?: string | boolean | null,
+  warning?: string | boolean | null,
+  info?: string | boolean | null,
+  success?: string | boolean | null
+) {
+  return error
+    ? "bg-error"
+    : warning
+    ? "bg-warning"
+    : info
+    ? "bg-info"
+    : success
+    ? "bg-success"
+    : "bg-transparent";
 }

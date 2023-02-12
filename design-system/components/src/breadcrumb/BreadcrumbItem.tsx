@@ -52,8 +52,8 @@ export const BreadcrumbItem = ({
       <label
         className={clsx(
           "font-label-4 text-lg transition",
-          { "text-primary": isCurrent },
-          { "text-secondary": !isCurrent },
+          { "text-breadcrumb-fill-1": isCurrent },
+          { "text-breadcrumb-fill-2": !isCurrent },
           {
             "no-underline group-hover:cursor-pointer group-hover:text-hover-link-2 group-hover:underline":
               !isCurrent && onClick,

@@ -25,6 +25,19 @@ export const isNumber = (obj: unknown): obj is number => {
 };
 
 /**
+ * Determine if the type is string
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the value provided is of type `string`
+ */
+export const isString = (obj: unknown): obj is string => {
+  try {
+    return typeof obj === "string";
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
  * Check if the provided value's type is `Symbol`
  * @param obj - The value to type check
  * @returns An indicator specifying if the value provided is of type `Symbol`
@@ -299,3 +312,16 @@ export const isDate = (obj: unknown): obj is Date =>
  */
 export const isBigInt = (obj: unknown): obj is bigint =>
   typeof obj === "bigint" || getTag(obj) == "[object BigInt]";
+
+/**
+ * Determine if the type is string and is not empty (length greater than zero)
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the value provided is of type `string` and length greater than zero
+ */
+export const isStringSet = (obj: unknown): obj is NonNullable<string> => {
+  try {
+    return isSet(obj) && isString(obj) && obj.length > 0;
+  } catch (e) {
+    return false;
+  }
+};

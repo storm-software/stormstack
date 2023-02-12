@@ -1,6 +1,5 @@
 "use client";
 
-import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -44,24 +43,27 @@ export const Accordion = ({
   details,
   className,
 }: AccordionProps) => {
-  const [isOpened, setIsOpened] = useState<boolean>(opened);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const ref = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
-    ref.current?.addEventListener("toggle", (event: Event) => {
-      event.preventDefault();
+    if (ref.current) {
+      setIsOpened(opened);
+      ref.current?.addEventListener("toggle", (event: Event) => {
+        event.preventDefault();
 
-      if (ref.current.open) {
-        setIsOpened(true);
-      } else {
-        setIsOpened(false);
-      }
-    });
+        if (ref.current.open) {
+          setIsOpened(true);
+        } else {
+          setIsOpened(false);
+        }
+      });
+    }
   }, []);
 
   return (
     <div className={clsx("flex flex-col gap-2", className)}>
-      <details ref={ref}>
+      <details ref={ref} open={isOpened}>
         <summary className="group flex flex-col gap-2 py-3 hover:cursor-pointer">
           <div className="flex flex-row items-center justify-between gap-2">
             {typeof summary === "string" ? (
@@ -70,19 +72,37 @@ export const Accordion = ({
                   {summary}
                 </h2>
                 {details && (
-                  <label className="text-md mb-0.5 font-label-3 text-slate-400 transition-colors group-hover:text-hover-link-2">
+                  <h2 className="text-md mb-0.5 font-label-3 text-slate-400 transition-colors hover:cursor-pointer group-hover:text-hover-link-2">
                     {details}
-                  </label>
+                  </h2>
                 )}
               </div>
             ) : (
               <div>{summary}</div>
             )}
-            {isOpened ? (
-              <MinusIcon className="h-6 w-6 fill-primary transition-colors group-hover:fill-hover-link-2" />
-            ) : (
-              <PlusIcon className="h-6 w-6 fill-primary transition-colors group-hover:fill-hover-link-2" />
-            )}
+            <motion.div
+              className="h-6 w-6"
+              initial={false}
+              animate={isOpened ? "opened" : "closed"}>
+              <svg width="24" height="24" viewBox="0 0 8 8">
+                <motion.path
+                  className="fill-transparent stroke-primary transition-colors group-hover:stroke-hover-link-2"
+                  strokeWidth={1.2}
+                  strokeLinecap="round"
+                  variants={{
+                    opened: { d: "M 1 4 L 7 4" },
+                    closed: { d: "M 4 1 L 4 7" },
+                  }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                />
+                <path
+                  className="fill-transparent stroke-primary transition-colors group-hover:stroke-hover-link-2"
+                  strokeWidth={1.2}
+                  strokeLinecap="round"
+                  d="M 1 4 L 7 4"
+                />
+              </svg>
+            </motion.div>
           </div>
           <Divider
             direction={DividerDirections.HORIZONTAL}

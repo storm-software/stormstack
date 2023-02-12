@@ -5,7 +5,24 @@ import { ContactState } from "../models";
 
 // Define the initial state using that type
 const initialState: ContactState = {
-  formValues: { reason: "business", isSubscribed: true },
+  formValues: {
+    reason: "business",
+    isSubscribed: true,
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    companyName: "",
+    title: "",
+    details: "",
+    url: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    state: "",
+    countryCode: "",
+    postalCode: "",
+  },
   createdDateTime: null,
 };
 
@@ -18,7 +35,8 @@ export const contactSlice = createSlice({
       state.createdDateTime = DateTime.current.toString();
     },
     resetFormState(state) {
-      state = { ...initialState };
+      state.formValues = { ...initialState.formValues };
+      state.createdDateTime = initialState.createdDateTime;
     },
   },
 });

@@ -108,7 +108,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       disabled = false,
       required = false,
       noBorder = false,
-      glow = true,
+      glow = false,
       label,
       placeholder,
       info,
@@ -184,7 +184,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {
               "focus:shadow-active-glow": focused && glow,
             },
-            "w-full rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
+            "w-full rounded-xl font-label-1 leading-label-1 transition-all duration-300 ease-in-out focus:ring-0 focus:ring-active focus:ring-offset-0",
             getInputTextStyle(
               !isEmptyObject(errors),
               !!warning,
@@ -195,19 +195,26 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ),
             { "border-3": disabled },
             {
-              "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
-                !disabled && glow,
+              "border-1 shadow-sm hover:shadow-active-glow": !disabled && glow,
+            },
+            {
+              "hover:border-hover-link-2 hover:ring-0 hover:ring-hover-link-2 hover:ring-offset-0":
+                !disabled,
             },
             className
           )}
-          type={type === InputTypes.EMAIL ? InputTypes.TEXT : type}
+          type={
+            type === InputTypes.EMAIL || type === InputTypes.URL
+              ? InputTypes.TEXT
+              : type
+          }
           placeholder={placeholder}
           disabled={disabled}
           readOnly={disabled}
           // required={required}
           min={min}
           max={max}
-          minLength={minLength}
+          // minLength={minLength}
           maxLength={maxLength}
           // pattern={pattern}
           multiple={multiple}
