@@ -58,18 +58,18 @@ export const ProgressTracker = ({
                     backgroundColor:
                       item.status === ProgressTrackerItemStatus.COMPLETE &&
                       (active < 0 || i < active - 1)
-                        ? "#0DDACA"
+                        ? "#039555"
                         : item.status === ProgressTrackerItemStatus.COMPLETE &&
                           (active < 0 || i === active - 1)
-                        ? "#FFFFFF"
+                        ? "#FAF9F6"
                         : "#989899",
                   }}
                   animate={{
                     backgroundColor:
                       item.status === ProgressTrackerItemStatus.COMPLETE
-                        ? "#0DDACA"
+                        ? "#039555"
                         : item.status === ProgressTrackerItemStatus.ACTIVE
-                        ? "#FFFFFF"
+                        ? "#FAF9F6"
                         : "#989899",
                   }}
                   transition={{ duration: 1, delay: 1, ease: "easeInOut" }}

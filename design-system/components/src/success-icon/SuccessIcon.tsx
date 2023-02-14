@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { PropsWithBase } from "../types";
@@ -26,15 +27,11 @@ export function SuccessIcon({
   const isInView = useInView(ref, { once: true });
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref}>
       <AnimatePresence>
         {isInView && (
-          <svg
-            className="animated"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 70 70">
+          <svg className={clsx("fill-inverse", className)} viewBox="0 0 70 70">
             <motion.path
-              className="fill-inverse"
               initial={{ opacity: animateBackground ? 0 : 1 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 3.5, ease: "easeInOut" }}
@@ -44,21 +41,21 @@ export function SuccessIcon({
               cx="35"
               cy="35"
               r="24"
-              className="fill-inverse stroke-secondary"
-              stroke-width="3"
-              stroke-linecap="round"
+              className="stroke-success"
+              strokeWidth="3"
+              strokeLinecap="round"
               initial={{ pathLength: animateBorder ? 0 : 1 }}
               animate={{ pathLength: 1 }}
               transition={{ duration: 3, ease: "easeInOut" }}
             />
             <motion.polyline
-              className="fill-inverse stroke-secondary"
+              className="stroke-success"
               strokeLinecap="round"
-              stroke-width="4"
+              strokeWidth="4"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
               transition={{ duration: 2.5, ease: "easeInOut" }}
-              points="23 34 34 43 47 27"
+              points="25 36 34 43 47 27"
             />
           </svg>
         )}

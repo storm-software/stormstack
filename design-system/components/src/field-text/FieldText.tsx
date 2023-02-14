@@ -29,7 +29,7 @@ export const FieldText = ({
   const value = children ?? placeholder;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col break-all">
       {name && (
         <label className="font-label-3 text-xs font-bold text-slate-500">
           {name}
@@ -40,7 +40,7 @@ export const FieldText = ({
           className={clsx(
             "text-md font-body-1 text-primary",
             {
-              "h-5": !value,
+              "h-8": !children && name,
             },
             className
           )}>

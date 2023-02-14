@@ -61,7 +61,7 @@ export const ProgressTrackerItem = ({
       displayed: {
         color:
           status === ProgressTrackerItemStatus.COMPLETE
-            ? "#0DDACA"
+            ? "#039555"
             : status === ProgressTrackerItemStatus.ACTIVE
             ? "#FAF9F6"
             : "#989899",
@@ -83,7 +83,7 @@ export const ProgressTrackerItem = ({
       displayed: {
         fill:
           status === ProgressTrackerItemStatus.COMPLETE
-            ? "#0DDACA"
+            ? "#039555"
             : status === ProgressTrackerItemStatus.ACTIVE
             ? "#FAF9F6"
             : "#989899",
@@ -118,7 +118,7 @@ export const ProgressTrackerItem = ({
             color:
               status === ProgressTrackerItemStatus.COMPLETE &&
               !animateBackground
-                ? "#0DDACA"
+                ? "#039555"
                 : (status === ProgressTrackerItemStatus.COMPLETE &&
                     animateBackground) ||
                   (status === ProgressTrackerItemStatus.ACTIVE &&
@@ -136,19 +136,13 @@ export const ProgressTrackerItem = ({
       </div>
       <div className="relative flex h-[70px] w-[70px] shrink items-center justify-center">
         <div className="absolute top-0 left-0 right-0 z-10 h-[70px] w-[70px]">
-          <svg
-            viewBox="0 0 1024 1024"
-            height="70"
-            width="70"
-            x="0px"
-            y="0px"
-            xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 1024 1024" height="70" width="70" x="0px" y="0px">
             <motion.path
               initial={{
                 fill:
                   status === ProgressTrackerItemStatus.COMPLETE &&
                   !animateBackground
-                    ? "#0DDACA"
+                    ? "#039555"
                     : (status === ProgressTrackerItemStatus.COMPLETE &&
                         animateBackground) ||
                       (status === ProgressTrackerItemStatus.ACTIVE &&
@@ -195,7 +189,7 @@ export const ProgressTrackerItem = ({
                     fill:
                       status === ProgressTrackerItemStatus.COMPLETE &&
                       !animateBackground
-                        ? "#0DDACA"
+                        ? "#039555"
                         : (status === ProgressTrackerItemStatus.COMPLETE &&
                             animateBackground) ||
                           (status === ProgressTrackerItemStatus.ACTIVE &&

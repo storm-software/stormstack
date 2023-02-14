@@ -3,6 +3,7 @@
 export * from "./accordion";
 export * from "./breadcrumb";
 export * from "./button";
+export * from "./card";
 export * from "./checkbox";
 export * from "./divider";
 export * from "./field-text";
@@ -20,4 +21,3 @@ export * from "./select";
 export * from "./success-icon";
 export * from "./textarea";
 export * from "./types";
-
