@@ -1,4 +1,7 @@
-import { contactReducer } from "@open-system/contact-ui-data-access";
+import {
+  contactApi,
+  contactReducer,
+} from "@open-system/contact-ui-data-access";
 import {
   notificationsReducer,
   userReducer,
@@ -9,4 +12,5 @@ export const rootReducer = combineReducers({
   user: userReducer,
   notifications: notificationsReducer,
   contact: contactReducer,
+  [contactApi.reducerPath]: contactApi.reducer,
 });

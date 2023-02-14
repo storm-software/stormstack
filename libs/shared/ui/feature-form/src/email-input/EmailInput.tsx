@@ -16,7 +16,9 @@ export function EmailInput(props: EmailInputProps) {
       type={InputTypes.EMAIL}
       autoComplete={InputAutoCompleteTypes.EMAIL}
       pattern={{
-        value: new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/),
+        value: new RegExp(
+          /^(?:(?:[\w.\-_]+@[\w\d]+(?:\.[\w]{2,6})+)[,;]?\s?)+$/
+        ),
         message: "Invalid email address format provided.",
       }}
       maxLength={80}

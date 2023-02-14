@@ -1,16 +1,16 @@
 "use client";
 
-import { ContactDetail } from "@open-system/contact-ui-data-access";
+import { ContactFormValues } from "@open-system/contact-ui-data-access";
 import { formatBoolean } from "@open-system/core-typescript-utilities";
 import {
   BaseComponentProps,
   FieldText,
-  LinkVariants
+  LinkVariants,
 } from "@open-system/design-system-components";
 import {
   AddressText,
   Link,
-  PhoneNumberText
+  PhoneNumberText,
 } from "@open-system/shared-ui-components";
 import { useFormValues } from "@open-system/shared-ui-feature-form/hooks";
 import { BaseContactReviewForm } from "../base-contact-review-form";
@@ -22,7 +22,7 @@ export function ContactBusinessReviewForm({
   children,
   ...props
 }: BaseComponentProps) {
-  const values = useFormValues<ContactDetail>();
+  const values = useFormValues<ContactFormValues>();
 
   return (
     <BaseContactReviewForm
@@ -72,29 +72,31 @@ export function ContactBusinessReviewForm({
           </ContactFormStepReview>
         </>
       }>
-      <>
-        <p>
-          I'm reaching out to you
-          {values.companyName ? ` on behalf of ${values.companyName}` : ""}
-          {values.title
-            ? ` regarding a ${values.title} job opening`
-            : " about a business/employment opportunity"}
-          .
-        </p>
-        {values.details && <p>{values.details}</p>}
-        {values.url && (
+      {values && (
+        <>
           <p>
-            More information can be found at the following URL:{" "}
-            <Link
-              className="underline hover:cursor-pointer hover:text-hover-link-2"
-              variant={LinkVariants.PLAIN}
-              href={values.url}
-              inNewTab={true}>
-              {values.url}
-            </Link>
+            I'm reaching out to you
+            {values.companyName ? ` on behalf of ${values.companyName}` : ""}
+            {values.title
+              ? ` regarding a ${values.title} job opening`
+              : " about a business/employment opportunity"}
+            .
           </p>
-        )}
-      </>
+          {values.details && <p>{values.details}</p>}
+          {values.url && (
+            <p>
+              More information can be found at the following URL:{" "}
+              <Link
+                className="underline hover:cursor-pointer hover:text-hover-link-2"
+                variant={LinkVariants.PLAIN}
+                href={values.url}
+                inNewTab={true}>
+                {values.url}
+              </Link>
+            </p>
+          )}
+        </>
+      )}
     </BaseContactReviewForm>
   );
 }

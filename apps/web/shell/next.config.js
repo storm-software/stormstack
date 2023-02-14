@@ -26,6 +26,7 @@ const nextConfig = {
     "framer-motion",
     "@react-pdf/renderer",
     "react-hook-form",
+    "@reduxjs/toolkit",
     "@open-system/core-typescript-utilities",
     "@open-system/design-system-components",
     "@open-system/shared-ui-feature-form",

@@ -82,9 +82,9 @@ export const Modal = forwardRef<ModalReference, ModalProps>(
                 <motion.div
                   ref={modalRef}
                   className="relative inset-0 z-20 mx-auto h-fit w-fit"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
                   transition={{
                     duration: 0.5,
                     ease: [0, 0.71, 0.2, 1.01],

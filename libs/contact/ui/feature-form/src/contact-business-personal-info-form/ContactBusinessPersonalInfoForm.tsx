@@ -54,7 +54,7 @@ export function ContactBusinessPersonalInfoForm({
 
       <Accordion
         className="mt-4"
-        summary="Contact Address"
+        summary="Address"
         details="(Optional)"
         opened={
           values.countryCode ||

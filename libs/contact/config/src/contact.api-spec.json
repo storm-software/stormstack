@@ -20,16 +20,16 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5000",
+      "url": "http://localhost:5000/contacts",
       "description": "Local Development"
     }
   ],
   "paths": {
-    "/requests": {
+    "/": {
       "parameters": [],
       "get": {
-        "summary": "Get Contact Requests",
-        "operationId": "get-contact-requests",
+        "summary": "Get Contacts",
+        "operationId": "getContacts",
         "responses": {
           "200": {
             "description": "OK",
@@ -128,30 +128,172 @@
         "parameters": [
           {
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "email",
+              "example": "john@example.com"
+            },
+            "in": "query",
+            "name": "email",
+            "description": "An email value to filter the returned contacts "
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 50,
+              "example": "Ryan"
+            },
+            "in": "query",
+            "name": "firstName",
+            "description": "A first name value to filter the returned contacts "
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "lastName",
+            "description": "A last name value to filter the returned contacts "
           }
         ],
-        "description": "An end point that returns the list of contact requests",
+        "description": "An end point that returns the list of contacts",
         "tags": [
           "Contact"
         ]
+      },
+      "post": {
+        "summary": "Add Contact",
+        "operationId": "addContact",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Contact"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ContactHeader"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ContactDetail"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/UserId"
+          }
+        ],
+        "description": "Add a new contact"
       }
     },
-    "/requests/{id}": {
+    "/{guid}": {
       "parameters": [
         {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "description": "The reason for the current contact request"
+          "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/Guid"
         }
       ],
       "get": {
-        "summary": "Get Contact Request",
-        "operationId": "get-contact-request",
+        "summary": "Get Contact",
+        "operationId": "getContact",
         "responses": {
           "200": {
             "description": "OK",
@@ -249,14 +391,14 @@
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "description": "An end point that returns data for a specific user",
+        "description": "An end point that returns data for a specific contact",
         "tags": [
           "Contact"
         ]
       },
-      "post": {
-        "summary": "Add Contact Request",
-        "operationId": "add-contact-request",
+      "put": {
+        "summary": "Update Contact",
+        "operationId": "updateContact",
         "responses": {
           "200": {
             "description": "OK",
@@ -264,12 +406,130 @@
               "application/json": {
                 "schema": {
                   "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
                 },
                 "examples": {
-                  "Sample Response": {
+                  "Error Response": {
                     "value": {
-                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
                     }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Contact"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactHeader"
+              }
+            }
+          },
+          "description": ""
+        },
+        "description": "An end point that updates an existing contact",
+        "parameters": [
+          {
+            "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/UserId"
+          }
+        ]
+      }
+    },
+    "/{guid}/details": {
+      "parameters": [
+        {
+          "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/Guid"
+        }
+      ],
+      "get": {
+        "summary": "Get Contact Details",
+        "operationId": "getContactDetails",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContactDetail"
                   }
                 }
               }
@@ -356,31 +616,142 @@
             }
           }
         },
-        "description": "Add a new contact request",
         "parameters": [
           {
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "business",
+                "question",
+                "other",
+                "project",
+                "interest"
+              ]
+            },
+            "in": "query",
+            "name": "reason",
+            "description": "An reason type value to filter the returned contact details "
           }
         ],
+        "description": "An end point that returns detail data for a specific contact",
         "tags": [
           "Contact"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ContactDetail"
+        ]
+      },
+      "post": {
+        "summary": "Add Contact Detail",
+        "operationId": "addContactDetail",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                },
+                "examples": {
+                  "Error Response": {
+                    "value": {
+                      "type": "https://example.com/probs/out-of-credit",
+                      "title": "You do not have enough credit.",
+                      "detail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc"
+                    }
+                  }
+                }
               }
             }
           }
-        }
+        },
+        "tags": [
+          "Contact"
+        ],
+        "description": "An end point that adds a new detail to an existing contact",
+        "parameters": [
+          {
+            "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/UserId"
+          }
+        ]
       }
     },
     "/subscriptions": {
       "parameters": [],
       "get": {
         "summary": "Get Subscriptions",
-        "operationId": "get-subscriptions",
+        "operationId": "getSubscriptions",
         "responses": {
           "200": {
             "description": "OK",
@@ -503,7 +874,7 @@
       ],
       "get": {
         "summary": "Get Subscription",
-        "operationId": "get-subscription",
+        "operationId": "getSubscription",
         "responses": {
           "200": {
             "description": "OK",
@@ -825,7 +1196,7 @@
             }
           }
         },
-        "description": "Add an existing email address from the subcription list",
+        "description": "Remove an existing email address from the subcription list",
         "tags": [
           "Contact"
         ]
@@ -840,54 +1211,39 @@
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/RecordBase"
           },
           {
-            "$ref": "#/components/schemas/ContactDetail"
+            "$ref": "#/components/schemas/ContactHeader"
+          },
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactDetail"
+            }
           }
         ],
-        "type": "object"
+        "title": "Contact",
+        "description": "A full contact model including all of it's previously submitted details"
       },
-      "ContactDetail": {
+      "ContactHeader": {
         "allOf": [
           {
             "properties": {
               "firstName": {
-                "type": "string"
+                "type": "string",
+                "maxLength": 50
               },
               "lastName": {
-                "type": "string"
+                "type": "string",
+                "maxLength": 50
               },
               "phoneNumber": {
-                "type": "string"
+                "type": "string",
+                "maxLength": 15,
+                "pattern": "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$"
               },
               "email": {
                 "type": "string",
                 "description": "The email address of the contact",
                 "format": "email"
-              },
-              "companyName": {
-                "type": "string"
-              },
-              "title": {
-                "type": "string"
-              },
-              "reason": {
-                "type": "string",
-                "example": "business",
-                "description": "The type of contact request",
-                "default": "business",
-                "enum": [
-                  "business",
-                  "question",
-                  "other",
-                  "project",
-                  "interest"
-                ]
-              },
-              "details": {
-                "type": "string"
-              },
-              "url": {
-                "type": "string",
-                "format": "uri"
               },
               "isSubscribed": {
                 "type": "boolean",
@@ -904,7 +1260,51 @@
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/Address"
           }
         ],
-        "type": "object"
+        "type": "object",
+        "title": "ContactHeader",
+        "description": "Contact data used to identify an individual and attach details too.",
+        "x-stoplight": {
+          "id": "4cf7f1cb259e4"
+        }
+      },
+      "ContactDetail": {
+        "properties": {
+          "companyName": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "reason": {
+            "type": "string",
+            "example": "business",
+            "description": "The type of contact request",
+            "default": "business",
+            "enum": [
+              "business",
+              "question",
+              "other",
+              "project",
+              "interest"
+            ]
+          },
+          "details": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "reason"
+        ],
+        "type": "object",
+        "title": "ContactDetail",
+        "description": "Base data used to capture a contact request "
       }
     },
     "requestBodies": {

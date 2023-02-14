@@ -1,10 +1,11 @@
 "use client";
 
 import {
-  ContactDetail,
+  ContactFormValues,
   resetFormState,
   saveFormState,
   selectContactFormValues,
+  useAddContactMutation,
 } from "@open-system/contact-ui-data-access";
 import { ContactFormSegments } from "@open-system/contact-ui-feature-form/constants";
 import {
@@ -48,14 +49,39 @@ export default function ContactForm({
   const router = useRouter();
 
   const formValues = useSelector(selectContactFormValues);
-
   const dispatch = useDispatch();
+
+  const [addContact] = useAddContactMutation();
   const handleSubmit = useCallback(
-    (values: Partial<ContactDetail>) => {
-      dispatch(saveFormState(values));
+    async (values: ContactFormValues) => {
+      console.log(values);
+      if (segment === ContactFormSegments.REVIEW) {
+        const payload = await addContact({
+          userId: "PSUL",
+          body: values,
+        }).unwrap();
+        console.log(payload);
+
+        /*const result =
+          contactSchema.components["AddContactMutation"]?.validate(values);
+        if (result?.errors) {
+          dispatch(
+            addErrorNotification(
+              result?.errors?.details
+                ?.map((error: ValidationError) => error.message)
+                ?.join("\r\n")
+            )
+          );
+        } else {
+          const payload = await addContact(result?.data);
+        }*/
+      } else {
+        dispatch(saveFormState(values));
+      }
+
       nextPathname && router.push(nextPathname);
     },
-    [dispatch, nextPathname, router]
+    [addContact, dispatch, nextPathname, router, segment]
   );
 
   const modalRef = useRef<ModalReference>(null);
@@ -77,7 +103,7 @@ export default function ContactForm({
 
   return (
     <>
-      <Form<ContactDetail>
+      <Form<ContactFormValues>
         className="flex flex-col gap-8"
         onSubmit={handleSubmit}
         defaultValues={formValues}>
@@ -89,7 +115,7 @@ export default function ContactForm({
           )}>
           <AnimatePresence>
             <motion.div
-              className="h-full w-full"
+              className="flex h-full"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -98,7 +124,7 @@ export default function ContactForm({
             </motion.div>
           </AnimatePresence>
 
-          <div className="flex flex-1 flex-col gap-8">
+          <div className="flex flex-col gap-8">
             <ProgressTracker
               items={[
                 {

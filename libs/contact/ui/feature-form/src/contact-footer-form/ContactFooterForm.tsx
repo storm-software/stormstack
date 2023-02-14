@@ -1,5 +1,6 @@
 "use client";
 
+import { ContactFormValues } from "@open-system/contact-ui-data-access";
 import {
   BaseComponentProps,
   ButtonCornerRoundingTypes,
@@ -27,9 +28,14 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
         !
       </h1>
 
-      <Form
+      <Form<ContactFormValues>
         className="flex flex-col gap-3"
-        defaultValues={{ email: "", comment: "", isSubscribed: true }}>
+        defaultValues={{
+          email: "",
+          details: "",
+          isSubscribed: true,
+          reason: "other",
+        }}>
         <div className="flex flex-col">
           <EmailInput name="email" required={true} glow={false} />
           <Textarea

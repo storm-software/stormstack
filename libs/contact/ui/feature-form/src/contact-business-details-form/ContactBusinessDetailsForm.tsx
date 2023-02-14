@@ -22,12 +22,14 @@ export function ContactBusinessDetailsForm({
         name="companyName"
         label="Organization name"
         autoComplete={InputAutoCompleteTypes.ORG}
+        maxLength={50}
         required={false}
       />
       <Input
         name="title"
         label="Job position/title"
         autoComplete={InputAutoCompleteTypes.ORG_TITLE}
+        maxLength={50}
         required={false}
       />
       <UrlInput name="url" label="Related URL" required={false} />
@@ -35,6 +37,7 @@ export function ContactBusinessDetailsForm({
         name="details"
         label="Description"
         size={TextareaSizes.LARGE}
+        maxLength={2000}
         required={true}
       />
     </BaseContactForm>

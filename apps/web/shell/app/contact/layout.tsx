@@ -4,7 +4,7 @@ import Breadcrumb from "../(components)/breadcrumb";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-fit w-full flex-col gap-12 p-20 pt-12">
+    <div className="flex h-fit flex-col gap-12 px-20 pt-12">
       <Breadcrumb
         items={[
           { pathname: "/contact", label: "Contact" },

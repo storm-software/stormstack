@@ -1,16 +1,8 @@
-import { loggerMiddleware } from "@open-system/shared-ui-data-access";
 import { configureStore } from "@reduxjs/toolkit";
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistReducer,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from "redux-persist";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { middleware } from "./middleware";
 import { rootReducer } from "./reducers";
 
 const persistConfig = {
@@ -25,12 +17,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export default function configureAppStore(preloadedState: any) {
   const store = configureStore({
     reducer: persistedReducer,
-    middleware: getDefaultMiddleware =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }).concat(loggerMiddleware),
+    middleware,
     preloadedState,
     enhancers: [],
   });
@@ -46,6 +33,8 @@ export default function configureAppStore(preloadedState: any) {
 
 export const store = configureAppStore({});
 export const persistor = persistStore(store);
+
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

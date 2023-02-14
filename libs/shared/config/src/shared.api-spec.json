@@ -158,22 +158,29 @@
         "description": "Data used to specify a location",
         "properties": {
           "addressLine1": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 50
           },
           "addressLine2": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 50
           },
           "city": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 50
           },
           "state": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 50
           },
           "countryCode": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 50
           },
           "postalCode": {
-            "type": "string"
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 9
           }
         }
       }

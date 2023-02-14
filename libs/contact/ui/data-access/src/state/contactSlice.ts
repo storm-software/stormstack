@@ -1,41 +1,18 @@
 import { DateTime } from "@open-system/core-typescript-utilities";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ContactDetail } from "../apis/contactApi";
-import { ContactState } from "../models";
-
-// Define the initial state using that type
-const initialState: ContactState = {
-  formValues: {
-    reason: "business",
-    isSubscribed: true,
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    email: "",
-    companyName: "",
-    title: "",
-    details: "",
-    url: "",
-    addressLine1: "",
-    addressLine2: "",
-    city: "",
-    state: "",
-    countryCode: "",
-    postalCode: "",
-  },
-  createdDateTime: null,
-};
+import { initialFormValues, initialState } from "../constants";
+import { ContactFormValues, ContactState } from "../types";
 
 export const contactSlice = createSlice({
   name: "contact",
   initialState,
   reducers: {
-    saveFormState(state, action: PayloadAction<Partial<ContactDetail>>) {
+    saveFormState(state, action: PayloadAction<ContactFormValues>) {
       state.formValues = { ...action.payload };
       state.createdDateTime = DateTime.current.toString();
     },
     resetFormState(state) {
-      state.formValues = { ...initialState.formValues };
+      state.formValues = { ...initialFormValues };
       state.createdDateTime = initialState.createdDateTime;
     },
   },

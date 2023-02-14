@@ -1,6 +1,6 @@
 "use client";
 
-import { ContactDetail } from "@open-system/contact-ui-data-access";
+import { ContactFormValues } from "@open-system/contact-ui-data-access";
 import { DateTime } from "@open-system/core-typescript-utilities";
 import { Accordion, FieldText } from "@open-system/design-system-components";
 import {
@@ -27,7 +27,7 @@ export function BaseContactReviewForm({
   sideContent,
   ...props
 }: BaseContactReviewFormProps) {
-  const values = useFormValues<ContactDetail>();
+  const values = useFormValues<ContactFormValues>();
 
   return (
     <BaseContactForm
@@ -36,7 +36,7 @@ export function BaseContactReviewForm({
       description={description}
       sideContent={
         <Accordion
-          className="mt-4"
+          className="mt-4 min-w-[32rem]"
           summary="Your Input"
           opened={true}
           showBottomDivider={true}>
@@ -53,9 +53,9 @@ export function BaseContactReviewForm({
           </div>
         </Accordion>
       }>
-      <div className="relative pb-32">
-        <div className="text-md flex h-fit min-h-[34rem] flex-col gap-2 border-4 border-black bg-slate-100 px-6 py-8 font-body-1 text-slate-800">
-          <div className="flex flex-1 flex-col gap-1">
+      <div className="relative flex pb-32">
+        <output className="text-md flex h-fit min-h-[34rem] flex-col gap-2 border-4 border-black bg-slate-100 px-6 py-8 font-body-1 text-slate-800">
+          <div className="flex grow flex-col gap-1 break-all">
             <div className="flex flex-row justify-between gap-2">
               <p>Hey Pat,</p>
               <p>{DateTime.current?.getPlainDate().toLocaleString()}</p>
@@ -86,7 +86,7 @@ export function BaseContactReviewForm({
               <AddressText className="text-slate-800" address={values} />
             </div>
           </div>
-        </div>
+        </output>
         <Envelope
           className="absolute -bottom-3 left-0 rotate-12"
           height={180}

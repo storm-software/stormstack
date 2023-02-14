@@ -48,7 +48,7 @@ export function AddressInputFields({
             name="state"
             label={isDomesticCountry ? "State" : "Province / Region"}
             autoComplete={InputAutoCompleteTypes.STATE}
-            maxLength={35}
+            maxLength={50}
             required={countryCode && isDomesticCountry}
           />
         </div>
