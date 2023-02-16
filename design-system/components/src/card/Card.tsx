@@ -88,13 +88,6 @@ export const Card = ({ children, title, details, className }: CardProps) => {
         "group relative flex flex-col gap-2 rounded-xl border-[1px] border-slate-500 bg-gradient-to-bl from-bg-1 via-bg-1 to-black transition-shadow hover:border-hover-link-2 hover:shadow-2xl hover:shadow-indigo-500/50",
         className
       )}>
-      <motion.div
-        className="absolute z-30 h-10 w-10 rounded-full shadow-2xl shadow-indigo-500/50"
-        style={{
-          x: mousePosition?.x,
-          y: mousePosition?.y,
-        }}
-      />
       <div className="z-20 flex flex-col gap-2 p-4">
         <div className="flex flex-col gap-0">
           {typeof title === "string" ? (

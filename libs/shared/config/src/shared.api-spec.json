@@ -40,26 +40,26 @@
         "description": "The `guid` associated with the record",
         "example": "123e4567-e89b-12d3-a456-426614174000"
       },
-      "UpdateSuccessResponse": {
-        "title": "UpdateSuccessResponse",
+      "CommandSuccessResponse": {
+        "title": "CommandSuccessResponse",
         "x-stoplight": {
-          "id": "bnmwekvdvhi5z"
+          "id": "37ef029e57dd1"
         },
         "type": "object",
         "description": "A response returned from the server when data is successfully updated",
-        "properties": {
-          "guid": {
-            "$ref": "#/components/schemas/Guid"
-          }
-        },
-        "required": [
-          "guid"
-        ],
         "x-examples": {
           "Sample Response": {
             "guid": "123e4567-e89b-12d3-a456-426614174000"
           }
-        }
+        },
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Guid"
+          }
+        },
+        "required": [
+          "id"
+        ]
       },
       "RecordBase": {
         "title": "RecordBase",
@@ -68,8 +68,17 @@
         },
         "type": "object",
         "description": "The minimum model fields shared by all data stored in the database",
+        "x-examples": {
+          "Sample Record": {
+            "guid": "123e4567-e89b-12d3-a456-426614174000",
+            "createdOn": "2022-03-19 04:24:02.190",
+            "createdBy": "PSUL",
+            "updatedOn": "2022-10-12 14:01:13.000",
+            "updatedBy": "PSUL"
+          }
+        },
         "properties": {
-          "guid": {
+          "id": {
             "$ref": "#/components/schemas/Guid"
           },
           "createdOn": {
@@ -92,19 +101,10 @@
           }
         },
         "required": [
-          "guid",
+          "id",
           "createdOn",
           "createdBy"
-        ],
-        "x-examples": {
-          "Sample Record": {
-            "guid": "123e4567-e89b-12d3-a456-426614174000",
-            "createdOn": "2022-03-19 04:24:02.190",
-            "createdBy": "PSUL",
-            "updatedOn": "2022-10-12 14:01:13.000",
-            "updatedBy": "PSUL"
-          }
-        }
+        ]
       },
       "ProblemDetails": {
         "title": "ProblemDetails",
@@ -205,7 +205,7 @@
             "examples": {
               "Sample Response": {
                 "value": {
-                  "guid": "123e4567-e89b-12d3-a456-426614174000"
+                  "id": "123e4567-e89b-12d3-a456-426614174000"
                 }
               }
             }
@@ -214,8 +214,8 @@
       }
     },
     "parameters": {
-      "guid": {
-        "name": "guid",
+      "id": {
+        "name": "id",
         "in": "path",
         "required": true,
         "schema": {

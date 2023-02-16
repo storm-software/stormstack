@@ -21,26 +21,30 @@ using OpenSystem.Apis.Contact.Converters;
 namespace OpenSystem.Apis.Contact.Contracts
 { 
     /// <summary>
-    /// 
+    /// Contact data used to identify an individual and attach details too.
     /// </summary>
     [DataContract]
-    public class ContactDetailDto : IEquatable<ContactDetailDto>
+    public class ContactHeader : IEquatable<ContactHeader>
     {
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
+        [MaxLength(50)]
         [DataMember(Name="firstName", EmitDefaultValue=false)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
+        [MaxLength(50)]
         [DataMember(Name="lastName", EmitDefaultValue=false)]
         public string LastName { get; set; }
 
         /// <summary>
         /// Gets or Sets PhoneNumber
         /// </summary>
+        [RegularExpression("^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")]
+        [MaxLength(15)]
         [DataMember(Name="phoneNumber", EmitDefaultValue=false)]
         public string PhoneNumber { get; set; }
 
@@ -52,60 +56,6 @@ namespace OpenSystem.Apis.Contact.Contracts
         [DataMember(Name="email", EmitDefaultValue=false)]
         public string Email { get; set; }
 
-
-        /// <summary>
-        /// The type of contact request
-        /// </summary>
-        /// <value>The type of contact request</value>
-        [TypeConverter(typeof(CustomEnumConverter<ReasonOptions>))]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public enum ReasonOptions
-        {
-            
-            /// <summary>
-            /// Enum Business for business
-            /// </summary>
-            [EnumMember(Value = "business")]
-            Business = 1,
-            
-            /// <summary>
-            /// Enum Question for question
-            /// </summary>
-            [EnumMember(Value = "question")]
-            Question = 2,
-            
-            /// <summary>
-            /// Enum Casual for casual
-            /// </summary>
-            [EnumMember(Value = "casual")]
-            Casual = 3,
-            
-            /// <summary>
-            /// Enum Other for other
-            /// </summary>
-            [EnumMember(Value = "other")]
-            Other = 4
-        }
-
-        /// <summary>
-        /// The type of contact request
-        /// </summary>
-        /// <value>The type of contact request</value>
-        [DataMember(Name="reason", EmitDefaultValue=true)]
-        public ReasonOptions Reason { get; set; } = ReasonOptions.Business;
-
-        /// <summary>
-        /// Gets or Sets Details
-        /// </summary>
-        [DataMember(Name="details", EmitDefaultValue=false)]
-        public string Details { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Url
-        /// </summary>
-        [DataMember(Name="url", EmitDefaultValue=false)]
-        public string Url { get; set; }
-
         /// <summary>
         /// Gets or Sets IsSubscribed
         /// </summary>
@@ -114,21 +64,66 @@ namespace OpenSystem.Apis.Contact.Contracts
         public bool IsSubscribed { get; set; } = true;
 
         /// <summary>
+        /// Gets or Sets AddressLine1
+        /// </summary>
+        [MaxLength(50)]
+        [DataMember(Name="addressLine1", EmitDefaultValue=false)]
+        public string AddressLine1 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets AddressLine2
+        /// </summary>
+        [MaxLength(50)]
+        [DataMember(Name="addressLine2", EmitDefaultValue=false)]
+        public string AddressLine2 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets City
+        /// </summary>
+        [MaxLength(50)]
+        [DataMember(Name="city", EmitDefaultValue=false)]
+        public string City { get; set; }
+
+        /// <summary>
+        /// Gets or Sets State
+        /// </summary>
+        [MaxLength(50)]
+        [DataMember(Name="state", EmitDefaultValue=false)]
+        public string State { get; set; }
+
+        /// <summary>
+        /// Gets or Sets CountryCode
+        /// </summary>
+        [MaxLength(50)]
+        [DataMember(Name="countryCode", EmitDefaultValue=false)]
+        public string CountryCode { get; set; }
+
+        /// <summary>
+        /// Gets or Sets PostalCode
+        /// </summary>
+        [StringLength(9, MinimumLength=5)]
+        [DataMember(Name="postalCode", EmitDefaultValue=false)]
+        public string PostalCode { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class ContactDetailDto {\n");
+            sb.Append("class ContactHeader {\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  PhoneNumber: ").Append(PhoneNumber).Append("\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
-            sb.Append("  Reason: ").Append(Reason).Append("\n");
-            sb.Append("  Details: ").Append(Details).Append("\n");
-            sb.Append("  Url: ").Append(Url).Append("\n");
             sb.Append("  IsSubscribed: ").Append(IsSubscribed).Append("\n");
+            sb.Append("  AddressLine1: ").Append(AddressLine1).Append("\n");
+            sb.Append("  AddressLine2: ").Append(AddressLine2).Append("\n");
+            sb.Append("  City: ").Append(City).Append("\n");
+            sb.Append("  State: ").Append(State).Append("\n");
+            sb.Append("  CountryCode: ").Append(CountryCode).Append("\n");
+            sb.Append("  PostalCode: ").Append(PostalCode).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -152,15 +147,15 @@ namespace OpenSystem.Apis.Contact.Contracts
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((ContactDetailDto)obj);
+            return obj.GetType() == GetType() && Equals((ContactHeader)obj);
         }
 
         /// <summary>
-        /// Returns true if ContactDetailDto instances are equal
+        /// Returns true if ContactHeader instances are equal
         /// </summary>
-        /// <param name="other">Instance of ContactDetailDto to be compared</param>
+        /// <param name="other">Instance of ContactHeader to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ContactDetailDto other)
+        public bool Equals(ContactHeader other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -187,24 +182,39 @@ namespace OpenSystem.Apis.Contact.Contracts
                     Email.Equals(other.Email)
                 ) && 
                 (
-                    Reason == other.Reason ||
-                    
-                    Reason.Equals(other.Reason)
-                ) && 
-                (
-                    Details == other.Details ||
-                    Details != null &&
-                    Details.Equals(other.Details)
-                ) && 
-                (
-                    Url == other.Url ||
-                    Url != null &&
-                    Url.Equals(other.Url)
-                ) && 
-                (
                     IsSubscribed == other.IsSubscribed ||
                     
                     IsSubscribed.Equals(other.IsSubscribed)
+                ) && 
+                (
+                    AddressLine1 == other.AddressLine1 ||
+                    AddressLine1 != null &&
+                    AddressLine1.Equals(other.AddressLine1)
+                ) && 
+                (
+                    AddressLine2 == other.AddressLine2 ||
+                    AddressLine2 != null &&
+                    AddressLine2.Equals(other.AddressLine2)
+                ) && 
+                (
+                    City == other.City ||
+                    City != null &&
+                    City.Equals(other.City)
+                ) && 
+                (
+                    State == other.State ||
+                    State != null &&
+                    State.Equals(other.State)
+                ) && 
+                (
+                    CountryCode == other.CountryCode ||
+                    CountryCode != null &&
+                    CountryCode.Equals(other.CountryCode)
+                ) && 
+                (
+                    PostalCode == other.PostalCode ||
+                    PostalCode != null &&
+                    PostalCode.Equals(other.PostalCode)
                 );
         }
 
@@ -227,13 +237,19 @@ namespace OpenSystem.Apis.Contact.Contracts
                     if (Email != null)
                     hashCode = hashCode * 59 + Email.GetHashCode();
                     
-                    hashCode = hashCode * 59 + Reason.GetHashCode();
-                    if (Details != null)
-                    hashCode = hashCode * 59 + Details.GetHashCode();
-                    if (Url != null)
-                    hashCode = hashCode * 59 + Url.GetHashCode();
-                    
                     hashCode = hashCode * 59 + IsSubscribed.GetHashCode();
+                    if (AddressLine1 != null)
+                    hashCode = hashCode * 59 + AddressLine1.GetHashCode();
+                    if (AddressLine2 != null)
+                    hashCode = hashCode * 59 + AddressLine2.GetHashCode();
+                    if (City != null)
+                    hashCode = hashCode * 59 + City.GetHashCode();
+                    if (State != null)
+                    hashCode = hashCode * 59 + State.GetHashCode();
+                    if (CountryCode != null)
+                    hashCode = hashCode * 59 + CountryCode.GetHashCode();
+                    if (PostalCode != null)
+                    hashCode = hashCode * 59 + PostalCode.GetHashCode();
                 return hashCode;
             }
         }
@@ -241,12 +257,12 @@ namespace OpenSystem.Apis.Contact.Contracts
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(ContactDetailDto left, ContactDetailDto right)
+        public static bool operator ==(ContactHeader left, ContactHeader right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ContactDetailDto left, ContactDetailDto right)
+        public static bool operator !=(ContactHeader left, ContactHeader right)
         {
             return !Equals(left, right);
         }

@@ -57,7 +57,7 @@ export default async function (
         generator ?? "open-system-dotnet-server"
       } -o ${sourceRoot} --enable-post-process-file --global-property="apiDocs=true" --additional-properties="aspnetCoreVersion=7.0,buildTarget=program,licenseName=BSD 2-Clause License Simplified,licenseUrl=https://spdx.org/licenses/BSD-2-Clause.html,packageAuthors=Patrick Sullivan,packageCopyright=Copyright (c) 2022 Patrick Sullivan,packageDescription=A collection of ${
         serviceName ?? domainName
-      } APIs used by the Open System repository,packageName=${packageName},packageTitle=OpenSystem,packageVersion=1.0.0,projectSdk=Microsoft.NET.Sdk.Web,operationIsAsync=true,operationResultTask=true,nullableReferenceTypes=true,isBasicBearer=true,pocoModels=false,useSwashbuckle=true,enumNameSuffix=Options,enumValueSuffix=,modelNameSuffix=Dto,generateAliasAsModel=true,domainName=${domainName},serviceName=${
+      } APIs used by the Open System repository,packageName=${packageName},packageTitle=OpenSystem,packageVersion=1.0.0,projectSdk=Microsoft.NET.Sdk.Web,operationIsAsync=true,operationResultTask=true,nullableReferenceTypes=true,isBasicBearer=true,pocoModels=false,useSwashbuckle=true,enumNameSuffix=Options,enumValueSuffix=,generateAliasAsModel=true,domainName=${domainName},serviceName=${
         serviceName ?? domainName
       },fullServiceName=${fullServiceName},specJsonFile=${specJsonFile},sourceRoot=${sourceRoot}",dockerTag=${projectName}:latest,useDateTimeOffsetFlag=true,optionalEmitDefaultValuesFlag=true,projectName=${projectName},useNewtonsoft=false,useDefaultRouting=true `
     );

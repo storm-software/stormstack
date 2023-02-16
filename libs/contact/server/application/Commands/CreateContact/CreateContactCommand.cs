@@ -23,7 +23,7 @@ namespace OpenSystem.Contact.Application.Commands.CreateContact
 
         public bool IsSubscribed { get; set; }
 
-        public ContactReasonTypes ReasonType { get; set; }
+        public ContactReasonTypes Reason { get; set; }
 
         public string? Comment { get; set; }
 

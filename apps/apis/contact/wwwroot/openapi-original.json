@@ -23,10 +23,10 @@
     "name" : "Contact"
   } ],
   "paths" : {
-    "/requests" : {
+    "/contacts" : {
       "get" : {
-        "description" : "An end point that returns the list of contact requests",
-        "operationId" : "get-contact-requests",
+        "description" : "An end point that returns the list of contacts",
+        "operationId" : "getContacts",
         "parameters" : [ {
           "description" : "The id of the current user sending the request",
           "in" : "header",
@@ -35,6 +35,40 @@
           "schema" : {
             "type" : "string"
           }
+        }, {
+          "description" : "An email value to filter the returned contacts ",
+          "explode" : true,
+          "in" : "query",
+          "name" : "email",
+          "required" : false,
+          "schema" : {
+            "example" : "john@example.com",
+            "format" : "email",
+            "type" : "string"
+          },
+          "style" : "form"
+        }, {
+          "description" : "A first name value to filter the returned contacts ",
+          "explode" : true,
+          "in" : "query",
+          "name" : "firstName",
+          "required" : false,
+          "schema" : {
+            "example" : "Ryan",
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "style" : "form"
+        }, {
+          "description" : "A last name value to filter the returned contacts ",
+          "explode" : true,
+          "in" : "query",
+          "name" : "lastName",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
@@ -45,254 +79,6 @@
                     "$ref" : "#/components/schemas/Contact"
                   },
                   "type" : "array"
-                }
-              }
-            },
-            "description" : "Successful response to Get Users end point"
-          },
-          "401" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Not Found"
-          },
-          "500" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Internal Server Error"
-          },
-          "503" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Service Unavailable"
-          }
-        },
-        "summary" : "Get Contact Requests",
-        "tags" : [ "Contact" ]
-      }
-    },
-    "/requests/{id}" : {
-      "get" : {
-        "description" : "An end point that returns data for a specific user",
-        "operationId" : "get-contact-request",
-        "parameters" : [ {
-          "description" : "The reason for the current contact request",
-          "explode" : false,
-          "in" : "path",
-          "name" : "id",
-          "required" : true,
-          "schema" : {
-            "format" : "uuid",
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Contact"
-                }
-              }
-            },
-            "description" : "Successful response to Get User end point"
-          },
-          "401" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Not Found"
-          },
-          "500" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Internal Server Error"
-          },
-          "503" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Service Unavailable"
-          }
-        },
-        "summary" : "Get Contact Request",
-        "tags" : [ "Contact" ]
-      },
-      "post" : {
-        "description" : "Add a new contact request",
-        "operationId" : "add-contact-request",
-        "parameters" : [ {
-          "description" : "The reason for the current contact request",
-          "explode" : false,
-          "in" : "path",
-          "name" : "id",
-          "required" : true,
-          "schema" : {
-            "format" : "uuid",
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/AddContactRequest"
-        },
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Sample Response" : {
-                    "value" : {
-                      "guid" : "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/UpdateSuccessResponse"
                 }
               }
             },
@@ -379,14 +165,624 @@
             "description" : "Service Unavailable"
           }
         },
-        "summary" : "Add Contact Request",
+        "summary" : "Get Contacts",
+        "tags" : [ "Contact" ],
+        "x-os-request-name" : "GetContactsQuery"
+      },
+      "post" : {
+        "description" : "Add a new contact",
+        "operationId" : "createContact",
+        "parameters" : [ {
+          "description" : "The id of the current user sending the request",
+          "in" : "header",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/CreateContactRequest"
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CommandSuccessResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Create Contact",
+        "tags" : [ "Contact" ],
+        "x-os-request-name" : "CreateContactCommand"
+      }
+    },
+    "/contacts/{id}" : {
+      "get" : {
+        "description" : "An end point that returns data for a specific contact",
+        "operationId" : "getContact",
+        "parameters" : [ {
+          "description" : "The records guid",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The id of the current user sending the request",
+          "in" : "header",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Contact"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Get Contact",
+        "tags" : [ "Contact" ]
+      },
+      "put" : {
+        "description" : "An end point that updates an existing contact",
+        "operationId" : "updateContact",
+        "parameters" : [ {
+          "description" : "The records guid",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "User Id sending request",
+          "in" : "header",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "example" : "PSUL",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ContactHeader"
+              }
+            }
+          },
+          "description" : ""
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CommandSuccessResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Update Contact",
         "tags" : [ "Contact" ]
       }
     },
-    "/subscriptions" : {
+    "/contacts/{id}/details" : {
+      "get" : {
+        "description" : "An end point that returns detail data for a specific contact",
+        "operationId" : "getContactDetails",
+        "parameters" : [ {
+          "description" : "The records guid",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "The id of the current user sending the request",
+          "in" : "header",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "An reason type value to filter the returned contact details ",
+          "explode" : true,
+          "in" : "query",
+          "name" : "reason",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "business", "question", "other", "project", "interest" ],
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ContactDetail"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Get Contact Details",
+        "tags" : [ "Contact" ]
+      },
+      "post" : {
+        "description" : "An end point that adds a new detail to an existing contact",
+        "operationId" : "createContactDetail",
+        "parameters" : [ {
+          "description" : "The records guid",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "format" : "uuid",
+            "type" : "string"
+          }
+        }, {
+          "description" : "User Id sending request",
+          "in" : "header",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "example" : "PSUL",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CommandSuccessResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Create Contact Detail",
+        "tags" : [ "Contact" ]
+      }
+    },
+    "/contacts/subscriptions" : {
       "get" : {
         "description" : "An end point that returns a list of emails on the subscription list",
-        "operationId" : "get-subscriptions",
+        "operationId" : "getSubscriptions",
         "parameters" : [ {
           "description" : "The id of the current user sending the request",
           "in" : "header",
@@ -495,9 +891,9 @@
         "tags" : [ "Contact" ]
       }
     },
-    "/subscriptions/{email}" : {
+    "/contacts/subscriptions/{email}" : {
       "delete" : {
-        "description" : "Add an existing email address from the subcription list",
+        "description" : "Remove an existing email address from the subcription list",
         "operationId" : "unsubscribe",
         "parameters" : [ {
           "description" : "The email of the subscription",
@@ -519,12 +915,12 @@
                 "examples" : {
                   "Sample Response" : {
                     "value" : {
-                      "guid" : "123e4567-e89b-12d3-a456-426614174000"
+                      "id" : "123e4567-e89b-12d3-a456-426614174000"
                     }
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/UpdateSuccessResponse"
+                  "$ref" : "#/components/schemas/CommandSuccessResponse"
                 }
               }
             },
@@ -616,7 +1012,7 @@
       },
       "get" : {
         "description" : "An end point that returns a boolean value indicating if the specified email is on the subscription list",
-        "operationId" : "get-subscription",
+        "operationId" : "getSubscription",
         "parameters" : [ {
           "description" : "The email of the subscription",
           "explode" : false,
@@ -760,7 +1156,7 @@
           }
         } ],
         "requestBody" : {
-          "$ref" : "#/components/requestBodies/AddContactRequest"
+          "$ref" : "#/components/requestBodies/CreateContactRequest"
         },
         "responses" : {
           "200" : {
@@ -769,12 +1165,12 @@
                 "examples" : {
                   "Sample Response" : {
                     "value" : {
-                      "guid" : "123e4567-e89b-12d3-a456-426614174000"
+                      "id" : "123e4567-e89b-12d3-a456-426614174000"
                     }
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/UpdateSuccessResponse"
+                  "$ref" : "#/components/schemas/CommandSuccessResponse"
                 }
               }
             },
@@ -889,17 +1285,39 @@
         "schema" : {
           "type" : "string"
         }
+      },
+      "id" : {
+        "description" : "The records guid",
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "schema" : {
+          "example" : "123e4567-e89b-12d3-a456-426614174000",
+          "format" : "uuid",
+          "type" : "string"
+        }
+      },
+      "UserId" : {
+        "description" : "User Id sending request",
+        "in" : "header",
+        "name" : "userId",
+        "required" : true,
+        "schema" : {
+          "example" : "PSUL",
+          "type" : "string"
+        }
       }
     },
     "requestBodies" : {
-      "AddContactRequest" : {
+      "CreateContactRequest" : {
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/ContactDetail"
+              "$ref" : "#/components/schemas/createContact_request"
             }
           }
-        }
+        },
+        "description" : ""
       }
     },
     "responses" : {
@@ -932,52 +1350,66 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/RecordBase"
         }, {
-          "$ref" : "#/components/schemas/ContactDetail"
+          "$ref" : "#/components/schemas/ContactHeader"
+        }, {
+          "items" : {
+            "$ref" : "#/components/schemas/ContactDetail"
+          },
+          "type" : "array"
         } ],
-        "type" : "object"
+        "description" : "A full contact model including all of it's previously submitted details",
+        "title" : "Contact"
+      },
+      "ContactHeader" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ContactHeader_allOf"
+        }, {
+          "$ref" : "#/components/schemas/Address"
+        } ],
+        "description" : "Contact data used to identify an individual and attach details too.",
+        "title" : "ContactHeader",
+        "type" : "object",
+        "x-stoplight" : {
+          "id" : "4cf7f1cb259e4"
+        }
       },
       "ContactDetail" : {
-        "description" : "",
+        "description" : "Base data used to capture a contact request ",
+        "example" : {
+          "reason" : "business",
+          "companyName" : "companyName",
+          "details" : "details",
+          "title" : "title",
+          "url" : "https://openapi-generator.tech"
+        },
         "properties" : {
-          "firstName" : {
+          "companyName" : {
+            "maxLength" : 50,
             "type" : "string"
           },
-          "lastName" : {
-            "type" : "string"
-          },
-          "phoneNumber" : {
-            "type" : "string"
-          },
-          "email" : {
-            "description" : "The email address of the contact",
-            "format" : "email",
+          "title" : {
+            "maxLength" : 50,
             "type" : "string"
           },
           "reason" : {
             "default" : "business",
             "description" : "The type of contact request",
-            "enum" : [ "business", "question", "casual", "other" ],
+            "enum" : [ "business", "question", "other", "project", "interest", "subscription" ],
             "example" : "business",
             "type" : "string"
           },
           "details" : {
+            "maxLength" : 2000,
             "type" : "string"
           },
           "url" : {
             "format" : "uri",
             "type" : "string"
-          },
-          "isSubscribed" : {
-            "default" : true,
-            "type" : "boolean"
           }
         },
-        "required" : [ "email", "isSubscribed" ],
+        "required" : [ "reason" ],
         "title" : "ContactDetail",
-        "type" : "object",
-        "x-stoplight" : {
-          "id" : "78659ef055685"
-        }
+        "type" : "object"
       },
       "ProblemDetails" : {
         "description" : "A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.",
@@ -1020,13 +1452,13 @@
           }
         }
       },
-      "UpdateSuccessResponse" : {
+      "CommandSuccessResponse" : {
         "description" : "A response returned from the server when data is successfully updated",
         "example" : {
-          "guid" : "123e4567-e89b-12d3-a456-426614174000"
+          "id" : "123e4567-e89b-12d3-a456-426614174000"
         },
         "properties" : {
-          "guid" : {
+          "id" : {
             "description" : "The `guid` associated with the record",
             "example" : "123e4567-e89b-12d3-a456-426614174000",
             "format" : "uuid",
@@ -1040,11 +1472,11 @@
             }
           }
         },
-        "required" : [ "guid" ],
-        "title" : "UpdateSuccessResponse",
+        "required" : [ "id" ],
+        "title" : "CommandSuccessResponse",
         "type" : "object",
         "x-stoplight" : {
-          "id" : "bnmwekvdvhi5z"
+          "id" : "37ef029e57dd1"
         },
         "x-examples" : {
           "Sample Response" : {
@@ -1068,7 +1500,7 @@
       "RecordBase" : {
         "description" : "The minimum model fields shared by all data stored in the database",
         "properties" : {
-          "guid" : {
+          "id" : {
             "description" : "The `guid` associated with the record",
             "example" : "123e4567-e89b-12d3-a456-426614174000",
             "format" : "uuid",
@@ -1098,7 +1530,7 @@
             "type" : "string"
           }
         },
-        "required" : [ "createdBy", "createdOn", "guid" ],
+        "required" : [ "createdBy", "createdOn", "id" ],
         "title" : "RecordBase",
         "type" : "object",
         "x-stoplight" : {
@@ -1113,6 +1545,76 @@
             "updatedBy" : "PSUL"
           }
         }
+      },
+      "Address" : {
+        "description" : "Data used to specify a location",
+        "properties" : {
+          "addressLine1" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "addressLine2" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "city" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "state" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "countryCode" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "postalCode" : {
+            "maxLength" : 9,
+            "minLength" : 5,
+            "type" : "string"
+          }
+        },
+        "title" : "Address",
+        "type" : "object",
+        "x-stoplight" : {
+          "id" : "7l05pozs4dbii"
+        }
+      },
+      "createContact_request" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ContactHeader"
+        }, {
+          "$ref" : "#/components/schemas/ContactDetail"
+        } ]
+      },
+      "ContactHeader_allOf" : {
+        "properties" : {
+          "firstName" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "lastName" : {
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "phoneNumber" : {
+            "maxLength" : 15,
+            "pattern" : "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$",
+            "type" : "string"
+          },
+          "email" : {
+            "description" : "The email address of the contact",
+            "format" : "email",
+            "type" : "string"
+          },
+          "isSubscribed" : {
+            "default" : true,
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "email", "isSubscribed", "reason" ],
+        "example" : null
       }
     },
     "securitySchemes" : { }

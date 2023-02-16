@@ -6,9 +6,10 @@ namespace OpenSystem.Contact.Domain.Enums
 	public enum ContactReasonTypes
 	{
 		Business,
+    Project,
     Subscription,
 		Question,
-		Casual,
+		Interest,
     Other
 	}
 }

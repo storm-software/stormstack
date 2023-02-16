@@ -7,12 +7,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using OpenSystem.Core.DotNet.Application;
-using OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts;
-using OpenSystem.Core.DotNet.Infrastructure.Extensions;
-using OpenSystem.Core.DotNet.Infrastructure;
-using OpenSystem.Core.DotNet.WebApi.Constants;
-using OpenSystem.Core.DotNet.WebApi.Extensions;
+using OpenSystem.{{capitalDomainName}}.Application;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Infrastructure.Persistence;
+using OpenSystem.Core.Infrastructure.Extensions;
+using OpenSystem.Core.Infrastructure;
+using OpenSystem.{{capitalDomainName}}.Infrastructure;
+using OpenSystem.Core.WebApi.Constants;
+using OpenSystem.Core.WebApi.Extensions;
+using OpenSystem.Core.WebApi.Services;
 using {{packageName}}.Extensions;
 
 const string SERVICE_NAME = "{{fullServiceName}}";
@@ -30,9 +33,9 @@ try
 
     builder.Services.AddServiceDiscovery(builder.Configuration);
 
-    builder.Services.AddApplicationLayer();
-    builder.Services.AddPersistenceInfrastructure(builder.Configuration);
-    builder.Services.AddServiceInfrastructure(builder.Configuration);
+    builder.Services.AddContactApplicationLayer();
+    builder.Services.AddContactPersistenceInfrastructure(builder.Configuration);
+    builder.Services.AddContactServiceInfrastructure(builder.Configuration);
 
     builder.Services.AddSwaggerExtension();
 
@@ -41,6 +44,11 @@ try
     // CORS
     builder.Services.AddCorsExtension();
     builder.Services.AddHealthChecks();
+
+    builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+    builder.Services.AddSingleton<ICurrentUserService,
+      CurrentUserService>();
+    builder.Services.AddHttpContextAccessor();
 
     //API Security
     builder.Services.AddJWTAuthentication(builder.Configuration);
@@ -51,7 +59,7 @@ try
 
     // API explorer
     builder.Services.AddMvcCore()
-        .AddApiExplorer();
+      .AddApiExplorer();
 
     // API explorer version
     builder.Services.AddVersionedApiExplorerExtension();
@@ -59,33 +67,41 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
+        // app.UseMigrationsEndPoint();
     }
     else
     {
-        app.UseExceptionHandler("/Error");
+        app.UseExceptionHandler("/error");
+
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
 
-    using (var scope = app.Services.CreateScope())
+    /*using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         // use context
         dbContext.Database.EnsureCreated();
-    }
+    }*/
 
     // Add this line; you'll need `using Serilog;` up the top, too
     app.UseSerilogRequestLogging();
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
+    app.UseStaticFiles();
     app.UseRouting();
 
     //Enable CORS
     app.UseCors("AllowAll");
-    app.UseAuthentication();
+
+
+    app.UseIdentityServer();
     app.UseAuthorization();
+
     app.UseSwaggerExtension();
     app.UseErrorHandlingMiddleware();
     app.UseHealthChecks("/health-check");
     app.MapControllers();
+
     app.Run();
 
     Log.Information($"{SERVICE_NAME} has started successfully.");

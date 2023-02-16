@@ -18,7 +18,7 @@ using OpenSystem.Core.WebApi.Extensions;
 using OpenSystem.Core.WebApi.Services;
 using OpenSystem.Apis.Contact.Extensions;
 
-const string SERVICE_NAME = "contact-api.service";
+const string SERVICE_NAME = "Contact_apisService.Api";
 
 try
 {

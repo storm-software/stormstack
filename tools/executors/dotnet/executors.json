@@ -10,6 +10,11 @@
       "schema": "../../../dist/tools/executors/dotnet/server-api-sync/schema.json",
       "description": "Generate Web API application project code and Data Contracts based on an OpenApi spec"
     },
+    "model-api-sync": {
+      "implementation": "../../../dist/tools/executors/dotnet/model-api-sync/impl",
+      "schema": "../../../dist/tools/executors/dotnet/model-api-sync/schema.json",
+      "description": "Generate Web API application project code and Data Contracts based on an OpenApi spec"
+    },
     "async-api-sync": {
       "implementation": "../../../dist/tools/executors/dotnet/async-api-sync/impl",
       "schema": "../../../dist/tools/executors/dotnet/async-api-sync/schema.json",

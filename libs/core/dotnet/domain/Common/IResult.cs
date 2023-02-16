@@ -1,7 +1,11 @@
-namespace OpenSystem.Core.Domain.ResultCodes
+namespace OpenSystem.Core.Domain.Common
 {
     public interface IResult<T>
     {
+      public int? Code { get; set; }
+
+      public Type? ResultCodeType { get; set; }
+
       public bool Succeeded { get; set; }
 
       public bool Failed => !Succeeded;

@@ -6,16 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Exceptions;
 
 namespace OpenSystem.Core.WebApi.Controllers
 {
     [ApiController]
     public abstract class BaseApiController : ControllerBase
     {
-        private IMediator _mediator;
-
-        protected IMediator Mediator => _mediator
-          ??= HttpContext.RequestServices.GetService<IMediator>();
+        private IMediator? _mediator => HttpContext.RequestServices.GetService<IMediator>();
 
         protected readonly HttpContext Context;
 
@@ -51,5 +50,22 @@ namespace OpenSystem.Core.WebApi.Controllers
           Logger.LogInformation(status);
           return Ok(status);
         }
+
+        /// <summary>
+        /// Send request to the mediator
+        /// </summary>
+        public async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request)
+        {
+          if (_mediator == null)
+          {
+            throw new GeneralProcessingException(typeof(ResultCodeApplication),
+              ResultCodeApplication.MissingMediator);
+          }
+
+          Logger.LogInformation($"Sending {Context.Request.Path} request to mediator");
+
+          return await _mediator.Send<TResponse>(request);
+        }
+
     }
 }

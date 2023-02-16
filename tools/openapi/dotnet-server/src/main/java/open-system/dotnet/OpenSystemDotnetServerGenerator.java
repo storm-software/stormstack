@@ -93,8 +93,7 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import java.io.File;
 import java.net.URL;
@@ -108,6 +107,7 @@ import static java.util.UUID.randomUUID;
 public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
 
     public static final String DOMAIN_NAME = "domainName";
+    public static final String CAPITAL_DOMAIN_NAME = "capitalDomainName";
     public static final String PROJECT_NAME = "projectName";
     public static final String URL_ROOT = "urlRoot";
     public static final String SERVICE_NAME = "serviceName";
@@ -171,6 +171,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
    // The above code is creating a new CliOption object.
 
    private String domainName = "shared";
+   private String capitalDomainName = "Shared";
    private String projectName = null;
    private String urlRoot = null;
    private String serviceName = null;
@@ -633,6 +634,456 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         return super.postProcessSupportingFileData(objs);
     }
 
+    private void addProducesInfo(ApiResponse inputResponse,
+      OpenSystemDotnetServerCodegenOperation codegenOperation) {
+        ApiResponse response = ModelUtils.getReferencedApiResponse(this.openAPI, inputResponse);
+        if (response == null || response.getContent() == null || response.getContent().isEmpty()) {
+            return;
+        }
+
+        Set<String> produces = response.getContent().keySet();
+        if (codegenOperation.produces == null) {
+            codegenOperation.produces = new ArrayList<>();
+        }
+
+        Set<String> existingMediaTypes = new HashSet<>();
+        for (Map<String, String> mediaType : codegenOperation.produces) {
+            existingMediaTypes.add(mediaType.get("mediaType"));
+        }
+
+        for (String key : produces) {
+            // escape quotation to avoid code injection, "*/*" is a special case, do nothing
+            String encodedKey = "*/*".equals(key) ? key : escapeQuotationMark(key);
+            //Only unique media types should be added to "produces"
+            if (!existingMediaTypes.contains(encodedKey)) {
+                Map<String, String> mediaType = new HashMap<>();
+                mediaType.put("mediaType", encodedKey);
+                codegenOperation.produces.add(mediaType);
+                codegenOperation.hasProduces = Boolean.TRUE;
+            }
+        }
+    }
+
+    private void addConsumesInfo(Operation operation,
+      OpenSystemDotnetServerCodegenOperation codegenOperation) {
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
+        if (requestBody == null ||
+          requestBody.getContent() == null ||
+          requestBody.getContent().isEmpty()) {
+            return;
+        }
+
+        Set<String> consumes = requestBody.getContent().keySet();
+        List<Map<String, String>> mediaTypeList = new ArrayList<>();
+        for (String key : consumes) {
+            Map<String, String> mediaType = new HashMap<>();
+            if ("*/*".equals(key)) {
+                // skip as it implies `consumes` in OAS2 is not defined
+                continue;
+            } else {
+                mediaType.put("mediaType", escapeQuotationMark(key));
+            }
+            mediaTypeList.add(mediaType);
+        }
+
+        if (!mediaTypeList.isEmpty()) {
+            codegenOperation.consumes = mediaTypeList;
+            codegenOperation.hasConsumes = true;
+        }
+    }
+
+    private CodegenParameter headerToCodegenParameter(Header header,
+      String headerName,
+      Set<String> imports,
+      String mediaTypeSchemaSuffix) {
+
+        if (header == null) {
+            return null;
+        }
+        Parameter headerParam = new Parameter();
+        headerParam.setName(headerName);
+        headerParam.setIn("header");
+        headerParam.setDescription(header.getDescription());
+        headerParam.setRequired(header.getRequired());
+        headerParam.setDeprecated(header.getDeprecated());
+        Header.StyleEnum style = header.getStyle();
+        if (style != null) {
+            headerParam.setStyle(Parameter.StyleEnum.valueOf(style.name()));
+        }
+        headerParam.setExplode(header.getExplode());
+        headerParam.setSchema(header.getSchema());
+        headerParam.setExamples(header.getExamples());
+        headerParam.setExample(header.getExample());
+        headerParam.setContent(header.getContent());
+        headerParam.setExtensions(header.getExtensions());
+        CodegenParameter param = fromParameter(headerParam, imports);
+        param.setContent(getContent(headerParam.getContent(),
+          imports,
+          mediaTypeSchemaSuffix));
+
+        return param;
+    }
+
+    /**
+     * Generate the next name for the given name, i.e. append "2" to the base name if not ending with a number,
+     * otherwise increase the number by 1. For example:
+     * status    => status2
+     * status2   => status3
+     * myName100 => myName101
+     *
+     * @param name The base name
+     * @return The next name for the base name
+     */
+    private static String generateNextName(String name) {
+        Pattern pattern = Pattern.compile("\\d+\\z");
+        Matcher matcher = pattern.matcher(name);
+        if (matcher.find()) {
+            String numStr = matcher.group();
+            int num = Integer.parseInt(numStr) + 1;
+            return name.substring(0, name.length() - numStr.length()) + num;
+        } else {
+            return name + "2";
+        }
+    }
+
+    /**
+     * Convert OAS Operation object to Codegen Operation object
+     *
+     * @param httpMethod HTTP method
+     * @param operation  OAS operation object
+     * @param path       the path of the operation
+     * @param servers    list of servers
+     * @return Codegen Operation object
+     */
+    @Override
+    public OpenSystemDotnetServerCodegenOperation fromOperation(String path,
+      String httpMethod,
+      Operation operation,
+      List<Server> servers) {
+        LOGGER.debug("fromOperation => operation: {}", operation);
+        if (operation == null)
+            throw new RuntimeException("operation cannot be null in fromOperation");
+
+        Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
+        OpenSystemDotnetServerCodegenOperation op = OpenSystemDotnetServerCodegenModelFactory.newInstance(OpenSystemDotnetServerCodegenModelType.OPERATION);
+        Set<String> imports = new HashSet<>();
+        if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
+            op.vendorExtensions.putAll(operation.getExtensions());
+
+            Object isCallbackRequest = op.vendorExtensions.remove("x-callback-request");
+            op.isCallbackRequest = Boolean.TRUE.equals(isCallbackRequest);
+        }
+
+        // servers setting
+        if (operation.getServers() != null && !operation.getServers().isEmpty()) {
+            // use operation-level servers first if defined
+            op.servers = fromServers(operation.getServers());
+        } else if (servers != null && !servers.isEmpty()) {
+            // use path-level servers
+            op.servers = fromServers(servers);
+        }
+
+        // store the original operationId for plug-in
+        op.operationIdOriginal = operation.getOperationId();
+
+        String operationId = getOrGenerateOperationId(operation, path, httpMethod);
+        // remove prefix in operationId
+        if (removeOperationIdPrefix) {
+            // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
+            String[] components = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
+            if (components.length > 1) {
+                // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
+                int component_number = removeOperationIdPrefixCount == -1 ? components.length - 1 : removeOperationIdPrefixCount;
+                component_number = Math.min(component_number, components.length - 1);
+                // Reconstruct the operationId from its split elements and the delimiter
+                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
+            }
+        }
+        operationId = removeNonNameElementToCamelCase(operationId);
+
+        if (isStrictSpecBehavior() && !path.startsWith("/")) {
+            // modifies an operation.path to strictly conform to OpenAPI Spec
+            op.path = "/" + path;
+        } else {
+            op.path = path;
+        }
+
+        op.operationId = toOperationId(operationId);
+        op.summary = escapeText(operation.getSummary());
+        op.unescapedNotes = operation.getDescription();
+        op.notes = escapeText(operation.getDescription());
+        op.hasConsumes = false;
+        op.hasProduces = false;
+        if (operation.getDeprecated() != null) {
+            op.isDeprecated = operation.getDeprecated();
+        }
+
+        addConsumesInfo(operation, op);
+
+        if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
+            ApiResponse methodResponse = findMethodResponse(operation.getResponses());
+            for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
+                String key = operationGetResponsesEntry.getKey();
+                ApiResponse response = operationGetResponsesEntry.getValue();
+                addProducesInfo(response, op);
+                CodegenResponse r = fromResponse(key, response);
+                Map<String, Header> headers = response.getHeaders();
+                if (headers != null) {
+                    List<CodegenParameter> responseHeaders = new ArrayList<>();
+                    for (Entry<String, Header> entry : headers.entrySet()) {
+                        String headerName = entry.getKey();
+                        Header header = ModelUtils.getReferencedHeader(this.openAPI, entry.getValue());
+                        CodegenParameter responseHeader = headerToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
+                        responseHeaders.add(responseHeader);
+                    }
+                    r.setResponseHeaders(responseHeaders);
+                }
+                String mediaTypeSchemaSuffix = String.format(Locale.ROOT, "%sResponseBody", r.code);
+                r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
+
+                if (!addSchemaImportsFromV3SpecLocations) {
+                    if (r.baseType != null &&
+                            !defaultIncludes.contains(r.baseType) &&
+                            !languageSpecificPrimitives.contains(r.baseType)) {
+                        imports.add(r.baseType);
+                    }
+                    if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
+                        op.uniqueItems = true;
+                        imports.add(typeMapping.get(r.containerType));
+                    }
+                }
+
+                op.responses.add(r);
+                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseBinary)) {
+                    op.isResponseBinary = Boolean.TRUE;
+                }
+                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseFile)) {
+                    op.isResponseFile = Boolean.TRUE;
+                }
+                if (Boolean.TRUE.equals(r.isDefault)) {
+                    op.defaultReturnType = Boolean.TRUE;
+                }
+
+                // check if any 4xx or 5xx response has an error response object defined
+                if ((Boolean.TRUE.equals(r.is4xx) || Boolean.TRUE.equals(r.is5xx)) &&
+                        Boolean.FALSE.equals(r.primitiveType) && Boolean.FALSE.equals(r.simpleType)) {
+                    op.hasErrorResponseObject = Boolean.TRUE;
+                }
+            }
+
+            // check if the operation can both return a 2xx response with a body and without
+            if (op.responses.stream().anyMatch(response -> response.is2xx && response.dataType != null) &&
+                    op.responses.stream().anyMatch(response -> response.is2xx && response.dataType == null)) {
+                op.isResponseOptional = Boolean.TRUE;
+            }
+
+            op.responses.sort((a, b) -> {
+                int aScore = a.isWildcard() ? 2 : a.isRange() ? 1 : 0;
+                int bScore = b.isWildcard() ? 2 : b.isRange() ? 1 : 0;
+                return Integer.compare(aScore, bScore);
+            });
+
+            if (methodResponse != null) {
+                handleMethodResponse(operation, schemas, op, methodResponse, importMapping);
+            }
+        }
+
+        if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
+            operation.getCallbacks().forEach((name, callback) -> {
+                CodegenCallback c = fromCallback(name, callback, servers);
+                op.callbacks.add(c);
+            });
+        }
+
+        List<Parameter> parameters = operation.getParameters();
+        List<CodegenParameter> allParams = new ArrayList<>();
+        List<CodegenParameter> bodyParams = new ArrayList<>();
+        List<CodegenParameter> pathParams = new ArrayList<>();
+        List<CodegenParameter> queryParams = new ArrayList<>();
+        List<CodegenParameter> headerParams = new ArrayList<>();
+        List<CodegenParameter> cookieParams = new ArrayList<>();
+        List<CodegenParameter> formParams = new ArrayList<>();
+        List<CodegenParameter> requiredParams = new ArrayList<>();
+        List<CodegenParameter> optionalParams = new ArrayList<>();
+        List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<>();
+
+        CodegenParameter bodyParam = null;
+        RequestBody requestBody = operation.getRequestBody();
+        if (requestBody != null) {
+            String contentType = getContentType(requestBody);
+            if (contentType != null) {
+                contentType = contentType.toLowerCase(Locale.ROOT);
+            }
+            if (contentType != null &&
+                    (contentType.startsWith("application/x-www-form-urlencoded") ||
+                            contentType.startsWith("multipart"))) {
+                // process form parameters
+                formParams = fromRequestBodyToFormParameters(requestBody, imports);
+                op.isMultipart = contentType.startsWith("multipart");
+                for (CodegenParameter cp : formParams) {
+                    setParameterEncodingValues(cp, requestBody.getContent().get(contentType));
+                    postProcessParameter(cp);
+                }
+                // add form parameters to the beginning of all parameter list
+                if (prependFormOrBodyParameters) {
+                    for (CodegenParameter cp : formParams) {
+                        allParams.add(cp.copy());
+                    }
+                }
+            } else {
+                // process body parameter
+                requestBody = ModelUtils.getReferencedRequestBody(this.openAPI,
+                  requestBody);
+
+                String bodyParameterName = "";
+                if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
+                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
+                }
+                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
+                bodyParam.description = escapeText(requestBody.getDescription());
+                postProcessParameter(bodyParam);
+
+                bodyParams.add(bodyParam);
+
+                if (prependFormOrBodyParameters) {
+                    allParams.add(bodyParam);
+                }
+
+                // add example
+                if (schemas != null && !isSkipOperationExample()) {
+                    op.requestBodyExamples = new ExampleGenerator(schemas,
+                      this.openAPI).generate(null,
+                        new ArrayList<>(getConsumesInfo(this.openAPI,
+                          operation)),
+                        bodyParam.baseType);
+                }
+            }
+        }
+
+        if (parameters != null) {
+            for (Parameter param : parameters) {
+                param = ModelUtils.getReferencedParameter(this.openAPI, param);
+
+                CodegenParameter p = fromParameter(param, imports);
+                p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
+
+                // ensure unique params
+                if (ensureUniqueParams) {
+                    while (!isParameterNameUnique(p, allParams)) {
+                        p.paramName = generateNextName(p.paramName);
+                    }
+                }
+
+                allParams.add(p);
+
+                if (param instanceof QueryParameter || "query".equalsIgnoreCase(param.getIn())) {
+                    queryParams.add(p.copy());
+                } else if (param instanceof PathParameter || "path".equalsIgnoreCase(param.getIn())) {
+                    pathParams.add(p.copy());
+                } else if (param instanceof HeaderParameter || "header".equalsIgnoreCase(param.getIn())) {
+                    headerParams.add(p.copy());
+                } else if (param instanceof CookieParameter || "cookie".equalsIgnoreCase(param.getIn())) {
+                    cookieParams.add(p.copy());
+                } else {
+                    LOGGER.warn("Unknown parameter type {} for {}", p.baseType, p.baseName);
+                }
+
+            }
+        }
+
+        // add form/body parameter (if any) to the end of all parameter list
+        if (!prependFormOrBodyParameters) {
+            for (CodegenParameter cp : formParams) {
+                if (ensureUniqueParams) {
+                    while (!isParameterNameUnique(cp, allParams)) {
+                        cp.paramName = generateNextName(cp.paramName);
+                    }
+                }
+                allParams.add(cp.copy());
+            }
+
+            for (CodegenParameter cp : bodyParams) {
+                if (ensureUniqueParams) {
+                    while (!isParameterNameUnique(cp, allParams)) {
+                        cp.paramName = generateNextName(cp.paramName);
+                    }
+                }
+                allParams.add(cp.copy());
+            }
+        }
+
+        // create optional, required parameters
+        for (CodegenParameter cp : allParams) {
+            if (cp.required) { //required parameters
+                requiredParams.add(cp.copy());
+            } else { // optional parameters
+                optionalParams.add(cp.copy());
+                op.hasOptionalParams = true;
+            }
+
+            if (cp.required && !cp.isNullable) {
+                requiredAndNotNullableParams.add(cp.copy());
+            }
+        }
+
+        // add imports to operation import tag
+        for (String i : imports) {
+            if (needToImport(i)) {
+                op.imports.add(i);
+            }
+        }
+
+        op.bodyParam = bodyParam;
+        op.httpMethod = httpMethod.toUpperCase(Locale.ROOT);
+
+        // move "required" parameters in front of "optional" parameters
+        if (sortParamsByRequiredFlag) {
+            Collections.sort(allParams, new Comparator<CodegenParameter>() {
+                @Override
+                public int compare(CodegenParameter one, CodegenParameter another) {
+                    if (one.required == another.required)
+                        return 0;
+                    else if (one.required)
+                        return -1;
+                    else
+                        return 1;
+                }
+            });
+        }
+
+        op.allParams = allParams;
+        op.bodyParams = bodyParams;
+        op.pathParams = pathParams;
+        op.queryParams = queryParams;
+        op.headerParams = headerParams;
+        op.cookieParams = cookieParams;
+        op.formParams = formParams;
+        op.requiredParams = requiredParams;
+        op.optionalParams = optionalParams;
+        op.requiredAndNotNullableParams = requiredAndNotNullableParams;
+        op.externalDocs = operation.getExternalDocs();
+        // legacy support
+        op.nickname = op.operationId;
+
+        if (op.allParams.size() > 0) {
+            op.hasParams = true;
+        }
+        op.hasRequiredParams = op.requiredParams.size() > 0;
+
+        // set Restful Flag
+        op.isRestfulShow = op.isRestfulShow();
+        op.isRestfulIndex = op.isRestfulIndex();
+        op.isRestfulCreate = op.isRestfulCreate();
+        op.isRestfulUpdate = op.isRestfulUpdate();
+        op.isRestfulDestroy = op.isRestfulDestroy();
+        op.isRestful = op.isRestful();
+
+        op.requestName = op.requestName();
+
+        return op;
+    }
+
+
     @Override
     protected void processOperation(CodegenOperation operation) {
         super.processOperation(operation);
@@ -651,14 +1102,17 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        super.postProcessOperationsWithModels(objs, allModels);
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs,
+      List<ModelMap> allModels) {
+        super.postProcessOperationsWithModels(objs,
+          allModels);
         // We need to postprocess the operations to add proper consumes tags and fix form file handling
         if (objs != null) {
             OperationMap operations = objs.getOperations();
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
+                    // OpenSystemDotnetServerCodegenOperation operation = (OpenSystemDotnetServerCodegenOperation) op;
                     if (operation.consumes == null) {
                         continue;
                     }
@@ -703,7 +1157,8 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
                     }
 
                     if (!consumesString.toString().isEmpty()) {
-                        operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
+                        operation.vendorExtensions.put("x-aspnetcore-consumes",
+                          consumesString.toString());
                     }
                 }
             }
@@ -763,6 +1218,29 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
       } else if (domainName != null) {
           additionalProperties.put(DOMAIN_NAME,
               domainName);
+      }
+
+      if (domainName != null) {
+        capitalDomainName = domainName.substring(0,
+          1).toUpperCase()
+          + domainName.substring(1);
+
+        int index = capitalDomainName.indexOf("-");
+        while (index >= 0) {
+            if (index < capitalDomainName.length() - 3) {
+              capitalDomainName = capitalDomainName.substring(index + 1,
+                index + 2).toUpperCase()
+                + capitalDomainName.substring(index + 2);
+            }
+
+            index = capitalDomainName.indexOf("-",
+              index + 1);
+        }
+
+        capitalDomainName = capitalDomainName.replace("-",
+          "");
+        additionalProperties.put(CAPITAL_DOMAIN_NAME,
+              capitalDomainName);
       }
     }
 

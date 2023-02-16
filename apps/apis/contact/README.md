@@ -9,23 +9,30 @@ All URIs are relative to *api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ContactApi* | [**AddContactRequest**](Documentation/ContactApi.md#addcontactrequest) | **HttpPost** /requests/{id} | Add Contact Request
-*ContactApi* | [**GetContactRequest**](Documentation/ContactApi.md#getcontactrequest) | **HttpGet** /requests/{id} | Get Contact Request
-*ContactApi* | [**GetContactRequests**](Documentation/ContactApi.md#getcontactrequests) | **HttpGet** /requests | Get Contact Requests
-*ContactApi* | [**GetSubscription**](Documentation/ContactApi.md#getsubscription) | **HttpGet** /subscriptions/{email} | Get Subscription
-*ContactApi* | [**GetSubscriptions**](Documentation/ContactApi.md#getsubscriptions) | **HttpGet** /subscriptions | Get Subscriptions
-*ContactApi* | [**Subscribe**](Documentation/ContactApi.md#subscribe) | **HttpPost** /subscriptions/{email} | Subscribe
-*ContactApi* | [**Unsubscribe**](Documentation/ContactApi.md#unsubscribe) | **HttpDelete** /subscriptions/{email} | Unsubscribe
+*ContactApi* | [**CreateContact**](Documentation/ContactApi.md#createcontact) | **HttpPost** /contacts | Create Contact
+*ContactApi* | [**CreateContactDetail**](Documentation/ContactApi.md#createcontactdetail) | **HttpPost** /contacts/{id}/details | Create Contact Detail
+*ContactApi* | [**GetContact**](Documentation/ContactApi.md#getcontact) | **HttpGet** /contacts/{id} | Get Contact
+*ContactApi* | [**GetContactDetails**](Documentation/ContactApi.md#getcontactdetails) | **HttpGet** /contacts/{id}/details | Get Contact Details
+*ContactApi* | [**GetContacts**](Documentation/ContactApi.md#getcontacts) | **HttpGet** /contacts | Get Contacts
+*ContactApi* | [**GetSubscription**](Documentation/ContactApi.md#getsubscription) | **HttpGet** /contacts/subscriptions/{email} | Get Subscription
+*ContactApi* | [**GetSubscriptions**](Documentation/ContactApi.md#getsubscriptions) | **HttpGet** /contacts/subscriptions | Get Subscriptions
+*ContactApi* | [**Subscribe**](Documentation/ContactApi.md#subscribe) | **HttpPost** /contacts/subscriptions/{email} | Subscribe
+*ContactApi* | [**Unsubscribe**](Documentation/ContactApi.md#unsubscribe) | **HttpDelete** /contacts/subscriptions/{email} | Unsubscribe
+*ContactApi* | [**UpdateContact**](Documentation/ContactApi.md#updatecontact) | **HttpPut** /contacts/{id} | Update Contact
 
 
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [OpenSystem.Apis.Contact.Contracts.ContactDetailDto](Documentation/ContactDetailDto.md)
- - [OpenSystem.Apis.Contact.Contracts.ContactDto](Documentation/ContactDto.md)
- - [OpenSystem.Apis.Contact.Contracts.ProblemDetailsDto](Documentation/ProblemDetailsDto.md)
- - [OpenSystem.Apis.Contact.Contracts.RecordBaseDto](Documentation/RecordBaseDto.md)
- - [OpenSystem.Apis.Contact.Contracts.UpdateSuccessResponseDto](Documentation/UpdateSuccessResponseDto.md)
+ - [OpenSystem.Apis.Contact.Contracts.Address](Documentation/Address.md)
+ - [OpenSystem.Apis.Contact.Contracts.CommandSuccessResponse](Documentation/CommandSuccessResponse.md)
+ - [OpenSystem.Apis.Contact.Contracts.Contact](Documentation/Contact.md)
+ - [OpenSystem.Apis.Contact.Contracts.ContactDetail](Documentation/ContactDetail.md)
+ - [OpenSystem.Apis.Contact.Contracts.ContactHeader](Documentation/ContactHeader.md)
+ - [OpenSystem.Apis.Contact.Contracts.ContactHeaderAllOf](Documentation/ContactHeaderAllOf.md)
+ - [OpenSystem.Apis.Contact.Contracts.CreateContactRequest](Documentation/CreateContactRequest.md)
+ - [OpenSystem.Apis.Contact.Contracts.ProblemDetails](Documentation/ProblemDetails.md)
+ - [OpenSystem.Apis.Contact.Contracts.RecordBase](Documentation/RecordBase.md)
 
 
 <a name="documentation-for-authorization"></a>

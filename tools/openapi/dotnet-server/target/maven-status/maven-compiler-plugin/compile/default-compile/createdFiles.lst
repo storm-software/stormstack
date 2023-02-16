@@ -1,1 +1,5 @@
+opensystem\dotnet\server\OpenSystemDotnetServerCodegenModelType.class
+opensystem\dotnet\server\OpenSystemDotnetServerCodegenModelFactory.class
 opensystem\dotnet\server\OpenSystemDotnetServerGenerator.class
+opensystem\dotnet\server\OpenSystemDotnetServerCodegenOperation.class
+opensystem\dotnet\server\OpenSystemDotnetServerGenerator$1.class

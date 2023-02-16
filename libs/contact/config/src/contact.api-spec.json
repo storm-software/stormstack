@@ -20,12 +20,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5000/contacts",
+      "url": "http://localhost:5000",
       "description": "Local Development"
     }
   ],
   "paths": {
-    "/": {
+    "/contacts": {
       "parameters": [],
       "get": {
         "summary": "Get Contacts",
@@ -161,18 +161,19 @@
         "description": "An end point that returns the list of contacts",
         "tags": [
           "Contact"
-        ]
+        ],
+        "x-os-request-name": "GetContactsQuery"
       },
       "post": {
-        "summary": "Add Contact",
-        "operationId": "addContact",
+        "summary": "Create Contact",
+        "operationId": "createContact",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/CommandSuccessResponse"
                 }
               }
             }
@@ -261,34 +262,22 @@
         "tags": [
           "Contact"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ContactHeader"
-                  },
-                  {
-                    "$ref": "#/components/schemas/ContactDetail"
-                  }
-                ]
-              }
-            }
-          }
-        },
         "parameters": [
           {
-            "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/UserId"
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "description": "Add a new contact"
+        "description": "Add a new contact",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CreateContactRequest"
+        },
+        "x-os-request-name": "CreateContactCommand"
       }
     },
-    "/{guid}": {
+    "/contacts/{id}": {
       "parameters": [
         {
-          "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/Guid"
+          "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/id"
         }
       ],
       "get": {
@@ -405,7 +394,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/CommandSuccessResponse"
                 }
               }
             }
@@ -512,10 +501,10 @@
         ]
       }
     },
-    "/{guid}/details": {
+    "/contacts/{id}/details": {
       "parameters": [
         {
-          "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/Guid"
+          "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/id"
         }
       ],
       "get": {
@@ -642,15 +631,15 @@
         ]
       },
       "post": {
-        "summary": "Add Contact Detail",
-        "operationId": "addContactDetail",
+        "summary": "Create Contact Detail",
+        "operationId": "createContactDetail",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/CommandSuccessResponse"
                 }
               }
             }
@@ -747,7 +736,7 @@
         ]
       }
     },
-    "/subscriptions": {
+    "/contacts/subscriptions": {
       "parameters": [],
       "get": {
         "summary": "Get Subscriptions",
@@ -858,7 +847,7 @@
         ]
       }
     },
-    "/subscriptions/{email}": {
+    "/contacts/subscriptions/{email}": {
       "parameters": [
         {
           "schema": {
@@ -988,12 +977,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/CommandSuccessResponse"
                 },
                 "examples": {
                   "Sample Response": {
                     "value": {
-                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                      "id": "123e4567-e89b-12d3-a456-426614174000"
                     }
                   }
                 }
@@ -1088,7 +1077,7 @@
           }
         ],
         "requestBody": {
-          "$ref": "#/components/requestBodies/AddContactRequest"
+          "$ref": "#/components/requestBodies/CreateContactRequest"
         },
         "tags": [
           "Contact"
@@ -1103,12 +1092,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/CommandSuccessResponse"
                 },
                 "examples": {
                   "Sample Response": {
                     "value": {
-                      "guid": "123e4567-e89b-12d3-a456-426614174000"
+                      "id": "123e4567-e89b-12d3-a456-426614174000"
                     }
                   }
                 }
@@ -1268,6 +1257,9 @@
         }
       },
       "ContactDetail": {
+        "type": "object",
+        "title": "ContactDetail",
+        "description": "Base data used to capture a contact request ",
         "properties": {
           "companyName": {
             "type": "string",
@@ -1287,7 +1279,8 @@
               "question",
               "other",
               "project",
-              "interest"
+              "interest",
+              "subscription"
             ]
           },
           "details": {
@@ -1301,21 +1294,26 @@
         },
         "required": [
           "reason"
-        ],
-        "type": "object",
-        "title": "ContactDetail",
-        "description": "Base data used to capture a contact request "
+        ]
       }
     },
     "requestBodies": {
-      "AddContactRequest": {
+      "CreateContactRequest": {
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/ContactDetail"
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ContactHeader"
+                },
+                {
+                  "$ref": "#/components/schemas/ContactDetail"
+                }
+              ]
             }
           }
-        }
+        },
+        "description": ""
       }
     },
     "responses": {

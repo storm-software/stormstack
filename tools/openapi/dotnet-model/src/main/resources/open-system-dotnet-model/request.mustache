@@ -1,0 +1,28 @@
+{{>partial_header}}
+using System;
+using System.Collections.Generic;
+using {{modelPackage}};
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
+using OpenSystem.Core.Application.Interfaces;
+
+namespace {{apiPackage}}
+{ {{#operations}}
+
+    {{#operation}}
+    /// <summary>
+    /// {{summary}}
+    /// </summary>{{#notes}}
+    /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
+    /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
+    /// <response code="{{code}}">{{message}}</response>{{/responses}}
+    public class {{requestName}} : {{#allParams}}{{#isBodyParam}}{{&dataType}},{{/isBodyParam}}{{/allParams}} {{#isRestfulShow}}IQuery<{{successResponseType}}>{{/isRestfulShow}}{{^isRestfulShow}}ICommand{{/isRestfulShow}}
+    {
+        {{#allParams}}{{^isBodyParam}} public {{&dataType}} {{paramName}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}} {{/isBodyParam}}
+
+        {{/allParams}}
+    }
+
+    {{/operation}}
+{{/operations}}
+}

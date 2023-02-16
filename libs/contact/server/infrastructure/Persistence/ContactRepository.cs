@@ -124,11 +124,13 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
 
             if (!string.IsNullOrEmpty(firstName))
                 predicate = predicate.Or(p =>
-                  p.FirstName.Contains(firstName.Trim()));
+                  !string.IsNullOrEmpty(p.FirstName) &&
+                    p.FirstName.Contains(firstName.Trim()));
 
             if (!string.IsNullOrEmpty(lastName))
                 predicate = predicate.Or(p =>
-                  p.LastName.Contains(lastName.Trim()));
+                  !string.IsNullOrEmpty(p.LastName) &&
+                    p.LastName.Contains(lastName.Trim()));
 
             contacts = contacts.Where(predicate);
 

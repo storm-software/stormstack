@@ -66,7 +66,7 @@ public class OpenSystemDotnetServerGeneratorTest {
 
     final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
-    configurator.LOGGER.error(" *** templateDir *** ");
+    // configurator.LOGGER.error(" *** templateDir *** ");
     // configurator.LOGGER.error(clientOptInput.getConfig().templateDir());
     // configurator.LOGGER.error(clientOptInput.getConfig().modelPackage());
     // configurator.LOGGER.error(clientOptInput.getConfig().apiPackage());

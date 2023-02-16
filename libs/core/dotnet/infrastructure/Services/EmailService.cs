@@ -30,7 +30,8 @@ namespace OpenSystem.Core.Infrastructure.Services
             {
                 // create message
                 var email = new MimeMessage();
-                email.Sender = MailboxAddress.Parse(request.From ?? _mailSettings.EmailFrom);
+                email.Sender = MailboxAddress.Parse(request.From
+                  ?? _mailSettings.EmailFrom);
                 email.To.Add(MailboxAddress.Parse(request.To));
                 email.Subject = request.Subject;
 

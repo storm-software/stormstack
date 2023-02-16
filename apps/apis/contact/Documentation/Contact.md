@@ -1,10 +1,11 @@
-# OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts.ContactDto
+# OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts.Contact
+A full contact model including all of it's previously submitted details
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Guid** | **Guid** | The &#x60;guid&#x60; associated with the record | 
+**Id** | **Guid** | The &#x60;guid&#x60; associated with the record | 
 **CreatedOn** | **DateTimeOffset** |  | 
 **CreatedBy** | **string** |  | 
 **UpdatedOn** | **DateTimeOffset** |  | [optional] 
@@ -13,10 +14,13 @@ Name | Type | Description | Notes
 **LastName** | **string** |  | [optional] 
 **PhoneNumber** | **string** |  | [optional] 
 **Email** | **string** | The email address of the contact | 
-**Reason** | **string** | The type of contact request | [optional] [default to ReasonOptions.Business]
-**Details** | **string** |  | [optional] 
-**Url** | **string** |  | [optional] 
 **IsSubscribed** | **bool** |  | [default to true]
+**AddressLine1** | **string** |  | [optional] 
+**AddressLine2** | **string** |  | [optional] 
+**City** | **string** |  | [optional] 
+**State** | **string** |  | [optional] 
+**CountryCode** | **string** |  | [optional] 
+**PostalCode** | **string** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

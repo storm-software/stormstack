@@ -26,8 +26,10 @@ namespace OpenSystem.Core.Application.Helpers
                             NumberOfShards = 2,
                             NumberOfReplicas = 1
                         })
-                    .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
-                    .Enrich.WithProperty("Application", context.HostingEnvironment.ApplicationName)
+                    .Enrich.WithProperty("Environment",
+                      context.HostingEnvironment.EnvironmentName)
+                    .Enrich.WithProperty("Application",
+                      context.HostingEnvironment.ApplicationName)
                     .ReadFrom.Configuration(context.Configuration);
            };
     }

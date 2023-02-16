@@ -8,7 +8,7 @@ const injectedRtkApi = api
     endpoints: build => ({
       getContacts: build.query<GetContactsApiResponse, GetContactsApiArg>({
         query: queryArg => ({
-          url: `/`,
+          url: `/contacts`,
           headers: { userId: queryArg.userId },
           params: {
             email: queryArg.email,
@@ -20,7 +20,7 @@ const injectedRtkApi = api
       }),
       addContact: build.mutation<AddContactApiResponse, AddContactApiArg>({
         query: queryArg => ({
-          url: `/`,
+          url: `/contacts`,
           method: "POST",
           body: queryArg.body,
           headers: { userId: queryArg.userId },
@@ -29,7 +29,7 @@ const injectedRtkApi = api
       }),
       getContact: build.query<GetContactApiResponse, GetContactApiArg>({
         query: queryArg => ({
-          url: `/${queryArg.guid}`,
+          url: `/contacts/${queryArg.guid}`,
           headers: { userId: queryArg.userId },
         }),
         providesTags: ["Contact"],
@@ -39,7 +39,7 @@ const injectedRtkApi = api
         UpdateContactApiArg
       >({
         query: queryArg => ({
-          url: `/${queryArg.guid}`,
+          url: `/contacts/${queryArg.guid}`,
           method: "PUT",
           body: queryArg.contactHeader,
           headers: { userId: queryArg.userId },
@@ -51,7 +51,7 @@ const injectedRtkApi = api
         GetContactDetailsApiArg
       >({
         query: queryArg => ({
-          url: `/${queryArg.guid}/details`,
+          url: `/contacts/${queryArg.guid}/details`,
           headers: { userId: queryArg.userId },
           params: { reason: queryArg.reason },
         }),
@@ -62,7 +62,7 @@ const injectedRtkApi = api
         AddContactDetailApiArg
       >({
         query: queryArg => ({
-          url: `/${queryArg.guid}/details`,
+          url: `/contacts/${queryArg.guid}/details`,
           method: "POST",
           headers: { userId: queryArg.userId },
         }),
@@ -73,7 +73,7 @@ const injectedRtkApi = api
         GetSubscriptionsApiArg
       >({
         query: queryArg => ({
-          url: `/subscriptions`,
+          url: `/contacts/subscriptions`,
           headers: { userId: queryArg.userId },
         }),
         providesTags: ["Contact"],
@@ -83,23 +83,23 @@ const injectedRtkApi = api
         GetSubscriptionApiArg
       >({
         query: queryArg => ({
-          url: `/subscriptions/${queryArg.email}`,
+          url: `/contacts/subscriptions/${queryArg.email}`,
           headers: { userId: queryArg.userId },
         }),
         providesTags: ["Contact"],
       }),
       subscribe: build.mutation<SubscribeApiResponse, SubscribeApiArg>({
         query: queryArg => ({
-          url: `/subscriptions/${queryArg.email}`,
+          url: `/contacts/subscriptions/${queryArg.email}`,
           method: "POST",
-          body: queryArg.contactDetail,
+          body: queryArg.body,
           headers: { userId: queryArg.userId },
         }),
         invalidatesTags: ["Contact"],
       }),
       unsubscribe: build.mutation<UnsubscribeApiResponse, UnsubscribeApiArg>({
         query: queryArg => ({
-          url: `/subscriptions/${queryArg.email}`,
+          url: `/contacts/subscriptions/${queryArg.email}`,
           method: "DELETE",
         }),
         invalidatesTags: ["Contact"],
@@ -178,7 +178,7 @@ export type SubscribeApiArg = {
   email: string;
   /** The id of the current user sending the request */
   userId: string;
-  contactDetail: ContactDetail;
+  body: ContactHeader & ContactDetail;
 };
 export type UnsubscribeApiResponse = /** status 200 OK */ UpdateSuccessResponse;
 export type UnsubscribeApiArg = {
@@ -241,7 +241,3 @@ export const {
   useSubscribeMutation,
   useUnsubscribeMutation,
 } = injectedRtkApi;
-
-/*injectedRtkApi.enhanceEndpoints({ endpoints: { ...injectedRtkApi.endpoints.addContact.initiate }
-
-});*/

@@ -4,22 +4,25 @@ All URIs are relative to *api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddContactRequest**](ContactApi.md#addcontactrequest) | **HttpPost** /requests/{id} | Add Contact Request
-[**GetContactRequest**](ContactApi.md#getcontactrequest) | **HttpGet** /requests/{id} | Get Contact Request
-[**GetContactRequests**](ContactApi.md#getcontactrequests) | **HttpGet** /requests | Get Contact Requests
-[**GetSubscription**](ContactApi.md#getsubscription) | **HttpGet** /subscriptions/{email} | Get Subscription
-[**GetSubscriptions**](ContactApi.md#getsubscriptions) | **HttpGet** /subscriptions | Get Subscriptions
-[**Subscribe**](ContactApi.md#subscribe) | **HttpPost** /subscriptions/{email} | Subscribe
-[**Unsubscribe**](ContactApi.md#unsubscribe) | **HttpDelete** /subscriptions/{email} | Unsubscribe
+[**CreateContact**](ContactApi.md#createcontact) | **HttpPost** /contacts | Create Contact
+[**CreateContactDetail**](ContactApi.md#createcontactdetail) | **HttpPost** /contacts/{id}/details | Create Contact Detail
+[**GetContact**](ContactApi.md#getcontact) | **HttpGet** /contacts/{id} | Get Contact
+[**GetContactDetails**](ContactApi.md#getcontactdetails) | **HttpGet** /contacts/{id}/details | Get Contact Details
+[**GetContacts**](ContactApi.md#getcontacts) | **HttpGet** /contacts | Get Contacts
+[**GetSubscription**](ContactApi.md#getsubscription) | **HttpGet** /contacts/subscriptions/{email} | Get Subscription
+[**GetSubscriptions**](ContactApi.md#getsubscriptions) | **HttpGet** /contacts/subscriptions | Get Subscriptions
+[**Subscribe**](ContactApi.md#subscribe) | **HttpPost** /contacts/subscriptions/{email} | Subscribe
+[**Unsubscribe**](ContactApi.md#unsubscribe) | **HttpDelete** /contacts/subscriptions/{email} | Unsubscribe
+[**UpdateContact**](ContactApi.md#updatecontact) | **HttpPut** /contacts/{id} | Update Contact
 
 
-<a name="addcontactrequest"></a>
-# **AddContactRequest**
-> UpdateSuccessResponseDto AddContactRequest (Guid id, string userId, ContactDetailDto? contactDetailDto)
+<a name="createcontact"></a>
+# **CreateContact**
+> CommandSuccessResponse CreateContact (string userId, CreateContactRequest? createContactRequest)
 
-Add Contact Request
+Create Contact
 
-Add a new contact request
+Add a new contact
 
 ### Example
 ```csharp
@@ -31,26 +34,25 @@ using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
 
 namespace Example
 {
-    public class AddContactRequestExample
+    public class CreateContactExample
     {
         public static void Main()
         {
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
-            var id = "id_example";  // Guid | The reason for the current contact request
             var userId = "userId_example";  // string | The id of the current user sending the request
-            var contactDetailDto = new ContactDetailDto?(); // ContactDetailDto? |  (optional) 
+            var createContactRequest = new CreateContactRequest?(); // CreateContactRequest? |  (optional) 
 
             try
             {
-                // Add Contact Request
-                UpdateSuccessResponseDto result = apiInstance.AddContactRequest(id, userId, contactDetailDto);
+                // Create Contact
+                CommandSuccessResponse result = apiInstance.CreateContact(userId, createContactRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ContactApi.AddContactRequest: " + e.Message );
+                Debug.Print("Exception when calling ContactApi.CreateContact: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -63,13 +65,12 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **Guid**| The reason for the current contact request | 
  **userId** | **string**| The id of the current user sending the request | 
- **contactDetailDto** | [**ContactDetailDto?**](ContactDetailDto?.md)|  | [optional] 
+ **createContactRequest** | [**CreateContactRequest?**](CreateContactRequest?.md)|  | [optional] 
 
 ### Return type
 
-[**UpdateSuccessResponseDto**](UpdateSuccessResponseDto.md)
+[**CommandSuccessResponse**](CommandSuccessResponse.md)
 
 ### Authorization
 
@@ -92,13 +93,13 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getcontactrequest"></a>
-# **GetContactRequest**
-> ContactDto GetContactRequest (Guid id, string userId)
+<a name="createcontactdetail"></a>
+# **CreateContactDetail**
+> CommandSuccessResponse CreateContactDetail (Guid id, string userId)
 
-Get Contact Request
+Create Contact Detail
 
-An end point that returns data for a specific user
+An end point that adds a new detail to an existing contact
 
 ### Example
 ```csharp
@@ -110,25 +111,25 @@ using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
 
 namespace Example
 {
-    public class GetContactRequestExample
+    public class CreateContactDetailExample
     {
         public static void Main()
         {
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
-            var id = "id_example";  // Guid | The reason for the current contact request
-            var userId = "userId_example";  // string | The id of the current user sending the request
+            var id = 123e4567-e89b-12d3-a456-426614174000;  // Guid | The records guid
+            var userId = PSUL;  // string | User Id sending request
 
             try
             {
-                // Get Contact Request
-                ContactDto result = apiInstance.GetContactRequest(id, userId);
+                // Create Contact Detail
+                CommandSuccessResponse result = apiInstance.CreateContactDetail(id, userId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ContactApi.GetContactRequest: " + e.Message );
+                Debug.Print("Exception when calling ContactApi.CreateContactDetail: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -141,12 +142,12 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **Guid**| The reason for the current contact request | 
- **userId** | **string**| The id of the current user sending the request | 
+ **id** | **Guid**| The records guid | 
+ **userId** | **string**| User Id sending request | 
 
 ### Return type
 
-[**ContactDto**](ContactDto.md)
+[**CommandSuccessResponse**](CommandSuccessResponse.md)
 
 ### Authorization
 
@@ -161,7 +162,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response to Get User end point |  -  |
+| **200** | OK |  -  |
 | **401** | Unauthorized |  -  |
 | **404** | Not Found |  -  |
 | **500** | Internal Server Error |  -  |
@@ -169,13 +170,13 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getcontactrequests"></a>
-# **GetContactRequests**
-> List&lt;ContactDto&gt; GetContactRequests (string userId)
+<a name="getcontact"></a>
+# **GetContact**
+> Contact GetContact (Guid id, string userId)
 
-Get Contact Requests
+Get Contact
 
-An end point that returns the list of contact requests
+An end point that returns data for a specific contact
 
 ### Example
 ```csharp
@@ -187,24 +188,25 @@ using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
 
 namespace Example
 {
-    public class GetContactRequestsExample
+    public class GetContactExample
     {
         public static void Main()
         {
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
+            var id = 123e4567-e89b-12d3-a456-426614174000;  // Guid | The records guid
             var userId = "userId_example";  // string | The id of the current user sending the request
 
             try
             {
-                // Get Contact Requests
-                List<ContactDto> result = apiInstance.GetContactRequests(userId);
+                // Get Contact
+                Contact result = apiInstance.GetContact(id, userId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ContactApi.GetContactRequests: " + e.Message );
+                Debug.Print("Exception when calling ContactApi.GetContact: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -217,11 +219,12 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **id** | **Guid**| The records guid | 
  **userId** | **string**| The id of the current user sending the request | 
 
 ### Return type
 
-[**List&lt;ContactDto&gt;**](ContactDto.md)
+[**Contact**](Contact.md)
 
 ### Authorization
 
@@ -236,7 +239,167 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response to Get Users end point |  -  |
+| **200** | OK |  -  |
+| **401** | Unauthorized |  -  |
+| **404** | Not Found |  -  |
+| **500** | Internal Server Error |  -  |
+| **503** | Service Unavailable |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="getcontactdetails"></a>
+# **GetContactDetails**
+> List&lt;ContactDetail&gt; GetContactDetails (Guid id, string userId, string? reason)
+
+Get Contact Details
+
+An end point that returns detail data for a specific contact
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
+using OpenSystem.Apis.Contact.Client;
+using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+
+namespace Example
+{
+    public class GetContactDetailsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:5000";
+            var apiInstance = new ContactApi(config);
+            var id = 123e4567-e89b-12d3-a456-426614174000;  // Guid | The records guid
+            var userId = "userId_example";  // string | The id of the current user sending the request
+            var reason = "business";  // string? | An reason type value to filter the returned contact details  (optional) 
+
+            try
+            {
+                // Get Contact Details
+                List<ContactDetail> result = apiInstance.GetContactDetails(id, userId, reason);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ContactApi.GetContactDetails: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Guid**| The records guid | 
+ **userId** | **string**| The id of the current user sending the request | 
+ **reason** | **string?**| An reason type value to filter the returned contact details  | [optional] 
+
+### Return type
+
+[**List&lt;ContactDetail&gt;**](ContactDetail.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | Unauthorized |  -  |
+| **404** | Not Found |  -  |
+| **500** | Internal Server Error |  -  |
+| **503** | Service Unavailable |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="getcontacts"></a>
+# **GetContacts**
+> List&lt;Contact&gt; GetContacts (string userId, string? email, string? firstName, string? lastName)
+
+Get Contacts
+
+An end point that returns the list of contacts
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
+using OpenSystem.Apis.Contact.Client;
+using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+
+namespace Example
+{
+    public class GetContactsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:5000";
+            var apiInstance = new ContactApi(config);
+            var userId = "userId_example";  // string | The id of the current user sending the request
+            var email = john@example.com;  // string? | An email value to filter the returned contacts  (optional) 
+            var firstName = Ryan;  // string? | A first name value to filter the returned contacts  (optional) 
+            var lastName = "lastName_example";  // string? | A last name value to filter the returned contacts  (optional) 
+
+            try
+            {
+                // Get Contacts
+                List<Contact> result = apiInstance.GetContacts(userId, email, firstName, lastName);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ContactApi.GetContacts: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userId** | **string**| The id of the current user sending the request | 
+ **email** | **string?**| An email value to filter the returned contacts  | [optional] 
+ **firstName** | **string?**| A first name value to filter the returned contacts  | [optional] 
+ **lastName** | **string?**| A last name value to filter the returned contacts  | [optional] 
+
+### Return type
+
+[**List&lt;Contact&gt;**](Contact.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
 | **401** | Unauthorized |  -  |
 | **404** | Not Found |  -  |
 | **500** | Internal Server Error |  -  |
@@ -398,7 +561,7 @@ No authorization required
 
 <a name="subscribe"></a>
 # **Subscribe**
-> UpdateSuccessResponseDto Subscribe (string email, string userId, ContactDetailDto? contactDetailDto)
+> CommandSuccessResponse Subscribe (string email, string userId, CreateContactRequest? createContactRequest)
 
 Subscribe
 
@@ -423,12 +586,12 @@ namespace Example
             var apiInstance = new ContactApi(config);
             var email = example@abc.com;  // string | The email of the subscription
             var userId = "userId_example";  // string | The id of the current user sending the request
-            var contactDetailDto = new ContactDetailDto?(); // ContactDetailDto? |  (optional) 
+            var createContactRequest = new CreateContactRequest?(); // CreateContactRequest? |  (optional) 
 
             try
             {
                 // Subscribe
-                UpdateSuccessResponseDto result = apiInstance.Subscribe(email, userId, contactDetailDto);
+                CommandSuccessResponse result = apiInstance.Subscribe(email, userId, createContactRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -448,11 +611,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **email** | **string**| The email of the subscription | 
  **userId** | **string**| The id of the current user sending the request | 
- **contactDetailDto** | [**ContactDetailDto?**](ContactDetailDto?.md)|  | [optional] 
+ **createContactRequest** | [**CreateContactRequest?**](CreateContactRequest?.md)|  | [optional] 
 
 ### Return type
 
-[**UpdateSuccessResponseDto**](UpdateSuccessResponseDto.md)
+[**CommandSuccessResponse**](CommandSuccessResponse.md)
 
 ### Authorization
 
@@ -477,11 +640,11 @@ No authorization required
 
 <a name="unsubscribe"></a>
 # **Unsubscribe**
-> UpdateSuccessResponseDto Unsubscribe (string email)
+> CommandSuccessResponse Unsubscribe (string email)
 
 Unsubscribe
 
-Add an existing email address from the subcription list
+Remove an existing email address from the subcription list
 
 ### Example
 ```csharp
@@ -505,7 +668,7 @@ namespace Example
             try
             {
                 // Unsubscribe
-                UpdateSuccessResponseDto result = apiInstance.Unsubscribe(email);
+                CommandSuccessResponse result = apiInstance.Unsubscribe(email);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -527,7 +690,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UpdateSuccessResponseDto**](UpdateSuccessResponseDto.md)
+[**CommandSuccessResponse**](CommandSuccessResponse.md)
 
 ### Authorization
 
@@ -536,6 +699,85 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | Unauthorized |  -  |
+| **404** | Not Found |  -  |
+| **500** | Internal Server Error |  -  |
+| **503** | Service Unavailable |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="updatecontact"></a>
+# **UpdateContact**
+> CommandSuccessResponse UpdateContact (Guid id, string userId, ContactHeader? contactHeader)
+
+Update Contact
+
+An end point that updates an existing contact
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
+using OpenSystem.Apis.Contact.Client;
+using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+
+namespace Example
+{
+    public class UpdateContactExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:5000";
+            var apiInstance = new ContactApi(config);
+            var id = 123e4567-e89b-12d3-a456-426614174000;  // Guid | The records guid
+            var userId = PSUL;  // string | User Id sending request
+            var contactHeader = new ContactHeader?(); // ContactHeader? |  (optional) 
+
+            try
+            {
+                // Update Contact
+                CommandSuccessResponse result = apiInstance.UpdateContact(id, userId, contactHeader);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ContactApi.UpdateContact: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Guid**| The records guid | 
+ **userId** | **string**| User Id sending request | 
+ **contactHeader** | [**ContactHeader?**](ContactHeader?.md)|  | [optional] 
+
+### Return type
+
+[**CommandSuccessResponse**](CommandSuccessResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 

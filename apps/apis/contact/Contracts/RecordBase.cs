@@ -24,15 +24,15 @@ namespace OpenSystem.Apis.Contact.Contracts
     /// The minimum model fields shared by all data stored in the database
     /// </summary>
     [DataContract]
-    public class RecordBaseDto : IEquatable<RecordBaseDto>
+    public class RecordBase : IEquatable<RecordBase>
     {
         /// <summary>
         /// The &#x60;guid&#x60; associated with the record
         /// </summary>
         /// <value>The &#x60;guid&#x60; associated with the record</value>
         [Required]
-        [DataMember(Name="guid", EmitDefaultValue=false)]
-        public Guid Guid { get; set; }
+        [DataMember(Name="id", EmitDefaultValue=false)]
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedOn
@@ -67,8 +67,8 @@ namespace OpenSystem.Apis.Contact.Contracts
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class RecordBaseDto {\n");
-            sb.Append("  Guid: ").Append(Guid).Append("\n");
+            sb.Append("class RecordBase {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  CreatedOn: ").Append(CreatedOn).Append("\n");
             sb.Append("  CreatedBy: ").Append(CreatedBy).Append("\n");
             sb.Append("  UpdatedOn: ").Append(UpdatedOn).Append("\n");
@@ -96,24 +96,24 @@ namespace OpenSystem.Apis.Contact.Contracts
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((RecordBaseDto)obj);
+            return obj.GetType() == GetType() && Equals((RecordBase)obj);
         }
 
         /// <summary>
-        /// Returns true if RecordBaseDto instances are equal
+        /// Returns true if RecordBase instances are equal
         /// </summary>
-        /// <param name="other">Instance of RecordBaseDto to be compared</param>
+        /// <param name="other">Instance of RecordBase to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(RecordBaseDto other)
+        public bool Equals(RecordBase other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    Guid == other.Guid ||
-                    Guid != null &&
-                    Guid.Equals(other.Guid)
+                    Id == other.Id ||
+                    Id != null &&
+                    Id.Equals(other.Id)
                 ) && 
                 (
                     CreatedOn == other.CreatedOn ||
@@ -147,8 +147,8 @@ namespace OpenSystem.Apis.Contact.Contracts
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Guid != null)
-                    hashCode = hashCode * 59 + Guid.GetHashCode();
+                    if (Id != null)
+                    hashCode = hashCode * 59 + Id.GetHashCode();
                     if (CreatedOn != null)
                     hashCode = hashCode * 59 + CreatedOn.GetHashCode();
                     if (CreatedBy != null)
@@ -164,12 +164,12 @@ namespace OpenSystem.Apis.Contact.Contracts
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(RecordBaseDto left, RecordBaseDto right)
+        public static bool operator ==(RecordBase left, RecordBase right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(RecordBaseDto left, RecordBaseDto right)
+        public static bool operator !=(RecordBase left, RecordBase right)
         {
             return !Equals(left, right);
         }

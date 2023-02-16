@@ -35,9 +35,9 @@ public class OpenSystemReduxQueryGeneratorTest {
                 .addAdditionalProperty("npmName", "message")
                 .addAdditionalProperty("isBasicBearer", "true")
                 .addAdditionalProperty("useObjectParameters", "true")
-                .addAdditionalProperty("modelNameSuffix", "Dto")
+                .addAdditionalProperty("modelNameSuffix", "Model")
                 //.addAdditionalProperty("remove-operation-id-prefix", "true")
-                .addAdditionalProperty("useInversify", "true");
+                //.addAdditionalProperty("useInversify", "true");
     final ClientOptInput clientOptInput = configurator.toClientOptInput();
     DefaultGenerator generator = new DefaultGenerator();
     generator.opts(clientOptInput).generate();

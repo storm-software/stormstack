@@ -2,12 +2,17 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
     [Serializable]
     public class Result : ISerializable, IResult<object>
     {
+      public int? Code { get; set; }
+
+      public Type? ResultCodeType { get; set; }
+
       public bool Succeeded { get; set; }
 
       public bool Failed => !Succeeded;
@@ -36,47 +41,11 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
       public static Result Failure(Type resultCodeType,
         int code,
-        string? details = null)
+        List<string>? details = null)
       {
-        List<string>? detailsList = null;
-        if (!string.IsNullOrEmpty(details))
-        {
-          detailsList = new List<string>();
-          detailsList.Add(details);
-        }
 
-        return Result.Failure(ResultCode.Serialize(resultCodeType,
-          code),
-          detailsList);
-      }
-
-      public static Result Failure(string message,
-        string? details = null)
-      {
-        List<string>? detailsList = null;
-        if (!string.IsNullOrEmpty(details))
-        {
-          detailsList = new List<string>();
-          detailsList.Add(details);
-        }
-
-        return new Result(message,
-          detailsList);
-      }
-
-      public static Result Failure(Type resultCodeType,
-        int code,
-        List<string>? details)
-      {
-        return Result.Failure(ResultCode.Serialize(resultCodeType,
-          code),
-          details);
-      }
-
-      public static Result Failure(string message,
-          List<string>? details)
-      {
-        return new Result(message,
+        return new Result(resultCodeType,
+          code,
           details);
       }
 
@@ -98,11 +67,15 @@ namespace OpenSystem.Core.Domain.ResultCodes
           Data = data;
       }
 
-      protected Result(string message,
+      protected Result(Type resultCodeType,
+        int code,
         List<string>? details = null)
       {
           Succeeded = false;
-          Message = message;
+          ResultCodeType = resultCodeType;
+          Code = code;
+          Message = ResultCode.Serialize(resultCodeType,
+            code);
           Details = details;
           StackTrace = GetStackTrace();
       }

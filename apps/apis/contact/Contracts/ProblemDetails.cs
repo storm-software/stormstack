@@ -24,7 +24,7 @@ namespace OpenSystem.Apis.Contact.Contracts
     /// A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.
     /// </summary>
     [DataContract]
-    public class ProblemDetailsDto : IEquatable<ProblemDetailsDto>
+    public class ProblemDetails : IEquatable<ProblemDetails>
     {
         /// <summary>
         /// A URI reference [RFC3986](https://www.rfc-editor.org/rfc/rfc3986) that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028](https://www.rfc-editor.org/rfc/rfc7807#ref-W3C.REC-html5-20141028)). When this member is not present, its value is assumed to be &#x60;about:blank&#x60;.
@@ -62,7 +62,7 @@ namespace OpenSystem.Apis.Contact.Contracts
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class ProblemDetailsDto {\n");
+            sb.Append("class ProblemDetails {\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  Title: ").Append(Title).Append("\n");
             sb.Append("  Detail: ").Append(Detail).Append("\n");
@@ -90,15 +90,15 @@ namespace OpenSystem.Apis.Contact.Contracts
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((ProblemDetailsDto)obj);
+            return obj.GetType() == GetType() && Equals((ProblemDetails)obj);
         }
 
         /// <summary>
-        /// Returns true if ProblemDetailsDto instances are equal
+        /// Returns true if ProblemDetails instances are equal
         /// </summary>
-        /// <param name="other">Instance of ProblemDetailsDto to be compared</param>
+        /// <param name="other">Instance of ProblemDetails to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ProblemDetailsDto other)
+        public bool Equals(ProblemDetails other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -151,12 +151,12 @@ namespace OpenSystem.Apis.Contact.Contracts
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(ProblemDetailsDto left, ProblemDetailsDto right)
+        public static bool operator ==(ProblemDetails left, ProblemDetails right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ProblemDetailsDto left, ProblemDetailsDto right)
+        public static bool operator !=(ProblemDetails left, ProblemDetails right)
         {
             return !Equals(left, right);
         }

@@ -16,6 +16,12 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
     public const int NoResultsFound = 3;
 
+    public const int MissingSetting = 4;
+
+    public const int StartupFailure = 5;
+
+    public const int MissingMediator = 6;
+
 		#endregion Constants
 
 		#endregion Public

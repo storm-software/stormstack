@@ -1,4 +1,4 @@
-# OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts.ProblemDetailsDto
+# OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts.ProblemDetails
 A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.
 
 ## Properties
