@@ -16,7 +16,7 @@ namespace OpenSystem.Core.WebApi.Controllers
     {
         private IMediator? _mediator => HttpContext.RequestServices.GetService<IMediator>();
 
-        protected readonly HttpContext Context;
+        protected readonly HttpContext? Context;
 
         protected readonly ILogger<BaseApiController> Logger;
 
@@ -34,6 +34,10 @@ namespace OpenSystem.Core.WebApi.Controllers
             Context = context.HttpContext;
             BaseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}";
           }
+          else
+          {
+            BaseUrl = "http://localhost";
+          }
 
           Logger = logger;
         }
@@ -45,7 +49,7 @@ namespace OpenSystem.Core.WebApi.Controllers
         [Route("/health-check")]
         public async Task<IActionResult> HealthCheck()
         {
-          var status = $"{Context.Request.Host} is running at full health";
+          var status = $"{Context?.Request.Host} is running at full health";
 
           Logger.LogInformation(status);
           return Ok(status);
@@ -54,7 +58,8 @@ namespace OpenSystem.Core.WebApi.Controllers
         /// <summary>
         /// Send request to the mediator
         /// </summary>
-        public async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request)
+        public async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request,
+          CancellationToken cancellationToken)
         {
           if (_mediator == null)
           {
@@ -62,9 +67,10 @@ namespace OpenSystem.Core.WebApi.Controllers
               ResultCodeApplication.MissingMediator);
           }
 
-          Logger.LogInformation($"Sending {Context.Request.Path} request to mediator");
+          Logger.LogInformation($"Sending {Context?.Request.Path} request to mediator");
 
-          return await _mediator.Send<TResponse>(request);
+          return await _mediator.Send<TResponse>(request,
+            cancellationToken);
         }
 
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenSystem.Contact.Application.Queries.GetContacts;
 using OpenSystem.Core.Application.Models.Parameters;
 using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Contact.Application.Models;
 
 namespace OpenSystem.Contact.Application.Interfaces
 {
@@ -13,7 +14,7 @@ namespace OpenSystem.Contact.Application.Interfaces
     {
         Task<bool> IsUniqueEmailAsync(string email);
 
-        Task<(IEnumerable<ContactEntity> data,
-          RecordsCount recordsCount)> GetContactsAsync(GetContactsQuery requestParameters);
+        Task<(IEnumerable<ContactEntity> Data,
+          RecordsCount RecordsCount)> GetContactsAsync(GetContactsQuery requestParameters);
     }
 }

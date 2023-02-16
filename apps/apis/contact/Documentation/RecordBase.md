@@ -1,4 +1,4 @@
-# OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts.RecordBase
+# OpenSystem.Apis.Contact..RecordBase
 The minimum model fields shared by all data stored in the database
 
 ## Properties

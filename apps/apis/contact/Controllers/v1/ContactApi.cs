@@ -1,7 +1,7 @@
 /*
  * Contact APIs
  *
- * A collection of APIs used to get and set contact related data
+ * A collection of APIs used to get and set contact related data 
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,16 +20,14 @@ using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using OpenSystem.Apis.Contact.Attributes;
-using OpenSystem.Apis.Contact.Contracts;
-using OpenSystem.Contact.Application.Queries;
-using OpenSystem.Contact.Application.Commands;
-using OpenSystem.Contact.Application.DTOs;
+using OpenSystem.Contact.Application.Models;
+using OpenSystem.Contact.Application.Models.DTOs;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using OpenSystem.Core.WebApi.Controllers;
 
 namespace OpenSystem.Apis.Contact.Controllers.v1
-{
+{ 
 
     /// <summary>
     /// Controller for ContactApi service implementation(s)
@@ -73,7 +72,6 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         /// Create Contact
         /// </summary>
         /// <remarks>Add a new contact</remarks>
-        /// <param name="userId">The id of the current user sending the request</param>
         /// <param name="createContactRequest"></param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
@@ -87,21 +85,29 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [ValidateModelState]
         [SwaggerOperation("CreateContact")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> CreateContact([FromHeader][Required()]string userId, [FromBody]CreateContactRequest? createContactRequest, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> CreateContact([FromBody]CreateContactRequest? requestBody,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new CreateContactCommand {  UserId = userId  }));
+            // Create an instance of the request object
+            var request = new CreateContactCommand();
+
+            if (requestBody != null)
+              requestBody.Copy(request);
+
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
         /// Create Contact Detail
         /// </summary>
         /// <remarks>An end point that adds a new detail to an existing contact</remarks>
         /// <param name="id">The records guid</param>
-        /// <param name="userId">User Id sending request</param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
@@ -114,21 +120,28 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [ValidateModelState]
         [SwaggerOperation("CreateContactDetail")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> CreateContactDetail([FromRoute (Name = "id")][Required]Guid id, [FromHeader][Required()]string userId, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> CreateContactDetail([FromRoute (Name = "id")][Required]Guid id,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new CreateContactDetailCommand {  : id ,  : userId  }));
+            // Create an instance of the request object
+            var request = new CreateContactDetailCommand();
+
+
+            request.Id = id;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
-        /// Get Contact
+        /// Get Contact By Id
         /// </summary>
         /// <remarks>An end point that returns data for a specific contact</remarks>
         /// <param name="id">The records guid</param>
-        /// <param name="userId">The id of the current user sending the request</param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
@@ -139,23 +152,33 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [Route("contacts/{id}")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("GetContact")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Contact), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> GetContact([FromRoute (Name = "id")][Required]Guid id, [FromHeader][Required()]string userId, CancellationToken cancellationToken)
+        [SwaggerOperation("GetContactById")]
+        [SwaggerResponse(statusCode: 200, type: typeof(ContactRecord), description: "OK")]
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> GetContactById([FromRoute (Name = "id")][Required]Guid id,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new GetContactCommand {  : id ,  : userId  }));
+            // Create an instance of the request object
+            var request = new GetContactByIdQuery();
+
+
+            request.Id = id;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
         /// Get Contact Details
         /// </summary>
         /// <remarks>An end point that returns detail data for a specific contact</remarks>
         /// <param name="id">The records guid</param>
-        /// <param name="userId">The id of the current user sending the request</param>
+        /// <param name="pageNumber">The current page number of the selected data</param>
+        /// <param name="pageSize">The maximum amount of data to return in one request</param>
+        /// <param name="orderBy">The field to filter data by</param>
         /// <param name="reason">An reason type value to filter the returned contact details </param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
@@ -168,21 +191,39 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetContactDetails")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<ContactDetail>), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> GetContactDetails([FromRoute (Name = "id")][Required]Guid id, [FromHeader][Required()]string userId, [FromQuery (Name = "reason")]string? reason, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 200, type: typeof(GetContactDetails200Response), description: "OK")]
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> GetContactDetails([FromRoute (Name = "id")][Required]Guid id,
+          [FromQuery (Name = "pageNumber")][Required()]int pageNumber,
+          [FromQuery (Name = "pageSize")][Required()]int pageSize,
+          [FromQuery (Name = "orderBy")][Required()]string orderBy,
+          [FromQuery (Name = "reason")]string? reason,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new GetContactDetailsCommand {  : id ,  : userId ,  : reason  }));
+            // Create an instance of the request object
+            var request = new GetContactDetailsQuery();
+
+
+            request.Id = id;
+            request.PageNumber = pageNumber;
+            request.PageSize = pageSize;
+            request.OrderBy = orderBy;
+            request.Reason = reason;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
         /// Get Contacts
         /// </summary>
         /// <remarks>An end point that returns the list of contacts</remarks>
-        /// <param name="userId">The id of the current user sending the request</param>
+        /// <param name="pageNumber">The current page number of the selected data</param>
+        /// <param name="pageSize">The maximum amount of data to return in one request</param>
+        /// <param name="orderBy">The field to order the records by</param>
         /// <param name="email">An email value to filter the returned contacts </param>
         /// <param name="firstName">A first name value to filter the returned contacts </param>
         /// <param name="lastName">A last name value to filter the returned contacts </param>
@@ -197,22 +238,39 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetContacts")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<Contact>), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> GetContacts([FromHeader][Required()]string userId, [FromQuery (Name = "email")]string? email, [FromQuery (Name = "firstName")] [MaxLength(50)]string? firstName, [FromQuery (Name = "lastName")]string? lastName, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 200, type: typeof(GetContacts200Response), description: "OK")]
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> GetContacts([FromQuery (Name = "pageNumber")][Required()]int pageNumber,
+          [FromQuery (Name = "pageSize")][Required()]int pageSize,
+          [FromQuery (Name = "orderBy")][Required()]string orderBy,
+          [FromQuery (Name = "email")]string? email,
+          [FromQuery (Name = "firstName")] [MaxLength(50)]string? firstName,
+          [FromQuery (Name = "lastName")]string? lastName,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new GetContactsQuery {  : userId ,  : email ,  : firstName ,  : lastName  }));
+            // Create an instance of the request object
+            var request = new GetContactsQuery();
+
+
+            request.PageNumber = pageNumber;
+            request.PageSize = pageSize;
+            request.OrderBy = orderBy;
+            request.Email = email;
+            request.FirstName = firstName;
+            request.LastName = lastName;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
-        /// Get Subscription
+        /// Get Subscription By Email
         /// </summary>
         /// <remarks>An end point that returns a boolean value indicating if the specified email is on the subscription list</remarks>
         /// <param name="email">The email of the subscription</param>
-        /// <param name="userId">The id of the current user sending the request</param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
@@ -223,22 +281,32 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [Route("contacts/subscriptions/{email}")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("GetSubscription")]
+        [SwaggerOperation("GetSubscriptionByEmail")]
         [SwaggerResponse(statusCode: 200, type: typeof(bool), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> GetSubscription([FromRoute (Name = "email")][Required]string email, [FromHeader][Required()]string userId, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> GetSubscriptionByEmail([FromRoute (Name = "email")][Required]string email,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new GetSubscriptionCommand {  : email ,  : userId  }));
+            // Create an instance of the request object
+            var request = new GetSubscriptionByEmailQuery();
+
+
+            request.Email = email;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
         /// Get Subscriptions
         /// </summary>
         /// <remarks>An end point that returns a list of emails on the subscription list</remarks>
-        /// <param name="userId">The id of the current user sending the request</param>
+        /// <param name="pageNumber">The current page number of the selected data</param>
+        /// <param name="pageSize">The maximum amount of data to return in one request</param>
+        /// <param name="orderBy">The field to order the data by</param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
@@ -250,23 +318,33 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetSubscriptions")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<string>), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> GetSubscriptions([FromHeader][Required()]string userId, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 200, type: typeof(GetSubscriptions200Response), description: "OK")]
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> GetSubscriptions([FromQuery (Name = "pageNumber")][Required()]int pageNumber,
+          [FromQuery (Name = "pageSize")][Required()]int pageSize,
+          [FromQuery (Name = "orderBy")][Required()]string orderBy,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new GetSubscriptionsCommand {  : userId  }));
+            // Create an instance of the request object
+            var request = new GetSubscriptionsQuery();
+
+
+            request.PageNumber = pageNumber;
+            request.PageSize = pageSize;
+            request.OrderBy = orderBy;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
         /// Subscribe
         /// </summary>
         /// <remarks>Add a new email address to the subcription list</remarks>
         /// <param name="email">The email of the subscription</param>
-        /// <param name="userId">The id of the current user sending the request</param>
-        /// <param name="createContactRequest"></param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
@@ -279,14 +357,22 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [ValidateModelState]
         [SwaggerOperation("Subscribe")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> Subscribe([FromRoute (Name = "email")][Required]string email, [FromHeader][Required()]string userId, [FromBody]CreateContactRequest? createContactRequest, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> Subscribe([FromRoute (Name = "email")][Required]string email,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new SubscribeCommand {  : email ,  : userId ,  : createContactRequest  }));
+            // Create an instance of the request object
+            var request = new SubscribeCommand();
+
+
+            request.Email = email;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
         /// Unsubscribe
@@ -305,22 +391,29 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [ValidateModelState]
         [SwaggerOperation("Unsubscribe")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> Unsubscribe([FromRoute (Name = "email")][Required]string email, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> Unsubscribe([FromRoute (Name = "email")][Required]string email,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new UnsubscribeCommand {  : email  }));
+            // Create an instance of the request object
+            var request = new UnsubscribeCommand();
+
+
+            request.Email = email;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         /// <summary>
         /// Update Contact
         /// </summary>
         /// <remarks>An end point that updates an existing contact</remarks>
         /// <param name="id">The records guid</param>
-        /// <param name="userId">User Id sending request</param>
-        /// <param name="contactHeader"></param>
+        /// <param name="contactHeaderRecord"></param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Not Found</response>
@@ -333,14 +426,25 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [ValidateModelState]
         [SwaggerOperation("UpdateContact")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetails), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetails), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetails), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetails), description: "Service Unavailable")]
-        public  async Task<IActionResult> UpdateContact([FromRoute (Name = "id")][Required]Guid id, [FromHeader][Required()]string userId, [FromBody]ContactHeader? contactHeader, CancellationToken cancellationToken)
+        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
+        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
+        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
+        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
+        public  async Task<IActionResult> UpdateContact([FromRoute (Name = "id")][Required]Guid id,
+          [FromBody]ContactHeaderRecord? requestBody,
+          CancellationToken cancellationToken)
         {
 
-            return Ok(await SendRequest(new UpdateContactCommand {  : id ,  : userId ,  : contactHeader  }));
+            // Create an instance of the request object
+            var request = new UpdateContactCommand();
+
+            if (requestBody != null)
+              requestBody.Copy(request);
+
+            request.Id = id;
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
     }
 }

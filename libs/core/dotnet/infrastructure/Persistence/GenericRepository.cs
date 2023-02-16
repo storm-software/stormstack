@@ -1,12 +1,13 @@
 using OpenSystem.Core.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using OpenSystem.Core.Domain.Entities;
 
 namespace OpenSystem.Core.Infrastructure.Persistence
 {
-    public class GenericRepository<T>
-      : IGenericRepository<T>
-      where T : class
+    public class GenericRepository<TEntity>
+      : IGenericRepository<TEntity>
+      where TEntity : Entity<Guid>, IAggregateRoot
     {
         protected readonly ApplicationDbContext DbContext;
 
@@ -15,62 +16,80 @@ namespace OpenSystem.Core.Infrastructure.Persistence
             DbContext = dbContext;
         }
 
-
-        public virtual async Task<T> GetByIdAsync(Guid guid)
+        public virtual async Task<TEntity> GetByIdAsync(Guid guid)
         {
-            return await DbContext.Set<T>().FindAsync(guid);
+            return await DbContext.Set<TEntity>().FindAsync(guid);
         }
 
-        public async Task<IEnumerable<T>> GetPagedResponseAsync(int pageNumber,
+        public async Task<IEnumerable<TEntity>> GetPagedResponseAsync(int pageNumber,
           int pageSize)
         {
             return await DbContext
-              .Set<T>()
+              .Set<TEntity>()
               .Skip((pageNumber - 1) * pageSize)
               .Take(pageSize)
               .AsNoTracking()
               .ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetPagedAdvancedResponseAsync(int pageNumber,
+        public async Task<IEnumerable<TEntity>> GetPagedAdvancedResponseAsync(int pageNumber,
           int pageSize,
           string orderBy,
           string fields)
         {
             return await DbContext
-              .Set<T>()
+              .Set<TEntity>()
               .Skip((pageNumber - 1) * pageSize)
               .Take(pageSize)
-              .Select<T>("new(" + fields + ")")
+              .Select<TEntity>("new(" + fields + ")")
               .OrderBy(orderBy)
               .AsNoTracking()
               .ToListAsync();
         }
 
-        public async Task<T> AddAsync(T entity)
+        public async Task<TEntity> AddOrUpdateAsync(TEntity entity,
+          CancellationToken cancellationToken = default)
         {
-            await DbContext.Set<T>().AddAsync(entity);
-            await DbContext.SaveChangesAsync();
+            if (entity.Id.Equals(default))
+                await AddAsync(entity,
+                  cancellationToken);
+            else
+                await UpdateAsync(entity,
+                  cancellationToken);
 
             return entity;
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task<TEntity> AddAsync(TEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+            DbContext.Entry(entity).State = EntityState.Added;
+
+            await DbContext.Set<TEntity>().AddAsync(entity,
+              cancellationToken);
+            await DbContext.SaveChangesAsync(cancellationToken);
+
+            return entity;
+        }
+
+        public async Task UpdateAsync(TEntity entity,
+          CancellationToken cancellationToken = default)
         {
             DbContext.Entry(entity).State = EntityState.Modified;
-            await DbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task DeleteAsync(TEntity entity,
+          CancellationToken cancellationToken = default)
         {
-            DbContext.Set<T>().Remove(entity);
-            await DbContext.SaveChangesAsync();
+            DbContext.Set<TEntity>().Remove(entity);
+            await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await DbContext
-              .Set<T>()
+              .Set<TEntity>()
               .ToListAsync();
         }
     }

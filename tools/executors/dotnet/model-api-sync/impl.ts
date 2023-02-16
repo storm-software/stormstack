@@ -53,13 +53,13 @@ export default async function (
     }Service.Api`;
 
     const result = await execute(
-      `java -cp tools/openapi/dotnet-model/model/open-system-dotnet-model-openapi-generator-1.0.0.jar;tools/openapi/openapi-generator-cli-6.2.1.jar org.openapitools.codegen.OpenAPIGenerator generate --input-spec=${specJsonFile} -g ${
+      `java -cp tools/openapi/dotnet-model/target/open-system-dotnet-model-openapi-generator-1.0.0.jar;tools/openapi/openapi-generator-cli-6.2.1.jar org.openapitools.codegen.OpenAPIGenerator generate --input-spec=${specJsonFile} -g ${
         generator ?? "open-system-dotnet-model"
       } -o ${sourceRoot} --enable-post-process-file --global-property="apiDocs=true" --additional-properties="aspnetCoreVersion=7.0,buildTarget=program,licenseName=BSD 2-Clause License Simplified,licenseUrl=https://spdx.org/licenses/BSD-2-Clause.html,packageAuthors=Patrick Sullivan,packageCopyright=Copyright (c) 2022 Patrick Sullivan,packageDescription=A collection of ${
         serviceName ?? domainName
       } APIs used by the Open System repository,packageName=${packageName},packageTitle=OpenSystem,packageVersion=1.0.0,projectSdk=Microsoft.NET.Sdk.Web,operationIsAsync=true,operationResultTask=true,nullableReferenceTypes=true,isBasicBearer=true,pocoModels=false,useSwashbuckle=true,enumNameSuffix=Options,enumValueSuffix=,generateAliasAsModel=true,domainName=${domainName},serviceName=${
         serviceName ?? domainName
-      },fullServiceName=${fullServiceName},specJsonFile=${specJsonFile},sourceRoot=${sourceRoot}",dockerTag=${projectName}:latest,useDateTimeOffsetFlag=true,optionalEmitDefaultValuesFlag=true,projectName=${projectName},useNewtonsoft=false,useDefaultRouting=true `
+      },fullServiceName=${fullServiceName},specJsonFile=${specJsonFile},sourceRoot=${sourceRoot}",dockerTag=${projectName}:latest,useDateTimeOffsetFlag=true,optionalEmitDefaultValuesFlag=true,projectName=${projectName},useNewtonsoft=false,useDefaultRouting=true --import-mappings PagedQueryResponse=OpenSystem.Core.Application.Models.PagedQueryResponse `
     );
 
     if (result) {

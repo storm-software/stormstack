@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "z9YHt4eiTBakyNTy6JF+JbNgFWQlq1RGGsGZCl/3bJFdei+aPpRaOtceoA+K87gTkX28eyXZ5sdRyflafdsj0Q==",
+  "dgSpecHash": "OAcOzv9pyJQFkIAoioz+5ZRd2FD6DCkDoNOEnp2+l7g6RcPzrZCjYLkQULXfonT5LwmNT8vvkvCWAi7Tf/CDiQ==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj",
   "expectedPackageFiles": [

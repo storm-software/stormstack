@@ -58,7 +58,7 @@ export const ProgressTracker = ({
                     backgroundColor:
                       item.status === ProgressTrackerItemStatus.COMPLETE &&
                       (active < 0 || i < active - 1)
-                        ? "#039555"
+                        ? "#00DC82"
                         : item.status === ProgressTrackerItemStatus.COMPLETE &&
                           (active < 0 || i === active - 1)
                         ? "#FAF9F6"
@@ -67,7 +67,7 @@ export const ProgressTracker = ({
                   animate={{
                     backgroundColor:
                       item.status === ProgressTrackerItemStatus.COMPLETE
-                        ? "#039555"
+                        ? "#00DC82"
                         : item.status === ProgressTrackerItemStatus.ACTIVE
                         ? "#FAF9F6"
                         : "#989899",

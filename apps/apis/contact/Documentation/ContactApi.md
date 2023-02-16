@@ -6,10 +6,10 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateContact**](ContactApi.md#createcontact) | **HttpPost** /contacts | Create Contact
 [**CreateContactDetail**](ContactApi.md#createcontactdetail) | **HttpPost** /contacts/{id}/details | Create Contact Detail
-[**GetContact**](ContactApi.md#getcontact) | **HttpGet** /contacts/{id} | Get Contact
+[**GetContactById**](ContactApi.md#getcontactbyid) | **HttpGet** /contacts/{id} | Get Contact By Id
 [**GetContactDetails**](ContactApi.md#getcontactdetails) | **HttpGet** /contacts/{id}/details | Get Contact Details
 [**GetContacts**](ContactApi.md#getcontacts) | **HttpGet** /contacts | Get Contacts
-[**GetSubscription**](ContactApi.md#getsubscription) | **HttpGet** /contacts/subscriptions/{email} | Get Subscription
+[**GetSubscriptionByEmail**](ContactApi.md#getsubscriptionbyemail) | **HttpGet** /contacts/subscriptions/{email} | Get Subscription By Email
 [**GetSubscriptions**](ContactApi.md#getsubscriptions) | **HttpGet** /contacts/subscriptions | Get Subscriptions
 [**Subscribe**](ContactApi.md#subscribe) | **HttpPost** /contacts/subscriptions/{email} | Subscribe
 [**Unsubscribe**](ContactApi.md#unsubscribe) | **HttpDelete** /contacts/subscriptions/{email} | Unsubscribe
@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 <a name="createcontact"></a>
 # **CreateContact**
-> CommandSuccessResponse CreateContact (string userId, CreateContactRequest? createContactRequest)
+> CommandSuccessResponse CreateContact (CreateContactRequest? createContactRequest)
 
 Create Contact
 
@@ -30,7 +30,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
@@ -41,13 +41,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
-            var userId = "userId_example";  // string | The id of the current user sending the request
             var createContactRequest = new CreateContactRequest?(); // CreateContactRequest? |  (optional) 
 
             try
             {
                 // Create Contact
-                CommandSuccessResponse result = apiInstance.CreateContact(userId, createContactRequest);
+                CommandSuccessResponse result = apiInstance.CreateContact(createContactRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -65,7 +64,6 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **string**| The id of the current user sending the request | 
  **createContactRequest** | [**CreateContactRequest?**](CreateContactRequest?.md)|  | [optional] 
 
 ### Return type
@@ -95,7 +93,7 @@ No authorization required
 
 <a name="createcontactdetail"></a>
 # **CreateContactDetail**
-> CommandSuccessResponse CreateContactDetail (Guid id, string userId)
+> CommandSuccessResponse CreateContactDetail (Guid id)
 
 Create Contact Detail
 
@@ -107,7 +105,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
@@ -119,12 +117,11 @@ namespace Example
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
             var id = 123e4567-e89b-12d3-a456-426614174000;  // Guid | The records guid
-            var userId = PSUL;  // string | User Id sending request
 
             try
             {
                 // Create Contact Detail
-                CommandSuccessResponse result = apiInstance.CreateContactDetail(id, userId);
+                CommandSuccessResponse result = apiInstance.CreateContactDetail(id);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -143,7 +140,6 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **Guid**| The records guid | 
- **userId** | **string**| User Id sending request | 
 
 ### Return type
 
@@ -170,11 +166,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getcontact"></a>
-# **GetContact**
-> Contact GetContact (Guid id, string userId)
+<a name="getcontactbyid"></a>
+# **GetContactById**
+> ContactRecord GetContactById (Guid id)
 
-Get Contact
+Get Contact By Id
 
 An end point that returns data for a specific contact
 
@@ -184,11 +180,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
-    public class GetContactExample
+    public class GetContactByIdExample
     {
         public static void Main()
         {
@@ -196,17 +192,16 @@ namespace Example
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
             var id = 123e4567-e89b-12d3-a456-426614174000;  // Guid | The records guid
-            var userId = "userId_example";  // string | The id of the current user sending the request
 
             try
             {
-                // Get Contact
-                Contact result = apiInstance.GetContact(id, userId);
+                // Get Contact By Id
+                ContactRecord result = apiInstance.GetContactById(id);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ContactApi.GetContact: " + e.Message );
+                Debug.Print("Exception when calling ContactApi.GetContactById: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -220,11 +215,10 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **Guid**| The records guid | 
- **userId** | **string**| The id of the current user sending the request | 
 
 ### Return type
 
-[**Contact**](Contact.md)
+[**ContactRecord**](ContactRecord.md)
 
 ### Authorization
 
@@ -249,7 +243,7 @@ No authorization required
 
 <a name="getcontactdetails"></a>
 # **GetContactDetails**
-> List&lt;ContactDetail&gt; GetContactDetails (Guid id, string userId, string? reason)
+> GetContactDetails200Response GetContactDetails (Guid id, int pageNumber, int pageSize, string orderBy, string? reason)
 
 Get Contact Details
 
@@ -261,7 +255,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
@@ -273,13 +267,15 @@ namespace Example
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
             var id = 123e4567-e89b-12d3-a456-426614174000;  // Guid | The records guid
-            var userId = "userId_example";  // string | The id of the current user sending the request
+            var pageNumber = 1;  // int | The current page number of the selected data (default to 1)
+            var pageSize = 200;  // int | The maximum amount of data to return in one request (default to 200)
+            var orderBy = "\"details\"";  // string | The field to filter data by (default to "details")
             var reason = "business";  // string? | An reason type value to filter the returned contact details  (optional) 
 
             try
             {
                 // Get Contact Details
-                List<ContactDetail> result = apiInstance.GetContactDetails(id, userId, reason);
+                GetContactDetails200Response result = apiInstance.GetContactDetails(id, pageNumber, pageSize, orderBy, reason);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -298,12 +294,14 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **Guid**| The records guid | 
- **userId** | **string**| The id of the current user sending the request | 
+ **pageNumber** | **int**| The current page number of the selected data | [default to 1]
+ **pageSize** | **int**| The maximum amount of data to return in one request | [default to 200]
+ **orderBy** | **string**| The field to filter data by | [default to &quot;details&quot;]
  **reason** | **string?**| An reason type value to filter the returned contact details  | [optional] 
 
 ### Return type
 
-[**List&lt;ContactDetail&gt;**](ContactDetail.md)
+[**GetContactDetails200Response**](GetContactDetails200Response.md)
 
 ### Authorization
 
@@ -328,7 +326,7 @@ No authorization required
 
 <a name="getcontacts"></a>
 # **GetContacts**
-> List&lt;Contact&gt; GetContacts (string userId, string? email, string? firstName, string? lastName)
+> GetContacts200Response GetContacts (int pageNumber, int pageSize, string orderBy, string? email, string? firstName, string? lastName)
 
 Get Contacts
 
@@ -340,7 +338,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
@@ -351,7 +349,9 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
-            var userId = "userId_example";  // string | The id of the current user sending the request
+            var pageNumber = 1;  // int | The current page number of the selected data (default to 1)
+            var pageSize = 200;  // int | The maximum amount of data to return in one request (default to 200)
+            var orderBy = "\"email\"";  // string | The field to order the records by (default to "email")
             var email = john@example.com;  // string? | An email value to filter the returned contacts  (optional) 
             var firstName = Ryan;  // string? | A first name value to filter the returned contacts  (optional) 
             var lastName = "lastName_example";  // string? | A last name value to filter the returned contacts  (optional) 
@@ -359,7 +359,7 @@ namespace Example
             try
             {
                 // Get Contacts
-                List<Contact> result = apiInstance.GetContacts(userId, email, firstName, lastName);
+                GetContacts200Response result = apiInstance.GetContacts(pageNumber, pageSize, orderBy, email, firstName, lastName);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -377,14 +377,16 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **string**| The id of the current user sending the request | 
+ **pageNumber** | **int**| The current page number of the selected data | [default to 1]
+ **pageSize** | **int**| The maximum amount of data to return in one request | [default to 200]
+ **orderBy** | **string**| The field to order the records by | [default to &quot;email&quot;]
  **email** | **string?**| An email value to filter the returned contacts  | [optional] 
  **firstName** | **string?**| A first name value to filter the returned contacts  | [optional] 
  **lastName** | **string?**| A last name value to filter the returned contacts  | [optional] 
 
 ### Return type
 
-[**List&lt;Contact&gt;**](Contact.md)
+[**GetContacts200Response**](GetContacts200Response.md)
 
 ### Authorization
 
@@ -407,11 +409,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getsubscription"></a>
-# **GetSubscription**
-> bool GetSubscription (string email, string userId)
+<a name="getsubscriptionbyemail"></a>
+# **GetSubscriptionByEmail**
+> bool GetSubscriptionByEmail (string email)
 
-Get Subscription
+Get Subscription By Email
 
 An end point that returns a boolean value indicating if the specified email is on the subscription list
 
@@ -421,11 +423,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
-    public class GetSubscriptionExample
+    public class GetSubscriptionByEmailExample
     {
         public static void Main()
         {
@@ -433,17 +435,16 @@ namespace Example
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
             var email = example@abc.com;  // string | The email of the subscription
-            var userId = "userId_example";  // string | The id of the current user sending the request
 
             try
             {
-                // Get Subscription
-                bool result = apiInstance.GetSubscription(email, userId);
+                // Get Subscription By Email
+                bool result = apiInstance.GetSubscriptionByEmail(email);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling ContactApi.GetSubscription: " + e.Message );
+                Debug.Print("Exception when calling ContactApi.GetSubscriptionByEmail: " + e.Message );
                 Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -457,7 +458,6 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **email** | **string**| The email of the subscription | 
- **userId** | **string**| The id of the current user sending the request | 
 
 ### Return type
 
@@ -486,7 +486,7 @@ No authorization required
 
 <a name="getsubscriptions"></a>
 # **GetSubscriptions**
-> List&lt;string&gt; GetSubscriptions (string userId)
+> GetSubscriptions200Response GetSubscriptions (int pageNumber, int pageSize, string orderBy)
 
 Get Subscriptions
 
@@ -498,7 +498,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
@@ -509,12 +509,14 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
-            var userId = "userId_example";  // string | The id of the current user sending the request
+            var pageNumber = 1;  // int | The current page number of the selected data (default to 1)
+            var pageSize = 200;  // int | The maximum amount of data to return in one request (default to 200)
+            var orderBy = "\"email\"";  // string | The field to order the data by (default to "email")
 
             try
             {
                 // Get Subscriptions
-                List<string> result = apiInstance.GetSubscriptions(userId);
+                GetSubscriptions200Response result = apiInstance.GetSubscriptions(pageNumber, pageSize, orderBy);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -532,11 +534,13 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **string**| The id of the current user sending the request | 
+ **pageNumber** | **int**| The current page number of the selected data | [default to 1]
+ **pageSize** | **int**| The maximum amount of data to return in one request | [default to 200]
+ **orderBy** | **string**| The field to order the data by | [default to &quot;email&quot;]
 
 ### Return type
 
-**List<string>**
+[**GetSubscriptions200Response**](GetSubscriptions200Response.md)
 
 ### Authorization
 
@@ -561,7 +565,7 @@ No authorization required
 
 <a name="subscribe"></a>
 # **Subscribe**
-> CommandSuccessResponse Subscribe (string email, string userId, CreateContactRequest? createContactRequest)
+> CommandSuccessResponse Subscribe (string email)
 
 Subscribe
 
@@ -573,7 +577,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
@@ -585,13 +589,11 @@ namespace Example
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
             var email = example@abc.com;  // string | The email of the subscription
-            var userId = "userId_example";  // string | The id of the current user sending the request
-            var createContactRequest = new CreateContactRequest?(); // CreateContactRequest? |  (optional) 
 
             try
             {
                 // Subscribe
-                CommandSuccessResponse result = apiInstance.Subscribe(email, userId, createContactRequest);
+                CommandSuccessResponse result = apiInstance.Subscribe(email);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -610,8 +612,6 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **email** | **string**| The email of the subscription | 
- **userId** | **string**| The id of the current user sending the request | 
- **createContactRequest** | [**CreateContactRequest?**](CreateContactRequest?.md)|  | [optional] 
 
 ### Return type
 
@@ -623,7 +623,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 
@@ -652,7 +652,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
@@ -715,7 +715,7 @@ No authorization required
 
 <a name="updatecontact"></a>
 # **UpdateContact**
-> CommandSuccessResponse UpdateContact (Guid id, string userId, ContactHeader? contactHeader)
+> CommandSuccessResponse UpdateContact (Guid id, ContactHeaderRecord? contactHeaderRecord)
 
 Update Contact
 
@@ -727,7 +727,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Controllers;
 using OpenSystem.Apis.Contact.Client;
-using OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts;
+using OpenSystem.Apis.Contact.;
 
 namespace Example
 {
@@ -739,13 +739,12 @@ namespace Example
             config.BasePath = "http://localhost:5000";
             var apiInstance = new ContactApi(config);
             var id = 123e4567-e89b-12d3-a456-426614174000;  // Guid | The records guid
-            var userId = PSUL;  // string | User Id sending request
-            var contactHeader = new ContactHeader?(); // ContactHeader? |  (optional) 
+            var contactHeaderRecord = new ContactHeaderRecord?(); // ContactHeaderRecord? |  (optional) 
 
             try
             {
                 // Update Contact
-                CommandSuccessResponse result = apiInstance.UpdateContact(id, userId, contactHeader);
+                CommandSuccessResponse result = apiInstance.UpdateContact(id, contactHeaderRecord);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -764,8 +763,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **Guid**| The records guid | 
- **userId** | **string**| User Id sending request | 
- **contactHeader** | [**ContactHeader?**](ContactHeader?.md)|  | [optional] 
+ **contactHeaderRecord** | [**ContactHeaderRecord?**](ContactHeaderRecord?.md)|  | [optional] 
 
 ### Return type
 

@@ -1,23 +1,32 @@
+using OpenSystem.Core.Domain.Entities;
+
 namespace OpenSystem.Core.Application.Interfaces
 {
-  public interface IGenericRepository<T> where T : class
+  public interface IGenericRepository<TEntity>
+    where TEntity : Entity<Guid>, IAggregateRoot
     {
-        Task<T> GetByIdAsync(Guid id);
+        Task<TEntity> GetByIdAsync(Guid id);
 
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<IEnumerable<T>> GetPagedResponseAsync(int pageNumber,
+        Task<IEnumerable<TEntity>> GetPagedResponseAsync(int pageNumber,
           int pageSize);
 
-        Task<IEnumerable<T>> GetPagedAdvancedResponseAsync(int pageNumber,
+        Task<IEnumerable<TEntity>> GetPagedAdvancedResponseAsync(int pageNumber,
           int pageSize,
           string orderBy,
           string fields);
 
-        Task<T> AddAsync(T entity);
+        Task<TEntity> AddOrUpdateAsync(TEntity entity,
+          CancellationToken cancellationToken = default);
 
-        Task UpdateAsync(T entity);
+        Task<TEntity> AddAsync(TEntity entity,
+          CancellationToken cancellationToken = default);
 
-        Task DeleteAsync(T entity);
+        Task UpdateAsync(TEntity entity,
+          CancellationToken cancellationToken = default);
+
+        Task DeleteAsync(TEntity entity,
+          CancellationToken cancellationToken = default);
     }
 }

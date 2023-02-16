@@ -35,7 +35,6 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
         protected override Result InnerOnModelCreating(ModelBuilder builder)
         {
           builder.Entity<ContactEntity>();
-
           return Result.Success();
         }
     }

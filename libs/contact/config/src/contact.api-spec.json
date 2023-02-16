@@ -36,10 +36,25 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Contact"
-                  }
+                  "allOf": [
+                    {
+                      "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/PagedQueryResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ContactRecord"
+                          }
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
                 }
               }
             }
@@ -49,7 +64,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -69,7 +84,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -89,7 +104,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -109,7 +124,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -126,9 +141,6 @@
           }
         },
         "parameters": [
-          {
-            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
-          },
           {
             "schema": {
               "type": "string",
@@ -156,6 +168,22 @@
             "in": "query",
             "name": "lastName",
             "description": "A last name value to filter the returned contacts "
+          },
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/pageNumber"
+          },
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/pageSize"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "default": "email"
+            },
+            "in": "query",
+            "name": "orderBy",
+            "description": "The field to order the records by",
+            "required": true
           }
         ],
         "description": "An end point that returns the list of contacts",
@@ -183,7 +211,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -203,7 +231,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -223,7 +251,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -243,7 +271,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -262,16 +290,26 @@
         "tags": [
           "Contact"
         ],
-        "parameters": [
-          {
-            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
-          }
-        ],
+        "parameters": [],
         "description": "Add a new contact",
+        "x-os-request-name": "CreateContactCommand",
         "requestBody": {
-          "$ref": "#/components/requestBodies/CreateContactRequest"
-        },
-        "x-os-request-name": "CreateContactCommand"
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ContactHeaderRecord"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ContactDetailRecord"
+                  }
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
       }
     },
     "/contacts/{id}": {
@@ -281,15 +319,15 @@
         }
       ],
       "get": {
-        "summary": "Get Contact",
-        "operationId": "getContact",
+        "summary": "Get Contact By Id",
+        "operationId": "getContactById",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Contact"
+                  "$ref": "#/components/schemas/ContactRecord"
                 }
               }
             }
@@ -299,7 +337,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -319,7 +357,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -339,7 +377,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -359,7 +397,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -375,11 +413,7 @@
             }
           }
         },
-        "parameters": [
-          {
-            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
-          }
-        ],
+        "parameters": [],
         "description": "An end point that returns data for a specific contact",
         "tags": [
           "Contact"
@@ -404,7 +438,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -424,7 +458,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -444,7 +478,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -464,7 +498,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -487,18 +521,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ContactHeader"
+                "$ref": "#/components/schemas/ContactHeaderRecord"
               }
             }
           },
           "description": ""
         },
         "description": "An end point that updates an existing contact",
-        "parameters": [
-          {
-            "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/UserId"
-          }
-        ]
+        "parameters": []
       }
     },
     "/contacts/{id}/details": {
@@ -516,10 +546,25 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ContactDetail"
-                  }
+                  "allOf": [
+                    {
+                      "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/PagedQueryResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ContactDetailRecord"
+                          }
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
                 }
               }
             }
@@ -529,7 +574,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -549,7 +594,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -569,7 +614,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -589,7 +634,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -607,9 +652,6 @@
         },
         "parameters": [
           {
-            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
-          },
-          {
             "schema": {
               "type": "string",
               "enum": [
@@ -623,6 +665,22 @@
             "in": "query",
             "name": "reason",
             "description": "An reason type value to filter the returned contact details "
+          },
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/pageNumber"
+          },
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/pageSize"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "default": "details"
+            },
+            "in": "query",
+            "name": "orderBy",
+            "description": "The field to filter data by",
+            "required": true
           }
         ],
         "description": "An end point that returns detail data for a specific contact",
@@ -649,7 +707,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -669,7 +727,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -689,7 +747,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -709,7 +767,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -729,11 +787,7 @@
           "Contact"
         ],
         "description": "An end point that adds a new detail to an existing contact",
-        "parameters": [
-          {
-            "$ref": "../../../../tools/openapi/dotnet-server/test.api.json#/components/parameters/UserId"
-          }
-        ]
+        "parameters": []
       }
     },
     "/contacts/subscriptions": {
@@ -747,10 +801,25 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
+                  "allOf": [
+                    {
+                      "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/PagedQueryResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    }
+                  ]
                 }
               }
             }
@@ -760,7 +829,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -780,7 +849,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -800,7 +869,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -820,7 +889,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -838,7 +907,20 @@
         },
         "parameters": [
           {
-            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/pageNumber"
+          },
+          {
+            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/pageSize"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "default": "email"
+            },
+            "in": "query",
+            "name": "orderBy",
+            "description": "The field to order the data by",
+            "required": true
           }
         ],
         "description": "An end point that returns a list of emails on the subscription list",
@@ -862,8 +944,8 @@
         }
       ],
       "get": {
-        "summary": "Get Subscription",
-        "operationId": "getSubscription",
+        "summary": "Get Subscription By Email",
+        "operationId": "getSubscriptionByEmail",
         "responses": {
           "200": {
             "description": "OK",
@@ -882,7 +964,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -902,7 +984,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -922,7 +1004,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -942,7 +1024,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -958,11 +1040,7 @@
             }
           }
         },
-        "parameters": [
-          {
-            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
-          }
-        ],
+        "parameters": [],
         "description": "An end point that returns a boolean value indicating if the specified email is on the subscription list",
         "tags": [
           "Contact"
@@ -994,7 +1072,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -1014,7 +1092,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -1034,7 +1112,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -1054,7 +1132,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -1071,14 +1149,7 @@
           }
         },
         "description": "Add a new email address to the subcription list",
-        "parameters": [
-          {
-            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
-          }
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/CreateContactRequest"
-        },
+        "parameters": [],
         "tags": [
           "Contact"
         ]
@@ -1109,7 +1180,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -1129,7 +1200,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -1149,7 +1220,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -1169,7 +1240,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -1194,25 +1265,28 @@
   },
   "components": {
     "schemas": {
-      "Contact": {
+      "ContactRecord": {
         "allOf": [
           {
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/RecordBase"
           },
           {
-            "$ref": "#/components/schemas/ContactHeader"
+            "$ref": "#/components/schemas/ContactHeaderRecord"
           },
           {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ContactDetail"
+              "$ref": "#/components/schemas/ContactDetailRecord"
             }
           }
         ],
-        "title": "Contact",
-        "description": "A full contact model including all of it's previously submitted details"
+        "title": "ContactRecord",
+        "description": "A full contact model including all of it's previously submitted details",
+        "x-stoplight": {
+          "id": "9ee78c1890acc"
+        }
       },
-      "ContactHeader": {
+      "ContactHeaderRecord": {
         "allOf": [
           {
             "properties": {
@@ -1253,10 +1327,10 @@
         "title": "ContactHeader",
         "description": "Contact data used to identify an individual and attach details too.",
         "x-stoplight": {
-          "id": "4cf7f1cb259e4"
+          "id": "38655c7314ec4"
         }
       },
-      "ContactDetail": {
+      "ContactDetailRecord": {
         "type": "object",
         "title": "ContactDetail",
         "description": "Base data used to capture a contact request ",
@@ -1294,70 +1368,15 @@
         },
         "required": [
           "reason"
-        ]
-      }
-    },
-    "requestBodies": {
-      "CreateContactRequest": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/ContactHeader"
-                },
-                {
-                  "$ref": "#/components/schemas/ContactDetail"
-                }
-              ]
-            }
-          }
-        },
-        "description": ""
-      }
-    },
-    "responses": {
-      "GetContactsResponse": {
-        "description": "Successful response to Get Users end point",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/Contact"
-              }
-            }
-          }
-        }
-      },
-      "GetContactResponse": {
-        "description": "Successful response to Get User end point",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Contact"
-            }
-          }
+        ],
+        "x-stoplight": {
+          "id": "63946c2ead1c5"
         }
       }
     },
-    "parameters": {
-      "type": {
-        "name": "type",
-        "in": "query",
-        "required": false,
-        "schema": {
-          "type": "string",
-          "enum": [
-            "guest",
-            "internal",
-            "external"
-          ],
-          "example": "guest"
-        },
-        "description": "The type of the user"
-      }
-    },
+    "requestBodies": {},
+    "responses": {},
+    "parameters": {},
     "securitySchemes": {}
   },
   "x-all-of-name": "DTO_AllOf",

@@ -6,7 +6,8 @@ using System.Globalization;
 
 namespace OpenSystem.Contact.Domain.Entities
 {
-    public class ContactEntity : Entity<Guid>, IAggregateRoot
+    public class ContactEntity
+      : AddressEntity, IAggregateRoot
     {
         public string Email { get; set; }
 
@@ -18,6 +19,6 @@ namespace OpenSystem.Contact.Domain.Entities
 
         public bool IsSubscribed { get; set; }
 
-        public IList<ContactDetailEntity> Details { get; set; }
+        public IList<ContactDetailEntity> Details { get; set; } = new List<ContactDetailEntity>();
     }
 }

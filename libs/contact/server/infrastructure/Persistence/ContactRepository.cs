@@ -15,6 +15,7 @@ using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Application.Interfaces;
 using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Contact.Application.Models;
 
 namespace OpenSystem.Contact.Infrastructure.Persistence
 {
@@ -34,10 +35,9 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
                 .AllAsync(p => p.Email != email);
         }
 
-        public async Task<(IEnumerable<ContactEntity> data,
-          RecordsCount recordsCount)> GetContactsAsync(GetContactsQuery requestParameter)
+        public async Task<(IEnumerable<ContactEntity> Data,
+          RecordsCount RecordsCount)> GetContactsAsync(GetContactsQuery requestParameter)
         {
-            var id = requestParameter.Id;
             var email = requestParameter.Email;
             var firstName = requestParameter.FirstName;
             var lastName = requestParameter.LastName;
@@ -45,7 +45,6 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
             var pageNumber = requestParameter.PageNumber;
             var pageSize = requestParameter.PageSize;
             var orderBy = requestParameter.OrderBy;
-            var fields = requestParameter.Fields;
 
             int recordsTotal, recordsFiltered;
 
@@ -59,7 +58,6 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
 
             // filter data
             Result ret = FilterByColumn(ref record,
-              id,
               email,
               firstName,
               lastName);
@@ -79,12 +77,6 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
                 record = record.OrderBy(orderBy);
             }
 
-            // select columns
-            if (!string.IsNullOrWhiteSpace(fields))
-            {
-                record = record.Select<ContactEntity>("new(" + fields + ")");
-            }
-
             // paging
             record = record
                 .Skip((pageNumber - 1) * pageSize)
@@ -99,7 +91,6 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
         }
 
         private Result FilterByColumn(ref IQueryable<ContactEntity> contacts,
-          Guid? id,
           string? email,
           string? firstName,
           string? lastName)
@@ -107,17 +98,12 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
             if (!contacts.Any())
                 return Result.Success();
 
-            if (id == null &&
-              string.IsNullOrEmpty(email) &&
+            if (string.IsNullOrEmpty(email) &&
               string.IsNullOrEmpty(firstName) &&
               string.IsNullOrEmpty(lastName))
                 return Result.Success();
 
             var predicate = PredicateBuilder.New<ContactEntity>();
-            if (id != null)
-                predicate = predicate.Or(p =>
-                  p.Id == id);
-
             if (!string.IsNullOrEmpty(email))
                 predicate = predicate.Or(p =>
                   p.Email.Contains(email.Trim()));

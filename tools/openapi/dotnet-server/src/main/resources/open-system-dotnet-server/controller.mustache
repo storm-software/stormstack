@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using {{packageName}}.Attributes;
-using {{packageName}}.Contracts;
-using OpenSystem.{{capitalDomainName}}.Application.Queries;
-using OpenSystem.{{capitalDomainName}}.Application.Commands;
-using OpenSystem.{{capitalDomainName}}.Application.DTOs;
+using OpenSystem.{{capitalDomainName}}.Application.Models;
+using OpenSystem.{{capitalDomainName}}.Application.Models.DTOs;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using OpenSystem.Core.WebApi.Controllers;
@@ -92,14 +91,33 @@ namespace {{apiPackage}}.v1
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{#-last}}{{#operationResultTask}}{{#operationIsAsync}}, {{/operationIsAsync}}{{/operationResultTask}}{{/-last}}{{/allParams}}{{#operationResultTask}}{{#operationIsAsync}}CancellationToken cancellationToken{{/operationIsAsync}}{{/operationResultTask}}){{^generateBody}};{{/generateBody}}
+        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}{{^isCookieParam}},
+          {{/isCookieParam}}{{/-last}}{{#-last}}{{#operationResultTask}}{{#operationIsAsync}},
+          {{/operationIsAsync}}{{/operationResultTask}}{{/-last}}{{/allParams}}{{#operationResultTask}}{{#operationIsAsync}}CancellationToken cancellationToken{{/operationIsAsync}}{{/operationResultTask}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
         {
             {{#cookieParams}}
             var {{paramName}} = Request.Cookies["{{paramName}}"];
             {{/cookieParams}}
 
-            return Ok(await SendRequest(new {{requestName}} { {{#allParams}} {{name}}: {{paramName}} {{^-last}}, {{/-last}}{{/allParams}} }));
+            // Create an instance of the request object
+            var request = new {{requestName}}();
+
+            {{#allParams}}
+            {{#isBodyParam}}
+            if (requestBody != null)
+              requestBody.Copy(request);
+            {{/isBodyParam}}
+            {{/allParams}}
+
+            {{#allParams}}
+            {{^isBodyParam}}
+            request.{{#lambda.titlecase}}{{paramName}}{{/lambda.titlecase}} = {{paramName}};
+            {{/isBodyParam}}
+            {{/allParams}}
+
+            return Ok(await SendRequest(request,
+              cancellationToken));
         }
         {{/generateBody}}
         {{/operation}}

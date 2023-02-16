@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="opensystem.dotnet.server.OpenSystemDotnetServerGeneratorTest" time="2.56" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="opensystem.dotnet.server.OpenSystemDotnetServerGeneratorTest" time="5.141" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="18.0.2.1+1-1"/>
@@ -61,5 +61,5 @@
     <property name="sun.stdout.encoding" value="cp437"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="opensystem.dotnet.server.OpenSystemDotnetServerGeneratorTest" name="launchCodeGenerator" time="2.56"/>
+  <testcase classname="opensystem.dotnet.server.OpenSystemDotnetServerGeneratorTest" name="launchCodeGenerator" time="5.141"/>
 </testsuite>

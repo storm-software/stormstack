@@ -98,7 +98,7 @@ try
     app.UseAuthorization();
 
     app.UseSwaggerExtension();
-    app.UseErrorHandlingMiddleware();
+    app.UseCoreMiddleware();
     app.UseHealthChecks("/health-check");
     app.MapControllers();
 

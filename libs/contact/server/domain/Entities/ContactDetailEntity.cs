@@ -8,11 +8,15 @@ namespace OpenSystem.Contact.Domain.Entities
 {
     public class ContactDetailEntity : Entity<Guid>
     {
-        public ContactReasonTypes ReasonType { get; set; }
+        public ContactReasonTypes Reason { get; set; }
 
-        public string? Comment { get; set; }
+        public string? Details { get; set; }
 
-        public string Url { get; set; }
+        public string? Url { get; set; }
+
+        public string? Title { get; set; }
+
+        public string? CompanyName { get; set; }
 
         public ContactEntity Contact { get; set; }
     }

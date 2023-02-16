@@ -377,7 +377,7 @@
     "bg-success": {
       "description": "",
       "type": "color",
-      "value": "#096044ff",
+      "value": "#148b66ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -509,7 +509,7 @@
     "success": {
       "description": "",
       "type": "color",
-      "value": "#039555ff",
+      "value": "#00dc82ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {

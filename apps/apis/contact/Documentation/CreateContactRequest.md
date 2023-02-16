@@ -1,4 +1,4 @@
-# OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts.CreateContactRequest
+# OpenSystem.Apis.Contact..CreateContactRequest
 
 ## Properties
 

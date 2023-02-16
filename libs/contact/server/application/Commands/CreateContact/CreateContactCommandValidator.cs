@@ -1,5 +1,6 @@
 using FluentValidation;
 using OpenSystem.Contact.Application.Interfaces;
+using OpenSystem.Contact.Application.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -41,7 +42,7 @@ namespace OpenSystem.Contact.Application.Commands.CreateContact
                 .MaximumLength(200)
                 .WithMessage("{PropertyName} must not exceed 200 characters.");
 
-            RuleFor(contact => contact.Comment)
+            RuleFor(contact => contact.Details)
                 .MaximumLength(10000)
                 .WithMessage("{PropertyName} must not exceed 10000 characters.");
         }

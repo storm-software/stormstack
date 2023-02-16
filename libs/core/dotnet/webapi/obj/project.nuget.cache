@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XxFGd7aDSO5xrGhIE1l9kN8gYiX8DY+paoHyrkOENR9Q7yE3SZwUbbxiTDTz9vth28wNqDxo5ddY7EIfmWRosQ==",
+  "dgSpecHash": "sw7ez96xIbVbq7Huz4kyWABZwBksQd5O+4e0zNNlPopGhJjpcvRy+m8hqE2iprve7P9oOwOg9wxx6E4SVVUiIg==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\webapi\\OpenSystem.Core.WebApi.csproj",
   "expectedPackageFiles": [

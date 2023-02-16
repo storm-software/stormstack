@@ -1,4 +1,4 @@
-# OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts.CommandSuccessResponse
+# OpenSystem.Apis.Contact..CommandSuccessResponse
 A response returned from the server when data is successfully updated
 
 ## Properties

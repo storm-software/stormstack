@@ -106,10 +106,10 @@
           "createdBy"
         ]
       },
-      "ProblemDetails": {
-        "title": "ProblemDetails",
+      "ProblemDetailsResponse": {
+        "title": "ProblemDetailsResponse",
         "x-stoplight": {
-          "id": "9o873j87rv4nb"
+          "id": "99ddb087e4b89"
         },
         "type": "object",
         "description": "A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.",
@@ -183,6 +183,44 @@
             "maxLength": 9
           }
         }
+      },
+      "PagedQueryResponse": {
+        "title": "PagedQueryResponse",
+        "x-stoplight": {
+          "id": "wv4a6cw0znzw7"
+        },
+        "type": "object",
+        "description": "A base response containing page data for a request",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "description": "The current page number of the selected data",
+            "minimum": 1,
+            "exclusiveMinimum": false
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "The size of the current page",
+            "exclusiveMinimum": false,
+            "minimum": 0
+          },
+          "recordsTotal": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The total number of records in the data set"
+          },
+          "recordsFiltered": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The number of records filtered from the data set"
+          }
+        },
+        "required": [
+          "pageNumber",
+          "pageSize",
+          "recordsTotal",
+          "recordsFiltered"
+        ]
       }
     },
     "requestBodies": {},
@@ -225,14 +263,37 @@
         },
         "description": "The records guid"
       },
-      "userId": {
-        "name": "userId",
-        "in": "header",
+      "pageNumber": {
+        "name": "pageNumber",
+        "in": "query",
         "required": true,
         "schema": {
-          "type": "string"
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
         },
-        "description": "The id of the current user sending the request"
+        "description": "The current page number of the selected data"
+      },
+      "pageSize": {
+        "name": "pageSize",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 200
+        },
+        "description": "The maximum amount of data to return in one request"
+      },
+      "orderBy": {
+        "name": "orderBy",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "default": "id"
+        },
+        "description": "The field to order the request by"
       }
     },
     "securitySchemes": {

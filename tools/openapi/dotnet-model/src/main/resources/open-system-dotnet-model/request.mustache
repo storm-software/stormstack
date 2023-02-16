@@ -5,24 +5,32 @@ using {{modelPackage}};
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using OpenSystem.Core.Application.Interfaces;
+using MediatR;
 
 namespace {{apiPackage}}
 { {{#operations}}
-
     {{#operation}}
     /// <summary>
     /// {{summary}}
     /// </summary>{{#notes}}
-    /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
-    /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
-    /// <response code="{{code}}">{{message}}</response>{{/responses}}
-    public class {{requestName}} : {{#allParams}}{{#isBodyParam}}{{&dataType}},{{/isBodyParam}}{{/allParams}} {{#isRestfulShow}}IQuery<{{successResponseType}}>{{/isRestfulShow}}{{^isRestfulShow}}ICommand{{/isRestfulShow}}
+    /// <remarks>{{.}}</remarks>{{/notes}}
+    public class {{requestName}} : {{#allParams}}{{#isBodyParam}}{{dataTypeWithoutNullable}}, {{/isBodyParam}}{{/allParams}}IRequest<{{successResponseType}}>
     {
-        {{#allParams}}{{^isBodyParam}} public {{&dataType}} {{paramName}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}} {{/isBodyParam}}
+        {{#allParams}}
+        {{^isBodyParam}}
+        {{^-last}}
 
+        {{/-last}}
+        /// <summary>
+        /// {{description}}
+        /// </summary>
+        public {{&dataType}} {{nameInUpperCase}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        {{/isBodyParam}}
         {{/allParams}}
     }
+    {{^-last}}
 
+    {{/-last}}
     {{/operation}}
 {{/operations}}
 }

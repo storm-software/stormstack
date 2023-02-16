@@ -104,13 +104,65 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Arrays;
 
 import static java.util.UUID.randomUUID;
 
 public class OpenSystemDotnetModelCodegenOperation extends CodegenOperation {
     public String successResponseType;
     public String requestName;
-    public List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<CodegenParameter>();
+    //public boolean isQuery;
+    //public boolean isQueryById;
+    public boolean isCommand;
+
+    public List<OpenSystemDotnetModelCodegenParameter> allParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> bodyParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> pathParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> queryParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> headerParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> implicitHeadersParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> formParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> cookieParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> requiredParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> optionalParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+    public List<OpenSystemDotnetModelCodegenParameter> requiredAndNotNullableParams = new ArrayList<OpenSystemDotnetModelCodegenParameter>();
+
+
+    /**
+     * Check if act is query request
+     *
+     * @return true if act as Restful show method, false otherwise
+     */
+    /*public boolean isQuery() {
+      if (!"GET".equalsIgnoreCase(httpMethod))
+        return false;
+
+     for (CodegenResponse response : responses)
+      {
+        if (Integer.parseInt(response.code) == 200)
+          return !response.dataType.getClass().isArray();
+      }
+
+      return false;
+    }*/
+
+    /**
+     * Check if act is query request
+     *
+     * @return true if act as Restful show method, false otherwise
+     */
+    /*public boolean isQueryById() {
+        return "GET".equalsIgnoreCase(httpMethod) && !isQuery;
+    }*/
+
+    /**
+     * Check if act is command request
+     *
+     * @return true if act as Restful show method, false otherwise
+     */
+    /*public boolean isCommand() {
+        return !"GET".equalsIgnoreCase(httpMethod);
+    }*/
 
     /**
      * Check if act as Restful show method
@@ -124,7 +176,7 @@ public class OpenSystemDotnetModelCodegenOperation extends CodegenOperation {
       }
 
       if (requestName == null) {
-          if (isRestfulShow) {
+          if ("GET".equalsIgnoreCase(httpMethod)) {
             requestName = operationId + "Query";
           } else {
             requestName = operationId + "Command";
@@ -143,11 +195,90 @@ public class OpenSystemDotnetModelCodegenOperation extends CodegenOperation {
       for (CodegenResponse response : responses)
       {
         if (Integer.parseInt(response.code) == 200)
-          return response.dataType;
+          return response.dataType.replace("&lt;",
+            "<").replace("&gt;",
+            ">");
       }
 
       return null;
     }
+
+   /* public void copyFrom(CodegenOperation input) {
+        this.hasAuthMethods = input.hasAuthMethods;
+        this.hasConsumes = input.hasConsumes;
+        this.hasProduces = input.hasProduces;
+        this.hasParams = input.hasParams;
+        this.hasOptionalParams = input.hasOptionalParams;
+        this.hasRequiredParams = input.hasRequiredParams;
+        this.returnTypeIsPrimitive = input.returnTypeIsPrimitive;
+        this.returnSimpleType = input.returnSimpleType;
+        this.subresourceOperation = input.subresourceOperation;
+        this.isMap = input.isMap;
+        this.isArray = input.isArray;
+        this.isMultipart = input.isMultipart;
+        this.isResponseBinary = input.isResponseBinary;
+        this.isResponseFile = input.isResponseFile;
+        this.isResponseOptional = input.isResponseOptional;
+        this.hasReference = input.hasReference;
+        this.hasDefaultResponse = input.hasDefaultResponse;
+        this.hasErrorResponseObject = input.hasErrorResponseObject;
+        this.isRestfulIndex = input.isRestfulIndex;
+        this.isRestfulShow = input.isRestfulShow;
+        this.isRestfulCreate = input.isRestfulCreate;
+        this.isRestfulUpdate = input.isRestfulUpdate;
+        this.isRestfulDestroy = input.isRestfulDestroy;
+        this.isRestful = input.isRestful;
+        this.isDeprecated = input.isDeprecated;
+        this.isCallbackRequest = input.isCallbackRequest;
+        this.uniqueItems = input.uniqueItems;
+        this.returnProperty = input.returnProperty;
+        this.responseHeaders = input.responseHeaders;
+        this.path = input.path;
+        this.operationId = input.operationId;
+        this.returnType = input.returnType;
+        this.httpMethod = input.httpMethod;
+        this.returnBaseType = input.returnBaseType;
+        this.returnContainer = input.returnContainer;
+        this.summary = input.summary;
+        this.unescapedNotes = input.unescapedNotes;
+        this.notes = input.notes;
+        this.baseName = input.baseName;
+        this.defaultResponse = input.defaultResponse;
+        this.discriminator = input.discriminator;
+        this.consumes = input.consumes;
+        this.produces = input.produces;
+        this.prioritizedContentTypes = input.prioritizedContentTypes;
+        this.servers = input.servers;
+        this.bodyParam = input.bodyParam;
+        this.allParams = input.allParams;
+        this.bodyParams = input.bodyParams;
+        this.pathParams = input.pathParams;
+        this.queryParams = input.queryParams;
+        this.headerParams = input.headerParams;
+        this.formParams = input.formParams;
+        this.cookieParams = input.cookieParams;
+        this.requiredParams = input.requiredParams;
+        this.optionalParams = input.optionalParams;
+        this.requiredAndNotNullableParams = input.requiredAndNotNullableParams;
+        this.authMethods = input.authMethods;
+        this.tags = input.tags;
+        this.responses = input.responses;
+        this.callbacks = input.callbacks;
+        this.imports = input.imports;
+        this.examples = input.examples;
+        this.requestBodyExamples = input.requestBodyExamples;
+        this.externalDocs = input.externalDocs;
+        this.vendorExtensions = input.vendorExtensions;
+        this.nickname = input.nickname;
+        this.operationIdOriginal = input.operationIdOriginal;
+        this.operationIdLowerCase = input.operationIdLowerCase;
+        this.operationIdCamelCase = input.operationIdCamelCase;
+        this.operationIdSnakeCase = input.operationIdSnakeCase;
+
+        this.successResponseType = this.successResponseType();
+        this.requestName = this.requestName();
+
+    }*/
 
     @Override
     public String toString() {
@@ -224,6 +355,10 @@ public class OpenSystemDotnetModelCodegenOperation extends CodegenOperation {
         sb.append(", operationIdSnakeCase='").append(operationIdSnakeCase).append('\'');
         sb.append(", successResponseType='").append(successResponseType).append('\'');
         sb.append(", requestName='").append(requestName).append('\'');
+        sb.append(", isCommand='").append(isCommand).append('\'');
+        //sb.append(", isQuery='").append(isQuery).append('\'');
+        //sb.append(", isQueryById='").append(isQueryById).append('\'');
+
         sb.append('}');
         return sb.toString();
     }

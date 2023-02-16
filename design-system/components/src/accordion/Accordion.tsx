@@ -48,7 +48,7 @@ export const Accordion = ({
   const ref = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
     if (ref?.current) {
-      setIsOpened(opened);
+      opened && setIsOpened(opened);
       ref?.current?.addEventListener("toggle", (event: Event) => {
         event.preventDefault();
 

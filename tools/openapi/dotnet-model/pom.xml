@@ -6,6 +6,7 @@
     <packaging>jar</packaging>
     <name>open-system-dotnet-model-openapi-generator</name>
     <version>1.0.0</version>
+
     <build>
         <plugins>
             <plugin>

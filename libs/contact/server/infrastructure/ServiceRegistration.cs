@@ -30,7 +30,8 @@ namespace OpenSystem.Contact.Infrastructure
             {
                 services.AddDbContext<ContactApplicationDbContext>(options =>
                     options.UseInMemoryDatabase("ApplicationDb"))
-                  .AddScoped(typeof(IContactRepository), typeof(ContactRepository));
+                  .AddScoped(typeof(IContactRepository),
+                    typeof(ContactRepository));
             }
             else
             {
@@ -38,7 +39,8 @@ namespace OpenSystem.Contact.Infrastructure
                   options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ContactApplicationDbContext).Assembly.FullName)))
-                .AddScoped(typeof(IContactRepository), typeof(ContactRepository));
+                .AddScoped(typeof(IContactRepository),
+                  typeof(ContactRepository));
             }
 
             services.AddScoped<IApplicationDbContext>(provider =>

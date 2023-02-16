@@ -1,4 +1,4 @@
-# OpenSystem.Apis.Contact.OpenSystem.Apis.Contact.Contracts.Address
+# OpenSystem.Apis.Contact..Address
 Data used to specify a location
 
 ## Properties

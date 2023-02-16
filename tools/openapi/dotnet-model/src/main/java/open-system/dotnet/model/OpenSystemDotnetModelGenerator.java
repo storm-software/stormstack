@@ -227,6 +227,8 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
 
         cliOptions.clear();
 
+        importMapping.put("PagedQueryResponse", "OpenSystem.Core.Application.Models.PagedQueryResponse");
+
         typeMapping.put("boolean", "bool");
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
@@ -690,6 +692,31 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
         }
     }
 
+    private OpenSystemDotnetModelCodegenParameter toOsParam(CodegenParameter input) {
+        OpenSystemDotnetModelCodegenParameter output = new OpenSystemDotnetModelCodegenParameter();
+
+        output.copyFrom(input);
+        return output;
+    }
+
+    private List<OpenSystemDotnetModelCodegenParameter> toOsParamList(List<CodegenParameter> input) {
+        List<OpenSystemDotnetModelCodegenParameter> output = new ArrayList<>();
+        for (CodegenParameter cp : input) {
+          output.add(toOsParam(cp));
+        }
+
+        return output;
+    }
+
+    private List<CodegenParameter> toParamList(List<OpenSystemDotnetModelCodegenParameter> input) {
+        List<CodegenParameter> output = new ArrayList<>();
+        for (OpenSystemDotnetModelCodegenParameter cp : input) {
+          output.add((CodegenParameter)cp);
+        }
+
+        return output;
+    }
+
     /**
      * Convert OAS Operation object to Codegen Operation object
      *
@@ -840,18 +867,18 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
         }
 
         List<Parameter> parameters = operation.getParameters();
-        List<CodegenParameter> allParams = new ArrayList<>();
-        List<CodegenParameter> bodyParams = new ArrayList<>();
-        List<CodegenParameter> pathParams = new ArrayList<>();
-        List<CodegenParameter> queryParams = new ArrayList<>();
-        List<CodegenParameter> headerParams = new ArrayList<>();
-        List<CodegenParameter> cookieParams = new ArrayList<>();
-        List<CodegenParameter> formParams = new ArrayList<>();
-        List<CodegenParameter> requiredParams = new ArrayList<>();
-        List<CodegenParameter> optionalParams = new ArrayList<>();
-        List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> allParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> bodyParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> pathParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> queryParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> headerParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> cookieParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> formParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> requiredParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> optionalParams = new ArrayList<>();
+        List<OpenSystemDotnetModelCodegenParameter> requiredAndNotNullableParams = new ArrayList<>();
 
-        CodegenParameter bodyParam = null;
+        OpenSystemDotnetModelCodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
             String contentType = getContentType(requestBody);
@@ -862,15 +889,18 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
                     (contentType.startsWith("application/x-www-form-urlencoded") ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, imports);
+                formParams = toOsParamList(fromRequestBodyToFormParameters(requestBody,
+                  imports));
+
+
                 op.isMultipart = contentType.startsWith("multipart");
-                for (CodegenParameter cp : formParams) {
+                for (OpenSystemDotnetModelCodegenParameter cp : formParams) {
                     setParameterEncodingValues(cp, requestBody.getContent().get(contentType));
                     postProcessParameter(cp);
                 }
                 // add form parameters to the beginning of all parameter list
                 if (prependFormOrBodyParameters) {
-                    for (CodegenParameter cp : formParams) {
+                    for (OpenSystemDotnetModelCodegenParameter cp : formParams) {
                         allParams.add(cp.copy());
                     }
                 }
@@ -883,7 +913,10 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
-                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
+                bodyParam = toOsParam(fromRequestBody(requestBody,
+                  imports,
+                  bodyParameterName));
+
                 bodyParam.description = escapeText(requestBody.getDescription());
                 postProcessParameter(bodyParam);
 
@@ -908,15 +941,21 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
             for (Parameter param : parameters) {
                 param = ModelUtils.getReferencedParameter(this.openAPI, param);
 
-                CodegenParameter p = fromParameter(param, imports);
+                OpenSystemDotnetModelCodegenParameter p = toOsParam(fromParameter(param,
+                  imports));
                 p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
 
                 // ensure unique params
                 if (ensureUniqueParams) {
-                    while (!isParameterNameUnique(p, allParams)) {
+                    while (!isParameterNameUnique(p, toParamList(allParams))) {
                         p.paramName = generateNextName(p.paramName);
                     }
                 }
+
+                p.requiredAndNotNullable = p.requiredAndNotNullable();
+                p.notRequiredOrIsNullable = p.notRequiredOrIsNullable();
+                p.nameInUpperCase = p.nameInUpperCase();
+                p.dataTypeWithoutNullable = p.dataTypeWithoutNullable();
 
                 allParams.add(p);
 
@@ -937,18 +976,20 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
 
         // add form/body parameter (if any) to the end of all parameter list
         if (!prependFormOrBodyParameters) {
-            for (CodegenParameter cp : formParams) {
+            for (OpenSystemDotnetModelCodegenParameter cp : formParams) {
                 if (ensureUniqueParams) {
-                    while (!isParameterNameUnique(cp, allParams)) {
+                    while (!isParameterNameUnique(cp, toParamList(allParams))) {
                         cp.paramName = generateNextName(cp.paramName);
                     }
                 }
+
+                cp.nameInUpperCase = cp.nameInUpperCase();
                 allParams.add(cp.copy());
             }
 
-            for (CodegenParameter cp : bodyParams) {
+            for (OpenSystemDotnetModelCodegenParameter cp : bodyParams) {
                 if (ensureUniqueParams) {
-                    while (!isParameterNameUnique(cp, allParams)) {
+                    while (!isParameterNameUnique(cp, toParamList(allParams))) {
                         cp.paramName = generateNextName(cp.paramName);
                     }
                 }
@@ -957,7 +998,7 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
         }
 
         // create optional, required parameters
-        for (CodegenParameter cp : allParams) {
+        for (OpenSystemDotnetModelCodegenParameter cp : allParams) {
             if (cp.required) { //required parameters
                 requiredParams.add(cp.copy());
             } else { // optional parameters
@@ -968,6 +1009,11 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
             if (cp.required && !cp.isNullable) {
                 requiredAndNotNullableParams.add(cp.copy());
             }
+
+            cp.requiredAndNotNullable = cp.requiredAndNotNullable();
+            cp.notRequiredOrIsNullable = cp.notRequiredOrIsNullable();
+            cp.nameInUpperCase = cp.nameInUpperCase();
+            cp.dataTypeWithoutNullable = cp.dataTypeWithoutNullable();
         }
 
         // add imports to operation import tag
@@ -982,9 +1028,9 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
 
         // move "required" parameters in front of "optional" parameters
         if (sortParamsByRequiredFlag) {
-            Collections.sort(allParams, new Comparator<CodegenParameter>() {
+            Collections.sort(allParams, new Comparator<OpenSystemDotnetModelCodegenParameter>() {
                 @Override
-                public int compare(CodegenParameter one, CodegenParameter another) {
+                public int compare(OpenSystemDotnetModelCodegenParameter one, OpenSystemDotnetModelCodegenParameter another) {
                     if (one.required == another.required)
                         return 0;
                     else if (one.required)
@@ -1024,6 +1070,9 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
 
         op.requestName = op.requestName();
         op.successResponseType = op.successResponseType();
+        // op.isQuery = op.isQuery();
+        // op.isQueryById = op.isQueryById();
+        op.isCommand = !"GET".equalsIgnoreCase(httpMethod);
 
         return op;
     }
@@ -1057,7 +1106,9 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
-                    // OpenSystemDotnetModelCodegenOperation operation = (OpenSystemDotnetModelCodegenOperation) op;
+                    //OpenSystemDotnetModelCodegenOperation operation = new OpenSystemDotnetModelCodegenOperation();
+                    //operation.copyFrom(op);
+
                     if (operation.consumes == null) {
                         continue;
                     }
@@ -1126,7 +1177,7 @@ public class OpenSystemDotnetModelGenerator extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
       if (languageSpecificPrimitives.contains(type)) {
-          if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullReferenceTypesFlag)) {
+          if (ModelUtils.isNullable(p) && (nullableType.contains(type) || nullReferenceTypesFlag)) {
               return type + "?";
           } else {
               return type;

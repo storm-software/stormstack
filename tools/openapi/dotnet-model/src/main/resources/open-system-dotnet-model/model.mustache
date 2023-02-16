@@ -16,7 +16,7 @@ using Swashbuckle.AspNetCore.Annotations;
 {{/discriminator}}
 {{/model}}
 {{/models}}
-using {{packageName}}.Converters;
+using OpenSystem.Core.Application.Helpers;
 
 {{#models}}
 {{#model}}
@@ -59,12 +59,12 @@ namespace {{modelPackage}}
         [MinLength({{minLength}})]{{/maxLength}}{{/minLength}}{{^minLength}}{{#maxLength}}
         [MaxLength({{.}})]{{/maxLength}}{{/minLength}}{{#minimum}}{{#maximum}}
         [Range({{minimum}}, {{maximum}})]{{/maximum}}{{/minimum}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}true{{/vendorExtensions.x-is-value-type}}{{^vendorExtensions.x-is-value-type}}false{{/vendorExtensions.x-is-value-type}}{{/isNullable}})]
+        [DataMember(Name = "{{baseName}}", EmitDefaultValue = {{#required}}false{{/required}}{{^required}}true{{/required}})]
         {{#isEnum}}
-        public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        public {{{datatypeWithEnum}}}{{^required}}?{{/required}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^isEnum}}
-        public {{{dataType}}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        public {{{dataType}}}{{^required}}?{{/required}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^-last}}
 
@@ -85,6 +85,22 @@ namespace {{modelPackage}}
             {{/vars}}
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Copies the current values to another instance of the object
+        /// </summary>
+        /// <returns>An instance of the object with the current values copied to it</returns>
+        public {{classname}} Copy({{classname}}? copyTo)
+        {
+            if (copyTo == null)
+              copyTo = new {{classname}}();
+
+            {{#vars}}
+            copyTo.{{name}} = this.{{name}};
+            {{/vars}}
+
+            return copyTo;
         }
 
         /// <summary>

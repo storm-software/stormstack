@@ -61,7 +61,7 @@ export const ProgressTrackerItem = ({
       displayed: {
         color:
           status === ProgressTrackerItemStatus.COMPLETE
-            ? "#039555"
+            ? "#00DC82"
             : status === ProgressTrackerItemStatus.ACTIVE
             ? "#FAF9F6"
             : "#989899",
@@ -83,7 +83,7 @@ export const ProgressTrackerItem = ({
       displayed: {
         fill:
           status === ProgressTrackerItemStatus.COMPLETE
-            ? "#039555"
+            ? "#00DC82"
             : status === ProgressTrackerItemStatus.ACTIVE
             ? "#FAF9F6"
             : "#989899",
@@ -118,7 +118,7 @@ export const ProgressTrackerItem = ({
             color:
               status === ProgressTrackerItemStatus.COMPLETE &&
               !animateBackground
-                ? "#039555"
+                ? "#00DC82"
                 : (status === ProgressTrackerItemStatus.COMPLETE &&
                     animateBackground) ||
                   (status === ProgressTrackerItemStatus.ACTIVE &&
@@ -142,7 +142,7 @@ export const ProgressTrackerItem = ({
                 fill:
                   status === ProgressTrackerItemStatus.COMPLETE &&
                   !animateBackground
-                    ? "#039555"
+                    ? "#00DC82"
                     : (status === ProgressTrackerItemStatus.COMPLETE &&
                         animateBackground) ||
                       (status === ProgressTrackerItemStatus.ACTIVE &&
@@ -189,7 +189,7 @@ export const ProgressTrackerItem = ({
                     fill:
                       status === ProgressTrackerItemStatus.COMPLETE &&
                       !animateBackground
-                        ? "#039555"
+                        ? "#00DC82"
                         : (status === ProgressTrackerItemStatus.COMPLETE &&
                             animateBackground) ||
                           (status === ProgressTrackerItemStatus.ACTIVE &&

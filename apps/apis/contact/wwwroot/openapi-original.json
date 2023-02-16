@@ -28,14 +28,6 @@
         "description" : "An end point that returns the list of contacts",
         "operationId" : "getContacts",
         "parameters" : [ {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
           "description" : "An email value to filter the returned contacts ",
           "explode" : true,
           "in" : "query",
@@ -69,16 +61,44 @@
             "type" : "string"
           },
           "style" : "form"
+        }, {
+          "description" : "The current page number of the selected data",
+          "in" : "query",
+          "name" : "pageNumber",
+          "required" : true,
+          "schema" : {
+            "default" : 1,
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "description" : "The maximum amount of data to return in one request",
+          "in" : "query",
+          "name" : "pageSize",
+          "required" : true,
+          "schema" : {
+            "default" : 200,
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "description" : "The field to order the records by",
+          "explode" : true,
+          "in" : "query",
+          "name" : "orderBy",
+          "required" : true,
+          "schema" : {
+            "default" : "email",
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "items" : {
-                    "$ref" : "#/components/schemas/Contact"
-                  },
-                  "type" : "array"
+                  "$ref" : "#/components/schemas/getContacts_200_response"
                 }
               }
             },
@@ -98,7 +118,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -118,7 +138,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -138,7 +158,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -158,7 +178,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -172,261 +192,12 @@
       "post" : {
         "description" : "Add a new contact",
         "operationId" : "createContact",
-        "parameters" : [ {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/CreateContactRequest"
-        },
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/CommandSuccessResponse"
-                }
-              }
-            },
-            "description" : "OK"
-          },
-          "401" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Not Found"
-          },
-          "500" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Internal Server Error"
-          },
-          "503" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Service Unavailable"
-          }
-        },
-        "summary" : "Create Contact",
-        "tags" : [ "Contact" ],
-        "x-os-request-name" : "CreateContactCommand"
-      }
-    },
-    "/contacts/{id}" : {
-      "get" : {
-        "description" : "An end point that returns data for a specific contact",
-        "operationId" : "getContact",
-        "parameters" : [ {
-          "description" : "The records guid",
-          "in" : "path",
-          "name" : "id",
-          "required" : true,
-          "schema" : {
-            "example" : "123e4567-e89b-12d3-a456-426614174000",
-            "format" : "uuid",
-            "type" : "string"
-          }
-        }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Contact"
-                }
-              }
-            },
-            "description" : "OK"
-          },
-          "401" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Not Found"
-          },
-          "500" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Internal Server Error"
-          },
-          "503" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Service Unavailable"
-          }
-        },
-        "summary" : "Get Contact",
-        "tags" : [ "Contact" ]
-      },
-      "put" : {
-        "description" : "An end point that updates an existing contact",
-        "operationId" : "updateContact",
-        "parameters" : [ {
-          "description" : "The records guid",
-          "in" : "path",
-          "name" : "id",
-          "required" : true,
-          "schema" : {
-            "example" : "123e4567-e89b-12d3-a456-426614174000",
-            "format" : "uuid",
-            "type" : "string"
-          }
-        }, {
-          "description" : "User Id sending request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "example" : "PSUL",
-            "type" : "string"
-          }
-        } ],
+        "parameters" : [ ],
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/ContactHeader"
+                "$ref" : "#/components/schemas/createContact_request"
               }
             }
           },
@@ -457,7 +228,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -477,7 +248,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -497,7 +268,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -517,7 +288,238 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Create Contact",
+        "tags" : [ "Contact" ],
+        "x-os-request-name" : "CreateContactCommand"
+      }
+    },
+    "/contacts/{id}" : {
+      "get" : {
+        "description" : "An end point that returns data for a specific contact",
+        "operationId" : "getContactById",
+        "parameters" : [ {
+          "description" : "The records guid",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ContactRecord"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Get Contact By Id",
+        "tags" : [ "Contact" ]
+      },
+      "put" : {
+        "description" : "An end point that updates an existing contact",
+        "operationId" : "updateContact",
+        "parameters" : [ {
+          "description" : "The records guid",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "format" : "uuid",
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ContactHeaderRecord"
+              }
+            }
+          },
+          "description" : ""
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CommandSuccessResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -543,14 +545,6 @@
             "type" : "string"
           }
         }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
           "description" : "An reason type value to filter the returned contact details ",
           "explode" : true,
           "in" : "query",
@@ -561,16 +555,44 @@
             "type" : "string"
           },
           "style" : "form"
+        }, {
+          "description" : "The current page number of the selected data",
+          "in" : "query",
+          "name" : "pageNumber",
+          "required" : true,
+          "schema" : {
+            "default" : 1,
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "description" : "The maximum amount of data to return in one request",
+          "in" : "query",
+          "name" : "pageSize",
+          "required" : true,
+          "schema" : {
+            "default" : 200,
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "description" : "The field to filter data by",
+          "explode" : true,
+          "in" : "query",
+          "name" : "orderBy",
+          "required" : true,
+          "schema" : {
+            "default" : "details",
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "items" : {
-                    "$ref" : "#/components/schemas/ContactDetail"
-                  },
-                  "type" : "array"
+                  "$ref" : "#/components/schemas/getContactDetails_200_response"
                 }
               }
             },
@@ -590,7 +612,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -610,7 +632,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -630,7 +652,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -650,7 +672,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -671,15 +693,6 @@
           "schema" : {
             "example" : "123e4567-e89b-12d3-a456-426614174000",
             "format" : "uuid",
-            "type" : "string"
-          }
-        }, {
-          "description" : "User Id sending request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "example" : "PSUL",
             "type" : "string"
           }
         } ],
@@ -708,7 +721,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -728,7 +741,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -748,7 +761,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -768,7 +781,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -784,23 +797,43 @@
         "description" : "An end point that returns a list of emails on the subscription list",
         "operationId" : "getSubscriptions",
         "parameters" : [ {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
+          "description" : "The current page number of the selected data",
+          "in" : "query",
+          "name" : "pageNumber",
           "required" : true,
           "schema" : {
-            "type" : "string"
+            "default" : 1,
+            "minimum" : 1,
+            "type" : "integer"
           }
+        }, {
+          "description" : "The maximum amount of data to return in one request",
+          "in" : "query",
+          "name" : "pageSize",
+          "required" : true,
+          "schema" : {
+            "default" : 200,
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "description" : "The field to order the data by",
+          "explode" : true,
+          "in" : "query",
+          "name" : "orderBy",
+          "required" : true,
+          "schema" : {
+            "default" : "email",
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "items" : {
-                    "type" : "string"
-                  },
-                  "type" : "array"
+                  "$ref" : "#/components/schemas/getSubscriptions_200_response"
                 }
               }
             },
@@ -820,7 +853,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -840,7 +873,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -860,7 +893,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -880,7 +913,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -940,7 +973,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -960,7 +993,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -980,7 +1013,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1000,7 +1033,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1012,7 +1045,7 @@
       },
       "get" : {
         "description" : "An end point that returns a boolean value indicating if the specified email is on the subscription list",
-        "operationId" : "getSubscription",
+        "operationId" : "getSubscriptionByEmail",
         "parameters" : [ {
           "description" : "The email of the subscription",
           "explode" : false,
@@ -1025,14 +1058,6 @@
             "type" : "string"
           },
           "style" : "simple"
-        }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
         } ],
         "responses" : {
           "200" : {
@@ -1061,7 +1086,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1081,7 +1106,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1101,7 +1126,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1121,14 +1146,14 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
             "description" : "Service Unavailable"
           }
         },
-        "summary" : "Get Subscription",
+        "summary" : "Get Subscription By Email",
         "tags" : [ "Contact" ]
       },
       "post" : {
@@ -1146,18 +1171,7 @@
             "type" : "string"
           },
           "style" : "simple"
-        }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
         } ],
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/CreateContactRequest"
-        },
         "responses" : {
           "200" : {
             "content" : {
@@ -1190,7 +1204,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1210,7 +1224,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1230,7 +1244,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1250,7 +1264,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -1264,26 +1278,26 @@
   },
   "components" : {
     "parameters" : {
-      "type" : {
-        "description" : "The type of the user",
-        "explode" : true,
+      "pageNumber" : {
+        "description" : "The current page number of the selected data",
         "in" : "query",
-        "name" : "type",
-        "required" : false,
-        "schema" : {
-          "enum" : [ "guest", "internal", "external" ],
-          "example" : "guest",
-          "type" : "string"
-        },
-        "style" : "form"
-      },
-      "userId" : {
-        "description" : "The id of the current user sending the request",
-        "in" : "header",
-        "name" : "userId",
+        "name" : "pageNumber",
         "required" : true,
         "schema" : {
-          "type" : "string"
+          "default" : 1,
+          "minimum" : 1,
+          "type" : "integer"
+        }
+      },
+      "pageSize" : {
+        "description" : "The maximum amount of data to return in one request",
+        "in" : "query",
+        "name" : "pageSize",
+        "required" : true,
+        "schema" : {
+          "default" : 200,
+          "minimum" : 1,
+          "type" : "integer"
         }
       },
       "id" : {
@@ -1296,73 +1310,31 @@
           "format" : "uuid",
           "type" : "string"
         }
-      },
-      "UserId" : {
-        "description" : "User Id sending request",
-        "in" : "header",
-        "name" : "userId",
-        "required" : true,
-        "schema" : {
-          "example" : "PSUL",
-          "type" : "string"
-        }
       }
     },
-    "requestBodies" : {
-      "CreateContactRequest" : {
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/createContact_request"
-            }
-          }
-        },
-        "description" : ""
-      }
-    },
-    "responses" : {
-      "GetContactsResponse" : {
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "items" : {
-                "$ref" : "#/components/schemas/Contact"
-              },
-              "type" : "array"
-            }
-          }
-        },
-        "description" : "Successful response to Get Users end point"
-      },
-      "GetContactResponse" : {
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/Contact"
-            }
-          }
-        },
-        "description" : "Successful response to Get User end point"
-      }
-    },
+    "requestBodies" : { },
+    "responses" : { },
     "schemas" : {
-      "Contact" : {
+      "ContactRecord" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/RecordBase"
         }, {
-          "$ref" : "#/components/schemas/ContactHeader"
+          "$ref" : "#/components/schemas/ContactHeaderRecord"
         }, {
           "items" : {
-            "$ref" : "#/components/schemas/ContactDetail"
+            "$ref" : "#/components/schemas/ContactDetailRecord"
           },
           "type" : "array"
         } ],
         "description" : "A full contact model including all of it's previously submitted details",
-        "title" : "Contact"
+        "title" : "ContactRecord",
+        "x-stoplight" : {
+          "id" : "9ee78c1890acc"
+        }
       },
-      "ContactHeader" : {
+      "ContactHeaderRecord" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/ContactHeader_allOf"
+          "$ref" : "#/components/schemas/ContactHeaderRecord_allOf"
         }, {
           "$ref" : "#/components/schemas/Address"
         } ],
@@ -1370,18 +1342,11 @@
         "title" : "ContactHeader",
         "type" : "object",
         "x-stoplight" : {
-          "id" : "4cf7f1cb259e4"
+          "id" : "38655c7314ec4"
         }
       },
-      "ContactDetail" : {
+      "ContactDetailRecord" : {
         "description" : "Base data used to capture a contact request ",
-        "example" : {
-          "reason" : "business",
-          "companyName" : "companyName",
-          "details" : "details",
-          "title" : "title",
-          "url" : "https://openapi-generator.tech"
-        },
         "properties" : {
           "companyName" : {
             "maxLength" : 50,
@@ -1409,9 +1374,45 @@
         },
         "required" : [ "reason" ],
         "title" : "ContactDetail",
-        "type" : "object"
+        "type" : "object",
+        "x-stoplight" : {
+          "id" : "63946c2ead1c5"
+        }
       },
-      "ProblemDetails" : {
+      "PagedQueryResponse" : {
+        "description" : "A base response containing page data for a request",
+        "properties" : {
+          "pageNumber" : {
+            "description" : "The current page number of the selected data",
+            "exclusiveMinimum" : false,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "pageSize" : {
+            "description" : "The size of the current page",
+            "exclusiveMinimum" : false,
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "recordsTotal" : {
+            "description" : "The total number of records in the data set",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "recordsFiltered" : {
+            "description" : "The number of records filtered from the data set",
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        },
+        "required" : [ "pageNumber", "pageSize", "recordsFiltered", "recordsTotal" ],
+        "title" : "PagedQueryResponse",
+        "type" : "object",
+        "x-stoplight" : {
+          "id" : "wv4a6cw0znzw7"
+        }
+      },
+      "ProblemDetailsResponse" : {
         "description" : "A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.",
         "properties" : {
           "type" : {
@@ -1438,10 +1439,10 @@
           }
         },
         "required" : [ "type" ],
-        "title" : "ProblemDetails",
+        "title" : "ProblemDetailsResponse",
         "type" : "object",
         "x-stoplight" : {
-          "id" : "9o873j87rv4nb"
+          "id" : "99ddb087e4b89"
         },
         "x-examples" : {
           "Sample Response" : {
@@ -1581,14 +1582,71 @@
           "id" : "7l05pozs4dbii"
         }
       },
-      "createContact_request" : {
+      "getContacts_200_response_allOf" : {
+        "properties" : {
+          "data" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ContactRecord"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "data" ],
+        "type" : "object"
+      },
+      "getContacts_200_response" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/ContactHeader"
+          "$ref" : "#/components/schemas/PagedQueryResponse"
         }, {
-          "$ref" : "#/components/schemas/ContactDetail"
+          "$ref" : "#/components/schemas/getContacts_200_response_allOf"
         } ]
       },
-      "ContactHeader_allOf" : {
+      "createContact_request" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ContactHeaderRecord"
+        }, {
+          "$ref" : "#/components/schemas/ContactDetailRecord"
+        } ]
+      },
+      "getContactDetails_200_response_allOf" : {
+        "properties" : {
+          "data" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ContactDetailRecord"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "data" ],
+        "type" : "object"
+      },
+      "getContactDetails_200_response" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/PagedQueryResponse"
+        }, {
+          "$ref" : "#/components/schemas/getContactDetails_200_response_allOf"
+        } ]
+      },
+      "getSubscriptions_200_response_allOf" : {
+        "properties" : {
+          "data" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "data" ],
+        "type" : "object"
+      },
+      "getSubscriptions_200_response" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/PagedQueryResponse"
+        }, {
+          "$ref" : "#/components/schemas/getSubscriptions_200_response_allOf"
+        } ]
+      },
+      "ContactHeaderRecord_allOf" : {
         "properties" : {
           "firstName" : {
             "maxLength" : 50,

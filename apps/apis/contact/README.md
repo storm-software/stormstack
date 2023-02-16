@@ -11,10 +11,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ContactApi* | [**CreateContact**](Documentation/ContactApi.md#createcontact) | **HttpPost** /contacts | Create Contact
 *ContactApi* | [**CreateContactDetail**](Documentation/ContactApi.md#createcontactdetail) | **HttpPost** /contacts/{id}/details | Create Contact Detail
-*ContactApi* | [**GetContact**](Documentation/ContactApi.md#getcontact) | **HttpGet** /contacts/{id} | Get Contact
+*ContactApi* | [**GetContactById**](Documentation/ContactApi.md#getcontactbyid) | **HttpGet** /contacts/{id} | Get Contact By Id
 *ContactApi* | [**GetContactDetails**](Documentation/ContactApi.md#getcontactdetails) | **HttpGet** /contacts/{id}/details | Get Contact Details
 *ContactApi* | [**GetContacts**](Documentation/ContactApi.md#getcontacts) | **HttpGet** /contacts | Get Contacts
-*ContactApi* | [**GetSubscription**](Documentation/ContactApi.md#getsubscription) | **HttpGet** /contacts/subscriptions/{email} | Get Subscription
+*ContactApi* | [**GetSubscriptionByEmail**](Documentation/ContactApi.md#getsubscriptionbyemail) | **HttpGet** /contacts/subscriptions/{email} | Get Subscription By Email
 *ContactApi* | [**GetSubscriptions**](Documentation/ContactApi.md#getsubscriptions) | **HttpGet** /contacts/subscriptions | Get Subscriptions
 *ContactApi* | [**Subscribe**](Documentation/ContactApi.md#subscribe) | **HttpPost** /contacts/subscriptions/{email} | Subscribe
 *ContactApi* | [**Unsubscribe**](Documentation/ContactApi.md#unsubscribe) | **HttpDelete** /contacts/subscriptions/{email} | Unsubscribe
@@ -24,16 +24,7 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [OpenSystem.Apis.Contact.Contracts.Address](Documentation/Address.md)
- - [OpenSystem.Apis.Contact.Contracts.CommandSuccessResponse](Documentation/CommandSuccessResponse.md)
- - [OpenSystem.Apis.Contact.Contracts.Contact](Documentation/Contact.md)
- - [OpenSystem.Apis.Contact.Contracts.ContactDetail](Documentation/ContactDetail.md)
- - [OpenSystem.Apis.Contact.Contracts.ContactHeader](Documentation/ContactHeader.md)
- - [OpenSystem.Apis.Contact.Contracts.ContactHeaderAllOf](Documentation/ContactHeaderAllOf.md)
- - [OpenSystem.Apis.Contact.Contracts.CreateContactRequest](Documentation/CreateContactRequest.md)
- - [OpenSystem.Apis.Contact.Contracts.ProblemDetails](Documentation/ProblemDetails.md)
- - [OpenSystem.Apis.Contact.Contracts.RecordBase](Documentation/RecordBase.md)
-
+No model defined in this package
 
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization

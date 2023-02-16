@@ -24,11 +24,11 @@ namespace OpenSystem.Core.Application
             services.AddTransient(typeof(IPipelineBehavior<,>),
               typeof(UnhandledExceptionBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>),
+              typeof(PerformanceBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>),
               typeof(AuthorizationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>),
               typeof(ValidationBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>),
-              typeof(PerformanceBehavior<,>));
 
             services.AddScoped<IModelHelper, ModelHelper>();
 
