@@ -1,0 +1,73 @@
+import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
+import { HttpHandler } from "@open-system/core-typescript-utilities";
+import {
+  ResponseContext,
+  RequestContext,
+  HttpFile,
+  AbstractHttpConfiguration
+} from '@open-system/core-typescript-utilities';
+import { apiSlice as api } from "@open-system/shared-ui-data-access";
+
+{{#models}}
+{{#model}}
+import { {{{ classname }}} } from '../models';
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}Parser";
+
+{{#operations}}{{#operation}}
+export interface {{classname}}{{operationIdCamelCase}}Request {
+    {{#allParams}}
+    {{#isBodyParam}}
+    /**
+     * {{description}}
+     * @type {{dataType}}
+     * @memberof {{classname}}{{nickname}}
+     */
+    body?: {{{dataType}}};
+    {{/isBodyParam}}
+    {{^isBodyParam}}
+    /**
+     * {{description}}
+     * @type {{dataType}}
+     * @memberof {{classname}}{{nickname}}
+     */
+    {{paramName}}?: {{{dataType}}};
+    {{/isBodyParam}}
+    {{/allParams}}
+}
+{{/operation}}{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+{{#apiInfo}}
+{{#apis}}
+export const addTagTypes = [{{#operations}}{{#operation}}{{#-last}}{{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}}{{/-last}}{{/operation}}{{/operations}}] as const;
+export const injected{{classname}} = api
+  .enhanceEndpoints({
+    addTagTypes,
+  })
+  .injectEndpoints({
+    endpoints: (build: EndpointBuilder<HttpHandler, "{{#operations}}{{#operation}}{{#-last}}{{#tags}}{{name}}{{^-last}}, {{/-last}}{{/tags}}{{/-last}}{{/operation}}{{/operations}}", "apis">) => ({ {{#operations}}{{#operation}}
+      {{nickname}}: build.{{#isQueryOperation}}query{{/isQueryOperation}}{{^isQueryOperation}}mutation{{/isQueryOperation}}<{{{returnType}}}{{^returnType}}any{{/returnType}}, {{classname}}{{operationIdCamelCase}}Request>({
+        query: queryArg => {{classname}}RequestFactory.{{nickname}}(queryArg),
+        {{#isQueryOperation}}providesTags: [{{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}}],{{/isQueryOperation}}{{^isQueryOperation}}invalidatesTags: [{{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}}],{{/isQueryOperation}}
+        transformResponse: async (responseContext: ResponseContext<{{{returnType}}}{{^returnType}}any{{/returnType}}>, meta: any, arg: any): Promise<{{{returnType}}}{{^returnType}}any{{/returnType}}> => await {{classname}}ResponseProcessor.{{nickname}}(responseContext)
+      }){{^-last}},{{/-last}}{{/operation}}{{/operations}}
+    }),
+    overrideExisting: false,
+  });
+
+{{#operations}}
+export const {
+  {{#operation}}{{#isQueryOperation}}use{{operationIdCamelCase}}Query,
+  useLazy{{operationIdCamelCase}}Query{{/isQueryOperation}}{{^isQueryOperation}}use{{operationIdCamelCase}}Mutation{{/isQueryOperation}}{{^-last}},
+  {{/-last}}{{/operation}}
+} = injected{{classname}};
+{{/operations}}
+
+{{/apis}}
+{{/apiInfo}}

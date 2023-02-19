@@ -1,3 +1,4 @@
+import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
 import { contactApi as api } from "../state/contactApi";
 export const addTagTypes = ["Contact"] as const;
 const injectedRtkApi = api
@@ -5,7 +6,7 @@ const injectedRtkApi = api
     addTagTypes,
   })
   .injectEndpoints({
-    endpoints: build => ({
+    endpoints: (build: EndpointBuilder<HttpHandler, TagTypes extends string, ReducerPath extends string>) => ({
       getContacts: build.query<GetContactsApiResponse, GetContactsApiArg>({
         query: queryArg => ({
           url: `/contacts`,

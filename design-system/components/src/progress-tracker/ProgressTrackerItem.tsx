@@ -112,7 +112,7 @@ export const ProgressTrackerItem = ({
       whileHover="hover"
       animate="displayed"
       onClick={handleClick}>
-      <div className="flex flex-1 grow">
+      <div className="flex flex-1 grow flex-row justify-center">
         <motion.label
           initial={{
             color:
@@ -127,7 +127,7 @@ export const ProgressTrackerItem = ({
                 : "#989899",
           }}
           variants={labelVariants}
-          className={clsx("text-center font-label-4 transition", {
+          className={clsx("font-label-4 transition", {
             "hover:cursor-pointer hover:underline":
               status === ProgressTrackerItemStatus.COMPLETE && onClick,
           })}>

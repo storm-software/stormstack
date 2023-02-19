@@ -1,0 +1,59 @@
+{
+  "name": "{{projectName}}",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "{{sourceRoot}}/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/{{sourceRoot}}",
+        "tsConfig": "{{sourceRoot}}/tsconfig.lib.json",
+        "project": "{{sourceRoot}}/package.json",
+        "entryFile": "{{sourceRoot}}/src/index.ts",
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "assets": [
+          {
+            "glob": "{{sourceRoot}}/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["{{sourceRoot}}/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "{{sourceRoot}}/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "client-redux-sync": {
+      "executor": "@open-system/executors-typescript:client-redux-sync",
+      "options": {
+        "domainName": "{{domainName}}",
+        "specJsonFile": "{{specJsonFile}}",
+        "generator": "open-system-typescript-redux"
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "{{projectName}}-v${VERSION}"
+      }
+    }
+  }
+}

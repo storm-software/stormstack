@@ -62,8 +62,7 @@ export default function Header() {
               duration: 0.8,
               delay: 0,
               ease: [0, 0.71, 0.2, 1.01],
-            }}
-            style={{ x: titleRotateZ * 10 }}>
+            }}>
             <Card
               className="hover:cursor-pointer"
               title="Subscribe"
@@ -81,8 +80,7 @@ export default function Header() {
                 duration: 0.8,
                 delay: 1,
                 ease: [0, 0.71, 0.2, 1.01],
-              }}
-              style={{ x: logoRotateZ * 10 }}>
+              }}>
               <Card
                 title="Resume Download"
                 details="Download a copy of my resume"

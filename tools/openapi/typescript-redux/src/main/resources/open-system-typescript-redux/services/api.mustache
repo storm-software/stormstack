@@ -1,0 +1,26 @@
+import {
+  HttpFile,
+  RequestContext,
+  ResponseContext,
+  AbstractHttpConfiguration
+} from '@open-system/core-typescript-utilities';
+
+{{#imports}}
+import { {{classname}} } from "../models";
+{{/imports}}
+{{#operations}}
+
+export abstract class Abstract{{classname}}RequestFactory {
+    {{#operation}}
+    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AbstractHttpConfiguration): Promise<RequestContext>;
+
+    {{/operation}}
+}
+
+export abstract class Abstract{{classname}}ResponseProcessor {
+    {{#operation}}
+     public abstract {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}>;
+
+    {{/operation}}
+}
+{{/operations}}
