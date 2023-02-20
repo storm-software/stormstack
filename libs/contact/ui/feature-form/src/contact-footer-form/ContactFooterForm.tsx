@@ -1,11 +1,15 @@
 "use client";
 
-import { ContactFormValues } from "@open-system/contact-ui-data-access";
+import {
+  ContactFormValues,
+  useCreateContactMutation,
+} from "@open-system/contact-ui-data-access";
 import {
   BaseComponentProps,
   ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
 } from "@open-system/design-system-components";
+import { addSuccessNotification } from "@open-system/shared-ui-data-access";
 import {
   EmailInput,
   Form,
@@ -13,9 +17,30 @@ import {
   Textarea,
 } from "@open-system/shared-ui-feature-form";
 import clsx from "clsx";
-import { SubscriptionCheckbox } from "../subscription-checkbox";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
 
 export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
+  const [createContact] = useCreateContactMutation();
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(
+    async (values: ContactFormValues) => {
+      console.log(values);
+
+      await createContact({
+        body: {
+          ...values,
+        },
+      }).unwrap();
+
+      dispatch(
+        addSuccessNotification("You're now subscribed to email notifications")
+      );
+    },
+    [createContact, dispatch]
+  );
+
   return (
     <div className={clsx("flex flex-1 grow flex-col", className)}>
       <h1 className="ml-3 text-7xl font-header-1 text-primary">
@@ -30,11 +55,12 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
 
       <Form<ContactFormValues>
         className="flex flex-col gap-3"
+        onSubmit={handleSubmit}
         defaultValues={{
           email: "",
           details: "",
           isSubscribed: true,
-          reason: "other",
+          reason: "subscription",
         }}>
         <div className="flex flex-col">
           <EmailInput name="email" required={true} glow={false} />
@@ -44,7 +70,7 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
             placeholder="I am interested in working with you on a future project."
             glow={false}
           />
-          <SubscriptionCheckbox glow={false} />
+          {/* <SubscriptionCheckbox glow={false} />*/}
         </div>
         <div className="flex flex-row-reverse">
           <SubmitButton

@@ -1,5 +1,5 @@
 {
-  "name": "contact-ui--feature-form",
+  "name": "contact-ui-feature-form",
   "sourceRoot": "libs/contact/ui/feature-form/src",
   "projectType": "library",
   "tags": [],
@@ -39,6 +39,15 @@
       "options": {
         "jestConfig": "libs/contact/ui/feature-form/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "contact-ui-feature-form-v${VERSION}"
       }
     }
   }

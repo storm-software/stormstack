@@ -1,10 +1,9 @@
 import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
-import { HttpHandler } from "@open-system/core-typescript-utilities";
 import {
   ResponseContext,
   RequestContext,
   HttpFile,
-  AbstractHttpConfiguration
+  HttpHandler
 } from '@open-system/core-typescript-utilities';
 import { apiSlice as api } from "@open-system/shared-ui-data-access";
 
@@ -51,7 +50,7 @@ export const injected{{classname}} = api
     addTagTypes,
   })
   .injectEndpoints({
-    endpoints: (build: EndpointBuilder<HttpHandler, "{{#operations}}{{#operation}}{{#-last}}{{#tags}}{{name}}{{^-last}}, {{/-last}}{{/tags}}{{/-last}}{{/operation}}{{/operations}}", "apis">) => ({ {{#operations}}{{#operation}}
+    endpoints: (build: EndpointBuilder<HttpHandler, "{{#operations}}{{#operation}}{{#-last}}{{#tags}}{{name}}{{^-last}}, {{/-last}}{{/tags}}{{/-last}}{{/operation}}{{/operations}}", "api">) => ({ {{#operations}}{{#operation}}
       {{nickname}}: build.{{#isQueryOperation}}query{{/isQueryOperation}}{{^isQueryOperation}}mutation{{/isQueryOperation}}<{{{returnType}}}{{^returnType}}any{{/returnType}}, {{classname}}{{operationIdCamelCase}}Request>({
         query: queryArg => {{classname}}RequestFactory.{{nickname}}(queryArg),
         {{#isQueryOperation}}providesTags: [{{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}}],{{/isQueryOperation}}{{^isQueryOperation}}invalidatesTags: [{{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}}],{{/isQueryOperation}}

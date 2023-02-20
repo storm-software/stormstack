@@ -3,7 +3,7 @@
 import { getGuid } from "@open-system/core-typescript-utilities";
 import {
   BaseComponentProps,
-  InputAutoCompleteTypes,
+  InputAutoCompleteTypes
 } from "@open-system/design-system-components";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";

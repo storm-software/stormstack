@@ -1,6 +1,6 @@
-import { ContactDetail, ContactHeader } from "./apis";
+import { ContactDetailRecord, ContactHeaderRecord } from "./models";
 
-export type ContactFormValues = ContactHeader & ContactDetail;
+export type ContactFormValues = ContactHeaderRecord & ContactDetailRecord;
 
 export interface ContactState {
   formValues: ContactFormValues;

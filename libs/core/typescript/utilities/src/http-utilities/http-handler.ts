@@ -6,7 +6,7 @@ import { HttpFetchApi } from "../types";
 import { RequestContext } from "./request-context";
 import { ResponseContext } from "./response-context";
 
-export type HttpHandlerReturn<T = unknown, E = unknown, M = unknown> =
+export type HttpHandlerReturn<T = any, E = any, M = any> =
   | {
       error: E;
       data?: undefined;
@@ -18,7 +18,7 @@ export type HttpHandlerReturn<T = unknown, E = unknown, M = unknown> =
       meta?: M | undefined;
     };
 
-export type HttpHandler<TRequest = any, TResponse = any> = (
+export type HttpHandler = (
   request: RequestContext,
   api: HttpFetchApi,
   extraOptions: any
@@ -26,11 +26,11 @@ export type HttpHandler<TRequest = any, TResponse = any> = (
 
 export const fetchHttpHandler =
   ({ baseUrl }: { baseUrl: string }) =>
-  async <TRequest, TResponse>(
-    request: RequestContext<TRequest>,
+  async (
+    request: RequestContext,
     api: HttpFetchApi,
     extraOptions: any
-  ): Promise<HttpHandlerReturn<TResponse>> => {
+  ): Promise<HttpHandlerReturn> => {
     const timestamp = DateTime.current;
 
     const url = request.getUrl(baseUrl, api, extraOptions);
@@ -56,7 +56,7 @@ export const fetchHttpHandler =
     });
 
     return {
-      data: ResponseContext.create<TResponse>(
+      data: ResponseContext.create(
         response.status,
         headers,
         {

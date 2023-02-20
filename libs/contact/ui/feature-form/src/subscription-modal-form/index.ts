@@ -1,2 +1,3 @@
-export * from "./SubscriptionModalForm";
+"use client";
 
+export * from "./SubscriptionModalForm";

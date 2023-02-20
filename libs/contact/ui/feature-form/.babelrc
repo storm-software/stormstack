@@ -1,13 +1,5 @@
 {
-  "presets": [
-    "@nrwl/next/babel",
-    [
-      "@nrwl/js/babel",
-      {
-        "useBuiltIns": "usage"
-      }
-    ]
-  ],
+  "presets": ["@nrwl/next/babel"],
   "plugins": []
 }
 

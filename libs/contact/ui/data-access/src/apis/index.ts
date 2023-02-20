@@ -1,1 +1,2 @@
-export * from "./injectedContactApi";
+export * from "./apiSlice";
+export * from "./injectedApi";

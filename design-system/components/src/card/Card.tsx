@@ -28,41 +28,36 @@ export const Card = ({ children, title, details, className }: CardProps) => {
     height: number;
   }>({ x: 0, y: 0, width: 0, height: 0 });
 
-  const ref = useRef(null);
-  const handleMouseMove = useCallback(
-    (event: MouseEvent<Element, MouseEvent>) => {
-      if (ref.current) {
-        const position = {
-          x: event.pageX,
-          y: event.pageY,
-        };
+  const ref = useRef<HTMLDivElement>(null);
+  const handleMouseMove = useCallback((event: MouseEvent<HTMLDivElement>) => {
+    if (ref.current) {
+      const position = {
+        x: event.pageX,
+        y: event.pageY,
+      };
 
-        const offset = {
-          left: ref.current.offsetLeft,
-          top: ref.current.offsetTop,
-          width: ref.current.clientWidth,
-          height: ref.current.clientHeight,
-        };
+      const offset = {
+        left: ref.current.offsetLeft,
+        top: ref.current.offsetTop,
+        width: ref.current.clientWidth,
+        height: ref.current.clientHeight,
+      };
 
-        let reference = ref.current.offsetParent;
-
-        while (reference) {
-          offset.left += reference.offsetLeft;
-          offset.top += reference.offsetTop;
-          reference = reference.offsetParent;
-        }
-
-        setMousePosition({
-          x: (position.x - offset.left - offset.width / 2) / (offset.width / 2),
-          y:
-            (position.y - offset.top - offset.height / 2) / (offset.height / 2),
-          width: offset.width,
-          height: offset.height,
-        });
+      let reference = ref.current.offsetParent as HTMLDivElement;
+      while (reference) {
+        offset.left += reference.offsetLeft;
+        offset.top += reference.offsetTop;
+        reference = reference.offsetParent as HTMLDivElement;
       }
-    },
-    []
-  );
+
+      setMousePosition({
+        x: (position.x - offset.left - offset.width / 2) / (offset.width / 2),
+        y: (position.y - offset.top - offset.height / 2) / (offset.height / 2),
+        width: offset.width,
+        height: offset.height,
+      });
+    }
+  }, []);
   const handleHoverEnd = useCallback(() => {
     if (ref.current) {
       setMousePosition({

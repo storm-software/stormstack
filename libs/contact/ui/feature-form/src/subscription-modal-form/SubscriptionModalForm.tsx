@@ -2,7 +2,7 @@
 
 import {
   ContactFormValues,
-  useAddContactMutation,
+  useSubscribeMutation,
 } from "@open-system/contact-ui-data-access";
 import {
   Button,
@@ -31,23 +31,6 @@ export const SubscriptionModalForm = forwardRef<
     { className, ...props }: SubscriptionModalFormProps,
     ref: ForwardedRef<ModalReference>
   ) => {
-    const dispatch = useDispatch();
-
-    /*const modalRef = useRef<ModalReference | null>(null);
-
-
-    const handleOpen = useCallback(() => modalRef.current?.open?.(), []);
-    const handleClose = useCallback(() => modalRef.current?.c?.(), []);
-    useImperativeHandle<ModalReference, ModalReference>(
-      ref,
-      () => ({
-        opened: modalRef.current.opened,
-        close: modalRef.current.close,
-        open: modalRef.current?.open,
-      }),
-      []
-    );*/
-
     const handleClose = useCallback(
       () =>
         (ref as MutableRefObject<ModalReference>)?.current &&
@@ -56,26 +39,25 @@ export const SubscriptionModalForm = forwardRef<
       [ref]
     );
 
-    const [addContact] = useAddContactMutation();
+    const [subscribe] = useSubscribeMutation();
+    const dispatch = useDispatch();
+
     const handleSubmit = useCallback(
       async (values: ContactFormValues) => {
         console.log(values);
 
-        /*const payload = await addContact({
-          userId: "PSUL",
-          body: values,
-        }).unwrap();*/
+        await subscribe({
+          email: values.email,
+        }).unwrap();
 
         (ref as MutableRefObject<ModalReference>)?.current &&
           (ref as MutableRefObject<ModalReference>).current.close();
 
         dispatch(
-          addSuccessNotification(
-            "You've successfully subscribed to future email notifications"
-          )
+          addSuccessNotification("You're now subscribed to email notifications")
         );
       },
-      [addContact, dispatch, ref]
+      [dispatch, ref, subscribe]
     );
 
     return (
@@ -90,7 +72,7 @@ export const SubscriptionModalForm = forwardRef<
           defaultValues={{
             email: "",
             isSubscribed: true,
-            reason: "other",
+            reason: "subscription",
           }}>
           <div className="flex flex-col gap-6">
             <p className="font-body-1 text-primary">

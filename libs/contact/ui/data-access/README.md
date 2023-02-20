@@ -1,7 +1,30 @@
-# contact-ui-data-access
+## @open-system/contact-ui-data-access@0.0.1
 
-This library was generated with [Nx](https://nx.dev).
+This generator creates TypeScript/JavaScript client that utilizes fetch-api.
 
-## Running unit tests
+### Building
 
-Run `nx test contact-ui-data-access` to execute the unit tests via [Jest](https://jestjs.io).
+To build and compile the typescript sources to javascript use:
+```
+npm install
+npm run build
+```
+
+### Publishing
+
+First build the package then run ```npm publish```
+
+### Consuming
+
+navigate to the folder of your consuming project and run one of the following commands.
+
+_published:_
+
+```
+npm install @open-system/contact-ui-data-access@0.0.1 --save
+```
+
+_unPublished (not recommended):_
+
+```
+npm install PATH_TO_GENERATED_PACKAGE --save

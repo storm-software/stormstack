@@ -1,7 +1,5 @@
 import { ExecutorContext } from "@nrwl/devkit";
 // import { ConsoleLogger } from "@open-system/core-typescript-utilities";
-import { existsSync } from "fs";
-import Path from "path";
 import { execute } from "../utilities";
 import { ClientReduxSyncExecutorSchema } from "./schema";
 
@@ -34,7 +32,7 @@ export default async function (
       return { success: false };
     }
 
-    let result;
+    /*let result;
     if (!existsSync(Path.join(`${rootPath}/`, sourceRoot))) {
       console.warn(
         `The file location ${Path.join(
@@ -52,11 +50,11 @@ export default async function (
         return { success: false };
       }
       console.info("Directory successfully cleared.");
-    }
+    }*/
 
     console.info("Syncing client redux code...");
 
-    result = await execute(
+    const result = await execute(
       `java -cp tools/openapi/typescript-redux/target/open-system-typescript-redux-openapi-generator-1.0.0.jar;tools/openapi/openapi-generator-cli-6.2.1.jar org.openapitools.codegen.OpenAPIGenerator generate --input-spec=${specJsonFile} -g ${
         generator ?? "open-system-typescript-redux"
       } -o ${sourceRoot} --remove-operation-id-prefix --enable-post-process-file --global-property="apiDocs=true" --additional-properties="enumNameSuffix=Types,enumPropertyNaming=UPPERCASE,supportsES6=true,libraryName=${projectName},${
@@ -78,22 +76,6 @@ export default async function (
       );
       return { success: false };
     }*/
-
-    console.info("Moving parser service files over to the 'service' folder...");
-    result = await execute(
-      `move "${Path.join(
-        rootPath,
-        sourceRoot,
-        "src",
-        "parsers",
-        `/*.service.ts`
-      )}" "${Path.join(`${rootPath}/`, sourceRoot, "src", "services")}"`
-    );
-    if (result) {
-      console.error(result);
-      return { success: false };
-    }
-    console.info("Moved parser service files successfully.");
 
     /*if (
       !existsSync(

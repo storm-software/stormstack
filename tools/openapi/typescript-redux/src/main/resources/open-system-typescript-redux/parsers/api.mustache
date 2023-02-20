@@ -56,7 +56,7 @@ export class {{classname}}RequestFactory {
         {{^isBodyParam}}
         {{#required}}
         // verify required parameter '{{paramName}}' is not null or undefined
-        if ((isString({{paramName}}) && isStringSet({{paramName}})) || isEmpty({{paramName}})) {
+        if ((isString({{paramName}}) && !isStringSet({{paramName}})) || isEmpty({{paramName}})) {
             throw new RequiredError("{{classname}}",
               "{{nickname}}",
               "{{paramName}}");

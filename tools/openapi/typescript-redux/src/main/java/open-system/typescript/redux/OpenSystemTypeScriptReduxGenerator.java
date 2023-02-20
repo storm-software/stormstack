@@ -239,6 +239,7 @@ public class OpenSystemTypeScriptReduxGenerator extends DefaultCodegen implement
         typeMapping.put("file", "any");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
         typeMapping.put("Error", "Error");
         typeMapping.put("AnyType", "any");
 
@@ -277,13 +278,6 @@ public class OpenSystemTypeScriptReduxGenerator extends DefaultCodegen implement
         // supportingFiles.add(new SupportingFile(".gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
-        // Util
-        // supportingFiles.add(new SupportingFile("util.mustache", this.sourceFolder, "util.ts"));
-        // supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", this.sourceFolder + File.separator + "apis", "exception.ts"));
-        // http
-        // supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", this.sourceFolder + File.separator + "http", "http.ts"));
-        // supportingFiles.add(new SupportingFile("http" + File.separator + "servers.mustache", this.sourceFolder, "servers.ts"));
-
         supportingFiles.add(new SupportingFile("project.mustache", "", "project.json"));
 
         // supportingFiles.add(new SupportingFile("configuration.mustache", this.sourceFolder, "configuration.ts"));
@@ -292,8 +286,7 @@ public class OpenSystemTypeScriptReduxGenerator extends DefaultCodegen implement
         supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", this.sourceFolder + File.separator + "models", "index.ts"));
 
         supportingFiles.add(new SupportingFile("apis" + File.separator + "injectedApi.mustache", this.sourceFolder + File.separator + "apis", "injectedApi.ts"));
-        // supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", this.sourceFolder + File.separator + "types", "ObservableAPI.ts"));
-        // supportingFiles.add(new SupportingFile("apis" + File.separator + "ObjectParamAPI.mustache", this.sourceFolder + File.separator + "apis", "ObjectParamAPI.ts"));
+        supportingFiles.add(new SupportingFile("apis" + File.separator + "index.mustache", this.sourceFolder + File.separator + "apis", "index.ts"));
 
         // models
         setModelPackage(this.sourceFolder + File.separator + "models");
@@ -302,9 +295,9 @@ public class OpenSystemTypeScriptReduxGenerator extends DefaultCodegen implement
 
         // api
         setApiPackage(this.sourceFolder);
-        // supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", this.sourceFolder, "middleware.ts"));
-        // supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", this.sourceFolder + File.separator + "apis", "base-api.ts"));
+
         apiTemplateFiles.put("parsers" + File.separator + "api.mustache", "Parser.ts");
+        supportingFiles.add(new SupportingFile("parsers" + File.separator + "index.mustache", this.sourceFolder + File.separator + "parsers", "index.ts"));
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
 
@@ -1400,7 +1393,6 @@ public class OpenSystemTypeScriptReduxGenerator extends DefaultCodegen implement
         additionalProperties.put("platforms", platforms);
 
         additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, "node".equals(propPlatform) ? "Buffer" : "Blob");
-
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));

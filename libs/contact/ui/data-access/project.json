@@ -1,16 +1,10 @@
 {
   "name": "contact-ui-data-access",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/contact/ui/data-access/src",
   "projectType": "library",
   "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/contact/ui/data-access/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
     "build": {
       "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
@@ -19,9 +13,7 @@
         "tsConfig": "libs/contact/ui/data-access/tsconfig.lib.json",
         "project": "libs/contact/ui/data-access/package.json",
         "entryFile": "libs/contact/ui/data-access/src/index.ts",
-        "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "compiler": "swc",
         "assets": [
           {
             "glob": "libs/contact/ui/data-access/README.md",
@@ -31,35 +23,36 @@
         ]
       }
     },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/contact/ui/data-access/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "libs/contact/ui/data-access/jest.config.ts",
         "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
       }
     },
-    "client-api-joi-sync": {
-      "executor": "@open-system/executors-typescript:client-api-joi-sync",
+    "client-redux-sync": {
+      "executor": "@open-system/executors-typescript:client-redux-sync",
       "options": {
-        "prettierConfig": ".prettierrc",
+        "domainName": "contact",
         "specJsonFile": "libs/contact/config/src/contact.api-spec.json",
-        "output": "libs/contact/ui/data-access/src/validate/contact.ts"
+        "generator": "open-system-typescript-redux"
       }
     },
-    "client-api-redux-sync": {
-      "executor": "nx:run-commands",
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
-        "commands": [
-          "npx @rtk-query/codegen-openapi libs/contact/ui/data-access/src/apis/openapi-config.ts"
-        ],
-        "parallel": true
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "contact-ui-data-access-v${VERSION}"
       }
     }
   }

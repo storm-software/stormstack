@@ -1,11 +1,8 @@
 "use client";
 
-import { ContactDetail } from "@open-system/contact-ui-data-access";
 import { BaseComponentProps } from "@open-system/design-system-components";
 import { Radio } from "@open-system/shared-ui-feature-form";
 import { BaseContactForm } from "../base-contact-form";
-
-export type ContactTypeFormValues = Pick<ContactDetail, "reason">;
 
 export function ContactTypeForm({
   className,

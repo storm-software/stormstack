@@ -1,7 +1,8 @@
-import { contactApi } from "@open-system/contact-ui-data-access";
+import { apiSlice } from "@open-system/contact-ui-data-access";
 import {
   errorHandlerMiddleware,
   loggerMiddleware,
+  serializableMiddleware,
 } from "@open-system/shared-ui-data-access";
 import {
   FLUSH,
@@ -17,4 +18,9 @@ export const middleware = (getDefaultMiddleware: any) =>
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }).concat([loggerMiddleware, errorHandlerMiddleware, contactApi.middleware]);
+  }).concat([
+    loggerMiddleware,
+    errorHandlerMiddleware,
+    serializableMiddleware,
+    apiSlice.middleware,
+  ]);

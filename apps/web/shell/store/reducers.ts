@@ -1,7 +1,4 @@
-import {
-  contactApi,
-  contactReducer,
-} from "@open-system/contact-ui-data-access";
+import { apiSlice, contactReducer } from "@open-system/contact-ui-data-access";
 import {
   notificationsReducer,
   userReducer,
@@ -9,8 +6,8 @@ import {
 import { combineReducers } from "redux";
 
 export const rootReducer = combineReducers({
+  [apiSlice.reducerPath]: apiSlice.reducer,
   user: userReducer,
   notifications: notificationsReducer,
   contact: contactReducer,
-  [contactApi.reducerPath]: contactApi.reducer,
 });

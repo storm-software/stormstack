@@ -14,9 +14,7 @@ import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-m
 import clsx from "clsx";
 import { LinkVariants } from "design-system/components/src/link";
 import React from "react";
-import "reflect-metadata";
 import Logo from "../../../../assets/box-logo-gradient.svg";
-import "../dependency-inversion.config";
 import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
 import CookiePolicyBanner from "./(components)/cookie-policy-banner.server";

@@ -5,7 +5,7 @@ import {
   resetFormState,
   saveFormState,
   selectContactFormValues,
-  useAddContactMutation,
+  useCreateContactMutation,
 } from "@open-system/contact-ui-data-access";
 import { ContactFormSegments } from "@open-system/contact-ui-feature-form/constants";
 import {
@@ -51,37 +51,20 @@ export default function ContactForm({
   const formValues = useSelector(selectContactFormValues);
   const dispatch = useDispatch();
 
-  const [addContact] = useAddContactMutation();
+  const [createContact] = useCreateContactMutation();
   const handleSubmit = useCallback(
     async (values: ContactFormValues) => {
-      console.log(values);
       if (segment === ContactFormSegments.REVIEW) {
-        const payload = await addContact({
-          userId: "PSUL",
+        await createContact({
           body: values,
         }).unwrap();
-        console.log(payload);
-
-        /*const result =
-          contactSchema.components["AddContactMutation"]?.validate(values);
-        if (result?.errors) {
-          dispatch(
-            addErrorNotification(
-              result?.errors?.details
-                ?.map((error: ValidationError) => error.message)
-                ?.join("\r\n")
-            )
-          );
-        } else {
-          const payload = await addContact(result?.data);
-        }*/
       } else {
         dispatch(saveFormState(values));
       }
 
       nextPathname && router.push(nextPathname);
     },
-    [addContact, dispatch, nextPathname, router, segment]
+    [createContact, dispatch, nextPathname, router, segment]
   );
 
   const modalRef = useRef<ModalReference>(null);
