@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.5.0...reaction-ui-feature-like-v1.5.1) (2023-02-20)
+
+
+### Bug Fixes
+
+* **apis-contact:** Minor changes to CORS settings ([a4fecf0](https://github.com/sullivanpj/open-system/commit/a4fecf0dbe3f210132009f2b20fa7ed3d2c92608))
+
 # [1.5.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.4.0...reaction-ui-feature-like-v1.5.0) (2023-02-20)
 
 
