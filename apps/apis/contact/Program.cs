@@ -93,7 +93,14 @@ try
     app.UseRouting();
 
     //Enable CORS
-    app.UseCors(CorsPolicyConstants.OpenSystemAppOrigins);
+    app.UseCors(builder =>
+    {
+      builder.WithOrigins(new string[] { "http://localhost:3000",
+        "http://localhost:3002" })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
 
     app.UseIdentityServer();
     app.UseAuthorization();

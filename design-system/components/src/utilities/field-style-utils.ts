@@ -16,7 +16,7 @@ export function getFieldTextStyle(
 }
 
 export function getInputFillColor(disabled: boolean) {
-  return disabled ? "bg-disabled-fill" : "bg-input-fill";
+  return "bg-input-fill" /*disabled ? "bg-disabled-fill" : "bg-input-fill"*/;
 }
 
 export function getInputTextStyle(

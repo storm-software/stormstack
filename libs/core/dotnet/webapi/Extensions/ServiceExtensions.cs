@@ -32,16 +32,7 @@ namespace OpenSystem.Core.WebApi.Extensions
         //More info see: https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-3.0
         public static void AddCorsExtension(this IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-              options.AddPolicy(name: CorsPolicyConstants.OpenSystemAppOrigins,
-                builder =>
-                {
-                    builder.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
+            services.AddCors();
         }
 
         public static void AddVersionedApiExplorerExtension(this IServiceCollection services)

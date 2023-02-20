@@ -13,7 +13,7 @@ import {
   getBorderStyle,
   getCloseButtonStyle,
   getDefaultTitle,
-  getTextStyle,
+  getTextStyle
 } from "./MessageBar.utils";
 
 export type MessageBarProps = PropsWithBase<{
@@ -54,16 +54,20 @@ export const MessageBar = ({
     <div className="h-fit w-full min-w-fit max-w-[65rem] bg-black/80">
       <div
         className={clsx(
-          "relative h-fit w-full min-w-fit border-4 p-4 backdrop-blur-xl backdrop-brightness-0",
+          "relative h-fit w-full min-w-fit border-4 backdrop-blur-xl backdrop-brightness-0",
           getTextStyle(variant),
           getBorderStyle(variant),
           getBackgroundStyle(variant),
+          { "p-4": variant !== ModalVariants.SUCCESS },
+          { "p-2 pr-4": variant === ModalVariants.SUCCESS },
           className
         )}>
         <div className="flex h-full flex-row items-center gap-5">
           <span className="inline-block h-fit">
             {variant === ModalVariants.SUCCESS ? (
-              <SuccessIcon className={clsx("h-12 w-12 fill-success/10")} />
+              <SuccessIcon
+                className={clsx("h-[4.5rem] w-[4.5rem] fill-success/5")}
+              />
             ) : (
               <svg width="45" height="45" viewBox="0 0 25 25" fill="none">
                 <path
