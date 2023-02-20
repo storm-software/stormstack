@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.4.0...reaction-ui-feature-like-v1.5.0) (2023-02-20)
+
+
+### Features
+
+* **contact-ui-data-access:** Added contact API redux slice ([68cb95c](https://github.com/sullivanpj/open-system/commit/68cb95c8fb2fae873e62c03c95e77a7983b7386d))
+
 # [1.4.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.3.0...reaction-ui-feature-like-v1.4.0) (2023-02-19)
 
 
