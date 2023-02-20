@@ -1,6 +1,18 @@
 # [1.4.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.3.0...core-typescript-utilities-v1.4.0) (2023-02-20)
 
 
+### Bug Fixes
+
+* **apis-contact:** Minor changes to CORS settings ([a4fecf0](https://github.com/sullivanpj/open-system/commit/a4fecf0dbe3f210132009f2b20fa7ed3d2c92608))
+
+
+### Features
+
+* **contact-ui-data-access:** Added contact API redux slice ([68cb95c](https://github.com/sullivanpj/open-system/commit/68cb95c8fb2fae873e62c03c95e77a7983b7386d))
+
+# [1.4.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.3.0...core-typescript-utilities-v1.4.0) (2023-02-20)
+
+
 ### Features
 
 * **contact-ui-data-access:** Added contact API redux slice ([68cb95c](https://github.com/sullivanpj/open-system/commit/68cb95c8fb2fae873e62c03c95e77a7983b7386d))
