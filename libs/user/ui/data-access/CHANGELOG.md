@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/sullivanpj/open-system/compare/user-ui-data-access-v1.3.0...user-ui-data-access-v1.4.0) (2023-02-20)
+
+
+### Features
+
+* **contact-ui-data-access:** Added contact API redux slice ([68cb95c](https://github.com/sullivanpj/open-system/commit/68cb95c8fb2fae873e62c03c95e77a7983b7386d))
+
 # [1.3.0](https://github.com/sullivanpj/open-system/compare/user-ui-data-access-v1.2.0...user-ui-data-access-v1.3.0) (2023-02-19)
 
 
