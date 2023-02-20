@@ -42,7 +42,9 @@ export const fetchHttpHandler =
       method,
       body: request.getBody(api, extraOptions) as any,
       headers: request.getHeaders(api, extraOptions),
-      credentials: "same-origin",
+      credentials: "include",
+      mode: "cors",
+      signal: api.signal,
       ...extraOptions,
     });
 

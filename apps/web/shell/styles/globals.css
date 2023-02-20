@@ -11,13 +11,28 @@
   color: #fff; /* Gecko Browsers */
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:focus {
+input:-webkit-autofill:not(:read-only),
+input:-webkit-autofill:focus:not(:read-only),
+textarea:-webkit-autofill:not(:read-only),
+textarea:-webkit-autofill:focus:not(:read-only),
+select:-webkit-autofill:not(:read-only),
+select:-webkit-autofill:focus:not(:read-only) {
   transition: background-color 900000s 0s, color 900000s 0s;
+}
+
+input:-webkit-autofill:read-only,
+input:-webkit-autofill:focus:read-only,
+input:-webkit-autofill:disabled,
+input:-webkit-autofill:focus:disabled,
+textarea:-webkit-autofill:read-only,
+textarea:-webkit-autofill:focus:read-only,
+textarea:-webkit-autofill:disabled,
+textarea:-webkit-autofill:focus:disabled,
+select:-webkit-autofill:read-only,
+select:-webkit-autofill:focus:read-only,
+select:-webkit-autofill:disabled,
+select:-webkit-autofill:focus:disabled {
+  transition: background-color 1s 0s, color 1s 0s !important;
 }
 
 .flip-x {

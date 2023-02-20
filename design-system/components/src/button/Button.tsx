@@ -138,7 +138,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             "shadow-active-glow":
               !disabled && glowType === ButtonGlowTypes.ALWAYS,
           },
-          "m-w-bnt-m-w group relative h-[58px] w-fit overflow-hidden overflow-y-hidden p-0.5 transition-shadow duration-300 ease-in-out",
+          "min-w-bnt-m-w group relative h-[58px] w-fit overflow-hidden overflow-y-hidden p-0.5 transition-shadow duration-300 ease-in-out",
           className
         )}
         {...props}
@@ -148,7 +148,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className={clsx(
             getTextColor(disabled, variant),
             getBorderRadius(rounding),
-            "h-full bg-bg-1 px-8 py-3 text-btn-label-1 font-btn-label-1"
+            "h-full min-w-fit bg-bg-1 px-12 py-3 text-btn-label-1 font-btn-label-1"
           )}>
           {inverse
             ? hoverText ?? getDefaultText(type)

@@ -1,7 +1,7 @@
 /*
  * Contact APIs
  *
- * A collection of APIs used to get and set contact related data 
+ * A collection of APIs used to get and set contact related data
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -27,12 +27,13 @@ using System.Text.Json;
 using OpenSystem.Core.WebApi.Controllers;
 
 namespace OpenSystem.Apis.Contact.Controllers.v1
-{ 
+{
 
     /// <summary>
     /// Controller for ContactApi service implementation(s)
     /// </summary>
     [Description("Controller for ContactApi service implementation(s)")]
+    [Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}")]
     public sealed class ContactApiController : BaseApiController
@@ -318,6 +319,7 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("GetSubscriptions")]
+        [AllowAnonymous]
         [SwaggerResponse(statusCode: 200, type: typeof(GetSubscriptions200Response), description: "OK")]
         [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
         [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]

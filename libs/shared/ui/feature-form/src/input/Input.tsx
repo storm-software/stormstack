@@ -63,7 +63,6 @@ export function Input({
         : maxLength
       : undefined,
     pattern,
-    disabled: useIsSubmitting() || disabled,
   });
   useEffect(() => {
     trigger();
@@ -79,6 +78,7 @@ export function Input({
       errors={errors as Record<string, string>}
       min={field.min as number}
       max={field.max as number}
+      disabled={useIsSubmitting() || disabled}
     />
   );
 }

@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { getGuid } from "@open-system/core-typescript-utilities";
 import {
   BaseComponentProps,
-  InputAutoCompleteTypes
+  InputAutoCompleteTypes,
 } from "@open-system/design-system-components";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { DeepPartial } from "../types";
 
@@ -19,6 +21,7 @@ export type FormProps<
   disabled?: boolean;
   name?: string;
   autoComplete?: boolean;
+  resetOnSubmit?: boolean;
 };
 
 export function Form<TValues extends Record<string, any>, TContext = any>({
@@ -30,9 +33,16 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   children,
   disabled = false,
   autoComplete = true,
+  resetOnSubmit = true,
   ...props
 }: FormProps<TValues>) {
-  const { trigger, control, ...methods } = useForm<TValues, TContext>({
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const { trigger, control, formState, ...methods } = useForm<
+    TValues,
+    TContext
+  >({
     mode: "all",
     criteriaMode: "all",
     reValidateMode: "onChange",
@@ -49,9 +59,56 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
     trigger(undefined, { shouldFocus: false });
   }, [trigger]);
 
+  const handleSubmit = useCallback(
+    async (values: TValues) => {
+      let result!: any;
+      try {
+        result = await Promise.resolve(onSubmit?.(values));
+      } catch (e) {
+        methods.reset(undefined, {
+          keepDirtyValues: true,
+          keepErrors: true,
+          keepDirty: true,
+          keepValues: true,
+          keepDefaultValues: true,
+          keepIsSubmitted: false,
+          keepTouched: true,
+          keepIsValid: true,
+          keepSubmitCount: true,
+        });
+
+        throw e;
+      }
+
+      startTransition(() => {
+        resetOnSubmit &&
+          methods.reset(undefined, {
+            keepDirtyValues: false,
+            keepErrors: false,
+            keepDirty: false,
+            keepValues: false,
+            keepDefaultValues: true,
+            keepIsSubmitted: false,
+            keepTouched: false,
+            keepIsValid: false,
+            keepSubmitCount: false,
+          });
+
+        router.refresh();
+      });
+
+      return result;
+    },
+    [methods, onSubmit, resetOnSubmit, router]
+  );
+
   return (
     <>
-      <FormProvider trigger={trigger} control={control} {...methods}>
+      <FormProvider
+        trigger={trigger}
+        control={control}
+        formState={formState}
+        {...methods}>
         <form
           name={formName}
           autoComplete={
@@ -59,12 +116,12 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
               ? InputAutoCompleteTypes.ON
               : InputAutoCompleteTypes.OFF
           }
-          onSubmit={methods.handleSubmit(onSubmit)}>
+          onSubmit={methods.handleSubmit(handleSubmit)}>
           <fieldset
             className={className}
             form={formName}
-            disabled={disabled}
-            aria-disabled={disabled}>
+            disabled={formState?.isSubmitting || disabled}
+            aria-disabled={formState?.isSubmitting || disabled}>
             {children}
           </fieldset>
         </form>

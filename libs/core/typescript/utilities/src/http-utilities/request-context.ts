@@ -53,12 +53,12 @@ export class RequestContext<T = any> {
    */
   public getUrl(
     baseUrl: string,
-    api?: HttpFetchApi,
-    extraOptions?: any
+    _api?: HttpFetchApi,
+    _extraOptions?: any
   ): string {
     const url = new URLParse(
-      `${(baseUrl?.charAt(0) === "/" ? baseUrl.substring(1) : baseUrl) ?? ""}/${
-        (this.url?.endsWith("/") ? this.url.slice(0, -1) : this.url) ?? ""
+      `${(baseUrl?.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl) ?? ""}/${
+        (this.url?.charAt(0) === "/" ? this.url.substring(1) : this.url) ?? ""
       }`,
       true
     );
@@ -99,7 +99,7 @@ export class RequestContext<T = any> {
    * It returns the value of the private variable httpMethod.
    * @returns The HttpMethod enum.
    */
-  public getHttpMethod(api?: HttpFetchApi, extraOptions?: any): HttpMethod {
+  public getHttpMethod(_api?: HttpFetchApi, _extraOptions?: any): HttpMethod {
     return this.httpMethod;
   }
 
@@ -108,8 +108,8 @@ export class RequestContext<T = any> {
    * @returns An object with a key of 'Content-Type' and a value of 'application/json'
    */
   public getHeaders(
-    api?: HttpFetchApi,
-    extraOptions?: any
+    _api?: HttpFetchApi,
+    _extraOptions?: any
   ): { [key: string]: string } {
     return this.headers;
   }
@@ -120,7 +120,7 @@ export class RequestContext<T = any> {
    *   }
    * @returns The body of the request.
    */
-  public getBody(api?: HttpFetchApi, extraOptions?: any): RequestBody {
+  public getBody(_api?: HttpFetchApi, _extraOptions?: any): RequestBody {
     return this.body;
   }
 

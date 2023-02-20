@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Serilog;
 using OpenSystem.Contact.Application;
 using OpenSystem.Core.Application.Interfaces;
@@ -19,6 +20,7 @@ using OpenSystem.Core.WebApi.Services;
 using OpenSystem.Apis.Contact.Extensions;
 
 const string SERVICE_NAME = "Contact_apisService.Api";
+
 
 try
 {
@@ -91,8 +93,7 @@ try
     app.UseRouting();
 
     //Enable CORS
-    app.UseCors("AllowAll");
-
+    app.UseCors(CorsPolicyConstants.OpenSystemAppOrigins);
 
     app.UseIdentityServer();
     app.UseAuthorization();

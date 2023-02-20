@@ -45,10 +45,12 @@ export const Radio = ({
     (event: FocusEvent<HTMLInputElement>) => {
       event.stopPropagation();
 
-      setFocused(true);
-      onFocus?.();
+      if (!disabled) {
+        setFocused(true);
+        onFocus?.();
+      }
     },
-    [onFocus]
+    [disabled, onFocus]
   );
 
   const handleBlur = useCallback(

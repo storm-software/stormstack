@@ -138,10 +138,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       (event: FocusEvent<HTMLInputElement>) => {
         event.stopPropagation();
 
-        setFocused(true);
-        onFocus?.();
+        if (!disabled) {
+          setFocused(true);
+          onFocus?.();
+        }
       },
-      [onFocus]
+      [disabled, onFocus]
     );
 
     const handleBlur = useCallback(
@@ -209,7 +211,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               : type
           }
           placeholder={placeholder}
-          disabled={disabled}
+          // disabled={disabled}
           readOnly={disabled}
           // required={required}
           min={min}

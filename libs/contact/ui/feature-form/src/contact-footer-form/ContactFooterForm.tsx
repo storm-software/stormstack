@@ -19,6 +19,7 @@ import {
 import clsx from "clsx";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { SubscriptionCheckbox } from "../subscription-checkbox";
 
 export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
   const [createContact] = useCreateContactMutation();
@@ -70,7 +71,7 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
             placeholder="I am interested in working with you on a future project."
             glow={false}
           />
-          {/* <SubscriptionCheckbox glow={false} />*/}
+          <SubscriptionCheckbox glow={false} />
         </div>
         <div className="flex flex-row-reverse">
           <SubmitButton

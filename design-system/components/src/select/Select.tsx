@@ -62,9 +62,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ) => {
     const [focused, setFocused] = useState<boolean>(false);
     const handleFocus = useCallback(() => {
-      setFocused(true);
-      onFocus?.();
-    }, [onFocus]);
+      if (!disabled) {
+        setFocused(true);
+        onFocus?.();
+      }
+    }, [disabled, onFocus]);
 
     const handleBlur = useCallback(
       (event: ChangeEvent<HTMLSelectElement>) => {
