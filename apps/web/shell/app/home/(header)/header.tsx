@@ -2,10 +2,13 @@ import { SubscriptionModalForm } from "@open-system/contact-ui-feature-form";
 import { Card } from "@open-system/design-system-components";
 import { ModalReference } from "@open-system/shared-ui-components";
 import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import PdfResumeDownload from "../../(components)/pdf-resume-download.client";
 import { default as Logo } from "../../../../../../assets/box-logo-gradient.svg";
 import BackgroundPattern from "./background-pattern";
+import { default as FloatingSvg1 } from "./floating-svg-1.svg";
+import { default as FloatingSvg2 } from "./floating-svg-2.svg";
+import { default as FloatingSvg3 } from "./floating-svg-3.svg";
 
 function useParallax(value: MotionValue<number>, distance: number) {
   return useTransform(value, [0, 1], [0, 360]);
@@ -15,6 +18,26 @@ export default function Header() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
 
+  const [mousePosition, setMousePosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  useEffect(() => {
+    const updateMousePosition = (e: any) => {
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY,
+      });
+    };
+
+    window.addEventListener("mousemove", updateMousePosition);
+
+    return () => {
+      window.removeEventListener("mousemove", updateMousePosition);
+    };
+  }, []);
+
   const titleRotateZ: any = useTransform(scrollYProgress, [0, 1], [0, -560]);
   const logoRotateZ: any = useTransform(scrollYProgress, [0, 1], [0, 560]);
 
@@ -23,6 +46,13 @@ export default function Header() {
     () => modalRef && modalRef?.current && modalRef?.current?.open?.(),
     []
   );
+
+  const variants = {
+    default: {
+      translateY: [5, -30, 5, -30, 5],
+      rotate: "360deg",
+    },
+  };
 
   return (
     <header className="relative flex snap-center snap-always flex-col gap-12 overflow-hidden bg-bg-title bg-[length:100%_60%] bg-fixed bg-no-repeat bg-origin-border py-20 pt-[2rem]">
@@ -102,6 +132,51 @@ export default function Header() {
         style={{ rotateZ: logoRotateZ }}
         className="absolute -bottom-2.5 right-0">
         <BackgroundPattern isInverse={true} />
+      </motion.div>
+
+      <motion.div
+        style={{ rotateZ: logoRotateZ }}
+        className="absolute left-48 top-20"
+        variants={variants}
+        animate="default"
+        transition={{
+          default: {
+            duration: 20,
+            ease: "linear",
+            repeat: Infinity,
+          },
+        }}>
+        <FloatingSvg1 height={150} />
+      </motion.div>
+
+      <motion.div
+        style={{ rotateZ: logoRotateZ }}
+        className="absolute right-28 top-24"
+        variants={variants}
+        animate="default"
+        transition={{
+          default: {
+            duration: 20,
+            ease: "linear",
+            repeat: Infinity,
+          },
+        }}>
+        <FloatingSvg2 height={300} />
+      </motion.div>
+
+      <motion.div
+        style={{ rotateZ: logoRotateZ }}
+        className="absolute right-32 bottom-32"
+        variants={variants}
+        animate="default"
+        transition={{
+          default: {
+            duration: 20,
+            ease: "linear",
+            repeat: Infinity,
+          },
+        }}>
+        <FloatingSvg3 height={150} />
       </motion.div>
     </header>
   );
