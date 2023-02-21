@@ -6,13 +6,28 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import PdfResumeDownload from "../../(components)/pdf-resume-download.client";
 import { default as Logo } from "../../../../../../assets/box-logo-gradient.svg";
 import BackgroundPattern from "./background-pattern";
-import { default as FloatingSvg1 } from "./floating-svg-1.svg";
 import { default as FloatingSvg2 } from "./floating-svg-2.svg";
-import { default as FloatingSvg3 } from "./floating-svg-3.svg";
+import { default as FloatingSvg5 } from "./floating-svg-5.svg";
+import { default as FloatingSvg6 } from "./floating-svg-6.svg";
+import { default as FloatingSvg7 } from "./floating-svg-7.svg";
 
 function useParallax(value: MotionValue<number>, distance: number) {
   return useTransform(value, [0, 1], [0, 360]);
 }
+
+const variants = {
+  float: {
+    translateY: [5, -30, 5, -30, 5, -30, 5, -30, 5],
+    rotate: "360deg",
+  },
+  floatBall: {
+    translateY: [15, -55, 10, -60, 5, -30, 45, -30, 5],
+  },
+  invert: {
+    translateY: [-30, 0, -30, 0, -30, 0, -30, 0, -30],
+    rotate: "-360deg",
+  },
+};
 
 export default function Header() {
   const ref = useRef(null);
@@ -47,15 +62,8 @@ export default function Header() {
     []
   );
 
-  const variants = {
-    default: {
-      translateY: [5, -30, 5, -30, 5],
-      rotate: "360deg",
-    },
-  };
-
   return (
-    <header className="relative flex snap-center snap-always flex-col gap-12 overflow-hidden bg-bg-title bg-[length:100%_60%] bg-fixed bg-no-repeat bg-origin-border py-20 pt-[2rem]">
+    <header className="bg-bg-grid relative flex snap-center snap-always flex-col gap-12 overflow-hidden py-20 pt-[2rem]">
       <div className="flex flex-row justify-center">
         <div className="relative h-[34rem] w-[54rem]">
           <motion.div
@@ -136,47 +144,61 @@ export default function Header() {
 
       <motion.div
         style={{ rotateZ: logoRotateZ }}
-        className="absolute left-48 top-20"
+        className="absolute left-32 top-20"
         variants={variants}
-        animate="default"
+        animate="floatBall"
         transition={{
           default: {
-            duration: 20,
+            duration: 145,
             ease: "linear",
             repeat: Infinity,
           },
         }}>
-        <FloatingSvg1 height={150} />
+        <FloatingSvg7 height={200} />
+      </motion.div>
+      <motion.div
+        style={{ rotateZ: logoRotateZ }}
+        className="absolute bottom-48 left-32"
+        variants={variants}
+        animate="invert"
+        transition={{
+          default: {
+            duration: 90,
+            ease: "linear",
+            repeat: Infinity,
+          },
+        }}>
+        <FloatingSvg6 height={150} />
       </motion.div>
 
       <motion.div
         style={{ rotateZ: logoRotateZ }}
         className="absolute right-28 top-24"
         variants={variants}
-        animate="default"
+        animate="invert"
         transition={{
           default: {
-            duration: 20,
+            duration: 64,
             ease: "linear",
             repeat: Infinity,
           },
         }}>
-        <FloatingSvg2 height={300} />
+        <FloatingSvg5 height={250} />
       </motion.div>
 
       <motion.div
         style={{ rotateZ: logoRotateZ }}
-        className="absolute right-32 bottom-32"
+        className="absolute right-48 bottom-32"
         variants={variants}
-        animate="default"
+        animate="float"
         transition={{
           default: {
-            duration: 20,
+            duration: 50,
             ease: "linear",
             repeat: Infinity,
           },
         }}>
-        <FloatingSvg3 height={150} />
+        <FloatingSvg2 height={350} />
       </motion.div>
     </header>
   );

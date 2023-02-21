@@ -33,7 +33,7 @@ export default function BackgroundPattern({
       className={clsx(
         { "flip-y -rotate-1": isInverse },
         { "rotate-1": !isInverse },
-        "z-bg stroke-purple-700"
+        "z-bg stroke-purple-900"
       )}
     />
   );

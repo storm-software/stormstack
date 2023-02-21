@@ -51,6 +51,7 @@ module.exports = {
       "backgroundImage": {
         ...extend.backgroundImage,
         "bg-title": "url(../../../../assets/backgrounds/bg-title.jpg)",
+        "bg_grid": "url(../../../../assets/backgrounds/bg-grid.svg)",
         "bg-footer": "url(../../../../assets/backgrounds/bg-footer.jpg)",
         "bg-windows": "url(../../../../assets/backgrounds/bg-windows.jpg)",
       },
