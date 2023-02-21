@@ -9,7 +9,9 @@ namespace OpenSystem.Contact.Infrastructure.MappingConfigurations
         public void Configure(EntityTypeBuilder<ContactDetailEntity> builder)
         {
           builder.ToTable("ContactDetails");
-            builder.Property(x => x.Id).HasDefaultValueSql("newsequentialid()");
+
+          builder.Property(x => x.Id)
+            .HasDefaultValueSql("newsequentialid()");
         }
     }
 }

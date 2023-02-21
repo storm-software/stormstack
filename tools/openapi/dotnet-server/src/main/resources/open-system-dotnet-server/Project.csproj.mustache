@@ -23,18 +23,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-{{#useSeperateModelProject}}
-    <ProjectReference Include="../{{modelPackage}}/{{modelPackage}}.csproj"/>
-{{/useSeperateModelProject}}
-
-{{#useFrameworkReference}}
-{{#isLibrary}}
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-{{/isLibrary}}
-{{/useFrameworkReference}}
-{{^useSeperateModelProject}}
-     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-{{/useSeperateModelProject}}
+    {{^useSeperateModelProject}}<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />{{/useSeperateModelProject}}
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
@@ -52,9 +42,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\libs\core\dotnet\application\OpenSystem.Core.DotNet.Application.csproj" />
-    <ProjectReference Include="..\..\..\libs\core\dotnet\infrastructure\OpenSystem.Core.DotNet.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\libs\core\dotnet\webapi\OpenSystem.Core.DotNet.WebApi.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\application\OpenSystem.Core.Application.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\infrastructure\OpenSystem.Core.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\libs\core\dotnet\webapi\OpenSystem.Core.WebApi.csproj" />
+    <ProjectReference Include="..\..\..\libs\{{lowerDomainName}}\server\application\OpenSystem.{{capitalDomainName}}.Application.csproj" />
+    <ProjectReference Include="..\..\..\libs\{{lowerDomainName}}\server\infrastructure\OpenSystem.{{capitalDomainName}}.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

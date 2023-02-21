@@ -22,9 +22,12 @@ const nextConfig = {
   },
 
   transpilePackages: [
+    "react-redux",
     "@open-system/core-typescript-utilities",
     "@open-system/design-system-components",
+    "@open-system/shared-ui-data-access",
     "@open-system/shared-ui-feature-form",
+    "@open-system/contact-ui-data-access",
   ],
 
   async redirects() {

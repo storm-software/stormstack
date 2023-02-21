@@ -43,7 +43,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
           if (context == null)
             return;
 
-          foreach (var entry in context.ChangeTracker.Entries<Entity<Guid>>())
+          /*foreach (var entry in context.ChangeTracker.Entries<Entity<Guid>>())
           {
               if (entry.State == EntityState.Added)
               {
@@ -58,7 +58,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
                   entry.Entity.UpdatedBy = _currentUserService.UserId;
                   entry.Entity.UpdatedDateTime = _dateTimeProvider.OffsetUtcNow;
               }
-          }
+          }*/
       }
   }
 }

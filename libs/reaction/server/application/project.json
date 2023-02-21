@@ -1,0 +1,35 @@
+{
+  "name": "reaction-server-application",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/reaction/server/application",
+  "targets": {
+    "build": {
+      "executor": "@nx-dotnet/core:build",
+      "outputs": ["{workspaceRoot}/dist/libs/reaction/server/application"],
+      "options": {
+        "configuration": "Debug",
+        "noDependencies": true
+      },
+      "configurations": {
+        "production": {
+          "configuration": "Release"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx-dotnet/core:format"
+    },
+    "model-api-sync": {
+      "executor": "@open-system/executors-dotnet:model-api-sync",
+      "options": {
+        "domainName": "reaction",
+        "serviceName": "reaction_apis",
+        "specJsonFile": "libs/reaction/config/src/reaction.api-spec.json",
+        "packageName": "OpenSystem.Reaction.Application"
+      }
+    }
+  },
+  "tags": []
+}
+

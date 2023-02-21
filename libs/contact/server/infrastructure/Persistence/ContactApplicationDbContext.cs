@@ -22,12 +22,14 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
           IMediator mediator,
           AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor,
           IDateTimeProvider dateTimeProvider,
+          ICurrentUserService currentUserService,
           ILoggerFactory loggerFactory)
             : base(options,
                 operationalStoreOptions,
                 mediator,
                 auditableEntitySaveChangesInterceptor,
                 dateTimeProvider,
+                currentUserService,
                 loggerFactory)
         {
         }

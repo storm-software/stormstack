@@ -183,12 +183,14 @@ export interface ContactApiUpdateContactRequest {
 }
 
 export const addTagTypes = ["Contact"] as const;
-export const injectedContactApi = api
+export const contactApi = api
   .enhanceEndpoints({
     addTagTypes,
   })
   .injectEndpoints({
-    endpoints: (build: EndpointBuilder<HttpHandler, "Contact", "api">) => ({
+    endpoints: (
+      build: EndpointBuilder<HttpHandler, "Contact", "contactApi">
+    ) => ({
       createContact: build.mutation<
         CommandSuccessResponse,
         ContactApiCreateContactRequest
@@ -345,4 +347,4 @@ export const {
   useSubscribeMutation,
   useUnsubscribeMutation,
   useUpdateContactMutation,
-} = injectedContactApi;
+} = contactApi;

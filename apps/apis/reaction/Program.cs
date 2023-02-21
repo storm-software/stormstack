@@ -7,12 +7,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using OpenSystem.Core.DotNet.Application;
-using OpenSystem.Core.DotNet.Infrastructure.Persistence.Contexts;
-using OpenSystem.Core.DotNet.Infrastructure.Extensions;
-using OpenSystem.Core.DotNet.Infrastructure;
-using OpenSystem.Core.DotNet.WebApi.Constants;
-using OpenSystem.Core.DotNet.WebApi.Extensions;
+using OpenSystem.Reaction.Application;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Infrastructure.Persistence;
+using OpenSystem.Core.Infrastructure.Extensions;
+using OpenSystem.Core.Infrastructure;
+using OpenSystem.Reaction.Infrastructure;
+using OpenSystem.Core.WebApi.Constants;
+using OpenSystem.Core.WebApi.Extensions;
+using OpenSystem.Core.WebApi.Services;
 using OpenSystem.Apis.Reaction.Extensions;
 
 const string SERVICE_NAME = "ReactionService.Api";
@@ -30,9 +33,9 @@ try
 
     builder.Services.AddServiceDiscovery(builder.Configuration);
 
-    builder.Services.AddApplicationLayer();
-    builder.Services.AddPersistenceInfrastructure(builder.Configuration);
-    builder.Services.AddServiceInfrastructure(builder.Configuration);
+    builder.Services.AddReactionApplicationLayer();
+    builder.Services.AddReactionPersistenceInfrastructure(builder.Configuration);
+    builder.Services.AddReactionServiceInfrastructure(builder.Configuration);
 
     builder.Services.AddSwaggerExtension();
 
@@ -42,16 +45,21 @@ try
     builder.Services.AddCorsExtension();
     builder.Services.AddHealthChecks();
 
+    builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+    builder.Services.AddSingleton<ICurrentUserService,
+      CurrentUserService>();
+    builder.Services.AddHttpContextAccessor();
+
     //API Security
-    // builder.Services.AddJWTAuthentication(builder.Configuration);
-    // builder.Services.AddAuthorizationPolicies(builder.Configuration);
+    builder.Services.AddJWTAuthentication(builder.Configuration);
+    builder.Services.AddAuthorizationPolicies(builder.Configuration);
 
     // API version
     builder.Services.AddApiVersioningExtension();
 
     // API explorer
     builder.Services.AddMvcCore()
-        .AddApiExplorer();
+      .AddApiExplorer();
 
     // API explorer version
     builder.Services.AddVersionedApiExplorerExtension();
@@ -59,41 +67,55 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
+        // app.UseMigrationsEndPoint();
     }
     else
     {
-        app.UseExceptionHandler("/Error");
+        app.UseExceptionHandler("/error");
+
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
 
-    using (var scope = app.Services.CreateScope())
+    /*using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         // use context
         dbContext.Database.EnsureCreated();
-    }
+    }*/
 
     // Add this line; you'll need `using Serilog;` up the top, too
     app.UseSerilogRequestLogging();
-    app.UseServiceDiscovery(app.Lifetime);
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
+    app.UseStaticFiles();
     app.UseRouting();
 
     //Enable CORS
-    app.UseCors("AllowAll");
-    app.UseAuthentication();
+    app.UseCors(builder =>
+    {
+      builder.WithOrigins(new string[] { "http://localhost:3000",
+        "http://localhost:3002" })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
+
+    app.UseIdentityServer();
     app.UseAuthorization();
+
     app.UseSwaggerExtension();
-    app.UseErrorHandlingMiddleware();
+    app.UseCoreMiddleware();
     app.UseHealthChecks("/health-check");
     app.MapControllers();
+
     app.Run();
 
     Log.Information($"{SERVICE_NAME} has started successfully.");
+
 }
 catch (Exception ex)
 {
-    Log.Error(ex,
+    Log.Warning(ex,
       $"An error occurred starting {SERVICE_NAME}");
 }
 finally

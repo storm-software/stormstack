@@ -9,25 +9,16 @@ All URIs are relative to *api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ReactionsApi* | [**AddReaction**](Documentation/ReactionsApi.md#addreaction) | **HttpPost** /reactions/{contentType}/{contentId}/reaction/{reactionType} | Add Reaction
-*ReactionsApi* | [**DeleteReaction**](Documentation/ReactionsApi.md#deletereaction) | **HttpDelete** /reactions/{contentType}/{contentId}/reaction/{reactionType} | Remove Reaction
-*ReactionsApi* | [**GetReaction**](Documentation/ReactionsApi.md#getreaction) | **HttpGet** /reactions/{contentType}/{contentId}/reaction/{reactionType} | Get Reaction
-*ReactionsApi* | [**GetReactions**](Documentation/ReactionsApi.md#getreactions) | **HttpGet** /reactions/{contentType}/{contentId} | Get Reactions
+*ReactionApi* | [**AddReaction**](Documentation/ReactionApi.md#addreaction) | **HttpPost** /reactions/{contentId} | Add Reaction
+*ReactionApi* | [**GetReactions**](Documentation/ReactionApi.md#getreactions) | **HttpGet** /reactions/{contentId} | Get Reactions
+*ReactionApi* | [**GetReactionsCount**](Documentation/ReactionApi.md#getreactionscount) | **HttpGet** /reactions/{contentId}/count | Get Reaction Counts
+*ReactionApi* | [**RemoveReaction**](Documentation/ReactionApi.md#removereaction) | **HttpDelete** /reactions/{contentId} | Remove Reaction
 
 
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [OpenSystem.Apis.Reaction.Contracts.GetReaction200ResponseAllOfAllOfDto](Documentation/GetReaction200ResponseAllOfAllOfDto.md)
- - [OpenSystem.Apis.Reaction.Contracts.GetReaction200ResponseAllOfDto](Documentation/GetReaction200ResponseAllOfDto.md)
- - [OpenSystem.Apis.Reaction.Contracts.GetReaction200ResponseDto](Documentation/GetReaction200ResponseDto.md)
- - [OpenSystem.Apis.Reaction.Contracts.GetReactions200ResponseAllOfDto](Documentation/GetReactions200ResponseAllOfDto.md)
- - [OpenSystem.Apis.Reaction.Contracts.GetReactions200ResponseDto](Documentation/GetReactions200ResponseDto.md)
- - [OpenSystem.Apis.Reaction.Contracts.ProblemDetailsDto](Documentation/ProblemDetailsDto.md)
- - [OpenSystem.Apis.Reaction.Contracts.ReactionDetailDto](Documentation/ReactionDetailDto.md)
- - [OpenSystem.Apis.Reaction.Contracts.RecordBaseDto](Documentation/RecordBaseDto.md)
- - [OpenSystem.Apis.Reaction.Contracts.UpdateSuccessResponseDto](Documentation/UpdateSuccessResponseDto.md)
-
+No model defined in this package
 
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization

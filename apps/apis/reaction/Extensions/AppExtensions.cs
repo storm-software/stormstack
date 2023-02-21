@@ -11,7 +11,7 @@ namespace OpenSystem.Apis.Reaction.Extensions
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                  "reaction_apis");
+                  "OpenSystem.Apis.Reaction.Controllers");
             });
         }
     }

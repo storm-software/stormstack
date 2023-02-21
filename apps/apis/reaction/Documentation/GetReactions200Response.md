@@ -1,16 +1,14 @@
-# OpenSystem.Apis.Reaction.OpenSystem.Apis.Reaction.Contracts.GetReactions200ResponseDto
+# OpenSystem.Apis.Reaction..GetReactions200Response
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Guid** | **Guid** | The &#x60;guid&#x60; associated with the record | 
-**CreatedOn** | **DateTimeOffset** |  | 
-**CreatedBy** | **string** |  | 
-**UpdatedOn** | **DateTimeOffset** |  | [optional] 
-**UpdatedBy** | **string** |  | [optional] 
-**ArticleId** | **string** | The id of the article/page | 
-**Reactions** | [**List&lt;ReactionDetailDto&gt;**](ReactionDetailDto.md) | The list of reactions for the specified article  | 
+**PageNumber** | **int** | The current page number of the selected data | 
+**PageSize** | **int** | The size of the current page | 
+**RecordsTotal** | **int** | The total number of records in the data set | 
+**RecordsFiltered** | **int** | The number of records filtered from the data set | 
+**Data** | [**List&lt;ReactionDetailRecord&gt;**](ReactionDetailRecord.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

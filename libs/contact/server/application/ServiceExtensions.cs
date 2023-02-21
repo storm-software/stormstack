@@ -1,8 +1,4 @@
-﻿using OpenSystem.Core.Application.Behaviors;
-using OpenSystem.Core.Application.Helpers;
-using OpenSystem.Core.Application.Interfaces;
-using OpenSystem.Core.Application;
-using OpenSystem.Contact.Domain.Entities;
+﻿using OpenSystem.Core.Application;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

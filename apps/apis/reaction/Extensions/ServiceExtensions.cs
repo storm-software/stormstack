@@ -10,8 +10,8 @@ using System.Reflection;
 using System.Text.Json;
 using OpenSystem.Apis.Reaction.Authentication;
 using OpenSystem.Apis.Reaction.Filters;
-using OpenSystem.Apis.Reaction.OpenApi;
 using OpenSystem.Apis.Reaction.Formatters;
+using OpenSystem.Core.WebApi.Extensions;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace OpenSystem.Apis.Reaction.Extensions

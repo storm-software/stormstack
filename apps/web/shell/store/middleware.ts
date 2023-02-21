@@ -1,4 +1,4 @@
-import { apiSlice } from "@open-system/contact-ui-data-access";
+import { contactApi } from "@open-system/contact-ui-data-access";
 import {
   errorHandlerMiddleware,
   loggerMiddleware,
@@ -22,5 +22,5 @@ export const middleware = (getDefaultMiddleware: any) =>
     loggerMiddleware,
     errorHandlerMiddleware,
     serializableMiddleware,
-    apiSlice.middleware,
+    contactApi.middleware,
   ]);

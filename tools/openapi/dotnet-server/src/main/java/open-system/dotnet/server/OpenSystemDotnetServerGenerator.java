@@ -108,6 +108,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
 
     public static final String DOMAIN_NAME = "domainName";
     public static final String CAPITAL_DOMAIN_NAME = "capitalDomainName";
+    public static final String LOWER_DOMAIN_NAME = "lowerDomainName";
     public static final String PROJECT_NAME = "projectName";
     public static final String URL_ROOT = "urlRoot";
     public static final String SERVICE_NAME = "serviceName";
@@ -172,6 +173,7 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
 
    private String domainName = "shared";
    private String capitalDomainName = "Shared";
+   private String lowerDomainName = "shared";
    private String projectName = null;
    private String urlRoot = null;
    private String serviceName = null;
@@ -541,12 +543,12 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("typeConverter.mustache", /*packageFolder + File.separator +*/ "Converters", "CustomEnumConverter.cs"));
 
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") ||
+        /*if (aspnetCoreVersion.getOptValue().startsWith("3.") ||
           aspnetCoreVersion.getOptValue().startsWith("5.0") ||
           aspnetCoreVersion.getOptValue().startsWith("6.") ||
           aspnetCoreVersion.getOptValue().startsWith("7.")) {
-            supportingFiles.add(new SupportingFile("Extensions" + File.separator + "TypeExtensions.mustache", /*packageFolder + File.separator +*/ "Extensions", "TypeExtensions.cs"));
-        }
+            supportingFiles.add(new SupportingFile("Extensions" + File.separator + "TypeExtensions.mustache", "Extensions", "TypeExtensions.cs"));
+        }*/
 
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", /*packageFolder,*/ packageName + ".csproj"));
         supportingFiles.add(new SupportingFile("Extensions" + File.separator + "AppExtensions.mustache", /*packageFolder,*/ "Extensions", "AppExtensions.cs"));
@@ -1211,6 +1213,9 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         capitalDomainName = domainName.substring(0,
           1).toUpperCase()
           + domainName.substring(1);
+        lowerDomainName = domainName.substring(0,
+          1).toLowerCase()
+          + domainName.substring(1);
 
         int index = capitalDomainName.indexOf("-");
         while (index >= 0) {
@@ -1218,6 +1223,9 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
               capitalDomainName = capitalDomainName.substring(index + 1,
                 index + 2).toUpperCase()
                 + capitalDomainName.substring(index + 2);
+              lowerDomainName = lowerDomainName.substring(index + 1,
+                index + 2).toUpperCase()
+                + lowerDomainName.substring(index + 2);
             }
 
             index = capitalDomainName.indexOf("-",
@@ -1228,6 +1236,11 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
           "");
         additionalProperties.put(CAPITAL_DOMAIN_NAME,
               capitalDomainName);
+
+        lowerDomainName = lowerDomainName.replace("-",
+          "");
+        additionalProperties.put(LOWER_DOMAIN_NAME,
+          lowerDomainName);
       }
     }
 

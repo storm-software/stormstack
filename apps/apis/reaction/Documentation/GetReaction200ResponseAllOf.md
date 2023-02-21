@@ -1,4 +1,4 @@
-# OpenSystem.Apis.Reaction.OpenSystem.Apis.Reaction.Contracts.GetReaction200ResponseAllOfDto
+# OpenSystem.Apis.Reaction..GetReaction200ResponseAllOf
 
 ## Properties
 

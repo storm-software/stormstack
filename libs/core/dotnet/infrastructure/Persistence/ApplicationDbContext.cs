@@ -11,6 +11,7 @@ using MediatR;
 using Duende.IdentityServer.EntityFramework.Options;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
+using OpenSystem.Core.Infrastructure.Extensions;
 
 namespace OpenSystem.Core.Infrastructure.Persistence
 {
@@ -18,6 +19,8 @@ namespace OpenSystem.Core.Infrastructure.Persistence
       : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
         protected readonly IDateTimeProvider DateTimeProvider;
+
+        protected readonly ICurrentUserService CurrentUserService;
 
         private readonly ILoggerFactory _loggerFactory;
 
@@ -31,12 +34,14 @@ namespace OpenSystem.Core.Infrastructure.Persistence
           IMediator mediator,
           AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor,
           IDateTimeProvider dateTimeProvider,
+          ICurrentUserService currentUserService,
             ILoggerFactory loggerFactory)
             : base(options, operationalStoreOptions)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
             DateTimeProvider = dateTimeProvider;
+            CurrentUserService = currentUserService;
             _loggerFactory = loggerFactory;
             _mediator = mediator;
             _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
@@ -77,16 +82,25 @@ namespace OpenSystem.Core.Infrastructure.Persistence
 
             foreach (var entry in ChangeTracker.Entries<Entity<Guid>>())
             {
-                switch (entry.State)
+              if (typeof(IAuditable).IsAssignableFrom(entry.Entity.GetType()))
+              {
+                var auditable = entry.Entity as IAuditable;
+                if (auditable != null)
                 {
-                    case EntityState.Added:
-                        entry.Entity.CreatedDateTime = DateTimeProvider.OffsetUtcNow;
+                  if (entry.State == EntityState.Added)
+                  {
+                    auditable.CreatedDateTime = DateTimeProvider.OffsetUtcNow;
+                    auditable.CreatedBy = CurrentUserService.UserId;
+                  }
+                  else if (entry.State == EntityState.Modified ||
+                    entry.HasChangedOwnedEntities())
+                  {
+                        auditable.UpdatedDateTime = DateTimeProvider.OffsetUtcNow;
+                        auditable.UpdatedBy = CurrentUserService.UserId;
                         break;
-
-                    case EntityState.Modified:
-                        entry.Entity.UpdatedDateTime = DateTimeProvider.OffsetUtcNow;
-                        break;
+                  }
                 }
+              }
             }
 
             return await base.SaveChangesAsync(cancellationToken);

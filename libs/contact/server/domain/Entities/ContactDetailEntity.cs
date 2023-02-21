@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace OpenSystem.Contact.Domain.Entities
 {
-    public class ContactDetailEntity : Entity<Guid>
+    public class ContactDetailEntity : AuditableEntity<Guid>
     {
         public ContactReasonTypes Reason { get; set; }
 

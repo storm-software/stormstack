@@ -7,7 +7,7 @@ using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
-    public abstract class Entity<T> : IIndexed<T>, IValidatableObject, IAuditable
+    public abstract class Entity<T> : IIndexed<T>, IValidatableObject
     {
       public static bool operator ==(Entity<T> a,
         Entity<T> b)
@@ -28,18 +28,6 @@ namespace OpenSystem.Core.Domain.Entities
       }
 
       public T Id { get; set; }
-
-      public int EventCounter { get; set; }
-
-      public VerificationCodeTypes VerificationCode { get; set; }
-
-      public string CreatedBy { get; set; } = "PSUL";
-
-      public DateTimeOffset CreatedDateTime { get; set; }
-
-      public string? UpdatedBy { get; set; }
-
-      public DateTimeOffset? UpdatedDateTime { get; set; }
 
       public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
       {

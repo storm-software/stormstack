@@ -143,7 +143,7 @@ export default function Header() {
       </motion.div>
 
       <motion.div
-        style={{ rotateZ: logoRotateZ }}
+        style={{ rotateZ: titleRotateZ }}
         className="absolute left-32 top-20"
         variants={variants}
         animate="floatBall"
@@ -157,7 +157,7 @@ export default function Header() {
         <FloatingSvg7 height={200} />
       </motion.div>
       <motion.div
-        style={{ rotateZ: logoRotateZ }}
+        style={{ rotateZ: titleRotateZ }}
         className="absolute bottom-48 left-32"
         variants={variants}
         animate="invert"

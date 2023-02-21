@@ -1,10 +1,10 @@
-# OpenSystem.Apis.Reaction.OpenSystem.Apis.Reaction.Contracts.GetReaction200ResponseDto
+# OpenSystem.Apis.Reaction..GetReaction200Response
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Guid** | **Guid** | The &#x60;guid&#x60; associated with the record | 
+**Id** | **Guid** | The &#x60;guid&#x60; associated with the record | 
 **CreatedOn** | **DateTimeOffset** |  | 
 **CreatedBy** | **string** |  | 
 **UpdatedOn** | **DateTimeOffset** |  | [optional] 

@@ -1,4 +1,4 @@
-# OpenSystem.Apis.Reaction.OpenSystem.Apis.Reaction.Contracts.ReactionDetailDto
+# OpenSystem.Apis.Reaction..ReactionDetail
 
 ## Properties
 

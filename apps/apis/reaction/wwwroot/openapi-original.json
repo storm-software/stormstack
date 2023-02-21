@@ -20,192 +20,23 @@
     "url" : "http://localhost:5000"
   } ],
   "tags" : [ {
-    "name" : "Reactions"
+    "name" : "Reaction"
   } ],
   "paths" : {
-    "/reactions/{contentType}/{contentId}" : {
-      "get" : {
-        "description" : "An end point that returns the reactions for an article/page to a client",
-        "operationId" : "get-reactions",
-        "parameters" : [ {
-          "description" : "The type of content the user is engaging with",
-          "explode" : false,
-          "in" : "path",
-          "name" : "contentType",
-          "required" : true,
-          "schema" : {
-            "enum" : [ "article", "comment" ],
-            "example" : "article",
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "The id of the content (ex: articleId, commentId, etc.)",
-          "explode" : false,
-          "in" : "path",
-          "name" : "contentId",
-          "required" : true,
-          "schema" : {
-            "format" : "uuid",
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Example 1" : {
-                    "value" : {
-                      "guid" : "123e4567-e89b-12d3-a456-426614174000",
-                      "createdOn" : "2022-03-19 04:24:02.190",
-                      "createdBy" : "PSUL",
-                      "updatedOn" : "2022-10-12 14:01:13.000",
-                      "updatedBy" : "PSUL",
-                      "articleId" : "home",
-                      "reactions" : [ {
-                        "type" : "like",
-                        "count" : 548
-                      } ]
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/get_reactions_200_response"
-                }
-              }
-            },
-            "description" : "Successful response to Get Reactions end point"
-          },
-          "401" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Not Found"
-          },
-          "500" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Internal Server Error"
-          },
-          "503" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Service Unavailable"
-          }
-        },
-        "summary" : "Get Reactions",
-        "tags" : [ "Reactions" ]
-      }
-    },
-    "/reactions/{contentType}/{contentId}/reaction/{reactionType}" : {
+    "/reactions/{contentId}" : {
       "delete" : {
         "description" : "Remove an existing reaction to an article",
-        "operationId" : "delete-reaction",
+        "operationId" : "remove-reaction",
         "parameters" : [ {
-          "description" : "The type of content the user is engaging with",
-          "explode" : false,
-          "in" : "path",
-          "name" : "contentType",
-          "required" : true,
-          "schema" : {
-            "enum" : [ "article", "comment" ],
-            "example" : "article",
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "The id of the content (ex: articleId, commentId, etc.)",
+          "description" : "The id of the article/comment",
           "explode" : false,
           "in" : "path",
           "name" : "contentId",
           "required" : true,
           "schema" : {
-            "format" : "uuid",
             "type" : "string"
           },
           "style" : "simple"
-        }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
         } ],
         "responses" : {
           "200" : {
@@ -214,12 +45,12 @@
                 "examples" : {
                   "Sample Response" : {
                     "value" : {
-                      "guid" : "123e4567-e89b-12d3-a456-426614174000"
+                      "id" : "123e4567-e89b-12d3-a456-426614174000"
                     }
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/UpdateSuccessResponse"
+                  "$ref" : "#/components/schemas/CommandSuccessResponse"
                 }
               }
             },
@@ -239,7 +70,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -259,7 +90,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -279,7 +110,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -299,7 +130,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -307,200 +138,69 @@
           }
         },
         "summary" : "Remove Reaction",
-        "tags" : [ "Reactions" ]
+        "tags" : [ "Reaction" ]
       },
       "get" : {
-        "description" : "An end point that returns the reactions for an article/page to a client",
-        "operationId" : "get-reaction",
+        "description" : "Return the reactions for a specific article, comment, etc. ",
+        "operationId" : "get-reactions",
         "parameters" : [ {
-          "description" : "The type of content the user is engaging with",
-          "explode" : false,
-          "in" : "path",
-          "name" : "contentType",
-          "required" : true,
-          "schema" : {
-            "enum" : [ "article", "comment" ],
-            "example" : "article",
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "The id of the content (ex: articleId, commentId, etc.)",
+          "description" : "The id of the article/comment",
           "explode" : false,
           "in" : "path",
           "name" : "contentId",
           "required" : true,
           "schema" : {
-            "format" : "uuid",
             "type" : "string"
           },
           "style" : "simple"
         }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
+          "description" : "The current page number of the selected data",
+          "in" : "query",
+          "name" : "pageNumber",
           "required" : true,
           "schema" : {
+            "default" : 1,
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "description" : "The maximum amount of data to return in one request",
+          "in" : "query",
+          "name" : "pageSize",
+          "required" : true,
+          "schema" : {
+            "default" : 200,
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "description" : "The field to order the request by",
+          "in" : "query",
+          "name" : "orderBy",
+          "required" : true,
+          "schema" : {
+            "default" : "id",
             "type" : "string"
           }
+        }, {
+          "description" : "The type of reaction the user had",
+          "explode" : true,
+          "in" : "query",
+          "name" : "type",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "like", "dislike", "laugh", "cry" ],
+            "example" : "like",
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
             "content" : {
               "application/json" : {
-                "examples" : {
-                  "Example 1" : {
-                    "value" : {
-                      "guid" : "123e4567-e89b-12d3-a456-426614174000",
-                      "createdOn" : "2022-03-19 04:24:02.190",
-                      "createdBy" : "PSUL",
-                      "updatedOn" : "2022-10-12 14:01:13.000",
-                      "updatedBy" : "PSUL",
-                      "articleId" : "home",
-                      "type" : "like",
-                      "count" : 548
-                    }
-                  }
-                },
                 "schema" : {
-                  "$ref" : "#/components/schemas/get_reaction_200_response"
-                }
-              }
-            },
-            "description" : "Successful response to Get Reactions end point"
-          },
-          "401" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Not Found"
-          },
-          "500" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Internal Server Error"
-          },
-          "503" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Error Response" : {
-                    "value" : {
-                      "type" : "https://example.com/probs/out-of-credit",
-                      "title" : "You do not have enough credit.",
-                      "detail" : "Your current balance is 30, but that costs 50.",
-                      "instance" : "/account/12345/msgs/abc"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
-                }
-              }
-            },
-            "description" : "Service Unavailable"
-          }
-        },
-        "summary" : "Get Reaction",
-        "tags" : [ "Reactions" ]
-      },
-      "post" : {
-        "description" : "Add a new reaction to an article",
-        "operationId" : "add-reaction",
-        "parameters" : [ {
-          "description" : "The type of content the user is engaging with",
-          "explode" : false,
-          "in" : "path",
-          "name" : "contentType",
-          "required" : true,
-          "schema" : {
-            "enum" : [ "article", "comment" ],
-            "example" : "article",
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "The id of the content (ex: articleId, commentId, etc.)",
-          "explode" : false,
-          "in" : "path",
-          "name" : "contentId",
-          "required" : true,
-          "schema" : {
-            "format" : "uuid",
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "The id of the current user sending the request",
-          "in" : "header",
-          "name" : "userId",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "examples" : {
-                  "Sample Response" : {
-                    "value" : {
-                      "guid" : "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                  }
-                },
-                "schema" : {
-                  "$ref" : "#/components/schemas/UpdateSuccessResponse"
+                  "$ref" : "#/components/schemas/get_reactions_200_response"
                 }
               }
             },
@@ -520,7 +220,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -540,7 +240,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -560,7 +260,7 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -580,7 +280,132 @@
                   }
                 },
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProblemDetails"
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Get Reactions",
+        "tags" : [ "Reaction" ]
+      },
+      "post" : {
+        "description" : "Add a new reaction to an article",
+        "operationId" : "add-reaction",
+        "parameters" : [ {
+          "description" : "The id of the article/comment",
+          "explode" : false,
+          "in" : "path",
+          "name" : "contentId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/add_reaction_request"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Sample Response" : {
+                    "value" : {
+                      "id" : "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/CommandSuccessResponse"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
                 }
               }
             },
@@ -588,145 +413,340 @@
           }
         },
         "summary" : "Add Reaction",
-        "tags" : [ "Reactions" ]
+        "tags" : [ "Reaction" ]
+      }
+    },
+    "/reactions/{contentId}/count" : {
+      "get" : {
+        "description" : "Return the reaction counts for a specific article, comment, etc. ",
+        "operationId" : "get-reactions-count",
+        "parameters" : [ {
+          "description" : "The id of the article/comment",
+          "explode" : false,
+          "in" : "path",
+          "name" : "contentId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The type of reaction the user had",
+          "explode" : true,
+          "in" : "query",
+          "name" : "type",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "like", "dislike", "laugh", "cry" ],
+            "example" : "like",
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/get_reactions_count_200_response"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          },
+          "503" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Error Response" : {
+                    "value" : {
+                      "type" : "https://example.com/probs/out-of-credit",
+                      "title" : "You do not have enough credit.",
+                      "detail" : "Your current balance is 30, but that costs 50.",
+                      "instance" : "/account/12345/msgs/abc"
+                    }
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProblemDetailsResponse"
+                }
+              }
+            },
+            "description" : "Service Unavailable"
+          }
+        },
+        "summary" : "Get Reaction Counts",
+        "tags" : [ "Reaction" ]
       }
     }
   },
   "components" : {
     "parameters" : {
-      "reactionType" : {
+      "type" : {
         "description" : "The type of reaction the user had",
-        "explode" : false,
-        "in" : "path",
-        "name" : "reactionType",
-        "required" : true,
+        "explode" : true,
+        "in" : "query",
+        "name" : "type",
+        "required" : false,
         "schema" : {
-          "enum" : [ "like", "dislike", "happy", "sad", "laugh", "cry" ],
+          "enum" : [ "like", "dislike", "laugh", "cry" ],
           "example" : "like",
           "type" : "string"
         },
-        "style" : "simple"
+        "style" : "form"
       },
-      "contentType" : {
-        "description" : "The type of content the user is engaging with",
-        "explode" : false,
-        "in" : "path",
-        "name" : "contentType",
+      "pageNumber" : {
+        "description" : "The current page number of the selected data",
+        "in" : "query",
+        "name" : "pageNumber",
         "required" : true,
         "schema" : {
-          "enum" : [ "article", "comment" ],
-          "example" : "article",
-          "type" : "string"
-        },
-        "style" : "simple"
+          "default" : 1,
+          "minimum" : 1,
+          "type" : "integer"
+        }
       },
-      "contentId" : {
-        "description" : "The id of the content (ex: articleId, commentId, etc.)",
-        "explode" : false,
-        "in" : "path",
-        "name" : "contentId",
+      "pageSize" : {
+        "description" : "The maximum amount of data to return in one request",
+        "in" : "query",
+        "name" : "pageSize",
         "required" : true,
         "schema" : {
-          "format" : "uuid",
-          "type" : "string"
-        },
-        "style" : "simple"
+          "default" : 200,
+          "minimum" : 1,
+          "type" : "integer"
+        }
       },
-      "userId" : {
-        "description" : "The id of the current user sending the request",
-        "in" : "header",
-        "name" : "userId",
+      "orderBy" : {
+        "description" : "The field to order the request by",
+        "in" : "query",
+        "name" : "orderBy",
         "required" : true,
         "schema" : {
+          "default" : "id",
           "type" : "string"
         }
       }
     },
     "requestBodies" : { },
-    "responses" : {
-      "GetReactionsResponse" : {
-        "content" : {
-          "application/json" : {
-            "examples" : {
-              "Example 1" : {
-                "value" : {
-                  "guid" : "123e4567-e89b-12d3-a456-426614174000",
-                  "createdOn" : "2022-03-19 04:24:02.190",
-                  "createdBy" : "PSUL",
-                  "updatedOn" : "2022-10-12 14:01:13.000",
-                  "updatedBy" : "PSUL",
-                  "articleId" : "home",
-                  "reactions" : [ {
-                    "type" : "like",
-                    "count" : 548
-                  } ]
-                }
-              }
-            },
-            "schema" : {
-              "$ref" : "#/components/schemas/get_reactions_200_response"
-            }
-          }
-        },
-        "description" : "Successful response to Get Reactions end point"
-      },
-      "GetReactionResponse" : {
-        "content" : {
-          "application/json" : {
-            "examples" : {
-              "Example 1" : {
-                "value" : {
-                  "guid" : "123e4567-e89b-12d3-a456-426614174000",
-                  "createdOn" : "2022-03-19 04:24:02.190",
-                  "createdBy" : "PSUL",
-                  "updatedOn" : "2022-10-12 14:01:13.000",
-                  "updatedBy" : "PSUL",
-                  "articleId" : "home",
-                  "type" : "like",
-                  "count" : 548
-                }
-              }
-            },
-            "schema" : {
-              "$ref" : "#/components/schemas/get_reaction_200_response"
-            }
-          }
-        },
-        "description" : "Successful response to Get Reactions end point"
-      }
-    },
+    "responses" : { },
     "schemas" : {
-      "ReactionDetail" : {
+      "ReactionDetailRecord" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/RecordBase"
+        }, {
+          "$ref" : "#/components/schemas/ReactionDetailRecord_allOf"
+        } ],
+        "description" : "A model containing the reaction data returned from the server",
+        "title" : ""
+      },
+      "ReactionCountRecord" : {
+        "description" : "A model containing the minimum reaction count data",
+        "example" : {
+          "count" : 0,
+          "type" : "type"
+        },
         "properties" : {
           "type" : {
-            "default" : "like",
-            "enum" : [ "like", "dislike", "happy", "sad", "cry", "laugh" ],
-            "example" : "like",
             "type" : "string"
           },
           "count" : {
-            "example" : 548,
+            "default" : 0,
+            "example" : 0,
             "minimum" : 0,
             "type" : "integer"
           }
         },
         "required" : [ "count", "type" ],
-        "title" : "ReactionDetail",
+        "title" : "ReactionCountRecord",
         "type" : "object",
         "x-stoplight" : {
-          "id" : "eaea51555be8e"
+          "id" : "j33ttgok6sqro"
+        }
+      },
+      "PagedQueryResponse" : {
+        "description" : "A base response containing page data for a request",
+        "properties" : {
+          "pageNumber" : {
+            "description" : "The current page number of the selected data",
+            "exclusiveMinimum" : false,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "pageSize" : {
+            "description" : "The size of the current page",
+            "exclusiveMinimum" : false,
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "recordsTotal" : {
+            "description" : "The total number of records in the data set",
+            "minimum" : 0,
+            "type" : "integer"
+          },
+          "recordsFiltered" : {
+            "description" : "The number of records filtered from the data set",
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        },
+        "required" : [ "pageNumber", "pageSize", "recordsFiltered", "recordsTotal" ],
+        "title" : "PagedQueryResponse",
+        "type" : "object",
+        "x-stoplight" : {
+          "id" : "wv4a6cw0znzw7"
+        }
+      },
+      "ProblemDetailsResponse" : {
+        "description" : "A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.",
+        "properties" : {
+          "type" : {
+            "default" : "about:blank",
+            "description" : "A URI reference [RFC3986](https://www.rfc-editor.org/rfc/rfc3986) that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028](https://www.rfc-editor.org/rfc/rfc7807#ref-W3C.REC-html5-20141028)). When this member is not present, its value is assumed to be `about:blank`.",
+            "example" : "https://example.com/probs/out-of-credit",
+            "type" : "string"
+          },
+          "title" : {
+            "default" : "An error occurred processing your request.",
+            "description" : "A short, human-readable summary of the problem type. It **SHOULD NOT** change from occurrence to occurrence of the pro**blem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231, Section 3.4](https://www.rfc-editor.org/rfc/rfc7231#section-3.4)).",
+            "example" : "You do not have enough credit.",
+            "type" : "string"
+          },
+          "detail" : {
+            "description" : "A human-readable explanation specific to this occurrence of the problem.",
+            "example" : "Your current balance is 30, but that costs 50.",
+            "type" : "string"
+          },
+          "instance" : {
+            "description" : "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
+            "example" : "/account/12345/msgs/abc",
+            "type" : "string"
+          }
+        },
+        "required" : [ "type" ],
+        "title" : "ProblemDetailsResponse",
+        "type" : "object",
+        "x-stoplight" : {
+          "id" : "99ddb087e4b89"
         },
         "x-examples" : {
-          "Example 1" : {
-            "type" : "like",
-            "count" : 548
+          "Sample Response" : {
+            "type" : "about:blank",
+            "title" : "An error occurred processing your request.",
+            "detail" : "Your current balance is 30, but that costs 50.",
+            "instance" : "/account/12345/msgs/abc"
           }
+        }
+      },
+      "CommandSuccessResponse" : {
+        "description" : "A response returned from the server when data is successfully updated",
+        "example" : {
+          "id" : "123e4567-e89b-12d3-a456-426614174000"
+        },
+        "properties" : {
+          "id" : {
+            "description" : "The `guid` associated with the record",
+            "example" : "123e4567-e89b-12d3-a456-426614174000",
+            "format" : "uuid",
+            "title" : "Guid",
+            "type" : "string",
+            "x-stoplight" : {
+              "id" : "rxw5bcg38wwhi"
+            },
+            "x-examples" : {
+              "Sample Guid" : "123e4567-e89b-12d3-a456-426614174000"
+            }
+          }
+        },
+        "required" : [ "id" ],
+        "title" : "CommandSuccessResponse",
+        "type" : "object",
+        "x-stoplight" : {
+          "id" : "37ef029e57dd1"
+        },
+        "x-examples" : {
+          "Sample Response" : {
+            "guid" : "123e4567-e89b-12d3-a456-426614174000"
+          }
+        }
+      },
+      "Guid" : {
+        "description" : "The `guid` associated with the record",
+        "example" : "123e4567-e89b-12d3-a456-426614174000",
+        "format" : "uuid",
+        "title" : "Guid",
+        "type" : "string",
+        "x-stoplight" : {
+          "id" : "rxw5bcg38wwhi"
+        },
+        "x-examples" : {
+          "Sample Guid" : "123e4567-e89b-12d3-a456-426614174000"
         }
       },
       "RecordBase" : {
         "description" : "The minimum model fields shared by all data stored in the database",
         "properties" : {
-          "guid" : {
+          "id" : {
             "description" : "The `guid` associated with the record",
             "example" : "123e4567-e89b-12d3-a456-426614174000",
             "format" : "uuid",
@@ -756,7 +776,7 @@
             "type" : "string"
           }
         },
-        "required" : [ "createdBy", "createdOn", "guid" ],
+        "required" : [ "createdBy", "createdOn", "id" ],
         "title" : "RecordBase",
         "type" : "object",
         "x-stoplight" : {
@@ -772,141 +792,67 @@
           }
         }
       },
-      "Guid" : {
-        "description" : "The `guid` associated with the record",
-        "example" : "123e4567-e89b-12d3-a456-426614174000",
-        "format" : "uuid",
-        "title" : "Guid",
-        "type" : "string",
-        "x-stoplight" : {
-          "id" : "rxw5bcg38wwhi"
-        },
-        "x-examples" : {
-          "Sample Guid" : "123e4567-e89b-12d3-a456-426614174000"
-        }
-      },
-      "ProblemDetails" : {
-        "description" : "A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.",
-        "properties" : {
-          "type" : {
-            "default" : "about:blank",
-            "description" : "A URI reference [RFC3986](https://www.rfc-editor.org/rfc/rfc3986) that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028](https://www.rfc-editor.org/rfc/rfc7807#ref-W3C.REC-html5-20141028)). When this member is not present, its value is assumed to be `about:blank`.",
-            "example" : "https://example.com/probs/out-of-credit",
-            "type" : "string"
-          },
-          "title" : {
-            "default" : "An error occurred processing your request.",
-            "description" : "A short, human-readable summary of the problem type. It **SHOULD NOT** change from occurrence to occurrence of the pro**blem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231, Section 3.4](https://www.rfc-editor.org/rfc/rfc7231#section-3.4)).",
-            "example" : "You do not have enough credit.",
-            "type" : "string"
-          },
-          "detail" : {
-            "description" : "A human-readable explanation specific to this occurrence of the problem.",
-            "example" : "Your current balance is 30, but that costs 50.",
-            "type" : "string"
-          },
-          "instance" : {
-            "description" : "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
-            "example" : "/account/12345/msgs/abc",
-            "type" : "string"
-          }
-        },
-        "required" : [ "type" ],
-        "title" : "ProblemDetails",
-        "type" : "object",
-        "x-stoplight" : {
-          "id" : "9o873j87rv4nb"
-        },
-        "x-examples" : {
-          "Sample Response" : {
-            "type" : "about:blank",
-            "title" : "An error occurred processing your request.",
-            "detail" : "Your current balance is 30, but that costs 50.",
-            "instance" : "/account/12345/msgs/abc"
-          }
-        }
-      },
-      "UpdateSuccessResponse" : {
-        "description" : "A response returned from the server when data is successfully updated",
-        "example" : {
-          "guid" : "123e4567-e89b-12d3-a456-426614174000"
-        },
-        "properties" : {
-          "guid" : {
-            "description" : "The `guid` associated with the record",
-            "example" : "123e4567-e89b-12d3-a456-426614174000",
-            "format" : "uuid",
-            "title" : "Guid",
-            "type" : "string",
-            "x-stoplight" : {
-              "id" : "rxw5bcg38wwhi"
-            },
-            "x-examples" : {
-              "Sample Guid" : "123e4567-e89b-12d3-a456-426614174000"
-            }
-          }
-        },
-        "required" : [ "guid" ],
-        "title" : "UpdateSuccessResponse",
-        "type" : "object",
-        "x-stoplight" : {
-          "id" : "bnmwekvdvhi5z"
-        },
-        "x-examples" : {
-          "Sample Response" : {
-            "guid" : "123e4567-e89b-12d3-a456-426614174000"
-          }
-        }
-      },
       "get_reactions_200_response_allOf" : {
         "properties" : {
-          "articleId" : {
-            "description" : "The id of the article/page",
-            "example" : "home",
-            "type" : "string"
-          },
-          "reactions" : {
-            "description" : "The list of reactions for the specified article ",
+          "data" : {
             "items" : {
-              "$ref" : "#/components/schemas/ReactionDetail"
+              "$ref" : "#/components/schemas/ReactionDetailRecord"
             },
             "type" : "array"
           }
         },
-        "required" : [ "articleId", "reactions" ],
+        "required" : [ "data" ],
         "type" : "object"
       },
       "get_reactions_200_response" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/RecordBase"
+          "$ref" : "#/components/schemas/PagedQueryResponse"
         }, {
           "$ref" : "#/components/schemas/get_reactions_200_response_allOf"
         } ]
       },
-      "get_reaction_200_response_allOf_allOf" : {
+      "add_reaction_request" : {
         "properties" : {
-          "articleId" : {
-            "description" : "The id of the article/page",
-            "example" : "home",
+          "type" : {
+            "enum" : [ "like", "unlike", "cry", "laugh" ],
             "type" : "string"
           }
         },
-        "required" : [ "articleId" ],
+        "required" : [ "type" ],
         "type" : "object"
       },
-      "get_reaction_200_response_allOf" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/get_reaction_200_response_allOf_allOf"
-        }, {
-          "$ref" : "#/components/schemas/ReactionDetail"
-        } ]
+      "get_reactions_count_200_response" : {
+        "example" : {
+          "data" : [ {
+            "count" : 0,
+            "type" : "type"
+          }, {
+            "count" : 0,
+            "type" : "type"
+          } ]
+        },
+        "properties" : {
+          "data" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ReactionCountRecord"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
       },
-      "get_reaction_200_response" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/RecordBase"
-        }, {
-          "$ref" : "#/components/schemas/get_reaction_200_response_allOf"
-        } ]
+      "ReactionDetailRecord_allOf" : {
+        "properties" : {
+          "userId" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "type", "userId" ],
+        "type" : "object",
+        "example" : null
       }
     },
     "securitySchemes" : { }

@@ -30,7 +30,9 @@ namespace OpenSystem.Apis.Reaction.Attributes
                         args = context.ActionArguments[parameter.Name];
                     }
 
-                    ValidateAttributes(parameter, args, context.ModelState);
+                    ValidateAttributes(parameter,
+                      args,
+                      context.ModelState);
                 }
             }
 
@@ -40,7 +42,9 @@ namespace OpenSystem.Apis.Reaction.Attributes
             }
         }
 
-        private void ValidateAttributes(ParameterInfo parameter, object args, ModelStateDictionary modelState)
+        private void ValidateAttributes(ParameterInfo parameter,
+          object args,
+          ModelStateDictionary modelState)
         {
             foreach (var attributeData in parameter.CustomAttributes)
             {
@@ -52,7 +56,8 @@ namespace OpenSystem.Apis.Reaction.Attributes
                     var isValid = validationAttribute.IsValid(args);
                     if (!isValid)
                     {
-                        modelState.AddModelError(parameter.Name, validationAttribute.FormatErrorMessage(parameter.Name));
+                        modelState.AddModelError(parameter.Name,
+                          validationAttribute.FormatErrorMessage(parameter.Name));
                     }
                 }
             }
