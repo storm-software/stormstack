@@ -1,4 +1,5 @@
 import URLParse from "url-parse";
+import { ConsoleLogger } from "../logging/console-logger";
 import { HttpFetchApi, HttpMethod } from "../types";
 
 /**
@@ -152,5 +153,30 @@ export class RequestContext<T = any> {
    */
   public setHeaderParam(key: string, value: string): void {
     this.headers[key] = value;
+  }
+
+  public getRequestOptions(
+    api?: HttpFetchApi,
+    extraOptions?: any
+  ): RequestInit {
+    const method = this.getHttpMethod(api, extraOptions).toString();
+
+    ConsoleLogger.debug(
+      `Preparing request: ${method} (${this.getUrl("", api, extraOptions)})`
+    );
+
+    const request = {
+      method: this.getHttpMethod(api, extraOptions).toString(),
+      body: this.getBody(api, extraOptions) as any,
+      headers: this.getHeaders(api, extraOptions),
+      credentials: "include",
+      mode: "cors",
+      signal: api?.signal,
+      ...extraOptions,
+    };
+
+    ConsoleLogger.debug(`Request details: ${JSON.stringify(request)}`);
+
+    return request;
   }
 }

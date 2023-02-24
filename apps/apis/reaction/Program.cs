@@ -31,7 +31,7 @@ try
       .CreateLogger();
     builder.Host.UseSerilog(Log.Logger);
 
-    builder.Services.AddServiceDiscovery(builder.Configuration);
+    // builder.Services.AddServiceDiscovery(builder.Configuration);
 
     builder.Services.AddReactionApplicationLayer();
     builder.Services.AddReactionPersistenceInfrastructure(builder.Configuration);

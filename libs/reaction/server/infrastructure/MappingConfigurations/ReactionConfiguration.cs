@@ -8,14 +8,17 @@ namespace OpenSystem.Reaction.Infrastructure.MappingConfigurations
     {
         public void Configure(EntityTypeBuilder<ReactionEntity> builder)
         {
-          builder.ToTable("Reactions");
+          builder.ToTable("Reaction");
 
-          builder.Property(x => x.Id)
+          builder.Property(r => r.Id)
             .HasDefaultValueSql("newsequentialid()")
             .IsRequired();
 
-          builder.HasMany(x => x.Details)
-            .WithOne(x => x.Reaction)
+          builder.HasAlternateKey(r => r.ContentId);
+
+          builder.HasMany(r => r.Details)
+            .WithOne(d => d.Reaction)
+            .HasForeignKey(d => d.ReactionId)
             .OnDelete(DeleteBehavior.Cascade);
         }
     }

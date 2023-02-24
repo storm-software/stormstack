@@ -52,7 +52,7 @@ export function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
                 rounding={ButtonCornerRoundingTypes.NONE}
                 transitionDirection={ButtonTransitionDirections.NONE}
                 onClick={reset}>
-                Try Again
+                Retry
               </Button>
               <Button
                 className="w-44"

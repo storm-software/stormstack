@@ -21,7 +21,7 @@ const variants = {
     rotate: "360deg",
   },
   floatBall: {
-    translateY: [15, -55, 10, -60, 5, -30, 45, -30, 5],
+    translateY: [5, -65, 10, -70, 5, -40, 35, -40, 5],
   },
   invert: {
     translateY: [-30, 0, -30, 0, -30, 0, -30, 0, -30],
@@ -144,7 +144,7 @@ export default function Header() {
 
       <motion.div
         style={{ rotateZ: titleRotateZ }}
-        className="absolute left-32 top-20"
+        className="absolute top-32 left-32"
         variants={variants}
         animate="floatBall"
         transition={{

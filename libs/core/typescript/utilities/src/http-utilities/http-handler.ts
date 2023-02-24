@@ -9,7 +9,7 @@ import { ResponseContext } from "./response-context";
 export type HttpHandlerReturn<T = any, E = any, M = any> =
   | {
       error: E;
-      data?: undefined;
+      data: ResponseContext<T>;
       meta?: M | undefined;
     }
   | {
@@ -28,25 +28,16 @@ export const fetchHttpHandler =
   ({ baseUrl }: { baseUrl: string }) =>
   async (
     request: RequestContext,
-    api: HttpFetchApi,
-    extraOptions: any
+    api?: HttpFetchApi,
+    extraOptions?: any
   ): Promise<HttpHandlerReturn> => {
     const timestamp = DateTime.current;
 
     const url = request.getUrl(baseUrl, api, extraOptions);
-    const method = request.getHttpMethod(api, extraOptions).toString();
 
-    ConsoleLogger.debug(`Sending request: ${method} (${url})`);
+    ConsoleLogger.debug(`Sending request to ${url}`);
 
-    const response = await fetch(url, {
-      method,
-      body: request.getBody(api, extraOptions) as any,
-      headers: request.getHeaders(api, extraOptions),
-      credentials: "include",
-      mode: "cors",
-      signal: api.signal,
-      ...extraOptions,
-    });
+    const response = await fetch(url, request.getRequestOptions());
 
     ConsoleLogger.debug(
       `Received response status code: ${response.status} (${url})`
@@ -68,7 +59,6 @@ export const fetchHttpHandler =
         response.statusText
       ),
       meta: {
-        request,
         type: response.type,
         timestamp,
         extraOptions,

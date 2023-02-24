@@ -12,6 +12,8 @@ using Duende.IdentityServer.EntityFramework.Options;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Infrastructure.Extensions;
+using System.Transactions;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace OpenSystem.Core.Infrastructure.Persistence
 {
@@ -27,6 +29,8 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
 
         private readonly IMediator _mediator;
+
+        private IDbContextTransaction _dbContextTransaction;
 
         public ApplicationDbContext(
           DbContextOptions options,
@@ -45,6 +49,18 @@ namespace OpenSystem.Core.Infrastructure.Persistence
             _loggerFactory = loggerFactory;
             _mediator = mediator;
             _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
+        }
+
+        public async Task<IDisposable> BeginTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            _dbContextTransaction = await Database.BeginTransactionAsync(cancellationToken);
+
+            return _dbContextTransaction;
+        }
+
+        public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            await _dbContextTransaction.CommitAsync(cancellationToken);
         }
 
         public override int SaveChanges()
@@ -112,16 +128,15 @@ namespace OpenSystem.Core.Infrastructure.Persistence
             if (ret.Failed)
               throw new GeneralProcessingException();
 
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
             base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLoggerFactory(_loggerFactory);
             optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
-        }
+        }*/
 
         protected virtual Result InnerOnModelCreating(ModelBuilder builder)
         {

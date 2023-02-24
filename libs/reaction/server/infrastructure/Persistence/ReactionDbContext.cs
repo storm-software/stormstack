@@ -9,6 +9,7 @@ using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Reaction.Domain.Entities;
 using OpenSystem.Core.Infrastructure.Persistence;
+using OpenSystem.Reaction.Infrastructure.MappingConfigurations;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
@@ -36,7 +37,9 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
         protected override Result InnerOnModelCreating(ModelBuilder builder)
         {
-          builder.Entity<ReactionEntity>();
+          //builder.ApplyConfiguration(new ReactionConfiguration());
+          //builder.ApplyConfiguration(new ReactionDetailConfiguration());
+
           return Result.Success();
         }
     }

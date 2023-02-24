@@ -11,6 +11,8 @@ namespace OpenSystem.Reaction.Domain.Entities
     {
         public string ContentId { get; set; }
 
+        public bool IsDisabled { get; set; } = false;
+
         public IList<ReactionDetailEntity> Details { get; set; } = new List<ReactionDetailEntity>();
     }
 }

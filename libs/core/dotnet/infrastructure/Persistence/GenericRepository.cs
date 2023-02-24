@@ -11,6 +11,8 @@ namespace OpenSystem.Core.Infrastructure.Persistence
     {
         protected readonly ApplicationDbContext DbContext;
 
+        protected DbSet<TEntity> DbSet => DbContext.Set<TEntity>();
+
         public GenericRepository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
@@ -18,14 +20,13 @@ namespace OpenSystem.Core.Infrastructure.Persistence
 
         public virtual async Task<TEntity> GetByIdAsync(Guid guid)
         {
-            return await DbContext.Set<TEntity>().FindAsync(guid);
+            return await DbSet.FindAsync(guid);
         }
 
         public async Task<IEnumerable<TEntity>> GetPagedResponseAsync(int pageNumber,
           int pageSize)
         {
-            return await DbContext
-              .Set<TEntity>()
+            return await DbSet
               .Skip((pageNumber - 1) * pageSize)
               .Take(pageSize)
               .AsNoTracking()
@@ -37,8 +38,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
           string orderBy,
           string fields)
         {
-            return await DbContext
-              .Set<TEntity>()
+            return await DbSet
               .Skip((pageNumber - 1) * pageSize)
               .Take(pageSize)
               .Select<TEntity>("new(" + fields + ")")
@@ -64,9 +64,12 @@ namespace OpenSystem.Core.Infrastructure.Persistence
           CancellationToken cancellationToken = default)
         {
             DbContext.Entry(entity).State = EntityState.Added;
-
-            await DbContext.Set<TEntity>().AddAsync(entity,
+            await DbSet.AddAsync(entity,
               cancellationToken);
+
+            entity = await InnerAddAsync(entity,
+              cancellationToken);
+
             await DbContext.SaveChangesAsync(cancellationToken);
 
             return entity;
@@ -76,21 +79,49 @@ namespace OpenSystem.Core.Infrastructure.Persistence
           CancellationToken cancellationToken = default)
         {
             DbContext.Entry(entity).State = EntityState.Modified;
+
+            await InnerDeleteAsync(entity,
+              cancellationToken);
+
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task DeleteAsync(TEntity entity,
           CancellationToken cancellationToken = default)
         {
-            DbContext.Set<TEntity>().Remove(entity);
+            DbSet.Remove(entity);
+
+            await InnerDeleteAsync(entity,
+              cancellationToken);
+
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await DbContext
-              .Set<TEntity>()
+            return await DbSet
               .ToListAsync();
+        }
+
+        public IQueryable<TEntity> GetAll()
+        {
+            return DbContext.Set<TEntity>();
+        }
+
+        protected virtual async Task<TEntity> InnerAddAsync(TEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+          return entity;
+        }
+
+        protected virtual async Task InnerUpdateAsync(TEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+        }
+
+        protected virtual async Task InnerDeleteAsync(TEntity entity,
+          CancellationToken cancellationToken = default)
+        {
         }
     }
 }

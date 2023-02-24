@@ -18,6 +18,8 @@ namespace OpenSystem.Reaction.Application.Interfaces
 
         Task<IEnumerable<ReactionCountRecord>> GetReactionsCountAsync(GetReactionsCountQuery requestParameters);
 
+        Task<ReactionEntity?> GetByContentIdAsync(string contentId);
+
         Task<bool> UserHasReactedAsync(string contentId);
     }
 }

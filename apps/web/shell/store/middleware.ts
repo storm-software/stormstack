@@ -1,4 +1,5 @@
-import { contactApi } from "@open-system/contact-ui-data-access";
+import { contactApi } from "@open-system/contact-ui-data-access/apis";
+import { reactionApi } from "@open-system/reaction-ui-data-access/apis";
 import {
   errorHandlerMiddleware,
   loggerMiddleware,
@@ -22,5 +23,6 @@ export const middleware = (getDefaultMiddleware: any) =>
     loggerMiddleware,
     errorHandlerMiddleware,
     serializableMiddleware,
+    reactionApi.middleware,
     contactApi.middleware,
   ]);

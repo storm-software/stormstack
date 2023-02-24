@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Extensions;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
@@ -31,6 +32,12 @@ namespace OpenSystem.Reaction.Application.Commands
           CancellationToken cancellationToken)
         {
             var reaction = _mapper.Map<ReactionEntity>(request);
+
+            var existing = await _repository.GetByContentIdAsync(request.ContentId);
+            if (existing != null) {
+              existing.CopyTo(reaction);
+            }
+
             var result = await _repository.AddOrUpdateAsync(reaction,
               cancellationToken);
 

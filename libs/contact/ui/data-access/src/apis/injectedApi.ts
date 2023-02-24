@@ -1,10 +1,5 @@
-import {
-  HttpHandler,
-  ResponseContext,
-} from "@open-system/core-typescript-utilities";
+import { ResponseContext } from "@open-system/core-typescript-utilities";
 import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
-import { apiSlice as api } from "./apiSlice";
-
 import {
   CommandSuccessResponse,
   ContactHeaderRecord,
@@ -14,6 +9,7 @@ import {
   GetContacts200Response,
   GetSubscriptions200Response,
 } from "../models";
+import { apiSlice as api } from "./apiSlice";
 
 import {
   ContactApiRequestFactory,
@@ -188,9 +184,7 @@ export const contactApi = api
     addTagTypes,
   })
   .injectEndpoints({
-    endpoints: (
-      build: EndpointBuilder<HttpHandler, "Contact", "contactApi">
-    ) => ({
+    endpoints: (build: EndpointBuilder<any, "Contact", "contactApi">) => ({
       createContact: build.mutation<
         CommandSuccessResponse,
         ContactApiCreateContactRequest

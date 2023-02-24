@@ -65,6 +65,15 @@ namespace OpenSystem.Core.WebApi.Middleware
 
                           errorResponse.Detail = String.Join(Literals.NewLine,
                             e.Errors.ToArray());
+
+                          errorResponse.Fields = new List<ErrorResponseField>();
+                          foreach(KeyValuePair<string, string[]> errorField in e.Errors.ToArray())
+                          {
+                            errorResponse.Fields.Add(new ErrorResponseField {
+                              Name = errorField.Key,
+                              Errors = errorField.Value.ToList(),
+                            });
+                          }
                         }
 
                         break;
@@ -102,6 +111,7 @@ namespace OpenSystem.Core.WebApi.Middleware
 
                 // use ILogger to log the exception message
                 _logger.LogError(error?.Message);
+                _logger.LogError(errorResponse?.Title);
 
                 await response.WriteAsync(JsonSerializer.Serialize(errorResponse));
             }

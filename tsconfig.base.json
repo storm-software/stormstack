@@ -22,6 +22,9 @@
       "@open-system/contact-ui-data-access": [
         "libs/contact/ui/data-access/src/index.ts"
       ],
+      "@open-system/contact-ui-data-access/*": [
+        "libs/contact/ui/data-access/src/*"
+      ],
       "@open-system/contact-ui-feature-form": [
         "libs/contact/ui/feature-form/src/index.ts"
       ],
@@ -55,6 +58,9 @@
       "@open-system/reaction-ui-data-access": [
         "libs/reaction/ui/data-access/src/index.ts"
       ],
+      "@open-system/reaction-ui-data-access/*": [
+        "libs/reaction/ui/data-access/src/*"
+      ],
       "@open-system/reaction-ui-feature-like": [
         "libs/reaction/ui/src/index.ts"
       ],
@@ -71,6 +77,9 @@
       ],
       "@open-system/shared-ui-data-access": [
         "libs/shared/ui/data-access/src/index.ts"
+      ],
+      "@open-system/shared-ui-data-access/*": [
+        "libs/shared/ui/data-access/src/*"
       ],
       "@open-system/shared-ui-feature-form": [
         "libs/shared/ui/feature-form/src/index.ts"

@@ -1,7 +1,7 @@
 /*
  * Reaction APIs
  *
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -27,12 +27,13 @@ using System.Text.Json;
 using OpenSystem.Core.WebApi.Controllers;
 
 namespace OpenSystem.Apis.Reaction.Controllers.v1
-{ 
+{
 
     /// <summary>
     /// Controller for ReactionApi service implementation(s)
     /// </summary>
     [Description("Controller for ReactionApi service implementation(s)")]
+    [Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}")]
     public sealed class ReactionApiController : BaseApiController
@@ -84,6 +85,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         [Route("reactions/{contentId}")]
         [Consumes("application/json")]
         [ValidateModelState]
+        [AllowAnonymous]
         [SwaggerOperation("AddReaction")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
         [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
@@ -168,6 +170,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         [Route("reactions/{contentId}/count")]
         [Consumes("application/json")]
         [ValidateModelState]
+        [AllowAnonymous]
         [SwaggerOperation("GetReactionsCount")]
         [SwaggerResponse(statusCode: 200, type: typeof(GetReactionsCount200Response), description: "OK")]
         [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
@@ -204,6 +207,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         [Route("reactions/{contentId}")]
         [Consumes("application/json")]
         [ValidateModelState]
+        [AllowAnonymous]
         [SwaggerOperation("RemoveReaction")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
         [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]

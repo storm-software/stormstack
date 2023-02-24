@@ -13,7 +13,9 @@
         "tsConfig": "libs/reaction/ui/data-access/tsconfig.lib.json",
         "project": "libs/reaction/ui/data-access/package.json",
         "entryFile": "libs/reaction/ui/data-access/src/index.ts",
+        "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "compiler": "swc",
         "assets": [
           {
             "glob": "libs/reaction/ui/data-access/README.md",
@@ -40,12 +42,12 @@
         "passWithNoTests": true
       }
     },
-    "client-api-sync": {
-      "executor": "@open-system/executors-typescript:client-api-sync",
+    "client-redux-sync": {
+      "executor": "@open-system/executors-typescript:client-redux-sync",
       "options": {
         "domainName": "reaction",
         "specJsonFile": "libs/reaction/config/src/reaction.api-spec.json",
-        "generator": "open-system-typescript-client"
+        "generator": "open-system-typescript-redux"
       }
     },
     "semantic-release": {

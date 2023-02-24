@@ -287,6 +287,7 @@ public class OpenSystemTypeScriptReduxGenerator extends DefaultCodegen implement
 
         supportingFiles.add(new SupportingFile("apis" + File.separator + "injectedApi.mustache", this.sourceFolder + File.separator + "apis", "injectedApi.ts"));
         supportingFiles.add(new SupportingFile("apis" + File.separator + "index.mustache", this.sourceFolder + File.separator + "apis", "index.ts"));
+        supportingFiles.add(new SupportingFile("apis" + File.separator + "apiSlice.mustache", this.sourceFolder + File.separator + "apis", "apiSlice.ts"));
 
         // models
         setModelPackage(this.sourceFolder + File.separator + "models");
@@ -298,6 +299,7 @@ public class OpenSystemTypeScriptReduxGenerator extends DefaultCodegen implement
 
         apiTemplateFiles.put("parsers" + File.separator + "api.mustache", "Parser.ts");
         supportingFiles.add(new SupportingFile("parsers" + File.separator + "index.mustache", this.sourceFolder + File.separator + "parsers", "index.ts"));
+
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
 

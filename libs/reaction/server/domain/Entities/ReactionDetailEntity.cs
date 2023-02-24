@@ -12,6 +12,8 @@ namespace OpenSystem.Reaction.Domain.Entities
 
         public string UserId { get; set; }
 
+        public Guid ReactionId { get; set; }
+
         public ReactionEntity Reaction { get; set; }
     }
 }

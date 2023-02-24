@@ -8,7 +8,7 @@ namespace OpenSystem.Reaction.Infrastructure.MappingConfigurations
     {
         public void Configure(EntityTypeBuilder<ReactionDetailEntity> builder)
         {
-          builder.ToTable("ReactionDetails");
+          builder.ToTable("ReactionDetail");
 
           builder.Property(x => x.Id)
             .HasDefaultValueSql("newsequentialid()");

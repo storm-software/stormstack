@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  ContactFormValues,
-  useCreateContactMutation,
-} from "@open-system/contact-ui-data-access";
+import { ContactFormValues } from "@open-system/contact-ui-data-access";
+import { useCreateContactMutation } from "@open-system/contact-ui-data-access/apis";
 import {
   BaseComponentProps,
   ButtonCornerRoundingTypes,

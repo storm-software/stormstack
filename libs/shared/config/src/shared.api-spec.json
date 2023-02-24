@@ -143,6 +143,12 @@
             "type": "string",
             "example": "/account/12345/msgs/abc",
             "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced."
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProblemDetailsResponseField"
+            }
           }
         },
         "required": [
@@ -220,6 +226,28 @@
           "pageSize",
           "recordsTotal",
           "recordsFiltered"
+        ]
+      },
+      "ProblemDetailsResponseField": {
+        "title": "ProblemDetailsResponseField",
+        "x-stoplight": {
+          "id": "8lfsai6hoys77"
+        },
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "errors"
         ]
       }
     },

@@ -5,8 +5,8 @@ import {
   resetFormState,
   saveFormState,
   selectContactFormValues,
-  useCreateContactMutation,
 } from "@open-system/contact-ui-data-access";
+import { useCreateContactMutation } from "@open-system/contact-ui-data-access/apis";
 import { ContactFormSegments } from "@open-system/contact-ui-feature-form/constants";
 import {
   BaseComponentProps,

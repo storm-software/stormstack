@@ -5,7 +5,7 @@ import {
   HttpFile,
   HttpHandler
 } from '@open-system/core-typescript-utilities';
-import { apiSlice as api } from "@open-system/shared-ui-data-access";
+import { apiSlice as api } from "./apiSlice";
 
 {{#models}}
 {{#model}}
@@ -45,12 +45,12 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
 {{#apiInfo}}
 {{#apis}}
 export const addTagTypes = [{{#operations}}{{#operation}}{{#-last}}{{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}}{{/-last}}{{/operation}}{{/operations}}] as const;
-export const injected{{classname}} = api
+export const {{#lambda.camelcase}}{{domainName}}{{/lambda.camelcase}}Api = api
   .enhanceEndpoints({
     addTagTypes,
   })
   .injectEndpoints({
-    endpoints: (build: EndpointBuilder<HttpHandler, "{{#operations}}{{#operation}}{{#-last}}{{#tags}}{{name}}{{^-last}}, {{/-last}}{{/tags}}{{/-last}}{{/operation}}{{/operations}}", "api">) => ({ {{#operations}}{{#operation}}
+    endpoints: (build: EndpointBuilder<HttpHandler, "{{#operations}}{{#operation}}{{#-last}}{{#tags}}{{name}}{{^-last}}, {{/-last}}{{/tags}}{{/-last}}{{/operation}}{{/operations}}", "{{#lambda.camelcase}}{{domainName}}{{/lambda.camelcase}}Api">) => ({ {{#operations}}{{#operation}}
       {{nickname}}: build.{{#isQueryOperation}}query{{/isQueryOperation}}{{^isQueryOperation}}mutation{{/isQueryOperation}}<{{{returnType}}}{{^returnType}}any{{/returnType}}, {{classname}}{{operationIdCamelCase}}Request>({
         query: queryArg => {{classname}}RequestFactory.{{nickname}}(queryArg),
         {{#isQueryOperation}}providesTags: [{{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}}],{{/isQueryOperation}}{{^isQueryOperation}}invalidatesTags: [{{#tags}}"{{name}}"{{^-last}}, {{/-last}}{{/tags}}],{{/isQueryOperation}}
@@ -65,7 +65,7 @@ export const {
   {{#operation}}{{#isQueryOperation}}use{{operationIdCamelCase}}Query,
   useLazy{{operationIdCamelCase}}Query{{/isQueryOperation}}{{^isQueryOperation}}use{{operationIdCamelCase}}Mutation{{/isQueryOperation}}{{^-last}},
   {{/-last}}{{/operation}}
-} = injected{{classname}};
+} = {{#lambda.camelcase}}{{domainName}}{{/lambda.camelcase}}Api;
 {{/operations}}
 
 {{/apis}}

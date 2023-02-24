@@ -32,6 +32,7 @@
     <PackageReference Include="Quartz" Version="3.6.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.24" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+   <PackageReference Include="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
   <PropertyGroup>
     <Description>The Core .NET Infrastructure Library used by the Open System repository</Description>

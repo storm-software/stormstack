@@ -19,7 +19,7 @@ namespace OpenSystem.Reaction.Application.Validators
                 .WithMessage("{PropertyName} is required.")
                 .NotNull()
                 .WithMessage("{PropertyName} is required.")
-                .MustAsync(UserHasntReactedAsync)
+                .MustAsync(UserHasReactedAsync)
                 .WithMessage("User has already reacted to this content.");
 
             RuleFor(reaction => reaction.Type)
@@ -29,10 +29,10 @@ namespace OpenSystem.Reaction.Application.Validators
                 .WithMessage("{PropertyName} is required.");
         }
 
-        private async Task<bool> UserHasntReactedAsync(string contentId,
+        private async Task<bool> UserHasReactedAsync(string contentId,
           CancellationToken cancellationToken)
         {
-            return !(await _repository.UserHasReactedAsync(contentId));
+            return await _repository.UserHasReactedAsync(contentId);
         }
     }
 }

@@ -14,9 +14,10 @@ using OpenSystem.Core.Application.Models.Parameters;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Application.Interfaces;
-using OpenSystem.Core.Domain.Entities;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
+using OpenSystem.Core.Infrastructure.Extensions;
+using Serilog;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
@@ -27,12 +28,17 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
         private readonly ICurrentUserService _currentUserService;
 
+        private readonly ILogger _logger;
+
         public ReactionRepository(ReactionDbContext dbContext,
-          ICurrentUserService currentUserService)
+          ICurrentUserService currentUserService,
+          ILogger logger)
             : base(dbContext)
         {
             _reactions = dbContext.Set<ReactionEntity>();
+
             _currentUserService = currentUserService;
+            _logger = logger;
         }
 
         public async Task<(IEnumerable<ReactionEntity> Data,
@@ -91,9 +97,17 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             var type = requestParameter.Type;
 
             // Setup IQueryable
-            var record = _reactions
-                .AsNoTracking()
-                .AsExpandable();
+            IQueryable<ReactionEntity> record = _reactions
+              .Include(r => r.Details);
+
+            //record = record.Include(r => r.Details);
+
+  _logger.Information(record.Count().ToString());
+_logger.Information(record.Count() > 0
+            ? record.First().Details.Count().ToString()
+            : "");
+
+
 
             // filter data
             Result ret = FilterByColumn(ref record,
@@ -102,19 +116,33 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             if (ret.Failed)
               throw new GeneralProcessingException();
 
+           _logger.Information(record.Count().ToString());
+          _logger.Information(record.Count() > 0
+            ? record.First().Details.Count().ToString()
+            : "");
+
             // retrieve data to list
-            var resultData = record.SelectMany(r =>
-              r.Details.GroupBy(d => d.Type)
-                .Select(d =>
-                  new ReactionCountRecord { Type = Char.ToLowerInvariant(d.Key.ToString()[0])
-                      + d.Key.ToString().Substring(1),
-                    Count = d.Count() }));
+            var resultData = record.SelectMany(r => r.Details)
+              .GroupBy(d => d.Type)
+              .Select(d => new ReactionCountRecord {
+                Type = Char.ToLowerInvariant(d.Key.ToString()[0])
+                    + d.Key.ToString().Substring(1),
+                Count = d.Count()
+              });
+
+           _logger.Information(resultData.Count().ToString());
 
             if (!string.IsNullOrEmpty(type))
                 resultData = resultData.Where(r => string.Equals(r.Type,
                   type.Trim()));
 
-            return await resultData.ToListAsync();
+            return resultData;
+        }
+
+        public async Task<ReactionEntity?> GetByContentIdAsync(string contentId)
+        {
+          return await _reactions
+            .FirstOrDefaultAsync(r => r.ContentId == contentId);
         }
 
         public async Task<bool> UserHasReactedAsync(string contentId)

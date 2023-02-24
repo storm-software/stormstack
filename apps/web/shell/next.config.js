@@ -28,6 +28,7 @@ const nextConfig = {
     "@open-system/shared-ui-data-access",
     "@open-system/shared-ui-feature-form",
     "@open-system/contact-ui-data-access",
+    "@open-system/reaction-ui-data-access",
   ],
 
   async redirects() {

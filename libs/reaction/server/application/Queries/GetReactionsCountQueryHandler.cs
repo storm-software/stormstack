@@ -7,6 +7,7 @@ using OpenSystem.Core.Application.Interfaces;
 using OpenSystem.Core.Domain.Entities;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
+using Serilog;
 
 namespace OpenSystem.Reaction.Application.Queries
 {
@@ -17,11 +18,15 @@ namespace OpenSystem.Reaction.Application.Queries
 
         private readonly IMapper _mapper;
 
+        private readonly ILogger _logger;
+
         public GetReactionsCountQueryHandler(IReactionRepository repository,
-          IMapper mapper)
+          IMapper mapper,
+          ILogger logger)
         {
             _repository = repository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<GetReactionsCount200Response> Handle(GetReactionsCountQuery request,
@@ -29,6 +34,7 @@ namespace OpenSystem.Reaction.Application.Queries
         {
             // query based on filter
             var result = await _repository.GetReactionsCountAsync(request);
+            _logger.Information(result.Count().ToString());
             var data = _mapper.Map<List<ReactionCountRecord>>(result);
 
             return new GetReactionsCount200Response {

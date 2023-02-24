@@ -41,6 +41,13 @@ namespace OpenSystem.Core.Application.Models.DTOs
         public string? Instance { get; set; }
 
         /// <summary>
+        /// A list of specific fields/errors responsible for the failure.
+        /// </summary>
+        /// <value>A list of specific fields/errors responsible for the failure.</value>
+        [DataMember(Name="fields", EmitDefaultValue=false)]
+        public List<ErrorResponseField>? Fields { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
