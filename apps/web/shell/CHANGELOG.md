@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.12.1...web-shell-v1.13.0) (2023-02-21)
+
+
+### Features
+
+* **apis-reaction:** Added initial server-side Reaction implementation ([3f95da5](https://github.com/sullivanpj/open-system/commit/3f95da5dc2dc46e53af7e1be5c9df1602c36e5ae))
+
 ## [1.12.1](https://github.com/sullivanpj/open-system/compare/web-shell-v1.12.0...web-shell-v1.12.1) (2023-02-20)
 
 

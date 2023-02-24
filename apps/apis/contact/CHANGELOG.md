@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/sullivanpj/open-system/compare/apis-contact-v1.3.1...apis-contact-v1.4.0) (2023-02-21)
+
+
+### Features
+
+* **apis-reaction:** Added initial server-side Reaction implementation ([3f95da5](https://github.com/sullivanpj/open-system/commit/3f95da5dc2dc46e53af7e1be5c9df1602c36e5ae))
+
 ## [1.3.1](https://github.com/sullivanpj/open-system/compare/apis-contact-v1.3.0...apis-contact-v1.3.1) (2023-02-20)
 
 

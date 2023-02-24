@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/sullivanpj/open-system/compare/contact-ui-feature-form-v1.0.1...contact-ui-feature-form-v1.1.0) (2023-02-21)
+
+
+### Features
+
+* **apis-reaction:** Added initial server-side Reaction implementation ([3f95da5](https://github.com/sullivanpj/open-system/commit/3f95da5dc2dc46e53af7e1be5c9df1602c36e5ae))
+
 ## [1.0.1](https://github.com/sullivanpj/open-system/compare/contact-ui-feature-form-v1.0.0...contact-ui-feature-form-v1.0.1) (2023-02-20)
 
 

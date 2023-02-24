@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.5.1...reaction-ui-feature-like-v1.6.0) (2023-02-21)
+
+
+### Features
+
+* **apis-reaction:** Added initial server-side Reaction implementation ([3f95da5](https://github.com/sullivanpj/open-system/commit/3f95da5dc2dc46e53af7e1be5c9df1602c36e5ae))
+
 ## [1.5.1](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.5.0...reaction-ui-feature-like-v1.5.1) (2023-02-20)
 
 
