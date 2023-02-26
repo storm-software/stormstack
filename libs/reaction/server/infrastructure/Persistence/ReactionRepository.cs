@@ -26,6 +26,8 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
     {
         private readonly DbSet<ReactionEntity> _reactions;
 
+        private readonly DbSet<ReactionDetailEntity> _reactionDetails;
+
         private readonly ICurrentUserService _currentUserService;
 
         private readonly ILogger _logger;
@@ -36,6 +38,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             : base(dbContext)
         {
             _reactions = dbContext.Set<ReactionEntity>();
+            _reactionDetails = dbContext.Set<ReactionDetailEntity>();
 
             _currentUserService = currentUserService;
             _logger = logger;
@@ -97,7 +100,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             var type = requestParameter.Type;
 
             // Setup IQueryable
-            IQueryable<ReactionEntity> record = _reactions
+            /*IQueryable<ReactionEntity> record = _reactions
               .Include(r => r.Details);
 
             //record = record.Include(r => r.Details);
@@ -106,8 +109,12 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 _logger.Information(record.Count() > 0
             ? record.First().Details.Count().ToString()
             : "");
+*/
 
-
+          var record = _reactions
+            .AsNoTracking()
+            .AsExpandable();
+          record = record.Include(r => r.Details);
 
             // filter data
             Result ret = FilterByColumn(ref record,
@@ -136,6 +143,8 @@ _logger.Information(record.Count() > 0
                 resultData = resultData.Where(r => string.Equals(r.Type,
                   type.Trim()));
 
+            _logger.Information(resultData.Count().ToString());
+
             return resultData;
         }
 
@@ -151,6 +160,40 @@ _logger.Information(record.Count() > 0
                 .AllAsync(r => r.ContentId == contentId &&
                   r.Details.Any(d => string.Equals(_currentUserService.UserId,
                     d.UserId)));
+        }
+
+        protected override async Task<ReactionEntity> InnerAddAsync(ReactionEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+          foreach (ReactionDetailEntity detail in entity.Details)
+          {
+            DbContext.Entry(detail).State = EntityState.Added;
+
+            detail.UserId = _currentUserService.UserId;
+            await _reactionDetails.AddAsync(detail,
+              cancellationToken);
+          }
+
+          return entity;
+        }
+
+        protected override async Task InnerUpdateAsync(ReactionEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+          foreach (ReactionDetailEntity detail in entity.Details)
+          {
+            DbContext.Entry(detail).State = EntityState.Modified;
+          }
+        }
+
+        protected override async Task InnerDeleteAsync(ReactionEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+          foreach (ReactionDetailEntity detail in entity.Details)
+          {
+            DbContext.Entry(detail).State = EntityState.Deleted;
+            _reactionDetails.Remove(detail);
+          }
         }
 
         private Result FilterByColumn(ref IQueryable<ReactionEntity> reactions,

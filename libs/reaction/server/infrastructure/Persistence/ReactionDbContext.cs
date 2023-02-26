@@ -17,6 +17,8 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
     {
         public DbSet<ReactionEntity> Reactions => Set<ReactionEntity>();
 
+        public DbSet<ReactionDetailEntity> ReactionDetails => Set<ReactionDetailEntity>();
+
         public ReactionDbContext(
           DbContextOptions options,
           IOptions<OperationalStoreOptions> operationalStoreOptions,

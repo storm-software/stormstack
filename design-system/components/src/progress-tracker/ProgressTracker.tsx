@@ -32,7 +32,7 @@ export const ProgressTracker = ({
   );
 
   return (
-    <div className="relative flex h-full w-full flex-col justify-center">
+    <div className="relative flex h-full w-fit flex-col justify-center">
       {items.map((item: ProgressTrackerItemType, i: number) => {
         return (
           <div

@@ -89,6 +89,7 @@ export default function ContactForm({
       <Form<ContactFormValues>
         className="flex flex-col gap-8"
         onSubmit={handleSubmit}
+        resetOnSubmit={false}
         defaultValues={formValues}>
         <motion.div
           layout
@@ -256,7 +257,7 @@ export default function ContactForm({
           <div className="flex flex-col gap-10">
             <div className="flex flex-1">
               <label className="whitespace-pre-wrap text-xl font-label-1 text-primary">
-                Are you sure you want to clear out all your previously entered
+                Are you sure you want to remove all of your previously entered
                 data? Selecting &quot;Reset&quot; below will start the contact
                 process from the beginning.
               </label>

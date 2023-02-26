@@ -56,7 +56,9 @@ export default function Page() {
 
   return (
     <ContactForm
-      nextPathname={`/contact/${formValues.reason}/${ContactFormSegments.PERSONAL_INFO}`}>
+      nextPathname={`/contact/${formValues?.reason ?? "business"}/${
+        ContactFormSegments.PERSONAL_INFO
+      }`}>
       <ContactTypeForm />
     </ContactForm>
   );

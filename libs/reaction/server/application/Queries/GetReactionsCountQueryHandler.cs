@@ -37,6 +37,8 @@ namespace OpenSystem.Reaction.Application.Queries
             _logger.Information(result.Count().ToString());
             var data = _mapper.Map<List<ReactionCountRecord>>(result);
 
+            _logger.Information(data.Count().ToString());
+            _logger.Information(data.Count() > 0 ? data[0].Count.ToString() : "0");
             return new GetReactionsCount200Response {
               Data = data,
             };

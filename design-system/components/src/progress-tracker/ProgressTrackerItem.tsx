@@ -127,7 +127,7 @@ export const ProgressTrackerItem = ({
                 : "#989899",
           }}
           variants={labelVariants}
-          className={clsx("font-label-4 transition", {
+          className={clsx("text-center font-label-4 transition", {
             "hover:cursor-pointer hover:underline":
               status === ProgressTrackerItemStatus.COMPLETE && onClick,
           })}>

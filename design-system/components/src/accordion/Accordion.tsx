@@ -37,7 +37,7 @@ export type AccordionProps = PropsWithBase<{
  */
 export const Accordion = ({
   children,
-  opened = true,
+  opened,
   showBottomDivider = true,
   summary,
   details,
