@@ -5,6 +5,15 @@
 
 * **reaction-server-implementation:** Finalized code for reaction count API DB ([8f9f7ec](https://github.com/sullivanpj/open-system/commit/8f9f7ec97a7e186ae79eeff5c6129b7fe6386a61))
 * **web-shell:** Added architecture section of home page ([aa0d409](https://github.com/sullivanpj/open-system/commit/aa0d409a38d651532f9937d48ced73068d595dca))
+* **web-shell:** Updated the landing page design ([6bbea47](https://github.com/sullivanpj/open-system/commit/6bbea4728452870ce5e07008e9f2c9bcd0fa6aeb))
+
+# [1.14.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.13.1...web-shell-v1.14.0) (2023-02-27)
+
+
+### Features
+
+* **reaction-server-implementation:** Finalized code for reaction count API DB ([8f9f7ec](https://github.com/sullivanpj/open-system/commit/8f9f7ec97a7e186ae79eeff5c6129b7fe6386a61))
+* **web-shell:** Added architecture section of home page ([aa0d409](https://github.com/sullivanpj/open-system/commit/aa0d409a38d651532f9937d48ced73068d595dca))
 
 ## [1.13.1](https://github.com/sullivanpj/open-system/compare/web-shell-v1.13.0...web-shell-v1.13.1) (2023-02-24)
 
