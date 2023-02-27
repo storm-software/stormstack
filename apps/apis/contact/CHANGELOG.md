@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/sullivanpj/open-system/compare/apis-contact-v1.4.0...apis-contact-v1.4.1) (2023-02-24)
+
+
+### Bug Fixes
+
+* **reaction-server-infrastructure:** Added implementation for server reaction logic ([b27fe67](https://github.com/sullivanpj/open-system/commit/b27fe67d5ecd0fa0808d14db5116702c0015d128))
+
 # [1.4.0](https://github.com/sullivanpj/open-system/compare/apis-contact-v1.3.1...apis-contact-v1.4.0) (2023-02-21)
 
 
