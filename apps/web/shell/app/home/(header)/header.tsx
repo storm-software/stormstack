@@ -7,8 +7,6 @@ import PdfResumeDownload from "../../(components)/pdf-resume-download.client";
 import { default as Logo } from "../../../../../../assets/box-logo-gradient.svg";
 import BackgroundPattern from "./background-pattern";
 import { default as FloatingSvg2 } from "./floating-svg-2.svg";
-import { default as FloatingSvg5 } from "./floating-svg-5.svg";
-import { default as FloatingSvg6 } from "./floating-svg-6.svg";
 import { default as FloatingSvg7 } from "./floating-svg-7.svg";
 
 function useParallax(value: MotionValue<number>, distance: number) {
@@ -156,7 +154,7 @@ export default function Header() {
         }}>
         <FloatingSvg7 height={200} />
       </motion.div>
-      <motion.div
+      {/*<motion.div
         style={{ rotateZ: titleRotateZ }}
         className="absolute bottom-48 left-32"
         variants={variants}
@@ -169,9 +167,9 @@ export default function Header() {
           },
         }}>
         <FloatingSvg6 height={150} />
-      </motion.div>
+      </motion.div>*/}
 
-      <motion.div
+      {/*<motion.div
         style={{ rotateZ: logoRotateZ }}
         className="absolute right-28 top-24"
         variants={variants}
@@ -184,7 +182,7 @@ export default function Header() {
           },
         }}>
         <FloatingSvg5 height={250} />
-      </motion.div>
+      </motion.div>*/}
 
       <motion.div
         style={{ rotateZ: logoRotateZ }}

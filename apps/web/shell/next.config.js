@@ -23,6 +23,7 @@ const nextConfig = {
 
   transpilePackages: [
     "react-redux",
+    "framer-motion",
     "@open-system/core-typescript-utilities",
     "@open-system/design-system-components",
     "@open-system/shared-ui-data-access",

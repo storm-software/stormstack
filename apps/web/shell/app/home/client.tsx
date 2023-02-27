@@ -7,8 +7,8 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import "reflect-metadata";
 import HorizontalSeparator from "../(components)/horizontal-separator.server";
-import Logo from "../../../../../assets/box-logo-gradient.svg";
 import Aside from "../aside";
+import Architecture from "./(architecture)/architecture";
 import Header from "./(header)/header";
 import Introduction from "./(introduction)/introduction";
 import Stack from "./(stack)/stack";
@@ -93,75 +93,9 @@ export default function Client() {
 
           <HorizontalSeparator />
 
-          {/*<PdfDownloadLink
-            document={<PdfResume />}
-            fileName="Patrick Sullivan - Resume">
-            Download Resume
-  </PdfDownloadLink>
-  <Link href="/api/get-resume" inNewTab={true}>
-            Download Resume
-          </Link>
-  */}
-
-          <section className="flex snap-center snap-always justify-center">
-            <div className="relative h-[38rem] max-w-[65rem] md:w-3/4 lg:w-2/3">
-              <div className="absolute bottom-0 left-0">
-                <div className="flex flex-col gap-3">
-                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
-                      Patrick
-                    </h1>
-                  </span>
-
-                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
-                      Sullivan
-                    </h1>
-                  </span>
-
-                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
-                      Development
-                    </h1>
-                  </span>
-                </div>
-              </div>
-
-              <div className="absolute top-0 right-0">
-                <Logo alt="box-logo" />
-              </div>
-            </div>
-          </section>
-
-          <section className="flex snap-center snap-always justify-center">
-            <div className="relative h-[38rem] max-w-[65rem] md:w-3/4 lg:w-2/3">
-              <div className="absolute bottom-0 left-0">
-                <div className="flex flex-col gap-3">
-                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
-                      Patrick
-                    </h1>
-                  </span>
-
-                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
-                      Sullivan
-                    </h1>
-                  </span>
-
-                  <span className="w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_6px] bg-bottom bg-no-repeat transition-[background-size] hover:bg-[length:100%_40%]">
-                    <h1 className="font-app-title-1 text-7xl leading-none text-primary shadow-white drop-shadow-2xl">
-                      Development
-                    </h1>
-                  </span>
-                </div>
-              </div>
-
-              <div className="absolute top-0 right-0">
-                <Logo alt="box-logo" />
-              </div>
-            </div>
-          </section>
+          <div className="mt-20 snap-center snap-always scroll-px-9">
+            <Architecture />
+          </div>
         </main>
       </div>
     </div>

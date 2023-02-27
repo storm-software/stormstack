@@ -78,6 +78,7 @@ module.exports = {
         "wave3": "wave 20s -1s linear infinite",
         "bubble": "bubble 10s ease-in-out infinite",
         "blink": "blink 1.5s steps(2) infinite",
+        "spin-slow": "spin 5s linear infinite",
       },
       "keyframes": {
         ...extend.keyframes,
