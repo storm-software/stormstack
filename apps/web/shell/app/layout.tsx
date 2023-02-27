@@ -7,13 +7,13 @@ import {
   Permanent_Marker,
 } from "@next/font/google";
 import localFont from "@next/font/local";
+import { BoxLogo } from "@open-system/shared-ui-components/box-logo";
 import { Link } from "@open-system/shared-ui-components/link";
 import { Footer } from "@open-system/shared-ui-feature-layout/footer";
 import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links";
 import clsx from "clsx";
 import { LinkVariants } from "design-system/components/src/link";
 import React from "react";
-import Logo from "../../../../assets/box-logo-gradient.svg";
 import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
 import CookiePolicyBanner from "./(components)/cookie-policy-banner.server";
@@ -101,7 +101,7 @@ export default function RootLayout({
                 <ContactFooterForm />
                 <div className="hidden flex-row items-center justify-center lg:flex">
                   <Link className="h-[20rem] w-[28rem]">
-                    <Logo className="h-[20rem] w-[28rem]" />
+                    <BoxLogo className="h-[20rem] w-[28rem]" />
                   </Link>
                 </div>
               </div>

@@ -4,7 +4,7 @@ import { Heading } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components/link";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import asyncapiLogo from "../../../../../../assets/external-logos/asyncapi-logo.png";
 import DotnetLogo from "../../../../../../assets/external-logos/dotnet-logo.svg";
 import GraphQLLogo from "../../../../../../assets/external-logos/graphql-logo.svg";
@@ -160,7 +160,7 @@ export default function ApiGeneration() {
   const isInView = useInView(ref, { once: false });
 
   const [type, setType] = useState<string>(Types.INITIAL);
-  useLayoutEffect(() => {
+  useEffect(() => {
     isInView ? setType(Types.NONE) : setType(Types.INITIAL);
   }, [isInView]);
 

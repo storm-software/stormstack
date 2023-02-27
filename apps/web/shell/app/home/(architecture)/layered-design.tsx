@@ -4,7 +4,7 @@ import { Heading } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components/link";
 import clsx from "clsx";
 import { motion, useInView } from "framer-motion";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const Layers = {
   INITIAL: "initial",
@@ -273,7 +273,7 @@ export default function LayeredDesign() {
   const isInView = useInView(ref, { once: false });
 
   const [layer, setLayer] = useState<string>(Layers.INITIAL);
-  useLayoutEffect(() => {
+  useEffect(() => {
     isInView ? setLayer(Layers.NONE) : setLayer(Layers.INITIAL);
   }, [isInView]);
 

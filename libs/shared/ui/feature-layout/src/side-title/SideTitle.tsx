@@ -52,9 +52,10 @@ export function SideTitle({ className, ...props }: BaseComponentProps) {
           <Link>
             <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
               Pat Sullivan
-            </h1>
-            <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
-              Development
+              <br />
+              <span className="bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-clip-text text-transparent">
+                Development
+              </span>
             </h1>
           </Link>
         </div>

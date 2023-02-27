@@ -62,6 +62,7 @@ export interface TechnologyGroupDetails {
 }
 
 export default function Technologies() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const hiddenRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +90,7 @@ export default function Technologies() {
     };
   }, [onResize]);
 
-  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll({ target: containerRef });
   const transform = useTransform(
     scrollYProgress,
     [0, 1],
@@ -111,7 +112,7 @@ export default function Technologies() {
   );
 
   return (
-    <div className="relative z-content h-[375vh] w-full">
+    <div ref={containerRef} className="relative z-content h-[375vh] w-full">
       <AnimatePresence>
         {currentGroup?.name && (
           <motion.div
@@ -143,7 +144,7 @@ export default function Technologies() {
         <motion.section
           ref={scrollRef}
           style={{ x }}
-          className="relative flex w-fit flex-row gap-[45rem] pl-[1600rem] pr-[1000rem]">
+          className="relative flex w-fit flex-row gap-[45rem] pl-[100vw]">
           <TechnologyGroup
             name="Design System / Modeling"
             summary={
