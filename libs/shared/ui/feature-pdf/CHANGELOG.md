@@ -1,3 +1,16 @@
+# [1.4.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-pdf-v1.3.1...shared-ui-feature-pdf-v1.4.0) (2023-02-27)
+
+
+### Bug Fixes
+
+* **reaction-server-infrastructure:** Added implementation for server reaction logic ([b27fe67](https://github.com/sullivanpj/open-system/commit/b27fe67d5ecd0fa0808d14db5116702c0015d128))
+
+
+### Features
+
+* **apis-reaction:** Added initial server-side Reaction implementation ([3f95da5](https://github.com/sullivanpj/open-system/commit/3f95da5dc2dc46e53af7e1be5c9df1602c36e5ae))
+* **reaction-server-implementation:** Finalized code for reaction count API DB ([8f9f7ec](https://github.com/sullivanpj/open-system/commit/8f9f7ec97a7e186ae79eeff5c6129b7fe6386a61))
+
 # [1.4.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-pdf-v1.3.1...shared-ui-feature-pdf-v1.4.0) (2023-02-24)
 
 
