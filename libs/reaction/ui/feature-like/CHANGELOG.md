@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.6.1...reaction-ui-feature-like-v1.7.0) (2023-02-27)
+
+
+### Features
+
+* **reaction-server-implementation:** Finalized code for reaction count API DB ([8f9f7ec](https://github.com/sullivanpj/open-system/commit/8f9f7ec97a7e186ae79eeff5c6129b7fe6386a61))
+
 ## [1.6.1](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.6.0...reaction-ui-feature-like-v1.6.1) (2023-02-24)
 
 
