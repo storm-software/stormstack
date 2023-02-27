@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feat-layout-v1.5.0...shared-ui-feat-layout-v1.6.0) (2023-02-27)
+
+
+### Bug Fixes
+
+* **reaction-server-infrastructure:** Added implementation for server reaction logic ([b27fe67](https://github.com/sullivanpj/open-system/commit/b27fe67d5ecd0fa0808d14db5116702c0015d128))
+
+
+### Features
+
+* **reaction-server-implementation:** Finalized code for reaction count API DB ([8f9f7ec](https://github.com/sullivanpj/open-system/commit/8f9f7ec97a7e186ae79eeff5c6129b7fe6386a61))
+
 ## [1.5.1](https://github.com/sullivanpj/open-system/compare/shared-ui-feat-layout-v1.5.0...shared-ui-feat-layout-v1.5.1) (2023-02-24)
 
 
