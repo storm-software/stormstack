@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.7.0...reaction-ui-feature-like-v1.7.1) (2023-03-01)
+
+
+### Bug Fixes
+
+* **web-shell:** Cleaned up landing page ([2c7590e](https://github.com/sullivanpj/open-system/commit/2c7590ed1e18e7532dfe71e54c9871a4b17ef945))
+
 # [1.7.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-feature-like-v1.6.1...reaction-ui-feature-like-v1.7.0) (2023-02-27)
 
 
