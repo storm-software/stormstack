@@ -10,7 +10,8 @@ import {
   useAddReactionMutation,
   useRemoveReactionMutation,
 } from "@open-system/reaction-ui-data-access/apis";
-import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useTransition } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckIcon from "../../assets/heart-check.svg";
 import PlusIcon from "../../assets/heart-plus.svg";
@@ -21,11 +22,15 @@ export type LikeButtonProps = PropsWithBase<{
 }>;
 
 export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
+  const router = useRouter();
+  const [, startTransition] = useTransition();
+
   const reactions = useSelector(selectReactionHistory);
   const dispatch = useDispatch();
 
   const [addReaction] = useAddReactionMutation();
   const [removeReaction] = useRemoveReactionMutation();
+
   const toggleIsLiked = useCallback(async () => {
     if (reactions?.[contentId]) {
       dispatch(removeReactionHistory(contentId));
@@ -45,8 +50,12 @@ export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
         contentId,
         body: { type: "like" },
       }).unwrap();
+
+      startTransition(() => {
+        router.refresh();
+      });
     }
-  }, [addReaction, contentId, dispatch, reactions, removeReaction]);
+  }, [addReaction, contentId, dispatch, reactions, removeReaction, router]);
 
   return (
     <div onClick={toggleIsLiked} className="group h-fit w-fit cursor-pointer">

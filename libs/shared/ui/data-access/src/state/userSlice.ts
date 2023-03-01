@@ -26,5 +26,8 @@ export const { agreeToPrivacyPolicy } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUser = (state: { user: UserState }) => state.user;
+export const selectHasAgreedToPrivacyPolicy = (state: {
+  user: UserState;
+}): boolean => !!state.user?.hasAgreedToPrivacyPolicy;
 
 export const userReducer = userSlice.reducer;

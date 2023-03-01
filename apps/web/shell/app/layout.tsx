@@ -16,7 +16,7 @@ import { LinkVariants } from "design-system/components/src/link";
 import React from "react";
 import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
-import CookiePolicyBanner from "./(components)/cookie-policy-banner.server";
+import CookiePolicyBanner from "./(components)/cookie-policy-banner.client";
 import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
 import NavHeader from "./nav-header";
 import RootProvider from "./store-provider";

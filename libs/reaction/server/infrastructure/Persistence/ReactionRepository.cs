@@ -18,6 +18,7 @@ using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using OpenSystem.Core.Infrastructure.Extensions;
 using Serilog;
+using OpenSystem.Core.Domain.Enums;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
@@ -130,6 +131,7 @@ _logger.Information(record.Count() > 0
 
             // retrieve data to list
             var resultData = record.SelectMany(r => r.Details)
+              .Where(d => d.VerificationCode == VerificationCodeTypes.Verified)
               .GroupBy(d => d.Type)
               .Select(d => new ReactionCountRecord {
                 Type = Char.ToLowerInvariant(d.Key.ToString()[0])
@@ -158,8 +160,9 @@ _logger.Information(record.Count() > 0
         {
           return await _reactions
                 .AllAsync(r => r.ContentId == contentId &&
-                  r.Details.Any(d => string.Equals(_currentUserService.UserId,
-                    d.UserId)));
+                  r.Details.Any(d => d.VerificationCode == VerificationCodeTypes.Verified &&
+                    string.Equals(_currentUserService.UserId,
+                      d.UserId)));
         }
 
         protected override async Task<ReactionEntity> InnerAddAsync(ReactionEntity entity,
@@ -170,9 +173,10 @@ _logger.Information(record.Count() > 0
             DbContext.Entry(detail).State = EntityState.Added;
 
             detail.UserId = _currentUserService.UserId;
-            await _reactionDetails.AddAsync(detail,
-              cancellationToken);
           }
+
+          await _reactionDetails.AddRangeAsync(entity.Details,
+            cancellationToken);
 
           return entity;
         }
@@ -181,19 +185,16 @@ _logger.Information(record.Count() > 0
           CancellationToken cancellationToken = default)
         {
           foreach (ReactionDetailEntity detail in entity.Details)
-          {
             DbContext.Entry(detail).State = EntityState.Modified;
-          }
         }
 
         protected override async Task InnerDeleteAsync(ReactionEntity entity,
           CancellationToken cancellationToken = default)
         {
           foreach (ReactionDetailEntity detail in entity.Details)
-          {
             DbContext.Entry(detail).State = EntityState.Deleted;
-            _reactionDetails.Remove(detail);
-          }
+
+          _reactionDetails.RemoveRange(entity.Details);
         }
 
         private Result FilterByColumn(ref IQueryable<ReactionEntity> reactions,

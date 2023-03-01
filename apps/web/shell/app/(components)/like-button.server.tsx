@@ -25,6 +25,7 @@ export default async function LikeButton({
   const result = await ReactionApiResponseProcessor.getReactionsCount(
     response.data
   );
+  console.log(result);
 
   return (
     <div className="fixed right-0 bottom-12 z-like">
