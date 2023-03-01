@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/sullivanpj/open-system/compare/contact-ui-feature-form-v1.2.0...contact-ui-feature-form-v1.3.0) (2023-02-27)
+
+
+### Features
+
+* **web-shell:** Updated the landing page design ([6bbea47](https://github.com/sullivanpj/open-system/commit/6bbea4728452870ce5e07008e9f2c9bcd0fa6aeb))
+
 # [1.2.0](https://github.com/sullivanpj/open-system/compare/contact-ui-feature-form-v1.1.1...contact-ui-feature-form-v1.2.0) (2023-02-27)
 
 

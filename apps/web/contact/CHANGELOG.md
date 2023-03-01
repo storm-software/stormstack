@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/sullivanpj/open-system/compare/web-contact-v1.8.0...web-contact-v1.9.0) (2023-02-27)
+
+
+### Features
+
+* **web-shell:** Updated the landing page design ([6bbea47](https://github.com/sullivanpj/open-system/commit/6bbea4728452870ce5e07008e9f2c9bcd0fa6aeb))
+
 # [1.8.0](https://github.com/sullivanpj/open-system/compare/web-contact-v1.7.1...web-contact-v1.8.0) (2023-02-27)
 
 
