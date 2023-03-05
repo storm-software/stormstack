@@ -322,6 +322,15 @@
           "default": "id"
         },
         "description": "The field to order the request by"
+      },
+      "userId": {
+        "name": "userId",
+        "in": "cookie",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "The identifier of the current processing user "
       }
     },
     "securitySchemes": {

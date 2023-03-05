@@ -1,14 +1,6 @@
 version: "3.9"
 
 networks:
-  # Network for api gateway
-  network-gateway:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.28.2.0/24
-
   # Network for microservices
   network-microservice:
     driver: bridge
@@ -18,23 +10,22 @@ networks:
         - subnet: 172.28.4.0/24
 
 services:
-  discovery.service:
-    container_name: discovery.service
-    image: consul
-    restart: on-failure
-    hostname: discovery.service
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
     ports:
-      - "8500:8500"
+      - "5050:80"
     networks:
       - network-microservice
     volumes:
-      - consul-data:/consul/config
+      - pgadmin-data:/root/.pgadmin
 
-    mailhog:
-      image: mailhog/mailhog
-      ports:
-        - 1025:1025 # smtp server
-        - 8025:8025 # web ui
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
 
   rabbitmq:
     container_name: rabbitmq
@@ -42,14 +33,14 @@ services:
     hostname: rabbitmq
     restart: always
     ports:
-      - "5434:5434"
+      - "5634:5634"
       - "5672:5672"
       - "15672:15672"
     networks:
       - network-microservice
 
-  static-cache.service:
-    container_name: static-cache.service
+  static.cache:
+    container_name: static.cache
     image: redis:alpine
     restart: on-failure
     ports:
@@ -57,14 +48,34 @@ services:
     networks:
       - network-microservice
 
-  user.db:
-    container_name: user.db
+  contact.db:
+    container_name: contact.db
     image: postgres
     restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: user.db
+    ports:
+      - "5434:5434"
+    networks:
+      - network-microservice
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+
+  contact.api:
+    container_name: contact.api
+    image: apis-contact:latest
+    restart: unless-stopped
+    hostname: contact.api
+    build:
+      context: .
+      dockerfile: apps/apis/contact/Dockerfile
+    ports:
+      - "5002:5002"
+    networks:
+      - network-microservice
+
+  reaction.db:
+    container_name: reaction.db
+    image: postgres
+    restart: always
     ports:
       - "5432:5432"
     networks:
@@ -72,39 +83,31 @@ services:
     volumes:
       - postgresql-data:/var/lib/postgresql/data
 
-  user-api.service:
-    container_name: user-api.service
-    image: apis-user:latest
+  reaction.api:
+    container_name: reaction.api
+    image: apis-reaction:latest
     restart: unless-stopped
-    hostname: user-api.service
+    hostname: reaction.api
     build:
       context: .
-      dockerfile: apps/apis/user/Dockerfile
+      dockerfile: apps/apis/reaction/Dockerfile
     ports:
-      - "7000:7000"
+      - "5000:5000"
     networks:
       - network-microservice
 
-  gateway-api.service:
-    container_name: gateway-api.service
-    image: apis-gateway:latest
+  shell.web:
+    container_name: shell.web
+    image: web-shell:latest
     restart: unless-stopped
-    hostname: gateway-api.service
     build:
       context: .
-      dockerfile: apps/apis/gateway/Dockerfile
+      dockerfile: apps/web/shell/Dockerfile
     ports:
-      - "8080:80"
+      - "3000:3000"
     networks:
-      - network-gateway
       - network-microservice
-    links:
-      - discovery.service
-      - user-api.service
-    depends_on:
-      - discovery.service
 
 volumes:
-  consul-data:
   postgresql-data:
   pgadmin-data:

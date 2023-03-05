@@ -5,12 +5,12 @@ import {
   Button,
   ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
-  ButtonVariants,
+  ButtonVariants
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
 import {
   agreeToPrivacyPolicy,
-  selectHasAgreedToPrivacyPolicy,
+  selectHasAgreedToPrivacyPolicy
 } from "@open-system/shared-ui-data-access";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useState } from "react";
@@ -55,8 +55,7 @@ export function CookiePolicyBanner() {
   }, []);
 
   const hasAgreedToPrivacyPolicy = useSelector(selectHasAgreedToPrivacyPolicy);
-
-  if (!hasAgreedToPrivacyPolicy) {
+  if (hasAgreedToPrivacyPolicy) {
     return null;
   }
 

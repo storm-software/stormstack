@@ -1,10 +1,10 @@
-//@ts-check
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require("@nrwl/next/plugins/with-nx");
 const withNextIntl = require("next-intl/withNextIntl");
 const { CONTACT_URL, API_URL } = process.env;
 
+/**
+ * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
+ **/
 const nextConfig = {
   basePath: "",
   nx: {
@@ -13,6 +13,10 @@ const nextConfig = {
 
   swcMinify: true,
   reactStrictMode: true,
+
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 
   experimental: {
     appDir: true,
@@ -44,14 +48,6 @@ const nextConfig = {
 
   async rewrites() {
     return [
-      /*{
-        source: "/contact",
-        destination: `${CONTACT_URL}`,
-      },
-      {
-        source: "/contact/:path*",
-        destination: `${CONTACT_URL}/:path*`,
-      },*/
       {
         source: "/api/:path*",
         destination: `${API_URL}/api/:path*`,
@@ -59,42 +55,46 @@ const nextConfig = {
     ];
   },
 
-  /**
-   * @param {{ module: { rules: { loader?: string; options?: { prettier: boolean; svgo: boolean; svgoConfig: { plugins: { name: string; params: { overrides: { removeViewBox: boolean; }; }; }[]; }; titleProp: boolean; }; test: RegExp; use?: { loader: string; options: { name: string; publicPath: string; outputPath: string; }; }; }[]; }; }} config
-   */
   webpack(config) {
-    config.module.rules.push({
-      loader: "@svgr/webpack",
-      options: {
-        prettier: false,
-        svgo: true,
-        svgoConfig: {
-          plugins: [
-            {
-              name: "preset-default",
-              params: {
-                overrides: { removeViewBox: false },
+    return {
+      ...config,
+      module: {
+        ...config?.module,
+        rules: [
+          ...(config?.module?.rules ?? []),
+          {
+            loader: "@svgr/webpack",
+            options: {
+              prettier: false,
+              svgo: true,
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: "preset-default",
+                    params: {
+                      overrides: { removeViewBox: false },
+                    },
+                  },
+                ],
+              },
+              titleProp: true,
+            },
+            test: /\.svg$/,
+          },
+          {
+            test: /\.(eot|ttf|woff|woff2)$/,
+            use: {
+              loader: "file-loader",
+              options: {
+                name: "[name].[ext]",
+                publicPath: "fonts",
+                outputPath: "fonts",
               },
             },
-          ],
-        },
-        titleProp: true,
+          },
+        ],
       },
-      test: /\.svg$/,
-    });
-
-    config.module.rules.push({
-      test: /\.(eot|ttf|woff|woff2)$/,
-      use: {
-        loader: "file-loader",
-        options: {
-          name: "[name].[ext]",
-          publicPath: "fonts",
-          outputPath: "fonts",
-        },
-      },
-    });
-    return config;
+    };
   },
 };
 

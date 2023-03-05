@@ -41,6 +41,7 @@ export default async function (
       },
       {
         verbosity: "normal",
+        noDependencies: false,
         ...options,
         configFile: undefined,
         baseBuildTarget: undefined,

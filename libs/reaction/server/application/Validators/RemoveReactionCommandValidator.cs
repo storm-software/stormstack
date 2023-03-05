@@ -19,8 +19,8 @@ namespace OpenSystem.Reaction.Application.Validators
                 .WithMessage("{PropertyName} is required.")
                 .NotNull()
                 .WithMessage("{PropertyName} is required.")
-                .MustAsync(UserHasntReactedAsync)
-                .WithMessage("User has not previously reacted to this content.");
+                /*.MustAsync(UserHasntReactedAsync)
+                .WithMessage("User has not previously reacted to this content.")*/;
         }
 
         private async Task<bool> UserHasntReactedAsync(string contentId,

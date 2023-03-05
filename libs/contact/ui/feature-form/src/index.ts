@@ -1,3 +1,5 @@
+"use client";
+
 export * from "./constants";
 export * from "./contact-business-details-form";
 export * from "./contact-business-personal-info-form";

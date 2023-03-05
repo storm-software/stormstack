@@ -288,6 +288,7 @@ public class OpenSystemTypeScriptReduxGenerator extends DefaultCodegen implement
         supportingFiles.add(new SupportingFile("apis" + File.separator + "injectedApi.mustache", this.sourceFolder + File.separator + "apis", "injectedApi.ts"));
         supportingFiles.add(new SupportingFile("apis" + File.separator + "index.mustache", this.sourceFolder + File.separator + "apis", "index.ts"));
         supportingFiles.add(new SupportingFile("apis" + File.separator + "apiSlice.mustache", this.sourceFolder + File.separator + "apis", "apiSlice.ts"));
+        supportingFiles.add(new SupportingFile("apis" + File.separator + "requests.mustache", this.sourceFolder + File.separator + "apis", "requests.ts"));
 
         // models
         setModelPackage(this.sourceFolder + File.separator + "models");

@@ -1,0 +1,43 @@
+import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
+import {
+  ResponseContext,
+  RequestContext,
+  HttpFile,
+  HttpHandler,
+  fetchHttpHandler
+} from '@open-system/core-typescript-utilities';
+
+{{#models}}
+{{#model}}
+import { {{{ classname }}} } from '../models';
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}Parser";
+{{/apiInfo}}
+{{/apis}}
+
+const fetcher = await fetchHttpHandler({
+  baseUrl: "http://localhost:5000/api/v1",
+});
+
+{{#apiInfo}}
+{{#apis}}
+/**
+ * {{nickname}}
+ * {{{description}}}{{^description}}no description{{/description}}
+ */
+export const {{nickname}} = ({ {{#allParams}}{{#isBodyParam}}body {{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}} }: { {{#allParams}}{{#isBodyParam}}body?: {{{dataType}}}; {{/isBodyParam}}{{^isBodyParam}}{{paramName}}?: {{{dataType}}}; {{/isBodyParam}}{{/allParams}} }): Promise<{{{returnType}}} {{^returnType}}any{{/returnType}}> => {
+  const request = {{classname}}RequestFactory.{{nickname}}({
+    {{#allParams}}{{#isBodyParam}}body, {{/isBodyParam}}{{^isBodyParam}}{{paramName}}, {{/isBodyParam}}{{/allParams}}
+  });
+
+  const response = await fetcher(request);
+
+  return {{classname}}ResponseProcessor.{{nickname}}(response);
+};
+
+{{/apis}}
+{{/apiInfo}}

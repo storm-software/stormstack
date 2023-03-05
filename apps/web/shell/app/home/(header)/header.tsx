@@ -1,11 +1,17 @@
-import { SubscriptionModalForm } from "@open-system/contact-ui-feature-form";
 import { Card, Heading } from "@open-system/design-system-components";
 import { ModalReference } from "@open-system/shared-ui-components";
 import { BoxLogo } from "@open-system/shared-ui-components/box-logo";
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
-import PdfResumeDownload from "../../(components)/pdf-resume-download.client";
+import dynamic from "next/dynamic";
+import { useCallback, useRef, useState } from "react";
 import HeaderBackground from "./header-background";
+
+const PdfResumeDownload = dynamic(
+  () => import("../../(components)/pdf-resume-download.client")
+);
+const SubscriptionModalForm = dynamic(
+  () => import("../../(components)/subscription-modal-form.client")
+);
 
 export default function Header() {
   const ref = useRef<HTMLElement | null>(null);
@@ -15,7 +21,7 @@ export default function Header() {
     y: 0,
   });
 
-  useEffect(() => {
+  /*useEffect(() => {
     ref.current?.addEventListener("mousemove", e => {
       setMousePosition(
         ref.current
@@ -26,7 +32,7 @@ export default function Header() {
           : { x: 0, y: 0 }
       );
     });
-  }, []);
+  }, []);*/
 
   const modalRef = useRef<ModalReference>(null);
   const handleOpen = useCallback(
@@ -37,7 +43,7 @@ export default function Header() {
   return (
     <header
       ref={ref}
-      className="relative flex min-h-[120vh] flex-col gap-12 overflow-hidden pb-10">
+      className="relative flex min-h-[50rem] flex-col gap-12 overflow-hidden pb-10">
       <motion.div
         style={{ translateX: mousePosition.x, translateY: mousePosition.y }}
         className="absolute top-0 -left-24 z-10 h-full w-full">

@@ -1,29 +1,29 @@
 version: "3.9"
 
 services:
-  discovery.service:
+  pgadmin:
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
 
-  static-cache.service:
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-
-  user.db:
+  reaction.db:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: user.db
+      POSTGRES_DB: reaction.db
       ASPNETCORE_ENVIRONMENT: "Development"
 
-  event-bus.service:
+  reaction.api:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
 
-  user-api.service:
+  contact.db:
     environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: contact.db
       ASPNETCORE_ENVIRONMENT: "Development"
 
-  gateway-api.service:
+  contact.api:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"

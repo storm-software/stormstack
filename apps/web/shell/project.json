@@ -10,7 +10,8 @@
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/web/shell",
-        "outputPath": "dist/apps/web/shell"
+        "outputPath": "dist/apps/web/shell",
+        "verbose": true
       },
       "configurations": {
         "development": {
@@ -29,7 +30,6 @@
       "configurations": {
         "development": {
           "buildTarget": "web-shell:build:development",
-          "dev": true,
           "port": 3000
         },
         "production": {
@@ -50,6 +50,12 @@
       "options": {
         "jestConfig": "apps/web/shell/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     },
     "lint": {
