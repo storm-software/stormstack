@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/sullivanpj/open-system/compare/reaction-ui-data-access-v1.5.0...reaction-ui-data-access-v1.5.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* **web-shell:** Resolved issue with nextjs Dockerfile ([daabe80](https://github.com/sullivanpj/open-system/commit/daabe80fd0fdb0f5ff876daea40c4976ed43081e))
+
 # [1.5.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-data-access-v1.4.1...reaction-ui-data-access-v1.5.0) (2023-02-27)
 
 
