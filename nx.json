@@ -17,8 +17,7 @@
           "test",
           "e2e",
           "build-storybook"
-        ],
-        "cacheDirectory": "/tmp/nx-cache"
+        ]
       }
     },
     "cloud": {
@@ -31,7 +30,6 @@
           "e2e",
           "build-storybook"
         ],
-        "cacheDirectory": "/tmp/nx-cache",
         "accessToken": "NzA2NzYxNjgtNmU3My00NGY0LThkOGItMDcxMDc0YzMzZDYzfHJlYWQtd3JpdGU="
       }
     }
