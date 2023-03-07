@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.8.0...design-system-components-v1.8.1) (2023-03-07)
+
+
+### Bug Fixes
+
+* **web-shell:** Resolved issue with nextjs Dockerfile ([daabe80](https://github.com/sullivanpj/open-system/commit/daabe80fd0fdb0f5ff876daea40c4976ed43081e))
+
 # [1.8.0](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.7.0...design-system-components-v1.8.0) (2023-02-27)
 
 
