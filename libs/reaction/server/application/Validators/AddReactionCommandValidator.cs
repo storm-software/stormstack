@@ -19,8 +19,8 @@ namespace OpenSystem.Reaction.Application.Validators
                 .WithMessage("{PropertyName} is required.")
                 .NotNull()
                 .WithMessage("{PropertyName} is required.")
-                .MustAsync(UserHasReactedAsync)
-                .WithMessage("User has already reacted to this content.");
+                /*.MustAsync(UserHasReactedAsync)
+                .WithMessage("User has already reacted to this content.")*/;
 
             RuleFor(reaction => reaction.Type)
                 .NotEmpty()

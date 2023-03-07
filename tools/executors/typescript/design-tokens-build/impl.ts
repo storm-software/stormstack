@@ -14,8 +14,7 @@ export default async function (
   context: ExecutorContext
 ) {
   try {
-    const { tokensDir, tokensFile, fontsDir, imagesDir, clean, verbose } =
-      options;
+    const { tokensDir, tokensFile, fontsDir, clean, verbose } = options;
 
     ConsoleLogger.info("Executing design-tokens-build executor...");
     verbose &&

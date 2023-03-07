@@ -1,8 +1,8 @@
 import { Module } from "@open-system/design-system-components";
-import React from "react";
+import { ReactNode } from "react";
 import Breadcrumb from "../(components)/breadcrumb";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-fit flex-col gap-12 px-20 pt-12">
       <Breadcrumb

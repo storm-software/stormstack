@@ -70,7 +70,8 @@
     "Unproxied",
     "uuidv",
     "webapi",
-    "webp"
+    "webp",
+    "websphere"
   ],
   "enableFiletypes": [
     "mdx"

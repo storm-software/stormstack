@@ -21,7 +21,9 @@
     "docs": "docs",
     "portfolio-ui-feature-resume": "libs/portfolio/ui/feature-resume",
     "reaction-config": "libs/reaction/config",
+    "reaction-server-application": "libs/reaction/server/application",
     "reaction-server-domain": "libs/reaction/server/domain",
+    "reaction-server-infrastructure": "libs/reaction/server/infrastructure",
     "reaction-ui-data-access": "libs/reaction/ui/data-access",
     "reaction-ui-feature-like": "libs/reaction/ui/feature-like",
     "shared-config": "libs/shared/config",
@@ -45,9 +47,8 @@
     "user-server-domain": "libs/user/server/domain",
     "user-server-infrastructure": "libs/user/server/infrastructure",
     "user-ui-data-access": "libs/user/ui/data-access",
+    "web-blog": "apps/web/blog",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell",
-    "reaction-server-application": "libs/reaction/server/application",
-    "reaction-server-infrastructure": "libs/reaction/server/infrastructure"
+    "web-shell": "apps/web/shell"
   }
 }

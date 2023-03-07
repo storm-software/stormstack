@@ -20,6 +20,7 @@ export default function Page() {
       <Client />
 
       <Suspense>
+        {/* @ts-expect-error Server Component */}
         <LikeButton contentId={PAGE_ID} />
       </Suspense>
     </>

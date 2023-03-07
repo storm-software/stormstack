@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/sullivanpj/open-system/compare/apis-contact-v1.4.1...apis-contact-v1.4.2) (2023-03-06)
+
+
+### Bug Fixes
+
+* **web-shell:** Resolved issue with nextjs Dockerfile ([daabe80](https://github.com/sullivanpj/open-system/commit/daabe80fd0fdb0f5ff876daea40c4976ed43081e))
+
 ## [1.4.1](https://github.com/sullivanpj/open-system/compare/apis-contact-v1.4.0...apis-contact-v1.4.1) (2023-02-24)
 
 

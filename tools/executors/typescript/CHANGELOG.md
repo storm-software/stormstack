@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/sullivanpj/open-system/compare/tools-executors-typescript-v1.6.1...tools-executors-typescript-v1.6.2) (2023-03-06)
+
+
+### Bug Fixes
+
+* **web-shell:** Resolved issue with nextjs Dockerfile ([daabe80](https://github.com/sullivanpj/open-system/commit/daabe80fd0fdb0f5ff876daea40c4976ed43081e))
+
 # [1.6.0](https://github.com/sullivanpj/open-system/compare/tools-executors-typescript-v1.5.1...tools-executors-typescript-v1.6.0) (2023-02-21)
 
 

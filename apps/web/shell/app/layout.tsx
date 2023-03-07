@@ -13,12 +13,11 @@ import { Footer } from "@open-system/shared-ui-feature-layout/footer";
 import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links";
 import clsx from "clsx";
 import { LinkVariants } from "design-system/components/src/link";
+import dynamic from "next/dynamic";
 import React from "react";
 import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
-import CookiePolicyBanner from "./(components)/cookie-policy-banner.client";
 import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
-import NavHeader from "./nav-header";
 import RootProvider from "./store-provider";
 
 const melody = localFont({
@@ -63,6 +62,11 @@ const rockSalt = Nothing_You_Could_Do({
   variable: "--font-rock-salt",
   weight: "400",
 });
+
+const NavHeader = dynamic(() => import("./nav-header"));
+const CookiePolicyBanner = dynamic(
+  () => import("./(components)/cookie-policy-banner.client")
+);
 
 export default function RootLayout({
   children,

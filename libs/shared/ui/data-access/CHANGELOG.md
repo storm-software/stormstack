@@ -1,3 +1,18 @@
+## [1.5.2](https://github.com/sullivanpj/open-system/compare/shared-ui-data-access-v1.5.1...shared-ui-data-access-v1.5.2) (2023-03-06)
+
+
+### Bug Fixes
+
+* **web-shell:** Cleaned up landing page ([2c7590e](https://github.com/sullivanpj/open-system/commit/2c7590ed1e18e7532dfe71e54c9871a4b17ef945))
+* **web-shell:** Resolved issue with nextjs Dockerfile ([daabe80](https://github.com/sullivanpj/open-system/commit/daabe80fd0fdb0f5ff876daea40c4976ed43081e))
+
+## [1.5.2](https://github.com/sullivanpj/open-system/compare/shared-ui-data-access-v1.5.1...shared-ui-data-access-v1.5.2) (2023-03-01)
+
+
+### Bug Fixes
+
+* **web-shell:** Cleaned up landing page ([2c7590e](https://github.com/sullivanpj/open-system/commit/2c7590ed1e18e7532dfe71e54c9871a4b17ef945))
+
 ## [1.5.1](https://github.com/sullivanpj/open-system/compare/shared-ui-data-access-v1.5.0...shared-ui-data-access-v1.5.1) (2023-02-27)
 
 

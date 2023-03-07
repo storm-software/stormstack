@@ -48,11 +48,11 @@ import stencilLogo from "../../../../../../assets/external-logos/stenciljs-logo.
 import StoplightLogo from "../../../../../../assets/external-logos/stoplight-logo.svg";
 import StorybookLogo from "../../../../../../assets/external-logos/storybook-logo.svg";
 import structurizrLogo from "../../../../../../assets/external-logos/structurizr-logo.png";
-import styleDictionaryLogo from "../../../../../../assets/external-logos/style-Dictionary-logo.png";
+import styleDictionaryLogo from "../../../../../../assets/external-logos/style-dictionary-logo.png";
 import styledComponentsLogo from "../../../../../../assets/external-logos/styled-components-logo.png";
 import TailwindCssLogo from "../../../../../../assets/external-logos/tailwindcss-logo.svg";
 import testCompleteLogo from "../../../../../../assets/external-logos/test-complete-logo.png";
-import webSphereLogo from "../../../../../../assets/external-logos/webSphere-logo.webp";
+import webSphereLogo from "../../../../../../assets/external-logos/websphere-logo.webp";
 import Technology from "./technology";
 import TechnologyGroup from "./technology-group";
 
@@ -138,7 +138,7 @@ export default function Technologies() {
       </AnimatePresence>
 
       <div className="sticky top-10 left-0 right-0 overflow-hidden">
-        <Heading level={2} className="absolute bottom-16 left-20">
+        <Heading level={2} className="absolute bottom-16 left-32">
           Technologies
         </Heading>
         <motion.section

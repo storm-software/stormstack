@@ -36,7 +36,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withNextIntl({
-  ...withNx(nextConfig),
-  i18nConfig: "./i18n.config.ts",
-});
+module.exports = withNx(nextConfig);

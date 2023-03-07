@@ -33,7 +33,8 @@
           "configuration": "Release"
         },
         "docker": {
-          "configuration": "Debug"
+          "configuration": "Debug",
+          "noDependencies": false
         }
       }
     },
@@ -69,7 +70,7 @@
     "lint": {
       "executor": "@nx-dotnet/core:format"
     },
-   "server-api-sync": {
+    "server-api-sync": {
       "executor": "@open-system/executors-dotnet:server-api-sync",
       "options": {
         "domainName": "Reaction",

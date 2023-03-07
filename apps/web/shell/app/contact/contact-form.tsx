@@ -26,7 +26,7 @@ import { Form, SubmitButton } from "@open-system/shared-ui-feature-form";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export interface ContactFormProps extends BaseComponentProps {
@@ -47,6 +47,10 @@ export default function ContactForm({
     : null;
 
   const router = useRouter();
+  useEffect(() => {
+    nextPathname && router.prefetch(nextPathname);
+    previousPathname && router.prefetch(previousPathname);
+  }, [router, nextPathname, previousPathname]);
 
   const formValues = useSelector(selectContactFormValues);
   const dispatch = useDispatch();
