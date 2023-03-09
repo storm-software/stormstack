@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.14.2...web-shell-v1.15.0) (2023-03-09)
+
+
+### Features
+
+* **core-server-application:** Added the BaseCommandHandler base class ([00c4b04](https://github.com/sullivanpj/open-system/commit/00c4b0419338f89fb15f750e523c0fec812eede7))
+
 ## [1.14.2](https://github.com/sullivanpj/open-system/compare/web-shell-v1.14.1...web-shell-v1.14.2) (2023-03-06)
 
 
