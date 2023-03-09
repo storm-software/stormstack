@@ -1,11 +1,11 @@
 namespace OpenSystem.Core.Domain.Settings
 {
-  public class FileServiceSettings
+  public abstract class FileServiceSettings
   {
     public string FilePath { get; set; }
 
     public string FileName { get; set; }
 
-    public string FileExtension { get; set; }
+    public virtual string FileExtension { get; set; }
   }
 }

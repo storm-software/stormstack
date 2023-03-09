@@ -53,7 +53,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - "5434:80"
+      - "5434:5432"
     networks:
       - network-microservice
     volumes:
@@ -64,7 +64,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - "5432:80"
+      - "5432:5432"
     networks:
       - network-microservice
     volumes:

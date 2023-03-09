@@ -58,6 +58,8 @@
     "Quartz": "3.6.0",
     "Microsoft.AspNetCore.Authentication.Facebook": "7.0.2",
     "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "7.0.2",
-    "Microsoft.Extensions.Caching.StackExchangeRedis": "8.0.0-preview.1.23112.2"
+    "Microsoft.Extensions.Caching.StackExchangeRedis": "8.0.0-preview.1.23112.2",
+    "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore": "7.0.3",
+    "AspNetCore.HealthChecks.UI": "7.0.0-rc2.7"
   }
 }

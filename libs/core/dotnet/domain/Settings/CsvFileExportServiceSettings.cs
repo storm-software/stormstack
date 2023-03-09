@@ -4,9 +4,6 @@ namespace OpenSystem.Core.Domain.Settings
 {
   public class CsvFileExportServiceSettings : FileExportServiceSettings
   {
-    public string FileExtension
-    {
-      get { return FileExtensions.Csv; }
-    }
+    public override string FileExtension { get; set; } = FileExtensions.Csv;
   }
 }

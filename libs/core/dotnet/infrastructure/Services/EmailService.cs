@@ -45,7 +45,7 @@ namespace OpenSystem.Core.Infrastructure.Services
                   SecureSocketOptions.StartTls);
 
                 smtp.Authenticate(_mailSettings.SmtpUser,
-                  _mailSettings.SmtpPass);
+                  _mailSettings.SmtpPassword);
 
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);

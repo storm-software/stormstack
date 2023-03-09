@@ -1,5 +1,5 @@
-using Microsoft.Extensions.Logging;
 using MediatR;
+using Serilog;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
@@ -7,9 +7,9 @@ namespace OpenSystem.Core.Application.Behaviors
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : MediatR.IRequest<TResponse>
   {
-    private readonly ILogger<TRequest> _logger;
+    private readonly ILogger _logger;
 
-    public UnhandledExceptionBehavior(ILogger<TRequest> logger)
+    public UnhandledExceptionBehavior(ILogger logger)
     {
         _logger = logger;
     }
@@ -26,7 +26,7 @@ namespace OpenSystem.Core.Application.Behaviors
         {
             var requestName = typeof(TRequest).Name;
 
-            _logger.LogError(ex,
+            _logger.Error(ex,
               "OpenSystem Request: Unhandled Exception for Request {Name} {@Request}",
               requestName,
               request);

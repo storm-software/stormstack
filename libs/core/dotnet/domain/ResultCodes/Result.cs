@@ -45,10 +45,21 @@ namespace OpenSystem.Core.Domain.ResultCodes
         int code,
         List<string>? details = null)
       {
-
         return new Result<TData>(resultCodeType,
           code,
           details);
+      }
+
+      public static Result<TData> Failure(Type resultCodeType,
+        int code,
+        string details)
+      {
+        var detailsList = new List<string>();
+        detailsList.Add(details);
+
+        return new Result<TData>(resultCodeType,
+          code,
+          detailsList);
       }
 
       public static Result<TData> Failure(Exception exception)
@@ -221,10 +232,21 @@ namespace OpenSystem.Core.Domain.ResultCodes
       int code,
       List<string>? details = null)
     {
-
       return new Result(resultCodeType,
         code,
         details);
+    }
+
+    public static new Result Failure(Type resultCodeType,
+      int code,
+      string details)
+    {
+      var detailsList = new List<string>();
+      detailsList.Add(details);
+
+      return new Result(resultCodeType,
+        code,
+        detailsList);
     }
 
     public static new Result Failure(Exception exception)

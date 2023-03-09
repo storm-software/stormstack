@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Settings;
 using Quartz;
+using Serilog;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
@@ -12,7 +12,7 @@ namespace OpenSystem.Core.Infrastructure.Services
     {
         public ScheduledServiceSettings Settings { get; }
 
-        public ILogger<ScheduledService> Logger { get; }
+        public ILogger Logger { get; }
 
         /// <summary>
         /// A Cron expression to create firing schedules such as: "At 8:00am every Monday through Friday" or "At 1:30am every last Friday of the month".
@@ -23,7 +23,7 @@ namespace OpenSystem.Core.Infrastructure.Services
         private int _timeoutMs { get; set; }
 
         public ScheduledService(IOptions<ScheduledServiceSettings> settings,
-          ILogger<ScheduledService> logger)
+          ILogger logger)
         {
             Settings = settings.Value;
             Logger = logger;
@@ -35,12 +35,12 @@ namespace OpenSystem.Core.Infrastructure.Services
 
             if (string.IsNullOrEmpty(Settings.Cron))
             {
-              Logger.LogError("Cron setting is missing from ServiceSettings");
+              Logger.Error("Cron setting is missing from ServiceSettings");
               throw new MissingSettingException("Cron");
             }
 
             _cronExpression = new CronExpression(Settings.Cron);
-            _timeoutMs = Settings.TimeoutMs ?? 1000;
+            _timeoutMs = Settings.TimeoutMs;
 
             var result = InnerStartAsync(cancellationToken);
             if (result.Failed)
@@ -61,7 +61,7 @@ namespace OpenSystem.Core.Infrastructure.Services
         {
             if (_cronExpression == null)
             {
-              Logger.LogError("Cron setting is missing from ServiceSettings");
+              Logger.Error("Cron setting is missing from ServiceSettings");
               throw new MissingSettingException("Cron");
             }
 
@@ -72,7 +72,7 @@ namespace OpenSystem.Core.Infrastructure.Services
                 {
                     var result = await InnerProcess(stoppingToken);
                     if (result.Failed)
-                      Logger.LogError(result.Message);
+                      Logger.Error(result.Message);
 
                     next = _cronExpression.GetNextValidTimeAfter(DateTimeOffset.Now);
                 }

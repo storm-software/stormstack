@@ -35,8 +35,8 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
           ILogger logger)
             : base(dbContext)
         {
-            _reactions = dbContext.Reactions;
-            _reactionDetails = dbContext.ReactionDetails;
+            _reactions = dbContext.Reaction;
+            _reactionDetails = dbContext.ReactionDetail;
 
             _currentUserService = currentUserService;
         }

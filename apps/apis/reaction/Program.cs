@@ -17,6 +17,13 @@ using OpenSystem.Core.WebApi.Constants;
 using OpenSystem.Core.WebApi.Extensions;
 using OpenSystem.Core.WebApi.Services;
 using OpenSystem.Apis.Reaction.Extensions;
+using OpenSystem.Reaction.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using OpenSystem.Core.Application;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
 
 const string SERVICE_NAME = "ReactionService.Api";
 
@@ -31,11 +38,15 @@ try
       .CreateLogger();
     builder.Host.UseSerilog(Log.Logger);
 
+
+    builder.Services.AddConfiguration(builder.Configuration,
+      out var appSettings);
+
     // builder.Services.AddServiceDiscovery(builder.Configuration);
 
     builder.Services.AddReactionApplicationLayer();
-    builder.Services.AddReactionPersistenceInfrastructure(builder.Configuration);
-    builder.Services.AddReactionServiceInfrastructure(builder.Configuration);
+    builder.Services.AddReactionPersistenceInfrastructure(appSettings);
+    builder.Services.AddReactionServiceInfrastructure(appSettings);
 
     builder.Services.AddSwaggerExtension();
 
@@ -84,14 +95,6 @@ try
         app.UseHsts();
     }
 
-    /*using (var scope = app.Services.CreateScope())
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        // use context
-        dbContext.Database.EnsureCreated();
-    }*/
-
-    // Add this line; you'll need `using Serilog;` up the top, too
     app.UseSerilogRequestLogging();
     // app.UseHttpsRedirection();
     app.UseStaticFiles();
@@ -107,15 +110,39 @@ try
         .AllowCredentials();
     });
 
-    app.UseIdentityServer();
+    //app.UseIdentityServer();
     app.UseAuthorization();
 
     app.UseSwaggerExtension();
     app.UseCoreMiddleware();
-    app.UseHealthChecks("/health-check");
+
+    app.UseHealthChecks("/health-check", 
+      new HealthCheckOptions
+      {
+          Predicate = _ => true,
+          ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+          ResultStatusCodes =
+          {
+              [HealthStatus.Healthy] = StatusCodes.Status200OK,
+              [HealthStatus.Degraded] = StatusCodes.Status500InternalServerError,
+              [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable,
+          },
+      });
+
     app.MapControllers();
 
     app.Run();
+
+    /*using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope
+          .ServiceProvider
+          .GetRequiredService<ReactionDbContext>();
+
+        // use context
+        dbContext.Database.EnsureCreated();
+        dbContext.Database.Migrate();
+    }*/
 
     Log.Information($"{SERVICE_NAME} has started successfully.");
 

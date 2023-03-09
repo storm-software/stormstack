@@ -8,6 +8,6 @@ namespace OpenSystem.Core.Domain.Settings
 
     public string Audience { get; set; }
 
-    public double DurationInMinutes { get; set; }
+    public double DurationInMinutes { get; set; } = 60;
   }
 }

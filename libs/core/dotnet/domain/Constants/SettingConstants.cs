@@ -9,7 +9,9 @@ namespace OpenSystem.Core.Domain.Constants
 
     public class ConnectionStrings
     {
-      public const string RedisCache = "RedisCache";
+      public const string DefaultConnection = "DefaultConnection";
+
+      public const string CacheConnection = "CacheConnection";
     }
   }
 }

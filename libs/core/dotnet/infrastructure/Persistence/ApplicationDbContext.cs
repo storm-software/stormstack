@@ -4,51 +4,42 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using OpenSystem.Core.Infrastructure.Services;
-using Microsoft.Extensions.Options;
-using MediatR;
-using Duende.IdentityServer.EntityFramework.Options;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Infrastructure.Extensions;
 using System.Transactions;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Configuration;
 
 namespace OpenSystem.Core.Infrastructure.Persistence
 {
     public class ApplicationDbContext
-      : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+      : DbContext, IApplicationDbContext
     {
         protected readonly IDateTimeProvider DateTimeProvider;
 
         protected readonly ICurrentUserService CurrentUserService;
 
+        protected readonly IConfiguration Configuration;
+
         private readonly ILoggerFactory _loggerFactory;
 
-        private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
-
-        private readonly IMediator _mediator;
-
-        private IDbContextTransaction _dbContextTransaction;
+        private IDbContextTransaction? _dbContextTransaction;
 
         public ApplicationDbContext(
           DbContextOptions options,
-          IOptions<OperationalStoreOptions> operationalStoreOptions,
-          IMediator mediator,
-          AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor,
+          IConfiguration configuration,
           IDateTimeProvider dateTimeProvider,
           ICurrentUserService currentUserService,
             ILoggerFactory loggerFactory)
-            : base(options, operationalStoreOptions)
+            : base(options)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
             DateTimeProvider = dateTimeProvider;
             CurrentUserService = currentUserService;
+            Configuration = configuration;
             _loggerFactory = loggerFactory;
-            _mediator = mediator;
-            _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
         }
 
         public async Task<IDisposable> BeginTransactionAsync(CancellationToken cancellationToken = default)
@@ -60,7 +51,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
 
         public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
         {
-            await _dbContextTransaction.CommitAsync(cancellationToken);
+            await _dbContextTransaction?.CommitAsync(cancellationToken);
         }
 
         public override int SaveChanges()
@@ -132,13 +123,22 @@ namespace OpenSystem.Core.Infrastructure.Persistence
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            optionsBuilder.UseLoggerFactory(_loggerFactory);
-            optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
-        }*/
+            base.OnConfiguring(options);
+            options.UseLoggerFactory(_loggerFactory);
+
+            var ret = InnerOnConfiguring(options);
+            if (ret.Failed)
+              throw new GeneralProcessingException();
+        }
 
         protected virtual Result InnerOnModelCreating(ModelBuilder builder)
+        {
+            return Result.Success();
+        }
+
+        protected virtual Result InnerOnConfiguring(DbContextOptionsBuilder options)
         {
             return Result.Success();
         }

@@ -12,19 +12,21 @@ namespace OpenSystem.Core.Application.Behaviors
     {
       private readonly ICurrentUserService _currentUserService;
 
-      private readonly IIdentityService _identityService;
+      //private readonly IIdentityService _identityService;
 
-      public AuthorizationBehavior(ICurrentUserService currentUserService,
-        IIdentityService identityService)
+      public AuthorizationBehavior(ICurrentUserService currentUserService)
       {
           _currentUserService = currentUserService;
-          _identityService = identityService;
+          //_identityService = identityService;
       }
 
       public async Task<TResponse> Handle(TRequest request,
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
       {
+           // User is authorized / authorization not required
+          return await next();
+
           var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>();
 
           if (authorizeAttributes.Any())
@@ -47,13 +49,13 @@ namespace OpenSystem.Core.Application.Behaviors
                   {
                       foreach (var role in roles)
                       {
-                          var isInRole = await _identityService.IsInRoleAsync(_currentUserService.UserId,
+                          /*var isInRole = await _identityService.IsInRoleAsync(_currentUserService.UserId,
                             role.Trim());
                           if (isInRole)
                           {
                               authorized = true;
                               break;
-                          }
+                          }*/
                       }
                   }
 
@@ -72,12 +74,12 @@ namespace OpenSystem.Core.Application.Behaviors
                   foreach (var policy in authorizeAttributesWithPolicies.Select(a =>
                     a.Policy))
                   {
-                      var authorized = await _identityService.AuthorizeAsync(_currentUserService.UserId, policy);
+                      /*var authorized = await _identityService.AuthorizeAsync(_currentUserService.UserId, policy);
 
                       if (!authorized)
                       {
                           throw new ForbiddenAccessException();
-                      }
+                      }*/
                   }
               }
           }

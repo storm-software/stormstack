@@ -16,17 +16,19 @@ using OpenSystem.Reaction.Application.Interfaces;
 using OpenSystem.Reaction.Infrastructure.Persistence;
 using OpenSystem.Core.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
+using OpenSystem.Core.Domain.Settings;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace OpenSystem.Reaction.Infrastructure
 {
     public static class ServiceRegistration
     {
          public static void AddReactionPersistenceInfrastructure(this IServiceCollection services,
-          IConfiguration configuration)
+          ApplicationSettings settings)
         {
-            services.AddPersistenceInfrastructure(configuration);
+            services.AddPersistenceInfrastructure(settings);
 
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            if (settings.UseInMemoryDatabase)
             {
                 services.AddDbContext<ReactionDbContext>(options =>
                     options.UseInMemoryDatabase("ApplicationDb"))
@@ -37,7 +39,7 @@ namespace OpenSystem.Reaction.Infrastructure
             {
                 services.AddDbContext<ReactionDbContext>(options =>
                   options.UseNpgsql(
-                    configuration.GetConnectionString("DefaultConnection"),
+                    settings.ConnectionStrings.DefaultConnection,
                     builder => builder.MigrationsAssembly(typeof(ReactionDbContext).Assembly.FullName)))
                 .AddScoped(typeof(IReactionRepository),
                   typeof(ReactionRepository));
@@ -46,7 +48,11 @@ namespace OpenSystem.Reaction.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider =>
               provider.GetRequiredService<ReactionDbContext>());
 
-            services
+            /*services.AddHealthCheck(settings)
+              .AddDbContextCheck<ReactionDbContext>(name: "Application DB Context",
+                  failureStatus: HealthStatus.Degraded);*/
+
+            /*services
               .AddIdentity<ApplicationUser, IdentityRole>()
               .AddRoles<IdentityRole>()
               .AddEntityFrameworkStores<ReactionDbContext>();
@@ -65,8 +71,7 @@ namespace OpenSystem.Reaction.Infrastructure
                 options.UserInteraction.ErrorIdParameter = "errorId";
 
                 options.UserInteraction.DeviceVerificationUrl = "/user/login/device-verification";
-            })
-              .AddApiAuthorization<ApplicationUser, ReactionDbContext>();
+            });*/
 
             /*services.AddIdentityServer()
               .AddApiAuthorization<ApplicationUser, UserApplicationDbContext>();*/
@@ -74,7 +79,7 @@ namespace OpenSystem.Reaction.Infrastructure
             /*services.AddTransient<IUserStore<UserEntity>, UserStore>();
             services.AddTransient<IRoleStore<Role>, RoleStore>();*/
 
-            services.AddAuthenticationInfrastructure(configuration);
+            // services.AddAuthenticationInfrastructure(configuration);
 
             #region Repositories
 
@@ -85,9 +90,11 @@ namespace OpenSystem.Reaction.Infrastructure
         }
 
         public static void AddReactionServiceInfrastructure(this IServiceCollection services,
-          IConfiguration configuration)
+          ApplicationSettings settings)
         {
-            services.AddServiceInfrastructure(configuration);
+            services.AddServiceInfrastructure();
         }
+
+
     }
 }

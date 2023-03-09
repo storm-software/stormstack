@@ -10,19 +10,22 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using Duende.IdentityServer.Configuration;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenSystem.Core.Domain.Constants;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
 
 namespace OpenSystem.Core.Infrastructure
 {
     public static class ServiceRegistration
     {
         public static void AddPersistenceInfrastructure(this IServiceCollection services,
-          IConfiguration configuration)
+          ApplicationSettings settings)
         {
-            services.AddScoped<AuditableEntitySaveChangesInterceptor>();
+            // services.AddScoped<AuditableEntitySaveChangesInterceptor>();
 
-            services.AddCache(configuration);
+            services.AddCache(settings.ConnectionStrings);
 
            /* if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
@@ -48,19 +51,16 @@ namespace OpenSystem.Core.Infrastructure
             #endregion Repositories
         }
 
-        public static void AddServiceInfrastructure(this IServiceCollection services,
-          IConfiguration configuration)
+        public static void AddServiceInfrastructure(this IServiceCollection services)
         {
-            services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
-
             services.AddTransient<IDateTimeProvider,
               DateTimeProvider>();
             services.AddTransient<IEmailService,
               EmailService>();
             services.AddTransient<ICsvFileExportService,
               CsvFileExportService>();
-            services.AddTransient<IIdentityService,
-              IdentityService>();
+            /*services.AddTransient<IIdentityService,
+              IdentityService>();*/
         }
 
         public static void AddAuthenticationInfrastructure(this IServiceCollection services,
@@ -140,14 +140,27 @@ namespace OpenSystem.Core.Infrastructure
         }
 
         public static void AddCache(this IServiceCollection services,
-          IConfiguration configuration)
+          ConnectionStringSettings settings)
         {
             services.AddStackExchangeRedisCache(options => {
-              options.Configuration = configuration.GetConnectionString(SettingConstants.ConnectionStrings.RedisCache);
+              options.Configuration = settings.CacheConnection;
                 options.InstanceName = SettingConstants.CacheInstanceName;
             });
 
             services.AddSingleton<IMessageCacheService, MessageCacheService>();
+        }
+
+        public static IHealthChecksBuilder AddHealthCheck(this IServiceCollection services,
+          ApplicationSettings settings)
+        {
+            var builder = services.AddHealthChecks();
+            services.AddHealthChecksUI(setupSettings: setup =>
+            {
+                setup.AddHealthCheckEndpoint("Basic Health Check",
+                  "/health-check");
+            });
+
+            return builder;
         }
     }
 }

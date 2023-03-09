@@ -40,6 +40,7 @@ namespace OpenSystem.Core.WebApi.Controllers
           }
 
           Logger = logger;
+          Logger.Information($"{Context?.Request.Host} is running");
         }
 
         /// <summary>

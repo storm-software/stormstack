@@ -10,8 +10,11 @@ namespace OpenSystem.Core.Domain.Settings
 
     public string SmtpUser { get; set; }
 
-    public string SmtpPass { get; set; }
+    public string SmtpPassword { get; set; }
 
     public string DisplayName { get; set; }
+
+    public bool EnableSsl { get; set; } = true;
+
   }
 }

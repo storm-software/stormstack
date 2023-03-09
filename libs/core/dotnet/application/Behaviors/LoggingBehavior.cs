@@ -1,6 +1,6 @@
 using OpenSystem.Core.Application.Interfaces;
 using MediatR.Pipeline;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
@@ -12,15 +12,14 @@ namespace OpenSystem.Core.Application.Behaviors
 
     private readonly ICurrentUserService _currentUserService;
 
-    private readonly IIdentityService _identityService;
+    //private readonly IIdentityService _identityService;
 
-    public LoggingBehavior(ILogger<TRequest> logger,
-      ICurrentUserService currentUserService,
-      IIdentityService identityService)
+    public LoggingBehavior(ILogger logger,
+      ICurrentUserService currentUserService)
     {
         _logger = logger;
         _currentUserService = currentUserService;
-        _identityService = identityService;
+        //_identityService = identityService;
     }
 
     public async Task Process(TRequest request,
@@ -32,10 +31,10 @@ namespace OpenSystem.Core.Application.Behaviors
 
         if (!string.IsNullOrEmpty(userId))
         {
-            userName = await _identityService.GetUserNameAsync(userId);
+            //userName = await _identityService.GetUserNameAsync(userId);
         }
 
-        _logger.LogInformation("OpenSystem Request: {Name} {@UserId} {@UserName} {@Request}",
+        _logger.Information("OpenSystem Request: {Name} {@UserId} {@UserName} {@Request}",
             requestName,
             userId,
             userName,

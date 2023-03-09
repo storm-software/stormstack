@@ -1,7 +1,7 @@
 using OpenSystem.Core.Application.Interfaces;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using MediatR;
+using Serilog;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
@@ -11,22 +11,21 @@ namespace OpenSystem.Core.Application.Behaviors
   {
     private readonly Stopwatch _timer;
 
-    private readonly ILogger<TRequest> _logger;
+    private readonly ILogger _logger;
 
     private readonly ICurrentUserService _currentUserService;
 
-    private readonly IIdentityService _identityService;
+    //private readonly IIdentityService _identityService;
 
     public PerformanceBehavior(
-        ILogger<TRequest> logger,
-        ICurrentUserService currentUserService,
-        IIdentityService identityService)
+        ILogger logger,
+        ICurrentUserService currentUserService)
     {
         _timer = new Stopwatch();
 
         _logger = logger;
         _currentUserService = currentUserService;
-        _identityService = identityService;
+        //_identityService = identityService;
     }
 
     public async Task<TResponse> Handle(TRequest request,
@@ -49,10 +48,10 @@ namespace OpenSystem.Core.Application.Behaviors
 
             if (!string.IsNullOrEmpty(userId))
             {
-                userName = await _identityService.GetUserNameAsync(userId);
+                //userName = await _identityService.GetUserNameAsync(userId);
             }
 
-            _logger.LogWarning("OpenSystem Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
+            _logger.Warning("OpenSystem Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
                 requestName,
                 elapsedMilliseconds,
                 userId,

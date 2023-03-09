@@ -11,6 +11,6 @@ namespace OpenSystem.Core.Domain.Settings
     /// <summary>
     /// Time to pause between processing (default 1000ms)
     /// </summary>
-    public int? TimeoutMs { get; set; }
+    public int TimeoutMs { get; set; } = 1000;
   }
 }
