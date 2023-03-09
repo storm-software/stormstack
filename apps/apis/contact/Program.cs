@@ -63,6 +63,12 @@ try
     builder.Services.AddMvcCore()
       .AddApiExplorer();
 
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(80);
+    });
+
+
     // API explorer version
     builder.Services.AddVersionedApiExplorerExtension();
     var app = builder.Build();

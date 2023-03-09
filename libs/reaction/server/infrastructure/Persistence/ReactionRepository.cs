@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Threading.Tasks;
 using OpenSystem.Core.Infrastructure.Persistence;
 using OpenSystem.Core.Application.Models.Parameters;
 using OpenSystem.Core.Domain.ResultCodes;
@@ -31,18 +30,15 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
         private readonly ICurrentUserService _currentUserService;
 
-        private readonly ILogger _logger;
-
         public ReactionRepository(ReactionDbContext dbContext,
           ICurrentUserService currentUserService,
           ILogger logger)
             : base(dbContext)
         {
-            _reactions = dbContext.Set<ReactionEntity>();
-            _reactionDetails = dbContext.Set<ReactionDetailEntity>();
+            _reactions = dbContext.Reactions;
+            _reactionDetails = dbContext.ReactionDetails;
 
             _currentUserService = currentUserService;
-            _logger = logger;
         }
 
         public async Task<(IEnumerable<ReactionEntity> Data,
@@ -58,12 +54,13 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             int recordsTotal, recordsFiltered;
 
             // Setup IQueryable
-            var record = _reactions
-                .AsNoTracking()
-                .AsExpandable();
+            var record = GetQueryable(pageNumber,
+              pageSize,
+              orderBy);
+            record = record.Include(r => r.Details);
 
             // Count records total
-            recordsTotal = await record.CountAsync();
+            recordsTotal = await DbSet.CountAsync();
 
             // filter data
             Result ret = FilterByColumn(ref record,
@@ -85,11 +82,6 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
                 record = record.OrderBy(orderBy);
             }
 
-            // paging
-            record = record
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize);
-
             // retrieve data to list
             var resultData = await record.ToListAsync();
             return (resultData, recordsCount);
@@ -97,37 +89,15 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
         public async Task<IEnumerable<ReactionCountRecord>> GetReactionsCountAsync(GetReactionsCountQuery requestParameter)
         {
-            var contentId = requestParameter.ContentId;
-            var type = requestParameter.Type;
-
-            // Setup IQueryable
-            /*IQueryable<ReactionEntity> record = _reactions
-              .Include(r => r.Details);
-
-            //record = record.Include(r => r.Details);
-
-  _logger.Information(record.Count().ToString());
-_logger.Information(record.Count() > 0
-            ? record.First().Details.Count().ToString()
-            : "");
-*/
-
-          var record = _reactions
-            .AsNoTracking()
-            .AsExpandable();
-          record = record.Include(r => r.Details);
+            var record = GetQueryable();
+            record = record.Include(r => r.Details);
 
             // filter data
             Result ret = FilterByColumn(ref record,
-              contentId,
-              type);
+              requestParameter.ContentId,
+              requestParameter.Type);
             if (ret.Failed)
               throw new GeneralProcessingException();
-
-           _logger.Information(record.Count().ToString());
-          _logger.Information(record.Count() > 0
-            ? record.First().Details.Count().ToString()
-            : "");
 
             // retrieve data to list
             var resultData = record.SelectMany(r => r.Details)
@@ -139,26 +109,23 @@ _logger.Information(record.Count() > 0
                 Count = d.Count()
               });
 
-           _logger.Information(resultData.Count().ToString());
-
-            if (!string.IsNullOrEmpty(type))
-                resultData = resultData.Where(r => string.Equals(r.Type,
-                  type.Trim()));
-
-            _logger.Information(resultData.Count().ToString());
+            if (!string.IsNullOrEmpty(requestParameter.Type))
+                resultData = resultData.Where(r => string.Equals(r.Type.ToString(),
+                  requestParameter.Type.Trim(),
+                  StringComparison.OrdinalIgnoreCase));
 
             return resultData;
         }
 
         public async Task<ReactionEntity?> GetByContentIdAsync(string contentId)
         {
-          return await _reactions
+          return await GetQueryable(false)
             .FirstOrDefaultAsync(r => r.ContentId == contentId);
         }
 
         public async Task<bool> UserHasReactedAsync(string contentId)
         {
-          return await _reactions
+          return await GetQueryable(false)
                 .AllAsync(r => r.ContentId == contentId &&
                   r.Details.Any(d => d.VerificationCode == VerificationCodeTypes.Verified &&
                     string.Equals(_currentUserService.UserId,
@@ -171,12 +138,11 @@ _logger.Information(record.Count() > 0
           foreach (ReactionDetailEntity detail in entity.Details)
           {
             DbContext.Entry(detail).State = EntityState.Added;
-
             detail.UserId = _currentUserService.UserId;
           }
 
           await _reactionDetails.AddRangeAsync(entity.Details,
-            cancellationToken);
+              cancellationToken);
 
           return entity;
         }
@@ -185,16 +151,19 @@ _logger.Information(record.Count() > 0
           CancellationToken cancellationToken = default)
         {
           foreach (ReactionDetailEntity detail in entity.Details)
+          {
             DbContext.Entry(detail).State = EntityState.Modified;
+          }
         }
 
         protected override async Task InnerDeleteAsync(ReactionEntity entity,
           CancellationToken cancellationToken = default)
         {
           foreach (ReactionDetailEntity detail in entity.Details)
-            DbContext.Entry(detail).State = EntityState.Deleted;
-
-          _reactionDetails.RemoveRange(entity.Details);
+          {
+            DbContext.Entry(detail).State = EntityState.Modified;
+            detail.VerificationCode = VerificationCodeTypes.Removed;
+          }
         }
 
         private Result FilterByColumn(ref IQueryable<ReactionEntity> reactions,
@@ -204,19 +173,22 @@ _logger.Information(record.Count() > 0
             if (!reactions.Any())
                 return Result.Success();
 
-            if (string.IsNullOrEmpty(contentId) &&
-              string.IsNullOrEmpty(type))
-                return Result.Success();
+            var predicate = GetBaseFilter();
+            if (!string.IsNullOrEmpty(contentId) ||
+              !string.IsNullOrEmpty(type))
+            {
+              if (!string.IsNullOrEmpty(contentId))
+                  predicate = predicate.And(p =>
+                    string.Equals(p.ContentId,
+                      contentId.Trim(),
+                      StringComparison.OrdinalIgnoreCase));
 
-            var predicate = PredicateBuilder.New<ReactionEntity>();
-            if (!string.IsNullOrEmpty(contentId))
-                predicate = predicate.Or(p =>
-                  p.ContentId.Contains(contentId.Trim()));
-
-            if (!string.IsNullOrEmpty(type))
-                predicate = predicate.Or(r =>
-                  r.Details.Any(d => string.Equals(d.Type,
-                    type.Trim())));
+              if (!string.IsNullOrEmpty(type))
+                  predicate = predicate.And(r =>
+                    r.Details.Any(d => string.Equals(d.Type.ToString(),
+                      type.Trim(),
+                      StringComparison.OrdinalIgnoreCase)));
+            }
 
             reactions = reactions.Where(predicate);
 

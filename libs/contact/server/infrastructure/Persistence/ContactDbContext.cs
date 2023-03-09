@@ -12,11 +12,13 @@ using OpenSystem.Core.Infrastructure.Persistence;
 
 namespace OpenSystem.Contact.Infrastructure.Persistence
 {
-    public class ContactApplicationDbContext : ApplicationDbContext
+    public class ContactDbContext : ApplicationDbContext
     {
         public DbSet<ContactEntity> Contacts => Set<ContactEntity>();
 
-        public ContactApplicationDbContext(
+        public DbSet<ContactDetailEntity> ContactDetails => Set<ContactDetailEntity>();
+
+        public ContactDbContext(
           DbContextOptions options,
           IOptions<OperationalStoreOptions> operationalStoreOptions,
           IMediator mediator,

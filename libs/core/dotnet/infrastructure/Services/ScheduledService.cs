@@ -81,8 +81,5 @@ namespace OpenSystem.Core.Infrastructure.Services
                   stoppingToken);
             }
         }
-
-
-
     }
 }

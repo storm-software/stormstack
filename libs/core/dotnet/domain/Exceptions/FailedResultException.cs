@@ -2,15 +2,23 @@ using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.Exceptions
 {
-    public class FailedResultException : BaseException
+    public class FailedResultException<TData> : BaseException
     {
-      public IResult<object> Result { get; set; }
+      public IResult<TData> Result { get; set; }
 
-      public FailedResultException(IResult<object> _result)
-        : base(_result.ResultCodeType,
-          _result.Code ?? 0)
+      public FailedResultException(IResult<TData> result)
+        : base(result.ResultCodeType,
+          result.Code)
       {
-        Result = _result;
+        Result = result;
+      }
+    }
+
+    public class FailedResultException : FailedResultException<object>
+    {
+      public FailedResultException(IResult<object> result)
+        : base(result)
+      {
       }
     }
 }

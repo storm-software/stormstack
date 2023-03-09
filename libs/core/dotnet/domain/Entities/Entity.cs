@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.Json;
+using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.ValueObjects;
@@ -12,7 +13,7 @@ using OpenSystem.Core.Domain.ValueObjects;
 namespace OpenSystem.Core.Domain.Entities
 {
   public abstract class Entity<T>
-    : IIndexed<T>, IValidatableObject, ICloneable
+    : IIndexed<T>, IValidatableObject, ICloneable, IEntity
   {
     public static bool operator ==(Entity<T> a,
       Entity<T> b)
@@ -82,12 +83,30 @@ namespace OpenSystem.Core.Domain.Entities
     protected ValidationResult GetValidationResult(Result ret)
     {
       return new ValidationResult(ResultCode.Serialize(ret.ResultCodeType,
-        ret.Code ?? 0));
+        ret.Code));
+    }
+
+    protected ValidationResult GetValidationResult(Type resultCodeType,
+      int code)
+    {
+      return GetValidationResult(Result.Failure(resultCodeType,
+        code));
+    }
+
+    protected ValidationResult GetValidationResult(int code)
+    {
+      return GetValidationResult(typeof(ResultCodeValidation),
+        code);
     }
 
     private bool IsTransient()
     {
       return Id is not null;
     }
+  }
+
+  public abstract class Entity
+    : Entity<Guid>
+  {
   }
 }

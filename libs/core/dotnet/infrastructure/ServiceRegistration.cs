@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Duende.IdentityServer.Configuration;
+using OpenSystem.Core.Domain.Constants;
 
 namespace OpenSystem.Core.Infrastructure
 {
@@ -20,6 +21,8 @@ namespace OpenSystem.Core.Infrastructure
           IConfiguration configuration)
         {
             services.AddScoped<AuditableEntitySaveChangesInterceptor>();
+
+            services.AddCache(configuration);
 
            /* if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
@@ -90,8 +93,11 @@ namespace OpenSystem.Core.Infrastructure
                 {
                     IConfigurationSection googleAuthNSection =
                       configuration.GetSection("Authentication:Google");
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    if (googleAuthNSection != null)
+                    {
+                        options.ClientId = googleAuthNSection["ClientId"];
+                        options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    }
                 })
                 /*.AddFacebook(options =>
                 {
@@ -131,6 +137,17 @@ namespace OpenSystem.Core.Infrastructure
             services.AddAuthorization(options =>
                 options.AddPolicy("CanPurge",
                 policy => policy.RequireRole("Administrator")));
+        }
+
+        public static void AddCache(this IServiceCollection services,
+          IConfiguration configuration)
+        {
+            services.AddStackExchangeRedisCache(options => {
+              options.Configuration = configuration.GetConnectionString(SettingConstants.ConnectionStrings.RedisCache);
+                options.InstanceName = SettingConstants.CacheInstanceName;
+            });
+
+            services.AddSingleton<IMessageCacheService, MessageCacheService>();
         }
     }
 }

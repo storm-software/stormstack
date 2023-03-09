@@ -1,7 +1,7 @@
 /*
  * Reaction APIs
  *
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -14,14 +14,16 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using OpenSystem.Core.Application.Interfaces;
 using MediatR;
+using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Reaction.Application.Models
-{ 
+{
     /// <summary>
     /// Add Reaction
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
-    public class AddReactionCommand : AddReactionRequest, IRequest<CommandSuccessResponse>
+    public class AddReactionCommand
+      : AddReactionRequest, IRequest<Result<CommandSuccessResponse>>
     {
 
         /// <summary>
@@ -83,7 +85,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// Remove Reaction
     /// </summary>
     /// <remarks>Remove an existing reaction to an article</remarks>
-    public class RemoveReactionCommand : IRequest<CommandSuccessResponse>
+    public class RemoveReactionCommand : IRequest<Result<CommandSuccessResponse>>
     {
         /// <summary>
         /// The id of the article/comment

@@ -2,16 +2,18 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using MediatR;
 using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
     [Serializable]
-    public class Result : ISerializable, IResult<object>
+    public class Result<TData>
+      : ISerializable, IResult<TData>
     {
-      public int? Code { get; set; }
+      public int Code { get; set; } = 0;
 
-      public Type? ResultCodeType { get; set; }
+      public Type ResultCodeType { get; set; } = typeof(ResultCodeGeneral);
 
       public bool Succeeded { get; set; }
 
@@ -25,33 +27,33 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
       public string? StackTrace { get; set; }
 
-      public object? Data { get; set; }
+      public TData? Data { get; set; }
 
-      public static Result Success()
+      public static Result<TData> Success()
       {
-        return new Result();
+        return new Result<TData>();
       }
 
-      public static Result Success(object data,
+      public static Result<TData> Success(TData data,
         string? message = null)
       {
-        return new Result(data,
+        return new Result<TData>(data,
           message);
       }
 
-      public static Result Failure(Type resultCodeType,
+      public static Result<TData> Failure(Type resultCodeType,
         int code,
         List<string>? details = null)
       {
 
-        return new Result(resultCodeType,
+        return new Result<TData>(resultCodeType,
           code,
           details);
       }
 
-      public static Result Failure(Exception exception)
+      public static Result<TData> Failure(Exception exception)
       {
-        return new Result(exception);
+        return new Result<TData>(exception);
       }
 
       protected Result()
@@ -59,7 +61,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
         Succeeded = true;
       }
 
-      protected Result(object data,
+      protected Result(TData? data,
         string? message = null)
       {
           Succeeded = true;
@@ -80,22 +82,22 @@ namespace OpenSystem.Core.Domain.ResultCodes
           StackTrace = GetStackTrace();
       }
 
-      protected Result(Exception exception)
-      {
-          Succeeded = false;
-          Message = exception.Message;
+    protected Result(Exception exception)
+    {
+        Succeeded = false;
+        Message = exception.Message;
 
-          if (!string.IsNullOrEmpty(exception.InnerException?.Message))
-          {
-            Details = new List<string>();
-            Details.Add(exception.InnerException.Message);
-          }
+        if (!string.IsNullOrEmpty(exception.InnerException?.Message))
+        {
+          Details = new List<string>();
+          Details.Add(exception.InnerException.Message);
+        }
 
-          HelpLink = exception.HelpLink;
-          StackTrace = !string.IsNullOrEmpty(exception.StackTrace)
-            ? exception.StackTrace
-            : GetStackTrace();
-      }
+        HelpLink = exception.HelpLink;
+        StackTrace = !string.IsNullOrEmpty(exception.StackTrace)
+          ? exception.StackTrace
+          : GetStackTrace();
+    }
 
     public void GetObjectData(SerializationInfo info,
       StreamingContext context)
@@ -148,7 +150,111 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
         return sbStackTrace.ToString();
       }
-
 		}
+
+    public static bool operator ==(Result<TData> a,
+      Result<object> b)
+    {
+      if (a is null &&
+        b is null)
+          return true;
+
+      if (a is null ||
+        b is null ||
+        (a.Failed != b.Failed))
+          return false;
+
+      if (a.Failed && b.Failed &&
+        (a.ResultCodeType != b.ResultCodeType ||
+          a.Code != b.Code ||
+          ((a.Details is null && b.Details != null) ||
+          (b.Details is null && a.Details != null) ||
+          a.Details != null && !a.Details.Equals(b.Details))))
+        return false;
+
+      if (a.Succeeded && b.Succeeded &&
+        ((a.Data is null && b.Data != null) ||
+         (b.Data is null && a.Data != null) ||
+         a.Data != null && !a.Data.Equals(b.Data)))
+        return false;
+
+      return true;
+    }
+
+    public static bool operator !=(Result<TData> a,
+      Result<object> b)
+    {
+        return !(a == b);
+    }
+
+    public static implicit operator Result<TData>(Result result) => result.Failed
+      ? Result<TData>.Failure(result.ResultCodeType,
+        result.Code,
+        result.Details)
+      : Result<TData>.Success((TData)result.Data,
+        result.Message);
+
+    public static implicit operator Result(Result<TData> result) => result.Failed
+      ? Result.Failure(result.ResultCodeType,
+        result.Code,
+        result.Details)
+      : Result.Success(result.Data,
+        result.Message);
+  }
+
+  [Serializable]
+  public class Result : Result<object>
+  {
+    public static new Result Success()
+    {
+      return new Result();
+    }
+
+    public static new Result Success(object? data,
+      string? message = null)
+    {
+      return new Result(data,
+        message);
+    }
+
+    public static new Result Failure(Type resultCodeType,
+      int code,
+      List<string>? details = null)
+    {
+
+      return new Result(resultCodeType,
+        code,
+        details);
+    }
+
+    public static new Result Failure(Exception exception)
+    {
+      return new Result(exception);
+    }
+
+    protected Result()
+      : base()
+    {
+    }
+
+    protected Result(object? data,
+      string? message = null)
+      : base(data, message)
+    {
+    }
+
+    protected Result(Type resultCodeType,
+      int code,
+      List<string>? details = null)
+      : base(resultCodeType,
+        code,
+        details)
+    {
+    }
+
+    protected Result(Exception exception)
+      : base(exception)
+    {
+    }
   }
 }

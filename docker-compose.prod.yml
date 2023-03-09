@@ -53,22 +53,48 @@ services:
     image: postgres
     restart: always
     ports:
-      - "5434:80"
+      - "5434:5434"
     networks:
       - network-microservice
     volumes:
       - postgresql-data:/var/lib/postgresql/data
+
+  contact.api:
+    container_name: contact.api
+    image: apis-contact:latest
+    restart: unless-stopped
+    hostname: contact-api
+    build:
+      context: .
+      dockerfile: apps/apis/contact/Dockerfile
+    ports:
+      - "5002:80"
+    networks:
+      - network-microservice
 
   reaction.db:
     container_name: reaction.db
     image: postgres
     restart: always
     ports:
-      - "5432:80"
+      - "5432:5432"
     networks:
       - network-microservice
     volumes:
       - postgresql-data:/var/lib/postgresql/data
+
+  reaction.api:
+    container_name: reaction.api
+    image: apis-reaction:latest
+    restart: unless-stopped
+    hostname: reaction-api
+    build:
+      context: .
+      dockerfile: apps/apis/reaction/Dockerfile
+    ports:
+      - "5000:80"
+    networks:
+      - network-microservice
 
 volumes:
   postgresql-data:

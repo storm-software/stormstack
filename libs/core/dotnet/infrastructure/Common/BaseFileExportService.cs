@@ -3,7 +3,6 @@ using OpenSystem.Core.Application.Interfaces;
 using OpenSystem.Core.Domain.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.Entities;

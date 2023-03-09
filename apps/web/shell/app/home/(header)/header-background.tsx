@@ -2089,9 +2089,9 @@ export default function HeaderBackground({ className }: BaseComponentProps) {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(685.488 352.148) rotate(81.7817) scale(482.707 850.661)">
             <motion.stop
-              stopColor="#0F35FF"
+              stopColor="#6366F1"
               animate={{
-                stopColor: ["#0F35FF", "#A197F5", "#FF0099"],
+                stopColor: ["#6366F1", "#A197F5", "#E81E61"],
               }}
               transition={{
                 yoyo: Infinity,
@@ -2106,7 +2106,7 @@ export default function HeaderBackground({ className }: BaseComponentProps) {
             <motion.stop
               stopColor="#A197F5"
               animate={{
-                stopColor: ["#A197F5", "#FF0099", "#0F35FF"],
+                stopColor: ["#A197F5", "#E81E61", "#6366F1"],
               }}
               transition={{
                 yoyo: Infinity,
@@ -2119,9 +2119,9 @@ export default function HeaderBackground({ className }: BaseComponentProps) {
               offset="0.619792"
             />
             <motion.stop
-              stopColor="#FF0099"
+              stopColor="#E81E61"
               animate={{
-                stopColor: ["#FF0099", "#0F35FF", "#A197F5"],
+                stopColor: ["#E81E61", "#6366F1", "#A197F5"],
               }}
               transition={{
                 yoyo: Infinity,

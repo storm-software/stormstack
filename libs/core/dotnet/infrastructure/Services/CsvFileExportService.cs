@@ -16,7 +16,6 @@ namespace OpenSystem.Core.Infrastructure.Services
   {
     public CsvFileExportServiceSettings Settings { get; set; }
 
-
     public CsvFileExportService(IOptions<CsvFileExportServiceSettings> settings,
       ILogger<CsvFileExportService> logger,
       IDateTimeProvider dateTimeService)

@@ -13,9 +13,17 @@ services:
       POSTGRES_DB: reaction.db
       ASPNETCORE_ENVIRONMENT: "Development"
 
+  reaction.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
   contact.db:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: contact.db
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+  contact.api:
+    environment:
       ASPNETCORE_ENVIRONMENT: "Development"

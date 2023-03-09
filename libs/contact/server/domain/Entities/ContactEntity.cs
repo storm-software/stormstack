@@ -22,7 +22,7 @@ namespace OpenSystem.Contact.Domain.Entities
 
         public DateTimeOffset? UpdatedDateTime { get; set; }
 
-        public string Email { get; set; }
+        public required string Email { get; set; }
 
         public string? FirstName { get; set; }
 

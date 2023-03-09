@@ -22,9 +22,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using OpenSystem.Apis.Reaction.Attributes;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
-using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using OpenSystem.Core.WebApi.Controllers;
+using Serilog;
 
 namespace OpenSystem.Apis.Reaction.Controllers.v1
 {
@@ -42,7 +42,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         /// Constructor method for ReactionApiController
         /// </summary>
         /// <remarks>Constructor method to generate an instance of a ReactionApiController</remarks>
-        public ReactionApiController(ILogger<ReactionApiController> _logger,
+        public ReactionApiController(ILogger _logger,
             IHttpContextAccessor _context)
             : base(_logger,
             _context)
@@ -65,7 +65,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         {
           var msg = $"Running on {Context.Request.Host}";
 
-          Logger.LogInformation(msg);
+          Logger.Information(msg);
           return Ok(msg);
         }
 
@@ -104,9 +104,8 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
               requestBody.Copy(request);
 
             request.ContentId = contentId;
-
-            return Ok(await SendRequest(request,
-              cancellationToken));
+            return await SendRequestResult(request,
+              cancellationToken);
         }
         /// <summary>
         /// Get Reactions
@@ -224,8 +223,8 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
 
             request.ContentId = contentId;
 
-            return Ok(await SendRequest(request,
-              cancellationToken));
+            return await SendRequestResult(request,
+              cancellationToken);
         }
     }
 }

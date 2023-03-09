@@ -1,3 +1,5 @@
+using OpenSystem.Core.Domain.Enums;
+
 namespace OpenSystem.Core.Domain.ResultCodes
 {
 	/// <summary>
@@ -26,7 +28,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
 		protected override string MessageType
 		{
-			get { return "Security"; }
+			get { return MessageTypes.Security.ToString(); }
 		}
 
 		#endregion Properties

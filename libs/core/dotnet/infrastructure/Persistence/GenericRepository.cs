@@ -2,12 +2,15 @@ using OpenSystem.Core.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Core.Domain.Enums;
+using LinqKit;
+using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Infrastructure.Persistence
 {
     public class GenericRepository<TEntity>
       : IGenericRepository<TEntity>
-      where TEntity : Entity<Guid>, IAggregateRoot
+      where TEntity : AuditableEntity<Guid>, IAggregateRoot
     {
         protected readonly ApplicationDbContext DbContext;
 
@@ -18,33 +21,48 @@ namespace OpenSystem.Core.Infrastructure.Persistence
             DbContext = dbContext;
         }
 
+        public IQueryable<TEntity> GetQueryable(bool noTracking = true)
+        {
+          return noTracking
+            ? DbSet.AsNoTracking()
+            : DbSet.AsQueryable();
+        }
+
+        public IQueryable<TEntity> GetQueryable(int? pageNumber,
+          int? pageSize,
+          string? orderBy = null,
+          string? fields = null)
+        {
+          var records = DbSet.AsQueryable();
+          if (!string.IsNullOrEmpty(orderBy))
+            records = records.OrderBy(orderBy);
+
+          if (pageNumber != null &&
+            pageSize != null)
+            records = records.Skip(((int)pageNumber - 1) * (int)pageSize)
+            .Take((int)pageSize);
+
+          if (!string.IsNullOrEmpty(fields))
+            records = records.Select<TEntity>("new(" + fields + ")");
+
+          return records.AsNoTracking();
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int? pageNumber,
+          int? pageSize,
+          string? orderBy,
+          string? fields)
+        {
+          return await GetQueryable(pageNumber,
+              pageSize,
+              orderBy,
+              fields)
+            .ToListAsync();
+        }
+
         public virtual async Task<TEntity> GetByIdAsync(Guid guid)
         {
             return await DbSet.FindAsync(guid);
-        }
-
-        public async Task<IEnumerable<TEntity>> GetPagedResponseAsync(int pageNumber,
-          int pageSize)
-        {
-            return await DbSet
-              .Skip((pageNumber - 1) * pageSize)
-              .Take(pageSize)
-              .AsNoTracking()
-              .ToListAsync();
-        }
-
-        public async Task<IEnumerable<TEntity>> GetPagedAdvancedResponseAsync(int pageNumber,
-          int pageSize,
-          string orderBy,
-          string fields)
-        {
-            return await DbSet
-              .Skip((pageNumber - 1) * pageSize)
-              .Take(pageSize)
-              .Select<TEntity>("new(" + fields + ")")
-              .OrderBy(orderBy)
-              .AsNoTracking()
-              .ToListAsync();
         }
 
         public async Task<TEntity> AddOrUpdateAsync(TEntity entity,
@@ -80,7 +98,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         {
             DbContext.Entry(entity).State = EntityState.Modified;
 
-            await InnerDeleteAsync(entity,
+            await InnerUpdateAsync(entity,
               cancellationToken);
 
             await DbContext.SaveChangesAsync(cancellationToken);
@@ -89,23 +107,13 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         public async Task DeleteAsync(TEntity entity,
           CancellationToken cancellationToken = default)
         {
-            DbSet.Remove(entity);
+            DbContext.Entry(entity).State = EntityState.Modified;
+            entity.VerificationCode = VerificationCodeTypes.Removed;
 
             await InnerDeleteAsync(entity,
               cancellationToken);
 
             await DbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            return await DbSet
-              .ToListAsync();
-        }
-
-        public IQueryable<TEntity> GetAll()
-        {
-            return DbContext.Set<TEntity>();
         }
 
         protected virtual async Task<TEntity> InnerAddAsync(TEntity entity,
@@ -122,6 +130,17 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         protected virtual async Task InnerDeleteAsync(TEntity entity,
           CancellationToken cancellationToken = default)
         {
+        }
+
+        protected virtual ExpressionStarter<TEntity> GetBaseFilter(ExpressionStarter<TEntity>? predicate = null,
+          bool includeUnverified = false)
+        {
+          predicate ??= PredicateBuilder.New<TEntity>();
+          if (!includeUnverified)
+              predicate = predicate.And(p =>
+                p.VerificationCode <= VerificationCodeTypes.Verified);
+
+            return predicate;
         }
     }
 }

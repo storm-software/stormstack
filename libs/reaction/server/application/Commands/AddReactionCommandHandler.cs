@@ -12,49 +12,43 @@ using OpenSystem.Reaction.Application.Models.DTOs;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Extensions;
 using Serilog;
+using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
     public class AddReactionCommandHandler
-      : IRequestHandler<AddReactionCommand, CommandSuccessResponse>
+      : BaseCommandHandler<AddReactionCommand, CommandSuccessResponse, ReactionEntity>
     {
         private readonly IReactionRepository _repository;
-
-        private readonly IMapper _mapper;
-
-        private readonly ILogger _logger;
 
         public AddReactionCommandHandler(IReactionRepository repository,
           IMapper mapper,
           ILogger logger)
+          : base (mapper,
+            logger)
         {
             _repository = repository;
-            _mapper = mapper;
-            _logger = logger;
         }
 
-        public async Task<CommandSuccessResponse> Handle(AddReactionCommand request,
+        protected async override Task<Result<CommandSuccessResponse>> InnerHandleAsync(ReactionEntity entity,
           CancellationToken cancellationToken)
         {
-            var reaction = _mapper.Map<ReactionEntity>(request);
-
-            _logger.Information(reaction?.ToString());
-            _logger.Information(reaction.Details.Count().ToString());
-            var existing = await _repository.GetByContentIdAsync(request.ContentId);
+            var existing = await _repository.GetByContentIdAsync(entity.ContentId);
             if (existing != null) {
-              if (existing.IsDisabled)
-                foreach (ReactionDetailEntity rde in reaction.Details)
-                  rde.VerificationCode = VerificationCodeTypes.Unverified;
+              existing.CopyTo(entity);
+              entity.Details.Concat(existing.Details);
 
-              existing.CopyTo(reaction);
+              if (existing.IsDisabled)
+                foreach (ReactionDetailEntity rde in entity.Details)
+                  rde.VerificationCode = VerificationCodeTypes.Unverified;
             }
 
-            _logger.Information(reaction.Details.Count().ToString());
+            Logger.Information(entity.Details.Count().ToString());
 
-            var result = await _repository.AddOrUpdateAsync(reaction,
+            var result = await _repository.AddOrUpdateAsync(entity,
               cancellationToken);
 
-            return new CommandSuccessResponse { Id = result.Id };
+            return Result.Success(new CommandSuccessResponse { Id = result.Id });
         }
     }
 }

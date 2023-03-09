@@ -17,7 +17,7 @@ const GetLikeCount = async (contentId: string): Promise<number> => {
       type: "like",
     });
     const response = await fetchHttpHandler({
-      baseUrl: "http://reaction.api/api/v1",
+      baseUrl: "http://localhost:5000/api/v1",
     })(request);
     const result = await ReactionApiResponseProcessor.getReactionsCount(
       response.data

@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace OpenSystem.Core.Application.Interfaces
 {
-  public interface IStaticCacheService
+  public interface ICacheService
   {
       /// <summary>
       /// Get static data using key

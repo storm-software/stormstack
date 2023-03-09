@@ -6,6 +6,6 @@ namespace OpenSystem.Core.Domain.Constants
   /// </summary>
   public class HeaderKeys
 	{
-    public const string CorrelationId = "X-Correlation-Id";
+    public const string CorrelationId = "x-Correlation-Id";
   }
 }

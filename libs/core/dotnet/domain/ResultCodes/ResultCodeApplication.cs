@@ -1,3 +1,5 @@
+using OpenSystem.Core.Domain.Enums;
+
 namespace OpenSystem.Core.Domain.ResultCodes
 {
 	/// <summary>
@@ -22,6 +24,8 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
     public const int MissingMediator = 6;
 
+    public const int FailedConvertingToEntity = 7;
+
 		#endregion Constants
 
 		#endregion Public
@@ -32,7 +36,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
 		protected override string MessageType
 		{
-			get { return "Application"; }
+			get { return MessageTypes.Application.ToString(); }
 		}
 
 		#endregion Properties

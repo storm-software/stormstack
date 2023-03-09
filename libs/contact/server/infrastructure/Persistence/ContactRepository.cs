@@ -22,11 +22,13 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
     public class ContactRepository : GenericRepository<ContactEntity>, IContactRepository
     {
         private readonly DbSet<ContactEntity> _contacts;
+        private readonly DbSet<ContactDetailEntity> _contactDetails;
 
-        public ContactRepository(ContactApplicationDbContext dbContext)
+        public ContactRepository(ContactDbContext dbContext)
             : base(dbContext)
         {
-            _contacts = dbContext.Set<ContactEntity>();
+            _contacts = dbContext.Contacts;
+            _contactDetails = dbContext.ContactDetails;
         }
 
         public async Task<bool> IsUniqueEmailAsync(string email)
@@ -84,10 +86,41 @@ namespace OpenSystem.Contact.Infrastructure.Persistence
 
             // retrieve data to list
             var resultData = await record.ToListAsync();
-            /*var shapeData = _dataShaper.ShapeData(resultData,
-              fields);*/
 
             return (resultData, recordsCount);
+        }
+
+        protected override async Task<ContactEntity> InnerAddAsync(ContactEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+          foreach (ContactDetailEntity detail in entity.Details)
+          {
+            DbContext.Entry(detail).State = EntityState.Added;
+
+            await _contactDetails.AddAsync(detail,
+              cancellationToken);
+          }
+
+          return entity;
+        }
+
+        protected override async Task InnerUpdateAsync(ContactEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+          foreach (ContactDetailEntity detail in entity.Details)
+          {
+            DbContext.Entry(detail).State = EntityState.Modified;
+          }
+        }
+
+        protected override async Task InnerDeleteAsync(ContactEntity entity,
+          CancellationToken cancellationToken = default)
+        {
+          foreach (ContactDetailEntity detail in entity.Details)
+          {
+            DbContext.Entry(detail).State = EntityState.Deleted;
+            _contactDetails.Remove(detail);
+          }
         }
 
         private Result FilterByColumn(ref IQueryable<ContactEntity> contacts,

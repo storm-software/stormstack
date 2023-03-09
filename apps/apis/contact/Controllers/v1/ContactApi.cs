@@ -22,7 +22,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using OpenSystem.Apis.Contact.Attributes;
 using OpenSystem.Contact.Application.Models;
 using OpenSystem.Contact.Application.Models.DTOs;
-using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using OpenSystem.Core.WebApi.Controllers;
 
@@ -42,7 +41,7 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         /// Constructor method for ContactApiController
         /// </summary>
         /// <remarks>Constructor method to generate an instance of a ContactApiController</remarks>
-        public ContactApiController(ILogger<ContactApiController> _logger,
+        public ContactApiController(ILogger _logger,
             IHttpContextAccessor _context)
             : base(_logger,
             _context)
@@ -65,7 +64,7 @@ namespace OpenSystem.Apis.Contact.Controllers.v1
         {
           var msg = $"Running on {Context.Request.Host}";
 
-          Logger.LogInformation(msg);
+          Logger.Information(msg);
           return Ok(msg);
         }
 

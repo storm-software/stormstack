@@ -28,28 +28,28 @@ namespace OpenSystem.Contact.Infrastructure
 
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
-                services.AddDbContext<ContactApplicationDbContext>(options =>
+                services.AddDbContext<ContactDbContext>(options =>
                     options.UseInMemoryDatabase("ApplicationDb"))
                   .AddScoped(typeof(IContactRepository),
                     typeof(ContactRepository));
             }
             else
             {
-                services.AddDbContext<ContactApplicationDbContext>(options =>
+                services.AddDbContext<ContactDbContext>(options =>
                   options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
-                    builder => builder.MigrationsAssembly(typeof(ContactApplicationDbContext).Assembly.FullName)))
+                    builder => builder.MigrationsAssembly(typeof(ContactDbContext).Assembly.FullName)))
                 .AddScoped(typeof(IContactRepository),
                   typeof(ContactRepository));
             }
 
             services.AddScoped<IApplicationDbContext>(provider =>
-              provider.GetRequiredService<ContactApplicationDbContext>());
+              provider.GetRequiredService<ContactDbContext>());
 
             services
               .AddIdentity<ApplicationUser, IdentityRole>()
               .AddRoles<IdentityRole>()
-              .AddEntityFrameworkStores<ContactApplicationDbContext>();
+              .AddEntityFrameworkStores<ContactDbContext>();
 
           services.AddIdentityServer(options =>
             {
@@ -66,7 +66,7 @@ namespace OpenSystem.Contact.Infrastructure
 
                 options.UserInteraction.DeviceVerificationUrl = "/user/login/device-verification";
             })
-              .AddApiAuthorization<ApplicationUser, ContactApplicationDbContext>();
+              .AddApiAuthorization<ApplicationUser, ContactDbContext>();
 
             /*services.AddIdentityServer()
               .AddApiAuthorization<ApplicationUser, UserApplicationDbContext>();*/

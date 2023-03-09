@@ -7,15 +7,17 @@ namespace OpenSystem.Core.Application.Interfaces
     {
         Task<TEntity> GetByIdAsync(Guid id);
 
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        IQueryable<TEntity> GetQueryable(bool noTracking = false);
 
-        Task<IEnumerable<TEntity>> GetPagedResponseAsync(int pageNumber,
-          int pageSize);
+        IQueryable<TEntity> GetQueryable(int? pageNumber,
+          int? pageSize,
+          string? orderBy,
+          string? fields);
 
-        Task<IEnumerable<TEntity>> GetPagedAdvancedResponseAsync(int pageNumber,
-          int pageSize,
-          string orderBy,
-          string fields);
+        Task<IEnumerable<TEntity>> GetAllAsync(int? pageNumber,
+          int? pageSize,
+          string? orderBy,
+          string? fields);
 
         Task<TEntity> AddOrUpdateAsync(TEntity entity,
           CancellationToken cancellationToken = default);
