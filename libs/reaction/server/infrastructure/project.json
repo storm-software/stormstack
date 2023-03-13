@@ -23,7 +23,7 @@
     "create-migration": {
       "executor": "nx:run-commands",
       "options": {
-        "command": [
+        "commands": [
           "rmdir libs/reaction/server/infrastructure/Migrations /s /q",
           "dotnet ef migrations add \"Initial\" --project libs/reaction/server/infrastructure"
         ]
