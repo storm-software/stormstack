@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/design-system-tokens-v1.7.2...design-system-tokens-v1.8.0) (2023-03-13)
+
+
+### Features
+
+* **reaction-server-infrastructure:** Added code to generate migration scripts ([182208f](https://github.com/sullivanpj/open-system/commit/182208f42fdbd8f23ee747243519e232c8b07554))
+
 ## [1.7.2](https://github.com/sullivanpj/open-system/compare/design-system-tokens-v1.7.1...design-system-tokens-v1.7.2) (2023-03-06)
 
 

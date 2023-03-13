@@ -1,3 +1,11 @@
+# [1.6.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.5.0...core-dotnet-webapi-v1.6.0) (2023-03-13)
+
+
+### Features
+
+* **core-dotnet-domain:** Added ApplicationSettings and configuration parser ([69b35b2](https://github.com/sullivanpj/open-system/commit/69b35b261ea576baa0d3beed8eda25a741b53805))
+* **reaction-server-infrastructure:** Added code to generate migration scripts ([182208f](https://github.com/sullivanpj/open-system/commit/182208f42fdbd8f23ee747243519e232c8b07554))
+
 # [1.5.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.4.2...core-dotnet-webapi-v1.5.0) (2023-03-09)
 
 
