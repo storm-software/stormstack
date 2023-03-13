@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/sullivanpj/open-system/compare/web-contact-v1.10.0...web-contact-v1.11.0) (2023-03-13)
+
+
+### Features
+
+* **reaction-ui-data-access:** Updated the reaction request handler code ([aa449d9](https://github.com/sullivanpj/open-system/commit/aa449d94ce5f2e16992cfa453a92e20087f52cf2))
+
 # [1.10.0](https://github.com/sullivanpj/open-system/compare/web-contact-v1.9.2...web-contact-v1.10.0) (2023-03-13)
 
 
