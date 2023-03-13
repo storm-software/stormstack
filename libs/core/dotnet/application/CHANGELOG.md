@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-application-v1.3.1...core-dotnet-application-v1.4.0) (2023-03-09)
+
+
+### Bug Fixes
+
+* **web-shell:** Resolved issue with nextjs Dockerfile ([daabe80](https://github.com/sullivanpj/open-system/commit/daabe80fd0fdb0f5ff876daea40c4976ed43081e))
+
+
+### Features
+
+* **core-server-application:** Added the BaseCommandHandler base class ([00c4b04](https://github.com/sullivanpj/open-system/commit/00c4b0419338f89fb15f750e523c0fec812eede7))
+
 ## [1.3.2](https://github.com/sullivanpj/open-system/compare/core-dotnet-application-v1.3.1...core-dotnet-application-v1.3.2) (2023-03-07)
 
 

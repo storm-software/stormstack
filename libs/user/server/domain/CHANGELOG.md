@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/sullivanpj/open-system/compare/user-server-domain-v1.2.2...user-server-domain-v1.3.0) (2023-03-09)
+
+
+### Features
+
+* **core-server-application:** Added the BaseCommandHandler base class ([00c4b04](https://github.com/sullivanpj/open-system/commit/00c4b0419338f89fb15f750e523c0fec812eede7))
+
 ## [1.2.2](https://github.com/sullivanpj/open-system/compare/user-server-domain-v1.2.1...user-server-domain-v1.2.2) (2023-03-06)
 
 
