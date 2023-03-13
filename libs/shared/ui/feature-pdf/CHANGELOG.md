@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-pdf-v1.4.1...shared-ui-feature-pdf-v1.5.0) (2023-03-13)
+
+
+### Features
+
+* **reaction-server-infrastructure:** Added code to generate migration scripts ([182208f](https://github.com/sullivanpj/open-system/commit/182208f42fdbd8f23ee747243519e232c8b07554))
+
 ## [1.4.1](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-pdf-v1.4.0...shared-ui-feature-pdf-v1.4.1) (2023-03-06)
 
 
