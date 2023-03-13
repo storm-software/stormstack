@@ -5,12 +5,12 @@ import {
   Button,
   ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
-  ButtonVariants
+  ButtonVariants,
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
 import {
   agreeToPrivacyPolicy,
-  selectHasAgreedToPrivacyPolicy
+  selectHasAgreedToPrivacyPolicy,
 } from "@open-system/shared-ui-data-access";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useState } from "react";
@@ -66,7 +66,7 @@ export function CookiePolicyBanner() {
         initial="closed"
         variants={variants}
         animate={isHidden ? "closed" : "opened"}>
-        <div className="flex h-full w-full flex-row items-center justify-center gap-6 px-5 py-8">
+        <div className="flex h-full w-full flex-row items-center justify-center gap-6 px-5 py-8 pb-12">
           <div className="relative w-36 lg:w-32">
             <Cookie className="absolute left-0 bottom-0 h-28 w-28 rotate-[40deg] lg:h-36 lg:w-36" />
           </div>

@@ -77,6 +77,14 @@ module.exports = {
         "bubble": "bubble 10s ease-in-out infinite",
         "blink": "blink 1.5s steps(2) infinite",
         "spin-slow": "spin 5s linear infinite",
+        "shine1": "shine 2s ease-in-out infinite",
+        "shine2": "shine 3s ease-in-out infinite",
+        "shine3": "shine 4s ease-in-out infinite",
+        "float-moon": "float-moon 8s ease-in-out infinite",
+        "float-rocket": "float-rocket 6s ease-in-out infinite",
+        "exhaust1": "exhaust 1s ease-in-out infinite",
+        "exhaust2": "exhaust 2s ease-in-out infinite",
+        "exhaust3": "exhaust 3s ease-in-out infinite",
       },
       "keyframes": {
         ...extend.keyframes,
@@ -112,6 +120,26 @@ module.exports = {
         },
         "blink": {
           "0%": { "opacity": 0 },
+        },
+        "shine": {
+          "0%": { "transform": "scale(0)" },
+          "50%": { "transform": "scale(1)" },
+          "100%": { "transform": "scale(0)" },
+        },
+        "float-moon": {
+          "0%": { "transform": "translateY(0)" },
+          "50%": { "transform": "translateY(0.8rem)" },
+          "100%": { "transform": "translateY(0)" },
+        },
+        "float-rocket": {
+          "0%": { "transform": "translateY(0)" },
+          "50%": { "transform": "translateY(1.2rem)" },
+          "100%": { "transform": "translateY(0)" },
+        },
+        "exhaust": {
+          "0%": { "transform": "scale(0)", "opacity": 0.2 },
+          "75%": { "transform": "scale(1)", "opacity": 1 },
+          "100%": { "transform": "scale(1)", "opacity": 0.2 },
         },
       },
     },

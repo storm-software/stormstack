@@ -5,16 +5,22 @@ import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import PdfResumeDownload from "../../(components)/pdf-resume-download.client";
 import SubscriptionModalForm from "../../(components)/subscription-modal-form.client";
+import Moon from "./moon.svg";
+import Rocket from "./rocket";
+import Star from "./star";
 
 export default function Header() {
   const ref = useRef<HTMLElement | null>(null);
 
-  const [{ bgX, bgY, titleX, titleY }, setMousePosition] = useState({
-    bgX: 0,
-    bgY: 0,
-    titleX: 0,
-    titleY: 0,
-  });
+  const [{ bgX, bgY, curveX, curveY, titleX, titleY }, setMousePosition] =
+    useState({
+      bgX: 0,
+      bgY: 0,
+      curveX: 0,
+      curveY: 0,
+      titleX: 0,
+      titleY: 0,
+    });
 
   useEffect(() => {
     ref.current?.addEventListener("mousemove", e => {
@@ -28,8 +34,10 @@ export default function Header() {
           : 0;
 
       setMousePosition({
-        bgX: x / 40,
-        bgY: y / 40,
+        bgX: x / 15,
+        bgY: y / 15,
+        curveX: x / 30,
+        curveY: y / 30,
         titleX: (x / 80) * -1,
         titleY: (y / 80) * -1,
       });
@@ -45,245 +53,33 @@ export default function Header() {
   return (
     <header
       ref={ref}
-      className="relative flex min-h-[50rem] flex-col gap-8 overflow-hidden pb-10">
-      {/*<motion.div
-        style={{ translateX: bgX, translateY: bgY }}
-        className="absolute top-0 -left-24 z-10 h-full w-full">
-        <HeaderBackground className="h-full w-[115%] origin-center rotate-180" />
-  </motion.div>*/}
-      <div className="absolute top-0 left-0 right-0 z-0 h-[28rem] w-full">
+      className="relative flex min-h-[50rem] flex-col overflow-hidden bg-gradient-to-t from-blue-900 to-blue-900/5 bg-[length:100%_80%] bg-fixed pb-10">
+      <motion.div style={{ translateX: bgX, translateY: bgY }}>
+        <Moon className="absolute top-10 left-16 h-48 w-48 animate-float-moon rounded-full shadow-[0_0_35px_35px_rgba(0,0,0,0.025)] shadow-yellow-100/20 transition-shadow" />
+        <div className="absolute top-16 left-[45%] z-40 rotate-45">
+          <Rocket />
+        </div>
+        <Star className="top-[5rem] left-[24rem] animate-shine1" />
+        <Star className="top-[10rem] left-[31rem] animate-shine3" />
+        <Star className="top-[6rem] left-[38rem] animate-shine2" />
+        <Star className="top-[6rem] right-[8rem] animate-shine1" />
+        <Star className="top-[3rem] right-[36rem] animate-shine3" />
+        <Star className="top-[10rem] left-0 animate-shine1" />
+        <Star className="top-[20rem] right-[6rem] animate-shine2" />
+      </motion.div>
+
+      <motion.div
+        style={{ translateX: curveX, translateY: curveY }}
+        className="absolute -bottom-20 -left-20 -right-20 z-0 h-[70rem] w-full">
         <svg className="h-full" viewBox="0 0 1440 320">
           <path
-            fill="#523188"
-            fill-opacity="1"
-            d="M0,256L80,224C160,192,320,128,480,138.7C640,149,800,235,960,245.3C1120,256,1280,192,1360,160L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+            fill="#18181B"
+            fillOpacity="1"
+            d="M0,192L48,176C96,160,192,128,288,144C384,160,480,224,576,213.3C672,203,768,117,864,112C960,107,1056,181,1152,186.7C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
-      </div>
-
+      </motion.div>
       <div className="z-30 flex w-full flex-row items-center justify-center gap-2 pt-[6rem]">
         <div className="relative h-fit">
-          {/*<div className="absolute -top-20 -left-20 z-0">
-            <svg className="h-96 w-96" viewBox="0 0 102 108" fill="none">
-              <path
-                d="M27.7998 86L31.8998 90.2"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M13.5996 71.7998L21.1996 79.4998"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M26.4004 72.7998L55.1004 101.4"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M11.7998 58.2002L17.6998 64.0002"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M47 81.3999L72.2 106.6"
-                stroke="currentColor"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M47 81.3999L72.2 106.6"
-                stroke="currentColor"
-                stroke-opacity="0.2"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M9 43.3999L35.9 70.1999"
-                stroke="currentColor"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M9 43.3999L35.9 70.1999"
-                stroke="currentColor"
-                stroke-opacity="0.2"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M30.0996 52.5L74.4996 96.9"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M11.7002 34.1001L21.1002 43.5001"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M66.7998 77.2002L77.3998 87.9002"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M1 11.5L55.5 66"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M44.7002 43.2002L98.0002 96.5002"
-                stroke="currentColor"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M44.7002 43.2002L98.0002 96.5002"
-                stroke="currentColor"
-                stroke-opacity="0.2"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M21.2002 19.7002L33.6002 32.1002"
-                stroke="currentColor"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M21.2002 19.7002L33.6002 32.1002"
-                stroke="currentColor"
-                stroke-opacity="0.2"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M55.0996 41.6001L89.4996 76.0001"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M20 6.5L45.4 31.9"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M83.4004 58L101.4 76"
-                stroke="currentColor"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M83.4004 58L101.4 76"
-                stroke="currentColor"
-                stroke-opacity="0.2"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M35.5 10.0996L70.4 44.8996"
-                stroke="currentColor"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M35.5 10.0996L70.4 44.8996"
-                stroke="currentColor"
-                stroke-opacity="0.2"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M66 28.5996L90.3 52.8996"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M38.4004 1L56.5004 19.1"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M87.5996 38.2002L96.9996 47.7002"
-                stroke="currentColor"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M87.5996 38.2002L96.9996 47.7002"
-                stroke="currentColor"
-                stroke-opacity="0.2"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M52.9004 3.5L76.8004 27.5"
-                stroke="currentColor"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M52.9004 3.5L76.8004 27.5"
-                stroke="currentColor"
-                stroke-opacity="0.2"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M82.7002 21.4004L88.5002 27.2004"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-              <path
-                d="M72.5 11.2002L76.5 15.2002"
-                stroke="#9D9D9D"
-                stroke-width="1.1533"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-            </svg>
-</div>*/}
           <div className="z-30">
             <motion.h1
               style={{
@@ -300,20 +96,25 @@ export default function Header() {
           </div>
         </div>
         <motion.div
+          className="w-fit"
           style={{
             translateX: titleX,
             translateY: titleY,
           }}>
-          <BoxLogo className="h-[400px]" />
+          <BoxLogo className="w-[550px]" />
         </motion.div>
       </div>
-
-      <div className="z-30 flex flex-row justify-center gap-4">
+      <div className="z-30 mb-8 flex flex-row justify-center">
         <Heading level={4} className="text-5xl leading-10">
-          Software designed for tomorrow&apos;s brands
+          Software designed for{" "}
+          <span className="underline decoration-primary decoration-dotted decoration-8 underline-offset-8">
+            <span className="bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-clip-text text-transparent">
+              tomorrow&apos;s
+            </span>
+          </span>{" "}
+          brands
         </Heading>
       </div>
-
       <div className="flex flex-row justify-center">
         <div className="z-scroll flex w-[52rem] flex-row justify-between gap-8">
           <motion.div
@@ -330,9 +131,7 @@ export default function Header() {
               details="Receive email notifications on future updates"
             />
           </motion.div>
-
           <SubscriptionModalForm ref={modalRef} />
-
           <PdfResumeDownload>
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
@@ -342,6 +141,7 @@ export default function Header() {
                 delay: 1,
               }}>
               <Card
+                className="hover:cursor-pointer"
                 title="Resume Download"
                 details="Download a copy of my resume"
               />
