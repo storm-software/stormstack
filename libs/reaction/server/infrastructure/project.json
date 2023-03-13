@@ -19,8 +19,22 @@
     },
     "lint": {
       "executor": "@nx-dotnet/core:format"
+    },
+    "create-migration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": [
+          "rmdir libs/reaction/server/infrastructure/Migrations /s /q",
+          "dotnet ef migrations add \"Initial\" --project libs/reaction/server/infrastructure"
+        ]
+      }
+    },
+    "update-database": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "dotnet ef database update --project libs/reaction/server/infrastructure"
+      }
     }
   },
   "tags": []
 }
-

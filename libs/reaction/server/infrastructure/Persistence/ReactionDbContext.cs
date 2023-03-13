@@ -20,6 +20,12 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
         public DbSet<ReactionDetailEntity> ReactionDetail => Set<ReactionDetailEntity>();
 
         public ReactionDbContext(
+          DbContextOptions options)
+            : base(options)
+        {
+        }
+
+        public ReactionDbContext(
           DbContextOptions options,
           IConfiguration configuration,
           IDateTimeProvider dateTimeProvider,

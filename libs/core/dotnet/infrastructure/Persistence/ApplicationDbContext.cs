@@ -16,15 +16,22 @@ namespace OpenSystem.Core.Infrastructure.Persistence
     public class ApplicationDbContext
       : DbContext, IApplicationDbContext
     {
-        protected readonly IDateTimeProvider DateTimeProvider;
+        protected readonly IDateTimeProvider? DateTimeProvider;
 
-        protected readonly ICurrentUserService CurrentUserService;
+        protected readonly ICurrentUserService? CurrentUserService;
 
-        protected readonly IConfiguration Configuration;
+        protected readonly IConfiguration? Configuration;
 
-        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILoggerFactory? _loggerFactory;
 
         private IDbContextTransaction? _dbContextTransaction;
+
+        public ApplicationDbContext(
+          DbContextOptions options)
+            : base(options)
+        {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        }
 
         public ApplicationDbContext(
           DbContextOptions options,
@@ -96,15 +103,22 @@ namespace OpenSystem.Core.Infrastructure.Persistence
                 {
                   if (entry.State == EntityState.Added)
                   {
-                    auditable.CreatedDateTime = DateTimeProvider.OffsetUtcNow;
-                    auditable.CreatedBy = CurrentUserService.UserId;
+                    auditable.EventCounter = 1;
+                    if (DateTimeProvider != null)
+                      auditable.CreatedDateTime = DateTimeProvider.OffsetUtcNow;
+                    if (CurrentUserService != null)
+                      auditable.CreatedBy = CurrentUserService.UserId;
                   }
                   else if (entry.State == EntityState.Modified ||
                     entry.HasChangedOwnedEntities())
                   {
-                        auditable.UpdatedDateTime = DateTimeProvider.OffsetUtcNow;
-                        auditable.UpdatedBy = CurrentUserService.UserId;
-                        break;
+                    auditable.EventCounter++;
+                    if (DateTimeProvider != null)
+                      auditable.UpdatedDateTime = DateTimeProvider.OffsetUtcNow;
+                    if (CurrentUserService != null)
+                      auditable.UpdatedBy = CurrentUserService.UserId;
+
+                    break;
                   }
                 }
               }
@@ -123,7 +137,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        /*protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             base.OnConfiguring(options);
             options.UseLoggerFactory(_loggerFactory);
@@ -131,7 +145,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
             var ret = InnerOnConfiguring(options);
             if (ret.Failed)
               throw new GeneralProcessingException();
-        }
+        }*/
 
         protected virtual Result InnerOnModelCreating(ModelBuilder builder)
         {

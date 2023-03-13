@@ -99,22 +99,23 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             if (ret.Failed)
               throw new GeneralProcessingException();
 
+            var resultData = await record.ToListAsync();
+
             // retrieve data to list
-            var resultData = record.SelectMany(r => r.Details)
+            var data = resultData.SelectMany(r => r.Details)
               .Where(d => d.VerificationCode == VerificationCodeTypes.Verified)
               .GroupBy(d => d.Type)
               .Select(d => new ReactionCountRecord {
-                Type = Char.ToLowerInvariant(d.Key.ToString()[0])
-                    + d.Key.ToString().Substring(1),
+                Type = d.Key.ToString(),
                 Count = d.Count()
               });
 
             if (!string.IsNullOrEmpty(requestParameter.Type))
-                resultData = resultData.Where(r => string.Equals(r.Type.ToString(),
+                data = data.Where(r => string.Equals(r.Type,
                   requestParameter.Type.Trim(),
                   StringComparison.OrdinalIgnoreCase));
 
-            return resultData;
+            return data;
         }
 
         public async Task<ReactionEntity?> GetByContentIdAsync(string contentId)
@@ -185,9 +186,10 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
               if (!string.IsNullOrEmpty(type))
                   predicate = predicate.And(r =>
-                    r.Details.Any(d => string.Equals(d.Type.ToString(),
+                    r.Details.Any(d => d.Type ==
+                      (ReactionTypes)Enum.Parse(typeof(ReactionTypes),
                       type.Trim(),
-                      StringComparison.OrdinalIgnoreCase)));
+                      true)));
             }
 
             reactions = reactions.Where(predicate);

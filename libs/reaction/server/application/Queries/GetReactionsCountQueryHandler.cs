@@ -35,12 +35,12 @@ namespace OpenSystem.Reaction.Application.Queries
             // query based on filter
             var result = await _repository.GetReactionsCountAsync(request);
             _logger.Information(result.Count().ToString());
-            var data = _mapper.Map<List<ReactionCountRecord>>(result);
+            //var data = _mapper.Map<List<ReactionCountRecord>>(result);
 
-            _logger.Information(data.Count().ToString());
-            _logger.Information(data.Count() > 0 ? data[0].Count.ToString() : "0");
+            _logger.Information(result.Count().ToString());
+            _logger.Information(result.Count() > 0 ? result.First().Count.ToString() : "0");
             return new GetReactionsCount200Response {
-              Data = data,
+              Data = result.ToList(),
             };
         }
     }

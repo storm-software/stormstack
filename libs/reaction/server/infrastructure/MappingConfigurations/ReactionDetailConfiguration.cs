@@ -1,6 +1,8 @@
 using OpenSystem.Reaction.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using OpenSystem.Reaction.Domain.Enums;
+using OpenSystem.Core.Domain.Enums;
 
 namespace OpenSystem.Reaction.Infrastructure.MappingConfigurations
 {
@@ -10,8 +12,16 @@ namespace OpenSystem.Reaction.Infrastructure.MappingConfigurations
         {
           builder.ToTable("ReactionDetail");
 
-          builder.Property(x => x.Id)
-            .HasDefaultValueSql("newsequentialid()");
+          builder.Property(x => x.Id);
+          builder.Property(x => x.VerificationCode)
+            .HasConversion(
+                x => (int)x,
+                x => (VerificationCodeTypes)x);
+          builder.Property(x => x.Type)
+            .HasConversion(
+                x => x.ToString(),
+                x => (ReactionTypes)Enum.Parse(typeof(ReactionTypes),
+                  x));
         }
     }
 }
