@@ -12,7 +12,7 @@ using OpenSystem.Reaction.Infrastructure.Persistence;
 namespace OpenSystem.Reaction.Infrastructure.Migrations
 {
     [DbContext(typeof(ReactionDbContext))]
-    [Migration("20230309164110_Initial")]
+    [Migration("20230313081202_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -44,9 +44,8 @@ namespace OpenSystem.Reaction.Infrastructure.Migrations
                     b.Property<Guid>("ReactionId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("text");
@@ -65,7 +64,7 @@ namespace OpenSystem.Reaction.Infrastructure.Migrations
 
                     b.HasIndex("ReactionId");
 
-                    b.ToTable("ReactionDetail", (string)null);
+                    b.ToTable("ReactionDetail");
                 });
 
             modelBuilder.Entity("OpenSystem.Reaction.Domain.Entities.ReactionEntity", b =>
@@ -102,9 +101,7 @@ namespace OpenSystem.Reaction.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("ContentId");
-
-                    b.ToTable("Reaction", (string)null);
+                    b.ToTable("Reaction");
                 });
 
             modelBuilder.Entity("OpenSystem.Reaction.Domain.Entities.ReactionDetailEntity", b =>

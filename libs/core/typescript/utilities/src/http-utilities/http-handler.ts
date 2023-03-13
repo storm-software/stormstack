@@ -20,9 +20,9 @@ export type HttpHandlerReturn<T = any, E = any, M = any> =
 
 export type HttpHandler = (
   request: RequestContext,
-  api: HttpFetchApi,
-  extraOptions: any
-) => Promise<HttpHandlerReturn<any, Error, any>>;
+  api?: HttpFetchApi,
+  extraOptions?: any
+) => Promise<HttpHandlerReturn<any, Error | undefined, any>>;
 
 export const fetchHttpHandler =
   ({ baseUrl }: { baseUrl: string }) =>

@@ -78,10 +78,22 @@ export type {{classname}}{{enumName}} ={{#allowableValues}}{{#values}} "{{.}}" {
 {{/isEnum}}
 {{/vars}}
 
+{{#vars}}
+{{#isEnum}}
+export const {{classname}}{{enumName}} = {
+  {{#allowableValues}}{{#values}} {{#lambda.uppercase}}{{.}}{{/lambda.uppercase}}: "{{.}}" as {{classname}}{{enumName}} {{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+
 {{/hasEnums}}
 {{/isEnum}}
 {{#isEnum}}
 export type {{classname}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+
+export const {{classname}} = {
+  {{#allowableValues}}{{#values}} {{#lambda.uppercase}}{{.}}{{/lambda.uppercase}}: "{{.}}" as {{classname}} {{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
+}
 {{/isEnum}}
 {{/model}}
 {{/models}}

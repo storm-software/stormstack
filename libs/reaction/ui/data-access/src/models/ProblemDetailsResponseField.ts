@@ -15,31 +15,31 @@ import {
 } from '@open-system/core-typescript-utilities';
 
 
-export class AddReactionRequest {
-    'type': AddReactionRequestTypeEnum;
+export class ProblemDetailsResponseField {
+    'name': string;
+    'errors': Array<string>;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "type",
-            "baseName": "type",
-            "type": "AddReactionRequestTypeEnum",
+            "name": "name",
+            "baseName": "name",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "errors",
+            "baseName": "errors",
+            "type": "Array<string>",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return AddReactionRequest.attributeTypeMap;
+        return ProblemDetailsResponseField.attributeTypeMap;
     }
 
     public constructor() {
     }
-}
-
-
-export type AddReactionRequestTypeEnum = "like" | "unlike" | "cry" | "laugh" ;
-
-export const AddReactionRequestTypeEnum = {
-   LIKE: "like" as AddReactionRequestTypeEnum , UNLIKE: "unlike" as AddReactionRequestTypeEnum , CRY: "cry" as AddReactionRequestTypeEnum , LAUGH: "laugh" as AddReactionRequestTypeEnum 
 }
 

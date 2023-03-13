@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { ProblemDetailsResponseField } from './ProblemDetailsResponseField';
 import {
   HttpFile,
 } from '@open-system/core-typescript-utilities';
@@ -35,6 +36,7 @@ export class ProblemDetailsResponse {
     * A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
     */
     'instance'?: string;
+    'fields'?: Array<ProblemDetailsResponseField>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -61,6 +63,12 @@ export class ProblemDetailsResponse {
             "name": "instance",
             "baseName": "instance",
             "type": "string",
+            "format": ""
+        },
+        {
+            "name": "fields",
+            "baseName": "fields",
+            "type": "Array<ProblemDetailsResponseField>",
             "format": ""
         }    ];
 

@@ -22,33 +22,35 @@ namespace OpenSystem.Reaction.Application.Commands
     {
         private readonly IReactionRepository _repository;
 
+        private readonly ICurrentUserService _currentUserService;
+
         public RemoveReactionCommandHandler(IReactionRepository repository,
+          ICurrentUserService currentUserService,
           IMapper mapper,
           ILogger logger)
           : base (mapper,
             logger)
         {
             _repository = repository;
+            _currentUserService = currentUserService;
         }
 
         protected async override Task<Result<CommandSuccessResponse>> InnerHandleAsync(ReactionEntity entity,
           CancellationToken cancellationToken)
         {
-            /*var reaction = _mapper.Map<ReactionEntity>(request);
-
-            _logger.Information(reaction?.ToString());
-            _logger.Information(reaction.Details.Count().ToString());*/
-
             var existing = await _repository.GetByContentIdAsync(entity.ContentId);
-            if (existing != null) {
+            if (existing != null)
+            {
               existing.CopyTo(entity);
               entity.Details.Concat(existing.Details);
 
-              foreach (ReactionDetailEntity rde in entity.Details)
-                rde.VerificationCode = VerificationCodeTypes.Removed;
+              var detail = entity.Details.FirstOrDefault(r => r.UserId == _currentUserService.UserId);
+              if (detail != null)
+              {
+                detail.VerificationCode = VerificationCodeTypes.Removed;
+                detail.UserId = _currentUserService.UserId;
+              }
             }
-
-            Logger.Information(entity.Details.Count().ToString());
 
             var result = await _repository.AddOrUpdateAsync(entity,
               cancellationToken);

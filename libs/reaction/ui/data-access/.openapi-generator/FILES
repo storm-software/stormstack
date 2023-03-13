@@ -8,6 +8,7 @@ project.json
 src/apis/apiSlice.ts
 src/apis/index.ts
 src/apis/injectedApi.ts
+src/apis/requests.ts
 src/auth/auth.ts
 src/index.ts
 src/models/AddReactionRequest.ts
@@ -18,6 +19,7 @@ src/models/GetReactionsCount200Response.ts
 src/models/ObjectSerializer.ts
 src/models/PagedQueryResponse.ts
 src/models/ProblemDetailsResponse.ts
+src/models/ProblemDetailsResponseField.ts
 src/models/ReactionCountRecord.ts
 src/models/ReactionDetailRecord.ts
 src/models/ReactionDetailRecordAllOf.ts

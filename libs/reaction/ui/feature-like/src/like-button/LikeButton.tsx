@@ -2,14 +2,15 @@
 
 import { PropsWithBase } from "@open-system/design-system-components";
 import {
-  addReactionHistory,
-  removeReactionHistory,
-  selectReactionHistory,
-} from "@open-system/reaction-ui-data-access";
-import {
   useAddReactionMutation,
   useRemoveReactionMutation,
 } from "@open-system/reaction-ui-data-access/apis";
+import { AddReactionRequestTypeEnum } from "@open-system/reaction-ui-data-access/models";
+import {
+  addReactionHistory,
+  removeReactionHistory,
+  selectReactionHistory,
+} from "@open-system/reaction-ui-data-access/state";
 import { useRouter } from "next/navigation";
 import { useCallback, useTransition } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,19 +43,19 @@ export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
       dispatch(
         addReactionHistory({
           contentId,
-          type: reactions[contentId] ? null : "like",
+          type: reactions[contentId] ? null : AddReactionRequestTypeEnum.LIKE,
         })
       );
 
       await addReaction({
         contentId,
-        body: { type: "like" },
+        body: { type: AddReactionRequestTypeEnum.LIKE },
       }).unwrap();
-
-      startTransition(() => {
-        router.refresh();
-      });
     }
+
+    startTransition(() => {
+      router.refresh();
+    });
   }, [addReaction, contentId, dispatch, reactions, removeReaction, router]);
 
   return (

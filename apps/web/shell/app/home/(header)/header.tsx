@@ -53,29 +53,33 @@ export default function Header() {
   return (
     <header
       ref={ref}
-      className="relative flex min-h-[50rem] flex-col overflow-hidden bg-gradient-to-t from-blue-900 to-blue-900/5 bg-[length:100%_80%] bg-fixed pb-10">
+      className="relative flex flex-col overflow-hidden bg-gradient-to-t from-blue-900 to-blue-900/5 bg-[length:100%_100%] bg-fixed pb-10">
       <motion.div style={{ translateX: bgX, translateY: bgY }}>
         <Moon className="absolute top-10 left-16 h-48 w-48 animate-float-moon rounded-full shadow-[0_0_35px_35px_rgba(0,0,0,0.025)] shadow-yellow-100/20 transition-shadow" />
         <div className="absolute top-16 left-[45%] z-40 rotate-45">
           <Rocket />
         </div>
+        <Star className="top-[10rem] left-0 animate-shine1" />
+        <Star className="top-[30rem] left-[5rem] animate-shine3" />
+        <Star className="top-[25rem] left-[15rem] animate-shine2" />
         <Star className="top-[5rem] left-[24rem] animate-shine1" />
         <Star className="top-[10rem] left-[31rem] animate-shine3" />
         <Star className="top-[6rem] left-[38rem] animate-shine2" />
+        <Star className="top-[20rem] left-[40rem] animate-shine1" />
+
         <Star className="top-[6rem] right-[8rem] animate-shine1" />
         <Star className="top-[3rem] right-[36rem] animate-shine3" />
-        <Star className="top-[10rem] left-0 animate-shine1" />
         <Star className="top-[20rem] right-[6rem] animate-shine2" />
       </motion.div>
 
       <motion.div
         style={{ translateX: curveX, translateY: curveY }}
-        className="absolute -bottom-20 -left-20 -right-20 z-0 h-[70rem] w-full">
-        <svg className="h-full" viewBox="0 0 1440 320">
+        className="absolute -bottom-5 -left-20 -right-20 z-0 w-[110vw]">
+        <svg className="w-full" viewBox="0 0 1440 320">
           <path
             fill="#18181B"
             fillOpacity="1"
-            d="M0,192L48,176C96,160,192,128,288,144C384,160,480,224,576,213.3C672,203,768,117,864,112C960,107,1056,181,1152,186.7C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            d="M0,224L120,186.7C240,149,480,75,720,74.7C960,75,1200,149,1320,186.7L1440,224L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path>
         </svg>
       </motion.div>
       <div className="z-30 flex w-full flex-row items-center justify-center gap-2 pt-[6rem]">

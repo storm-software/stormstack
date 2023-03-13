@@ -28,7 +28,6 @@ namespace OpenSystem.Reaction.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reaction", x => x.Id);
-                    table.UniqueConstraint("AK_Reaction_ContentId", x => x.ContentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,7 +35,7 @@ namespace OpenSystem.Reaction.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     ReactionId = table.Column<Guid>(type: "uuid", nullable: false),
                     EventCounter = table.Column<int>(type: "integer", nullable: false),

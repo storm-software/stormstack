@@ -13,9 +13,7 @@
         "tsConfig": "libs/reaction/ui/data-access/tsconfig.lib.json",
         "project": "libs/reaction/ui/data-access/package.json",
         "entryFile": "libs/reaction/ui/data-access/src/index.ts",
-        "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
-        "compiler": "swc",
         "assets": [
           {
             "glob": "libs/reaction/ui/data-access/README.md",
@@ -29,9 +27,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/reaction/ui/data-access/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["libs/reaction/ui/data-access/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {

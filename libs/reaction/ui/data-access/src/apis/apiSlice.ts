@@ -2,8 +2,8 @@ import { fetchHttpHandler } from "@open-system/core-typescript-utilities";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
-export const apiSlice = createApi({
+export const reactionApiSlice = createApi({
   reducerPath: "reactionApi",
-  baseQuery: fetchHttpHandler({ baseUrl: "http://localhost:5000/api/v1" }),
+  baseQuery: fetchHttpHandler({ baseUrl: `${ process.env.NEXT_PUBLIC_REACTION_API_HOST }/api/v1` }),
   endpoints: () => ({}),
 });

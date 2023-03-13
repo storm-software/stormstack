@@ -10,11 +10,13 @@ using OpenSystem.Core.Infrastructure.Extensions;
 using System.Transactions;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace OpenSystem.Core.Infrastructure.Persistence
 {
-    public class ApplicationDbContext
+    public class ApplicationDbContext<TEntity>
       : DbContext, IApplicationDbContext
+      where TEntity : Entity<Guid>
     {
         protected readonly IDateTimeProvider? DateTimeProvider;
 
@@ -64,17 +66,29 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         public override int SaveChanges()
         {
             ChangeTracker.Entries()
-                .Where(e => e.State is EntityState.Added or EntityState.Modified)
-                .Select(e => e.Entity)
-                .ToList()
-                .ForEach(entity =>
-                {
-                    var validationContext = new ValidationContext(entity);
-                    Validator.ValidateObject(
-                        entity,
-                        validationContext,
-                        validateAllProperties: true);
-                });
+              .Where(e => e.State is EntityState.Added or EntityState.Modified)
+              .Select(e => e.Entity)
+              .ToList()
+              .ForEach(entity =>
+              {
+                  var validationContext = new ValidationContext(entity);
+                  Validator.ValidateObject(
+                    entity,
+                    validationContext,
+                    validateAllProperties: true);
+              });
+
+            Result ret;
+            foreach (var entry in ChangeTracker.Entries<TEntity>())
+            {
+              ret = ProcessEntry(entry);
+              if (ret.Failed)
+                throw new FailedResultException(ret);
+            }
+
+            ret = InnerSaveChanges();
+            if (ret.Failed)
+              throw new FailedResultException(ret);
 
             return base.SaveChanges();
         }
@@ -87,42 +101,24 @@ namespace OpenSystem.Core.Infrastructure.Persistence
               .ToList()
               .ForEach(entity =>
               {
-                  var validationContext = new ValidationContext(entity);
-                  Validator.ValidateObject(
-                      entity,
-                      validationContext,
-                      validateAllProperties: true);
+                var validationContext = new ValidationContext(entity);
+                Validator.ValidateObject(
+                  entity,
+                  validationContext,
+                  validateAllProperties: true);
               });
 
-            foreach (var entry in ChangeTracker.Entries<Entity<Guid>>())
+            Result ret;
+            foreach (var entry in ChangeTracker.Entries<TEntity>())
             {
-              if (typeof(IAuditable).IsAssignableFrom(entry.Entity.GetType()))
-              {
-                var auditable = entry.Entity as IAuditable;
-                if (auditable != null)
-                {
-                  if (entry.State == EntityState.Added)
-                  {
-                    auditable.EventCounter = 1;
-                    if (DateTimeProvider != null)
-                      auditable.CreatedDateTime = DateTimeProvider.OffsetUtcNow;
-                    if (CurrentUserService != null)
-                      auditable.CreatedBy = CurrentUserService.UserId;
-                  }
-                  else if (entry.State == EntityState.Modified ||
-                    entry.HasChangedOwnedEntities())
-                  {
-                    auditable.EventCounter++;
-                    if (DateTimeProvider != null)
-                      auditable.UpdatedDateTime = DateTimeProvider.OffsetUtcNow;
-                    if (CurrentUserService != null)
-                      auditable.UpdatedBy = CurrentUserService.UserId;
-
-                    break;
-                  }
-                }
-              }
+              ret = ProcessEntry(entry);
+              if (ret.Failed)
+                throw new FailedResultException(ret);
             }
+
+            ret = InnerSaveChanges();
+            if (ret.Failed)
+              throw new FailedResultException(ret);
 
             return await base.SaveChangesAsync(cancellationToken);
         }
@@ -131,7 +127,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         {
             var ret = InnerOnModelCreating(builder);
             if (ret.Failed)
-              throw new GeneralProcessingException();
+              throw new FailedResultException(ret);
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -149,12 +145,52 @@ namespace OpenSystem.Core.Infrastructure.Persistence
 
         protected virtual Result InnerOnModelCreating(ModelBuilder builder)
         {
-            return Result.Success();
+          return Result.Success();
         }
 
         protected virtual Result InnerOnConfiguring(DbContextOptionsBuilder options)
         {
-            return Result.Success();
+          return Result.Success();
+        }
+
+        protected virtual Result InnerSaveChanges()
+        {
+          return Result.Success();
+        }
+
+        protected virtual Result InnerProcessEntry(EntityEntry<TEntity> entry)
+        {
+          return Result.Success();
+        }
+
+        private Result ProcessEntry(EntityEntry<TEntity> entry)
+        {
+          if (typeof(IAuditable).IsAssignableFrom(entry.Entity.GetType()))
+          {
+            var auditable = entry.Entity as IAuditable;
+            if (auditable != null)
+            {
+              if (entry.State == EntityState.Added)
+              {
+                auditable.EventCounter = 1;
+                if (DateTimeProvider != null)
+                  auditable.CreatedDateTime = DateTimeProvider.OffsetUtcNow;
+                if (CurrentUserService != null)
+                  auditable.CreatedBy = CurrentUserService.UserId;
+              }
+              else if (entry.State == EntityState.Modified ||
+                entry.HasChangedOwnedEntities())
+              {
+                auditable.EventCounter++;
+                if (DateTimeProvider != null)
+                  auditable.UpdatedDateTime = DateTimeProvider.OffsetUtcNow;
+                if (CurrentUserService != null)
+                  auditable.UpdatedBy = CurrentUserService.UserId;
+              }
+            }
+          }
+
+          return InnerProcessEntry(entry);
         }
     }
 }

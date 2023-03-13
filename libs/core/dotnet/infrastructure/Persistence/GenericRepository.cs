@@ -12,11 +12,11 @@ namespace OpenSystem.Core.Infrastructure.Persistence
       : IGenericRepository<TEntity>
       where TEntity : AuditableEntity<Guid>, IAggregateRoot
     {
-        protected readonly ApplicationDbContext DbContext;
+        protected readonly ApplicationDbContext<TEntity> DbContext;
 
         protected DbSet<TEntity> DbSet => DbContext.Set<TEntity>();
 
-        public GenericRepository(ApplicationDbContext dbContext)
+        public GenericRepository(ApplicationDbContext<TEntity> dbContext)
         {
             DbContext = dbContext;
         }

@@ -5,8 +5,6 @@ import {
   HttpFile,
   HttpHandler
 } from '@open-system/core-typescript-utilities';
-import { apiSlice as api } from "./apiSlice";
-
 {{#models}}
 {{#model}}
 import { {{{ classname }}} } from '../models';
@@ -16,6 +14,7 @@ import { {{{ classname }}} } from '../models';
 {{#apis}}
 
 import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}Parser";
+import { {{#lambda.camelcase}}{{domainName}}{{/lambda.camelcase}}ApiSlice as api } from "./apiSlice";
 
 {{#operations}}{{#operation}}
 export interface {{classname}}{{operationIdCamelCase}}Request {

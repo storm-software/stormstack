@@ -1,6 +1,6 @@
 const { withNx } = require("@nrwl/next/plugins/with-nx");
 const withNextIntl = require("next-intl/withNextIntl");
-const { CONTACT_URL, API_URL } = process.env;
+const { CONTACT_URL, REACTION_API_HOST } = process.env;
 
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
@@ -46,14 +46,14 @@ const nextConfig = {
     ];
   },
 
-  async rewrites() {
+  /*async rewrites() {
     return [
       {
-        source: "/api/:path*",
-        destination: `${API_URL}/api/:path*`,
+        source: "/api/reaction/:path*",
+        destination: `${REACTION_API_HOST}/api/:path*`,
       },
     ];
-  },
+  },*/
 
   webpack(config) {
     return {

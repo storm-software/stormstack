@@ -1,12 +1,12 @@
-import { EndpointBuilder } from "@reduxjs/toolkit/dist/query/endpointDefinitions";
 import {
   ResponseContext,
   RequestContext,
   HttpFile,
   HttpHandler,
-  fetchHttpHandler
+  fetchHttpHandler,
+  ConsoleLogger,
+  BaseError,
 } from '@open-system/core-typescript-utilities';
-
 {{#models}}
 {{#model}}
 import { {{{ classname }}} } from '../models';
@@ -14,30 +14,48 @@ import { {{{ classname }}} } from '../models';
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
-
 import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../parsers/{{classname}}Parser";
-{{/apiInfo}}
-{{/apis}}
 
-const fetcher = await fetchHttpHandler({
-  baseUrl: "http://localhost:5000/api/v1",
-});
-
-{{#apiInfo}}
-{{#apis}}
-/**
- * {{nickname}}
- * {{{description}}}{{^description}}no description{{/description}}
- */
-export const {{nickname}} = ({ {{#allParams}}{{#isBodyParam}}body {{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}} }: { {{#allParams}}{{#isBodyParam}}body?: {{{dataType}}}; {{/isBodyParam}}{{^isBodyParam}}{{paramName}}?: {{{dataType}}}; {{/isBodyParam}}{{/allParams}} }): Promise<{{{returnType}}} {{^returnType}}any{{/returnType}}> => {
-  const request = {{classname}}RequestFactory.{{nickname}}({
-    {{#allParams}}{{#isBodyParam}}body, {{/isBodyParam}}{{^isBodyParam}}{{paramName}}, {{/isBodyParam}}{{/allParams}}
+const REQUEST_HANDLER: HttpHandler = fetchHttpHandler({
+    baseUrl: `${ process.env.NEXT_PUBLIC_{{#lambda.uppercase}}{{domainName}}{{/lambda.uppercase}}_API_HOST }/api/v{{{version}}}{{^version}}1{{/version}}`,
   });
 
-  const response = await fetcher(request);
+{{#operations}}{{#operation}}
+/**
+ * {{nickname}}
+ * {{{description}}}{{^description}}Send {{nickname}} request to server{{/description}}
+ */
+export const {{nickname}} = async ({ {{#allParams}}{{#isBodyParam}}body {{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}} }: { {{#allParams}}{{#isBodyParam}}body?: {{{dataType}}}; {{/isBodyParam}}{{^isBodyParam}}{{paramName}}?: {{{dataType}}}; {{/isBodyParam}}{{/allParams}} },
+  extraOptions?: any): Promise<{ response?: {{{returnType}}} {{^returnType}}any{{/returnType}}, error?: BaseError }> => {
+  try {
+    const request = {{classname}}RequestFactory.{{nickname}}({
+      {{#allParams}}{{#isBodyParam}}body, {{/isBodyParam}}{{^isBodyParam}}{{paramName}}, {{/isBodyParam}}{{/allParams}}
+    });
 
-  return {{classname}}ResponseProcessor.{{nickname}}(response);
+    ConsoleLogger.debug("Sending request:");
+    request && ConsoleLogger.debug(JSON.stringify(request));
+
+    extraOptions && ConsoleLogger.debug("Request extra options:");
+    extraOptions && ConsoleLogger.debug(JSON.stringify(extraOptions));
+
+    const response = await REQUEST_HANDLER(request,
+      undefined,
+      extraOptions
+    );
+
+    ConsoleLogger.debug("Received response:");
+    response && ConsoleLogger.debug(JSON.stringify(response));
+
+    return {
+      response: await {{classname}}ResponseProcessor.{{nickname}}(response.data)
+    };
+  } catch (error) {
+    ConsoleLogger.error("Error sending request:");
+    error && ConsoleLogger.error(JSON.stringify(error));
+
+    return { error: error as BaseError };
+  }
 };
-
+{{/operation}}{{/operations}}
 {{/apis}}
 {{/apiInfo}}

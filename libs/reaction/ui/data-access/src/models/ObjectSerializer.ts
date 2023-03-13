@@ -5,6 +5,7 @@ import { GetReactions200ResponseAllOf } from './GetReactions200ResponseAllOf';
 import { GetReactionsCount200Response } from './GetReactionsCount200Response';
 import { PagedQueryResponse } from './PagedQueryResponse';
 import { ProblemDetailsResponse } from './ProblemDetailsResponse';
+import { ProblemDetailsResponseField } from './ProblemDetailsResponseField';
 import { ReactionCountRecord } from './ReactionCountRecord';
 import { ReactionDetailRecord } from './ReactionDetailRecord';
 import { ReactionDetailRecordAllOf } from './ReactionDetailRecordAllOf';
@@ -22,6 +23,7 @@ export const typeMap: {[index: string]: any} = {
     "GetReactionsCount200Response": GetReactionsCount200Response,
     "PagedQueryResponse": PagedQueryResponse,
     "ProblemDetailsResponse": ProblemDetailsResponse,
+    "ProblemDetailsResponseField": ProblemDetailsResponseField,
     "ReactionCountRecord": ReactionCountRecord,
     "ReactionDetailRecord": ReactionDetailRecord,
     "ReactionDetailRecordAllOf": ReactionDetailRecordAllOf,

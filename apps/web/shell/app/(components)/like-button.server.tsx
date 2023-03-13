@@ -1,8 +1,7 @@
-import { fetchHttpHandler } from "@open-system/core-typescript-utilities";
 import { PropsWithBase } from "@open-system/design-system-components";
 import {
-  ReactionApiRequestFactory,
-  ReactionApiResponseProcessor,
+  AddReactionRequestTypeEnum,
+  getReactionsCount,
 } from "@open-system/reaction-ui-data-access";
 import LikeButtonClient from "./like-button.client";
 
@@ -10,7 +9,7 @@ export type LikeButtonProps = PropsWithBase<{
   contentId: string;
 }>;
 
-const GetLikeCount = async (contentId: string): Promise<number> => {
+/*const GetLikeCount = async (contentId: string): Promise<number> => {
   try {
     const request = ReactionApiRequestFactory.getReactionsCount({
       contentId,
@@ -19,27 +18,34 @@ const GetLikeCount = async (contentId: string): Promise<number> => {
     const response = await fetchHttpHandler({
       baseUrl: "http://localhost:5000/api/v1",
     })(request);
+    ConsoleLogger.debug(JSON.stringify(response));
     const result = await ReactionApiResponseProcessor.getReactionsCount(
       response.data
     );
-    console.log(result);
 
-    return result?.data?.length ? result?.data?.[0].count : 0;
+    return ;
   } catch (error) {
     return 0;
   }
-};
+};*/
 
 export default async function LikeButton({
   className,
   contentId,
   ...props
 }: LikeButtonProps) {
-  const count = await GetLikeCount(contentId);
+  const { response } = await getReactionsCount({
+    contentId,
+    type: AddReactionRequestTypeEnum.LIKE as any,
+  });
 
   return (
     <div className="fixed right-0 bottom-12 z-like">
-      <LikeButtonClient {...props} contentId={contentId} count={count} />
+      <LikeButtonClient
+        {...props}
+        contentId={contentId}
+        count={response?.data?.length ? response?.data?.[0].count : 0}
+      />
     </div>
   );
 }

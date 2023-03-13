@@ -116,7 +116,7 @@ try
     app.UseSwaggerExtension();
     app.UseCoreMiddleware();
 
-    app.UseHealthChecks("/health-check", 
+    app.UseHealthChecks("/health-check",
       new HealthCheckOptions
       {
           Predicate = _ => true,
@@ -133,7 +133,7 @@ try
 
     app.Run();
 
-    /*using (var scope = app.Services.CreateScope())
+    using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope
           .ServiceProvider
@@ -142,7 +142,7 @@ try
         // use context
         dbContext.Database.EnsureCreated();
         dbContext.Database.Migrate();
-    }*/
+    }
 
     Log.Information($"{SERVICE_NAME} has started successfully.");
 

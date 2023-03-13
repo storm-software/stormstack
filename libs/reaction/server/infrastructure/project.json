@@ -24,7 +24,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "rmdir libs/reaction/server/infrastructure/Migrations /s /q",
+          "rimraf libs/reaction/server/infrastructure/Migrations",
           "dotnet ef migrations add \"Initial\" --project libs/reaction/server/infrastructure"
         ]
       }

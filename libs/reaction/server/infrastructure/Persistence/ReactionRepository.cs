@@ -111,9 +111,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
               });
 
             if (!string.IsNullOrEmpty(requestParameter.Type))
-                data = data.Where(r => string.Equals(r.Type,
-                  requestParameter.Type.Trim(),
-                  StringComparison.OrdinalIgnoreCase));
+                data = data.Where(r => r.Type.ToUpper() == requestParameter.Type.Trim().ToUpper());
 
             return data;
         }
@@ -121,16 +119,17 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
         public async Task<ReactionEntity?> GetByContentIdAsync(string contentId)
         {
           return await GetQueryable(false)
+            .Include(r => r.Details)
             .FirstOrDefaultAsync(r => r.ContentId == contentId);
         }
 
         public async Task<bool> UserHasReactedAsync(string contentId)
         {
           return await GetQueryable(false)
-                .AllAsync(r => r.ContentId == contentId &&
-                  r.Details.Any(d => d.VerificationCode == VerificationCodeTypes.Verified &&
-                    string.Equals(_currentUserService.UserId,
-                      d.UserId)));
+            .AllAsync(r => r.ContentId == contentId &&
+              r.Details.Any(d => d.VerificationCode <= VerificationCodeTypes.Verified &&
+                !string.IsNullOrEmpty(_currentUserService.UserId) &&
+                  _currentUserService.UserId.ToUpper() == d.UserId.ToUpper()));
         }
 
         protected override async Task<ReactionEntity> InnerAddAsync(ReactionEntity entity,
@@ -153,6 +152,10 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
         {
           foreach (ReactionDetailEntity detail in entity.Details)
           {
+            if (entity.IsDisabled &&
+              detail.VerificationCode != VerificationCodeTypes.Unverified)
+              detail.VerificationCode = VerificationCodeTypes.Unverified;
+
             DbContext.Entry(detail).State = EntityState.Modified;
           }
         }
@@ -180,9 +183,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             {
               if (!string.IsNullOrEmpty(contentId))
                   predicate = predicate.And(p =>
-                    string.Equals(p.ContentId,
-                      contentId.Trim(),
-                      StringComparison.OrdinalIgnoreCase));
+                    p.ContentId.ToUpper() == contentId.Trim().ToUpper());
 
               if (!string.IsNullOrEmpty(type))
                   predicate = predicate.And(r =>

@@ -1,6 +1,6 @@
 import { contactReducer } from "@open-system/contact-ui-data-access";
 import { contactApi } from "@open-system/contact-ui-data-access/apis";
-import { reactionReducer } from "@open-system/reaction-ui-data-access";
+import { reactionReducer } from "@open-system/reaction-ui-data-access/state";
 import { reactionApi } from "@open-system/reaction-ui-data-access/apis";
 import {
   notificationsReducer,
