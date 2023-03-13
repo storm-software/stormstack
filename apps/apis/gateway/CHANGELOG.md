@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/sullivanpj/open-system/compare/apis-gateway-v1.5.0...apis-gateway-v1.6.0) (2023-03-13)
+
+
+### Features
+
+* **reaction-ui-data-access:** Updated the reaction request handler code ([aa449d9](https://github.com/sullivanpj/open-system/commit/aa449d94ce5f2e16992cfa453a92e20087f52cf2))
+
 # [1.5.0](https://github.com/sullivanpj/open-system/compare/apis-gateway-v1.4.0...apis-gateway-v1.5.0) (2023-03-13)
 
 
