@@ -2,12 +2,20 @@ import { Card, Heading } from "@open-system/design-system-components";
 import { ModalReference } from "@open-system/shared-ui-components";
 import { BoxLogo } from "@open-system/shared-ui-components/box-logo";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import PdfResumeDownload from "../../(components)/pdf-resume-download.client";
 import SubscriptionModalForm from "../../(components)/subscription-modal-form.client";
+import fog from "../../../public/images/fog.png";
+import Comet from "./comet";
 import Moon from "./moon.svg";
 import Rocket from "./rocket";
 import Star from "./star";
+
+const PdfResumeDownload = dynamic(
+  () => import("../../(components)/pdf-resume-download.client"),
+  { ssr: false }
+);
 
 export default function Header() {
   const ref = useRef<HTMLElement | null>(null);
@@ -54,27 +62,50 @@ export default function Header() {
     <header
       ref={ref}
       className="relative flex flex-col overflow-hidden bg-gradient-to-t from-blue-900 to-blue-900/5 bg-[length:100%_100%] bg-fixed pb-10">
-      <motion.div style={{ translateX: bgX, translateY: bgY }}>
+      <motion.div className="z-10" style={{ translateX: bgX, translateY: bgY }}>
         <Moon className="absolute top-10 left-16 h-48 w-48 animate-float-moon rounded-full shadow-[0_0_35px_35px_rgba(0,0,0,0.025)] shadow-yellow-100/20 transition-shadow" />
         <div className="absolute top-16 left-[45%] z-40 rotate-45">
           <Rocket />
         </div>
-        <Star className="top-[10rem] left-0 animate-shine1" />
-        <Star className="top-[30rem] left-[5rem] animate-shine3" />
+        <Star className="top-[10rem] left-0 animate-shine1" rotate={true} />
+        <Star
+          className="top-[30rem] left-[5rem] animate-shine3"
+          rotate={true}
+        />
         <Star className="top-[25rem] left-[15rem] animate-shine2" />
         <Star className="top-[5rem] left-[24rem] animate-shine1" />
         <Star className="top-[10rem] left-[31rem] animate-shine3" />
-        <Star className="top-[6rem] left-[38rem] animate-shine2" />
+        <Star
+          className="top-[6rem] left-[38rem] animate-shine2"
+          rotate={true}
+        />
         <Star className="top-[20rem] left-[40rem] animate-shine1" />
-
         <Star className="top-[6rem] right-[8rem] animate-shine1" />
-        <Star className="top-[3rem] right-[36rem] animate-shine3" />
-        <Star className="top-[20rem] right-[6rem] animate-shine2" />
+        <Star
+          className="top-[3rem] right-[36rem] animate-shine3"
+          rotate={true}
+        />
+        <Star
+          className="top-[20rem] right-[6rem] animate-shine2"
+          rotate={true}
+        />
       </motion.div>
+
+      <Comet className="absolute -left-20 -top-20 z-0 rotate-2 animate-comet1" />
+      <Comet className="flip-vertical absolute -left-20 -top-20 z-0 animate-comet2" />
+
+      <div className="absolute bottom-20 left-0 right-0 z-0 h-[12rem] w-full">
+        <div className="absolute origin-center rotate-[8deg]">
+          <Image src={fog} alt="Fog" className="h-full w-full animate-fog5" />
+        </div>
+        <div className="flip-vertical absolute origin-center -rotate-[8deg]">
+          <Image src={fog} alt="Fog" className="h-full w-full animate-fog4" />
+        </div>
+      </div>
 
       <motion.div
         style={{ translateX: curveX, translateY: curveY }}
-        className="absolute -bottom-5 -left-20 -right-20 z-0 w-[110vw]">
+        className="absolute -bottom-5 -left-20 -right-20 z-20 w-[110vw]">
         <svg className="w-full" viewBox="0 0 1440 320">
           <path
             fill="#18181B"

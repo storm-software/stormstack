@@ -35,10 +35,10 @@ select:-webkit-autofill:focus:disabled {
   transition: background-color 1s 0s, color 1s 0s !important;
 }
 
-.flip-x {
+.flip-horizontal {
   transform: rotateX(180deg);
 }
 
-.flip-y {
+.flip-vertical {
   transform: rotateY(180deg);
 }

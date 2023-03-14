@@ -9,26 +9,6 @@ export type LikeButtonProps = PropsWithBase<{
   contentId: string;
 }>;
 
-/*const GetLikeCount = async (contentId: string): Promise<number> => {
-  try {
-    const request = ReactionApiRequestFactory.getReactionsCount({
-      contentId,
-      type: "like",
-    });
-    const response = await fetchHttpHandler({
-      baseUrl: "http://localhost:5000/api/v1",
-    })(request);
-    ConsoleLogger.debug(JSON.stringify(response));
-    const result = await ReactionApiResponseProcessor.getReactionsCount(
-      response.data
-    );
-
-    return ;
-  } catch (error) {
-    return 0;
-  }
-};*/
-
 export default async function LikeButton({
   className,
   contentId,
@@ -40,7 +20,7 @@ export default async function LikeButton({
   });
 
   return (
-    <div className="fixed right-0 bottom-12 z-like">
+    <div className="fixed right-0 top-3/4 z-like">
       <LikeButtonClient
         {...props}
         contentId={contentId}

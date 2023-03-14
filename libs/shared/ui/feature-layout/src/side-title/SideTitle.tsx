@@ -50,7 +50,7 @@ export function SideTitle({ className, ...props }: BaseComponentProps) {
         animate={isHidden ? "hidden" : "shown"}>
         <div className="flex -rotate-90 flex-col">
           <Link>
-            <h1 className="font-app-title-1 text-6xl leading-none text-primary shadow-white drop-shadow-2xl">
+            <h1 className="font-app-title-1 text-6xl leading-none text-primary">
               Pat Sullivan
               <br />
               <span className="bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-clip-text text-transparent">

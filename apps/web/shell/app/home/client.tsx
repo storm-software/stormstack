@@ -6,14 +6,12 @@ import {
 } from "@open-system/shared-ui-feature-layout";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
-import "reflect-metadata";
 import HorizontalSeparator from "../(components)/horizontal-separator.server";
 import Aside from "../aside";
 import Header from "./(header)/header";
 import Introduction from "./(introduction)/introduction";
-import Stack from "./(stack)/stack";
 
-/*const Stack = dynamic(() => import("./(stack)/stack"), {
+const Stack = dynamic(() => import("./(stack)/stack"), {
   loading: () => (
     <div
       aria-label="Loading..."
@@ -30,14 +28,6 @@ import Stack from "./(stack)/stack";
     </div>
   ),
 });
-
-const ResumeDisplay = dynamic(
-  () =>
-    import(
-      "@open-system/portfolio-ui-feature-resume/resume-display/ResumeDisplay"
-    ),
-  { ssr: false }
-);*/
 
 const Technologies = dynamic(() => import("./(technologies)/technologies"), {
   loading: () => (
