@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-data-access-v1.7.0...reaction-ui-data-access-v1.8.0) (2023-03-13)
+
+
+### Features
+
+* **reaction-ui-data-access:** Updated the reaction request handler code ([aa449d9](https://github.com/sullivanpj/open-system/commit/aa449d94ce5f2e16992cfa453a92e20087f52cf2))
+
 # [1.7.0](https://github.com/sullivanpj/open-system/compare/reaction-ui-data-access-v1.6.0...reaction-ui-data-access-v1.7.0) (2023-03-13)
 
 
