@@ -22,7 +22,7 @@ namespace OpenSystem.Core.Domain.Exceptions
         {
         }
 
-        public BaseException(Type? resultCodeType,
+        public BaseException(Type resultCodeType,
           int code)
           : base(resultCodeType == null || !code.IsSet()
             ? ResultCode.Serialize(typeof(ResultCodeGeneral),
@@ -32,7 +32,29 @@ namespace OpenSystem.Core.Domain.Exceptions
         {
         }
 
-         public BaseException(Type? resultCodeType,
+         public BaseException(Type resultCodeType,
+          int code,
+          Exception exception)
+          : base((resultCodeType == null || !code.IsSet()
+            ? ResultCode.Serialize(typeof(ResultCodeGeneral),
+                ResultCodeGeneral.GeneralError)
+            : ResultCode.Serialize(resultCodeType,
+                code)),
+                exception)
+        {
+        }
+
+        public BaseException(string resultCodeType,
+          int code)
+          : base(resultCodeType == null || !code.IsSet()
+            ? ResultCode.Serialize(typeof(ResultCodeGeneral),
+                ResultCodeGeneral.GeneralError)
+            : ResultCode.Serialize(resultCodeType,
+                code))
+        {
+        }
+
+         public BaseException(string resultCodeType,
           int code,
           Exception exception)
           : base((resultCodeType == null || !code.IsSet()

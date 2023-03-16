@@ -6,7 +6,8 @@ using System.Globalization;
 
 namespace OpenSystem.Reaction.Domain.Entities
 {
-    public class ReactionDetailEntity : AuditableEntity<Guid>
+    public class ReactionDetailEntity
+      : AuditableEntity, ISoftDeleted
     {
         public ReactionTypes Type { get; set; }
 
@@ -15,5 +16,9 @@ namespace OpenSystem.Reaction.Domain.Entities
         public Guid ReactionId { get; set; }
 
         public ReactionEntity Reaction { get; set; }
-    }
+
+        public string? DeletedBy { get; set; }
+
+        public DateTimeOffset? DeletedDateTime { get; set; }
+  }
 }

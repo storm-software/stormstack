@@ -60,6 +60,10 @@
     "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "7.0.2",
     "Microsoft.Extensions.Caching.StackExchangeRedis": "8.0.0-preview.1.23112.2",
     "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore": "7.0.3",
-    "AspNetCore.HealthChecks.UI": "7.0.0-rc2.7"
+    "AspNetCore.HealthChecks.UI": "7.0.0-rc2.7",
+    "Microsoft.AspNetCore.Mvc": "2.2.0",
+    "Swashbuckle.AspNetCore.Swagger": "6.5.0",
+    "Microsoft.EntityFrameworkCore.AutoHistory": "6.0.0",
+    "AutoMapper.Collection.EntityFrameworkCore": "9.0.0"
   }
 }

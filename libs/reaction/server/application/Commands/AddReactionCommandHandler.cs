@@ -8,54 +8,62 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenSystem.Reaction.Application.Models;
-using OpenSystem.Reaction.Application.Models.DTOs;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Extensions;
 using Serilog;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
     public class AddReactionCommandHandler
-      : BaseCommandHandler<AddReactionCommand, CommandSuccessResponse, ReactionEntity>
+      : BaseUpdateCommandHandler<AddReactionCommand, ReactionEntity, IReactionRepository>
     {
         private readonly IReactionRepository _repository;
 
-        private readonly ICurrentUserService _currentUserService;
-
         public AddReactionCommandHandler(IReactionRepository repository,
-          ICurrentUserService currentUserService,
           IMapper mapper,
-          ILogger logger)
-          : base (mapper,
-            logger)
+          ILogger logger,
+          ICurrentUserService currentUserService,
+          IDateTimeProvider dateTimeProvider)
+            : base (repository,
+              mapper,
+              logger,
+              currentUserService,
+              dateTimeProvider)
         {
             _repository = repository;
-            _currentUserService = currentUserService;
         }
 
-        protected async override Task<Result<CommandSuccessResponse>> InnerHandleAsync(ReactionEntity entity,
+        protected async override Task<Result<ReactionEntity>> HandleUpdateAsync(ReactionEntity entity,
           CancellationToken cancellationToken)
         {
-            var existing = await _repository.GetByContentIdAsync(entity.ContentId);
+            /*var existing = await _repository.GetByContentIdAsync(entity.ContentId);
             if (existing != null)
             {
               existing.CopyTo(entity);
               entity.Details.Concat(existing.Details);
 
-              var detail = entity.Details.FirstOrDefault(r => r.UserId == _currentUserService.UserId);
+              var detail = entity.Details.FirstOrDefault(r => r.UserId == CurrentUserService.UserId);
               if (detail != null)
               {
-                detail.VerificationCode = VerificationCodeTypes.Verified;
-                detail.UserId = _currentUserService.UserId;
+                detail.Status = EntityStatusTypes.Active;
+                detail.UserId = CurrentUserService.UserId;
               }
             }
 
             var result = await _repository.AddOrUpdateAsync(entity,
-              cancellationToken);
+              cancellationToken);*/
 
-            return Result.Success(new CommandSuccessResponse { Id = result.Id });
+            var detail = entity.Details.FirstOrDefault(r => r.UserId == CurrentUserService.UserId);
+              if (detail != null)
+              {
+                detail.Status = EntityStatusTypes.Active;
+                detail.UserId = CurrentUserService.UserId;
+              }
+
+            return Result.Success(entity);
         }
     }
 }

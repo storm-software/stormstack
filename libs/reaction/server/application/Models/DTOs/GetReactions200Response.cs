@@ -1,7 +1,7 @@
 /*
  * Reaction APIs
  *
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -16,12 +16,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using OpenSystem.Core.Application.Helpers;
+using OpenSystem.Core.Application.Utilities;
 
 namespace OpenSystem.Reaction.Application.Models.DTOs
-{ 
+{
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [DataContract]
     public class GetReactions200Response : IEquatable<GetReactions200Response>
@@ -132,27 +132,27 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return 
+            return
                 (
                     PageNumber == other.PageNumber ||
-                    
+
                     PageNumber.Equals(other.PageNumber)
-                ) && 
+                ) &&
                 (
                     PageSize == other.PageSize ||
-                    
+
                     PageSize.Equals(other.PageSize)
-                ) && 
+                ) &&
                 (
                     RecordsTotal == other.RecordsTotal ||
-                    
+
                     RecordsTotal.Equals(other.RecordsTotal)
-                ) && 
+                ) &&
                 (
                     RecordsFiltered == other.RecordsFiltered ||
-                    
+
                     RecordsFiltered.Equals(other.RecordsFiltered)
-                ) && 
+                ) &&
                 (
                     Data == other.Data ||
                     Data != null &&
@@ -171,13 +171,13 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    
+
                     hashCode = hashCode * 59 + PageNumber.GetHashCode();
-                    
+
                     hashCode = hashCode * 59 + PageSize.GetHashCode();
-                    
+
                     hashCode = hashCode * 59 + RecordsTotal.GetHashCode();
-                    
+
                     hashCode = hashCode * 59 + RecordsFiltered.GetHashCode();
                     if (Data != null)
                     hashCode = hashCode * 59 + Data.GetHashCode();

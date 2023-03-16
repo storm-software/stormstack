@@ -31,6 +31,7 @@ namespace OpenSystem.Core.Application.Behaviors
                 var failures = validationResults.Where(result => result.Errors.Any())
                   .SelectMany(result =>
                     result.Errors)
+                  .Where(result => result != null)
                   .ToList();
 
                 if (failures.Count > 0)

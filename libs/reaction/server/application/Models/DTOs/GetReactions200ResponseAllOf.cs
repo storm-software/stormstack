@@ -1,7 +1,7 @@
 /*
  * Reaction APIs
  *
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -16,12 +16,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using OpenSystem.Core.Application.Helpers;
+using OpenSystem.Core.Application.Utilities;
 
 namespace OpenSystem.Reaction.Application.Models.DTOs
-{ 
+{
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [DataContract]
     public class GetReactions200ResponseAllOf : IEquatable<GetReactions200ResponseAllOf>
@@ -92,7 +92,7 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return 
+            return
                 (
                     Data == other.Data ||
                     Data != null &&

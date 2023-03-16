@@ -5,30 +5,14 @@ using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ValueObjects;
 using System.Linq;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Exceptions;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
 	public class EmailAddress
-    : ValueObject
+    : ValueObject<string, EmailAddress>
 	{
-		public readonly string Value;
-
-    private EmailAddress(string value)
-		{
-			Value = value;
-		}
-
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        yield return Value;
-    }
-
-		public static EmailAddress Create(string value)
-		{
-      return new EmailAddress(value);
-		}
-
-    public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    protected override Result InnerValidate()
     {
       if (StringExtensions.IsSet(Value) &&
         !new Regex(@"^(([^<>()[\]\\.,;:\s@\""]+"
@@ -36,10 +20,10 @@ namespace OpenSystem.Core.Domain.ValueObjects
            + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
            + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
            + @"[a-zA-Z]{2,}))$").IsMatch(Value))
-      {
-          yield return GetValidationResult(typeof(ResultCodeValidation),
+          return Result.Failure(typeof(ResultCodeValidation),
             ResultCodeValidation.InvalidEmailFormat);
-      }
+
+      return Result.Success();
     }
 	}
 }

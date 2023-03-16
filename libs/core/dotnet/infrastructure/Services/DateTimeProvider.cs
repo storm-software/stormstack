@@ -1,4 +1,4 @@
-using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Application.Services;
 using System;
 
 namespace OpenSystem.Core.Infrastructure.Services

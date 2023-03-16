@@ -1,5 +1,7 @@
-public static class EnumerableExtensions
+namespace OpenSystem.Core.Domain.Extensions
 {
+  public static class EnumerableExtensions
+  {
     /// <summary>
     /// Wraps this object instance into an IEnumerable&lt;T&gt;
     /// consisting of a single item.
@@ -11,4 +13,5 @@ public static class EnumerableExtensions
     {
         yield return item;
     }
+  }
 }

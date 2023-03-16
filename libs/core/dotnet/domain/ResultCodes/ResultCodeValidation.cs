@@ -16,7 +16,23 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
 		public const int IdentifierCannotBeNull = 2;
 
-    public const int InvalidEmailFormat = 3;
+    public const int NumericValueMustBePositive = 3;
+
+    public const int InvalidEmailFormat = 4;
+
+    public const int EntityNotCreated = 5;
+
+    public const int EntityAlreadyCreated = 6;
+
+    public const int EntityAlreadyDeleted = 7;
+
+    public const int EntityCannotBeUpdated = 8;
+
+    public const int EntityCannotBeRestored = 9;
+
+	public const int EntityIsNotActive = 10;
+
+    public const int InvalidParameter = 11;
 
 		#endregion Constants
 

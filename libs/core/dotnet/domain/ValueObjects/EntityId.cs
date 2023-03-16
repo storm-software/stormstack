@@ -1,36 +1,41 @@
 using System.ComponentModel.DataAnnotations;
+using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
-	public class EntityId<T>
-    : ValueObject
+	public class EntityId<TValue>
+    : ValueObject<TValue, EntityId<TValue>>
 	{
-		public virtual T? Value { get; init; }
+    public static implicit operator EntityId<TValue>(EntityId entityId) => entityId;
 
-    protected EntityId(T value)
-		{
-			Value = value;
-		}
+    public static implicit operator EntityId(EntityId<TValue> entityId) => entityId;
 
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        yield return Value;
-    }
-
-		public static EntityId<T> Create(T value)
-		{
-      return new EntityId<T>(value);
-		}
-
-    public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    protected override Result InnerValidate()
     {
       if (Value is null ||
-        Value.Equals(default(T)))
-      {
-          yield return GetValidationResult(typeof(ResultCodeValidation),
+        Value.Equals(default(TValue)))
+          return Result.Failure(typeof(ResultCodeValidation),
             ResultCodeValidation.IdentifierCannotBeNull);
-      }
+
+      return Result.Success();
+    }
+	}
+
+  public class EntityId
+    : EntityId<Guid>
+	{
+    public static implicit operator EntityId(Guid guid) => guid;
+
+    public static implicit operator Guid(EntityId entityId) => entityId.Value;
+
+    protected override Result InnerValidate()
+    {
+      if (Value.Equals(default(Guid)))
+          return Result.Failure(typeof(ResultCodeValidation),
+            ResultCodeValidation.IdentifierCannotBeNull);
+
+      return InnerValidate();
     }
 	}
 }

@@ -24,8 +24,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "rimraf libs/reaction/server/infrastructure/Migrations",
-          "dotnet ef migrations add \"Initial\" --project libs/reaction/server/infrastructure"
+          "rimraf libs/reaction/server/infrastructure/Persistence/Migrations",
+          "dotnet ef migrations add \"Initial\" --project libs/reaction/server/infrastructure  --output-dir Persistence/Migrations"
         ]
       }
     },

@@ -23,7 +23,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
     public class AddReactionCommand
-      : AddReactionRequest, IRequest<Result<CommandSuccessResponse>>
+      : AddReactionRequest, IRequest<Result<OpenSystem.Core.Application.Models.DTOs.CommandSuccessResponse>>
     {
 
         /// <summary>

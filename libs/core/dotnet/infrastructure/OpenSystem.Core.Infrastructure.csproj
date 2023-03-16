@@ -6,9 +6,11 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="7.0.0-rc2.7" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
+    <PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Consul" Version="1.6.10.8" />
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="LinqKit" Version="1.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
@@ -18,8 +20,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.AutoHistory" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-preview.1.23112.2" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.3" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.5.0" />
     <PackageReference Include="Ocelot" Version="18.0.0" />
     <PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />
     <PackageReference Include="MailKit" Version="3.4.3" />
@@ -33,6 +38,7 @@
     <PackageReference Include="MimeKit" Version="3.4.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
     <PackageReference Include="Quartz" Version="3.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.24" />
   </ItemGroup>
   <PropertyGroup>

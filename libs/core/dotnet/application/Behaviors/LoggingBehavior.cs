@@ -1,6 +1,7 @@
 using OpenSystem.Core.Application.Interfaces;
 using MediatR.Pipeline;
 using Serilog;
+using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Core.Application.Behaviors
 {

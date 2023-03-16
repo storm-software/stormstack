@@ -12,7 +12,7 @@ namespace OpenSystem.Contact.Domain.Entities
     {
         public int EventCounter { get; set; } = 0;
 
-        public VerificationCodeTypes VerificationCode { get; set; } = VerificationCodeTypes.Verified;
+        public EntityStatusTypes VerificationCode { get; set; } = EntityStatusTypes.Verified;
 
         public string CreatedBy { get; set; } = "PSUL";
 

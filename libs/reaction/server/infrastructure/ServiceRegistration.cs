@@ -1,8 +1,4 @@
-﻿using OpenSystem.Core.Application.Behaviors;
-using OpenSystem.Core.Application.Helpers;
-using OpenSystem.Core.Application.Interfaces;
-using OpenSystem.Core.Application;
-using OpenSystem.Reaction.Domain.Entities;
+﻿using OpenSystem.Reaction.Domain.Entities;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +14,8 @@ using OpenSystem.Core.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using OpenSystem.Core.Domain.Settings;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using OpenSystem.Core.Application.Repositories;
+using OpenSystem.Core.Domain.Constants;
 
 namespace OpenSystem.Reaction.Infrastructure
 {
@@ -31,7 +29,7 @@ namespace OpenSystem.Reaction.Infrastructure
             if (settings.UseInMemoryDatabase)
             {
                 services.AddDbContext<ReactionDbContext>(options =>
-                    options.UseInMemoryDatabase("ApplicationDb"))
+                    options.UseInMemoryDatabase(SettingConstants.ConnectionStrings.DefaultInMemoryDatabase))
                   .AddScoped(typeof(IReactionRepository),
                     typeof(ReactionRepository));
             }
@@ -45,7 +43,7 @@ namespace OpenSystem.Reaction.Infrastructure
                   typeof(ReactionRepository));
             }
 
-            services.AddScoped<IApplicationDbContext>(provider =>
+            services.AddScoped<IBaseDbContext<ReactionEntity>>(provider =>
               provider.GetRequiredService<ReactionDbContext>());
 
             /*services.AddHealthCheck(settings)

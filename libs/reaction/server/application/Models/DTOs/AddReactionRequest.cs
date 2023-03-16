@@ -1,7 +1,7 @@
 /*
  * Reaction APIs
  *
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -16,12 +16,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using OpenSystem.Core.Application.Helpers;
+using OpenSystem.Core.Application.Utilities;
 
 namespace OpenSystem.Reaction.Application.Models.DTOs
-{ 
+{
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [DataContract]
     public class AddReactionRequest : IEquatable<AddReactionRequest>
@@ -34,25 +34,25 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum TypeOptions
         {
-            
+
             /// <summary>
             /// Enum Like for like
             /// </summary>
             [EnumMember(Value = "like")]
             Like = 1,
-            
+
             /// <summary>
             /// Enum Unlike for unlike
             /// </summary>
             [EnumMember(Value = "unlike")]
             Unlike = 2,
-            
+
             /// <summary>
             /// Enum Cry for cry
             /// </summary>
             [EnumMember(Value = "cry")]
             Cry = 3,
-            
+
             /// <summary>
             /// Enum Laugh for laugh
             /// </summary>
@@ -126,10 +126,10 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return 
+            return
                 (
                     Type == other.Type ||
-                    
+
                     Type.Equals(other.Type)
                 );
         }
@@ -144,7 +144,7 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    
+
                     hashCode = hashCode * 59 + Type.GetHashCode();
                 return hashCode;
             }

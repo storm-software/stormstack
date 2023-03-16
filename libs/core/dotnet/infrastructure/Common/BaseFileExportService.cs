@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
@@ -26,7 +27,7 @@ namespace OpenSystem.Core.Infrastructure.Services
         _dateTimeService = dateTimeService;
     }
 
-    public async Task<Result> ExportAsync(FileExportRequest<Entity<Guid>> request)
+    public async Task<Result> ExportAsync(FileExportRequest<Entity> request)
     {
         try
         {
@@ -48,7 +49,7 @@ namespace OpenSystem.Core.Infrastructure.Services
         }
     }
 
-    protected abstract Result BuildFileData(FileExportRequest<Entity<Guid>> request,
+    protected abstract Result BuildFileData(FileExportRequest<Entity> request,
       out byte[]? data);
 
     protected async Task<Result> ExportFileDataAsync(byte[] data)

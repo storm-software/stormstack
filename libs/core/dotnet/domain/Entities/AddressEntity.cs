@@ -6,7 +6,7 @@ using System.Globalization;
 namespace OpenSystem.Core.Domain.Entities
 {
     public class AddressEntity
-      : Entity<Guid>
+      : Entity
     {
         public string? AddressLine1 { get; set; }
 

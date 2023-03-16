@@ -12,6 +12,24 @@ namespace OpenSystem.Core.Domain.Exceptions
       {
         Result = result;
       }
+
+      public FailedResultException(Type resultCodeType,
+        int code)
+        : base(resultCodeType,
+          code)
+      {
+        Result = ResultCodes.Result<TData>.Failure(resultCodeType,
+          code);
+      }
+
+      public FailedResultException(string resultCodeType,
+        int code)
+        : base(resultCodeType,
+          code)
+      {
+        Result = ResultCodes.Result<TData>.Failure(resultCodeType,
+          code);
+      }
     }
 
     public class FailedResultException : FailedResultException<object>
@@ -19,6 +37,24 @@ namespace OpenSystem.Core.Domain.Exceptions
       public FailedResultException(IResult<object> result)
         : base(result)
       {
+      }
+
+      public FailedResultException(Type resultCodeType,
+        int code)
+        : base(resultCodeType,
+          code)
+      {
+        Result = ResultCodes.Result.Failure(resultCodeType,
+          code);
+      }
+
+      public FailedResultException(string resultCodeType,
+        int code)
+        : base(resultCodeType,
+          code)
+      {
+        Result = ResultCodes.Result.Failure(resultCodeType,
+          code);
       }
     }
 }

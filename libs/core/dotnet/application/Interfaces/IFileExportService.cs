@@ -9,6 +9,6 @@ namespace OpenSystem.Core.Application.Interfaces
   {
     public FileExportServiceSettings Settings { get; }
 
-    public Task<Result> ExportAsync(FileExportRequest<Entity<Guid>> request);
+    public Task<Result> ExportAsync(FileExportRequest<Entity> request);
   }
 }

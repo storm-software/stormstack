@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Core.WebApi.Services
 {

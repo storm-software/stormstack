@@ -1,7 +1,7 @@
 using System.Reflection;
 using MediatR;
 using OpenSystem.Core.Application.Attributes;
-using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Application.Services;
 using OpenSystem.Core.Domain.Exceptions;
 
 namespace OpenSystem.Core.Application.Behaviors

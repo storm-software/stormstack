@@ -1,43 +1,49 @@
 using System.ComponentModel.DataAnnotations;
+using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
-	public class ResultMessageId
-    : EntityId<ResultMessageKey>
-	{
-    protected ResultMessageId(ResultMessageKey value)
-      : base(value)
+	public class ResultMessagePrimaryKey
+    : ValueObject<ResultMessageKeyFields, ResultMessagePrimaryKey>
+	{  
+    public static ResultMessagePrimaryKey Create(string? ResultCodeType,
+      int code)
     {
+        return ResultMessagePrimaryKey.Create(new ResultMessageKeyFields(ResultCodeType,
+          code));
     }
 
-		public static ResultMessageId Create(Type resultCodeType,
-          int code)
-		{
-      return new ResultMessageId(new ResultMessageKey(resultCodeType.FullName,
-          code));
-		}
-
-    public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    protected override IEnumerable<object> GetEqualityComponents()
     {
+        yield return Value.ResultCodeType;
+        yield return Value.Code;
+    }
+
+    protected override Result InnerValidate()
+    {
+      var ret = base.InnerValidate();
+      if (ret.Failed)
+        return ret;
+
       if (Value == null ||
         Value.ResultCodeType == null ||
         !Value.Code.IsSet())
-      {
-          yield return GetValidationResult(typeof(ResultCodeValidation),
+        return Result.Failure(typeof(ResultCodeValidation),
             ResultCodeValidation.IdentifierCannotBeNull);
-      }
+
+      return Result.Success();
     }
 	}
 
-  public class ResultMessageKey
+  public class ResultMessageKeyFields
   {
     public string? ResultCodeType;
 
     public int Code;
 
-    public ResultMessageKey(string? resultCodeType,
+    public ResultMessageKeyFields(string? resultCodeType,
       int code)
     {
         ResultCodeType = resultCodeType;

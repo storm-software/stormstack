@@ -5,6 +5,7 @@ using {{modelPackage}};
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.ResultCodes;
 using MediatR;
 
 namespace {{apiPackage}}
@@ -14,7 +15,7 @@ namespace {{apiPackage}}
     /// {{summary}}
     /// </summary>{{#notes}}
     /// <remarks>{{.}}</remarks>{{/notes}}
-    public class {{requestName}} : {{#allParams}}{{#isBodyParam}}{{dataTypeWithoutNullable}}, {{/isBodyParam}}{{/allParams}}IRequest<{{successResponseType}}>
+    public class {{requestName}} : {{#allParams}}{{#isBodyParam}}{{dataTypeWithoutNullable}}, {{/isBodyParam}}{{/allParams}}IRequest<Result<{{successResponseType}}>>
     {
         {{#allParams}}
         {{^isBodyParam}}

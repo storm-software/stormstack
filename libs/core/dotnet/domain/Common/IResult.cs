@@ -4,7 +4,7 @@ namespace OpenSystem.Core.Domain.Common
     {
       public int Code { get; set; }
 
-      public Type ResultCodeType { get; set; }
+      public string ResultCodeType { get; set; }
 
       public bool Succeeded { get; set; }
 

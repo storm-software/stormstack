@@ -536,11 +536,11 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         // supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("gitignore", /*packageFolder,*/ ".gitignore"));
-        supportingFiles.add(new SupportingFile("validateModel.mustache", /*packageFolder + File.separator +*/ "Attributes", "ValidateModelStateAttribute.cs"));
+        // supportingFiles.add(new SupportingFile("validateModel.mustache", /*packageFolder + File.separator +*/ "Attributes", "ValidateModelStateAttribute.cs"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git-push.sh"));
 
 
-        supportingFiles.add(new SupportingFile("typeConverter.mustache", /*packageFolder + File.separator +*/ "Converters", "CustomEnumConverter.cs"));
+        //supportingFiles.add(new SupportingFile("typeConverter.mustache", /*packageFolder + File.separator +*/ "Converters", "CustomEnumConverter.cs"));
 
 
         /*if (aspnetCoreVersion.getOptValue().startsWith("3.") ||
@@ -551,8 +551,8 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
         }*/
 
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", /*packageFolder,*/ packageName + ".csproj"));
-        supportingFiles.add(new SupportingFile("Extensions" + File.separator + "AppExtensions.mustache", /*packageFolder,*/ "Extensions", "AppExtensions.cs"));
-        supportingFiles.add(new SupportingFile("Extensions" + File.separator + "ServiceExtensions.mustache", /*packageFolder,*/ "Extensions", "ServiceExtensions.cs"));
+        //supportingFiles.add(new SupportingFile("Extensions" + File.separator + "AppExtensions.mustache", /*packageFolder,*/ "Extensions", "AppExtensions.cs"));
+        //supportingFiles.add(new SupportingFile("Extensions" + File.separator + "ServiceExtensions.mustache", /*packageFolder,*/ "Extensions", "ServiceExtensions.cs"));
 
         if (!isLibrary) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", /*packageFolder,*/ "Dockerfile"));
@@ -573,15 +573,15 @@ public class OpenSystemDotnetServerGenerator extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Project.nuspec.mustache", /*packageFolder,*/ packageName + ".nuspec"));
         }
 
-        if (useSwashbuckle) {
+        /*if (useSwashbuckle) {
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache",
-                    /*packageFolder + File.separator +*/ "Filters", "BasePathFilter.cs"));
+                     "Filters", "BasePathFilter.cs"));
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "GeneratePathParamsValidationFilter.mustache",
-                    /*packageFolder + File.separator +*/ "Filters", "GeneratePathParamsValidationFilter.cs"));
-        }
+                     "Filters", "GeneratePathParamsValidationFilter.cs"));
+        }*/
 
         supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache", /*packageFolder + File.separator +*/ "Authentication", "ApiAuthentication.cs"));
-        supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", /*packageFolder + File.separator +*/ "Formatters", "InputFormatterStream.cs"));
+        //supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", /*packageFolder + File.separator +*/ "Formatters", "InputFormatterStream.cs"));
 
         modelDocTemplateFiles.put("Documentation/model_doc.mustache", ".md");
         apiDocTemplateFiles.put("Documentation/api_doc.mustache", ".md");

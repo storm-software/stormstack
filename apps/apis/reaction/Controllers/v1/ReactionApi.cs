@@ -19,12 +19,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using OpenSystem.Apis.Reaction.Attributes;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using System.Text.Json;
 using OpenSystem.Core.WebApi.Controllers;
 using Serilog;
+using OpenSystem.Apis.Infrastructure.WebApi.Attributes;
 
 namespace OpenSystem.Apis.Reaction.Controllers.v1
 {

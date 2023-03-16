@@ -1,28 +1,101 @@
 using System;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Reflection;
 using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
-    public abstract class ValueObject
-      : IComparable, IValidatableObject, IComparable<ValueObject>
+    public abstract class ValueObject<TValue, TValueObject>
+      : IComparable, IValidatableObject, IComparable<ValueObject<TValue, TValueObject>>
+      where TValueObject : ValueObject<TValue, TValueObject>, new()
     {
+        static ValueObject()
+        {
+            ConstructorInfo ctor = typeof(TValueObject)
+                .GetTypeInfo()
+                .DeclaredConstructors
+                .First();
+
+            var argsExp = new Expression[0];
+            NewExpression newExp = Expression.New(ctor,
+              argsExp);
+            LambdaExpression lambda = Expression.Lambda(typeof(Func<TValueObject>),
+              newExp);
+
+            ValueObjectFactory = (Func<TValueObject>)lambda.Compile();
+        }
+
+        protected static readonly Func<TValueObject> ValueObjectFactory;
+
+        public static TValueObject Create(TValue item)
+        {
+            TValueObject x = ValueObjectFactory();
+            x.Value = item;
+            var ret = x.InnerValidate();
+            if (ret.Failed)
+                throw new FailedResultException(ret);
+
+            return x;
+        }
+
+        public static bool operator ==(ValueObject<TValue, TValueObject> a,
+          ValueObject<TValue, TValueObject> b)
+        {
+            if (a is null && b is null)
+                return true;
+
+            if (a is null || b is null)
+                return false;
+
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(ValueObject<TValue, TValueObject> a,
+          ValueObject<TValue, TValueObject> b)
+        {
+            return !(a == b);
+        }
+
+        public static implicit operator ValueObject<TValue, TValueObject>(TValue value) => value;
+
+        public static explicit operator TValue(ValueObject<TValue, TValueObject> valueObject) => valueObject.Value;
+
+        internal static Type? GetUnproxiedType(object? obj)
+        {
+            if (obj == null)
+              return null;
+
+            const string EFCoreProxyPrefix = "Castle.Proxies.";
+            const string NHibernateProxyPostfix = "Proxy";
+
+            Type type = obj.GetType();
+
+            string typeString = type.ToString();
+            if (typeString.Contains(EFCoreProxyPrefix) ||
+              typeString.EndsWith(NHibernateProxyPostfix))
+                return type.BaseType;
+
+            return type;
+        }
+
+        [Key]
+        public TValue Value { get; protected set; }
+
         private int? _cachedHashCode;
 
-        protected abstract IEnumerable<object> GetEqualityComponents();
-
-        protected ValidationResult GetValidationResult(Type resultCodeType,
-          int code)
-        {
-          return new ValidationResult(ResultCode.Serialize(resultCodeType,
-            code));
-        }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            return Enumerable.Empty<ValidationResult>();
+          var ret = InnerValidate();
+          if (ret.Failed)
+            yield return GetValidationResult(ret.ResultCodeType,
+              ret.Code);
+
+           yield break;
         }
 
         public override bool Equals(object? obj)
@@ -34,7 +107,8 @@ namespace OpenSystem.Core.Domain.ValueObjects
                 return false;
 
             return GetEqualityComponents()
-              .SequenceEqual(((ValueObject)obj).GetEqualityComponents());
+              .SequenceEqual(((ValueObject<TValue, TValueObject>)obj)
+              .GetEqualityComponents());
         }
 
         public override int GetHashCode()
@@ -67,7 +141,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
 
             object[] components = GetEqualityComponents().ToArray();
             object[] otherComponents = obj != null
-              ? ((ValueObject)obj).GetEqualityComponents().ToArray()
+              ? ((ValueObject<TValue, TValueObject>)obj).GetEqualityComponents().ToArray()
               : new object[0];
 
             for (int i = 0; i < components.Length; i++)
@@ -83,6 +157,40 @@ namespace OpenSystem.Core.Domain.ValueObjects
             }
 
             return 0;
+        }
+
+        public virtual int CompareTo(ValueObject<TValue, TValueObject>? other)
+        {
+            return CompareTo(other as object);
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+
+        protected virtual IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Value;
+        }
+
+        protected virtual Result InnerValidate()
+        {
+            return Result.Success();
+        }
+
+        protected ValidationResult GetValidationResult(Type resultCodeType,
+          int code)
+        {
+          return new ValidationResult(ResultCode.Serialize(resultCodeType,
+            code));
+        }
+
+        protected ValidationResult GetValidationResult(string resultCodeType,
+          int code)
+        {
+          return new ValidationResult(ResultCode.Serialize(resultCodeType,
+            code));
         }
 
         private int CompareComponents(object? object1,
@@ -104,83 +212,19 @@ namespace OpenSystem.Core.Domain.ValueObjects
 
             return object1.Equals(object2) ? 0 : -1;
         }
+    }
 
-        public virtual int CompareTo(ValueObject? other)
-        {
-            return CompareTo(other as object);
-        }
-
-        public static bool operator ==(ValueObject a,
-          ValueObject b)
-        {
-            if (a is null && b is null)
-                return true;
-
-            if (a is null || b is null)
-                return false;
-
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(ValueObject a,
-          ValueObject b)
-        {
-            return !(a == b);
-        }
-
-        internal static Type? GetUnproxiedType(object? obj)
-        {
-            if (obj == null)
-              return null;
-
-            const string EFCoreProxyPrefix = "Castle.Proxies.";
-            const string NHibernateProxyPostfix = "Proxy";
-
-            Type type = obj.GetType();
-
-            string typeString = type.ToString();
-            if (typeString.Contains(EFCoreProxyPrefix) ||
-              typeString.EndsWith(NHibernateProxyPostfix))
-                return type.BaseType;
-
-            return type;
-        }
+    public class ValueObject
+      : ValueObject<object, ValueObject>
+    {
     }
 
     /// <summary>
     /// Use non-generic ValueObject whenever possible: http://bit.ly/vo-new
     /// </summary>
-    public abstract class ValueObject<T>
+    /*public abstract class ValueObject<T>
         where T : ValueObject<T>
     {
-        private int? _cachedHashCode;
-
-        public override bool Equals(object? obj)
-        {
-            var valueObject = obj as T;
-            if (valueObject is null)
-                return false;
-
-            if (ValueObject.GetUnproxiedType(this) != ValueObject.GetUnproxiedType(obj))
-                return false;
-
-            return EqualsCore(valueObject);
-        }
-
-        protected abstract bool EqualsCore(T other);
-
-        public override int GetHashCode()
-        {
-            if (!_cachedHashCode.HasValue)
-            {
-                _cachedHashCode = GetHashCodeCore();
-            }
-
-            return _cachedHashCode.Value;
-        }
-
-        protected abstract int GetHashCodeCore();
-
         public static bool operator ==(ValueObject<T> a,
           ValueObject<T> b)
         {
@@ -198,5 +242,34 @@ namespace OpenSystem.Core.Domain.ValueObjects
         {
             return !(a == b);
         }
-    }
+
+        private int? _cachedHashCode;
+
+
+        public override bool Equals(object? obj)
+        {
+            var valueObject = obj as T;
+            if (valueObject is null)
+                return false;
+
+            if (ValueObject<T>.GetUnproxiedType(this) != ValueObject<T>.GetUnproxiedType(obj))
+                return false;
+
+            return EqualsCore(valueObject);
+        }
+
+        protected abstract bool EqualsCore(T other);
+
+        protected abstract int GetHashCodeCore();
+
+        public override int GetHashCode()
+        {
+            if (!_cachedHashCode.HasValue)
+            {
+                _cachedHashCode = GetHashCodeCore();
+            }
+
+            return _cachedHashCode.Value;
+        }
+    }*/
 }

@@ -18,11 +18,12 @@ using OpenSystem.Reaction.Application.Models.DTOs;
 using OpenSystem.Core.Infrastructure.Extensions;
 using Serilog;
 using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
     public class ReactionRepository
-      : GenericRepository<ReactionEntity>, IReactionRepository
+      : BaseRepository<ReactionEntity>, IReactionRepository
     {
         private readonly DbSet<ReactionEntity> _reactions;
 
@@ -31,9 +32,11 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
         private readonly ICurrentUserService _currentUserService;
 
         public ReactionRepository(ReactionDbContext dbContext,
+          AutoMapper.IMapper mapper,
           ICurrentUserService currentUserService,
           ILogger logger)
-            : base(dbContext)
+            : base(dbContext,
+              mapper)
         {
             _reactions = dbContext.Reaction;
             _reactionDetails = dbContext.ReactionDetail;
@@ -78,9 +81,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
             // set order by
             if (!string.IsNullOrWhiteSpace(orderBy))
-            {
                 record = record.OrderBy(orderBy);
-            }
 
             // retrieve data to list
             var resultData = await record.ToListAsync();
@@ -103,7 +104,6 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
             // retrieve data to list
             var data = resultData.SelectMany(r => r.Details)
-              .Where(d => d.VerificationCode == VerificationCodeTypes.Verified)
               .GroupBy(d => d.Type)
               .Select(d => new ReactionCountRecord {
                 Type = d.Key.ToString(),
@@ -119,6 +119,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
         public async Task<ReactionEntity?> GetByContentIdAsync(string contentId)
         {
           return await GetQueryable(false)
+            .IgnoreQueryFilters()
             .Include(r => r.Details)
             .FirstOrDefaultAsync(r => r.ContentId == contentId);
         }
@@ -127,8 +128,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
         {
           return await GetQueryable(false)
             .AllAsync(r => r.ContentId == contentId &&
-              r.Details.Any(d => d.VerificationCode <= VerificationCodeTypes.Verified &&
-                !string.IsNullOrEmpty(_currentUserService.UserId) &&
+              r.Details.Any(d => !string.IsNullOrEmpty(_currentUserService.UserId) &&
                   _currentUserService.UserId.ToUpper() == d.UserId.ToUpper()));
         }
 
@@ -151,23 +151,21 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
           CancellationToken cancellationToken = default)
         {
           foreach (ReactionDetailEntity detail in entity.Details)
-          {
-            if (entity.IsDisabled &&
-              detail.VerificationCode != VerificationCodeTypes.Unverified)
-              detail.VerificationCode = VerificationCodeTypes.Unverified;
-
             DbContext.Entry(detail).State = EntityState.Modified;
-          }
+
+          /*foreach (ReactionDetailEntity detail in entity.Details)
+          {
+            if (entity.)
+              _reactionDetails.Remove(detail);
+          }*/
         }
 
         protected override async Task InnerDeleteAsync(ReactionEntity entity,
           CancellationToken cancellationToken = default)
         {
           foreach (ReactionDetailEntity detail in entity.Details)
-          {
-            DbContext.Entry(detail).State = EntityState.Modified;
-            detail.VerificationCode = VerificationCodeTypes.Removed;
-          }
+            _reactionDetails.Remove(detail);
+
         }
 
         private Result FilterByColumn(ref IQueryable<ReactionEntity> reactions,
@@ -177,7 +175,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             if (!reactions.Any())
                 return Result.Success();
 
-            var predicate = GetBaseFilter();
+            var predicate = PredicateBuilder.New<ReactionEntity>();
             if (!string.IsNullOrEmpty(contentId) ||
               !string.IsNullOrEmpty(type))
             {

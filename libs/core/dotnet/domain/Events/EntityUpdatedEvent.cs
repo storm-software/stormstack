@@ -4,7 +4,7 @@ using System;
 namespace OpenSystem.Core.Domain.Events
 {
     public class EntityUpdatedEvent<T> : IDomainEvent
-        where T : Entity<Guid>
+        where T : Entity
     {
         public EntityUpdatedEvent(T entity,
           DateTime eventDateTime)

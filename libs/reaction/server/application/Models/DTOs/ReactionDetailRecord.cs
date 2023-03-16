@@ -1,7 +1,7 @@
 /*
  * Reaction APIs
  *
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * The version of the OpenAPI document: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -16,10 +16,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using OpenSystem.Core.Application.Helpers;
+using OpenSystem.Core.Application.Utilities;
 
 namespace OpenSystem.Reaction.Application.Models.DTOs
-{ 
+{
     /// <summary>
     /// A model containing the reaction data returned from the server
     /// </summary>
@@ -145,37 +145,37 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return 
+            return
                 (
                     Id == other.Id ||
                     Id != null &&
                     Id.Equals(other.Id)
-                ) && 
+                ) &&
                 (
                     CreatedOn == other.CreatedOn ||
                     CreatedOn != null &&
                     CreatedOn.Equals(other.CreatedOn)
-                ) && 
+                ) &&
                 (
                     CreatedBy == other.CreatedBy ||
                     CreatedBy != null &&
                     CreatedBy.Equals(other.CreatedBy)
-                ) && 
+                ) &&
                 (
                     UpdatedOn == other.UpdatedOn ||
                     UpdatedOn != null &&
                     UpdatedOn.Equals(other.UpdatedOn)
-                ) && 
+                ) &&
                 (
                     UpdatedBy == other.UpdatedBy ||
                     UpdatedBy != null &&
                     UpdatedBy.Equals(other.UpdatedBy)
-                ) && 
+                ) &&
                 (
                     UserId == other.UserId ||
                     UserId != null &&
                     UserId.Equals(other.UserId)
-                ) && 
+                ) &&
                 (
                     Type == other.Type ||
                     Type != null &&

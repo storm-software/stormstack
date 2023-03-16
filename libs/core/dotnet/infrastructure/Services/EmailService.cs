@@ -1,5 +1,4 @@
 using OpenSystem.Core.Application.Models.DTOs;
-using OpenSystem.Core.Application.Exceptions;
 using OpenSystem.Core.Application.Interfaces;
 using OpenSystem.Core.Domain.Settings;
 using MailKit.Net.Smtp;
@@ -8,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using System.Threading.Tasks;
+using OpenSystem.Core.Domain.Exceptions;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
@@ -54,7 +54,7 @@ namespace OpenSystem.Core.Infrastructure.Services
             {
                 _logger.LogError(ex.Message,
                   ex);
-                throw new ApiException(ex.Message);
+                throw new GeneralProcessingException(ex);
             }
         }
     }

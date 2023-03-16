@@ -9,7 +9,7 @@ using OpenSystem.Core.Domain.Extensions;
 namespace OpenSystem.Core.Domain.Entities
 {
     public class MessageEntity
-      : AuditableEntity<Guid>, IAggregateRoot
+      : AggregateRoot
     {
       public CultureInfo? CultureId { get; set; }
 

@@ -3,13 +3,14 @@ using MediatR;
 using Serilog;
 using OpenSystem.Core.Domain.Entities;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Application.Models.DTOs;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
-    public abstract class BaseCommandHandler<TRequest, TResponse, TEntity>
-      : IRequestHandler<TRequest, Result<TResponse>>
-      where TRequest : MediatR.IRequest<Result<TResponse>>
-      where TEntity : Entity<Guid>
+    public abstract class BaseCommandHandler<TRequest, TEntity>
+      : IRequestHandler<TRequest, Result<CommandSuccessResponse>>
+      where TRequest : IRequest<Result<CommandSuccessResponse>>
+      where TEntity : AggregateRoot
     {
         protected readonly IMapper Mapper;
 
@@ -22,7 +23,7 @@ namespace OpenSystem.Reaction.Application.Commands
             Logger = logger;
         }
 
-        public async Task<Result<TResponse>> Handle(TRequest request,
+        public async Task<Result<CommandSuccessResponse>> Handle(TRequest request,
           CancellationToken cancellationToken)
         {
           Logger.Debug($"Command processing - {request.GetType().Name}");
@@ -44,13 +45,15 @@ namespace OpenSystem.Reaction.Application.Commands
 
           ret = await InnerHandleAsync(entity,
             cancellationToken);
+          if (ret.Failed)
+            return ret;
 
           Logger.Debug($"Command complete - {request.GetType().Name}");
 
             return ret;
         }
 
-        protected abstract Task<Result<TResponse>> InnerHandleAsync(TEntity request,
+        protected abstract Task<Result<CommandSuccessResponse>> InnerHandleAsync(TEntity request,
           CancellationToken cancellationToken);
 
         protected async virtual Task<Result<TRequest>> PreMapRequestAsync(TRequest request,
@@ -72,7 +75,7 @@ namespace OpenSystem.Reaction.Application.Commands
           return Result.Success();
         }
 
-        private async Task<Result<TEntity>> MapRequestAsync(TRequest request,
+        protected async virtual Task<Result<TEntity>> MapRequestAsync(TRequest request,
           CancellationToken cancellationToken)
         {
           Result ret = await PreMapRequestAsync(request,

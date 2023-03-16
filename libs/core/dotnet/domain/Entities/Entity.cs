@@ -1,9 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.Json;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Extensions;
@@ -13,7 +9,7 @@ using OpenSystem.Core.Domain.ValueObjects;
 namespace OpenSystem.Core.Domain.Entities
 {
   public abstract class Entity<T>
-    : IIndexed<T>, IValidatableObject, ICloneable, IEntity
+    : IValidatableObject, ICloneable, IEntity<T>
   {
     public static bool operator ==(Entity<T> a,
       Entity<T> b)
@@ -69,7 +65,7 @@ namespace OpenSystem.Core.Domain.Entities
 
     public override int GetHashCode()
     {
-      return (ValueObject.GetUnproxiedType(this)?.ToString() + Id).GetHashCode();
+      return (Id.ToString() + Id).GetHashCode();
     }
 
     /// <summary>

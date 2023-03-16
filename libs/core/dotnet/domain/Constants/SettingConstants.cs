@@ -12,6 +12,8 @@ namespace OpenSystem.Core.Domain.Constants
       public const string DefaultConnection = "DefaultConnection";
 
       public const string CacheConnection = "CacheConnection";
+
+      public const string DefaultInMemoryDatabase = "OpenSystemDatabase";
     }
   }
 }

@@ -4,7 +4,6 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Application.Models.DTOs;
 using OpenSystem.Core.Domain.Constants;
-using OpenSystem.Core.Application.Exceptions;
 using OpenSystem.Core.Domain.Exceptions;
 
 namespace OpenSystem.Core.WebApi.Middleware
@@ -41,15 +40,6 @@ namespace OpenSystem.Core.WebApi.Middleware
 
                 switch (error)
                 {
-                    case ApiException:
-                        // custom application error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-
-                        errorResponse.Title = "An invalid request has been sent to the server.";
-                        errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-badrequest";
-
-                        break;
-
                     case ValidationException e:
                         // custom application error
                         response.StatusCode = (int)HttpStatusCode.BadRequest;

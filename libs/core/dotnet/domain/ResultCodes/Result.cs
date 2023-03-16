@@ -13,7 +13,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
     {
       public int Code { get; set; } = 0;
 
-      public Type ResultCodeType { get; set; } = typeof(ResultCodeGeneral);
+      public string ResultCodeType { get; set; } = typeof(ResultCodeGeneral).FullName;
 
       public bool Succeeded { get; set; }
 
@@ -62,6 +62,27 @@ namespace OpenSystem.Core.Domain.ResultCodes
           detailsList);
       }
 
+      public static Result<TData> Failure(string resultCodeType,
+        int code,
+        List<string>? details = null)
+      {
+        return new Result<TData>(resultCodeType,
+          code,
+          details);
+      }
+
+      public static Result<TData> Failure(string resultCodeType,
+        int code,
+        string details)
+      {
+        var detailsList = new List<string>();
+        detailsList.Add(details);
+
+        return new Result<TData>(resultCodeType,
+          code,
+          detailsList);
+      }
+
       public static Result<TData> Failure(Exception exception)
       {
         return new Result<TData>(exception);
@@ -81,6 +102,19 @@ namespace OpenSystem.Core.Domain.ResultCodes
       }
 
       protected Result(Type resultCodeType,
+        int code,
+        List<string>? details = null)
+      {
+          Succeeded = false;
+          ResultCodeType = resultCodeType.FullName;
+          Code = code;
+          Message = ResultCode.Serialize(resultCodeType,
+            code);
+          Details = details;
+          StackTrace = GetStackTrace();
+      }
+
+      protected Result(string resultCodeType,
         int code,
         List<string>? details = null)
       {

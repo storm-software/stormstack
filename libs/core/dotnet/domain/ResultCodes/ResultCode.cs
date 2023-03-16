@@ -53,6 +53,20 @@ namespace OpenSystem.Core.Domain.ResultCodes
 				code);
 		}
 
+    /// <summary>
+		/// Overridden to return the Name
+		/// property as string representation.
+		/// </summary>
+		/// <returns></returns>
+		public static string Serialize(string resultCodeType,
+      int code)
+		{
+			return string.Format("{0}{1}{2}",
+				resultCodeType,
+				Literals.FieldSeparator,
+				code);
+		}
+
 		#endregion Static
 
 		#region Methods

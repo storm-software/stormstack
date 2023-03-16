@@ -4,7 +4,7 @@ using System;
 namespace OpenSystem.Core.Domain.Events
 {
     public class EntityDeletedEvent<T> : IDomainEvent
-        where T : Entity<Guid>
+        where T : Entity
     {
         public EntityDeletedEvent(T entity,
           DateTime eventDateTime)

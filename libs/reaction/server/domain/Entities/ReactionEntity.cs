@@ -7,7 +7,7 @@ using System.Globalization;
 namespace OpenSystem.Reaction.Domain.Entities
 {
     public class ReactionEntity
-      : AuditableEntity<Guid>, IAggregateRoot
+      : AggregateRoot
     {
         public string ContentId { get; set; }
 

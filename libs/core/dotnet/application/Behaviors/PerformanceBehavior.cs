@@ -2,6 +2,7 @@ using OpenSystem.Core.Application.Interfaces;
 using System.Diagnostics;
 using MediatR;
 using Serilog;
+using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Core.Application.Behaviors
 {

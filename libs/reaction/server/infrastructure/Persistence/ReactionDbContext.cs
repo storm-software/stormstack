@@ -8,13 +8,13 @@ using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Reaction.Domain.Entities;
 using OpenSystem.Core.Infrastructure.Persistence;
-using OpenSystem.Reaction.Infrastructure.MappingConfigurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using OpenSystem.Core.Infrastructure.Persistence.Interceptors;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
-    public class ReactionDbContext : ApplicationDbContext<ReactionEntity>
+    public class ReactionDbContext : BaseDbContext<ReactionEntity>
     {
         public DbSet<ReactionEntity> Reaction => Set<ReactionEntity>();
 
@@ -29,28 +29,16 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
         public ReactionDbContext(
           DbContextOptions options,
           IConfiguration configuration,
-          IDateTimeProvider dateTimeProvider,
-          ICurrentUserService currentUserService,
           ILoggerFactory loggerFactory)
             : base(options,
                 configuration,
-                dateTimeProvider,
-                currentUserService,
                 loggerFactory)
         {
         }
 
-        protected override Result InnerOnModelCreating(ModelBuilder builder)
-        {
-          //builder.ApplyConfiguration(new ReactionConfiguration());
-          //builder.ApplyConfiguration(new ReactionDetailConfiguration());
-
-          return Result.Success();
-        }
-
         protected override Result InnerProcessEntry(EntityEntry<ReactionEntity> entry)
         {
-          foreach (var detail in entry.Entity.Details)
+          /*foreach (var detail in entry.Entity.Details)
           {
             if (detail.EventCounter < 1)
             {
@@ -68,7 +56,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             }
 
             detail.EventCounter++;
-          }
+          }*/
 
           return Result.Success();
         }

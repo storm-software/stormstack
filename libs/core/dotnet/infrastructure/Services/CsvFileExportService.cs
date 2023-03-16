@@ -9,6 +9,7 @@ using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Infrastructure.Mappings;
 using System.Globalization;
 using CsvHelper;
+using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
@@ -26,7 +27,7 @@ namespace OpenSystem.Core.Infrastructure.Services
       Settings = (CsvFileExportServiceSettings)settings;
     }
 
-    protected override Result BuildFileData(FileExportRequest<Entity<Guid>> request,
+    protected override Result BuildFileData(FileExportRequest<Entity> request,
       out byte[]? oData)
     {
       oData = null;

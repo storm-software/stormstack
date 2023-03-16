@@ -1,24 +1,31 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
-    public abstract class AuditableEntity<T> : Entity<T>, IAuditable
+    public abstract class AuditableEntity
+      : Entity, IAuditable
     {
       public int EventCounter { get; set; } = 0;
 
-      public VerificationCodeTypes VerificationCode { get; set; } = VerificationCodeTypes.Verified;
+      public EntityStatusTypes Status { get; set; } = EntityStatusTypes.Pending;
 
-      public string CreatedBy { get; set; } = "PSUL";
+      public EntityEventTypes EventType { get; set; } = EntityEventTypes.View;
 
-      public DateTimeOffset CreatedDateTime { get; set; }
+      public bool IsApproved { get; set; } = false;
+
+      public string? CreatedBy { get; set; } = "PSUL2";
+
+      public DateTimeOffset? CreatedDateTime { get; set; }
 
       public string? UpdatedBy { get; set; }
 
       public DateTimeOffset? UpdatedDateTime { get; set; }
+
+      [NotMapped]
+      public EntityProcessingTypes ProcessingType { get; set; } = EntityProcessingTypes.StraightThroughProcessing;
    }
 }
