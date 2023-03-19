@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/sullivanpj/open-system/compare/user-server-domain-v1.4.0...user-server-domain-v1.5.0) (2023-03-16)
+
+
+### Features
+
+* **reaction-ui-data-access:** Updated the reaction request handler code ([aa449d9](https://github.com/sullivanpj/open-system/commit/aa449d94ce5f2e16992cfa453a92e20087f52cf2))
+
 # [1.5.0](https://github.com/sullivanpj/open-system/compare/user-server-domain-v1.4.0...user-server-domain-v1.5.0) (2023-03-13)
 
 
