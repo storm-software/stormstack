@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feat-layout-v1.9.0...shared-ui-feat-layout-v1.10.0) (2023-03-19)
+
+
+### Features
+
+* **core-dotnet-application:** Added CommandResult and BaseQueryHandler classes ([81bf7cd](https://github.com/sullivanpj/open-system/commit/81bf7cde1ac14797ad1d95656f75c44038501740))
+
 # [1.9.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feat-layout-v1.8.0...shared-ui-feat-layout-v1.9.0) (2023-03-13)
 
 
