@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.17.0...web-shell-v1.18.0) (2023-03-19)
+
+
+### Features
+
+* **core-dotnet-application:** Added CommandResult and BaseQueryHandler classes ([81bf7cd](https://github.com/sullivanpj/open-system/commit/81bf7cde1ac14797ad1d95656f75c44038501740))
+
 # [1.17.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.16.0...web-shell-v1.17.0) (2023-03-13)
 
 
