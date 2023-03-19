@@ -1,12 +1,12 @@
-using System.Linq.Expressions;
 using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Core.Domain.ResultCodes;
 
-namespace OpenSystem.Core.Application.Repositories
+namespace OpenSystem.Core.Domain.Repositories
 {
   public interface IBaseRepository<TEntity>
-    where TEntity : AuditableEntity, IAggregateRoot
+    where TEntity : AggregateRoot
     {
-        Task<TEntity> GetByIdAsync(Guid id);
+        IBaseUnitOfWork UnitOfWork { get; }
 
         IQueryable<TEntity> GetQueryable(bool noTracking = false);
 
@@ -15,27 +15,25 @@ namespace OpenSystem.Core.Application.Repositories
           string? orderBy,
           string? fields);
 
-        Task<IEnumerable<TEntity>> GetAllAsync(int? pageNumber,
+        Task<IList<TEntity>> GetAllAsync(int? pageNumber,
           int? pageSize,
           string? orderBy,
           string? fields);
 
-        Task<TEntity> AddOrUpdateAsync(TEntity entity,
+        Task<TEntity?> GetByIdAsync(Guid id,
           CancellationToken cancellationToken = default);
+
+        Task<TEntity> AddOrUpdateAsync<TDto>(TDto dto,
+          CancellationToken cancellationToken = default)
+          where TDto : class;
 
         Task<TEntity> AddAsync(TEntity entity,
           CancellationToken cancellationToken = default);
 
-        Task UpdateAsync(TEntity entity,
+        Task<TEntity> UpdateAsync(TEntity entity,
           CancellationToken cancellationToken = default);
 
-        Task DeleteAsync(TEntity entity,
+        Task<TEntity> DeleteAsync(TEntity entity,
           CancellationToken cancellationToken = default);
-
-        IBaseUnitOfWork UnitOfWork { get; }
-
-        Task<TEntity> FirstOrDefaultAsync<TDto>(TDto dto,
-          CancellationToken cancellationToken = default)
-          where TDto : class;
     }
 }

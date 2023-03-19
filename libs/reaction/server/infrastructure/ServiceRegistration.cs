@@ -3,19 +3,25 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using AutoMapper;
 using OpenSystem.Core.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using OpenSystem.Core.Infrastructure.Persistence;
-using OpenSystem.Reaction.Application.Interfaces;
+using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Reaction.Infrastructure.Persistence;
-using OpenSystem.Core.Infrastructure.Services;
-using Microsoft.AspNetCore.Identity;
+using AutoMapper.Collection;
+using AutoMapper.Extensions.ExpressionMapping;
 using OpenSystem.Core.Domain.Settings;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using OpenSystem.Core.Application.Repositories;
+using OpenSystem.Core.Domain.Repositories;
 using OpenSystem.Core.Domain.Constants;
+using AutoMapper;
+using OpenSystem.Core.Infrastructure.Persistence.Interceptors;
+using OpenSystem.Core.Infrastructure.Extensions;
+using OpenSystem.Reaction.Application.Mappings;
+using AutoMapper.EntityFrameworkCore;
+using AutoMapper.EquivalencyExpression;
+using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Reaction.Infrastructure.Persistence.Interceptors;
 
 namespace OpenSystem.Reaction.Infrastructure
 {
@@ -26,25 +32,54 @@ namespace OpenSystem.Reaction.Infrastructure
         {
             services.AddPersistenceInfrastructure(settings);
 
+            services.AddSingleton<ReactionDetailMaterializationInterceptor>();
             if (settings.UseInMemoryDatabase)
             {
-                services.AddDbContext<ReactionDbContext>(options =>
-                    options.UseInMemoryDatabase(SettingConstants.ConnectionStrings.DefaultInMemoryDatabase))
+                services.AddDbContext<ReactionDbContext>((provider, options) => {
+                    options.UseInMemoryDatabase(SettingConstants.ConnectionStrings.DefaultInMemoryDatabase);
+
+                    options.AddInterceptors(provider
+                      .GetRequiredService<ReactionDetailMaterializationInterceptor>());
+                    options.AddInterceptors(provider
+                      .GetRequiredService<SoftDeletedAuditableEntitySaveChangesInterceptor>());
+                    options.AddInterceptors(provider
+                      .GetRequiredService<ValidateSaveChangesInterceptor>());
+                  })
                   .AddScoped(typeof(IReactionRepository),
                     typeof(ReactionRepository));
             }
             else
             {
-                services.AddDbContext<ReactionDbContext>(options =>
+                services.AddDbContext<ReactionDbContext>((provider, options) => {
                   options.UseNpgsql(
                     settings.ConnectionStrings.DefaultConnection,
-                    builder => builder.MigrationsAssembly(typeof(ReactionDbContext).Assembly.FullName)))
+                    builder => builder.MigrationsAssembly(typeof(ReactionDbContext).Assembly.FullName));
+
+                  options.AddInterceptors(provider
+                    .GetRequiredService<ReactionDetailMaterializationInterceptor>());
+                  options.AddInterceptors(provider
+                      .GetRequiredService<SoftDeletedAuditableEntitySaveChangesInterceptor>());
+                  options.AddInterceptors(provider
+                    .GetRequiredService<ValidateSaveChangesInterceptor>());
+                })
                 .AddScoped(typeof(IReactionRepository),
                   typeof(ReactionRepository));
             }
 
+            services.AddAutoMapper((serviceProvider,autoMapper) =>
+              {
+                  autoMapper.AddCollectionMappers();
+                  autoMapper.UseEntityFrameworkCoreModel<ReactionDbContext>(serviceProvider);
+              }, Assembly.GetExecutingAssembly());
+
             services.AddScoped<IBaseDbContext<ReactionEntity>>(provider =>
               provider.GetRequiredService<ReactionDbContext>());
+
+            /*services.AddAutoMapper((serviceProvider, autoMapper) =>
+            {
+                autoMapper.AddCollectionMappers();
+                autoMapper.UseEntityFrameworkCoreModel<ReactionDbContext>(serviceProvider);
+            }, typeof(ReactionDbContext).Assembly);*/
 
             /*services.AddHealthCheck(settings)
               .AddDbContextCheck<ReactionDbContext>(name: "Application DB Context",

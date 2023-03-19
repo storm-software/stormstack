@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4LPWAIEiHLCbnLQCCMhYTwf89QdJrwXCfqGaorY4y5P5TdwLfw3QS8IPh4CfBlVjjMsFDBsAKMzHYZgMRLc2OA==",
+  "dgSpecHash": "zL+aHdIOZYaR0v3OL0rSxGloA8sS9EXdwTWY7jycp72hoVIcRzexgdBF9EbXiR1qcg/mtFa3yVErlHFRNipTDQ==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,15 @@
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\2.0.0\\microsoft.extensions.options.configurationextensions.2.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex\\5.1.2\\nito.asyncex.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.context\\5.1.2\\nito.asyncex.context.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.coordination\\5.1.2\\nito.asyncex.coordination.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.interop.waithandles\\5.1.2\\nito.asyncex.interop.waithandles.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.oop\\5.1.2\\nito.asyncex.oop.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.tasks\\5.1.2\\nito.asyncex.tasks.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.cancellation\\1.1.2\\nito.cancellation.1.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.collections.deque\\1.1.1\\nito.collections.deque.1.1.1.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.disposables\\2.2.1\\nito.disposables.2.2.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\serilog\\2.12.0\\serilog.2.12.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\serilog.aspnetcore\\6.1.0\\serilog.aspnetcore.6.1.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\serilog.enrichers.environment\\2.3.0-dev-00791\\serilog.enrichers.environment.2.3.0-dev-00791.nupkg.sha512",
@@ -45,6 +54,7 @@
     "C:\\Users\\patjo\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\serilog.sinks.periodicbatching\\3.1.0\\serilog.sinks.periodicbatching.3.1.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\system.collections.immutable\\1.7.1\\system.collections.immutable.1.7.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.text.json\\4.6.0\\system.text.json.4.6.0.nupkg.sha512"

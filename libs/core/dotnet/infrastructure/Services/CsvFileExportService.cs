@@ -53,8 +53,7 @@ namespace OpenSystem.Core.Infrastructure.Services
       {
           Logger.LogError(ex.Message,
             ex);
-
-          throw new FileExportException(ex);
+        return Result.Failure(new FileExportException(ex));
       }
     }
   }

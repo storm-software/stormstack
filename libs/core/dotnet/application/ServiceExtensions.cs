@@ -17,7 +17,6 @@ namespace OpenSystem.Core.Application
     {
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
@@ -40,7 +39,14 @@ namespace OpenSystem.Core.Application
           oSettings = new ApplicationSettings();
           configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.json",
+              false, 
+              true)
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? 
+              "Production"}.json", 
+              true)
+            .AddEnvironmentVariables()
+            // .AddUserSecrets()
             .Build();
 
           oSettings.UseInMemoryDatabase = configuration.GetValue<bool>("UseInMemoryDatabase");

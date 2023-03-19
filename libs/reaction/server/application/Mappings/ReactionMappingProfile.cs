@@ -5,6 +5,7 @@ using OpenSystem.Reaction.Application.Interfaces;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using OpenSystem.Reaction.Domain.Enums;
+using System.Linq.Expressions;
 
 namespace OpenSystem.Reaction.Application.Mappings
 {
@@ -21,14 +22,15 @@ namespace OpenSystem.Reaction.Application.Mappings
                       true)
                   }
                 }));
+
             CreateMap<RemoveReactionCommand, ReactionEntity>();
             CreateMap<ReactionEntity, ReactionDetailRecord>()
               .ReverseMap();
-            CreateMap<IReactionCount, ReactionCountRecord>()
+            CreateMap<(string Type, int Count), ReactionCountRecord>()
               .ReverseMap();
-            CreateMap<List<ReactionCountRecord>, GetReactionsCount200Response>()
+            /*CreateMap<List<ReactionCountRecord>, GetReactionsCount200Response>()
               .ForMember(dest => dest.Data,
-                act => act.MapFrom(src => src));
+                act => act.MapFrom(src => src));*/
         }
     }
 }

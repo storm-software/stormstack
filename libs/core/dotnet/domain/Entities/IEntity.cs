@@ -1,3 +1,5 @@
+using OpenSystem.Core.Domain.Common;
+
 namespace OpenSystem.Core.Domain.Entities
 {
     public interface IEntity<T>

@@ -4,10 +4,11 @@ using OpenSystem.Reaction.Domain.Enums;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Infrastructure.Persistence.MappingConfigurations;
 using System.Linq.Expressions;
+using OpenSystem.Core.Infrastructure.Persistence.ValueConverters;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence.MappingConfigurations
 {
-    public class ReactionDetailConfiguration : BaseAuditableConfiguration<ReactionDetailEntity>
+    public class ReactionDetailConfiguration : AuditableConfiguration<ReactionDetailEntity>
     {
         protected override string TableName => "ReactionDetail";
 
@@ -16,15 +17,10 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.MappingConfigurations
             x.UserId
           };
 
-        protected override Result ConfigureColumns(EntityTypeBuilder<ReactionDetailEntity> builder)
+        protected override void ConfigureColumns(EntityTypeBuilder<ReactionDetailEntity> builder)
         {
           builder.Property(x => x.Type)
-            .HasConversion(
-                x => x.ToString(),
-                x => (ReactionTypes)Enum.Parse(typeof(ReactionTypes),
-                  x));
-
-          return Result.Success();
+            .HasConversion<EnumStringValueConverter<ReactionTypes>>();
         }
     }
 }

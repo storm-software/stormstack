@@ -7,7 +7,7 @@ namespace OpenSystem.Core.Domain.Enums
 	{
 		Active  									    = 100,
 		Pending   										= 200,
-    	Inactive   										= 300,
+    Inactive   										= 300,
 		Removed   										= 400,
 		None									      	= 10000,
 	}

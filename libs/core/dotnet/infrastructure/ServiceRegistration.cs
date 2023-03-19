@@ -23,6 +23,8 @@ using OpenSystem.Core.Infrastructure.WebApi.Constants;
 using System.Security.Claims;
 using IdentityModel;
 using OpenSystem.Core.Infrastructure.Persistence.Interceptors;
+using OpenSystem.Core.Infrastructure.WebApi.Formatters;
+using OpenSystem.Core.Infrastructure.WebApi.Services;
 
 namespace OpenSystem.Core.Infrastructure
 {
@@ -35,6 +37,11 @@ namespace OpenSystem.Core.Infrastructure
             //services.AddScoped<ValidateSaveChangesInterceptor>();
 
             services.AddCache(settings.ConnectionStrings);
+
+            services.AddSingleton<SoftDeletedAuditableEntitySaveChangesInterceptor>();
+            services.AddSingleton<ValidateSaveChangesInterceptor>();
+
+            //services.UseEntityFrameworkCoreModel
 
            /* if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
@@ -64,6 +71,8 @@ namespace OpenSystem.Core.Infrastructure
         {
             services.AddTransient<IDateTimeProvider,
               DateTimeProvider>();
+            services.AddTransient<ICurrentUserService,
+              CurrentUserService>();
             services.AddTransient<IEmailService,
               EmailService>();
             services.AddTransient<ICsvFileExportService,
@@ -180,12 +189,16 @@ namespace OpenSystem.Core.Infrastructure
 
         public static void AddControllersExtension(this IServiceCollection services)
         {
-            services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                });
+          // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
+            services.AddControllers(options => {
+                  options.InputFormatters.Insert(0, 
+                    new InputFormatterStream());
+              })
+              .AddJsonOptions(options =>
+              {
+                  options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                  options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+              });                
         }
 
         //Configure CORS to allow any origin, header and method.

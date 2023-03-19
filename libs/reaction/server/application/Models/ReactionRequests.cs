@@ -15,6 +15,7 @@ using System.Text.Json;
 using OpenSystem.Core.Application.Interfaces;
 using MediatR;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Reaction.Application.Models
 {
@@ -23,7 +24,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
     public class AddReactionCommand
-      : AddReactionRequest, IRequest<Result<OpenSystem.Core.Application.Models.DTOs.CommandSuccessResponse>>
+      : AddReactionRequest, IRequest<CommandResult<IIndexed>>
     {
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// Remove Reaction
     /// </summary>
     /// <remarks>Remove an existing reaction to an article</remarks>
-    public class RemoveReactionCommand : IRequest<Result<CommandSuccessResponse>>
+    public class RemoveReactionCommand : IRequest<CommandResult<IIndexed>>
     {
         /// <summary>
         /// The id of the article/comment

@@ -33,47 +33,51 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                 name: "Reaction",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ContentId = table.Column<string>(type: "text", nullable: false),
                     IsDisabled = table.Column<bool>(type: "boolean", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EventCounter = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    EventType = table.Column<int>(type: "integer", nullable: false),
+                    EventType = table.Column<string>(type: "text", nullable: false),
                     IsApproved = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    CreatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     DeletedBy = table.Column<string>(type: "text", nullable: true),
-                    DeletedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                    DeletedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reaction", x => x.Id);
+                    table.PrimaryKey("PK_Reaction", x => x.ContentId);
+                    table.UniqueConstraint("AK_Reaction_Id", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ReactionDetail",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     ReactionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DeletedBy = table.Column<string>(type: "text", nullable: true),
-                    DeletedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EventCounter = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    EventType = table.Column<int>(type: "integer", nullable: false),
+                    EventType = table.Column<string>(type: "text", nullable: false),
                     IsApproved = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: true),
-                    CreatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: true),
-                    UpdatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                    UpdatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    DeletedBy = table.Column<string>(type: "text", nullable: true),
+                    DeletedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReactionDetail", x => x.Id);
+                    table.PrimaryKey("PK_ReactionDetail", x => new { x.ReactionId, x.UserId });
+                    table.UniqueConstraint("AK_ReactionDetail_Id", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ReactionDetail_Reaction_ReactionId",
                         column: x => x.ReactionId,
@@ -83,9 +87,16 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReactionDetail_ReactionId",
+                name: "IX_Reaction_Id",
+                table: "Reaction",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReactionDetail_Id",
                 table: "ReactionDetail",
-                column: "ReactionId");
+                column: "Id",
+                unique: true);
         }
 
         /// <inheritdoc />

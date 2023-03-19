@@ -26,6 +26,8 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
     public const int FailedConvertingToEntity = 7;
 
+    public const int RecordNotFound = 8;
+
 		#endregion Constants
 
 		#endregion Public

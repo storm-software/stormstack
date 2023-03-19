@@ -24,7 +24,13 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Filters
             {
                 var openapiParam = operation.Parameters.SingleOrDefault(p => p.Name == par.Name);
 
-                var attributes = ((ControllerParameterDescriptor)par.ParameterDescriptor).ParameterInfo.CustomAttributes.ToList();
+                if (!(par.ParameterDescriptor is ControllerParameterDescriptor controllerParameterDescriptor))
+                  return;
+
+                var attributes = controllerParameterDescriptor.
+                  ParameterInfo.
+                  CustomAttributes.
+                  ToList();
 
                 // See https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1147
                 // and https://mikeralphson.github.io/openapi/2017/03/15/openapi3.0.0-rc0

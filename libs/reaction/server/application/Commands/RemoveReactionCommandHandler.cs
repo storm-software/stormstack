@@ -1,31 +1,23 @@
 using AutoMapper;
 using MediatR;
-using OpenSystem.Core.Application.Models;
-using OpenSystem.Reaction.Application.Interfaces;
-using OpenSystem.Reaction.Domain.Entities;
-using OpenSystem.Reaction.Domain.Enums;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Reaction.Application.Models;
-using OpenSystem.Reaction.Application.Models.DTOs;
-using OpenSystem.Core.Application.Interfaces;
-using OpenSystem.Core.Domain.Extensions;
-using Serilog;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Application.Services;
+using OpenSystem.Reaction.Domain.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
   public class RemoveReactionCommandHandler
-    : IRequestHandler<RemoveReactionCommand, Result<CommandSuccessResponse>>
+    : BaseUpdateCommandHandler<RemoveReactionCommand, ReactionEntity, IReactionRepository>
   {
     private readonly IReactionRepository _repository;
 
     private readonly IMapper _mapper;
 
-    private readonly ILogger _logger;
+    private readonly ILogger<RemoveReactionCommandHandler> _logger;
 
     private readonly ICurrentUserService _currentUserService;
 
@@ -33,9 +25,12 @@ namespace OpenSystem.Reaction.Application.Commands
 
     public RemoveReactionCommandHandler(IReactionRepository repository,
       IMapper mapper,
-      ILogger logger,
+      ILogger<RemoveReactionCommandHandler> logger,
       ICurrentUserService currentUserService,
       IDateTimeProvider dateTimeProvider)
+        : base (repository,
+              mapper,
+              logger)
     {
         _repository = repository;
         _mapper = mapper;
@@ -44,19 +39,19 @@ namespace OpenSystem.Reaction.Application.Commands
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<Result<CommandSuccessResponse>> Handle(RemoveReactionCommand request,
+    protected async override Task<CommandResult<ReactionEntity>> HandleUpdateAsync(ReactionEntity entity,
+      RemoveReactionCommand request,
       CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetByContentIdAsync(request.ContentId);
-        entity.ContentId = request.ContentId;
+      var detail = entity.Details.FirstOrDefault(r => r.UserId == _currentUserService.UserId);
+      if (detail == null)
+        return CommandResult.Failure(typeof(ResultCodeApplication),
+          ResultCodeApplication.RecordNotFound);
 
-        var detail = entity.Details.FirstOrDefault(d => d.UserId == _currentUserService.UserId);
-        detail.UserId = _currentUserService.UserId;
+      await entity.SetForDeleteAsync(_currentUserService.UserId,
+        _dateTimeProvider.OffsetUtcNow);
 
-        var result = await _repository.AddOrUpdateAsync(entity,
-          cancellationToken);
-
-        return Result.Success(new CommandSuccessResponse { Id = result.Id });
+      return CommandResult.Success(entity);
     }
   }
 }

@@ -1,5 +1,5 @@
 using FluentValidation;
-using OpenSystem.Reaction.Application.Interfaces;
+using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Reaction.Application.Models;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,8 +19,8 @@ namespace OpenSystem.Reaction.Application.Validators
                 .WithMessage("{PropertyName} is required.")
                 .NotNull()
                 .WithMessage("{PropertyName} is required.")
-                /*.MustAsync(UserHasntReactedAsync)
-                .WithMessage("User has not previously reacted to this content.")*/;
+                .MustAsync(UserHasntReactedAsync)
+                .WithMessage("User has not previously reacted to this content.");
         }
 
         private async Task<bool> UserHasntReactedAsync(string contentId,

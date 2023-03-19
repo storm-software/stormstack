@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "I9pgjz79ghQg4ck7FtCQH+Ryy2gVL4oS+Cc9cNYoebexo0MCmK052t+9hayxVwpfBgG84bbfxy9t87o5Pp5lNw==",
+  "dgSpecHash": "GAoANnfmSp6qCqmGif9x17u7dfAa88ENs0HCRBcHHSFzfL+kF4ldnIruD8u8FUpstryVCsZEpVMTH6W8/DBTsA==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,17 @@
     "C:\\Users\\patjo\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512"
+    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex\\5.1.2\\nito.asyncex.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.context\\5.1.2\\nito.asyncex.context.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.coordination\\5.1.2\\nito.asyncex.coordination.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.interop.waithandles\\5.1.2\\nito.asyncex.interop.waithandles.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.oop\\5.1.2\\nito.asyncex.oop.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.asyncex.tasks\\5.1.2\\nito.asyncex.tasks.5.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.cancellation\\1.1.2\\nito.cancellation.1.1.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.collections.deque\\1.1.1\\nito.collections.deque.1.1.1.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\nito.disposables\\2.2.1\\nito.disposables.2.2.1.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\system.collections.immutable\\1.7.1\\system.collections.immutable.1.7.1.nupkg.sha512"
   ],
   "logs": []
 }

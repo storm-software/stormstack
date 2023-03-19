@@ -64,6 +64,10 @@
     "Microsoft.AspNetCore.Mvc": "2.2.0",
     "Swashbuckle.AspNetCore.Swagger": "6.5.0",
     "Microsoft.EntityFrameworkCore.AutoHistory": "6.0.0",
-    "AutoMapper.Collection.EntityFrameworkCore": "9.0.0"
+    "AutoMapper.Collection.EntityFrameworkCore": "9.0.0",
+    "Automapper.Collection": "9.0.0",
+    "AutoMapper.Extensions.ExpressionMapping": "6.0.3",
+    "AutoMapper.Collection": "9.0.0",
+    "Nito.AsyncEx": "5.1.2"
   }
 }

@@ -6,5 +6,7 @@ namespace OpenSystem.Core.Domain.Constants
   public class DefaultConfiguration
 	{
     public const string DefaultCulture = "en-US";
+
+    public const int DefaultSearchPageSize = 200;
   }
 }

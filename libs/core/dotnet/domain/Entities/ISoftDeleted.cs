@@ -5,5 +5,7 @@ namespace OpenSystem.Core.Domain.Entities
         public string? DeletedBy { get; set; }
 
         public DateTimeOffset? DeletedDateTime { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

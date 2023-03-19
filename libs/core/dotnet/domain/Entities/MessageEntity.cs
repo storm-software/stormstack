@@ -19,10 +19,10 @@ namespace OpenSystem.Core.Domain.Entities
 
       public string? Message { get; set; }
 
-      /// <summary>
-      /// Allow derived class to add validations
-      /// </summary>
-      protected override Result InnerValidate(ValidationContext validationContext)
+    /// <summary>
+    /// Allow derived class to add validations
+    /// </summary>
+    protected override Result InnerValidate(ValidationContext validationContext)
       {
         if (!string.IsNullOrEmpty(Type) ||
           !Code.IsSet() ||

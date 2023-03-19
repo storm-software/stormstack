@@ -1,32 +1,14 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
-using MediatR;
 using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
     [Serializable]
     public class Result<TData>
-      : ISerializable, IResult<TData>
+      : BaseResult, IResult<TData>
     {
-      public int Code { get; set; } = 0;
-
-      public string ResultCodeType { get; set; } = typeof(ResultCodeGeneral).FullName;
-
-      public bool Succeeded { get; set; }
-
-      public bool Failed => !Succeeded;
-
-      public string? Message { get; set; }
-
-      public List<string>? Details { get; set; }
-
-      public string? HelpLink { get; set; }
-
-      public string? StackTrace { get; set; }
-
       public TData? Data { get; set; }
 
       public static Result<TData> Success()
@@ -43,44 +25,43 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
       public static Result<TData> Failure(Type resultCodeType,
         int code,
-        List<string>? details = null)
+        List<string>? detail = null)
       {
         return new Result<TData>(resultCodeType,
           code,
-          details);
+          detail != null ?
+            string.Join("\r\n", detail)
+            : null);
       }
 
       public static Result<TData> Failure(Type resultCodeType,
         int code,
-        string details)
+        string detail)
       {
-        var detailsList = new List<string>();
-        detailsList.Add(details);
-
         return new Result<TData>(resultCodeType,
           code,
-          detailsList);
+          detail);
       }
 
       public static Result<TData> Failure(string resultCodeType,
         int code,
-        List<string>? details = null)
+        List<string>? detail = null)
       {
         return new Result<TData>(resultCodeType,
           code,
-          details);
+         detail != null ?
+            string.Join("\r\n",
+              detail)
+            : null);
       }
 
       public static Result<TData> Failure(string resultCodeType,
         int code,
-        string details)
+        string detail)
       {
-        var detailsList = new List<string>();
-        detailsList.Add(details);
-
         return new Result<TData>(resultCodeType,
           code,
-          detailsList);
+          detail);
       }
 
       public static Result<TData> Failure(Exception exception)
@@ -89,113 +70,51 @@ namespace OpenSystem.Core.Domain.ResultCodes
       }
 
       protected Result()
+        : base()
       {
         Succeeded = true;
       }
 
       protected Result(TData? data,
         string? message = null)
+        : base(message)
       {
-          Succeeded = true;
-          Message = message;
           Data = data;
       }
 
       protected Result(Type resultCodeType,
         int code,
-        List<string>? details = null)
+        string? detail = null)
+        : base(resultCodeType.FullName,
+          code,
+          detail)
       {
-          Succeeded = false;
-          ResultCodeType = resultCodeType.FullName;
-          Code = code;
-          Message = ResultCode.Serialize(resultCodeType,
-            code);
-          Details = details;
-          StackTrace = GetStackTrace();
       }
 
       protected Result(string resultCodeType,
         int code,
-        List<string>? details = null)
+        string? detail = null)
+        : base(resultCodeType,
+          code,
+          detail)
       {
-          Succeeded = false;
-          ResultCodeType = resultCodeType;
-          Code = code;
-          Message = ResultCode.Serialize(resultCodeType,
-            code);
-          Details = details;
-          StackTrace = GetStackTrace();
       }
 
     protected Result(Exception exception)
+      : base(exception)
     {
-        Succeeded = false;
-        Message = exception.Message;
-
-        if (!string.IsNullOrEmpty(exception.InnerException?.Message))
-        {
-          Details = new List<string>();
-          Details.Add(exception.InnerException.Message);
-        }
-
-        HelpLink = exception.HelpLink;
-        StackTrace = !string.IsNullOrEmpty(exception.StackTrace)
-          ? exception.StackTrace
-          : GetStackTrace();
     }
 
-    public void GetObjectData(SerializationInfo info,
+    protected override void InnerGetObjectData(SerializationInfo info,
       StreamingContext context)
     {
-        info.AddValue("Failed", Failed);
-        info.AddValue("Succeeded", Succeeded);
-        info.AddValue("Message", Message);
+      base.InnerGetObjectData(info,
+        context);
 
-        if (Failed)
-        {
-          info.AddValue("Details", Details);
-          info.AddValue("HelpLink", HelpLink);
-          info.AddValue("StackTrace", StackTrace);
-        }
-
-        if (Data != null)
-          info.AddValue("Data", Data);
+      if (Data != null)
+        info.AddValue("Data",
+          Data);
     }
-
-    private string GetStackTrace()
-		{
-      lock (typeof(Result))
-      {
-        StringBuilder sbStackTrace = new StringBuilder();
-
-        StackTrace stCallRelative = new StackTrace(4,
-          false);
-        if (stCallRelative == null)
-          return "";
-
-        for (int i = 0; i < stCallRelative.FrameCount; i++)
-        {
-          StackFrame? sfFrame = stCallRelative.GetFrame(i);
-          if (sfFrame == null)
-            continue;
-
-          MethodBase? mbFrame = sfFrame.GetMethod();
-          if (mbFrame == null)
-            continue;
-
-          Type? typeDeclaring = mbFrame.DeclaringType;
-          if (typeDeclaring == null)
-            continue;
-
-          sbStackTrace.AppendFormat("   at {0}.{1}.{2}(...)\r\n",
-            typeDeclaring.Namespace,
-            typeDeclaring.Name,
-            mbFrame.Name);
-        }
-
-        return sbStackTrace.ToString();
-      }
-		}
 
     public static bool operator ==(Result<TData> a,
       Result<object> b)
@@ -212,9 +131,9 @@ namespace OpenSystem.Core.Domain.ResultCodes
       if (a.Failed && b.Failed &&
         (a.ResultCodeType != b.ResultCodeType ||
           a.Code != b.Code ||
-          ((a.Details is null && b.Details != null) ||
-          (b.Details is null && a.Details != null) ||
-          a.Details != null && !a.Details.Equals(b.Details))))
+          string.Equals(a.Detail,
+            b.Detail,
+            StringComparison.OrdinalIgnoreCase)))
         return false;
 
       if (a.Succeeded && b.Succeeded &&
@@ -235,16 +154,29 @@ namespace OpenSystem.Core.Domain.ResultCodes
     public static implicit operator Result<TData>(Result result) => result.Failed
       ? Result<TData>.Failure(result.ResultCodeType,
         result.Code,
-        result.Details)
+        result.Detail)
       : Result<TData>.Success((TData)result.Data,
         result.Message);
 
     public static implicit operator Result(Result<TData> result) => result.Failed
       ? Result.Failure(result.ResultCodeType,
         result.Code,
-        result.Details)
+        result.Detail)
       : Result.Success(result.Data,
         result.Message);
+
+    public override bool Equals(object? obj)
+    {
+      if (ReferenceEquals(this,
+        obj))
+        return true;
+      if (!(obj is BaseResult baseResult) ||
+        ReferenceEquals(obj,
+        null))
+        return false;
+
+      return this == baseResult;
+    }
   }
 
   [Serializable]
@@ -264,23 +196,11 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
     public static new Result Failure(Type resultCodeType,
       int code,
-      List<string>? details = null)
+      string? detail = null)
     {
       return new Result(resultCodeType,
         code,
-        details);
-    }
-
-    public static new Result Failure(Type resultCodeType,
-      int code,
-      string details)
-    {
-      var detailsList = new List<string>();
-      detailsList.Add(details);
-
-      return new Result(resultCodeType,
-        code,
-        detailsList);
+        detail);
     }
 
     public static new Result Failure(Exception exception)
@@ -295,16 +215,17 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
     protected Result(object? data,
       string? message = null)
-      : base(data, message)
+      : base(data,
+        message)
     {
     }
 
     protected Result(Type resultCodeType,
       int code,
-      List<string>? details = null)
+      string? detail = null)
       : base(resultCodeType,
         code,
-        details)
+        detail)
     {
     }
 

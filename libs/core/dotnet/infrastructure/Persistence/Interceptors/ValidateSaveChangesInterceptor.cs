@@ -7,6 +7,8 @@ using OpenSystem.Core.Application.Services;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Exceptions;
 using System.ComponentModel.DataAnnotations;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.Utilities;
 
 namespace OpenSystem.Core.Infrastructure.Persistence.Interceptors
 {
@@ -19,39 +21,39 @@ namespace OpenSystem.Core.Infrastructure.Persistence.Interceptors
       public override InterceptionResult<int> SavingChanges(DbContextEventData eventData,
         InterceptionResult<int> result)
       {
-          ValidateEntities(eventData.Context);
-
+          AsyncHelper.RunSync(async () => await InnerSavingChangesAsync(eventData.Context));
           return base.SavingChanges(eventData,
             result);
       }
 
-      public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
+      public async override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
         InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
       {
-          ValidateEntities(eventData.Context);
+          await InnerSavingChangesAsync(eventData.Context);
           return base.SavingChangesAsync(eventData,
             result,
-            cancellationToken);
+            cancellationToken)
+            .GetAwaiter()
+            .GetResult();
       }
 
-      public void ValidateEntities(DbContext? context)
+       protected async virtual ValueTask InnerSavingChangesAsync(DbContext? context)
       {
           if (context == null)
             return;
 
-          context.ChangeTracker.Entries()
-              .Where(e => e.State is EntityState.Added or EntityState.Modified)
-              .Select(e => e.Entity)
-              .ToList()
-              .ForEach(entity =>
-              {
-                  var validationContext = new ValidationContext(entity);
-                  Validator.ValidateObject(
-                    entity,
-                    validationContext,
-                    validateAllProperties: true);
-              });
+          await context.ChangeTracker.Entries()
+            .Where(e => e.State is EntityState.Added or EntityState.Modified)
+            .Select(e => e.Entity)
+            .ForEachAsync(async entity =>
+            {
+              var validationContext = new ValidationContext(entity);
+              Validator.ValidateObject(
+                entity,
+                validationContext,
+                validateAllProperties: true);
+            });
       }
   }
 }

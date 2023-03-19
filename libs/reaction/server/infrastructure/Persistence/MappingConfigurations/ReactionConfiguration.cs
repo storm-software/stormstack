@@ -7,20 +7,19 @@ using System.Linq.Expressions;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence.MappingConfigurations
 {
-    public class ReactionConfiguration : BaseAuditableConfiguration<ReactionEntity>
+    public class ReactionConfiguration : AggregateRootConfiguration<ReactionEntity>
     {
         protected override string TableName => "Reaction";
 
         protected override Expression<Func<ReactionEntity, object?>> PrimaryKey => x => x.ContentId;
 
-        protected override Result ConfigureColumns(EntityTypeBuilder<ReactionEntity> builder)
+        protected override void ConfigureColumns(EntityTypeBuilder<ReactionEntity> builder)
         {
           builder.HasMany(r => r.Details)
             .WithOne(d => d.Reaction)
             .HasForeignKey(d => d.ReactionId)
+            .HasPrincipalKey(x => x.Id)
             .OnDelete(DeleteBehavior.Cascade);
-
-          return Result.Success();
         }
     }
 }

@@ -8,35 +8,35 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenSystem.Reaction.Application.Models;
-using OpenSystem.Core.Domain.Enums;
-using OpenSystem.Core.Domain.Extensions;
-using Serilog;
 using OpenSystem.Core.Domain.ResultCodes;
-using OpenSystem.Core.Application.Interfaces;
 using OpenSystem.Core.Application.Services;
+using OpenSystem.Reaction.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
     public class AddReactionCommandHandler
       : BaseUpdateCommandHandler<AddReactionCommand, ReactionEntity, IReactionRepository>
     {
-        private readonly IReactionRepository _repository;
+        private readonly ICurrentUserService _currentUserService;
+
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public AddReactionCommandHandler(IReactionRepository repository,
           IMapper mapper,
-          ILogger logger,
+          ILogger<AddReactionCommandHandler> logger,
           ICurrentUserService currentUserService,
           IDateTimeProvider dateTimeProvider)
             : base (repository,
               mapper,
-              logger,
-              currentUserService,
-              dateTimeProvider)
+              logger)
         {
-            _repository = repository;
+            _currentUserService = currentUserService;
+            _dateTimeProvider = dateTimeProvider;
         }
 
-        protected async override Task<Result<ReactionEntity>> HandleUpdateAsync(ReactionEntity entity,
+        protected async override Task<CommandResult<ReactionEntity>> HandleUpdateAsync(ReactionEntity entity,
+          AddReactionCommand request,
           CancellationToken cancellationToken)
         {
             /*var existing = await _repository.GetByContentIdAsync(entity.ContentId);
@@ -56,14 +56,21 @@ namespace OpenSystem.Reaction.Application.Commands
             var result = await _repository.AddOrUpdateAsync(entity,
               cancellationToken);*/
 
-            var detail = entity.Details.FirstOrDefault(r => r.UserId == CurrentUserService.UserId);
-              if (detail != null)
-              {
-                detail.Status = EntityStatusTypes.Active;
-                detail.UserId = CurrentUserService.UserId;
-              }
+            var detail = entity.Details.First(r => r.UserId == _currentUserService.UserId);
+            if (detail == null)
+            {
+              detail = await entity.AddDetailAsync(_currentUserService.UserId,
+                (ReactionTypes)Enum.Parse(typeof(ReactionTypes),
+                  request.Type.ToString()),
+                _dateTimeProvider.OffsetUtcNow);
+              if (!(detail is ReactionDetailEntity))
+                return CommandResult.Failure(typeof(ResultCodeApplication),
+                  ResultCodeApplication.FailedConvertingToEntity);
 
-            return Result.Success(entity);
+              detail.UserId = _currentUserService.UserId;
+            }
+
+            return CommandResult.Success(entity);
         }
     }
 }

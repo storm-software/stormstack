@@ -1,98 +1,105 @@
-using OpenSystem.Core.Application.Repositories;
+using OpenSystem.Core.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using OpenSystem.Core.Domain.Entities;
-using OpenSystem.Core.Domain.Enums;
-using LinqKit;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.Metadata;
 using AutoMapper;
 using AutoMapper.EntityFrameworkCore;
+using OpenSystem.Core.Application.Services;
+using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Infrastructure.Persistence
 {
-    public class BaseRepository<TEntity>
+    public abstract class BaseRepository<TEntity>
       : IBaseRepository<TEntity>
-      where TEntity : AuditableEntity, IAggregateRoot
+      where TEntity : AggregateRoot
     {
-        public IBaseUnitOfWork UnitOfWork { get; }
+      public IBaseUnitOfWork UnitOfWork { get; init; }
 
-        protected readonly BaseDbContext<TEntity> DbContext;
+      protected DbSet<TEntity> DataSet { get; init; }
 
-        protected DbSet<TEntity> DbSet => DbContext.Set<TEntity>();
+      protected ICurrentUserService CurrentUserService { get; init; }
 
-        private readonly IMapper _mapper;
+      protected IDateTimeProvider DateTimeProvider { get; init; }
 
-        public BaseRepository(BaseDbContext<TEntity> dbContext,
-          IMapper mapper)
-        {
-            DbContext = dbContext;
-            UnitOfWork = dbContext;
-            _mapper = mapper;
-        }
+      private readonly IMapper _mapper;
 
-        public IQueryable<TEntity> GetQueryable(bool noTracking = true)
-        {
-          return noTracking
-            ? DbSet.AsNoTracking()
-            : DbSet.AsQueryable();
-        }
+      public BaseRepository(IMapper mapper,
+        BaseDbContext<TEntity> dbContext,
+        ICurrentUserService currentUserService,
+        IDateTimeProvider dateTimeProvider)
+      {
+          DataSet = dbContext.Set<TEntity>();
+          UnitOfWork = dbContext;
+          CurrentUserService = currentUserService;
+          DateTimeProvider = dateTimeProvider;
+          _mapper = mapper;
+      }
 
-        public IQueryable<TEntity> GetQueryable(int? pageNumber,
-          int? pageSize,
-          string? orderBy = null,
-          string? fields = null)
-        {
-          var records = DbSet.AsQueryable();
-          if (!string.IsNullOrEmpty(orderBy))
-            records = records.OrderBy(orderBy);
+      public IQueryable<TEntity> GetQueryable(bool noTracking = true)
+      {
+        return noTracking
+          ? DataSet.AsNoTracking()
+          : DataSet.AsQueryable();
+      }
 
-          if (pageNumber != null &&
-            pageSize != null)
-            records = records.Skip(((int)pageNumber - 1) * (int)pageSize)
-            .Take((int)pageSize);
+      public IQueryable<TEntity> GetQueryable(int? pageNumber,
+        int? pageSize,
+        string? orderBy = null,
+        string? fields = null)
+      {
+        var records = DataSet.AsQueryable();
+        if (!string.IsNullOrEmpty(orderBy))
+          records = records.OrderBy(orderBy);
 
-          if (!string.IsNullOrEmpty(fields))
-            records = records.Select<TEntity>("new(" + fields + ")");
+        if (pageNumber != null &&
+          pageSize != null)
+          records = records.Skip(((int)pageNumber - 1) * (int)pageSize)
+          .Take((int)pageSize);
 
-          return records.AsNoTracking();
-        }
+        if (!string.IsNullOrEmpty(fields))
+          records = records.Select<TEntity>("new(" + fields + ")");
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int? pageNumber,
-          int? pageSize,
-          string? orderBy,
-          string? fields)
-        {
-          return await GetQueryable(pageNumber,
-              pageSize,
-              orderBy,
-              fields)
-            .ToListAsync();
-        }
+        return records.AsNoTracking();
+      }
 
-        public virtual async Task<TEntity> GetByIdAsync(Guid guid)
-        {
-            return await DbSet.FindAsync(guid);
-        }
+      public virtual async Task<IList<TEntity>> GetAllAsync(int? pageNumber,
+        int? pageSize,
+        string? orderBy,
+        string? fields)
+      {
+        return await GetQueryable(pageNumber,
+            pageSize,
+            orderBy,
+            fields)
+          .ToListAsync();
+      }
 
-        public virtual async Task<TEntity> FirstOrDefaultAsync<TDto>(TDto dto,
-          CancellationToken cancellationToken = default) where TDto : class
-        {
-          /*var typeMap =  GetTypeMap<TSource, TDestination>();
+      public virtual async Task<TEntity?> GetByIdAsync(Guid guid,
+        CancellationToken cancellationToken = default)
+      {
+        return await DataSet.FindAsync(guid,
+          cancellationToken);
+      }
 
-          var primaryKey = DbSet.EntityType.FindPrimaryKey()?.Properties
-            ?? new List<IProperty>();*/
-
-          TEntity entity = await DbSet.Persist(_mapper).InsertOrUpdateAsync<TDto>(dto,
+      public virtual async Task<TEntity> AddOrUpdateAsync<TDto>(TDto dto,
+        CancellationToken cancellationToken = default) where TDto : class
+      {
+        TEntity entity = await DataSet.Persist<TEntity>(_mapper)
+          .InsertOrUpdateAsync<TDto>(dto,
             cancellationToken);
+        if (!entity.CreatedDateTime.HasValue)
+          return await AddAsync(entity,
+            cancellationToken);
+        else
+          return await UpdateAsync(entity,
+            cancellationToken);
+      }
 
-          /*DbSet.Where(p => primaryKey.Any(m => m.Name == p.DestinationMember.Name));
-          primaryKey.Select(p => p.Name).ToList();*/
+        /*private Expression<Func<TTo, bool>> GetEquivalenceExpression<TFrom>(TFrom from) =>
+          GetEquivalenceExpression(typeof(TFrom), from);
 
-          return entity;
-
-        }
-
+        private Expression<Func<TTo, bool>> GetEquivalenceExpression(Type type, object from) =>
+          _mapper.Map(from, type, typeof(Expression<Func<TTo, bool>>)) as Expression<Func<TTo, bool>>;*/
 
         /*public IEnumerable<object> GeneratePropertyMaps(object typeMap)
         {
@@ -117,7 +124,7 @@ DbSet.
             return entity;
         }*/
 
-        public async Task<TEntity> AddOrUpdateAsync(TEntity entity,
+        /*public async Task<TEntity> AddOrUpdateAsync(TEntity entity,
           CancellationToken cancellationToken = default)
         {
             if (entity.Id.Equals(default))
@@ -128,52 +135,63 @@ DbSet.
                   cancellationToken);
 
             return entity;
-        }
+        }*/
 
-        public async Task<TEntity> AddAsync(TEntity entity,
-          CancellationToken cancellationToken = default)
-        {
-            DbContext.Entry(entity).State = EntityState.Added;
-            await DbSet.AddAsync(entity,
-              cancellationToken);
+      public async Task<TEntity> AddAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
+      {
+        /*DbContext.Entry(entity).State = EntityState.Added;
+        await DbSet.AddAsync(entity,
+          cancellationToken);*/
 
-            entity = await InnerAddAsync(entity,
-              cancellationToken);
+        await entity.SetForCreateAsync(CurrentUserService.UserId,
+          DateTimeProvider.OffsetUtcNow);
 
-            return entity;
-        }
+        return await InnerAddAsync(entity,
+          cancellationToken);
+      }
 
-        public async Task UpdateAsync(TEntity entity,
-          CancellationToken cancellationToken = default)
-        {
-            DbContext.Entry(entity).State = EntityState.Modified;
+      public async Task<TEntity> UpdateAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
+      {
+          // DbContext.Entry(entity).State = EntityState.Modified;
 
-            await InnerUpdateAsync(entity,
-              cancellationToken);
-        }
+        await entity.SetForUpdateAsync(CurrentUserService.UserId,
+          DateTimeProvider.OffsetUtcNow);
 
-        public async Task DeleteAsync(TEntity entity,
-          CancellationToken cancellationToken = default)
-        {
-            DbSet.Remove(entity);
-            await InnerDeleteAsync(entity,
-              cancellationToken);
-        }
+        return await InnerUpdateAsync(entity,
+            cancellationToken);
+      }
 
-        protected virtual async Task<TEntity> InnerAddAsync(TEntity entity,
-          CancellationToken cancellationToken = default)
-        {
-          return entity;
-        }
+      public async Task<TEntity> DeleteAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
+      {
+        await entity.SetForDeleteAsync(CurrentUserService.UserId,
+          DateTimeProvider.OffsetUtcNow);
+        await InnerDeleteAsync(entity,
+          cancellationToken);
 
-        protected virtual async Task InnerUpdateAsync(TEntity entity,
-          CancellationToken cancellationToken = default)
-        {
-        }
+        DataSet.Remove(entity);
 
-        protected virtual async Task InnerDeleteAsync(TEntity entity,
-          CancellationToken cancellationToken = default)
-        {
-        }
-    }
+        return entity;
+      }
+
+      protected virtual async ValueTask<TEntity> InnerAddAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
+      {
+        return entity;
+      }
+
+      protected virtual async ValueTask<TEntity> InnerUpdateAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
+      {
+        return entity;
+      }
+
+      protected virtual async ValueTask<TEntity> InnerDeleteAsync(TEntity entity,
+        CancellationToken cancellationToken = default)
+      {
+        return entity;
+      }
+  }
 }

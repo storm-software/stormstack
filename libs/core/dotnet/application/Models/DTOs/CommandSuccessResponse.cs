@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-
+using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Application.Models.DTOs
 {
@@ -24,7 +24,8 @@ namespace OpenSystem.Core.Application.Models.DTOs
     /// A response returned from the server when data is successfully updated
     /// </summary>
     [DataContract]
-    public class CommandSuccessResponse : IEquatable<CommandSuccessResponse>
+    public class CommandSuccessResponse
+      : ICommandResultData, IEquatable<CommandSuccessResponse>
     {
         /// <summary>
         /// The &#x60;guid&#x60; associated with the record

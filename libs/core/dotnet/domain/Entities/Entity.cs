@@ -1,15 +1,16 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
   public abstract class Entity<T>
-    : IValidatableObject, ICloneable, IEntity<T>
+    : Indexed<T>, IValidatableObject, ICloneable, IEntity<T>
   {
     public static bool operator ==(Entity<T> a,
       Entity<T> b)
@@ -30,6 +31,23 @@ namespace OpenSystem.Core.Domain.Entities
     }
 
     public T Id { get; set; }
+
+    public abstract Result SetId();
+
+    public Result SetId(T id)
+    {
+      if (Id == null &&
+        Id.Equals(default(T)))
+      {
+        if (id != null &&
+          !id.Equals(default(T)))
+          Id = id;
+        else
+          return SetId();
+      }
+
+      return Result.Success();
+    }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
@@ -102,7 +120,16 @@ namespace OpenSystem.Core.Domain.Entities
   }
 
   public abstract class Entity
-    : Entity<Guid>
+    : Entity<Guid>, IEntity, IIndexed
   {
+    public override Result SetId()
+    {
+      if (Id == null ||
+        Id.Equals(default(Guid)))
+      {
+        Id = GuidUtility.Instance.CreateGuid();
+      }
+      return Result.Success();
+    }
   }
 }

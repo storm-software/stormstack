@@ -12,7 +12,7 @@ using OpenSystem.Reaction.Infrastructure.Persistence;
 namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ReactionDbContext))]
-    [Migration("20230316220529_Initial")]
+    [Migration("20230319033922_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -59,14 +59,18 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("OpenSystem.Reaction.Domain.Entities.ReactionDetailEntity", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("ReactionId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset?>("CreatedDateTime")
+                        .IsRequired()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DeletedBy")
@@ -78,20 +82,25 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                     b.Property<int>("EventCounter")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EventType")
-                        .HasColumnType("integer");
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("ReactionId")
-                        .HasColumnType("uuid");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("text");
@@ -99,31 +108,27 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                     b.Property<DateTimeOffset?>("UpdatedDateTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.HasKey("ReactionId", "UserId");
 
-                    b.HasKey("Id");
+                    b.HasAlternateKey("Id");
 
-                    b.HasIndex("ReactionId");
+                    b.HasIndex("Id")
+                        .IsUnique();
 
-                    b.ToTable("ReactionDetail");
+                    b.ToTable("ReactionDetail", (string)null);
                 });
 
             modelBuilder.Entity("OpenSystem.Reaction.Domain.Entities.ReactionEntity", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
                     b.Property<string>("ContentId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset?>("CreatedDateTime")
+                        .IsRequired()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DeletedBy")
@@ -135,10 +140,17 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                     b.Property<int>("EventCounter")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EventType")
-                        .HasColumnType("integer");
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsApproved")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsDisabled")
@@ -153,9 +165,12 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                     b.Property<DateTimeOffset?>("UpdatedDateTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
+                    b.HasKey("ContentId");
 
-                    b.ToTable("Reaction");
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("Reaction", (string)null);
                 });
 
             modelBuilder.Entity("OpenSystem.Reaction.Domain.Entities.ReactionDetailEntity", b =>
@@ -163,6 +178,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                     b.HasOne("OpenSystem.Reaction.Domain.Entities.ReactionEntity", "Reaction")
                         .WithMany("Details")
                         .HasForeignKey("ReactionId")
+                        .HasPrincipalKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

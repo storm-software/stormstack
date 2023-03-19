@@ -35,7 +35,11 @@ namespace OpenSystem.Core.Application.Behaviors
                   .ToList();
 
                 if (failures.Count > 0)
+                {
                     throw new Domain.Exceptions.ValidationException(failures);
+                    //failures.First().
+
+                    }
             }
 
             return await next();

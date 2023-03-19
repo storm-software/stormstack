@@ -1,14 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Piqoe1o/5DHjQJryw4iMBnfO8PVgmZZE97A8qQCxwBm4huHK5Rp6FqqYaZFGAMexqcWcYuwffD49FNgl+PCEpw==",
+  "dgSpecHash": "1q4OUe6eYo1r6Qe0aNki6t5ry8WNILkl3MlWM/BzrNwoQ7x++RObafxwMseCqsrEH2WQH8xpBIXWmpg8zHaH9w==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\shared\\server\\domain\\OpenSystem.Shared.Domain.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\patjo\\.nuget\\packages\\fluentvalidation\\11.4.0\\fluentvalidation.11.4.0.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

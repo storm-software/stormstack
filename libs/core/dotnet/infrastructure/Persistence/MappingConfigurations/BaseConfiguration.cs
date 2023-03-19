@@ -19,26 +19,19 @@ namespace OpenSystem.Core.Infrastructure.Persistence.MappingConfigurations
     public void Configure(EntityTypeBuilder<TEntity> builder)
     {
       builder.ToTable(TableName);
-
-      /*builder.OwnsOne(x => x.Id,
-        y => {
-          y.Property(r => r.Value)
-          .HasColumnName("Id");
-      });*/
-
       builder.HasKey(PrimaryKey);
-      // builder.HasIndex(PrimaryKey);
 
+      builder.Property(r => r.Id)
+        .IsRequired();
       builder.HasAlternateKey(x => x.Id);
+      builder.HasIndex(x => x.Id)
+        .IsUnique();
 
-      var ret = InnerConfigure(builder);
-      if (ret.Failed)
-        throw new FailedResultException(ret);
+      InnerConfigure(builder);
     }
 
-    protected virtual Result InnerConfigure(EntityTypeBuilder<TEntity> builder)
+    protected virtual void InnerConfigure(EntityTypeBuilder<TEntity> builder)
     {
-      return Result.Success();
     }
   }
 }

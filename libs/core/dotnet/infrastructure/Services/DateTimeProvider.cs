@@ -3,14 +3,15 @@ using System;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
-    public class DateTimeProvider : IDateTimeProvider
-    {
-        public DateTime Now => DateTime.Now;
+  public class DateTimeProvider
+    : IDateTimeProvider
+  {
+    public DateTime Now => DateTime.Now;
 
-        public DateTime UtcNow => DateTime.UtcNow;
+    public DateTime UtcNow => DateTime.UtcNow;
 
-        public DateTimeOffset OffsetNow => DateTimeOffset.Now;
+    public DateTimeOffset OffsetNow => DateTimeOffset.Now;
 
-        public DateTimeOffset OffsetUtcNow => DateTimeOffset.UtcNow;
-    }
+    public DateTimeOffset OffsetUtcNow => DateTimeOffset.UtcNow;
+  }
 }

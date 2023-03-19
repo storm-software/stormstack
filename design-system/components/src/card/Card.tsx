@@ -80,7 +80,7 @@ export const Card = ({ children, title, details, className }: CardProps) => {
         rotateY: mousePosition.y * -20,
       }}
       className={clsx(
-        "group relative flex flex-col gap-2 rounded-xl border-[1px] border-slate-500 bg-gradient-to-bl from-bg-1 via-bg-1 to-black transition-shadow hover:border-hover-link-2 hover:shadow-2xl hover:shadow-indigo-500/50",
+        "group relative flex flex-col gap-2 rounded-xl border-[1px] border-slate-500 bg-gradient-to-bl from-bg-1 via-bg-1 to-black transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-indigo-500/50",
         className
       )}>
       <div className="z-20 flex flex-col gap-2 p-4">

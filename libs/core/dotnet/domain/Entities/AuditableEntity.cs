@@ -17,7 +17,7 @@ namespace OpenSystem.Core.Domain.Entities
 
       public bool IsApproved { get; set; } = false;
 
-      public string? CreatedBy { get; set; } = "PSUL2";
+      public string? CreatedBy { get; set; }
 
       public DateTimeOffset? CreatedDateTime { get; set; }
 
@@ -26,6 +26,66 @@ namespace OpenSystem.Core.Domain.Entities
       public DateTimeOffset? UpdatedDateTime { get; set; }
 
       [NotMapped]
-      public EntityProcessingTypes ProcessingType { get; set; } = EntityProcessingTypes.StraightThroughProcessing;
+      public EntityProcessingTypes ProcessingType { get; set; } =
+        EntityProcessingTypes.StraightThroughProcessing;
+
+      public async ValueTask<AuditableEntity> SetForCreateAsync(string createdBy,
+        DateTimeOffset createdDateTime)
+      {
+        SetId();
+        CreatedBy = createdBy;
+        CreatedDateTime = createdDateTime;
+        EventCounter = 1;
+        EventType = EntityEventTypes.Create;
+
+        await InnerSetForCreateAsync(createdBy,
+          createdDateTime);
+
+        return SetStatus(EntityStatusTypes.Active);
+      }
+
+      public async ValueTask<AuditableEntity> SetForUpdateAsync(string updatedBy,
+        DateTimeOffset updatedDateTime)
+      {
+        UpdatedBy = updatedBy;
+        UpdatedDateTime = updatedDateTime;
+        EventCounter++;
+        EventType = EntityEventTypes.Update;
+
+        await InnerSetForUpdateAsync(updatedBy,
+          updatedDateTime);
+
+        return SetStatus(EntityStatusTypes.Active);
+      }
+
+      public virtual AuditableEntity SetStatus(EntityStatusTypes nextStatus)
+      {
+        if (ProcessingType == EntityProcessingTypes.StraightThroughProcessing)
+        {
+          IsApproved = true;
+          Status = nextStatus;
+        }
+        else
+        {
+          IsApproved = false;
+          Status = nextStatus == EntityStatusTypes.Removed
+            ? EntityStatusTypes.Inactive
+            : EntityStatusTypes.Pending;
+        }
+
+        return this;
+      }
+
+      protected async virtual ValueTask<AuditableEntity> InnerSetForCreateAsync(string createdBy,
+        DateTimeOffset createdDateTime)
+      {
+        return this;
+      }
+
+      protected async virtual ValueTask<AuditableEntity> InnerSetForUpdateAsync(string updatedBy,
+        DateTimeOffset updatedDateTime)
+      {
+        return this;
+      }
    }
 }

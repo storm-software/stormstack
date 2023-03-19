@@ -22,9 +22,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using System.Text.Json;
-using OpenSystem.Core.WebApi.Controllers;
-using Serilog;
+using OpenSystem.Core.Infrastructure.WebApi.Controllers;
 using OpenSystem.Apis.Infrastructure.WebApi.Attributes;
+using Microsoft.Extensions.Logging;
 
 namespace OpenSystem.Apis.Reaction.Controllers.v1
 {
@@ -42,31 +42,11 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         /// Constructor method for ReactionApiController
         /// </summary>
         /// <remarks>Constructor method to generate an instance of a ReactionApiController</remarks>
-        public ReactionApiController(ILogger _logger,
+        public ReactionApiController(ILogger<ReactionApiController> _logger,
             IHttpContextAccessor _context)
             : base(_logger,
             _context)
         {
-        }
-
-        /// <summary>
-        /// An end point to return the current API status
-        /// </summary>
-        /// <remarks>Add new message record</remarks>
-        /// <response code="200">Example response</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="404">Not Found</response>
-        /// <response code="500">Internal Server Error</response>
-        /// <response code="503">Service Unavailable</response>
-        [MapToApiVersion("1")]
-        [HttpGet]
-        [Route("status")]
-        public async Task<IActionResult> Status()
-        {
-          var msg = $"Running on {Context.Request.Host}";
-
-          Logger.Information(msg);
-          return Ok(msg);
         }
 
         /// <summary>
@@ -104,7 +84,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
               requestBody.Copy(request);
 
             request.ContentId = contentId;
-            return await SendRequestResult(request,
+            return await SendCommandAsync(request,
               cancellationToken);
         }
         /// <summary>
@@ -220,10 +200,8 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
             // Create an instance of the request object
             var request = new RemoveReactionCommand();
 
-
             request.ContentId = contentId;
-
-            return await SendRequestResult(request,
+            return await SendCommandAsync(request,
               cancellationToken);
         }
     }

@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
-  public class ReactionDbContextFactory : IDesignTimeDbContextFactory<ReactionDbContext>
+  public class ReactionDbContextFactory
+    : IDesignTimeDbContextFactory<ReactionDbContext>
   {
     public ReactionDbContext CreateDbContext(string[] args)
     {

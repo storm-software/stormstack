@@ -10,11 +10,15 @@
         "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj",
         "projectName": "OpenSystem.Core.Domain",
         "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj",
-        "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\patjo\\.nuget\\packages\\",
         "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\patjo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,9 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
-          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
@@ -44,37 +46,17 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "dependencies": {
-            "FluentValidation": {
-              "target": "Package",
-              "version": "[11.4.0, )"
-            },
-            "MediatR": {
-              "target": "Package",
-              "version": "[11.1.0, )"
-            },
-            "Microsoft.Extensions.DependencyInjection": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -84,11 +66,15 @@
         "projectUniqueName": "C:\\Development\\open-system\\libs\\shared\\server\\domain\\OpenSystem.Shared.Domain.csproj",
         "projectName": "OpenSystem.Shared.Domain",
         "projectPath": "C:\\Development\\open-system\\libs\\shared\\server\\domain\\OpenSystem.Shared.Domain.csproj",
-        "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\patjo\\.nuget\\packages\\",
         "outputPath": "C:\\Development\\open-system\\libs\\shared\\server\\domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\patjo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -96,9 +82,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
-          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
@@ -128,17 +112,11 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -148,11 +126,15 @@
         "projectUniqueName": "C:\\Development\\open-system\\libs\\user\\server\\domain\\OpenSystem.User.Domain.csproj",
         "projectName": "OpenSystem.User.Domain",
         "projectPath": "C:\\Development\\open-system\\libs\\user\\server\\domain\\OpenSystem.User.Domain.csproj",
-        "packagesPath": "C:\\Users\\sullivanp\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\patjo\\.nuget\\packages\\",
         "outputPath": "C:\\Development\\open-system\\libs\\user\\server\\domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\sullivanp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\patjo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -160,9 +142,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nexus.devops.broadridge.net/artifactory/api/nuget/v3/nuget-group": {},
-          "https://nexus.devops.broadridge.net/repository/nuget-hosted/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
@@ -195,17 +175,11 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

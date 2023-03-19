@@ -16,7 +16,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
     public const int ConnectionStringNotSet = 2;
 
-    public const int SaveChangesFailure = 3;
+    public const int FailedSavingChanges = 3;
 
 		#endregion Constants
 

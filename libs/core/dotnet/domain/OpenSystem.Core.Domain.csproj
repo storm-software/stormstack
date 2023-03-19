@@ -15,5 +15,6 @@
     <PackageReference Include="FluentValidation" Version="11.4.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
   </ItemGroup>
 </Project>

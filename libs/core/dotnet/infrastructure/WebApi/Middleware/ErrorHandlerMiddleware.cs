@@ -11,6 +11,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+
         private readonly ILogger<ErrorHandlerMiddleware> _logger;
 
         public ErrorHandlerMiddleware(RequestDelegate next,
@@ -40,63 +41,63 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
 
                 switch (error)
                 {
-                    case ValidationException e:
-                        // custom application error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                  case ValidationException e:
+                    // custom application error
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-                        errorResponse.Title = "The request has failed a server-side validation.";
-                        errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-badrequest";
+                    errorResponse.Title = "The request has failed a server-side validation.";
+                    errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-badrequest";
 
-                        if (e?.Errors != null &&
-                          e.Errors.Count > 0)
-                        {
-                          if (!string.IsNullOrEmpty(error?.Message))
-                            errorResponse.Title = error.Message;
+                    if (e?.Errors != null &&
+                      e.Errors.Count > 0)
+                    {
+                      if (!string.IsNullOrEmpty(error?.Message))
+                        errorResponse.Title = error.Message;
 
-                          errorResponse.Detail = String.Join(Literals.NewLine,
-                            e.Errors.ToArray());
+                      errorResponse.Detail = String.Join(Literals.NewLine,
+                        e.Errors.ToArray());
 
-                          errorResponse.Fields = new List<ErrorResponseField>();
-                          foreach(KeyValuePair<string, string[]> errorField in e.Errors.ToArray())
-                          {
-                            errorResponse.Fields.Add(new ErrorResponseField {
-                              Name = errorField.Key,
-                              Errors = errorField.Value.ToList(),
-                            });
-                          }
-                        }
+                      errorResponse.Fields = new List<ErrorResponseField>();
+                      foreach(KeyValuePair<string, string[]> errorField in e.Errors.ToArray())
+                      {
+                        errorResponse.Fields.Add(new ErrorResponseField {
+                          Name = errorField.Key,
+                          Errors = errorField.Value.ToList(),
+                        });
+                      }
+                    }
 
-                        break;
+                    break;
 
-                    case ForbiddenAccessException:
-                        // custom application error
-                        response.StatusCode = (int)HttpStatusCode.Forbidden;
+                  case ForbiddenAccessException:
+                    // custom application error
+                    response.StatusCode = (int)HttpStatusCode.Forbidden;
 
-                        errorResponse.Title = "The user does not have access to this resource.";
-                        errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-forbidden";
+                    errorResponse.Title = "The user does not have access to this resource.";
+                    errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-forbidden";
 
-                        break;
+                    break;
 
-                    case KeyNotFoundException:
-                    case NotFoundException:
-                        // not found error
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                  case KeyNotFoundException:
+                  case NotFoundException:
+                    // not found error
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
 
-                        errorResponse.Title = "The requested resource does not exist.";
-                        errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-notfound";
+                    errorResponse.Title = "The requested resource does not exist.";
+                    errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-notfound";
 
-                        break;
+                    break;
 
-                    case FileExportException:
-                    case GeneralProcessingException:
-                    default:
-                        // unhandled error
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                  case FileExportException:
+                  case GeneralProcessingException:
+                  default:
+                    // unhandled error
+                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                        errorResponse.Title = "A generic error has occurred on the server.";
-                        errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-internalservererror";
+                    errorResponse.Title = "A generic error has occurred on the server.";
+                    errorResponse.Type ??= "https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=net-7.0#system-net-httpstatuscode-internalservererror";
 
-                        break;
+                    break;
                 }
 
                 // use ILogger to log the exception message
