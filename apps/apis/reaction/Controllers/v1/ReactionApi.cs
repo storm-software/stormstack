@@ -130,8 +130,8 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
             request.OrderBy = orderBy;
             request.Type = type;
 
-            return Ok(await SendRequest(request,
-              cancellationToken));
+            return await SendQueryAsync(request,
+              cancellationToken);
         }
         /// <summary>
         /// Get Reaction Counts
@@ -168,8 +168,8 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
             request.ContentId = contentId;
             request.Type = type;
 
-            return Ok(await SendRequest(request,
-              cancellationToken));
+            return await SendQueryAsync(request,
+              cancellationToken);
         }
         /// <summary>
         /// Remove Reaction

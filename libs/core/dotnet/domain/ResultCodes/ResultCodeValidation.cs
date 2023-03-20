@@ -30,7 +30,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
     public const int EntityCannotBeRestored = 9;
 
-	public const int EntityIsNotActive = 10;
+	  public const int EntityIsNotActive = 10;
 
     public const int InvalidParameter = 11;
 

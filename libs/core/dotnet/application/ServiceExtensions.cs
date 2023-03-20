@@ -40,10 +40,10 @@ namespace OpenSystem.Core.Application
           configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json",
-              false, 
+              false,
               true)
-            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? 
-              "Production"}.json", 
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ??
+              "Production"}.json",
               true)
             .AddEnvironmentVariables()
             // .AddUserSecrets()

@@ -37,7 +37,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// Get Reactions
     /// </summary>
     /// <remarks>Return the reactions for a specific article, comment, etc. </remarks>
-    public class GetReactionsQuery : IRequest<GetReactions200Response>
+    public class GetReactionsQuery : IRequest<QueryResult<GetReactions200Response>>
     {
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// Get Reaction Counts
     /// </summary>
     /// <remarks>Return the reaction counts for a specific article, comment, etc. </remarks>
-    public class GetReactionsCountQuery : IRequest<GetReactionsCount200Response>
+    public class GetReactionsCountQuery : IRequest<QueryResult<GetReactionsCount200Response>>
     {
 
         /// <summary>

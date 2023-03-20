@@ -1,6 +1,5 @@
 using AutoMapper;
 using MediatR;
-using Serilog;
 using OpenSystem.Core.Domain.Entities;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Common;
@@ -40,74 +39,42 @@ namespace OpenSystem.Reaction.Application.Commands
           if (ret.Failed)
             return ret;
 
-          ret = await InnerHandleAsync(entity,
+          var result = await InnerHandleAsync(entity,
             request,
             cancellationToken);
-          if (ret.Failed)
-            return ret;
 
           Logger.LogDebug($"Command complete - {request.GetType().Name}");
 
-          return MapResponse(entity);
+          return await MapResponseAsync(result);
         }
 
-        protected abstract ValueTask<CommandResult<IIndexed>> InnerHandleAsync(TEntity entity,
+        protected abstract ValueTask<IIndexed> InnerHandleAsync(TEntity entity,
           TRequest request,
           CancellationToken cancellationToken);
-
-        protected virtual TRequest PreMapRequest(TRequest request)
-        {
-          return request;
-        }
-
-        protected virtual TEntity PostMapRequest(TRequest request,
-          TEntity entity)
-        {
-          return entity;
-        }
 
         protected async virtual ValueTask<TEntity> MapRequestAsync(TRequest request,
           CancellationToken cancellationToken)
         {
-          request = PreMapRequest(request);
-
           TEntity entity = Mapper.Map<TEntity>(request);
           if (string.IsNullOrWhiteSpace(entity.GetType()?.Name))
             Logger.LogDebug($"Command request mapped - {request.GetType().Name} (request) -> {entity.GetType().Name} (entity)");
 
-          return PostMapRequest(request,
-            entity);
+          return entity;
         }
 
-        protected virtual CommandResult<IIndexed> MapResponse(TEntity entity)
+        protected async virtual ValueTask<CommandResult<IIndexed>> MapResponseAsync(IIndexed entity)
         {
-          return CommandResult.Success(new Indexed 
-            { 
-              Id = entity.Id 
+          return CommandResult.Success(new Indexed
+            {
+              Id = entity.Id
             });
         }
 
-        protected async virtual ValueTask<CommandResult<TEntity>> InnerValidateEntityAsync(TEntity entity,
+        protected virtual async ValueTask<CommandResult<TEntity>> ValidateEntityAsync(TEntity entity,
           CancellationToken cancellationToken)
         {
+          // entity.ValidateAsync();
           return CommandResult.Success(entity);
-        }
-
-        private async ValueTask<CommandResult<TEntity>> ValidateEntityAsync(TEntity entity,
-          CancellationToken cancellationToken)
-        {
-          Logger.LogDebug($"Command validation (Start) - {entity.GetType().Name}");
-
-          // Result ret = entity.Validate()
-
-          CommandResult ret = await InnerValidateEntityAsync(entity,
-            cancellationToken);
-          if (ret.Failed)
-            return ret;
-
-          Logger.LogDebug($"Command validation (Success) - {entity.GetType().Name}");
-
-          return ret;
         }
     }
 }

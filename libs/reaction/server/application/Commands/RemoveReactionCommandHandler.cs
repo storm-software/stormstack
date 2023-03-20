@@ -7,6 +7,7 @@ using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Application.Services;
 using OpenSystem.Reaction.Domain.Entities;
 using Microsoft.Extensions.Logging;
+using OpenSystem.Core.Domain.Exceptions;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
@@ -39,19 +40,19 @@ namespace OpenSystem.Reaction.Application.Commands
         _dateTimeProvider = dateTimeProvider;
     }
 
-    protected async override Task<CommandResult<ReactionEntity>> HandleUpdateAsync(ReactionEntity entity,
+    protected async override Task<ReactionEntity> HandleCommandAsync(ReactionEntity entity,
       RemoveReactionCommand request,
       CancellationToken cancellationToken)
     {
       var detail = entity.Details.FirstOrDefault(r => r.UserId == _currentUserService.UserId);
       if (detail == null)
-        return CommandResult.Failure(typeof(ResultCodeApplication),
+        throw new FailedResultException(typeof(ResultCodeApplication),
           ResultCodeApplication.RecordNotFound);
 
       await entity.SetForDeleteAsync(_currentUserService.UserId,
         _dateTimeProvider.OffsetUtcNow);
 
-      return CommandResult.Success(entity);
+      return entity;
     }
   }
 }

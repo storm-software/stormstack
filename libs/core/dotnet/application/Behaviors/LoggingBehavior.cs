@@ -1,7 +1,7 @@
 using OpenSystem.Core.Application.Interfaces;
 using MediatR.Pipeline;
-using Serilog;
 using OpenSystem.Core.Application.Services;
+using Microsoft.Extensions.Logging;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
@@ -9,13 +9,13 @@ namespace OpenSystem.Core.Application.Behaviors
     : IRequestPreProcessor<TRequest>
     where TRequest : notnull
   {
-    private readonly ILogger _logger;
+    private readonly ILogger<LoggingBehavior<TRequest>> _logger;
 
     private readonly ICurrentUserService _currentUserService;
 
     //private readonly IIdentityService _identityService;
 
-    public LoggingBehavior(ILogger logger,
+    public LoggingBehavior(ILogger<LoggingBehavior<TRequest>> logger,
       ICurrentUserService currentUserService)
     {
         _logger = logger;
@@ -35,7 +35,7 @@ namespace OpenSystem.Core.Application.Behaviors
             //userName = await _identityService.GetUserNameAsync(userId);
         }
 
-        _logger.Information("OpenSystem Request: {Name} {@UserId} {@UserName} {@Request}",
+        _logger.LogInformation("Processing Request: {Name} {@UserId} {@UserName} {@Request}",
             requestName,
             userId,
             userName,

@@ -8,19 +8,8 @@ using OpenSystem.Core.Domain.Enums;
 namespace OpenSystem.Contact.Domain.Entities
 {
     public class ContactEntity
-      : AddressEntity, IAggregateRoot, IAuditable
+      : AggregateRoot
     {
-        public int EventCounter { get; set; } = 0;
-
-        public EntityStatusTypes VerificationCode { get; set; } = EntityStatusTypes.Verified;
-
-        public string CreatedBy { get; set; } = "PSUL";
-
-        public DateTimeOffset CreatedDateTime { get; set; }
-
-        public string? UpdatedBy { get; set; }
-
-        public DateTimeOffset? UpdatedDateTime { get; set; }
 
         public required string Email { get; set; }
 

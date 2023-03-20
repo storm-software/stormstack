@@ -63,7 +63,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
           Logger.LogInformation(status);
           return Ok(status);
         }
-       
+
         /// <summary>
         /// An end point to indicate if the current API is running
         /// </summary>
@@ -156,6 +156,41 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
           if (ret.Failed)
           {
             Logger.LogError($"Failure occurred during {request.GetType().Name} ({Context?.Request.Path}) mediator request");
+            return BadRequest(ret);
+          }
+
+          Logger.LogInformation($"Completed {request.GetType().Name} ({Context?.Request.Path})  mediator request");
+
+          return Ok(ret.Data);
+        }
+
+        /// <summary>
+        /// Send command request to the mediator
+        /// </summary>
+        protected async ValueTask<IActionResult> SendQueryAsync<TData>(IRequest<QueryResult<TData>> request,
+          CancellationToken cancellationToken)
+        {
+          if (_sender == null)
+          {
+            Logger.LogError($"Could not inject the mediator service into the API Controller during request '{Context?.Request.Path}'.");
+            var statusCodeResult = StatusCode(StatusCodes.Status500InternalServerError,
+              Result.Failure(typeof(ResultCodeApplication),
+              ResultCodeApplication.MissingMediator));
+          }
+
+          Logger.LogInformation($"Sending {request.GetType().Name} ({Context?.Request.Path}) request to mediator");
+
+          var ret = await _sender.Send<QueryResult<TData>>(request,
+            cancellationToken);
+          if (ret.Failed)
+          {
+            Logger.LogError($"Failure occurred during {request.GetType().Name} ({Context?.Request.Path}) mediator request");
+            if (string.Equals(ret.ResultCodeType,
+               typeof(ResultCodeApplication).FullName.ToString(),
+               StringComparison.CurrentCultureIgnoreCase) &&
+              ret.Code == ResultCodeApplication.NoResultsFound)
+              return NotFound(ret);
+
             return BadRequest(ret);
           }
 

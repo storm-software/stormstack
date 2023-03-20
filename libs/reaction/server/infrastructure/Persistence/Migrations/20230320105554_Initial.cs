@@ -44,9 +44,9 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    DeletedBy = table.Column<string>(type: "text", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     DeletedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    DeletedBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,9 +70,9 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                     CreatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedBy = table.Column<string>(type: "text", nullable: true),
                     UpdatedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    DeletedBy = table.Column<string>(type: "text", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     DeletedDateTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    DeletedBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

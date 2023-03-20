@@ -14,51 +14,35 @@ namespace OpenSystem.Core.Domain.ResultCodes
   {
     public FieldValidationSeverityTypes Severity { get; set; } = FieldValidationSeverityTypes.None;
 
-    protected FieldValidationResult(FieldValidationSeverityTypes severity,
-      string fieldName)
-      : base(fieldName)
-    {
-      Severity = severity;
-    }
-
-    protected FieldValidationResult(FieldValidationSeverityTypes severity,
-      string fieldName,
-      string? message = null)
-        : base(fieldName,
-          message)
-    {
-      Severity = severity;
-    }
-
-    protected FieldValidationResult(FieldValidationSeverityTypes severity,
-      string fieldName,
+    public static FieldValidationResult Failure(string fieldName,
       Type resultCodeType,
       int code,
-      string? details = null)
-      : base(fieldName,
+      FieldValidationSeverityTypes severity = FieldValidationSeverityTypes.Error,
+      string? detail = null)
+    {
+      return new FieldValidationResult(fieldName,
         resultCodeType,
         code,
-        details)
-    {
-      Severity = severity;
+        severity,
+        detail);
     }
 
-    protected FieldValidationResult(FieldValidationSeverityTypes severity,
-      string fieldName,
-      string resultCodeType,
+    protected FieldValidationResult(string fieldName,
+      Type resultCodeType,
       int code,
-      string? message = null)
+      FieldValidationSeverityTypes severity = FieldValidationSeverityTypes.Error,
+      string? detail = null)
       : base(fieldName,
         resultCodeType,
         code,
-        message)
+        detail)
     {
       Severity = severity;
     }
 
-    protected FieldValidationResult(FieldValidationSeverityTypes severity,
-      string fieldName,
-      Exception exception)
+    protected FieldValidationResult(string fieldName,
+      Exception exception,
+      FieldValidationSeverityTypes severity = FieldValidationSeverityTypes.Error)
       : base(fieldName,
         exception)
     {

@@ -26,9 +26,9 @@ namespace OpenSystem.Reaction.Application.Mappings
             CreateMap<RemoveReactionCommand, ReactionEntity>();
             CreateMap<ReactionEntity, ReactionDetailRecord>()
               .ReverseMap();
-            CreateMap<(string Type, int Count), ReactionCountRecord>()
-              .ReverseMap();
-            /*CreateMap<List<ReactionCountRecord>, GetReactionsCount200Response>()
+            /*CreateMap<(string Type, int Count), ReactionCountRecord>();
+             CreateMap<List<(string Type, int Count)>, List<ReactionCountRecord>>();
+            CreateMap<List<(string Type, int Count)>, GetReactionsCount200Response>()
               .ForMember(dest => dest.Data,
                 act => act.MapFrom(src => src));*/
         }

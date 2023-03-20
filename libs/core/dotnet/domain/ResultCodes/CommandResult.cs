@@ -1,15 +1,16 @@
 using System.Runtime.Serialization;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Core.Domain.Enums;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
-    [Serializable]
-    public class CommandResult<TData>
-      : Result<TData>
-      where TData : class, IIndexed
-    {
-      public IList<FieldValidationResult> Fields { get; set; } = new List<FieldValidationResult>();
+  [Serializable]
+  public class CommandResult<TData>
+    : Result<TData>
+    where TData : class, IIndexed
+  {
+    public IList<FieldValidationResult> Fields { get; set; } = new List<FieldValidationResult>();
 
     protected CommandResult(IList<FieldValidationResult> fields)
       : base()
@@ -86,33 +87,6 @@ namespace OpenSystem.Core.Domain.ResultCodes
       Fields = fields;
     }
 
-    /*public static implicit operator CommandResult<TData>(CommandResult result) => result.Failed
-      ? CommandResult<TData>.Failure(result.ResultCodeType,
-        result.Code,
-        result.Fields ?? new List<FieldValidationResult>(),
-        result.Detail)
-      : CommandResult<TData>.Success((TData)result.Data,
-        result.Fields ?? new List<FieldValidationResult>(),
-        result.Message);
-
-    public static implicit operator CommandResult(CommandResult<TData> result) => result.Failed
-      ? CommandResult<TData>.Failure(result.ResultCodeType,
-        result.Code,
-        result.Fields ?? new List<FieldValidationResult>(),
-        result.Detail)
-      : CommandResult<TData>.Success(result.Data,
-        result.Fields ?? new List<FieldValidationResult>(),
-        result.Message);
-
-     public static implicit operator CommandResult<TData>(Result result) => result.Failed
-      ? CommandResult<TData>.Failure(result.ResultCodeType,
-        result.Code,
-        new List<FieldValidationResult>(),
-        result.Detail)
-      : CommandResult<TData>.Success(result.Data as TData,
-        new List<FieldValidationResult>(),
-        result.Message);*/
-
     public static implicit operator CommandResult<TData>(CommandResult result) => result.Failed
       ? CommandResult<TData>.Failure(result.ResultCodeType,
         result.Code,
@@ -130,6 +104,24 @@ namespace OpenSystem.Core.Domain.ResultCodes
       : CommandResult.Success(result.Data,
         result.Fields ?? new List<FieldValidationResult>(),
         result.Message);
+
+    public CommandResult AddField(string fieldName,
+      Type resultCodeType,
+      int code,
+      FieldValidationSeverityTypes severity = FieldValidationSeverityTypes.Error,
+      string? detail = null)
+    {
+      Fields ??= new List<FieldValidationResult>();
+
+      Fields.Add(FieldValidationResult.Failure(fieldName,
+        resultCodeType,
+        code,
+        FieldValidationSeverityTypes.Error,
+        detail
+      ));
+
+      return this;
+    }
 
     protected override void InnerGetObjectData(SerializationInfo info,
       StreamingContext context)

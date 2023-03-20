@@ -11,7 +11,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
     {
       public TData? Data { get; set; }
 
-      public static Result<TData> Success()
+      public static Result<TData> Success(TData? data)
       {
         return new Result<TData>();
       }

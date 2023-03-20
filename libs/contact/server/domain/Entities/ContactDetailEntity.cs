@@ -1,12 +1,10 @@
 using OpenSystem.Core.Domain.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
 using OpenSystem.Contact.Domain.Enums;
-using OpenSystem.Core.Domain.ValueObjects;
-using System.Globalization;
 
 namespace OpenSystem.Contact.Domain.Entities
 {
-    public class ContactDetailEntity : AuditableEntity<Guid>
+    public class ContactDetailEntity
+      : Entity
     {
         public ContactReasonTypes Reason { get; set; }
 

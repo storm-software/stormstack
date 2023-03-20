@@ -32,9 +32,9 @@ namespace OpenSystem.Core.Domain.Entities
 
     public T Id { get; set; }
 
-    public abstract Result SetId();
+    public abstract void SetId();
 
-    public Result SetId(T id)
+    public void SetId(T id)
     {
       if (Id == null &&
         Id.Equals(default(T)))
@@ -43,10 +43,8 @@ namespace OpenSystem.Core.Domain.Entities
           !id.Equals(default(T)))
           Id = id;
         else
-          return SetId();
+          SetId();
       }
-
-      return Result.Success();
     }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -56,6 +54,11 @@ namespace OpenSystem.Core.Domain.Entities
             return GetValidationResult(ret).Yield();
 
         return Enumerable.Empty<ValidationResult>();
+    }
+
+    public async ValueTask<Result> ValidateAsync()
+    {
+        return InnerValidate(null);
     }
 
     public object Clone()
@@ -89,7 +92,7 @@ namespace OpenSystem.Core.Domain.Entities
     /// <summary>
     /// Allow derived class to add validations
     /// </summary>
-    protected virtual Result InnerValidate(ValidationContext validationContext)
+    protected virtual Result InnerValidate(ValidationContext? validationContext)
     {
         return Result.Success();
     }
@@ -122,14 +125,13 @@ namespace OpenSystem.Core.Domain.Entities
   public abstract class Entity
     : Entity<Guid>, IEntity, IIndexed
   {
-    public override Result SetId()
+    public override void SetId()
     {
       if (Id == null ||
         Id.Equals(default(Guid)))
       {
         Id = GuidUtility.Instance.CreateGuid();
       }
-      return Result.Success();
     }
   }
 }

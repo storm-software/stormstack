@@ -170,7 +170,7 @@ try
 
     var app = builder.Build();
 
-    
+
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
@@ -185,23 +185,23 @@ try
     }
 
     // app.UseHttpsRedirection();
-    
-    
+
+
 
     app.UseDefaultFiles();
     app.UseStaticFiles();
 
-    
+
     app.UseSwagger(c =>
       {
-          c.RouteTemplate = "openapi/{documentName}/openapi.json";
+          c.RouteTemplate = "swagger/{documentName}/openapi.json";
       })
       .UseSwaggerUI(c =>
       {
           // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
-          c.RoutePrefix = "openapi";
+          c.RoutePrefix = "swagger";
           //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
-          c.SwaggerEndpoint("/openapi/v1/openapi.json", "OpenSystem.Apis.Reaction");
+          c.SwaggerEndpoint("/swagger/v1/openapi.json", "OpenSystem.Apis.Reaction");
           //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
           // c.SwaggerEndpoint("/openapi-original.json", "OpenSystem.Apis.Reaction Original");
       });
@@ -228,39 +228,39 @@ try
     });*/
 
 
-    app.UseSerilogRequestLogging(options => 
+    app.UseSerilogRequestLogging(options =>
       {
         options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
         {
-          diagnosticContext.Set("RequestHost", 
+          diagnosticContext.Set("RequestHost",
             httpContext.Request.Host.Value);
-          diagnosticContext.Set("RequestPath", 
+          diagnosticContext.Set("RequestPath",
             httpContext.Request.Path);
-          diagnosticContext.Set("RequestProtocol", 
+          diagnosticContext.Set("RequestProtocol",
             httpContext.Request.Protocol);
-          diagnosticContext.Set("RequestQueryString", 
+          diagnosticContext.Set("RequestQueryString",
             httpContext.Request.QueryString.Value);
-          diagnosticContext.Set("RequestScheme", 
+          diagnosticContext.Set("RequestScheme",
             httpContext.Request.Scheme);
-          diagnosticContext.Set("RequestHeaders", 
-            httpContext.Request.Headers.ToDictionary(h => h.Key, 
+          diagnosticContext.Set("RequestHeaders",
+            httpContext.Request.Headers.ToDictionary(h => h.Key,
               h => h.Value.ToString()));
-          diagnosticContext.Set("RequestCookies", 
-            httpContext.Request.Cookies.ToDictionary(c => c.Key, 
+          diagnosticContext.Set("RequestCookies",
+            httpContext.Request.Cookies.ToDictionary(c => c.Key,
               c => c.Value.ToString()));
-          diagnosticContext.Set("RequestServices", 
+          diagnosticContext.Set("RequestServices",
             httpContext.RequestServices);
-          diagnosticContext.Set("RequestContentType", 
+          diagnosticContext.Set("RequestContentType",
             httpContext.Request.ContentType);
-          diagnosticContext.Set("RequestContentLength", 
+          diagnosticContext.Set("RequestContentLength",
             httpContext.Request.ContentLength);
-          diagnosticContext.Set("RequestBody", 
+          diagnosticContext.Set("RequestBody",
             httpContext.Request.Body);
-          diagnosticContext.Set("RequestIsHttps", 
+          diagnosticContext.Set("RequestIsHttps",
             httpContext.Request.IsHttps);
-          diagnosticContext.Set("RequestMethod", 
+          diagnosticContext.Set("RequestMethod",
             httpContext.Request.Method);
-          diagnosticContext.Set("RequestAborted", 
+          diagnosticContext.Set("RequestAborted",
             httpContext.RequestAborted);
         };
       });

@@ -14,6 +14,7 @@ using AutoMapper;
 using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
@@ -37,7 +38,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             _reactionDetails = dbContext.ReactionDetail;
         }
 
-        public async Task<Core.Domain.ResultCodes.PagedResult<ReactionEntity>> GetReactionsAsync(string? contentId,
+        public async Task<ListQueryResult<ReactionEntity>> GetReactionsAsync(string? contentId,
           string? type,
           int? pageSize = DefaultConfiguration.DefaultSearchPageSize,
           int? pageNumber = 0,
@@ -61,16 +62,12 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
             // retrieve data to list
             var resultData = await record.ToListAsync();
-            return Core.Domain.ResultCodes.PagedResult<ReactionEntity>.Success(resultData,
+            return ListQueryResult<ReactionEntity>.Success(resultData,
               await DataSet.CountAsync());
         }
 
-        public async Task<Core.Domain.ResultCodes.PagedResult<(string Type, int Count)>> GetReactionsCountAsync(string? contentId,
-          string? type,
-          int? pageSize = DefaultConfiguration.DefaultSearchPageSize,
-          int? pageNumber = 0,
-          string? orderBy = null,
-          string? fields = null)
+        public async Task<QueryResult<List<(string Type, int Count)>>> GetReactionsCountAsync(string contentId,
+          string? type)
         {
             var record = GetQueryable();
             record = record.Include(r => r.Details);
@@ -92,8 +89,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             if (!string.IsNullOrEmpty(type))
                 data = data.Where(r => r.Item1.ToUpper() == type.Trim().ToUpper());
 
-            return Core.Domain.ResultCodes.PagedResult<(string Type, int Count)>.Success(data.ToList(),
-              await DataSet.CountAsync());
+            return QueryResult<List<(string Type, int Count)>>.Success(data.ToList());
         }
 
         public async Task<ReactionEntity?> GetByContentIdAsync(string contentId)

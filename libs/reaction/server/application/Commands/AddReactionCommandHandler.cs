@@ -12,6 +12,7 @@ using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Application.Services;
 using OpenSystem.Reaction.Domain.Repositories;
 using Microsoft.Extensions.Logging;
+using OpenSystem.Core.Domain.Exceptions;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
@@ -35,27 +36,10 @@ namespace OpenSystem.Reaction.Application.Commands
             _dateTimeProvider = dateTimeProvider;
         }
 
-        protected async override Task<CommandResult<ReactionEntity>> HandleUpdateAsync(ReactionEntity entity,
+        protected async override Task<ReactionEntity> HandleCommandAsync(ReactionEntity entity,
           AddReactionCommand request,
           CancellationToken cancellationToken)
         {
-            /*var existing = await _repository.GetByContentIdAsync(entity.ContentId);
-            if (existing != null)
-            {
-              existing.CopyTo(entity);
-              entity.Details.Concat(existing.Details);
-
-              var detail = entity.Details.FirstOrDefault(r => r.UserId == CurrentUserService.UserId);
-              if (detail != null)
-              {
-                detail.Status = EntityStatusTypes.Active;
-                detail.UserId = CurrentUserService.UserId;
-              }
-            }
-
-            var result = await _repository.AddOrUpdateAsync(entity,
-              cancellationToken);*/
-
             var detail = entity.Details.First(r => r.UserId == _currentUserService.UserId);
             if (detail == null)
             {
@@ -64,13 +48,13 @@ namespace OpenSystem.Reaction.Application.Commands
                   request.Type.ToString()),
                 _dateTimeProvider.OffsetUtcNow);
               if (!(detail is ReactionDetailEntity))
-                return CommandResult.Failure(typeof(ResultCodeApplication),
+                throw new FailedResultException(typeof(ResultCodeApplication),
                   ResultCodeApplication.FailedConvertingToEntity);
 
               detail.UserId = _currentUserService.UserId;
             }
 
-            return CommandResult.Success(entity);
+            return entity;
         }
     }
 }
