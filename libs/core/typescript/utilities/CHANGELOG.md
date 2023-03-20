@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.6.0...core-typescript-utilities-v1.7.0) (2023-03-19)
+
+
+### Features
+
+* **reaction-ui-data-access:** Updated the reaction request handler code ([aa449d9](https://github.com/sullivanpj/open-system/commit/aa449d94ce5f2e16992cfa453a92e20087f52cf2))
+
 # [1.6.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.5.2...core-typescript-utilities-v1.6.0) (2023-03-13)
 
 
