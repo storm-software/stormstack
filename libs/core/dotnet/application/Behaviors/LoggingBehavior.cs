@@ -26,20 +26,22 @@ namespace OpenSystem.Core.Application.Behaviors
     public async Task Process(TRequest request,
       CancellationToken cancellationToken)
     {
-        var requestName = typeof(TRequest).Name;
-        var userId = _currentUserService.UserId ?? string.Empty;
-        string? userName = string.Empty;
+      var requestName = typeof(TRequest).Name;
+      var userId = _currentUserService.UserId ?? string.Empty;
+      string? userName = string.Empty;
 
-        if (!string.IsNullOrEmpty(userId))
-        {
-            //userName = await _identityService.GetUserNameAsync(userId);
-        }
+      if (!string.IsNullOrEmpty(userId))
+      {
+          //userName = await _identityService.GetUserNameAsync(userId);
+      }
 
-        _logger.LogInformation("Processing Request: {Name} {@UserId} {@UserName} {@Request}",
-            requestName,
-            userId,
-            userName,
-            request);
+      _logger.LogInformation("Processing Request: {Name} {@UserId} {@UserName} {@Request}",
+          requestName,
+          userId,
+          userName,
+          request);
+
+      await Task.CompletedTask;
     }
   }
 }

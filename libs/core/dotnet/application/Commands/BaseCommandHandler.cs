@@ -8,8 +8,8 @@ using Microsoft.Extensions.Logging;
 namespace OpenSystem.Reaction.Application.Commands
 {
     public abstract class BaseCommandHandler<TRequest, TEntity>
-      : IRequestHandler<TRequest, CommandResult<IIndexed>>
-      where TRequest : IRequest<CommandResult<IIndexed>>
+      : IRequestHandler<TRequest, Result<IIndexed>>
+      where TRequest : IRequest<Result<IIndexed>>
       where TEntity : AggregateRoot
     {
         protected readonly IMapper Mapper;
@@ -23,7 +23,7 @@ namespace OpenSystem.Reaction.Application.Commands
             Logger = logger;
         }
 
-        public async Task<CommandResult<IIndexed>> Handle(TRequest request,
+        public async Task<Result<IIndexed>> Handle(TRequest request,
           CancellationToken cancellationToken)
         {
           Logger.LogDebug($"Command processing - {request.GetType().Name}");
@@ -31,10 +31,10 @@ namespace OpenSystem.Reaction.Application.Commands
           TEntity entity = await MapRequestAsync(request,
             cancellationToken);
           if (!(entity is TEntity))
-            return CommandResult.Failure(typeof(ResultCodeApplication),
+            return Result.Failure(typeof(ResultCodeApplication),
               ResultCodeApplication.FailedConvertingToEntity);
 
-          CommandResult ret = await ValidateEntityAsync(entity,
+          Result ret = await ValidateEntityAsync(entity,
             cancellationToken);
           if (ret.Failed)
             return ret;
@@ -62,19 +62,19 @@ namespace OpenSystem.Reaction.Application.Commands
           return entity;
         }
 
-        protected async virtual ValueTask<CommandResult<IIndexed>> MapResponseAsync(IIndexed entity)
+        protected virtual ValueTask<Result<IIndexed>> MapResponseAsync(IIndexed entity)
         {
-          return CommandResult.Success(new Indexed
+          return  ValueTask.FromResult<Result<IIndexed>>(Result.Success(new Indexed
             {
               Id = entity.Id
-            });
+            }));
         }
 
-        protected virtual async ValueTask<CommandResult<TEntity>> ValidateEntityAsync(TEntity entity,
+        protected virtual async ValueTask<Result<TEntity>> ValidateEntityAsync(TEntity entity,
           CancellationToken cancellationToken)
         {
           // entity.ValidateAsync();
-          return CommandResult.Success(entity);
+          return Result.Success(entity);
         }
     }
 }

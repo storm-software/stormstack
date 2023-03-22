@@ -10,11 +10,7 @@ namespace OpenSystem.Core.Infrastructure.Extensions
           return result.Succeeded
             ? Result.Success()
             : Result.Failure(typeof(ResultCodeSecurity),
-              ResultCodeSecurity.IdentityVerificationFailure,
-              result.Errors
-                .Select(e =>
-                  e.Description)
-                .ToList());
+              ResultCodeSecurity.IdentityVerificationFailure);
       }
   }
 }

@@ -24,7 +24,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
     public class AddReactionCommand
-      : AddReactionRequest, IRequest<CommandResult<IIndexed>>
+      : AddReactionRequest, IRequest<Result<IIndexed>>
     {
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// Get Reactions
     /// </summary>
     /// <remarks>Return the reactions for a specific article, comment, etc. </remarks>
-    public class GetReactionsQuery : IRequest<QueryResult<GetReactions200Response>>
+    public class GetReactionsQuery : IRequest<Result<Paged<ReactionDetailRecord>>>
     {
 
         /// <summary>
@@ -59,6 +59,7 @@ namespace OpenSystem.Reaction.Application.Models
         /// The field to order the request by
         /// </summary>
         public string OrderBy { get; set; } = "id";
+
         /// <summary>
         /// The type of reaction the user had
         /// </summary>
@@ -69,7 +70,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// Get Reaction Counts
     /// </summary>
     /// <remarks>Return the reaction counts for a specific article, comment, etc. </remarks>
-    public class GetReactionsCountQuery : IRequest<QueryResult<GetReactionsCount200Response>>
+    public class GetReactionsCountQuery : IRequest<Result<GetReactionsCount200Response>>
     {
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// Remove Reaction
     /// </summary>
     /// <remarks>Remove an existing reaction to an article</remarks>
-    public class RemoveReactionCommand : IRequest<CommandResult<IIndexed>>
+    public class RemoveReactionCommand : IRequest<Result<IIndexed>>
     {
         /// <summary>
         /// The id of the article/comment

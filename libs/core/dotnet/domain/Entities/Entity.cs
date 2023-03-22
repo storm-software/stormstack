@@ -99,7 +99,7 @@ namespace OpenSystem.Core.Domain.Entities
 
     protected ValidationResult GetValidationResult(Result ret)
     {
-      return new ValidationResult(ResultCode.Serialize(ret.ResultCodeType,
+      return new ValidationResult(ResultCode.Serialize(ret.Type,
         ret.Code));
     }
 

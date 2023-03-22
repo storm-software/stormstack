@@ -9,8 +9,8 @@ using OpenSystem.Core.Domain.Entities;
 namespace OpenSystem.Reaction.Application.Queries
 {
   public abstract class BaseQueryHandler<TRequest, TData>
-    : IRequestHandler<TRequest, QueryResult<TData>>
-    where TRequest : class, IRequest<QueryResult<TData>>
+    : IRequestHandler<TRequest, Result<TData>>
+    where TRequest : class, IRequest<Result<TData>>
   {
     protected readonly IMapper Mapper;
 
@@ -23,7 +23,7 @@ namespace OpenSystem.Reaction.Application.Queries
         Logger = logger;
     }
 
-    public async Task<QueryResult<TData>> Handle(TRequest request,
+    public async Task<Result<TData>> Handle(TRequest request,
       CancellationToken cancellationToken)
     {
         Logger.LogDebug($"Query processing - {request.GetType().Name}");
@@ -31,7 +31,7 @@ namespace OpenSystem.Reaction.Application.Queries
         var queryResult = await InnerHandleAsync(request,
         cancellationToken);
         if (queryResult == null)
-          return QueryResult<TData>.Failure(typeof(ResultCodeApplication),
+          return Result<TData>.Failure(typeof(ResultCodeApplication),
             ResultCodeApplication.NoResultsFound);
 
         Logger.LogDebug($"Query complete - {request.GetType().Name}");
@@ -40,13 +40,13 @@ namespace OpenSystem.Reaction.Application.Queries
           cancellationToken);
     }
 
-    protected abstract ValueTask<QueryResult> InnerHandleAsync(TRequest request,
+    protected abstract ValueTask<object> InnerHandleAsync(TRequest request,
       CancellationToken cancellationToken);
 
-    protected async virtual ValueTask<QueryResult<TData>> MapResponseAsync(object queryResult,
+    protected async virtual ValueTask<Result<TData>> MapResponseAsync(object queryResult,
       CancellationToken cancellationToken)
     {
-      return QueryResult<TData>.Success(Mapper.Map<TData>(queryResult));
+      return Result<TData>.Success(Mapper.Map<TData>(queryResult));
     }
   }
 }

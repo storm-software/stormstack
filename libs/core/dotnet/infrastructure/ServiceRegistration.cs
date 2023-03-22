@@ -25,6 +25,9 @@ using IdentityModel;
 using OpenSystem.Core.Infrastructure.Persistence.Interceptors;
 using OpenSystem.Core.Infrastructure.WebApi.Formatters;
 using OpenSystem.Core.Infrastructure.WebApi.Services;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace OpenSystem.Core.Infrastructure
 {
@@ -77,6 +80,7 @@ namespace OpenSystem.Core.Infrastructure
               EmailService>();
             services.AddTransient<ICsvFileExportService,
               CsvFileExportService>();
+
             /*services.AddTransient<IIdentityService,
               IdentityService>();*/
         }
@@ -183,22 +187,51 @@ namespace OpenSystem.Core.Infrastructure
 
         public static void UseCoreMiddleware(this IApplicationBuilder app)
         {
-            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseMiddleware<CorrelationIdMiddleware>();
+        }
+
+        /// <summary>
+        /// Adds the required services for <see cref="UseProblemDetails"/> to work correctly,
+        /// using the specified <paramref name="configure"/> callback for configuration.
+        /// </summary>
+        /// <param name="services">The service collection to add the services to.</param>
+        /// <param name="configure"></param>
+        public static IServiceCollection AddProblemDetailsFactory(this IServiceCollection services)
+        {
+            //services.TryAddSingleton<LibProblemDetailsFactory>();
+            //services.TryAddSingleton<ProblemDetailsMarkerService, ProblemDetailsMarkerService>();
+
+            services.TryAddSingleton<IProblemDetailsResponseFactory,
+              ProblemDetailsResponseFactory>();
+            services.TryAddSingleton<IActionResultExecutor<ObjectResult>,
+              ObjectResultExecutor>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the required services for <see cref="UseProblemDetails"/> to work correctly,
+        /// using the specified <paramref name="configure"/> callback for configuration.
+        /// </summary>
+        /// <param name="services">The service collection to add the services to.</param>
+        /// <param name="configure"></param>
+        public static void UseProblemDetailsFactory(this IApplicationBuilder app)
+        {
+          app.UseMiddleware<ProblemDetailsMiddleware>();
         }
 
         public static void AddControllersExtension(this IServiceCollection services)
         {
           // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
             services.AddControllers(options => {
-                  options.InputFormatters.Insert(0, 
+                  options.InputFormatters.Insert(0,
                     new InputFormatterStream());
               })
               .AddJsonOptions(options =>
               {
                   options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
                   options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-              });                
+              });
         }
 
         //Configure CORS to allow any origin, header and method.
@@ -207,6 +240,11 @@ namespace OpenSystem.Core.Infrastructure
         public static void AddCorsExtension(this IServiceCollection services)
         {
             services.AddCors();
+        }
+
+        public static IApplicationBuilder UseAntiforgery(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<AntiforgeryMiddleware>();
         }
 
         public static void AddVersionedApiExplorerExtension(this IServiceCollection services)

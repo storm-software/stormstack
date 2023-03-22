@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text;
 using OpenSystem.Core.Domain.Common;
+using OpenSystem.Core.Domain.Enums;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
@@ -11,226 +13,351 @@ namespace OpenSystem.Core.Domain.ResultCodes
     {
       public TData? Data { get; set; }
 
-      public static Result<TData> Success(TData? data)
+      public string? HelpLink { get; set; }
+
+      public string? StackTrace { get; set; }
+
+      public IList<FieldValidationResult> Fields { get; init; } = new List<FieldValidationResult>();
+
+      public static Result<TData> Success() => new Result<TData>(typeof(ResultCodeGeneral)?.FullName,
+        ResultCodeGeneral.NoErrorOccurred);
+
+      public static Result<TData> Success(TData? data,
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.None,
+        string? helpLink = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
       {
-        return new Result<TData>();
+          return new Result<TData>(data,
+            detail != null ?
+              string.Join("\r\n", detail)
+              : null,
+            extendedDetail,
+              severity,
+              helpLink,
+              formattedMessagePlaceholderValues);
       }
 
-      public static Result<TData> Success(TData data,
-        string? message = null)
-      {
-        return new Result<TData>(data,
-          message);
-      }
-
-      public static Result<TData> Failure(Type resultCodeType,
+      public static Result<TData> Failure(Type type,
         int code,
-        List<string>? detail = null)
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        string? helpLink = null,
+        IList<FieldValidationResult>? fields = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
       {
-        return new Result<TData>(resultCodeType,
-          code,
-          detail != null ?
-            string.Join("\r\n", detail)
-            : null);
+          return new Result<TData>(type,
+            code,
+            detail,
+            extendedDetail,
+            severity,
+            helpLink,
+            fields,
+            formattedMessagePlaceholderValues);
       }
 
-      public static Result<TData> Failure(Type resultCodeType,
+      public static Result<TData> Failure(string type,
         int code,
-        string detail)
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        string? helpLink = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
       {
-        return new Result<TData>(resultCodeType,
-          code,
-          detail);
+          return new Result<TData>(type,
+            code,
+            detail,
+            extendedDetail,
+            severity,
+            helpLink,
+            formattedMessagePlaceholderValues);
       }
 
-      public static Result<TData> Failure(string resultCodeType,
-        int code,
-        List<string>? detail = null)
+      public static Result<TData> Failure(Exception exception,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        Type? type = null,
+        int? code = null)
       {
-        return new Result<TData>(resultCodeType,
-          code,
-         detail != null ?
-            string.Join("\r\n",
-              detail)
-            : null);
-      }
-
-      public static Result<TData> Failure(string resultCodeType,
-        int code,
-        string detail)
-      {
-        return new Result<TData>(resultCodeType,
-          code,
-          detail);
-      }
-
-      public static Result<TData> Failure(Exception exception)
-      {
-        return new Result<TData>(exception);
+        return new Result<TData>(exception,
+        severity);
       }
 
       protected Result()
-        : base()
+        : base(ResultSeverityTypes.None)
       {
-        Succeeded = true;
+        StackTrace = GetStackTrace();
       }
 
       protected Result(TData? data,
-        string? message = null)
-        : base(message)
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.None,
+        string? helpLink = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+        : base(typeof(ResultCodeGeneral)?.FullName,
+          ResultCodeGeneral.NoErrorOccurred,
+          detail,
+          extendedDetail,
+          severity,
+          formattedMessagePlaceholderValues)
       {
           Data = data;
+          HelpLink = helpLink;
+          StackTrace = GetStackTrace();
       }
 
-      protected Result(Type resultCodeType,
+      protected Result(Type type,
         int code,
-        string? detail = null)
-        : base(resultCodeType.FullName,
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        string? helpLink = null,
+        IList<FieldValidationResult>? fields = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+        : base(type?.FullName,
           code,
-          detail)
+          detail,
+          extendedDetail,
+          severity,
+          formattedMessagePlaceholderValues)
       {
+          if (fields != null)
+            Fields = fields;
+
+          HelpLink = helpLink;
+          StackTrace = GetStackTrace();
       }
 
-      protected Result(string resultCodeType,
+      protected Result(string type,
         int code,
-        string? detail = null)
-        : base(resultCodeType,
-          code,
-          detail)
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        string? helpLink = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+        : base(type,
+            code,
+            detail,
+            extendedDetail,
+            severity,
+            formattedMessagePlaceholderValues)
       {
+          HelpLink = helpLink;
+          StackTrace = GetStackTrace();
       }
 
-    protected Result(Exception exception)
-      : base(exception)
-    {
-    }
 
-    protected override void InnerGetObjectData(SerializationInfo info,
-      StreamingContext context)
-    {
-      base.InnerGetObjectData(info,
-        context);
+      protected Result(Exception exception,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+          Type? type = null,
+          int? code = null)
+        : base(exception,
+          severity,
+          type,
+          code)
+      {
+          HelpLink = exception.HelpLink;
+          StackTrace = !string.IsNullOrEmpty(exception.StackTrace)
+            ? exception.StackTrace
+            : GetStackTrace();
+      }
 
-      if (Data != null)
-        info.AddValue("Data",
-          Data);
-    }
+      public FieldValidationResult AddField(string fieldName,
+        Type type,
+        int code,
+        object? attemptedValue,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        string? detail = null,
+        string? extendedDetail = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+      {
+        var field = FieldValidationResult.Failure(fieldName,
+          type,
+          code,
+          attemptedValue,
+          severity,
+          detail,
+          extendedDetail,
+          formattedMessagePlaceholderValues);
 
-    public static bool operator ==(Result<TData> a,
-      Result<object> b)
-    {
-      if (a is null &&
-        b is null)
-          return true;
+        Fields.Add(field);
+        return field;
+      }
 
-      if (a is null ||
-        b is null ||
-        (a.Failed != b.Failed))
-          return false;
+      protected override void InnerGetObjectData(ref SerializationInfo info,
+        StreamingContext context)
+      {
+        base.InnerGetObjectData(ref info,
+          context);
 
-      if (a.Failed && b.Failed &&
-        (a.ResultCodeType != b.ResultCodeType ||
-          a.Code != b.Code ||
-          string.Equals(a.Detail,
-            b.Detail,
-            StringComparison.OrdinalIgnoreCase)))
-        return false;
+        if (Data != null)
+          info.AddValue("Data",
+            Data);
+        if (Fields != null &&
+          Fields.Count > 0)
+          info.AddValue("Fields",
+            Fields);
 
-      if (a.Succeeded && b.Succeeded &&
-        ((a.Data is null && b.Data != null) ||
-         (b.Data is null && a.Data != null) ||
-         a.Data != null && !a.Data.Equals(b.Data)))
-        return false;
+        info.AddValue("HelpLink",
+            HelpLink);
 
-      return true;
-    }
+        if (Failed)
+          info.AddValue("StackTrace",
+            StackTrace);
+      }
 
-    public static bool operator !=(Result<TData> a,
-      Result<object> b)
-    {
-        return !(a == b);
-    }
+      private string GetStackTrace()
+      {
+        lock (typeof(BaseResult))
+        {
+          StringBuilder sbStackTrace = new StringBuilder();
+
+          StackTrace stCallRelative = new StackTrace(4,
+            false);
+          if (stCallRelative == null)
+            return "";
+
+          for (int i = 0; i < stCallRelative.FrameCount; i++)
+          {
+            StackFrame? sfFrame = stCallRelative.GetFrame(i);
+            if (sfFrame == null)
+              continue;
+
+            MethodBase? mbFrame = sfFrame.GetMethod();
+            if (mbFrame == null)
+              continue;
+
+            Type? typeDeclaring = mbFrame.DeclaringType;
+            if (typeDeclaring == null)
+              continue;
+
+            sbStackTrace.AppendFormat("   at {0}.{1}.{2}(...)\r\n",
+              typeDeclaring.Namespace,
+              typeDeclaring.Name,
+              mbFrame.Name);
+          }
+
+          return sbStackTrace.ToString();
+        }
+      }
 
     public static implicit operator Result<TData>(Result result) => result.Failed
-      ? Result<TData>.Failure(result.ResultCodeType,
+      ? Result<TData>.Failure(result.Type,
         result.Code,
         result.Detail)
       : Result<TData>.Success((TData)result.Data,
-        result.Message);
+        result.Detail);
 
     public static implicit operator Result(Result<TData> result) => result.Failed
-      ? Result.Failure(result.ResultCodeType,
+      ? Result.Failure(result.Type,
         result.Code,
         result.Detail)
       : Result.Success(result.Data,
-        result.Message);
+        result.Detail);
 
     public override bool Equals(object? obj)
     {
-      if (ReferenceEquals(this,
-        obj))
-        return true;
-      if (!(obj is BaseResult baseResult) ||
-        ReferenceEquals(obj,
-        null))
+      if (ReferenceEquals(obj,
+        null) ||
+        !(obj is BaseResult baseResult))
         return false;
 
-      return this == baseResult;
+      return base.Equals(baseResult);
+    }
+
+    public override int GetHashCode()
+    {
+      return base.GetHashCode() + (HelpLink + StackTrace).GetHashCode();
     }
   }
 
   [Serializable]
-  public class Result : Result<object>
+  public class Result
+    : Result<object>
   {
-    public static new Result Success()
-    {
-      return new Result();
-    }
-
-    public static new Result Success(object? data,
-      string? message = null)
+    public static new Result Success(object? data = null,
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.None,
+        string? helpLink = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
     {
       return new Result(data,
-        message);
+          detail,
+          extendedDetail,
+          severity,
+          helpLink,
+          formattedMessagePlaceholderValues);
     }
 
-    public static new Result Failure(Type resultCodeType,
-      int code,
-      string? detail = null)
+    public static new Result Failure(Type type,
+        int code,
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        string? helpLink = null,
+        IList<FieldValidationResult>? fields = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
     {
-      return new Result(resultCodeType,
-        code,
-        detail);
+      return new Result(type,
+          code,
+          detail,
+          extendedDetail,
+          severity,
+          helpLink,
+          fields,
+          formattedMessagePlaceholderValues);
     }
 
-    public static new Result Failure(Exception exception)
+    public static new Result Failure(Type type,
+      Exception exception,
+      ResultSeverityTypes severity = ResultSeverityTypes.Error)
     {
-      return new Result(exception);
+      return new Result(exception,
+        severity);
     }
 
-    protected Result()
-      : base()
-    {
-    }
 
     protected Result(object? data,
-      string? message = null)
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.None,
+        string? helpLink = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
       : base(data,
-        message)
+          detail,
+          extendedDetail,
+          severity,
+          helpLink,
+          formattedMessagePlaceholderValues)
     {
     }
 
-    protected Result(Type resultCodeType,
-      int code,
-      string? detail = null)
-      : base(resultCodeType,
-        code,
-        detail)
+    protected Result(Type type,
+        int code,
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        string? helpLink = null,
+        IList<FieldValidationResult>? fields = null,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+        : base(type,
+          code,
+          detail,
+          extendedDetail,
+          severity,
+          helpLink,
+          fields,
+          formattedMessagePlaceholderValues)
     {
     }
 
-    protected Result(Exception exception)
-      : base(exception)
+    protected Result(Exception exception,
+      ResultSeverityTypes severity = ResultSeverityTypes.Error)
+      : base(exception,
+        severity)
     {
     }
   }

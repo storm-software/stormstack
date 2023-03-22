@@ -10,50 +10,126 @@ namespace OpenSystem.Core.Domain.ResultCodes
 {
   [Serializable]
   public class FieldValidationResult
-    : FieldResult
+    : BaseResult
   {
-    public FieldValidationSeverityTypes Severity { get; set; } = FieldValidationSeverityTypes.None;
+    public string FieldName { get; set; }
+
+    public object? AttemptedValue { get; set; }
 
     public static FieldValidationResult Failure(string fieldName,
-      Type resultCodeType,
+      Type type,
       int code,
-      FieldValidationSeverityTypes severity = FieldValidationSeverityTypes.Error,
-      string? detail = null)
+      object? attemptedValue,
+      ResultSeverityTypes severity = ResultSeverityTypes.Error,
+      string? detail = null,
+      string? extendedDetail = null,
+      Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+    
     {
       return new FieldValidationResult(fieldName,
-        resultCodeType,
-        code,
+        type, 
+        code, 
+        attemptedValue,
         severity,
-        detail);
+        detail, 
+        extendedDetail,
+        formattedMessagePlaceholderValues);
     }
 
-    protected FieldValidationResult(string fieldName,
-      Type resultCodeType,
+    public static FieldValidationResult Failure(string fieldName,
+      string type,
       int code,
-      FieldValidationSeverityTypes severity = FieldValidationSeverityTypes.Error,
-      string? detail = null)
-      : base(fieldName,
-        resultCodeType,
-        code,
-        detail)
+      object? attemptedValue,
+      ResultSeverityTypes severity = ResultSeverityTypes.Error,
+      string? detail = null,
+      string? extendedDetail = null,
+      Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+    
     {
-      Severity = severity;
+      return new FieldValidationResult(fieldName,
+        type, 
+        code, 
+        attemptedValue,
+        severity,
+        detail, 
+        extendedDetail,
+        formattedMessagePlaceholderValues);
     }
 
     protected FieldValidationResult(string fieldName,
-      Exception exception,
-      FieldValidationSeverityTypes severity = FieldValidationSeverityTypes.Error)
-      : base(fieldName,
-        exception)
+      Type type,
+      int code,
+      object? attemptedValue,
+      ResultSeverityTypes severity = ResultSeverityTypes.Error,
+      string? detail = null,
+      string? extendedDetail = null,
+      Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+      : base(type?.FullName, 
+        code, 
+        detail, 
+        extendedDetail, 
+        severity,
+        formattedMessagePlaceholderValues)
     {
-      Severity = severity;
+        FieldName = fieldName;
+        AttemptedValue = attemptedValue;
     }
 
-    protected override void InnerGetObjectData(SerializationInfo info,
+    protected FieldValidationResult(string fieldName,
+      string type,
+      int code,
+      object? attemptedValue,
+      ResultSeverityTypes severity = ResultSeverityTypes.Error,
+      string? detail = null,
+      string? extendedDetail = null,
+      Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+      : base(type, 
+        code, 
+        detail, 
+        extendedDetail, 
+        severity,
+        formattedMessagePlaceholderValues)
+    {
+        FieldName = fieldName;
+        AttemptedValue = attemptedValue;
+    }
+
+    protected FieldValidationResult(string fieldName,
+      object? attemptedValue,
+      Exception exception,
+      ResultSeverityTypes severity = ResultSeverityTypes.Error)
+      : base(exception,
+        severity)
+    {
+       FieldName = fieldName;
+       AttemptedValue = attemptedValue;
+    }
+
+    protected override void InnerGetObjectData(ref SerializationInfo info,
       StreamingContext context)
     {
-      info.AddValue("Severity",
-        Severity);
+      base.InnerGetObjectData(ref info,
+        context);
+
+      info.AddValue("FieldName",
+        FieldName);
+      info.AddValue("AttemptedValue",
+        AttemptedValue);
+    }
+
+    public override bool Equals(object? obj)
+    {
+      if (ReferenceEquals(obj,
+        null) ||
+        !(obj is BaseResult baseResult))
+        return false;
+
+      return base.Equals(baseResult);
+    }
+
+    public override int GetHashCode()
+    {
+      return base.GetHashCode() + FieldName.GetHashCode();
     }
   }
 }

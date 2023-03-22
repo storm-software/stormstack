@@ -1,16 +1,14 @@
 using AutoMapper;
 using MediatR;
-using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
-using OpenSystem.Core.Domain.Repositories;
 using Microsoft.Extensions.Logging;
-using OpenSystem.Core.Domain.Entities;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Reaction.Application.Queries
 {
   public abstract class BaseListQueryHandler<TRequest, TData>
-    : BaseQueryHandler<TRequest, TData>
-    where TRequest : class, IRequest<QueryResult<TData>>
+    : BaseQueryHandler<TRequest, Paged<TData>>
+    where TRequest : class, IRequest<Result<Paged<TData>>>
   {
     public BaseListQueryHandler(IMapper mapper,
       ILogger<BaseListQueryHandler<TRequest, TData>> logger)
@@ -19,19 +17,21 @@ namespace OpenSystem.Reaction.Application.Queries
     {
     }
 
-    protected abstract Task<ListQueryResult> HandleQueryAsync(TRequest request,
+    protected abstract Task<Paged<object>> HandleQueryAsync(TRequest request,
       CancellationToken cancellationToken);
-      
-    protected override async ValueTask<QueryResult> InnerHandleAsync(TRequest request,
+
+    protected override async ValueTask<object> InnerHandleAsync(TRequest request,
       CancellationToken cancellationToken)
     {
-      ListQueryResult queryResult = await HandleQueryAsync(request,
+      var result = await HandleQueryAsync(request,
       cancellationToken);
-      if (queryResult?.Data == null || queryResult?.Data.Count == 0)
-        return ListQueryResult<TData>.Failure(typeof(ResultCodeApplication),
+      if (result == null ||
+        (result is IList<TData> listResult &&
+          listResult.Count == 0))
+        return Result<TData>.Failure(typeof(ResultCodeApplication),
           ResultCodeApplication.NoResultsFound);
 
-      return queryResult;
+      return result;
     }
   }
 }

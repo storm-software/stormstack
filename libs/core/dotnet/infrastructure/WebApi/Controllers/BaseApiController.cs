@@ -138,7 +138,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
         /// <summary>
         /// Send command request to the mediator
         /// </summary>
-        protected async ValueTask<IActionResult> SendCommandAsync(IRequest<CommandResult<IIndexed>> request,
+        protected async ValueTask<IActionResult> SendCommandAsync(IRequest<Result<IIndexed>> request,
           CancellationToken cancellationToken)
         {
           if (_sender == null)
@@ -151,7 +151,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
 
           Logger.LogInformation($"Sending {request.GetType().Name} ({Context?.Request.Path}) request to mediator");
 
-          var ret = await _sender.Send<CommandResult<IIndexed>>(request,
+          var ret = await _sender.Send<Result<IIndexed>>(request,
             cancellationToken);
           if (ret.Failed)
           {
@@ -167,7 +167,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
         /// <summary>
         /// Send command request to the mediator
         /// </summary>
-        protected async ValueTask<IActionResult> SendQueryAsync<TData>(IRequest<QueryResult<TData>> request,
+        protected async ValueTask<IActionResult> SendQueryAsync<TData>(IRequest<Result<TData>> request,
           CancellationToken cancellationToken)
         {
           if (_sender == null)
@@ -180,12 +180,12 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
 
           Logger.LogInformation($"Sending {request.GetType().Name} ({Context?.Request.Path}) request to mediator");
 
-          var ret = await _sender.Send<QueryResult<TData>>(request,
+          var ret = await _sender.Send<Result<TData>>(request,
             cancellationToken);
           if (ret.Failed)
           {
             Logger.LogError($"Failure occurred during {request.GetType().Name} ({Context?.Request.Path}) mediator request");
-            if (string.Equals(ret.ResultCodeType,
+            if (string.Equals(ret.Type,
                typeof(ResultCodeApplication).FullName.ToString(),
                StringComparison.CurrentCultureIgnoreCase) &&
               ret.Code == ResultCodeApplication.NoResultsFound)

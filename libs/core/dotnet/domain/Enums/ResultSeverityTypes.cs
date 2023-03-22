@@ -28,6 +28,11 @@
     /// <summary>
     /// Debug
     /// </summary>
-    Debug = 4
+    Debug = 4,
+
+    /// <summary>
+    /// None
+    /// </summary>
+    None = 5
   }
 }

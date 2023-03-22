@@ -27,6 +27,9 @@ using OpenSystem.Core.Infrastructure.WebApi.Filters;
 using System.Reflection;
 using Microsoft.AspNetCore.HttpLogging;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using OpenSystem.Apis.Reaction.Routes.v1;
+using Microsoft.AspNetCore.Diagnostics;
 
 const string SERVICE_NAME = "ReactionService.Api";
 
@@ -75,6 +78,8 @@ try
 
 
     // builder.Services.AddServiceDiscovery(builder.Configuration);
+
+    builder.Services.AddProblemDetailsFactory();
 
     builder.Services.AddReactionApplicationLayer();
     builder.Services.AddReactionPersistenceInfrastructure(appSettings);
@@ -137,7 +142,8 @@ try
                 // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                 c.OperationFilter<GeneratePathParamsValidationFilter>();
 
-                });;
+                });
+
 
     builder.Services.AddControllersExtension();
 
@@ -151,6 +157,9 @@ try
     //API Security
     builder.Services.AddJWTAuthentication(builder.Configuration);
     builder.Services.AddAuthorizationPolicies(builder.Configuration);
+
+    // Add Anti-CSRF/XSRF services
+    builder.Services.AddAntiforgery();
 
     // API version
     builder.Services.AddApiVersioningExtension();
@@ -171,6 +180,31 @@ try
     var app = builder.Build();
 
 
+    /*var versionSet = app.NewApiVersionSet()
+      .HasApiVersion(new ApiVersion(1, 0))
+      .HasApiVersion(version2)
+      .Build();
+    var root = app.MapGroup("");
+    root.AddEndpointFilterFactory(ValidationFilter.ValidationFilterFactory);
+
+    root.MapPost("/customers", ([Validate] RegisterCustomerRequest customer) =>
+    {
+        // do the thing
+        return Results.Ok();
+    });  */
+
+    app.UseProblemDetailsFactory();
+    app.UseStatusCodePages();
+    app.UseCoreMiddleware();
+
+    app.MapGroup("/api/v{version:apiVersion}/reactions")
+      .AddRouteGroup()
+      .AllowAnonymous()
+      /*.HasApiVersions(new ApiVersion(1, 0))
+      .WithOpenApi()*/
+      .WithTags("v{version:apiVersion}");
+
+
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
@@ -183,6 +217,12 @@ try
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
+
+    // Error handling
+    //app.UseExceptionHandler();
+
+
+
 
     // app.UseHttpsRedirection();
 
@@ -216,6 +256,7 @@ try
         .AllowAnyMethod()
         .AllowCredentials();
     });
+
 
     //app.UseIdentityServer();
     app.UseAuthorization();
@@ -267,8 +308,6 @@ try
     // app.UseHttpLogging();
     // app.UseW3CLogging();
 
-    app.UseCoreMiddleware();
-
     app.UseHealthChecks("/health-check",
       new HealthCheckOptions
       {
@@ -282,7 +321,7 @@ try
           },
       });
 
-    app.MapControllers();
+    //app.MapControllers();
 
     app.Run();
 

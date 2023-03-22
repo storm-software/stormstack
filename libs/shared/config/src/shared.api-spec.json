@@ -106,13 +106,35 @@
           "createdBy"
         ]
       },
-      "ProblemDetailsResponse": {
-        "title": "ProblemDetailsResponse",
-        "x-stoplight": {
-          "id": "99ddb087e4b89"
-        },
+      "Indexed": {
+        "title": "Indexed",
         "type": "object",
-        "description": "A model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.",
+        "description": "The minimum model fields shared by all data stored in the database",
+        "x-examples": {
+          "Sample Record": {
+            "guid": "123e4567-e89b-12d3-a456-426614174000",
+            "createdOn": "2022-03-19 04:24:02.190",
+            "createdBy": "PSUL",
+            "updatedOn": "2022-10-12 14:01:13.000",
+            "updatedBy": "PSUL"
+          }
+        },
+        "x-stoplight": {
+          "id": "0emrw8tf5s5ms"
+        },
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Guid"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "BaseProblemDetailsResponse": {
+        "title": "BaseProblemDetailsResponse",
+        "type": "object",
+        "description": "A base model for API errors inline with the [RFC 7807](https://www.rfc-editor.org/rfc/rfc7807) specification.",
         "x-examples": {
           "Sample Response": {
             "type": "about:blank",
@@ -121,13 +143,10 @@
             "instance": "/account/12345/msgs/abc"
           }
         },
+        "x-stoplight": {
+          "id": "c44347addddcc"
+        },
         "properties": {
-          "type": {
-            "type": "string",
-            "default": "about:blank",
-            "example": "https://example.com/probs/out-of-credit",
-            "description": "A URI reference [RFC3986](https://www.rfc-editor.org/rfc/rfc3986) that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028](https://www.rfc-editor.org/rfc/rfc7807#ref-W3C.REC-html5-20141028)). When this member is not present, its value is assumed to be `about:blank`."
-          },
           "title": {
             "type": "string",
             "example": "You do not have enough credit.",
@@ -137,23 +156,113 @@
           "detail": {
             "type": "string",
             "example": "Your current balance is 30, but that costs 50.",
-            "description": "A human-readable explanation specific to this occurrence of the problem."
+            "description": "A human-readable explanation specific to this occurrence of the problem.",
+            "default": "An error occurred processing the request."
+          },
+          "extendedDetail": {
+            "type": "string",
+            "example": "Your current balance is 30, but that costs 50."
           },
           "instance": {
             "type": "string",
             "example": "/account/12345/msgs/abc",
             "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced."
           },
-          "fields": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProblemDetailsResponseField"
-            }
+          "severity": {
+            "type": "string",
+            "example": "error",
+            "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
+            "enum": [
+              "fatal",
+              "error",
+              "warning",
+              "info",
+              "debug",
+              "none"
+            ],
+            "default": "error"
+          },
+          "resultCode": {
+            "type": "integer",
+            "example": 11,
+            "description": "The numeric message code related to this specific problem"
+          },
+          "resultType": {
+            "type": "string",
+            "description": "The type of result code related to this specific problem"
           }
         },
         "required": [
-          "type"
+          "title",
+          "detail",
+          "instance",
+          "severity",
+          "resultCode",
+          "resultType"
         ]
+      },
+      "ProblemDetailsFieldResponse": {
+        "title": "ProblemDetailsFieldResponse",
+        "type": "object",
+        "x-stoplight": {
+          "id": "82f7df9bdf44b"
+        },
+        "description": "Model containing validation details for a specific request field ",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "attemptedValue": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ProblemDetailsResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProblemDetailsResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "default": "about:blank",
+                "example": "https://example.com/probs/out-of-credit",
+                "description": "A URI reference [RFC3986](https://www.rfc-editor.org/rfc/rfc3986) that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML [W3C.REC-html5-20141028](https://www.rfc-editor.org/rfc/rfc7807#ref-W3C.REC-html5-20141028)). When this member is not present, its value is assumed to be `about:blank`."
+              },
+              "status": {
+                "type": "integer",
+                "default": 500,
+                "description": "A short, human-readable summary of the problem type. It **SHOULD NOT** change from occurrence to occurrence of the pro**blem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231, Section 3.4](https://www.rfc-editor.org/rfc/rfc7231#section-3.4)).",
+                "minimum": 100,
+                "example": 422,
+                "maximum": 505
+              },
+              "traceId": {
+                "type": "string",
+                "example": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                "description": "A unique Id representing the specific server request",
+                "format": "uuid"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProblemDetailsFieldResponse"
+                }
+              }
+            },
+            "required": [
+              "type",
+              "status",
+              "traceId"
+            ]
+          }
+        ],
+        "title": "ProblemDetailsResponse"
       },
       "Address": {
         "title": "Address",
@@ -190,10 +299,10 @@
           }
         }
       },
-      "PagedQueryResponse": {
-        "title": "PagedQueryResponse",
+      "PagedResponse": {
+        "title": "PagedResponse",
         "x-stoplight": {
-          "id": "wv4a6cw0znzw7"
+          "id": "4d3d1eda56560"
         },
         "type": "object",
         "description": "A base response containing page data for a request",
@@ -226,28 +335,6 @@
           "pageSize",
           "recordsTotal",
           "recordsFiltered"
-        ]
-      },
-      "ProblemDetailsResponseField": {
-        "title": "ProblemDetailsResponseField",
-        "x-stoplight": {
-          "id": "8lfsai6hoys77"
-        },
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "name",
-          "errors"
         ]
       }
     },

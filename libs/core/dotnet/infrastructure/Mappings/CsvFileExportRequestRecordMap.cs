@@ -1,10 +1,10 @@
 using System.Globalization;
-using OpenSystem.Core.Application.Models;
+using OpenSystem.Core.Domain.Common;
 using CsvHelper.Configuration;
 
 namespace OpenSystem.Core.Infrastructure.Mappings
 {
-  public class CsvFileExportRequestRecordMap : ClassMap<PagedResponse<object>>
+  public class CsvFileExportRequestRecordMap : ClassMap<Paged<object>>
   {
       public CsvFileExportRequestRecordMap()
       {

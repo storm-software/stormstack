@@ -44,7 +44,7 @@ namespace OpenSystem.Core.Infrastructure.Services
 
             var result = InnerStartAsync(cancellationToken);
             if (result.Failed)
-              throw new FailedResultException(result);
+              throw new BaseException(result);
         }
 
         protected abstract Task<Result> InnerProcess(CancellationToken stoppingToken);
@@ -72,7 +72,7 @@ namespace OpenSystem.Core.Infrastructure.Services
                 {
                     var result = await InnerProcess(stoppingToken);
                     if (result.Failed)
-                      Logger.Error(result.Message);
+                      Logger.Error(result.Detail);
 
                     next = _cronExpression.GetNextValidTimeAfter(DateTimeOffset.Now);
                 }

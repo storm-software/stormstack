@@ -28,6 +28,10 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
     public const int RecordNotFound = 8;
 
+    public const int FailedFormattingResponse = 9;
+
+    public const int InvalidRequestSentToServer = 10;
+
 		#endregion Constants
 
 		#endregion Public

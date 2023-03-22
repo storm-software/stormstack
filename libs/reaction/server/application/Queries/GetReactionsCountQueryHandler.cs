@@ -23,7 +23,7 @@ namespace OpenSystem.Reaction.Application.Queries
       _repository = repository;
     }
 
-    protected override async ValueTask<QueryResult> InnerHandleAsync(GetReactionsCountQuery request,
+    protected override async ValueTask<object> InnerHandleAsync(GetReactionsCountQuery request,
       CancellationToken cancellationToken)
     {
       return await _repository.GetReactionsCountAsync(request.ContentId,

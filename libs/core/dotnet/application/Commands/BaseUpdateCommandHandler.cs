@@ -10,7 +10,7 @@ namespace OpenSystem.Reaction.Application.Commands
 {
   public abstract class BaseUpdateCommandHandler<TRequest, TEntity, TRepository>
     : BaseCommandHandler<TRequest, TEntity>
-    where TRequest : class, IRequest<CommandResult<IIndexed>>
+    where TRequest : class, IRequest<Result<IIndexed>>
     where TEntity : AggregateRoot
     where TRepository : IBaseRepository<TEntity>
   {

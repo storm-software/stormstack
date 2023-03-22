@@ -12,6 +12,8 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
 		#region Constants
 
+    public const int NoErrorOccurred = 0;
+
 		public const int GeneralError = 1;
 
 		#endregion Constants

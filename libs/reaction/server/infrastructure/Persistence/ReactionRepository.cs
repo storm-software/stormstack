@@ -5,7 +5,6 @@ using OpenSystem.Reaction.Domain.Entities;
 using OpenSystem.Reaction.Domain.Enums;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
-
 using System.Linq.Dynamic.Core;
 using OpenSystem.Core.Infrastructure.Persistence;
 using OpenSystem.Core.Application.Services;
@@ -15,6 +14,7 @@ using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
@@ -38,7 +38,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             _reactionDetails = dbContext.ReactionDetail;
         }
 
-        public async Task<ListQueryResult<ReactionEntity>> GetReactionsAsync(string? contentId,
+        public async Task<Paged<ReactionEntity>> GetReactionsAsync(string? contentId,
           string? type,
           int? pageSize = DefaultConfiguration.DefaultSearchPageSize,
           int? pageNumber = 0,
@@ -61,12 +61,15 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
                 record = record.OrderBy(orderBy);
 
             // retrieve data to list
-            var resultData = await record.ToListAsync();
-            return ListQueryResult<ReactionEntity>.Success(resultData,
-              await DataSet.CountAsync());
+            // var resultData = await record.ToListAsync();
+            return await Paged<ReactionEntity>.CreateAsync(record,
+              pageNumber,
+              pageSize,
+              await DataSet.CountAsync(),
+              record.Count());
         }
 
-        public async Task<QueryResult<List<(string Type, int Count)>>> GetReactionsCountAsync(string contentId,
+        public async Task<IList<(string Type, int Count)>> GetReactionsCountAsync(string contentId,
           string? type)
         {
             var record = GetQueryable();
@@ -89,7 +92,7 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             if (!string.IsNullOrEmpty(type))
                 data = data.Where(r => r.Item1.ToUpper() == type.Trim().ToUpper());
 
-            return QueryResult<List<(string Type, int Count)>>.Success(data.ToList());
+            return data.ToList();
         }
 
         public async Task<ReactionEntity?> GetByContentIdAsync(string contentId)

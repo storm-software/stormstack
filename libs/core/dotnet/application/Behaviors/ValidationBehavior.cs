@@ -11,7 +11,7 @@ namespace OpenSystem.Core.Application.Behaviors
   public class ValidationBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-    where TResponse : CommandResult<IIndexed>
+    where TResponse : Result<IIndexed>
   {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -39,21 +39,24 @@ namespace OpenSystem.Core.Application.Behaviors
           .ToList();
         if (failures.Count > 0)
         {
-          var result = CommandResult.Failure(typeof(ResultCodeValidation),
+          var result = Result.Failure(typeof(ResultCodeValidation),
             ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred);
 
-
           failures.ForEach(failure => {
-            if (!Enum.TryParse(typeof(FieldValidationSeverityTypes),
+            if (!Enum.TryParse(typeof(ResultSeverityTypes),
                failure.Severity.ToString(),
                true,
                out object? severity))
-               severity = FieldValidationSeverityTypes.Error;
+               severity = ResultSeverityTypes.Error;
 
-            result.AddField(failure.PropertyName,
+            result.AddField(failure.PropertyName,    
               typeof(ResultCodeValidation),
               int.Parse(failure.ErrorCode),
-              (FieldValidationSeverityTypes)severity);
+              failure.AttemptedValue,
+              (ResultSeverityTypes)severity,
+              failure.ErrorMessage,
+              null,
+              failure.FormattedMessagePlaceholderValues);
           });
 
           return (TResponse)result;

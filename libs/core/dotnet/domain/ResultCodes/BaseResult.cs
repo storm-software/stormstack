@@ -2,8 +2,8 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
-using MediatR;
 using OpenSystem.Core.Domain.Common;
+using OpenSystem.Core.Domain.Enums;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
@@ -11,164 +11,180 @@ namespace OpenSystem.Core.Domain.ResultCodes
     public class BaseResult
       : ISerializable, IBaseResult
     {
-      public int Code { get; set; } = 0;
+      public string Type { get; set; } = typeof(ResultCodeGeneral).FullName;
 
-      public string ResultCodeType { get; set; } = typeof(ResultCodeGeneral).FullName;
+      public int Code { get; set; } = ResultCodeGeneral.GeneralError;
 
-      public bool Succeeded { get; set; }
+      public ResultSeverityTypes Severity { get; set; } = ResultSeverityTypes.None;
+
+      public bool Succeeded => Severity >= ResultSeverityTypes.Warning;
 
       public bool Failed => !Succeeded;
 
-      public string? Message { get; set; }
-
       public string? Detail { get; set; }
 
-      public string? HelpLink { get; set; }
+      public string? ExtendedDetail { get; set; }
 
-      public string? StackTrace { get; set; }
+      public Dictionary<string, object>? FormattedMessagePlaceholderValues { get; init; }
 
-      protected BaseResult()
+      protected BaseResult(ResultSeverityTypes severity = ResultSeverityTypes.None)
       {
-        Succeeded = true;
+          Severity = severity;
+
+          if (Succeeded)
+          {
+            Type = typeof(ResultCodeGeneral).FullName;
+            Code = ResultCodeGeneral.NoErrorOccurred;
+          }
       }
 
-      protected BaseResult(string? message = null)
-      {
-          Succeeded = true;
-          Message = message;
-      }
-
-      protected BaseResult(Type resultCodeType,
-        int code,
-        string? detail = null)
-      {
-          Succeeded = false;
-          ResultCodeType = resultCodeType.FullName;
-          Code = code;
-          Message = ResultCode.Serialize(resultCodeType,
-            code);
+      protected BaseResult(string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error)
+      {       
           Detail = detail;
-          StackTrace = GetStackTrace();
+          ExtendedDetail = extendedDetail;
+          Severity = severity;
+
+          if (Succeeded)
+          {
+            Type = typeof(ResultCodeGeneral).FullName;
+            Code = ResultCodeGeneral.NoErrorOccurred;
+          }
       }
 
-      protected BaseResult(string resultCodeType,
+      protected BaseResult(Type type,
         int code,
-        string? detail = null)
+        string? detail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error)
       {
-          Succeeded = false;
-          ResultCodeType = resultCodeType;
+          Type = type?.FullName;
           Code = code;
-          Message = ResultCode.Serialize(resultCodeType,
-            code);
+          Severity = severity;
           Detail = detail;
-          StackTrace = GetStackTrace();
       }
 
-    protected BaseResult(Exception exception)
+      protected BaseResult(Type type,
+        int code,
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error)
+      {
+          Type = type?.FullName;
+          Code = code;
+          Severity = severity;
+          Detail = detail;
+          ExtendedDetail = extendedDetail;
+      }
+
+      protected BaseResult(string type,
+        int code,
+        string? detail = null,
+        string? extendedDetail = null,
+        ResultSeverityTypes severity = ResultSeverityTypes.Error,
+        Dictionary<string, object>? formattedMessagePlaceholderValues = null)
+      {
+          Type = type;
+          Code = code;
+          Severity = severity;
+          Detail = detail;
+          ExtendedDetail = extendedDetail;
+          FormattedMessagePlaceholderValues = formattedMessagePlaceholderValues;
+      }
+
+    protected BaseResult(Exception exception,
+      ResultSeverityTypes severity = ResultSeverityTypes.Error,
+      Type? type = null,
+      int? code = null)
     {
-        Succeeded = false;
-        Message = exception.Message;
+        Detail = exception.Message;
+        Severity = severity;
+        Type = type != null 
+          ? type.FullName
+          : typeof(ResultCodeGeneral).FullName;
+        Code = code ?? ResultCodeGeneral.NoErrorOccurred;
 
         if (!string.IsNullOrEmpty(exception.InnerException?.Message))
-          Detail = exception.InnerException.Message;
+          ExtendedDetail = exception.InnerException.Message;
+    }
 
-        HelpLink = exception.HelpLink;
-        StackTrace = !string.IsNullOrEmpty(exception.StackTrace)
-          ? exception.StackTrace
-          : GetStackTrace();
+    public void SetResultCodeType(Type type)
+    {
+      if (type.FullName != null)
+        Type = type.FullName; 
     }
 
     public void GetObjectData(SerializationInfo info,
       StreamingContext context)
     {
-        info.AddValue("Failed",
-          Failed);
+        info.AddValue("Code",
+          Code);
+        info.AddValue("Type",
+          Type);
+        info.AddValue("Severity",
+          Severity);
         info.AddValue("Succeeded",
           Succeeded);
-        info.AddValue("Message",
-          Message);
-
-        if (Failed)
-        {
-          info.AddValue("Detail",
-            Detail);
-          info.AddValue("HelpLink",
-            HelpLink);
-          info.AddValue("StackTrace",
-            StackTrace);
-        }
-
-        InnerGetObjectData(info,
+        info.AddValue("Failed",
+          Failed);
+        info.AddValue("Detail",
+          Detail);
+        info.AddValue("ExtendedDetail",
+          ExtendedDetail);
+        info.AddValue("FormattedMessagePlaceholderValues",
+          FormattedMessagePlaceholderValues);
+          
+        InnerGetObjectData(ref info,
           context);
     }
 
-    protected virtual void InnerGetObjectData(SerializationInfo info,
+    protected virtual void InnerGetObjectData(ref SerializationInfo info,
       StreamingContext context)
     {
     }
 
-    private string GetStackTrace()
-		{
-      lock (typeof(BaseResult))
-      {
-        StringBuilder sbStackTrace = new StringBuilder();
-
-        StackTrace stCallRelative = new StackTrace(4,
-          false);
-        if (stCallRelative == null)
-          return "";
-
-        for (int i = 0; i < stCallRelative.FrameCount; i++)
-        {
-          StackFrame? sfFrame = stCallRelative.GetFrame(i);
-          if (sfFrame == null)
-            continue;
-
-          MethodBase? mbFrame = sfFrame.GetMethod();
-          if (mbFrame == null)
-            continue;
-
-          Type? typeDeclaring = mbFrame.DeclaringType;
-          if (typeDeclaring == null)
-            continue;
-
-          sbStackTrace.AppendFormat("   at {0}.{1}.{2}(...)\r\n",
-            typeDeclaring.Namespace,
-            typeDeclaring.Name,
-            mbFrame.Name);
-        }
-
-        return sbStackTrace.ToString();
-      }
-		}
-
-    public static bool operator ==(BaseResult a,
-      BaseResult b)
+    public static bool operator ==(BaseResult? a,
+      BaseResult? b)
     {
       if (a is null &&
         b is null)
           return true;
-
-      if (a is null ||
-        b is null ||
-        (a.Failed != b.Failed))
+      if (a != null ||
+        b != null)
           return false;
+      return a.Equals(b);
+    }
 
-      if (a.Failed && b.Failed &&
-        (a.ResultCodeType != b.ResultCodeType ||
-          a.Code != b.Code ||
-          string.Equals(a.Detail,
-            b.Detail,
-            StringComparison.OrdinalIgnoreCase)))
+    public static bool operator !=(BaseResult? a,
+      BaseResult? b)
+    {
+        return !(a == b);
+    }
+
+    public override bool Equals(object? obj)
+    {
+      if (ReferenceEquals(this, obj))
+        return true;
+      if (ReferenceEquals(obj, null) ||
+        !(obj is BaseResult baseResult) ||
+        Failed != baseResult.Failed ||
+        Type != baseResult.Type ||
+        Code != baseResult.Code ||
+        Severity != baseResult.Severity ||
+        !string.Equals(baseResult.Detail,
+          baseResult.Detail,
+          StringComparison.OrdinalIgnoreCase) ||
+        !string.Equals(baseResult.ExtendedDetail,
+          baseResult.ExtendedDetail,
+          StringComparison.OrdinalIgnoreCase))
         return false;
 
       return true;
     }
 
-    public static bool operator !=(BaseResult a,
-      BaseResult b)
+    public override int GetHashCode()
     {
-        return !(a == b);
+      return (Code.ToString() + Type).GetHashCode();
     }
   }
 }

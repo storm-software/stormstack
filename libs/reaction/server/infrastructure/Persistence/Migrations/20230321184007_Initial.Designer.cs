@@ -12,7 +12,7 @@ using OpenSystem.Reaction.Infrastructure.Persistence;
 namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ReactionDbContext))]
-    [Migration("20230320105554_Initial")]
+    [Migration("20230321184007_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

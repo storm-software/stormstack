@@ -23,17 +23,19 @@ namespace OpenSystem.Core.Domain.Exceptions
           Errors = new Dictionary<string, string[]>();
         }
 
-        public ValidationException(string errorMessage)
-          : base(errorMessage)
+        public ValidationException(string detail)
+          : base(typeof(ResultCodeValidation),
+            ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred,
+            detail)
         {
           Errors = new Dictionary<string, string[]>();
         }
 
-        public ValidationException(Type? resultCodeType,
+        public ValidationException(Type? type,
           int code)
-          : base((resultCodeType == null
+          : base((type == null
             ? typeof(ResultCodeValidation)
-            : resultCodeType),
+            : type),
               (!code.IsSet()
             ? ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred
             : code))
@@ -41,10 +43,10 @@ namespace OpenSystem.Core.Domain.Exceptions
           Errors = new Dictionary<string, string[]>();
         }
 
-        public ValidationException(Type? resultCodeType,
+        public ValidationException(Type? type,
           int code,
           Exception exception)
-            : base(resultCodeType,
+            : base(type,
                 code,
                 exception)
         {

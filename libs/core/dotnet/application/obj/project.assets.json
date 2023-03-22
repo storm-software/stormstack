@@ -883,6 +883,7 @@
         "dependencies": {
           "FluentValidation": "11.4.0",
           "MediatR": "11.1.0",
+          "Microsoft.EntityFrameworkCore": "7.0.2",
           "Microsoft.Extensions.DependencyInjection": "7.0.0",
           "Nito.AsyncEx": "5.1.2"
         },

@@ -46,7 +46,7 @@ namespace OpenSystem.Reaction.Application.Commands
     {
       var detail = entity.Details.FirstOrDefault(r => r.UserId == _currentUserService.UserId);
       if (detail == null)
-        throw new FailedResultException(typeof(ResultCodeApplication),
+        throw new BaseException(typeof(ResultCodeApplication),
           ResultCodeApplication.RecordNotFound);
 
       await entity.SetForDeleteAsync(_currentUserService.UserId,

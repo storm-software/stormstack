@@ -53,7 +53,7 @@ namespace OpenSystem.Core.Application
 
           var applicationDetailSettings = configuration.GetSection("ApplicationDetailSettings");
           if (!applicationDetailSettings.Exists())
-            throw new FailedResultException(Result.Failure(typeof(ResultCodeApplication),
+            throw new BaseException(Result.Failure(typeof(ResultCodeApplication),
               ResultCodeApplication.MissingSetting,
               "ApplicationDetailSettings is not defined in appsettings.json"));
 
@@ -70,7 +70,7 @@ namespace OpenSystem.Core.Application
             ConnectionStrings.
             DefaultConnection);
           if (string.IsNullOrEmpty(defaultConnection))
-            throw new FailedResultException(Result.Failure(typeof(ResultCodeDatabase),
+            throw new BaseException(Result.Failure(typeof(ResultCodeDatabase),
               ResultCodeDatabase.ConnectionStringNotSet,
               "DefaultConnection is not defined in appsettings.json"));
 

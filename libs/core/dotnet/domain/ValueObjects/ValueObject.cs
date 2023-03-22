@@ -37,7 +37,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
             x.Value = item;
             var ret = x.InnerValidate();
             if (ret.Failed)
-                throw new FailedResultException(ret);
+                throw new BaseException(ret);
 
             return x;
         }
@@ -92,7 +92,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
         {
           var ret = InnerValidate();
           if (ret.Failed)
-            yield return GetValidationResult(ret.ResultCodeType,
+            yield return GetValidationResult(ret.Type,
               ret.Code);
 
            yield break;

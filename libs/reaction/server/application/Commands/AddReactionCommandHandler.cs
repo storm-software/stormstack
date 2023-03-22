@@ -48,7 +48,7 @@ namespace OpenSystem.Reaction.Application.Commands
                   request.Type.ToString()),
                 _dateTimeProvider.OffsetUtcNow);
               if (!(detail is ReactionDetailEntity))
-                throw new FailedResultException(typeof(ResultCodeApplication),
+                throw new BaseException(typeof(ResultCodeApplication),
                   ResultCodeApplication.FailedConvertingToEntity);
 
               detail.UserId = _currentUserService.UserId;

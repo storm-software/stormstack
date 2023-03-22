@@ -37,7 +37,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         .GetAwaiter()
         .GetResult();
       if (ret.Failed)
-        throw new FailedResultException(typeof(ResultCodeDatabase),
+        throw new BaseException(typeof(ResultCodeDatabase),
           ResultCodeDatabase.FailedSavingChanges);
 
       return base.SaveChanges();
@@ -47,7 +47,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
     {
       var ret = await InnerSaveChangesAsync();
       if (ret.Failed)
-        throw new FailedResultException(typeof(ResultCodeDatabase),
+        throw new BaseException(typeof(ResultCodeDatabase),
           ResultCodeDatabase.FailedSavingChanges);
 
       return await base.SaveChangesAsync(cancellationToken);
