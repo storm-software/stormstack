@@ -1,75 +1,36 @@
 using FluentValidation.Results;
-using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.Exceptions
 {
     public class ValidationException : BaseException
     {
-        public static void Requires(bool expected,
-          int code)
-        {
-            if (!expected)
-                throw new ValidationException(typeof(ResultCodeValidation),
-                  code);
-        }
+        public IEnumerable<ValidationFailure>? Errors { get; init; }
 
-        public IDictionary<string, string[]> Errors { get; }
-
-        public ValidationException()
-          : base(typeof(ResultCodeValidation),
-            ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred)
-        {
-          Errors = new Dictionary<string, string[]>();
-        }
-
-        public ValidationException(string detail)
+        public ValidationException(IEnumerable<ValidationFailure> failures,
+          string? extendedMessage = null)
           : base(typeof(ResultCodeValidation),
             ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred,
-            detail)
+            extendedMessage)
         {
-          Errors = new Dictionary<string, string[]>();
+          Errors = failures;
         }
 
-        public ValidationException(Type? type,
-          int code)
-          : base((type == null
-            ? typeof(ResultCodeValidation)
-            : type),
-              (!code.IsSet()
-            ? ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred
-            : code))
-        {
-          Errors = new Dictionary<string, string[]>();
-        }
-
-        public ValidationException(Type? type,
-          int code,
-          Exception exception)
-            : base(type,
-                code,
-                exception)
-        {
-          Errors = new Dictionary<string, string[]>();
-        }
-
-        public ValidationException(Exception exception)
-            : base(typeof(ResultCodeValidation),
-                ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred,
-                exception)
-        {
-          Errors = new Dictionary<string, string[]>();
-        }
-
-        public ValidationException(IEnumerable<ValidationFailure> failures)
+        public ValidationException(int resultCode,
+          string? extendedMessage = null)
           : base(typeof(ResultCodeValidation),
-            ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred)
+            resultCode,
+            extendedMessage)
         {
-            Errors = failures
-            .GroupBy(e => e.PropertyName,
-              e => e.ErrorMessage)
-            .ToDictionary(failureGroup => failureGroup.Key,
-              failureGroup => failureGroup.ToArray());
+        }
+
+        public ValidationException(Type resultType,
+          int resultCode,
+          string? extendedMessage = null)
+          : base(resultType,
+            resultCode,
+            extendedMessage)
+        {
         }
     }
 }

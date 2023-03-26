@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Settings;
 using Quartz;
-using Serilog;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
@@ -12,7 +12,7 @@ namespace OpenSystem.Core.Infrastructure.Services
     {
         public ScheduledServiceSettings Settings { get; }
 
-        public ILogger Logger { get; }
+        public ILogger<ScheduledService> Logger { get; }
 
         /// <summary>
         /// A Cron expression to create firing schedules such as: "At 8:00am every Monday through Friday" or "At 1:30am every last Friday of the month".
@@ -23,7 +23,7 @@ namespace OpenSystem.Core.Infrastructure.Services
         private int _timeoutMs { get; set; }
 
         public ScheduledService(IOptions<ScheduledServiceSettings> settings,
-          ILogger logger)
+          ILogger<ScheduledService> logger)
         {
             Settings = settings.Value;
             Logger = logger;
@@ -35,7 +35,7 @@ namespace OpenSystem.Core.Infrastructure.Services
 
             if (string.IsNullOrEmpty(Settings.Cron))
             {
-              Logger.Error("Cron setting is missing from ServiceSettings");
+              Logger.LogError("Cron setting is missing from ServiceSettings");
               throw new MissingSettingException("Cron");
             }
 
@@ -43,25 +43,23 @@ namespace OpenSystem.Core.Infrastructure.Services
             _timeoutMs = Settings.TimeoutMs;
 
             var result = InnerStartAsync(cancellationToken);
-            if (result.Failed)
-              throw new BaseException(result);
         }
 
-        protected abstract Task<Result> InnerProcess(CancellationToken stoppingToken);
+        protected abstract ValueTask InnerProcess(CancellationToken stoppingToken);
 
         /// <summary>
         /// Allow base class to add start up logic
         /// </summary>
-        public virtual Result InnerStartAsync(CancellationToken cancellationToken)
+        public virtual ValueTask InnerStartAsync(CancellationToken cancellationToken)
         {
-          return Result.Success();
+          return ValueTask.CompletedTask;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             if (_cronExpression == null)
             {
-              Logger.Error("Cron setting is missing from ServiceSettings");
+              Logger.LogError("Cron setting is missing from ServiceSettings");
               throw new MissingSettingException("Cron");
             }
 
@@ -70,11 +68,17 @@ namespace OpenSystem.Core.Infrastructure.Services
             {
                 if (DateTimeOffset.Now > next)
                 {
-                    var result = await InnerProcess(stoppingToken);
-                    if (result.Failed)
-                      Logger.Error(result.Detail);
+                  try
+                  {
+                    await InnerProcess(stoppingToken);
+                  }
+                  catch (Exception e)
+                  {
+                    Logger.LogError(e.Message);
+                    throw;
+                  }
 
-                    next = _cronExpression.GetNextValidTimeAfter(DateTimeOffset.Now);
+                  next = _cronExpression.GetNextValidTimeAfter(DateTimeOffset.Now);
                 }
 
                 await Task.Delay(_timeoutMs,

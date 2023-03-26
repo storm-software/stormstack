@@ -3,15 +3,15 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using OpenSystem.Core.Domain.Common;
 
-namespace OpenSystem.Core.Application.Extensions
+namespace OpenSystem.Core.Application.Mappings
 {
   public static class MappingExtensions
   {
-      public static Task<Paged<TDestination>> PagedResultAsync<TDestination>(this IQueryable<TDestination> queryable,
+      public static Task<Paged<TData>> ToPagedAsync<TData>(this IQueryable<TData> queryable,
         int pageNumber,
         int pageSize)
-        where TDestination : class
-          => Paged<TDestination>.CreateAsync(queryable.AsNoTracking(),
+        where TData : class
+          => Paged<TData>.CreateAsync(queryable.AsNoTracking(),
             pageNumber,
             pageSize);
 

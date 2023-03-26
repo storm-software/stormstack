@@ -9,7 +9,9 @@ namespace OpenSystem.Reaction.Application
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddReactionApplicationLayer(this IServiceCollection services)
+        public static IServiceCollection AddReactionApplicationLayer(
+            this IServiceCollection services
+        )
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

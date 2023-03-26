@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace OpenSystem.Core.Infrastructure.Persistence.MappingConfigurations
 {
-  public abstract class SoftDeletedAuditableConfiguration<TEntity>
-    : AuditableConfiguration<TEntity>
-    where TEntity : SoftDeletedAuditableEntity
-  {
-    protected override void ConfigureColumns(EntityTypeBuilder<TEntity> builder)
+    public abstract class SoftDeletedAuditableConfiguration<TEntity>
+        : AuditableConfiguration<TEntity>
+        where TEntity : SoftDeletedAuditableEntity
     {
-      builder.HasQueryFilter(x => !x.IsDeleted);
+        protected override void ConfigureColumns(EntityTypeBuilder<TEntity> builder)
+        {
+            builder.HasQueryFilter(x => !x.IsDeleted);
+        }
     }
-  }
 }

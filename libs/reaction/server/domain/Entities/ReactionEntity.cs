@@ -7,41 +7,57 @@ using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Reaction.Domain.Entities
 {
-  public class ReactionEntity
-    : AggregateRoot
-  {
-    public string ContentId { get; set; }
-
-    public bool IsDisabled { get; set; } = false;
-
-    public IList<ReactionDetailEntity> Details { get; set; } = new List<ReactionDetailEntity>();
-
-    public async ValueTask<ReactionDetailEntity> AddDetailAsync(string userId,
-      ReactionTypes type,
-      DateTimeOffset dateTime)
+    public class ReactionEntity : AggregateRoot
     {
-      var detail = new ReactionDetailEntity();
-      detail.ReactionId = Id;
-      detail.UserId = userId;
-      detail.Type = type;
+        public string ContentId { get; set; }
 
-      await detail.SetForCreateAsync(userId,
-        dateTime);
-      Details.Add(detail);
+        public bool IsDisabled { get; set; } = false;
 
-      return detail;
+        public List<ReactionDetailEntity> Details { get; set; } = new List<ReactionDetailEntity>();
+
+        public ValueTask<ReactionDetailEntity> AddDetailAsync(
+            string userId,
+            ReactionTypes type,
+            DateTimeOffset dateTime
+        )
+        {
+            var detail =
+                Details.FirstOrDefault(d => d.UserId == userId) ?? new ReactionDetailEntity();
+
+            detail.UserId = userId;
+            detail.Type = type;
+
+            // await detail.SetForCreateAsync(userId, dateTime);
+            Details.Add(detail);
+            return ValueTask.FromResult(detail);
+        }
+
+        public ValueTask<ReactionDetailEntity> AddDetailAsync(ReactionDetailEntity detail)
+        {
+            /*var existing =
+                Details.FirstOrDefault(d => d.UserId == userId) ?? new ReactionDetailEntity();
+
+            detail.UserId = userId;
+            detail.Type = type;*/
+
+            detail.ReactionId = Id;
+            detail.Reaction = this;
+
+            // await detail.SetForCreateAsync(userId, dateTime);
+            Details.Add(detail);
+            return ValueTask.FromResult(detail);
+        }
+
+        /*public async ValueTask<ReactionDetailEntity> RestoreDetailAsync(
+            Guid id,
+            string restoredBy,
+            DateTimeOffset dateTime
+        )
+        {
+            var detail = Details.First(d => d.Id == id);
+            await detail.SetForRestoreAsync(restoredBy, dateTime);
+
+            return detail;
+        }*/
     }
-
-    protected async override ValueTask<AuditableEntity> InnerSetForCreateAsync(string createdBy,
-      DateTimeOffset createdDateTime)
-    {
-      await Details.ForEachAsync(async (detail) => {
-          detail.ReactionId = Id;
-          await detail.SetForCreateAsync(createdBy,
-            createdDateTime);
-        });
-
-      return this;
-    }
-  }
 }

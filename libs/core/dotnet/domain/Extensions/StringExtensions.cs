@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace OpenSystem.Core.Domain.Extensions
 {
     public static class StringExtensions
@@ -26,6 +28,15 @@ namespace OpenSystem.Core.Domain.Extensions
               return default_;
 
             return intValue;
+        }
+
+        
+        public static string RemoveSuffix(this string s, 
+          string suffix)
+        {
+            return Regex.Replace(s, 
+              $"{suffix}$", 
+              String.Empty);
         }
     }
 }

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using OpenSystem.Core.Application.Attributes;
+using OpenSystem.Core.Domain.Common;
+using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Infrastructure.WebApi.Filters;
 using OpenSystem.Reaction.Application.Models;
@@ -15,99 +17,103 @@ using OpenSystem.Reaction.Application.Models.DTOs;
 
 namespace OpenSystem.Apis.Reaction.Routes.v1
 {
-  public static class RouteGroupBuilderExtensions
-  {
-      public static RouteGroupBuilder AddRouteGroup(this RouteGroupBuilder group)
-      {
-          group.AddEndpointFilterFactory(ValidationFilter.ValidationFilterFactory);
-          group.MapGet("/{contentId?}",
-            async Task<Results<Ok, NotFound>>
-            ([FromRoute (Name = "contentId")]string? contentId,
-            [FromQuery (Name = "pageNumber")][Required()]int pageNumber,
-            [FromQuery (Name = "pageSize")][Required()]int pageSize,
-            [FromQuery (Name = "orderBy")][Required()]string orderBy,
-            [FromQuery (Name = "type")]string? type,
-              ISender? _sender,
-              CancellationToken cancellationToken) => {
-              // do the thing
-              //return Results.Ok();
+    public static class RouteGroupBuilderExtensions
+    {
+        public static RouteGroupBuilder AddEndPointRequestHandlers(this RouteGroupBuilder group)
+        {
+            // group.AddEndpointFilterFactory(ValidationFilter.ValidationFilterFactory);
+            /*group.MapGet("/{contentId?}",
+              async Task<Results<Ok<GetReactionsCountQuery>, NotFound, BadRequest>>
+             ([FromRoute (Name = "contentId")]string? contentId,
+              [FromQuery (Name = "pageNumber")][Required]int pageNumber,
+              [FromQuery (Name = "pageSize")][Required]int pageSize,
+              [FromQuery (Name = "orderBy")][Required]string orderBy,
+              [FromQuery (Name = "type")]string? type,
+                ISender? _sender,
+                CancellationToken cancellationToken) => {
+                // do the thing
+                //return Results.Ok();
+  
+                //Create an instance of the request object
+                var request = new GetReactionsQuery();
+  
+                request.ContentId = contentId;
+                request.PageNumber = pageNumber;
+                request.PageSize = pageSize;
+                request.OrderBy = orderBy;
+                request.Type = type;
+  
+                return await SendQueryAsync(request,
+                  cancellationToken);
+  
+                  return TypedResults.Ok(await _sender.Send<GetReactionsCountQuery>(request,
+                    cancellationToken));
+            })
+             .WithName("GetReactions");*/
+            /*.WithOpenApi(openApi => new(openApi)
+            {
+                  Summary = "Get Reactions",
+                  Description = "Return the reactions for a specific article, comment, etc."
+            });*/
 
-              //Create an instance of the request object
-              var request = new GetReactionsQuery();
+            group
+                .MapGet(
+                    "/{contentId}/count",
+                    async Task<Results<Ok<GetReactionsCount200Response>, NotFound, BadRequest>> (
+                        [FromRoute(Name = "contentId")] [Required] string contentId,
+                        [FromQuery(Name = "type")] string? type,
+                        ISender _sender
+                    ) =>
+                    {
+                        // do the thing
+                        //return Results.Ok();
 
-              request.ContentId = contentId;
-              request.PageNumber = pageNumber;
-              request.PageSize = pageSize;
-              request.OrderBy = orderBy;
-              request.Type = type;
+                        //Create an instance of the request object
+                        var request = new GetReactionsCountQuery();
 
-              /*return await SendQueryAsync(request,
-                cancellationToken);*/
+                        request.ContentId = contentId;
+                        request.Type = type;
 
-                return TypedResults.Ok(await _sender.Send(request,
-                  cancellationToken));
-          })
-           .WithName("GetReactions");
-          /*.WithOpenApi(openApi => new(openApi)
-          {
-                Summary = "Get Reactions",
-                Description = "Return the reactions for a specific article, comment, etc."
-          });*/
+                        /*return await SendQueryAsync(request,
+                          cancellationToken);*/
 
-          group.MapPost("/{contentId}",
-          async Task<Results<Ok<GetReactions200Response>, NotFound, UnprocessableEntity>>
-          ([FromRoute (Name = "contentId")][Required]string contentId,
-          [FromBody] AddReactionRequest? requestBody,
-            ISender? _sender,
-            CancellationToken cancellationToken) => {
+                        return TypedResults.Ok(
+                            await _sender.Send<GetReactionsCount200Response>(request)
+                        );
+                    }
+                )
+                .WithName("GetReactions")
+                .AllowAnonymous();
 
-            // private ISender? _sender => HttpContext.RequestServices.GetService<ISender>();
-              // do the thing
-              //return Results.Ok();
+            group
+                .MapPost(
+                    "/{contentId}",
+                    async Task<Results<Ok<IIndexed>, NotFound, UnprocessableEntity>> (
+                        [FromRoute(Name = "contentId")] [Required] string contentId,
+                        [FromBody] [Required] AddReactionRequest requestBody,
+                        ISender _sender
+                    ) =>
+                    {
+                        // Create an instance of the request object
+                        var request = new AddReactionCommand();
 
-               // Create an instance of the request object
-             // var request = new GetReactionsQuery();
+                        if (requestBody != null)
+                            requestBody.CopyTo(request);
 
+                        request.ContentId = contentId;
+                        return TypedResults.Ok(await _sender.Send<IIndexed>(request));
+                    }
+                )
+                .WithName("AddReaction")
+                .AllowAnonymous();
 
-              /*request.ContentId = contentId;
-              request.PageNumber = pageNumber;
-              request.PageSize = pageSize;
-              request.OrderBy = orderBy;
-              request.Type = type;
+            /*.WithOpenApi(openApi => new(openApi)
+            {
+                  Summary = "Get Reactions",
+                  Description = "Return the reactions for a specific article, comment, etc."
+            });*/
 
-              return await SendQueryAsync(request,
-                cancellationToken);*/
-
-            // Create an instance of the request object
-            var request = new AddReactionCommand();
-
-            if (requestBody != null)
-              requestBody.Copy(request);
-
-            request.ContentId = contentId;
-
-              await _sender.Send(request,
-                cancellationToken);
-
-              /*var request = new AddReactionCommand();
-
-            if (requestBody != null)
-              requestBody.Copy(request);
-
-            request.ContentId = contentId;
-            return await SendCommandAsync(request,
-              cancellationToken);*/
-          })
-           .WithName("AddReaction");
-          /*.WithOpenApi(openApi => new(openApi)
-          {
-                Summary = "Get Reactions",
-                Description = "Return the reactions for a specific article, comment, etc."
-          });*/
-
-          return group;
-      }
-
-
-  }
+            return group;
+        }
+    }
 }

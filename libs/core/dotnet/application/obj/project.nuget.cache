@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "4KdiodG90WaHAPE7stHpCVlfnYFFPVFE/BSVyI9yfz4fZ8V7Sde98TLwqgQOJ+D6QDHSDCWYv4G5JOhB4vA+mQ==",
+  "dgSpecHash": "iooLby0seSEr0wpjyaDum7zAyTrW0J1fYJaIboxvsbUQFlQv5A/dQYZZNj+64ycU0SiGnqfHf8Ems3xXOjuf7g==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\patjo\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\ben.demystifier\\0.4.1\\ben.demystifier.0.4.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\elasticsearch.net\\7.17.5\\elasticsearch.net.7.17.5.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\fluentvalidation\\11.4.0\\fluentvalidation.11.4.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.4.0\\fluentvalidation.dependencyinjectionextensions.11.4.0.nupkg.sha512",
@@ -56,6 +57,7 @@
     "C:\\Users\\patjo\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.collections.immutable\\1.7.1\\system.collections.immutable.1.7.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\system.reflection.metadata\\5.0.0\\system.reflection.metadata.5.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.text.json\\4.6.0\\system.text.json.4.6.0.nupkg.sha512"
   ],

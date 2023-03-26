@@ -5,36 +5,10 @@ namespace OpenSystem.Core.Domain.Exceptions
 {
     public class NotFoundException : BaseException
     {
-        public NotFoundException()
+        public NotFoundException(string? extendedMessage = null)
           : base(typeof(ResultCodeApplication),
-            ResultCodeApplication.NoResultsFound)
-        {
-        }
-
-        public NotFoundException(Type? resultCodeType,
-          int code)
-          : base((resultCodeType == null
-            ? typeof(ResultCodeApplication)
-            : resultCodeType),
-              (!code.IsSet()
-            ? ResultCodeApplication.NoResultsFound
-            : code))
-        {
-        }
-
-        public NotFoundException(Type? resultCodeType,
-          int code,
-          Exception exception)
-            : base(resultCodeType,
-                code,
-                exception)
-        {
-        }
-
-        public NotFoundException(Exception exception)
-            : base(typeof(ResultCodeApplication),
-                ResultCodeApplication.NoResultsFound,
-                exception)
+            ResultCodeApplication.NoResultsFound,
+            extendedMessage)
         {
         }
     }

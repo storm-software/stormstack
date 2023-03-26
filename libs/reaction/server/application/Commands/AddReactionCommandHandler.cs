@@ -17,41 +17,48 @@ using OpenSystem.Core.Domain.Exceptions;
 namespace OpenSystem.Reaction.Application.Commands
 {
     public class AddReactionCommandHandler
-      : BaseUpdateCommandHandler<AddReactionCommand, ReactionEntity, IReactionRepository>
+        : BaseUpdateCommandHandler<AddReactionCommand, ReactionEntity, IReactionRepository>
     {
         private readonly ICurrentUserService _currentUserService;
 
-        private readonly IDateTimeProvider _dateTimeProvider;
-
-        public AddReactionCommandHandler(IReactionRepository repository,
-          IMapper mapper,
-          ILogger<AddReactionCommandHandler> logger,
-          ICurrentUserService currentUserService,
-          IDateTimeProvider dateTimeProvider)
-            : base (repository,
-              mapper,
-              logger)
+        public AddReactionCommandHandler(
+            IReactionRepository repository,
+            IMapper mapper,
+            ILogger<AddReactionCommandHandler> logger,
+            ICurrentUserService currentUserService,
+            IDateTimeProvider dateTimeProvider
+        )
+            : base(repository, mapper, logger)
         {
             _currentUserService = currentUserService;
-            _dateTimeProvider = dateTimeProvider;
         }
 
-        protected async override Task<ReactionEntity> HandleCommandAsync(ReactionEntity entity,
-          AddReactionCommand request,
-          CancellationToken cancellationToken)
+        protected async override Task<ReactionEntity> HandleCommandAsync(
+            ReactionEntity entity,
+            AddReactionCommand request,
+            CancellationToken cancellationToken
+        )
         {
-            var detail = entity.Details.First(r => r.UserId == _currentUserService.UserId);
-            if (detail == null)
+            if (!entity.Details.Any(r => r.UserId == _currentUserService.UserId))
             {
-              detail = await entity.AddDetailAsync(_currentUserService.UserId,
-                (ReactionTypes)Enum.Parse(typeof(ReactionTypes),
-                  request.Type.ToString()),
-                _dateTimeProvider.OffsetUtcNow);
-              if (!(detail is ReactionDetailEntity))
-                throw new BaseException(typeof(ResultCodeApplication),
-                  ResultCodeApplication.FailedConvertingToEntity);
+                ReactionDetailEntity detail;
+                if (entity.Details.Any(r => string.IsNullOrEmpty(r.UserId)))
+                {
+                    detail = entity.Details.Find(r => string.IsNullOrEmpty(r.UserId));
+                    detail.UserId = _currentUserService.UserId;
+                }
+                else
+                {
+                    detail = await Repository.AddOrUpdateDetailAsync(
+                        entity.Id,
+                        _currentUserService.UserId,
+                        cancellationToken,
+                        true
+                    );
 
-              detail.UserId = _currentUserService.UserId;
+                    if (detail.IsDeleted)
+                        detail = await Repository.RestoreDetailAsync(detail, cancellationToken);
+                }
             }
 
             return entity;

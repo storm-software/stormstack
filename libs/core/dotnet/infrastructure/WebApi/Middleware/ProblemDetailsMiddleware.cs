@@ -20,9 +20,10 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.Net.Http.Headers;
 using OpenSystem.Core.Application.Extensions;
-using OpenSystem.Core.Application.Services;
+using OpenSystem.Core.Application.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using System.Runtime.ExceptionServices;
+using OpenSystem.Core.Infrastructure.Utilities;
 
 namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
 {
@@ -44,6 +45,18 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
 
         private static readonly ActionDescriptor _emptyActionDescriptor = new();
 
+        private HashSet<string> _allowedHeaderNames => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            HeaderNames.AccessControlAllowCredentials,
+            HeaderNames.AccessControlAllowHeaders,
+            HeaderNames.AccessControlAllowMethods,
+            HeaderNames.AccessControlAllowOrigin,
+            HeaderNames.AccessControlExposeHeaders,
+            HeaderNames.AccessControlMaxAge,
+            HeaderNames.StrictTransportSecurity,
+            HeaderNames.WWWAuthenticate,
+        };
+
         public ProblemDetailsMiddleware(RequestDelegate next,
           IActionResultExecutor<ObjectResult> executor,
           IProblemDetailsResponseFactory factory,
@@ -62,7 +75,6 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
       {
         ExceptionDispatchInfo? edi = null;
 
-        var stopWatch = Stopwatch.StartNew();
         var requestBody = await context.Request.GetRequestBodyAsync();
         var originalResponseBodyStream = context.Response.Body;
         bool isRequestSuccessful = false;
@@ -82,6 +94,8 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
 
             var bodyAsText = await ReadResponseBodyStreamAsync(memoryStream);
             context.Response.Body = originalResponseBodyStream;
+
+            
             if (context.Response.StatusCode != Status304NotModified &&
               context.Response.StatusCode != Status204NoContent)
             {
@@ -95,10 +109,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
             }
 
             if (!isRequestSuccessful)
-              await SendProblemDetailsAsync(context,
-                await _factory.CreateProblemDetailsAsync(context,
-                  Result.Failure(typeof(ResultCodeGeneral),
-                    ResultCodeGeneral.GeneralError)));
+              await SendProblemDetailsAsync(context);
         }
         catch (Exception ex)
         {
@@ -110,26 +121,19 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
             edi = ExceptionDispatchInfo.Capture(ex);
             if (edi != null)
             {
-                var error = edi.SourceException;
+                var exception = edi.SourceException;
+
                 var feature = new ExceptionHandlerFeature
                 {
                     Path = context.Request.Path,
-                    Error = error,
-                };
-
-                ClearResponse(context,
-                  StatusCodes.Status500InternalServerError);
-
+                    Error = exception,
+                };            
                 context.Features.Set<IExceptionHandlerPathFeature>(feature);
                 context.Features.Set<IExceptionHandlerFeature>(feature);
 
-                var problemDetails = await _factory.CreateExceptionProblemDetailsAsync(context,
-                  error);
-                if (problemDetails != null)
-                {
-                  await SendProblemDetailsAsync(context,
-                    problemDetails);
-                }
+                
+                await SendProblemDetailsAsync(context,
+                  exception);                
               }
 
               _logger.LogError("An exception has been thrown.");
@@ -137,7 +141,9 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
             catch (Exception inner)
             {
                 // If we fail to write a problem response, we log the exception and throw the original below.
-                // _logger.ProblemDetailsMiddlewareException(inner);
+                _logger.LogError("Failed to write the problem response",
+                  inner);
+                throw;
             }
         }
       }
@@ -186,8 +192,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
 
 
                   await context.Response.WriteAsync(message + "\r\n");
-                  await context.Response.WriteAsync($"Request ID: {Activity.Current?.Id ??
-                    context.TraceIdentifier}");
+                  //await context.Response.WriteAsync($"Request ID: {HttpUtility.GetTraceId(context)}");
               }
 
               // use ILogger to log the exception message
@@ -203,63 +208,73 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Middleware
           }
       };
 
+    public async Task SendProblemDetailsAsync(HttpContext context,
+        Exception exception)
+    {
+        context.Response.StatusCode = HttpUtility.MapToStatusCode(exception);
+        await SendProblemDetailsAsync(context,
+          await _factory.CreateAsync(context,
+            exception));
+    }
 
+    public async Task SendProblemDetailsAsync(HttpContext context)
+    {     
+        await SendProblemDetailsAsync(context,
+          await _factory.CreateAsync(context,
+            Result.Failure(typeof(ResultCodeGeneral),
+              ResultCodeGeneral.GeneralError)));
+    }
 
     public async Task SendProblemDetailsAsync(HttpContext context,
       ProblemDetailsResponse problemDetails)
     {
-        ClearResponse(context,
+        PrepareResponse(context,
           context.Response.StatusCode);
+          
+        var objResult = new ObjectResult(problemDetails)
+        {
+            StatusCode = problemDetails.Status,
+        };
+
+        objResult.ContentTypes.Add(HttpContentTypeConstants.ProblemJson);
+        objResult.ContentTypes.Add(HttpContentTypeConstants.ProblemXml);
 
         await _executor.ExecuteAsync(new ActionContext(context,
           context.GetRouteData() ?? _emptyRouteData,
           _emptyActionDescriptor),
-          _factory.GetObjectResult(context,
-            problemDetails));
-          await context.Response.CompleteAsync();
+          objResult);
+        await context.Response.CompleteAsync();
     }
 
-    private void ClearResponse(HttpContext context,
+    private void PrepareResponse(HttpContext context,
       int statusCode)
-        {
-            var headers = new HeaderDictionary();
+      {
+          var headers = new HeaderDictionary();
 
-            // Make sure problem responses are never cached.
-            headers[HeaderNames.CacheControl] = "no-cache, no-store, must-revalidate";
-            headers[HeaderNames.Pragma] = "no-cache";
-            headers[HeaderNames.ETag] = default;
-            headers[HeaderNames.Expires] = "0";
+          // Make sure problem responses are never cached.
+          headers[HeaderNames.CacheControl] = "no-cache, no-store, must-revalidate";
+          headers[HeaderNames.Pragma] = "no-cache";
+          headers[HeaderNames.ETag] = default;
+          headers[HeaderNames.Expires] = "0";
 
-            foreach (var header in context.Response.Headers)
-            {
-                // Because the CORS middleware adds all the headers early in the pipeline,
-                // we want to copy over the existing Access-Control-* headers after resetting the response.
-                if (AllowedHeaderNames.Contains(header.Key))
-                {
-                    headers.Add(header);
-                }
-            }
+          foreach (var header in context.Response.Headers)
+          {
+              // Because the CORS middleware adds all the headers early in the pipeline,
+              // we want to copy over the existing Access-Control-* headers after resetting the response.
+              if (_allowedHeaderNames.Contains(header.Key))
+                  headers.Add(header);
+          }
 
-            context.Response.Clear();
-            context.Response.StatusCode = statusCode;
+          context.Response.Clear();
+          context.Response.StatusCode = statusCode;
 
-            foreach (var header in headers)
-            {
-                context.Response.Headers.Add(header);
-            }
-        }
+          foreach (var header in headers)
+          {
+              context.Response.Headers.Add(header);
+          }
+      }
 
-       private HashSet<string> AllowedHeaderNames => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            HeaderNames.AccessControlAllowCredentials,
-            HeaderNames.AccessControlAllowHeaders,
-            HeaderNames.AccessControlAllowMethods,
-            HeaderNames.AccessControlAllowOrigin,
-            HeaderNames.AccessControlExposeHeaders,
-            HeaderNames.AccessControlMaxAge,
-            HeaderNames.StrictTransportSecurity,
-            HeaderNames.WWWAuthenticate,
-        };
+
 
         /*public async Task Invoke(HttpContext context)
         {

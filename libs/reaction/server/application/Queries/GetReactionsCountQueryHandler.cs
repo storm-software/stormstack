@@ -9,25 +9,34 @@ using Microsoft.Extensions.Logging;
 
 namespace OpenSystem.Reaction.Application.Queries
 {
-  public class GetReactionsCountQueryHandler
-    : BaseQueryHandler<GetReactionsCountQuery, GetReactionsCount200Response>
-  {
-    private readonly IReactionRepository _repository;
-
-    public GetReactionsCountQueryHandler(IReactionRepository repository,
-      IMapper mapper,
-      ILogger<GetReactionsCountQueryHandler> logger)
-      : base (mapper,
-          logger)
+    public class GetReactionsCountQueryHandler
+        : BaseQueryHandler<GetReactionsCountQuery, GetReactionsCount200Response>
     {
-      _repository = repository;
-    }
+        private readonly IReactionRepository _repository;
 
-    protected override async ValueTask<object> InnerHandleAsync(GetReactionsCountQuery request,
-      CancellationToken cancellationToken)
-    {
-      return await _repository.GetReactionsCountAsync(request.ContentId,
-        request.Type);
+        public GetReactionsCountQueryHandler(
+            IReactionRepository repository,
+            IMapper mapper,
+            ILogger<GetReactionsCountQueryHandler> logger
+        )
+            : base(mapper, logger)
+        {
+            _repository = repository;
+        }
+
+        protected override async ValueTask<object> InnerHandleAsync(
+            GetReactionsCountQuery request,
+            CancellationToken cancellationToken
+        )
+        {
+            var queryResult = await _repository.GetReactionsCountAsync(
+                request.ContentId,
+                request.Type
+            );
+            if (queryResult == null || queryResult.Count == 0)
+                throw new NotFoundException();
+
+            return queryResult;
+        }
     }
-  }
 }

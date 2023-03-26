@@ -11,15 +11,17 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.MappingConfigurations
     {
         protected override string TableName => "Reaction";
 
-        protected override Expression<Func<ReactionEntity, object?>> PrimaryKey => x => x.ContentId;
+        protected override Expression<Func<ReactionEntity, object?>> AlternateKey =>
+            x => x.ContentId;
 
         protected override void ConfigureColumns(EntityTypeBuilder<ReactionEntity> builder)
         {
-          builder.HasMany(r => r.Details)
-            .WithOne(d => d.Reaction)
-            .HasForeignKey(d => d.ReactionId)
-            .HasPrincipalKey(x => x.Id)
-            .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasMany(r => r.Details)
+                .WithOne(d => d.Reaction)
+                .HasForeignKey(d => d.ReactionId)
+                .HasPrincipalKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -1,14 +1,13 @@
 using System;
+using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
-    public interface IAuditable
+    public interface IAuditable : IVersionedIndex
     {
-        public int EventCounter { get; set; }
-
         public EntityEventTypes EventType { get; set; }
 
         public EntityStatusTypes Status { get; set; }

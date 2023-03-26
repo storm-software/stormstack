@@ -1,39 +1,39 @@
+using System.Diagnostics;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
+using OpenSystem.Core.Application.Interfaces;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
-  public class UnhandledExceptionBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : MediatR.IRequest<TResponse>
-  {
-    private readonly ILogger<UnhandledExceptionBehavior<TRequest, TResponse>> _logger;
-
-    public UnhandledExceptionBehavior(ILogger<UnhandledExceptionBehavior<TRequest, TResponse>> logger)
+    public class UnhandledExceptionBehavior<TRequest, TResponse>
+        : IRequestExceptionHandler<TRequest, TResponse>
+        where TRequest : IBaseRequest<TResponse>
     {
-        _logger = logger;
-    }
+        private readonly ILogger<UnhandledExceptionBehavior<TRequest, TResponse>> _logger;
 
-    public async Task<TResponse> Handle(TRequest request,
-      RequestHandlerDelegate<TResponse> next,
-      CancellationToken cancellationToken)
-    {
-        try
+        public UnhandledExceptionBehavior(
+            ILogger<UnhandledExceptionBehavior<TRequest, TResponse>> logger
+        )
         {
-            return await next();
+            _logger = logger;
         }
-        catch (Exception ex)
+
+        public Task Handle(
+            TRequest request,
+            Exception exception,
+            RequestExceptionHandlerState<TResponse> state,
+            CancellationToken cancellationToken
+        )
         {
-            var requestName = typeof(TRequest).Name;
+            _logger.LogError(
+                exception.Demystify(),
+                "Failed Request: Unhandled Exception for Request {Name} {@Request}",
+                typeof(TRequest).Name,
+                request
+            );
 
-            _logger.LogError(ex,
-              "Failed Request: Unhandled Exception for Request {Name} {@Request}",
-              requestName,
-              request);
-
-            throw;
+            return Task.CompletedTask;
         }
     }
-  }
 }
-

@@ -37,7 +37,8 @@ namespace OpenSystem.Core.Domain.ValueObjects
             x.Value = item;
             var ret = x.InnerValidate();
             if (ret.Failed)
-                throw new BaseException(ret);
+                throw new Exceptions.ValidationException(typeof(ResultCodeValidation),
+                  ret.Code);
 
             return x;
         }

@@ -6,62 +6,65 @@ using Microsoft.Extensions.Logging;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
-  public class PerformanceBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : MediatR.IRequest<TResponse>
-  {
-    private readonly Stopwatch _timer;
-
-    private readonly ILogger<PerformanceBehavior<TRequest, TResponse>> _logger;
-
-    private readonly ICurrentUserService _currentUserService;
-
-    //private readonly IIdentityService _identityService;
-
-    public PerformanceBehavior(
-        ILogger<PerformanceBehavior<TRequest, TResponse>> logger,
-        ICurrentUserService currentUserService)
+    public class PerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IBaseRequest<TResponse>
     {
-        _timer = new Stopwatch();
+        private readonly Stopwatch _timer;
 
-        _logger = logger;
-        _currentUserService = currentUserService;
-        //_identityService = identityService;
-    }
+        private readonly ILogger<PerformanceBehavior<TRequest, TResponse>> _logger;
 
-    public async Task<TResponse> Handle(TRequest request,
-      RequestHandlerDelegate<TResponse> next,
-      CancellationToken cancellationToken)
-    {
-        _timer.Start();
+        private readonly ICurrentUserService _currentUserService;
 
-        var response = await next();
+        //private readonly IIdentityService _identityService;
 
-        _timer.Stop();
-
-        var elapsedMilliseconds = _timer.ElapsedMilliseconds;
-
-        if (elapsedMilliseconds > 500)
+        public PerformanceBehavior(
+            ILogger<PerformanceBehavior<TRequest, TResponse>> logger,
+            ICurrentUserService currentUserService
+        )
         {
-            var requestName = typeof(TRequest).Name;
-            var userId = _currentUserService.UserId ?? string.Empty;
-            var userName = string.Empty;
+            _timer = new Stopwatch();
 
-            if (!string.IsNullOrEmpty(userId))
-            {
-                //userName = await _identityService.GetUserNameAsync(userId);
-            }
-
-            _logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
-                requestName,
-                elapsedMilliseconds,
-                userId,
-                userName,
-                request);
+            _logger = logger;
+            _currentUserService = currentUserService;
+            //_identityService = identityService;
         }
 
-        return response;
-    }
-  }
-}
+        public async Task<TResponse> Handle(
+            TRequest request,
+            RequestHandlerDelegate<TResponse> next,
+            CancellationToken cancellationToken
+        )
+        {
+            _timer.Start();
 
+            var response = await next();
+
+            _timer.Stop();
+
+            var elapsedMilliseconds = _timer.ElapsedMilliseconds;
+
+            if (elapsedMilliseconds > 500)
+            {
+                var requestName = typeof(TRequest).Name;
+                var userId = _currentUserService.UserId ?? string.Empty;
+                var userName = string.Empty;
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    //userName = await _identityService.GetUserNameAsync(userId);
+                }
+
+                _logger.LogWarning(
+                    "Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
+                    requestName,
+                    elapsedMilliseconds,
+                    userId,
+                    userName,
+                    request
+                );
+            }
+
+            return response;
+        }
+    }
+}

@@ -248,6 +248,10 @@
                 "description": "A unique Id representing the specific server request",
                 "format": "uuid"
               },
+              "stackTrace": {
+                "type": "string",
+                "description": "The stack trade of the error"
+              },
               "errors": {
                 "type": "array",
                 "items": {
@@ -261,8 +265,7 @@
               "traceId"
             ]
           }
-        ],
-        "title": "ProblemDetailsResponse"
+        ]
       },
       "Address": {
         "title": "Address",

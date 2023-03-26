@@ -28,13 +28,18 @@ using OpenSystem.Core.Infrastructure.WebApi.Services;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Reflection;
+using OpenSystem.Core.Infrastructure.ModelBinding;
+using OpenSystem.Core.Application.Models;
 
 namespace OpenSystem.Core.Infrastructure
 {
     public static class ServiceRegistration
     {
-        public static void AddPersistenceInfrastructure(this IServiceCollection services,
-          ApplicationSettings settings)
+        public static void AddPersistenceInfrastructure(
+            this IServiceCollection services,
+            ApplicationSettings settings
+        )
         {
             //services.AddScoped<AuditableEntitySaveChangesInterceptor>();
             //services.AddScoped<ValidateSaveChangesInterceptor>();
@@ -46,21 +51,21 @@ namespace OpenSystem.Core.Infrastructure
 
             //services.UseEntityFrameworkCoreModel
 
-           /* if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("ApplicationDb"));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseNpgsql(
-                    configuration.GetConnectionString("DefaultConnection"),
-                    builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
+            /* if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+             {
+                 services.AddDbContext<ApplicationDbContext>(options =>
+                     options.UseInMemoryDatabase("ApplicationDb"));
+             }
+             else
+             {
+                 services.AddDbContext<ApplicationDbContext>(options =>
+                   options.UseNpgsql(
+                     configuration.GetConnectionString("DefaultConnection"),
+                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+             }
 
-            services.AddScoped<IApplicationDbContext>(provider =>
-              provider.GetRequiredService<ApplicationDbContext>());*/
+             services.AddScoped<IApplicationDbContext>(provider =>
+               provider.GetRequiredService<ApplicationDbContext>());*/
 
             #region Repositories
 
@@ -72,21 +77,19 @@ namespace OpenSystem.Core.Infrastructure
 
         public static void AddServiceInfrastructure(this IServiceCollection services)
         {
-            services.AddTransient<IDateTimeProvider,
-              DateTimeProvider>();
-            services.AddTransient<ICurrentUserService,
-              CurrentUserService>();
-            services.AddTransient<IEmailService,
-              EmailService>();
-            services.AddTransient<ICsvFileExportService,
-              CsvFileExportService>();
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+            services.AddTransient<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<ICsvFileExportService, CsvFileExportService>();
 
             /*services.AddTransient<IIdentityService,
               IdentityService>();*/
         }
 
-        public static void AddAuthenticationInfrastructure(this IServiceCollection services,
-          IConfiguration configuration)
+        public static void AddAuthenticationInfrastructure(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             /*services
               .AddIdentity<ApplicationUser, IdentityRole>()
@@ -110,11 +113,13 @@ namespace OpenSystem.Core.Infrastructure
             })
               .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();*/
 
-              services.AddAuthentication()
+            services
+                .AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    IConfigurationSection googleAuthNSection =
-                      configuration.GetSection("Authentication:Google");
+                    IConfigurationSection googleAuthNSection = configuration.GetSection(
+                        "Authentication:Google"
+                    );
                     if (googleAuthNSection != null)
                     {
                         options.ClientId = googleAuthNSection["ClientId"];
@@ -156,30 +161,35 @@ namespace OpenSystem.Core.Infrastructure
                 };*/
             });
 
-            services.AddAuthorization(options =>
-                options.AddPolicy("CanPurge",
-                policy => policy.RequireRole("Administrator")));
+            services.AddAuthorization(
+                options =>
+                    options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator"))
+            );
         }
 
-        public static void AddCache(this IServiceCollection services,
-          ConnectionStringSettings settings)
+        public static void AddCache(
+            this IServiceCollection services,
+            ConnectionStringSettings settings
+        )
         {
-            services.AddStackExchangeRedisCache(options => {
-              options.Configuration = settings.CacheConnection;
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = settings.CacheConnection;
                 options.InstanceName = SettingConstants.CacheInstanceName;
             });
 
             services.AddSingleton<IMessageCacheService, MessageCacheService>();
         }
 
-        public static IHealthChecksBuilder AddHealthCheck(this IServiceCollection services,
-          ApplicationSettings settings)
+        public static IHealthChecksBuilder AddHealthCheck(
+            this IServiceCollection services,
+            ApplicationSettings settings
+        )
         {
             var builder = services.AddHealthChecks();
             services.AddHealthChecksUI(setupSettings: setup =>
             {
-                setup.AddHealthCheckEndpoint("Basic Health Check",
-                  "/health-check");
+                setup.AddHealthCheckEndpoint("Basic Health Check", "/health-check");
             });
 
             return builder;
@@ -201,10 +211,12 @@ namespace OpenSystem.Core.Infrastructure
             //services.TryAddSingleton<LibProblemDetailsFactory>();
             //services.TryAddSingleton<ProblemDetailsMarkerService, ProblemDetailsMarkerService>();
 
-            services.TryAddSingleton<IProblemDetailsResponseFactory,
-              ProblemDetailsResponseFactory>();
-            services.TryAddSingleton<IActionResultExecutor<ObjectResult>,
-              ObjectResultExecutor>();
+            services.TryAddSingleton<
+                IProblemDetailsResponseFactory,
+                ProblemDetailsResponseFactory
+            >();
+            /*services.TryAddSingleton<IActionResultExecutor<ObjectResult>,
+              ObjectResultExecutor>();*/
 
             return services;
         }
@@ -217,21 +229,101 @@ namespace OpenSystem.Core.Infrastructure
         /// <param name="configure"></param>
         public static void UseProblemDetailsFactory(this IApplicationBuilder app)
         {
-          app.UseMiddleware<ProblemDetailsMiddleware>();
+            app.UseMiddleware<ProblemDetailsMiddleware>();
+        }
+
+        public static void UseSecurityInfrastructure(this IApplicationBuilder app)
+        {
+            app.UseSecurityHeaders();
+        }
+
+        /// <summary>
+        /// Add Mediator to a service collection.
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="configure">Configure MinimatR options</param>
+        /// <param name="configureParsers">Register additional parser for custom type</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        public static IServiceCollection AddMediator(
+            this IServiceCollection services,
+            Action<MediatorSettings> configure,
+            Action<ObjectParserCollection>? configureParsers = null
+        )
+        {
+            services.Configure<MediatorSettings>(config =>
+            {
+                configure(config);
+                if (config.Assembly is null)
+                {
+                    throw new NullReferenceException("Assembly must be set");
+                }
+            });
+
+            // configure.Invoke(config);
+
+            return AddMediatorParsers(services, configureParsers);
+        }
+
+        /// <summary>
+        /// Add Mediator to a service collection.
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="assembly">Assembly to scan</param>
+        /// <param name="configure">Configure Mediator options</param>
+        /// <param name="configureParsers">Register additional parser for custom type</param>
+        /// <returns></returns>
+        public static IServiceCollection AddMediator(
+            this IServiceCollection services,
+            Assembly? assembly = null,
+            Action<MediatorSettings>? configure = null,
+            Action<ObjectParserCollection>? configureParsers = null
+        )
+        {
+            assembly ??= Assembly.GetCallingAssembly();
+            services.Configure<MediatorSettings>(configuration =>
+            {
+                configuration.Assembly ??= assembly;
+                configure?.Invoke(configuration);
+            });
+
+            return AddMediatorParsers(services, configureParsers);
+        }
+
+        private static IServiceCollection AddMediatorParsers(
+            IServiceCollection services,
+            Action<ObjectParserCollection>? configureParsers
+        )
+        {
+            if (
+                services
+                    .FirstOrDefault(d => d.ServiceType == typeof(ObjectParserCollection))
+                    ?.ImplementationInstance
+                is not ObjectParserCollection parserCollection
+            )
+            {
+                parserCollection = new ObjectParserCollection();
+                services.TryAddSingleton(parserCollection);
+            }
+
+            configureParsers?.Invoke(parserCollection);
+            ModelBinder.AddDefaultParsers(parserCollection);
+            return services;
         }
 
         public static void AddControllersExtension(this IServiceCollection services)
         {
-          // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
-            services.AddControllers(options => {
-                  options.InputFormatters.Insert(0,
-                    new InputFormatterStream());
-              })
-              .AddJsonOptions(options =>
-              {
-                  options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-                  options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-              });
+            // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
+            services
+                .AddControllers(options =>
+                {
+                    options.InputFormatters.Insert(0, new InputFormatterStream());
+                })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                });
         }
 
         //Configure CORS to allow any origin, header and method.
@@ -269,48 +361,141 @@ namespace OpenSystem.Core.Infrastructure
             });
         }
 
-        public static void AddJWTAuthentication(this IServiceCollection services,
-          IConfiguration configuration)
+        public static void AddJWTAuthentication(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
-
-            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            .AddIdentityServerAuthentication(options =>
-            {
-                options.Authority = configuration["Sts:ServerUrl"];
-                options.RequireHttpsMetadata = false;
-            });
+            services
+                .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = configuration["Sts:ServerUrl"];
+                    options.RequireHttpsMetadata = false;
+                });
         }
 
-        public static void AddAuthorizationPolicies(this IServiceCollection services,
-          IConfiguration configuration)
+        public static void AddAuthorizationPolicies(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             string admin = configuration["ApiRoles:AdminRole"],
-              manager = configuration["ApiRoles:ManagerRole"],
-              employee = configuration["ApiRoles:EmployeeRole"];
+                manager = configuration["ApiRoles:ManagerRole"],
+                employee = configuration["ApiRoles:EmployeeRole"];
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(AuthorizationConstants.AdminPolicy, policy =>
-                  policy.RequireAssertion(context => HasRole(context.User, admin)));
-                options.AddPolicy(AuthorizationConstants.ManagerPolicy, policy =>
-                  policy.RequireAssertion(context => HasRole(context.User, manager) ||
-                  HasRole(context.User, admin)));
-                options.AddPolicy(AuthorizationConstants.EmployeePolicy, policy =>
-                  policy.RequireAssertion(context => HasRole(context.User, employee) ||
-                  HasRole(context.User, manager) ||
-                  HasRole(context.User, admin)));
+                options.AddPolicy(
+                    AuthorizationConstants.AdminPolicy,
+                    policy => policy.RequireAssertion(context => HasRole(context.User, admin))
+                );
+                options.AddPolicy(
+                    AuthorizationConstants.ManagerPolicy,
+                    policy =>
+                        policy.RequireAssertion(
+                            context =>
+                                HasRole(context.User, manager) || HasRole(context.User, admin)
+                        )
+                );
+                options.AddPolicy(
+                    AuthorizationConstants.EmployeePolicy,
+                    policy =>
+                        policy.RequireAssertion(
+                            context =>
+                                HasRole(context.User, employee)
+                                || HasRole(context.User, manager)
+                                || HasRole(context.User, admin)
+                        )
+                );
             });
         }
 
-        public static bool HasRole(ClaimsPrincipal user,
-          string role)
+        public static bool HasRole(ClaimsPrincipal user, string role)
         {
             if (string.IsNullOrEmpty(role))
                 return false;
 
-            return user.HasClaim(c => (c.Type == JwtClaimTypes.Role ||
-              c.Type == $"client_{JwtClaimTypes.Role}") &&
-              System.Array.Exists(c.Value.Split(','), e => e == role));
+            return user.HasClaim(
+                c =>
+                    (c.Type == JwtClaimTypes.Role || c.Type == $"client_{JwtClaimTypes.Role}")
+                    && System.Array.Exists(c.Value.Split(','), e => e == role)
+            );
+        }
+
+        /// <summary>
+        /// Add MinimatR to a service collection.
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="configure">Configure MinimatR options</param>
+        /// <param name="configureParsers">Register additional parser for custom type</param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        public static IServiceCollection AddMinimatr(
+            this IServiceCollection services,
+            Action<MediatorSettings> configure,
+            Action<ObjectParserCollection>? configureParsers = null
+        )
+        {
+            services.Configure<MediatorSettings>(config =>
+            {
+                configure(config);
+                if (config.Assembly is null)
+                {
+                    throw new NullReferenceException("Assembly must be set");
+                }
+            });
+
+            // configure.Invoke(config);
+
+            return AddMinimatrParsers(services, configureParsers);
+        }
+
+        /// <summary>
+        /// Add MinimatR to a service collection.
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="assembly">Assembly to scan</param>
+        /// <param name="configure">Configure MinimatR options</param>
+        /// <param name="configureParsers">Register additional parser for custom type</param>
+        /// <returns></returns>
+        public static IServiceCollection AddMinimatr(
+            this IServiceCollection services,
+            Assembly assembly,
+            Action<MediatorSettings>? configure = null,
+            Action<ObjectParserCollection>? configureParsers = null
+        )
+        {
+            services.Configure<MediatorSettings>(configuration =>
+            {
+                configuration.Assembly ??= assembly;
+                configure?.Invoke(configuration);
+            });
+
+            // configure?.Invoke(config);
+
+            return AddMinimatrParsers(services, configureParsers);
+        }
+
+        private static IServiceCollection AddMinimatrParsers(
+            IServiceCollection services,
+            Action<ObjectParserCollection>? configureParsers
+        )
+        {
+            if (
+                services
+                    .FirstOrDefault(d => d.ServiceType == typeof(ObjectParserCollection))
+                    ?.ImplementationInstance
+                is not ObjectParserCollection parserCollection
+            )
+            {
+                parserCollection = new ObjectParserCollection();
+                services.TryAddSingleton(parserCollection);
+            }
+
+            configureParsers?.Invoke(parserCollection);
+            ModelBinder.AddDefaultParsers(parserCollection);
+            return services;
         }
     }
 }

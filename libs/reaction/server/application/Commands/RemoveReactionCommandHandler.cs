@@ -11,48 +11,43 @@ using OpenSystem.Core.Domain.Exceptions;
 
 namespace OpenSystem.Reaction.Application.Commands
 {
-  public class RemoveReactionCommandHandler
-    : BaseUpdateCommandHandler<RemoveReactionCommand, ReactionEntity, IReactionRepository>
-  {
-    private readonly IReactionRepository _repository;
-
-    private readonly IMapper _mapper;
-
-    private readonly ILogger<RemoveReactionCommandHandler> _logger;
-
-    private readonly ICurrentUserService _currentUserService;
-
-    private readonly IDateTimeProvider _dateTimeProvider;
-
-    public RemoveReactionCommandHandler(IReactionRepository repository,
-      IMapper mapper,
-      ILogger<RemoveReactionCommandHandler> logger,
-      ICurrentUserService currentUserService,
-      IDateTimeProvider dateTimeProvider)
-        : base (repository,
-              mapper,
-              logger)
+    public class RemoveReactionCommandHandler
+        : BaseUpdateCommandHandler<RemoveReactionCommand, ReactionEntity, IReactionRepository>
     {
-        _repository = repository;
-        _mapper = mapper;
-        _logger = logger;
-        _currentUserService = currentUserService;
-        _dateTimeProvider = dateTimeProvider;
+        protected ICurrentUserService _currentUserService { get; set; }
+
+        public RemoveReactionCommandHandler(
+            IReactionRepository repository,
+            IMapper mapper,
+            ILogger<RemoveReactionCommandHandler> logger,
+            ICurrentUserService currentUserService,
+            IDateTimeProvider dateTimeProvider
+        )
+            : base(repository, mapper, logger)
+        {
+            _currentUserService = currentUserService;
+        }
+
+        protected async override Task<ReactionEntity> HandleCommandAsync(
+            ReactionEntity entity,
+            RemoveReactionCommand request,
+            CancellationToken cancellationToken
+        )
+        {
+            if (!entity.Details.Any(r => r.UserId == _currentUserService.UserId))
+                throw new NotFoundException();
+
+            var detail = await Repository.DeleteDetailAsync(
+                entity.Details.First(r => r.UserId == _currentUserService.UserId),
+                cancellationToken
+            );
+            if (!(detail is ReactionDetailEntity))
+                throw new GeneralProcessingException(
+                    typeof(ResultCodeApplication),
+                    ResultCodeApplication.FailedConvertingToEntity
+                );
+
+            return entity;
+        }
     }
-
-    protected async override Task<ReactionEntity> HandleCommandAsync(ReactionEntity entity,
-      RemoveReactionCommand request,
-      CancellationToken cancellationToken)
-    {
-      var detail = entity.Details.FirstOrDefault(r => r.UserId == _currentUserService.UserId);
-      if (detail == null)
-        throw new BaseException(typeof(ResultCodeApplication),
-          ResultCodeApplication.RecordNotFound);
-
-      await entity.SetForDeleteAsync(_currentUserService.UserId,
-        _dateTimeProvider.OffsetUtcNow);
-
-      return entity;
-    }
-  }
 }

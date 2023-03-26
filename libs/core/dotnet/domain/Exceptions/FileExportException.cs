@@ -5,36 +5,19 @@ namespace OpenSystem.Core.Domain.Exceptions
 {
     public class FileExportException : BaseException
     {
-        public FileExportException()
+      public FileExportException(string? extendedMessage = null,
+        Exception? exception = null)
+        : base(typeof(ResultCodeApplication),
+            ResultCodeApplication.FileExportFailure,
+            extendedMessage)
+      {
+      }
+
+      public FileExportException(Exception exception)
           : base(typeof(ResultCodeApplication),
-            ResultCodeApplication.FileExportFailure)
-        {
-        }
-
-        public FileExportException(Type? resultCodeType,
-          int code)
-          : base((resultCodeType == null
-            ? typeof(ResultCodeApplication)
-            : resultCodeType),
-              (!code.IsSet()
-            ? ResultCodeApplication.FileExportFailure
-            : code))
-        {
-        }
-
-        public FileExportException(Type? resultCodeType,
-          int code,
-          Exception exception)
-            : base(resultCodeType,
-                code,
-                exception)
-        {
-        }
-
-        public FileExportException(Exception exception)
-            : base(typeof(ResultCodeApplication),
-                ResultCodeApplication.FileExportFailure,
-                exception)
+              ResultCodeApplication.FileExportFailure,
+              exception.Message,
+              exception)
         {
         }
     }

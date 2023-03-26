@@ -41,7 +41,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
       protected BaseResult(string? detail = null,
         string? extendedDetail = null,
         ResultSeverityTypes severity = ResultSeverityTypes.Error)
-      {       
+      {
           Detail = detail;
           ExtendedDetail = extendedDetail;
           Severity = severity;
@@ -99,7 +99,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
     {
         Detail = exception.Message;
         Severity = severity;
-        Type = type != null 
+        Type = type != null
           ? type.FullName
           : typeof(ResultCodeGeneral).FullName;
         Code = code ?? ResultCodeGeneral.NoErrorOccurred;
@@ -111,7 +111,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
     public void SetResultCodeType(Type type)
     {
       if (type.FullName != null)
-        Type = type.FullName; 
+        Type = type.FullName;
     }
 
     public void GetObjectData(SerializationInfo info,
@@ -133,7 +133,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
           ExtendedDetail);
         info.AddValue("FormattedMessagePlaceholderValues",
           FormattedMessagePlaceholderValues);
-          
+
         InnerGetObjectData(ref info,
           context);
     }

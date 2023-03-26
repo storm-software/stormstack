@@ -11,22 +11,25 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Filters
   /// </summary>
   public class ProblemDetailsServiceEndpointFilter : IEndpointFilter
   {
-      public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, 
+      public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context,
         EndpointFilterDelegate next)
           => await next(context) switch
           {
-              ProblemHttpResult problemHttpResult => new ProblemDetailsServiceAwareResult(problemHttpResult.StatusCode, problemHttpResult.ProblemDetails),
-              ProblemDetails problemDetails => new ProblemDetailsServiceAwareResult(null, problemDetails),
+              ProblemHttpResult problemHttpResult => new ProblemDetailsServiceResult(problemHttpResult.StatusCode,
+                problemHttpResult.ProblemDetails),
+              ProblemDetails problemDetails => new ProblemDetailsServiceResult(null,
+                problemDetails),
               { } result => result,
               null => null
           };
 
-      private class ProblemDetailsServiceAwareResult 
+      private class ProblemDetailsServiceResult
         : IResult, IValueHttpResult, IValueHttpResult<ProblemDetails>
       {
           private readonly int? _statusCode;
 
-          public ProblemDetailsServiceAwareResult(int? statusCode, ProblemDetails problemDetails)
+          public ProblemDetailsServiceResult(int? statusCode,
+            ProblemDetails problemDetails)
           {
               _statusCode = statusCode ?? problemDetails.Status;
               Value = problemDetails;
@@ -38,13 +41,12 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Filters
 
           public async Task ExecuteAsync(HttpContext httpContext)
           {
-              if (httpContext.RequestServices.GetService<IProblemDetailsService>() is 
+              if (httpContext.RequestServices.GetService<IProblemDetailsService>() is
                 IProblemDetailsService problemDetailsService)
               {
                   if (_statusCode is { } statusCode)
-                  {
                       httpContext.Response.StatusCode = statusCode;
-                  }
+
                   await problemDetailsService.WriteAsync(new()
                   {
                       HttpContext = httpContext,

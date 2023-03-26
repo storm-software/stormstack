@@ -16,6 +16,7 @@ using OpenSystem.Core.Application.Interfaces;
 using MediatR;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Common;
+using OpenSystem.Core.Application.Attributes;
 
 namespace OpenSystem.Reaction.Application.Models
 {
@@ -23,46 +24,54 @@ namespace OpenSystem.Reaction.Application.Models
     /// Add Reaction
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
-    public class AddReactionCommand
-      : AddReactionRequest, IRequest<Result<IIndexed>>
+    [AddCommand("/api/v1/reactions/{ContentId}")]
+    public class AddReactionCommand : ICommand
     {
-
         /// <summary>
         /// The id of the article/comment
         /// </summary>
+        [Identifier]
         public string ContentId { get; set; }
+
+        [Payload]
+        public AddReactionRequest Payload { get; set; }
     }
 
     /// <summary>
     /// Get Reactions
     /// </summary>
     /// <remarks>Return the reactions for a specific article, comment, etc. </remarks>
-    public class GetReactionsQuery : IRequest<Result<Paged<ReactionDetailRecord>>>
+    [Query("/api/v1/reactions/{ContentId}")]
+    public class GetReactionsQuery : IQuery<Paged<ReactionDetailRecord>>
     {
-
         /// <summary>
         /// The id of the article/comment
         /// </summary>
+        [Identifier]
         public string ContentId { get; set; }
 
         /// <summary>
         /// The current page number of the selected data
         /// </summary>
+        [QueryFilter]
         public int PageNumber { get; set; } = 1;
 
         /// <summary>
         /// The maximum amount of data to return in one request
         /// </summary>
+        [QueryFilter]
         public int PageSize { get; set; } = 200;
 
         /// <summary>
         /// The field to order the request by
         /// </summary>
+        [QueryFilter]
         public string OrderBy { get; set; } = "id";
 
         /// <summary>
         /// The type of reaction the user had
         /// </summary>
+        [QueryFilter]
         public string? Type { get; set; }
     }
 
@@ -70,16 +79,19 @@ namespace OpenSystem.Reaction.Application.Models
     /// Get Reaction Counts
     /// </summary>
     /// <remarks>Return the reaction counts for a specific article, comment, etc. </remarks>
-    public class GetReactionsCountQuery : IRequest<Result<GetReactionsCount200Response>>
+    [Query("/api/v1/reactions/{ContentId}/count")]
+    public class GetReactionsCountQuery : IQuery<GetReactionsCount200Response>
     {
-
         /// <summary>
         /// The id of the article/comment
         /// </summary>
+        [Identifier]
         public string ContentId { get; set; }
+
         /// <summary>
         /// The type of reaction the user had
         /// </summary>
+        [QueryFilter]
         public string? Type { get; set; }
     }
 
@@ -87,11 +99,13 @@ namespace OpenSystem.Reaction.Application.Models
     /// Remove Reaction
     /// </summary>
     /// <remarks>Remove an existing reaction to an article</remarks>
-    public class RemoveReactionCommand : IRequest<Result<IIndexed>>
+    [DeleteCommand("/api/v1/reactions/{ContentId}")]
+    public class RemoveReactionCommand : ICommand
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
+        [Identifier]
         public string ContentId { get; set; }
     }
 }

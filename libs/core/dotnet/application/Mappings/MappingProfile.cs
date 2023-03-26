@@ -26,13 +26,11 @@ namespace OpenSystem.Core.Application.Mappings
           foreach (var type in types)
           {
               var instance = Activator.CreateInstance(type);
-
               var methodInfo = type.GetMethod(mappingMethodName);
 
               if (methodInfo != null)
-              {
-                  methodInfo.Invoke(instance, new object[] { this });
-              }
+                  methodInfo.Invoke(instance,
+                    new object[] { this });
               else
               {
                   var interfaces = type.GetInterfaces().Where(HasInterface).ToList();
@@ -43,7 +41,6 @@ namespace OpenSystem.Core.Application.Mappings
                       {
                           var interfaceMethodInfo = @interface.GetMethod(mappingMethodName,
                             argumentTypes);
-
                           interfaceMethodInfo?.Invoke(instance,
                             new object[] { this });
                       }

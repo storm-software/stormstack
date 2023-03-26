@@ -8,19 +8,19 @@ using OpenSystem.Core.Infrastructure.Persistence.ValueConverters;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence.MappingConfigurations
 {
-    public class ReactionDetailConfiguration : AuditableConfiguration<ReactionDetailEntity>
+    public class ReactionDetailConfiguration
+        : SoftDeletedAuditableConfiguration<ReactionDetailEntity>
     {
         protected override string TableName => "ReactionDetail";
 
-        protected override Expression<Func<ReactionDetailEntity, object?>> PrimaryKey => x => new {
-            x.ReactionId,
-            x.UserId
-          };
+        protected override Expression<Func<ReactionDetailEntity, object?>> AlternateKey =>
+            x => new { x.ReactionId, x.UserId };
 
         protected override void ConfigureColumns(EntityTypeBuilder<ReactionDetailEntity> builder)
         {
-          builder.Property(x => x.Type)
-            .HasConversion<EnumStringValueConverter<ReactionTypes>>();
+            base.ConfigureColumns(builder);
+
+            builder.Property(x => x.Type).HasConversion<EnumStringValueConverter<ReactionTypes>>();
         }
     }
 }

@@ -27,18 +27,15 @@ namespace OpenSystem.Core.Infrastructure.Services
         _dateTimeService = dateTimeService;
     }
 
-    public async Task<Result> ExportAsync(FileExportRequest<Entity> request)
+    public async Task ExportAsync(FileExportRequest<Entity> request)
     {
         try
         {
-            Result ret = BuildFileData(request,
-              out byte[]? data);
-            if (ret.Failed)
-              return ret;
+            byte[] data = await BuildFileDataAsync(request);
             if (data == null || data.Length == 0)
-              return Result.Success();
+              throw new FileExportException("No data available to export");
 
-            return await ExportFileDataAsync(data);
+            await ExportFileDataAsync(data);
         }
         catch (Exception ex)
         {
@@ -49,10 +46,9 @@ namespace OpenSystem.Core.Infrastructure.Services
         }
     }
 
-    protected abstract Result BuildFileData(FileExportRequest<Entity> request,
-      out byte[]? data);
+    protected abstract ValueTask<byte[]> BuildFileDataAsync(FileExportRequest<Entity> request);
 
-    protected async Task<Result> ExportFileDataAsync(byte[] data)
+    protected async Task ExportFileDataAsync(byte[] data)
     {
       try
       {
@@ -66,8 +62,6 @@ namespace OpenSystem.Core.Infrastructure.Services
           Settings.FileExtension);
 
         await File.WriteAllBytesAsync(filePath, data);
-
-        return Result.Success();
       }
       catch (Exception ex)
       {

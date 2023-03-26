@@ -8,6 +8,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <Version>1.0.0</Version>
     <Nullable>annotations</Nullable>
+    <ImplictUsings>enable</ImplictUsings>
     <AssemblyName>OpenSystem.Apis.Reaction</AssemblyName>
     <PackageId>OpenSystem.Apis.Reaction</PackageId>
     <UserSecretsId>3470faec-5af8-4492-938f-0b86ace965db</UserSecretsId>

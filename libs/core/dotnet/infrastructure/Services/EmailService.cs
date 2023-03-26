@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using System.Threading.Tasks;
 using OpenSystem.Core.Domain.Exceptions;
+using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
@@ -54,7 +55,8 @@ namespace OpenSystem.Core.Infrastructure.Services
             {
                 _logger.LogError(ex.Message,
                   ex);
-                throw new GeneralProcessingException(ex);
+                throw new GeneralProcessingException(typeof(ResultCodeApplication),
+                  ResultCodeApplication.EmailDeliveryFailure);
             }
         }
     }

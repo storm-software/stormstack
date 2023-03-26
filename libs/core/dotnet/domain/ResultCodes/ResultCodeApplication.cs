@@ -12,8 +12,6 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
 		#region Constants
 
-		public const int FieldNotSet = 1;
-
     public const int FileExportFailure = 2;
 
     public const int NoResultsFound = 3;
@@ -31,6 +29,8 @@ namespace OpenSystem.Core.Domain.ResultCodes
     public const int FailedFormattingResponse = 9;
 
     public const int InvalidRequestSentToServer = 10;
+
+    public const int EmailDeliveryFailure = 11;
 
 		#endregion Constants
 

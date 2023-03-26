@@ -33,23 +33,15 @@ namespace OpenSystem.Core.Infrastructure.Persistence
 
     public override int SaveChanges()
     {
-      var ret = InnerSaveChangesAsync()
+      InnerSaveChangesAsync()
         .GetAwaiter()
         .GetResult();
-      if (ret.Failed)
-        throw new BaseException(typeof(ResultCodeDatabase),
-          ResultCodeDatabase.FailedSavingChanges);
-
       return base.SaveChanges();
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-      var ret = await InnerSaveChangesAsync();
-      if (ret.Failed)
-        throw new BaseException(typeof(ResultCodeDatabase),
-          ResultCodeDatabase.FailedSavingChanges);
-
+      await InnerSaveChangesAsync();
       return await base.SaveChangesAsync(cancellationToken);
     }
 
@@ -77,35 +69,33 @@ namespace OpenSystem.Core.Infrastructure.Persistence
     {
     }
 
-    protected async virtual ValueTask<Result> InnerSaveChangesAsync()
+    protected virtual ValueTask InnerSaveChangesAsync()
     {
-      return Result.Success();
+      return ValueTask.CompletedTask;
     }
 
     protected virtual void UpdateConcurrencyStamp(EntityEntry entry)
     {
-      if (!(entry.Entity is IConcurrencyStamped concurrencyStamped))
-        return;
-
-      Entry(concurrencyStamped)
-        .Property(x => x.ConcurrencyStamp)
-        .OriginalValue = concurrencyStamped.ConcurrencyStamp;
-      concurrencyStamped.ConcurrencyStamp = GuidUtility
-        .Instance
-        .CreateGuid()
-        .ToString("N");
+      if (entry.Entity is IConcurrencyStamped concurrencyStamped)
+      {
+        Entry(concurrencyStamped)
+          .Property(x => x.ConcurrencyStamp)
+          .OriginalValue = concurrencyStamped.ConcurrencyStamp;
+        concurrencyStamped.ConcurrencyStamp = GuidUtility
+          .Instance
+          .CreateGuid()
+          .ToString("N");
+      }
     }
 
     protected virtual void SetConcurrencyStampIfNull(EntityEntry entry)
     {
-      if (!(entry.Entity is IConcurrencyStamped concurrencyStamped) ||
+      if (entry.Entity is IConcurrencyStamped concurrencyStamped &&
         concurrencyStamped.ConcurrencyStamp != null)
-          return;
-
-      concurrencyStamped.ConcurrencyStamp = GuidUtility
-        .Instance
-        .CreateGuid()
-        .ToString("N");
+        concurrencyStamped.ConcurrencyStamp = GuidUtility
+          .Instance
+          .CreateGuid()
+          .ToString("N");
     }
   }
 }

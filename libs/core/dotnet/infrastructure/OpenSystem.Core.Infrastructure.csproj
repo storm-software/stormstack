@@ -7,7 +7,6 @@
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="7.0.0-rc2.7" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
     <PackageReference Include="AutoMapper.Collection" Version="9.0.0" />
-    <PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="6.0.3" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Consul" Version="1.6.10.8" />
@@ -28,6 +27,7 @@
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-preview.1.23112.2" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.5.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.18.0" />
     <PackageReference Include="Ocelot" Version="18.0.0" />
     <PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />
     <PackageReference Include="MailKit" Version="3.4.3" />

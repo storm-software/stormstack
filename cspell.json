@@ -39,6 +39,7 @@
     "nunit",
     "openapi",
     "Parens",
+    "Parseable",
     "partytown",
     "Persistor",
     "plantuml",

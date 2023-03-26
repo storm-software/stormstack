@@ -23,7 +23,6 @@ using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using System.Text.Json;
 using OpenSystem.Core.Infrastructure.WebApi.Controllers;
-using OpenSystem.Apis.Infrastructure.WebApi.Attributes;
 using Microsoft.Extensions.Logging;
 
 namespace OpenSystem.Apis.Reaction.Controllers.v1
@@ -48,7 +47,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
             _context)
         {
         }
-
+/*
         /// <summary>
         /// Add Reaction
         /// </summary>
@@ -64,7 +63,6 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         [HttpPost]
         [Route("reactions/{contentId}")]
         [Consumes("application/json")]
-        [ValidateModelState]
         [AllowAnonymous]
         [SwaggerOperation("AddReaction")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
@@ -105,7 +103,6 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         [HttpGet]
         [Route("reactions/{contentId}")]
         [Consumes("application/json")]
-        [ValidateModelState]
         [SwaggerOperation("GetReactions")]
         [SwaggerResponse(statusCode: 200, type: typeof(GetReactions200Response), description: "OK")]
         [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
@@ -148,7 +145,6 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         [HttpGet]
         [Route("reactions/{contentId}/count")]
         [Consumes("application/json")]
-        [ValidateModelState]
         [AllowAnonymous]
         [SwaggerOperation("GetReactionsCount")]
         [SwaggerResponse(statusCode: 200, type: typeof(GetReactionsCount200Response), description: "OK")]
@@ -185,7 +181,6 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         [HttpDelete]
         [Route("reactions/{contentId}")]
         [Consumes("application/json")]
-        [ValidateModelState]
         [AllowAnonymous]
         [SwaggerOperation("RemoveReaction")]
         [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
@@ -203,6 +198,6 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
             request.ContentId = contentId;
             return await SendCommandAsync(request,
               cancellationToken);
-        }
+        }*/
     }
 }

@@ -24,7 +24,7 @@ namespace OpenSystem.Core.Domain.Common
         public T GetValueOrThrow()
         {
             if (HasNoValue)
-                throw new ValueCannotBeEmptyException();
+                throw new RequiredFieldException();
 
             return _value;
         }

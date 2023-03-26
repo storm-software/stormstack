@@ -33,9 +33,9 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                 name: "Reaction",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ContentId = table.Column<string>(type: "text", nullable: false),
                     IsDisabled = table.Column<bool>(type: "boolean", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EventCounter = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     EventType = table.Column<string>(type: "text", nullable: false),
@@ -50,18 +50,18 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reaction", x => x.ContentId);
-                    table.UniqueConstraint("AK_Reaction_Id", x => x.Id);
+                    table.PrimaryKey("PK_Reaction", x => x.Id);
+                    table.UniqueConstraint("AK_Reaction_ContentId", x => x.ContentId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ReactionDetail",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     ReactionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EventCounter = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     EventType = table.Column<string>(type: "text", nullable: false),
@@ -76,8 +76,8 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReactionDetail", x => new { x.ReactionId, x.UserId });
-                    table.UniqueConstraint("AK_ReactionDetail_Id", x => x.Id);
+                    table.PrimaryKey("PK_ReactionDetail", x => x.Id);
+                    table.UniqueConstraint("AK_ReactionDetail_ReactionId_UserId", x => new { x.ReactionId, x.UserId });
                     table.ForeignKey(
                         name: "FK_ReactionDetail_Reaction_ReactionId",
                         column: x => x.ReactionId,
@@ -87,15 +87,15 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reaction_Id",
+                name: "IX_Reaction_ContentId",
                 table: "Reaction",
-                column: "Id",
+                column: "ContentId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReactionDetail_Id",
+                name: "IX_ReactionDetail_ReactionId_UserId",
                 table: "ReactionDetail",
-                column: "Id",
+                columns: new[] { "ReactionId", "UserId" },
                 unique: true);
         }
 

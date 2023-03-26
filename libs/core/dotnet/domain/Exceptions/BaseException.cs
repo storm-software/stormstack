@@ -1,133 +1,43 @@
-
-
-
-using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Enums;
-using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.Exceptions
 {
-  public class BaseException<TData>
+  public abstract class BaseException<TData>
     : Exception
   {
-    public IResult<TData> Result { get; set; }
+    public string? ExtendedMessage { get; set; }
 
-    public BaseException(IResult<TData> result)
-      : base(ResultCode.Serialize(result.Type,
-        result.Code))
-    {
-      Result = result;
-    }
+    public string ResultType { get; init; }
 
-    public BaseException(Type type,
-      int code,
-      Exception exception)
-      : base(ResultCode.Serialize(type,
-        code),
-        exception)
-    {
-      Result = Result<TData>.Failure(exception,
-        ResultSeverityTypes.Error,
-        type,
-        code);
-    }
+    public int ResultCode { get; init; }
 
-    public BaseException(Type type,
-      int code,
-      string? detail = null,
-      string? extendedDetail = null,
-      ResultSeverityTypes severity = ResultSeverityTypes.Error,
-      string? helpLink = null,
-      IList<FieldValidationResult>? fields = null,
-      Dictionary<string, object>? formattedMessagePlaceholderValues = null)
-      : base(!string.IsNullOrEmpty(detail)
-          ? detail
-          : ResultCode.Serialize(type,
-            code))
-    {
-      Result = Result<TData>.Failure(type,
-        code,
-        detail,
-        extendedDetail,
-        severity,
-        helpLink,
-        fields,
-        formattedMessagePlaceholderValues);
-    }
+    public virtual ResultSeverityTypes Severity => ResultSeverityTypes.Error;
 
-    public BaseException(string type,
-      int code,
-      string? detail = null,
-      string? extendedDetail = null,
-      ResultSeverityTypes severity = ResultSeverityTypes.Error,
-      string? helpLink = null,
-      Dictionary<string, object>? formattedMessagePlaceholderValues = null)
-      : base(!string.IsNullOrEmpty(detail)
-          ? detail
-          : ResultCode.Serialize(type,
-            code))
+    public BaseException(Type resultType,
+      int resultCode,
+      string? extendedMessage = null,
+      Exception? exception = null)
+      : base(ResultCodes.ResultCode.Serialize(resultType,
+            resultCode),
+            exception)
     {
-      Result = Result<TData>.Failure(type,
-        code,
-        detail,
-        extendedDetail,
-        severity,
-        helpLink,
-        formattedMessagePlaceholderValues);
+      ResultType = resultType.FullName;
+      ResultCode = resultCode;
+      ExtendedMessage = extendedMessage;
     }
   }
 
-  public class BaseException
+  public abstract class BaseException
     : BaseException<object>
   {
-    public BaseException(IResult<object> result)
-      : base(result)
-    {
-    }
-
-    public BaseException(Type type,
-      int code,
-      Exception exception)
-      : base(type,
-        code,
+    public BaseException(Type resultType,
+      int resultCode,
+      string? extendedMessage = null,
+      Exception? exception = null)
+      : base(resultType,
+        resultCode,
+        extendedMessage,
         exception)
-    {
-    }
-
-    public BaseException(Type type,
-        int code,
-      string? detail = null,
-      string? extendedDetail = null,
-      ResultSeverityTypes severity = ResultSeverityTypes.Error,
-      string? helpLink = null,
-      IList<FieldValidationResult>? fields = null,
-      Dictionary<string, object>? formattedMessagePlaceholderValues = null)
-      : base(type,
-        code,
-        detail,
-        extendedDetail,
-        severity,
-        helpLink,
-        fields,
-        formattedMessagePlaceholderValues)
-    {
-    }
-
-    public BaseException(string type,
-        int code,
-      string? detail = null,
-      string? extendedDetail = null,
-      ResultSeverityTypes severity = ResultSeverityTypes.Error,
-      string? helpLink = null,
-      Dictionary<string, object>? formattedMessagePlaceholderValues = null)
-      : base(type,
-        code,
-        detail,
-        extendedDetail,
-        severity,
-        helpLink,
-        formattedMessagePlaceholderValues)
     {
     }
   }

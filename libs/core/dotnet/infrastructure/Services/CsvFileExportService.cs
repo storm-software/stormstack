@@ -13,9 +13,10 @@ using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
-  public class CsvFileExportService : BaseFileExportService, ICsvFileExportService
+  public class CsvFileExportService
+    : BaseFileExportService, ICsvFileExportService
   {
-    public CsvFileExportServiceSettings Settings { get; set; }
+    public new CsvFileExportServiceSettings Settings { get; set; }
 
     public CsvFileExportService(IOptions<CsvFileExportServiceSettings> settings,
       ILogger<CsvFileExportService> logger,
@@ -27,10 +28,8 @@ namespace OpenSystem.Core.Infrastructure.Services
       Settings = (CsvFileExportServiceSettings)settings;
     }
 
-    protected override Result BuildFileData(FileExportRequest<Entity> request,
-      out byte[]? oData)
+    protected override ValueTask<byte[]> BuildFileDataAsync(FileExportRequest<Entity> request)
     {
-      oData = null;
       try
       {
         using var memoryStream = new MemoryStream();
@@ -45,15 +44,14 @@ namespace OpenSystem.Core.Infrastructure.Services
             csvWriter.WriteRecords(request.Records);
         }
 
-        oData = memoryStream.ToArray();
-
-        return Result.Success();
+        return ValueTask.FromResult<byte[]>(memoryStream.ToArray());
       }
       catch (Exception ex)
       {
           Logger.LogError(ex.Message,
             ex);
-        return Result.Failure(new FileExportException(ex));
+        throw new FileExportException("An exception occurred while exporting the CSV file",
+          ex);
       }
     }
   }

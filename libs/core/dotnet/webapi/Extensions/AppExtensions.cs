@@ -7,7 +7,7 @@ namespace OpenSystem.Core.WebApi.Extensions
     {
         public static void UseCoreMiddleware(this IApplicationBuilder app)
         {
-            app.UseMiddleware<ErrorHandlerMiddleware>();
+           // app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseMiddleware<CorrelationIdMiddleware>();
         }
     }

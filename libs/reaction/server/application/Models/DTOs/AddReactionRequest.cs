@@ -84,7 +84,7 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         /// Copies the current values to another instance of the object
         /// </summary>
         /// <returns>An instance of the object with the current values copied to it</returns>
-        public AddReactionRequest Copy(AddReactionRequest? copyTo)
+        public AddReactionRequest CopyTo(AddReactionRequest? copyTo)
         {
             if (copyTo == null)
               copyTo = new AddReactionRequest();

@@ -68,6 +68,8 @@
     "Automapper.Collection": "9.0.0",
     "AutoMapper.Extensions.ExpressionMapping": "6.0.3",
     "AutoMapper.Collection": "9.0.0",
-    "Nito.AsyncEx": "5.1.2"
+    "Nito.AsyncEx": "5.1.2",
+    "Ben.Demystifier": "0.4.1",
+    "NetEscapades.AspNetCore.SecurityHeaders": "0.18.0"
   }
 }

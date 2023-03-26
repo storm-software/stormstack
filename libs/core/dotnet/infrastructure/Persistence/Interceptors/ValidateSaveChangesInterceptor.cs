@@ -12,48 +12,49 @@ using OpenSystem.Core.Domain.Utilities;
 
 namespace OpenSystem.Core.Infrastructure.Persistence.Interceptors
 {
-  public class ValidateSaveChangesInterceptor : SaveChangesInterceptor
-  {
-      public ValidateSaveChangesInterceptor()
-      {
-      }
+    public class ValidateSaveChangesInterceptor : SaveChangesInterceptor
+    {
+        public ValidateSaveChangesInterceptor() { }
 
-      public override InterceptionResult<int> SavingChanges(DbContextEventData eventData,
-        InterceptionResult<int> result)
-      {
-          AsyncHelper.RunSync(async () => await InnerSavingChangesAsync(eventData.Context));
-          return base.SavingChanges(eventData,
-            result);
-      }
+        public override InterceptionResult<int> SavingChanges(
+            DbContextEventData eventData,
+            InterceptionResult<int> result
+        )
+        {
+            AsyncHelper.RunSync(async () => await InnerSavingChangesAsync(eventData.Context));
+            return base.SavingChanges(eventData, result);
+        }
 
-      public async override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
-        InterceptionResult<int> result,
-        CancellationToken cancellationToken = default)
-      {
-          await InnerSavingChangesAsync(eventData.Context);
-          return base.SavingChangesAsync(eventData,
-            result,
-            cancellationToken)
-            .GetAwaiter()
-            .GetResult();
-      }
+        public async override ValueTask<InterceptionResult<int>> SavingChangesAsync(
+            DbContextEventData eventData,
+            InterceptionResult<int> result,
+            CancellationToken cancellationToken = default
+        )
+        {
+            await InnerSavingChangesAsync(eventData.Context);
+            return base.SavingChangesAsync(eventData, result, cancellationToken)
+                .GetAwaiter()
+                .GetResult();
+        }
 
-       protected async virtual ValueTask InnerSavingChangesAsync(DbContext? context)
-      {
-          if (context == null)
-            return;
+        protected async virtual ValueTask InnerSavingChangesAsync(DbContext? context)
+        {
+            if (context == null)
+                return;
 
-          await context.ChangeTracker.Entries()
-            .Where(e => e.State is EntityState.Added or EntityState.Modified)
-            .Select(e => e.Entity)
-            .ForEachAsync(async entity =>
-            {
-              var validationContext = new ValidationContext(entity);
-              Validator.ValidateObject(
-                entity,
-                validationContext,
-                validateAllProperties: true);
-            });
-      }
-  }
+            await context.ChangeTracker
+                .Entries()
+                .Where(e => e.State is EntityState.Added or EntityState.Modified)
+                .Select(e => e.Entity)
+                .ForEachAsync(async entity =>
+                {
+                    var validationContext = new ValidationContext(entity);
+                    Validator.ValidateObject(
+                        entity,
+                        validationContext,
+                        validateAllProperties: true
+                    );
+                });
+        }
+    }
 }

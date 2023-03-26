@@ -14,26 +14,35 @@ namespace OpenSystem.Reaction.Application.Mappings
         public ReactionMappingProfile()
         {
             CreateMap<AddReactionCommand, ReactionEntity>()
-              .ForMember(dest => dest.Details,
-                act => act.MapFrom(src => new List<ReactionDetailEntity> {
-                 new ReactionDetailEntity {
-                    Type = (ReactionTypes)Enum.Parse(typeof(ReactionTypes),
-                      src.Type.ToString(),
-                      true)
-                  }
-                }));
+                .ForMember(
+                    dest => dest.Details,
+                    act =>
+                        act.MapFrom(
+                            src =>
+                                new List<ReactionDetailEntity>
+                                {
+                                    new ReactionDetailEntity
+                                    {
+                                        Type = (ReactionTypes)
+                                            Enum.Parse(
+                                                typeof(ReactionTypes),
+                                                src.Payload.Type.ToString(),
+                                                true
+                                            )
+                                    }
+                                }
+                        )
+                );
 
             CreateMap<RemoveReactionCommand, ReactionEntity>();
-            CreateMap<ReactionEntity, ReactionDetailRecord>()
-              .ReverseMap();
-            /*CreateMap<(string Type, int Count), ReactionCountRecord>();
-             CreateMap<List<(string Type, int Count)>, List<ReactionCountRecord>>();
+            CreateMap<ReactionEntity, ReactionDetailRecord>().ReverseMap();
+
+            CreateMap<(string Type, int Count), ReactionCountRecord>()
+                .ForMember(dest => dest.Type, act => act.MapFrom(src => src.Type))
+                .ForMember(dest => dest.Count, act => act.MapFrom(src => src.Count));
+            /*CreateMap<List<(string Type, int Count)>, List<ReactionCountRecord>>();*/
             CreateMap<List<(string Type, int Count)>, GetReactionsCount200Response>()
-              .ForMember(dest => dest.Data,
-                act => act.MapFrom(src => src));*/
+                .ForMember(dest => dest.Data, act => act.MapFrom(src => src));
         }
     }
 }
-
-
-

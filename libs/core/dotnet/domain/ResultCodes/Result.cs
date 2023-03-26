@@ -311,14 +311,13 @@ namespace OpenSystem.Core.Domain.ResultCodes
           formattedMessagePlaceholderValues);
     }
 
-    public static new Result Failure(Type type,
+    public static Result Failure(Type type,
       Exception exception,
       ResultSeverityTypes severity = ResultSeverityTypes.Error)
     {
       return new Result(exception,
         severity);
     }
-
 
     protected Result(object? data,
         string? detail = null,

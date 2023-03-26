@@ -8,30 +8,29 @@ using System.Linq.Expressions;
 
 namespace OpenSystem.Core.Infrastructure.Persistence.MappingConfigurations
 {
-  public abstract class BaseConfiguration<TEntity>
-    : IEntityTypeConfiguration<TEntity>
-    where TEntity : Entity
-  {
-    protected abstract string TableName { get; }
-
-    protected abstract Expression<Func<TEntity, object?>> PrimaryKey { get; }
-
-    public void Configure(EntityTypeBuilder<TEntity> builder)
+    public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
+        where TEntity : Entity
     {
-      builder.ToTable(TableName);
-      builder.HasKey(PrimaryKey);
+        protected abstract string TableName { get; }
 
-      builder.Property(r => r.Id)
-        .IsRequired();
-      builder.HasAlternateKey(x => x.Id);
-      builder.HasIndex(x => x.Id)
-        .IsUnique();
+        protected abstract Expression<Func<TEntity, object?>>? AlternateKey { get; }
 
-      InnerConfigure(builder);
+        public void Configure(EntityTypeBuilder<TEntity> builder)
+        {
+            builder.ToTable(TableName);
+                   builder.HasKey(x => x.Id);
+
+            if (AlternateKey != null)
+            {
+              builder.HasAlternateKey(AlternateKey);
+              builder.HasIndex(AlternateKey).IsUnique();
+            }
+
+
+
+            InnerConfigure(builder);
+        }
+
+        protected virtual void InnerConfigure(EntityTypeBuilder<TEntity> builder) { }
     }
-
-    protected virtual void InnerConfigure(EntityTypeBuilder<TEntity> builder)
-    {
-    }
-  }
 }
