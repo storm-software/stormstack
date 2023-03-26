@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/sullivanpj/open-system/compare/user-server-domain-v1.6.0...user-server-domain-v1.7.0) (2023-03-26)
+
+
+### Features
+
+* **core-dotnet-infrastructure:** Added CQRS minimal API code ([6810da9](https://github.com/sullivanpj/open-system/commit/6810da9afa25cd6babacb5aabbc63d7e4f3aa62d))
+
 # [1.6.0](https://github.com/sullivanpj/open-system/compare/user-server-domain-v1.5.0...user-server-domain-v1.6.0) (2023-03-19)
 
 
