@@ -7,27 +7,32 @@ using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Reaction.Application.Queries
 {
-  public class GetReactionsQueryHandler
-    : BaseListQueryHandler<GetReactionsQuery, ReactionDetailRecord>
-  {
-    private readonly IReactionRepository _repository;
-
-    public GetReactionsQueryHandler(IReactionRepository repository,
-      IMapper mapper,
-      ILogger<GetReactionsQueryHandler> logger)
-      : base (mapper,
-          logger)
+    public class GetReactionsQueryHandler
+        : BaseListQueryHandler<GetReactionsQuery, ReactionDetailRecord>
     {
-      _repository = repository;
-    }
+        private readonly IReactionReadOnlyRepository _repository;
 
-    protected override async Task<Paged<object>> HandleQueryAsync(GetReactionsQuery request,
-      CancellationToken cancellationToken)
-    {
-      return await _repository.GetReactionsAsync(request.ContentId,
-        request.Type,
-        request.PageSize,
-        request.PageNumber);
+        public GetReactionsQueryHandler(
+            IReactionReadOnlyRepository repository,
+            IMapper mapper,
+            ILogger<GetReactionsQueryHandler> logger
+        )
+            : base(mapper, logger)
+        {
+            _repository = repository;
+        }
+
+        protected override async Task<Paged<object>> HandleQueryAsync(
+            GetReactionsQuery request,
+            CancellationToken cancellationToken
+        )
+        {
+            return await _repository.GetReactionsAsync(
+                request.ContentId,
+                request.Type,
+                request.PageSize,
+                request.PageNumber
+            );
+        }
     }
-  }
 }

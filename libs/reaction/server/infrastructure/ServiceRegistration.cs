@@ -47,7 +47,11 @@ namespace OpenSystem.Reaction.Infrastructure
                             );
                         }
                     )
-                    .AddScoped(typeof(IReactionRepository), typeof(ReactionRepository));
+                    .AddScoped(typeof(IReactionRepository), typeof(ReactionRepository))
+                    .AddScoped(
+                        typeof(IReactionReadOnlyRepository),
+                        typeof(ReactionReadOnlyRepository)
+                    );
             }
             else
             {
@@ -74,7 +78,11 @@ namespace OpenSystem.Reaction.Infrastructure
                             );
                         }
                     )
-                    .AddScoped(typeof(IReactionRepository), typeof(ReactionRepository));
+                    .AddScoped(typeof(IReactionRepository), typeof(ReactionRepository))
+                    .AddScoped(
+                        typeof(IReactionReadOnlyRepository),
+                        typeof(ReactionReadOnlyRepository)
+                    );
             }
 
             services.AddAutoMapper(

@@ -12,10 +12,10 @@ namespace OpenSystem.Reaction.Application.Queries
     public class GetReactionsCountQueryHandler
         : BaseQueryHandler<GetReactionsCountQuery, GetReactionsCount200Response>
     {
-        private readonly IReactionRepository _repository;
+        private readonly IReactionReadOnlyRepository _repository;
 
         public GetReactionsCountQueryHandler(
-            IReactionRepository repository,
+            IReactionReadOnlyRepository repository,
             IMapper mapper,
             ILogger<GetReactionsCountQueryHandler> logger
         )

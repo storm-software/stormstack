@@ -8,6 +8,8 @@ networks:
       driver: default
       config:
         - subnet: 172.28.4.0/24
+  network-eventstore:
+        driver: bridge
 
 services:
   pgadmin:
@@ -43,6 +45,27 @@ services:
     volumes:
       - postgresql-data:/var/lib/postgresql/data
 
+  #######################################################
+  #  EventStoreDB
+  #######################################################
+  eventstore.db:
+    container_name: eventstore.db
+    image: eventstore/eventstore
+    ports:
+        - "1113:1113"
+        - "2113:2113"
+    networks:
+        - network-eventstore
+    volumes:
+        - type: volume
+          source: eventstore-volume-data
+          target: /var/lib/eventstore
+        - type: volume
+          source: eventstore-volume-logs
+          target: /var/log/eventstore
+
 volumes:
   postgresql-data:
   pgadmin-data:
+  eventstore-volume-data:
+  eventstore-volume-logs:

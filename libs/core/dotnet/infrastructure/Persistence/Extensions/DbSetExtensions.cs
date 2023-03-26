@@ -11,16 +11,16 @@ namespace OpenSystem.Core.Infrastructure.Persistence.Extensions
     public static class DbSetExtensions
     {
         /// <summary>
-        /// Create a Persistence object for the <see cref="T:System.Data.Entity.DbSet`1"/> to have data persisted or removed from
+        /// Create a EntityStorage object for the <see cref="T:System.Data.Entity.DbSet`1"/> to have data persisted or removed from
         /// </summary>
-        /// <typeparam name="TSource">Source table type to be updated</typeparam>
-        /// <param name="source">DbSet to be updated</param>
+        /// <typeparam name="TEntity">Source table type to be updated</typeparam>
+        /// <param name="entity">DbSet to be updated</param>
         /// <param name="mapper">IMapper used to find TypeMap between classes</param>
-        /// <returns>Persistence object to Update or Remove data</returns>
-        public static IPersistence<TSource> Persist<TSource>(
-            this DbSet<TSource> source,
+        /// <returns>EntityStorage object to Update or Remove data</returns>
+        public static EntityStorage<TEntity> EntityStorage<TEntity>(
+            this DbSet<TEntity> entity,
             IMapper mapper
         )
-            where TSource : class => new Persistence<TSource>(source, mapper);
+            where TEntity : class => new EntityStorage<TEntity>(entity, mapper);
     }
 }

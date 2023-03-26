@@ -8,9 +8,9 @@ namespace OpenSystem.Reaction.Application.Validators
 {
     public class RemoveReactionCommandValidator : BaseValidator<RemoveReactionCommand>
     {
-        private readonly IReactionRepository _repository;
+        private readonly IReactionReadOnlyRepository _repository;
 
-        public RemoveReactionCommandValidator(IReactionRepository repository)
+        public RemoveReactionCommandValidator(IReactionReadOnlyRepository repository)
         {
             _repository = repository;
 

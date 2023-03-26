@@ -3,28 +3,10 @@ using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.Repositories
 {
-    public interface IBaseRepository<TEntity>
+    public interface IBaseRepository<TEntity> : IBaseReadOnlyRepository<TEntity>
         where TEntity : AggregateRoot
     {
         IBaseUnitOfWork UnitOfWork { get; }
-
-        IQueryable<TEntity> GetQueryable(bool noTracking = false);
-
-        IQueryable<TEntity> GetQueryable(
-            int? pageNumber,
-            int? pageSize,
-            string? orderBy,
-            string? fields
-        );
-
-        Task<IList<TEntity>> GetAllAsync(
-            int? pageNumber,
-            int? pageSize,
-            string? orderBy,
-            string? fields
-        );
-
-        Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         Task<TEntity> AddOrUpdateAsync<TDto>(
             TDto dto,

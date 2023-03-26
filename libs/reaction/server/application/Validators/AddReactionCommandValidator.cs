@@ -9,9 +9,9 @@ namespace OpenSystem.Reaction.Application.Validators
 {
     public class AddReactionCommandValidator : BaseValidator<AddReactionCommand>
     {
-        private readonly IReactionRepository _repository;
+        private readonly IReactionReadOnlyRepository _repository;
 
-        public AddReactionCommandValidator(IReactionRepository repository)
+        public AddReactionCommandValidator(IReactionReadOnlyRepository repository)
         {
             _repository = repository;
 
