@@ -9,7 +9,7 @@ using System.Linq.Dynamic.Core;
 using OpenSystem.Core.Infrastructure.Persistence;
 using OpenSystem.Core.Application.Services;
 using AutoMapper;
-using OpenSystem.Reaction.Domain.Repositories;
+// using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.ResultCodes;
@@ -19,7 +19,7 @@ using System.Linq;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
-    public class ReactionRepository : BaseRepository<ReactionEntity>, IReactionRepository
+    /*public class ReactionRepository : BaseRepository<ReactionEntity>, IReactionRepository
     {
         private readonly DbSet<ReactionEntity> _reactions;
 
@@ -159,5 +159,5 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
 
             reactions = reactions.Where(predicate);
         }
-    }
+    }*/
 }

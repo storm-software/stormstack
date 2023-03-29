@@ -11,6 +11,8 @@ using OpenSystem.Core.Domain.Settings;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Application.Models;
 using MediatR.Pipeline;
+using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Enums;
 
 namespace OpenSystem.Core.Application
 {
@@ -28,6 +30,7 @@ namespace OpenSystem.Core.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+
             //services.AddTransient(typeof(IRequestPreProcessor<>), typeof(ValidationBehavior<>));
 
             return services;
@@ -76,10 +79,15 @@ namespace OpenSystem.Core.Application
             var cacheConnection = configuration.GetConnectionString(
                 SettingConstants.ConnectionStrings.CacheConnection
             );
+            var eventStoreConnection = configuration.GetConnectionString(
+                SettingConstants.ConnectionStrings.EventStoreConnection
+            );
+
             oSettings.ConnectionStrings = new ConnectionStringSettings
             {
                 DefaultConnection = defaultConnection,
-                CacheConnection = cacheConnection
+                CacheConnection = cacheConnection,
+                EventStoreConnection = eventStoreConnection,
             };
             services.AddSingleton<ConnectionStringSettings>(oSettings.ConnectionStrings);
 
@@ -123,6 +131,45 @@ namespace OpenSystem.Core.Application
                 AppendTimestamp = fileExportServiceSettings.GetValue<bool>("AppendTimestamp")
             };
             services.AddSingleton<FileExportServiceSettings>(oSettings.FileExportServiceSettings);
+
+            var eventSourcingSettings = configuration.GetSection("EventSourcingSettings");
+            oSettings.EventSourcingSettings = new EventSourcingSettings
+            {
+                NumberOfRetriesOnOptimisticConcurrencyExceptions =
+                    eventSourcingSettings.GetValue<int>(
+                        "NumberOfRetriesOnOptimisticConcurrencyExceptions"
+                    ),
+                ForwardOptimisticConcurrencyExceptions = eventSourcingSettings.GetValue<bool>(
+                    "ForwardOptimisticConcurrencyExceptions"
+                ),
+                ThrowSubscriberExceptions = eventSourcingSettings.GetValue<bool>(
+                    "ThrowSubscriberExceptions"
+                ),
+                IsAsynchronousSubscribersEnabled = eventSourcingSettings.GetValue<bool>(
+                    "IsAsynchronousSubscribersEnabled"
+                ),
+                CancellationBoundary = string.IsNullOrEmpty(
+                    eventSourcingSettings["CancellationBoundary"]
+                )
+                    ? CancellationBoundaryTypes.BeforeCommittingEvents
+                    : (CancellationBoundaryTypes)
+                        Enum.Parse(
+                            typeof(CancellationBoundaryTypes),
+                            eventSourcingSettings["CancellationBoundary"]
+                        ),
+                PopulateReadModelEventPageSize = eventSourcingSettings.GetValue<int>(
+                    "PopulateReadModelEventPageSize"
+                ),
+            };
+            var delayBeforeRetryOnOptimisticConcurrencyExceptions =
+                eventSourcingSettings.GetValue<int>(
+                    "DelayBeforeRetryOnOptimisticConcurrencyExceptions"
+                );
+            if (delayBeforeRetryOnOptimisticConcurrencyExceptions != null)
+                oSettings.EventSourcingSettings.DelayBeforeRetryOnOptimisticConcurrencyExceptions =
+                    TimeSpan.FromMilliseconds(delayBeforeRetryOnOptimisticConcurrencyExceptions);
+
+            services.AddSingleton<EventSourcingSettings>(oSettings.EventSourcingSettings);
 
             services.AddSingleton<ApplicationSettings>(oSettings);
             return services;

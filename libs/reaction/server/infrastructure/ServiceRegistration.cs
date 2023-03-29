@@ -3,16 +3,26 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using OpenSystem.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using OpenSystem.Core.Infrastructure.Persistence.Extensions;
-using OpenSystem.Reaction.Domain.Repositories;
-using OpenSystem.Reaction.Infrastructure.Persistence;
+// using OpenSystem.Core.Infrastructure.Persistence.Extensions;
+// using OpenSystem.Reaction.Domain.Repositories;
+// using OpenSystem.Reaction.Infrastructure.Persistence;
 using OpenSystem.Core.Domain.Settings;
 using OpenSystem.Core.Domain.Repositories;
 using OpenSystem.Core.Domain.Constants;
 using AutoMapper;
 using OpenSystem.Core.Infrastructure.Persistence.Interceptors;
 using AutoMapper.EquivalencyExpression;
-using OpenSystem.Reaction.Infrastructure.Persistence.Interceptors;
+using OpenSystem.Core.Infrastructure.ReadStores.InMemory;
+using OpenSystem.Core.Infrastructure.ReadStores.Extensions;
+using OpenSystem.Core.Application.Utilities;
+using OpenSystem.Reaction.Domain.Events;
+using OpenSystem.Reaction.Application.Models;
+using OpenSystem.Reaction.Application.Commands;
+using OpenSystem.Reaction.Domain.ReadStores;
+using OpenSystem.Core.Application.Extensions;
+using OpenSystem.Core.Application.Commands;
+using OpenSystem.Core.Application.Queries;
+using OpenSystem.Core.Infrastructure.EventStore.Extensions;
 
 namespace OpenSystem.Reaction.Infrastructure
 {
@@ -23,7 +33,14 @@ namespace OpenSystem.Reaction.Infrastructure
             ApplicationSettings settings
         )
         {
-            services.AddPersistenceInfrastructure(settings);
+            EventSourcingSettingsManager
+                .New(services)
+                .ConfigureOptimisticConcurrencyRetry(4, TimeSpan.FromMilliseconds(100))
+                .AddEventSourcing(Assembly.GetExecutingAssembly())
+                .UseInMemoryReadStoreFor<ReactionReadModel>();
+            //.UseEventStoreEventStore(settings.ConnectionStrings);
+
+            /*services.AddPersistenceInfrastructure(settings);
 
             services.AddSingleton<ReactionDetailMaterializationInterceptor>();
             if (settings.UseInMemoryDatabase)
@@ -83,20 +100,20 @@ namespace OpenSystem.Reaction.Infrastructure
                         typeof(IReactionReadOnlyRepository),
                         typeof(ReactionReadOnlyRepository)
                     );
-            }
+            }*/
 
             services.AddAutoMapper(
                 (serviceProvider, autoMapper) =>
                 {
                     autoMapper.AddCollectionMappers();
-                    autoMapper.UseEFCoreModel<ReactionDbContext>(serviceProvider);
+                    //autoMapper.UseEFCoreModel<ReactionDbContext>(serviceProvider);
                 },
                 Assembly.GetExecutingAssembly()
             );
 
-            services.AddScoped<IBaseDbContext<ReactionEntity>>(
+            /*services.AddScoped<IBaseDbContext<ReactionEntity>>(
                 provider => provider.GetRequiredService<ReactionDbContext>()
-            );
+            );*/
 
             /*services.AddAutoMapper((serviceProvider, autoMapper) =>
             {
@@ -139,7 +156,7 @@ namespace OpenSystem.Reaction.Infrastructure
 
             #region Repositories
 
-            services.AddTransient<IReactionRepository, ReactionRepository>();
+            //services.AddTransient<IReactionRepository, ReactionRepository>();
 
             #endregion Repositories
         }

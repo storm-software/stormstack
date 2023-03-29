@@ -1,12 +1,12 @@
 using FluentValidation;
-using OpenSystem.Reaction.Domain.Repositories;
+//using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Reaction.Application.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace OpenSystem.Reaction.Application.Validators
 {
-    public class RemoveReactionCommandValidator : BaseValidator<RemoveReactionCommand>
+    /*public class RemoveReactionCommandValidator : BaseValidator<RemoveReactionCommand>
     {
         private readonly IReactionReadOnlyRepository _repository;
 
@@ -28,5 +28,5 @@ namespace OpenSystem.Reaction.Application.Validators
         {
             return await _repository.UserHasReactedAsync(contentId);
         }
-    }
+    }*/
 }

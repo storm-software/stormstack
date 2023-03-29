@@ -27,10 +27,11 @@ using OpenSystem.Core.Infrastructure.WebApi.Formatters;
 using OpenSystem.Core.Infrastructure.WebApi.Services;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using OpenSystem.Core.Infrastructure.EventStore.Extensions;
 using System.Reflection;
 using OpenSystem.Core.Infrastructure.ModelBinding;
 using OpenSystem.Core.Application.Models;
+using OpenSystem.Core.Application.Utilities;
 
 namespace OpenSystem.Core.Infrastructure
 {

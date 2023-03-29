@@ -1,5 +1,5 @@
 using AutoMapper;
-using OpenSystem.Reaction.Domain.Repositories;
+//using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using Microsoft.Extensions.Logging;
@@ -7,7 +7,7 @@ using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Reaction.Application.Queries
 {
-    public class GetReactionsQueryHandler
+    /*public class GetReactionsQueryHandler
         : BaseListQueryHandler<GetReactionsQuery, ReactionDetailRecord>
     {
         private readonly IReactionReadOnlyRepository _repository;
@@ -34,5 +34,5 @@ namespace OpenSystem.Reaction.Application.Queries
                 request.PageNumber
             );
         }
-    }
+    }*/
 }

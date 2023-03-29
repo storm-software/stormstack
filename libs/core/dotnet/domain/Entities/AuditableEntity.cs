@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
@@ -6,10 +7,9 @@ using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
-    public abstract class AuditableEntity : Entity, IAuditable
+    public abstract class AuditableEntity<TEntityId> : VersionedEntity<TEntityId>, IAuditable
+        where TEntityId : EntityId
     {
-        public ulong EventCounter { get; set; } = 0;
-
         public EntityStatusTypes Status { get; set; } = EntityStatusTypes.Pending;
 
         public EntityEventTypes EventType { get; set; } = EntityEventTypes.View;
@@ -28,14 +28,14 @@ namespace OpenSystem.Core.Domain.Entities
         public EntityProcessingTypes ProcessingType { get; set; } =
             EntityProcessingTypes.StraightThroughProcessing;
 
-        public async ValueTask<AuditableEntity> SetForCreateAsync(
+        public async ValueTask<AuditableEntity<TEntityId>> SetForCreateAsync(
             string createdBy,
             DateTimeOffset createdDateTime
         )
         {
             CreatedBy = createdBy;
             CreatedDateTime = createdDateTime;
-            EventCounter = 1;
+            Version = 1;
             EventType = EntityEventTypes.Create;
 
             await InnerSetForCreateAsync(createdBy, createdDateTime);
@@ -43,14 +43,14 @@ namespace OpenSystem.Core.Domain.Entities
             return SetStatus(EntityStatusTypes.Active);
         }
 
-        public async ValueTask<AuditableEntity> SetForUpdateAsync(
+        public async ValueTask<AuditableEntity<TEntityId>> SetForUpdateAsync(
             string updatedBy,
             DateTimeOffset updatedDateTime
         )
         {
             UpdatedBy = updatedBy;
             UpdatedDateTime = updatedDateTime;
-            EventCounter++;
+            Version++;
             EventType = EntityEventTypes.Update;
 
             await InnerSetForUpdateAsync(updatedBy, updatedDateTime);
@@ -58,7 +58,7 @@ namespace OpenSystem.Core.Domain.Entities
             return SetStatus(EntityStatusTypes.Active);
         }
 
-        public virtual AuditableEntity SetStatus(EntityStatusTypes nextStatus)
+        public virtual AuditableEntity<TEntityId> SetStatus(EntityStatusTypes nextStatus)
         {
             if (ProcessingType == EntityProcessingTypes.StraightThroughProcessing)
             {
@@ -77,7 +77,7 @@ namespace OpenSystem.Core.Domain.Entities
             return this;
         }
 
-        protected async virtual ValueTask<AuditableEntity> InnerSetForCreateAsync(
+        protected async virtual ValueTask<AuditableEntity<TEntityId>> InnerSetForCreateAsync(
             string createdBy,
             DateTimeOffset createdDateTime
         )
@@ -85,7 +85,7 @@ namespace OpenSystem.Core.Domain.Entities
             return this;
         }
 
-        protected async virtual ValueTask<AuditableEntity> InnerSetForUpdateAsync(
+        protected async virtual ValueTask<AuditableEntity<TEntityId>> InnerSetForUpdateAsync(
             string updatedBy,
             DateTimeOffset updatedDateTime
         )

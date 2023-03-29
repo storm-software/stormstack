@@ -3,7 +3,7 @@ using OpenSystem.Core.Domain.Repositories;
 
 namespace OpenSystem.Reaction.Domain.Repositories
 {
-    public interface IReactionRepository : IBaseRepository<ReactionEntity>
+    /*public interface IReactionRepository : IBaseRepository<ReactionEntity>
     {
         ValueTask<ReactionDetailEntity> AddOrUpdateDetailAsync(
             Guid ReactionId,
@@ -21,5 +21,5 @@ namespace OpenSystem.Reaction.Domain.Repositories
             ReactionDetailEntity detail,
             CancellationToken cancellationToken = default
         );
-    }
+    }*/
 }

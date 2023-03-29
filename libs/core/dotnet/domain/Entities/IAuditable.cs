@@ -6,7 +6,7 @@ using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
-    public interface IAuditable : IVersionedIndex
+    public interface IAuditable
     {
         public EntityEventTypes EventType { get; set; }
 

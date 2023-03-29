@@ -10,49 +10,49 @@ using OpenSystem.Core.Infrastructure.Mappings;
 using System.Globalization;
 using CsvHelper;
 using OpenSystem.Core.Application.Services;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
-  public class CsvFileExportService
-    : BaseFileExportService, ICsvFileExportService
-  {
-    public new CsvFileExportServiceSettings Settings { get; set; }
-
-    public CsvFileExportService(IOptions<CsvFileExportServiceSettings> settings,
-      ILogger<CsvFileExportService> logger,
-      IDateTimeProvider dateTimeService)
-      : base(settings,
-          logger,
-          dateTimeService)
+    public class CsvFileExportService : BaseFileExportService, ICsvFileExportService
     {
-      Settings = (CsvFileExportServiceSettings)settings;
-    }
+        public new CsvFileExportServiceSettings Settings { get; set; }
 
-    protected override ValueTask<byte[]> BuildFileDataAsync(FileExportRequest<Entity> request)
-    {
-      try
-      {
-        using var memoryStream = new MemoryStream();
-
-        using (var streamWriter = new StreamWriter(memoryStream))
+        public CsvFileExportService(
+            IOptions<CsvFileExportServiceSettings> settings,
+            ILogger<CsvFileExportService> logger,
+            IDateTimeProvider dateTimeService
+        )
+            : base(settings, logger, dateTimeService)
         {
-            using var csvWriter = new CsvWriter(streamWriter,
-              CultureInfo.InvariantCulture);
-
-            // csvWriter.Configuration.RegisterClassMap<BaseEntity>();
-
-            csvWriter.WriteRecords(request.Records);
+            Settings = (CsvFileExportServiceSettings)settings;
         }
 
-        return ValueTask.FromResult<byte[]>(memoryStream.ToArray());
-      }
-      catch (Exception ex)
-      {
-          Logger.LogError(ex.Message,
-            ex);
-        throw new FileExportException("An exception occurred while exporting the CSV file",
-          ex);
-      }
+        protected override ValueTask<byte[]> BuildFileDataAsync<T>(FileExportRequest<T> request)
+        {
+            try
+            {
+                using var memoryStream = new MemoryStream();
+
+                using (var streamWriter = new StreamWriter(memoryStream))
+                {
+                    using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+
+                    // csvWriter.Configuration.RegisterClassMap<BaseEntity>();
+
+                    csvWriter.WriteRecords(request.Records);
+                }
+
+                return ValueTask.FromResult<byte[]>(memoryStream.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw new FileExportException(
+                    "An exception occurred while exporting the CSV file",
+                    ex
+                );
+            }
+        }
     }
-  }
 }

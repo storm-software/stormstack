@@ -6,6 +6,7 @@ using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using OpenSystem.Reaction.Domain.Enums;
 using System.Linq.Expressions;
+using OpenSystem.Reaction.Domain.ReadStores;
 
 namespace OpenSystem.Reaction.Application.Mappings
 {
@@ -13,7 +14,7 @@ namespace OpenSystem.Reaction.Application.Mappings
     {
         public ReactionMappingProfile()
         {
-            CreateMap<AddReactionCommand, ReactionEntity>()
+            /*CreateMap<AddReactionCommand, ReactionEntity>()
                 .ForMember(
                     dest => dest.Details,
                     act =>
@@ -40,9 +41,11 @@ namespace OpenSystem.Reaction.Application.Mappings
             CreateMap<(string Type, int Count), ReactionCountRecord>()
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => src.Type))
                 .ForMember(dest => dest.Count, act => act.MapFrom(src => src.Count));
-            /*CreateMap<List<(string Type, int Count)>, List<ReactionCountRecord>>();*/
-            CreateMap<List<(string Type, int Count)>, GetReactionsCount200Response>()
-                .ForMember(dest => dest.Data, act => act.MapFrom(src => src));
+            CreateMap<List<(string Type, int Count)>, List<ReactionCountRecord>>();*/
+
+
+            CreateMap<ReactionReadModel, GetReactionsCount200Response>()
+                .ForMember(dest => dest.Data, act => act.MapFrom(src => src.Details));
         }
     }
 }

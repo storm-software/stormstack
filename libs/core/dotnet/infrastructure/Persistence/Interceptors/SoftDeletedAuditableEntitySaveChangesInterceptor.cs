@@ -6,6 +6,7 @@ using OpenSystem.Core.Infrastructure.Extensions;
 using OpenSystem.Core.Application.Services;
 using OpenSystem.Core.Domain.Extensions;
 using Microsoft.Extensions.Logging;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Infrastructure.Persistence.Interceptors
 {
@@ -29,7 +30,10 @@ namespace OpenSystem.Core.Infrastructure.Persistence.Interceptors
                 .Where(e => e.State is EntityState.Deleted)
                 .ForEachAsync(async entry =>
                 {
-                    if (entry.Entity is SoftDeletedAuditableEntity softDeletedAuditableEntity)
+                    if (
+                        entry.Entity
+                        is SoftDeletedAuditableEntity<EntityId> softDeletedAuditableEntity
+                    )
                     {
                         entry.State = EntityState.Modified;
                         await softDeletedAuditableEntity.SetForDeleteAsync(

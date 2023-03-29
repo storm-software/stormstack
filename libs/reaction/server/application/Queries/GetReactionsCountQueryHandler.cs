@@ -1,42 +1,56 @@
 using AutoMapper;
-using OpenSystem.Reaction.Domain.Repositories;
+//using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Core.Domain.Entities;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
 using Microsoft.Extensions.Logging;
+using OpenSystem.Core.Application.Queries;
+using MediatR;
+using OpenSystem.Core.Domain.ReadStores;
 
 namespace OpenSystem.Reaction.Application.Queries
 {
-    public class GetReactionsCountQueryHandler
-        : BaseQueryHandler<GetReactionsCountQuery, GetReactionsCount200Response>
+    public class GetReactionsCountQueryHandler<TReadStore, TReadModel>
+        : IQueryHandler<GetReactionsCountQuery, GetReactionsCount200Response>
+        where TReadStore : IReadModelStore<TReadModel>
+        where TReadModel : GetReactionsCount200Response, IReadModel
     {
-        private readonly IReactionReadOnlyRepository _repository;
+        private readonly TReadStore _readStore;
+
+        private readonly IMapper _mapper;
+
+        private readonly ILogger<GetReactionsCountQueryHandler<TReadStore, TReadModel>> _logger;
 
         public GetReactionsCountQueryHandler(
-            IReactionReadOnlyRepository repository,
+            TReadStore readStore,
             IMapper mapper,
-            ILogger<GetReactionsCountQueryHandler> logger
+            ILogger<GetReactionsCountQueryHandler<TReadStore, TReadModel>> logger
         )
-            : base(mapper, logger)
         {
-            _repository = repository;
+            _readStore = readStore;
+            _mapper = mapper;
+            _logger = logger;
         }
 
-        protected override async ValueTask<object> InnerHandleAsync(
-            GetReactionsCountQuery request,
+        public async Task<GetReactionsCount200Response> Handle(
+            GetReactionsCountQuery query,
             CancellationToken cancellationToken
         )
         {
-            var queryResult = await _repository.GetReactionsCountAsync(
-                request.ContentId,
-                request.Type
-            );
-            if (queryResult == null || queryResult.Count == 0)
-                throw new NotFoundException();
+            var readModelEnvelope = await _readStore
+                .GetAsync(query.ReactionId, cancellationToken)
+                .ConfigureAwait(false);
 
-            return queryResult;
+            _logger.LogInformation("ReadModel: {0}", readModelEnvelope.ReadModel);
+            var result = _mapper.Map<GetReactionsCount200Response>(readModelEnvelope.ReadModel);
+            _logger.LogInformation(
+                "GetReactionsCount200Response: {0}",
+                readModelEnvelope.ReadModel
+            );
+
+            return result;
         }
     }
 }

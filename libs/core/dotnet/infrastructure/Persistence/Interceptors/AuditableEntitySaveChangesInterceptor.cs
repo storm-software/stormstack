@@ -7,6 +7,7 @@ using OpenSystem.Core.Application.Services;
 using OpenSystem.Core.Domain.Utilities;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Infrastructure.Persistence.Interceptors
 {
@@ -69,7 +70,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence.Interceptors
 
             foreach (var entry in context.ChangeTracker.Entries())
             {
-                if (entry.Entity is AuditableEntity entity)
+                if (entry.Entity is AuditableEntity<EntityId> entity)
                 {
                     switch (entry.State)
                     {

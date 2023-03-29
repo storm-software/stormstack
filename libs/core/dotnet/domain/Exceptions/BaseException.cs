@@ -2,43 +2,38 @@ using OpenSystem.Core.Domain.Enums;
 
 namespace OpenSystem.Core.Domain.Exceptions
 {
-  public abstract class BaseException<TData>
-    : Exception
-  {
-    public string? ExtendedMessage { get; set; }
-
-    public string ResultType { get; init; }
-
-    public int ResultCode { get; init; }
-
-    public virtual ResultSeverityTypes Severity => ResultSeverityTypes.Error;
-
-    public BaseException(Type resultType,
-      int resultCode,
-      string? extendedMessage = null,
-      Exception? exception = null)
-      : base(ResultCodes.ResultCode.Serialize(resultType,
-            resultCode),
-            exception)
+    public abstract class BaseException<TData> : Exception
     {
-      ResultType = resultType.FullName;
-      ResultCode = resultCode;
-      ExtendedMessage = extendedMessage;
-    }
-  }
+        public string? ExtendedMessage { get; set; }
 
-  public abstract class BaseException
-    : BaseException<object>
-  {
-    public BaseException(Type resultType,
-      int resultCode,
-      string? extendedMessage = null,
-      Exception? exception = null)
-      : base(resultType,
-        resultCode,
-        extendedMessage,
-        exception)
-    {
+        public string ResultType { get; init; }
+
+        public int ResultCode { get; init; }
+
+        public virtual ResultSeverityTypes Severity => ResultSeverityTypes.Error;
+
+        public BaseException(
+            Type resultType,
+            int resultCode,
+            string? extendedMessage = null,
+            Exception? exception = null
+        )
+            : base(ResultCodes.ResultCode.Serialize(resultType, resultCode), exception)
+        {
+            ResultType = resultType.FullName;
+            ResultCode = resultCode;
+            ExtendedMessage = extendedMessage;
+        }
     }
-  }
+
+    public abstract class BaseException : BaseException<object>
+    {
+        public BaseException(
+            Type resultType,
+            int resultCode,
+            string? extendedMessage = null,
+            Exception? exception = null
+        )
+            : base(resultType, resultCode, extendedMessage, exception) { }
+    }
 }

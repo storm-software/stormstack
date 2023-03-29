@@ -1,14 +1,8 @@
 using OpenSystem.Core.Domain.Common;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
-    public interface IEntity<T>
-      : IIndexed<T>
-    {
-    }
-
-    public interface IEntity
-      : IEntity<Guid>
-    {
-    }
+    public interface IEntity<TEntityId> : IIndexed<TEntityId>
+        where TEntityId : EntityId { }
 }

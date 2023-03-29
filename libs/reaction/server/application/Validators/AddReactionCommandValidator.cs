@@ -1,5 +1,5 @@
 using FluentValidation;
-using OpenSystem.Reaction.Domain.Repositories;
+//using OpenSystem.Reaction.Domain.Repositories;
 using OpenSystem.Reaction.Application.Models;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +7,7 @@ using FluentValidation.Results;
 
 namespace OpenSystem.Reaction.Application.Validators
 {
-    public class AddReactionCommandValidator : BaseValidator<AddReactionCommand>
+    /*public class AddReactionCommandValidator : BaseValidator<AddReactionCommand>
     {
         private readonly IReactionReadOnlyRepository _repository;
 
@@ -25,11 +25,6 @@ namespace OpenSystem.Reaction.Application.Validators
                 .NotEmpty()
                 .WithMessage("{PropertyName} is required.");
 
-            /*RuleFor(reaction => reaction.Payload.Type)
-                .NotEmpty()
-                .WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .WithMessage("{PropertyName} is required.");*/
         }
 
         private async Task<bool> UserHasntReactedAsync(
@@ -55,5 +50,5 @@ namespace OpenSystem.Reaction.Application.Validators
 
             return true;
         }
-    }
+    }*/
 }

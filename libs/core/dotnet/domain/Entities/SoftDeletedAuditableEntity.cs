@@ -1,9 +1,13 @@
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
-    public abstract class SoftDeletedAuditableEntity : AuditableEntity, ISoftDeleted
+    public abstract class SoftDeletedAuditableEntity<TEntityId>
+        : AuditableEntity<TEntityId>,
+            ISoftDeleted
+        where TEntityId : EntityId
     {
         public bool IsDeleted { get; set; } = false;
 
@@ -11,7 +15,7 @@ namespace OpenSystem.Core.Domain.Entities
 
         public string? DeletedBy { get; set; }
 
-        public async ValueTask<SoftDeletedAuditableEntity> SetForDeleteAsync(
+        public async ValueTask<SoftDeletedAuditableEntity<TEntityId>> SetForDeleteAsync(
             string deletedBy,
             DateTimeOffset deletedDateTime
         )
@@ -30,7 +34,7 @@ namespace OpenSystem.Core.Domain.Entities
             return this;
         }
 
-        public async ValueTask<SoftDeletedAuditableEntity> SetForRestoreAsync(
+        public async ValueTask<SoftDeletedAuditableEntity<TEntityId>> SetForRestoreAsync(
             string restoredBy,
             DateTimeOffset restoredDateTime
         )
@@ -49,7 +53,7 @@ namespace OpenSystem.Core.Domain.Entities
             return this;
         }
 
-        protected virtual ValueTask<SoftDeletedAuditableEntity> InnerSetForDeleteAsync(
+        protected virtual ValueTask<SoftDeletedAuditableEntity<TEntityId>> InnerSetForDeleteAsync(
             string deletedBy,
             DateTimeOffset deletedDateTime
         )
@@ -57,7 +61,7 @@ namespace OpenSystem.Core.Domain.Entities
             return ValueTask.FromResult(this);
         }
 
-        protected virtual ValueTask<SoftDeletedAuditableEntity> InnerSetForRestoreAsync(
+        protected virtual ValueTask<SoftDeletedAuditableEntity<TEntityId>> InnerSetForRestoreAsync(
             string restoredBy,
             DateTimeOffset restoredDateTime
         )

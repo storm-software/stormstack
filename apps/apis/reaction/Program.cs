@@ -14,7 +14,7 @@ using OpenSystem.Core.Infrastructure.WebApi.Services;
 using OpenSystem.Core.Infrastructure.Extensions;
 using OpenSystem.Core.Infrastructure;
 using OpenSystem.Reaction.Infrastructure;
-using OpenSystem.Reaction.Infrastructure.Persistence;
+// using OpenSystem.Reaction.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using OpenSystem.Core.Application;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -28,7 +28,6 @@ using System.Reflection;
 using Microsoft.AspNetCore.HttpLogging;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using OpenSystem.Apis.Reaction.Routes.v1;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Threading.Tasks;
 using OpenSystem.Reaction.Application.Models.DTOs;
@@ -356,14 +355,14 @@ try
 
     app.Run();
 
-    using (var scope = app.Services.CreateScope())
+    /*using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<ReactionDbContext>();
 
         // use context
         dbContext.Database.EnsureCreated();
         dbContext.Database.Migrate();
-    }
+    }*/
 
     Log.Information($"{SERVICE_NAME} has started successfully.");
 }

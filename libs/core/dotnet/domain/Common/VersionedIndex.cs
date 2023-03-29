@@ -4,7 +4,7 @@ namespace OpenSystem.Core.Domain.Common
     {
         public T Id { get; set; }
 
-        public ulong EventCounter { get; set; } = 0;
+        public uint Version { get; set; } = 0;
     }
 
     public class VersionedIndex : VersionedIndex<Guid>, IVersionedIndex { }

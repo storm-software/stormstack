@@ -13,12 +13,6 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: reaction.db
 
-  contact.db:
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: contact.db
-
   eventstore.db:
     environment:
       EVENTSTORE_CLUSTER_SIZE: 1

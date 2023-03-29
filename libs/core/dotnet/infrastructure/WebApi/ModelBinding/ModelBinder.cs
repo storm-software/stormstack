@@ -20,7 +20,7 @@ namespace OpenSystem.Core.Infrastructure.ModelBinding
     public static class ModelBinder
     {
         private static readonly ParameterDictionary ParameterCache = new();
-        private static JsonSerializerOptions? _jsonSerializerOptions;
+        private static IJsonOptions? _jsonSerializerOptions;
 
         internal static RequestParameter? GetRequestParameter(Type type)
         {
@@ -79,13 +79,15 @@ namespace OpenSystem.Core.Infrastructure.ModelBinding
 
             if (parameters.ExpectJsonBody && context.Request.HasJsonContentType())
             {
-                _jsonSerializerOptions ??= context.RequestServices
-                    .GetService<IOptions<JsonOptions>>()
-                    ?.Value.SerializerOptions;
+                _jsonSerializerOptions ??= context.RequestServices.GetService<IJsonOptions>();
+
+                var settings = new JsonSerializerOptions();
+                _jsonSerializerOptions?.Apply(settings);
+
                 foreach (var item in parameters.Payload)
                 {
                     var body = await context.Request
-                        .ReadFromJsonAsync(item.PropertyType, _jsonSerializerOptions)
+                        .ReadFromJsonAsync(item.PropertyType, settings)
                         .ConfigureAwait(false);
                     item.SetValue(target, body);
                 }

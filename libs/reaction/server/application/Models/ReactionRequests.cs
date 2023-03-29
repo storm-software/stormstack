@@ -17,6 +17,11 @@ using MediatR;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Application.Attributes;
+using OpenSystem.Core.Application.Commands;
+using OpenSystem.Reaction.Domain.Aggregates;
+using OpenSystem.Reaction.Domain.ValueObjects;
+using OpenSystem.Core.Application.Queries;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Reaction.Application.Models
 {
@@ -24,31 +29,37 @@ namespace OpenSystem.Reaction.Application.Models
     /// Add Reaction
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
-    [AddCommand("/api/v1/reactions/{ContentId}")]
-    public class AddReactionCommand : ICommand
+    [AddCommand("/api/v1/reactions/{ReactionId}")]
+    public class AddReactionCommand : Command<ReactionAggregate, ReactionId>
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
         [Identifier]
-        public string ContentId { get; set; }
+        public string ReactionId { get; set; }
 
         [Payload]
         public AddReactionRequest Payload { get; set; }
+
+        public AddReactionCommand(ReactionId reactionId)
+            : base(reactionId) { }
+
+        public AddReactionCommand(ReactionId reactionId, SourceId sourceId)
+            : base(reactionId, sourceId) { }
     }
 
     /// <summary>
     /// Get Reactions
     /// </summary>
     /// <remarks>Return the reactions for a specific article, comment, etc. </remarks>
-    [Query("/api/v1/reactions/{ContentId}")]
+    [Query("/api/v1/reactions/{ReactionId}")]
     public class GetReactionsQuery : IQuery<Paged<ReactionDetailRecord>>
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
         [Identifier]
-        public string ContentId { get; set; }
+        public string ReactionId { get; set; }
 
         /// <summary>
         /// The current page number of the selected data
@@ -79,14 +90,14 @@ namespace OpenSystem.Reaction.Application.Models
     /// Get Reaction Counts
     /// </summary>
     /// <remarks>Return the reaction counts for a specific article, comment, etc. </remarks>
-    [Query("/api/v1/reactions/{ContentId}/count")]
+    [Query("/api/v1/reactions/{ReactionId}/count")]
     public class GetReactionsCountQuery : IQuery<GetReactionsCount200Response>
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
         [Identifier]
-        public string ContentId { get; set; }
+        public string ReactionId { get; set; }
 
         /// <summary>
         /// The type of reaction the user had
@@ -99,13 +110,19 @@ namespace OpenSystem.Reaction.Application.Models
     /// Remove Reaction
     /// </summary>
     /// <remarks>Remove an existing reaction to an article</remarks>
-    [DeleteCommand("/api/v1/reactions/{ContentId}")]
-    public class RemoveReactionCommand : ICommand
+    [DeleteCommand("/api/v1/reactions/{ReactionId}")]
+    public class RemoveReactionCommand : Command<ReactionAggregate, ReactionId>
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
         [Identifier]
-        public string ContentId { get; set; }
+        public string ReactionId { get; set; }
+
+        public RemoveReactionCommand(ReactionId reactionId)
+            : base(reactionId) { }
+
+        public RemoveReactionCommand(ReactionId reactionId, SourceId sourceId)
+            : base(reactionId, sourceId) { }
     }
 }

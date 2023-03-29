@@ -3,13 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using OpenSystem.Core.Domain.Entities;
 using OpenSystem.Core.Application.Services;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Infrastructure.Persistence
 {
-    public abstract class BaseReadOnlyRepository<TEntity> : IBaseReadOnlyRepository<TEntity>
-        where TEntity : AggregateRoot
+    public abstract class BaseReadOnlyRepository<TEntity, TEntityId>
+        : IBaseReadOnlyRepository<TEntity, TEntityId>
+        where TEntity : Entity<TEntityId>
+        where TEntityId : EntityId
     {
-        protected BaseDbContext<TEntity> DbContext { get; init; }
+        protected BaseDbContext<TEntity, TEntityId> DbContext { get; init; }
 
         protected DbSet<TEntity> DataSet { get; init; }
 
@@ -18,7 +21,7 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         protected IDateTimeProvider DateTimeProvider { get; init; }
 
         public BaseReadOnlyRepository(
-            BaseDbContext<TEntity> dbContext,
+            BaseDbContext<TEntity, TEntityId> dbContext,
             ICurrentUserService currentUserService,
             IDateTimeProvider dateTimeProvider
         )
@@ -65,13 +68,13 @@ namespace OpenSystem.Core.Infrastructure.Persistence
         }
 
         public virtual async Task<TEntity?> GetByIdAsync(
-            Guid guid,
+            TEntityId id,
             CancellationToken cancellationToken = default
         )
         {
             return await DataSet
                 .AsNoTracking()
-                .Where(r => r.Id == guid)
+                .Where(r => r.Id.Value == id.Value)
                 .FirstOrDefaultAsync(cancellationToken);
         }
     }

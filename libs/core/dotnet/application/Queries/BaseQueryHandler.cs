@@ -1,13 +1,8 @@
 using AutoMapper;
-using MediatR;
 using OpenSystem.Core.Domain.Exceptions;
-using OpenSystem.Core.Domain.ResultCodes;
-using OpenSystem.Core.Domain.Repositories;
 using Microsoft.Extensions.Logging;
-using OpenSystem.Core.Domain.Entities;
-using OpenSystem.Core.Application.Interfaces;
 
-namespace OpenSystem.Reaction.Application.Queries
+namespace OpenSystem.Core.Application.Queries
 {
     public abstract class BaseQueryHandler<TRequest, TResponse> : IQueryHandler<TRequest, TResponse>
         where TRequest : class, IQuery<TResponse>

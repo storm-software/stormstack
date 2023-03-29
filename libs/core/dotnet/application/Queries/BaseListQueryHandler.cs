@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Application.Interfaces;
 
-namespace OpenSystem.Reaction.Application.Queries
+namespace OpenSystem.Core.Application.Queries
 {
     public abstract class BaseListQueryHandler<TRequest, TData>
         : BaseQueryHandler<TRequest, Paged<TData>>,

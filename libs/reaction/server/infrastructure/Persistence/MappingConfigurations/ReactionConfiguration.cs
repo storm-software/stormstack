@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence.MappingConfigurations
 {
-    public class ReactionConfiguration : AggregateRootConfiguration<ReactionEntity>
+    /*public class ReactionConfiguration : AggregateRootConfiguration<ReactionEntity>
     {
         protected override string TableName => "Reaction";
 
@@ -23,5 +23,5 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence.MappingConfigurations
                 .HasPrincipalKey(x => x.Id)
                 .OnDelete(DeleteBehavior.Cascade);
         }
-    }
+    }*/
 }

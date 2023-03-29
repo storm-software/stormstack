@@ -8,8 +8,9 @@ using System.Linq.Expressions;
 
 namespace OpenSystem.Core.Infrastructure.Persistence.MappingConfigurations
 {
-    public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
-        where TEntity : Entity
+    public abstract class BaseConfiguration<TEntity, TEntityId> : IEntityTypeConfiguration<TEntity>
+        where TEntity : Entity<TEntityId>
+        where TEntityId : EntityId
     {
         protected abstract string TableName { get; }
 
@@ -18,15 +19,13 @@ namespace OpenSystem.Core.Infrastructure.Persistence.MappingConfigurations
         public void Configure(EntityTypeBuilder<TEntity> builder)
         {
             builder.ToTable(TableName);
-                   builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id);
 
             if (AlternateKey != null)
             {
-              builder.HasAlternateKey(AlternateKey);
-              builder.HasIndex(AlternateKey).IsUnique();
+                builder.HasAlternateKey(AlternateKey);
+                builder.HasIndex(AlternateKey).IsUnique();
             }
-
-
 
             InnerConfigure(builder);
         }

@@ -8,6 +8,7 @@ using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Application.Interfaces;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
+using OpenSystem.Core.Application.Commands;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
@@ -38,7 +39,7 @@ namespace OpenSystem.Core.Application.Behaviors
               _validators.Select(validator =>
                 validator.ValidateAsync(context,
                   cancellationToken)));
-    
+
             var failures = validationResults.Where(result => result.Errors.Any())
               .SelectMany(result =>
                 result.Errors)
@@ -48,14 +49,14 @@ namespace OpenSystem.Core.Application.Behaviors
             {
               var result = Result.Failure(typeof(ResultCodeValidation),
                 ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred);
-    
+
               failures.ForEach(failure => {
                 if (!Enum.TryParse(typeof(ResultSeverityTypes),
                    failure.Severity.ToString(),
                    true,
                    out object? severity))
                    severity = ResultSeverityTypes.Error;
-    
+
                 result.AddField(failure.PropertyName,
                   typeof(ResultCodeValidation),
                   int.Parse(failure.ErrorCode),
@@ -65,11 +66,11 @@ namespace OpenSystem.Core.Application.Behaviors
                   null,
                   failure.FormattedMessagePlaceholderValues);
               });
-    
+
               throw (TResponse)result;
             }
           }
-    
+
           return await next();
         }*/
 

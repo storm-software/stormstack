@@ -1,74 +1,26 @@
 using System;
-using System.Collections;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
+using FluentValidation;
+using FluentValidation.Results;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
-    public abstract class ValueObject<TValue, TValueObject>
-      : IComparable, IValidatableObject, IComparable<ValueObject<TValue, TValueObject>>
-      where TValueObject : ValueObject<TValue, TValueObject>, new()
+    public abstract class ValueObject : IComparable, IComparable<ValueObject>
     {
-        static ValueObject()
-        {
-            ConstructorInfo ctor = typeof(TValueObject)
-                .GetTypeInfo()
-                .DeclaredConstructors
-                .First();
-
-            var argsExp = new Expression[0];
-            NewExpression newExp = Expression.New(ctor,
-              argsExp);
-            LambdaExpression lambda = Expression.Lambda(typeof(Func<TValueObject>),
-              newExp);
-
-            ValueObjectFactory = (Func<TValueObject>)lambda.Compile();
-        }
-
-        protected static readonly Func<TValueObject> ValueObjectFactory;
-
-        public static TValueObject Create(TValue item)
-        {
-            TValueObject x = ValueObjectFactory();
-            x.Value = item;
-            var ret = x.InnerValidate();
-            if (ret.Failed)
-                throw new Exceptions.ValidationException(typeof(ResultCodeValidation),
-                  ret.Code);
-
-            return x;
-        }
-
-        public static bool operator ==(ValueObject<TValue, TValueObject> a,
-          ValueObject<TValue, TValueObject> b)
-        {
-            if (a is null && b is null)
-                return true;
-
-            if (a is null || b is null)
-                return false;
-
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(ValueObject<TValue, TValueObject> a,
-          ValueObject<TValue, TValueObject> b)
-        {
-            return !(a == b);
-        }
-
-        public static implicit operator ValueObject<TValue, TValueObject>(TValue value) => value;
-
-        public static explicit operator TValue(ValueObject<TValue, TValueObject> valueObject) => valueObject.Value;
+        private static readonly ConcurrentDictionary<
+            Type,
+            IReadOnlyCollection<PropertyInfo>
+        > TypeProperties = new ConcurrentDictionary<Type, IReadOnlyCollection<PropertyInfo>>();
 
         internal static Type? GetUnproxiedType(object? obj)
         {
             if (obj == null)
-              return null;
+                return null;
 
             const string EFCoreProxyPrefix = "Castle.Proxies.";
             const string NHibernateProxyPostfix = "Proxy";
@@ -76,27 +28,32 @@ namespace OpenSystem.Core.Domain.ValueObjects
             Type type = obj.GetType();
 
             string typeString = type.ToString();
-            if (typeString.Contains(EFCoreProxyPrefix) ||
-              typeString.EndsWith(NHibernateProxyPostfix))
+            if (
+                typeString.Contains(EFCoreProxyPrefix)
+                || typeString.EndsWith(NHibernateProxyPostfix)
+            )
                 return type.BaseType;
 
             return type;
         }
 
-        [Key]
-        public TValue Value { get; protected set; }
-
-        private int? _cachedHashCode;
-
-
-        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public ValueObject()
         {
-          var ret = InnerValidate();
-          if (ret.Failed)
-            yield return GetValidationResult(ret.Type,
-              ret.Code);
+            var context = new ValidationContext<object>(this);
+            var ret = InnerValidate(context);
+            if (ret.Failed)
+                throw new Exceptions.ValidationException(typeof(ResultCodeValidation), ret.Code);
+        }
 
-           yield break;
+        public virtual IEnumerable<ValidationResult> Validate(
+            ValidationContext<object> validationContext
+        )
+        {
+            var ret = InnerValidate(validationContext);
+            if (ret.Failed)
+                yield return GetValidationResult(ret.Type, ret.Code);
+
+            yield break;
         }
 
         public override bool Equals(object? obj)
@@ -108,51 +65,39 @@ namespace OpenSystem.Core.Domain.ValueObjects
                 return false;
 
             return GetEqualityComponents()
-              .SequenceEqual(((ValueObject<TValue, TValueObject>)obj)
-              .GetEqualityComponents());
+                .SequenceEqual(((ValueObject)obj).GetEqualityComponents());
         }
 
         public override int GetHashCode()
         {
-            if (!_cachedHashCode.HasValue)
+            unchecked
             {
-                _cachedHashCode = GetEqualityComponents()
-                    .Aggregate(1,
-                      (current, obj) =>
-                    {
-                        unchecked
-                        {
-                            return current * 23 + (obj?.GetHashCode() ?? 0);
-                        }
-                    });
+                return GetEqualityComponents()
+                    .Aggregate(17, (current, obj) => current * 23 + (obj?.GetHashCode() ?? 0));
             }
-
-            return _cachedHashCode.Value;
         }
 
-        public virtual int CompareTo(object? obj)
+        public int CompareTo(object? obj)
         {
             Type? thisType = GetUnproxiedType(this);
             Type? otherType = GetUnproxiedType(obj);
 
             if (thisType != otherType)
-                return string.Compare(thisType?.ToString(),
-                  otherType?.ToString(),
-                  StringComparison.Ordinal);
+                return string.Compare(
+                    thisType?.ToString(),
+                    otherType?.ToString(),
+                    StringComparison.Ordinal
+                );
 
             object[] components = GetEqualityComponents().ToArray();
-            object[] otherComponents = obj != null
-              ? ((ValueObject<TValue, TValueObject>)obj).GetEqualityComponents().ToArray()
-              : new object[0];
+            object[] otherComponents =
+                obj != null ? ((ValueObject)obj).GetEqualityComponents().ToArray() : new object[0];
 
             for (int i = 0; i < components.Length; i++)
             {
-                var other = otherComponents.Length > i
-                  ? otherComponents[i]
-                  : null;
+                var other = otherComponents.Length > i ? otherComponents[i] : null;
 
-                int comparison = CompareComponents(components[i],
-                  other);
+                int comparison = CompareComponents(components[i], other);
                 if (comparison != 0)
                     return comparison;
             }
@@ -160,45 +105,51 @@ namespace OpenSystem.Core.Domain.ValueObjects
             return 0;
         }
 
-        public virtual int CompareTo(ValueObject<TValue, TValueObject>? other)
+        protected virtual IEnumerable<object> GetEqualityComponents()
+        {
+            return GetProperties().Select(x => x.GetValue(this));
+        }
+
+        public virtual int CompareTo(ValueObject? other)
         {
             return CompareTo(other as object);
         }
 
         public override string ToString()
         {
-            return Value.ToString();
+            return $"{{{string.Join(", ", GetProperties().Select(f => $"{f.Name}: {f.GetValue(this)}"))}}}";
         }
 
-        protected virtual IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
-
-        protected virtual Result InnerValidate()
+        protected virtual Result InnerValidate(ValidationContext<object> validationContext)
         {
             return Result.Success();
         }
 
-        protected ValidationResult GetValidationResult(Type resultCodeType,
-          int code)
+        protected virtual IEnumerable<PropertyInfo> GetProperties()
         {
-          return new ValidationResult(ResultCode.Serialize(resultCodeType,
-            code));
+            return TypeProperties.GetOrAdd(
+                GetType(),
+                t =>
+                    t.GetTypeInfo()
+                        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                        .OrderBy(p => p.Name)
+                        .ToList()
+            );
         }
 
-        protected ValidationResult GetValidationResult(string resultCodeType,
-          int code)
+        protected ValidationResult GetValidationResult(Type resultCodeType, int code)
         {
-          return new ValidationResult(ResultCode.Serialize(resultCodeType,
-            code));
+            return new ValidationResult();
         }
 
-        private int CompareComponents(object? object1,
-          object? object2)
+        protected ValidationResult GetValidationResult(string resultCodeType, int code)
         {
-            if (object1 is null &&
-              object2 is null)
+            return new ValidationResult();
+        }
+
+        private int CompareComponents(object? object1, object? object2)
+        {
+            if (object1 is null && object2 is null)
                 return 0;
 
             if (object1 is null)
@@ -207,70 +158,10 @@ namespace OpenSystem.Core.Domain.ValueObjects
             if (object2 is null)
                 return 1;
 
-            if (object1 is IComparable comparable1 &&
-              object2 is IComparable comparable2)
+            if (object1 is IComparable comparable1 && object2 is IComparable comparable2)
                 return comparable1.CompareTo(comparable2);
 
             return object1.Equals(object2) ? 0 : -1;
         }
     }
-
-    public class ValueObject
-      : ValueObject<object, ValueObject>
-    {
-    }
-
-    /// <summary>
-    /// Use non-generic ValueObject whenever possible: http://bit.ly/vo-new
-    /// </summary>
-    /*public abstract class ValueObject<T>
-        where T : ValueObject<T>
-    {
-        public static bool operator ==(ValueObject<T> a,
-          ValueObject<T> b)
-        {
-            if (a is null && b is null)
-                return true;
-
-            if (a is null || b is null)
-                return false;
-
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(ValueObject<T> a,
-          ValueObject<T> b)
-        {
-            return !(a == b);
-        }
-
-        private int? _cachedHashCode;
-
-
-        public override bool Equals(object? obj)
-        {
-            var valueObject = obj as T;
-            if (valueObject is null)
-                return false;
-
-            if (ValueObject<T>.GetUnproxiedType(this) != ValueObject<T>.GetUnproxiedType(obj))
-                return false;
-
-            return EqualsCore(valueObject);
-        }
-
-        protected abstract bool EqualsCore(T other);
-
-        protected abstract int GetHashCodeCore();
-
-        public override int GetHashCode()
-        {
-            if (!_cachedHashCode.HasValue)
-            {
-                _cachedHashCode = GetHashCodeCore();
-            }
-
-            return _cachedHashCode.Value;
-        }
-    }*/
 }

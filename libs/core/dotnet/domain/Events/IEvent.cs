@@ -1,6 +1,4 @@
 namespace OpenSystem.Core.Domain.Events
 {
-    public interface IEvent
-    {
-    }
+    public interface IEvent { }
 }

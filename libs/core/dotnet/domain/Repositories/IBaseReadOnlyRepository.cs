@@ -1,10 +1,12 @@
 using OpenSystem.Core.Domain.Entities;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Repositories
 {
-    public interface IBaseReadOnlyRepository<TEntity>
-        where TEntity : AggregateRoot
+    public interface IBaseReadOnlyRepository<TEntity, TEntityId>
+        where TEntity : Entity<TEntityId>
+        where TEntityId : EntityId
     {
         IQueryable<TEntity> GetQueryable();
 
@@ -22,6 +24,6 @@ namespace OpenSystem.Core.Domain.Repositories
             string? fields
         );
 
-        Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default);
     }
 }

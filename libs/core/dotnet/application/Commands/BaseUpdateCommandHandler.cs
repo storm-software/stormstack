@@ -6,42 +6,38 @@ using OpenSystem.Core.Domain.Repositories;
 using OpenSystem.Core.Domain.Common;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.Aggregates;
 
-namespace OpenSystem.Reaction.Application.Commands
+namespace OpenSystem.Core.Application.Commands
 {
-    public abstract class BaseUpdateCommandHandler<TRequest, TEntity, TRepository>
-        : BaseCommandHandler<TRequest, TEntity>
-        where TRequest : class, ICommand
-        where TEntity : AggregateRoot
-        where TRepository : IBaseRepository<TEntity>
+    public abstract class BaseUpdateCommandHandler<TAggregate, TIdentity, TRequest>
+        : BaseCommandHandler<TAggregate, TIdentity, TRequest>
+        where TRequest : class, ICommand<TAggregate, TIdentity>
+        where TAggregate : IAggregateRoot<TIdentity>
+        where TIdentity : IIdentity
     {
-        protected TRepository Repository { get; init; }
-
         public BaseUpdateCommandHandler(
-            TRepository repository,
             IMapper mapper,
-            ILogger<BaseUpdateCommandHandler<TRequest, TEntity, TRepository>> logger
+            ILogger<BaseUpdateCommandHandler<TAggregate, TIdentity, TRequest>> logger
         )
-            : base(mapper, logger)
-        {
-            Repository = repository;
-        }
+            : base(mapper, logger) { }
 
         protected async override sealed ValueTask<IVersionedIndex> InnerHandleAsync(
-            TEntity entity,
+            TAggregate entity,
             TRequest request,
             CancellationToken cancellationToken
         )
         {
-            entity = await HandleCommandAsync(entity, request, cancellationToken);
+            entity = await HandleCommandAsync(entity, request, cancellationToken)
+                .ConfigureAwait(false);
 
-            await SaveChangesAsync(cancellationToken);
+            // await SaveChangesAsync(cancellationToken);
 
-            return entity;
+            return (IVersionedIndex)entity;
         }
 
-        protected virtual Task<TEntity> HandleCommandAsync(
-            TEntity entity,
+        protected virtual Task<TAggregate> HandleCommandAsync(
+            TAggregate entity,
             TRequest request,
             CancellationToken cancellationToken
         )
@@ -49,7 +45,7 @@ namespace OpenSystem.Reaction.Application.Commands
             return Task.FromResult(entity);
         }
 
-        protected async override ValueTask<TEntity> MapRequestAsync(
+        /*protected async override ValueTask<TAggregate> MapRequestAsync(
             TRequest request,
             CancellationToken cancellationToken
         )
@@ -60,6 +56,6 @@ namespace OpenSystem.Reaction.Application.Commands
         protected async virtual ValueTask SaveChangesAsync(CancellationToken cancellationToken)
         {
             await Repository.UnitOfWork.SaveChangesAsync(cancellationToken);
-        }
+        }*/
     }
 }

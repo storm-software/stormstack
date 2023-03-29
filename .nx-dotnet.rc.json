@@ -70,6 +70,12 @@
     "AutoMapper.Collection": "9.0.0",
     "Nito.AsyncEx": "5.1.2",
     "Ben.Demystifier": "0.4.1",
-    "NetEscapades.AspNetCore.SecurityHeaders": "0.18.0"
+    "NetEscapades.AspNetCore.SecurityHeaders": "0.18.0",
+    "EventStore.Client": "22.0.0",
+    "OpenTelemetry": "1.4.0",
+    "OpenTelemetry.Instrumentation.AspNetCore": "1.0.0-rc9.14",
+    "OpenTelemetry.Extensions.Hosting": "1.4.0",
+    "System.Linq.Async": "6.0.1",
+    "OpenTelemetry.Instrumentation.Http": "1.0.0-rc9.14"
   }
 }

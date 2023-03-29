@@ -9,7 +9,11 @@ networks:
       config:
         - subnet: 172.28.4.0/24
   network-eventstore:
-        driver: bridge
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.6.0/24
 
 services:
   pgadmin:
@@ -22,17 +26,6 @@ services:
       - network-microservice
     volumes:
       - pgadmin-data:/root/.pgadmin
-
-  contact.db:
-    container_name: contact.db
-    image: postgres
-    restart: always
-    ports:
-      - "5434:5432"
-    networks:
-      - network-microservice
-    volumes:
-      - postgresql-data:/var/lib/postgresql/data
 
   reaction.db:
     container_name: reaction.db
@@ -50,7 +43,7 @@ services:
   #######################################################
   eventstore.db:
     container_name: eventstore.db
-    image: eventstore/eventstore
+    image: eventstore/eventstore:21.10.0-buster-slim
     ports:
         - "1113:1113"
         - "2113:2113"

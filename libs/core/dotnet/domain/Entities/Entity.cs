@@ -9,9 +9,14 @@ using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Entities
 {
-    public abstract class Entity<T> : Indexed<T>, IValidatableObject, ICloneable, IEntity<T>
+    public abstract class Entity<TEntityId>
+        : ValueObject,
+            IIndexed<TEntityId>,
+            ICloneable,
+            IEntity<TEntityId>
+        where TEntityId : EntityId
     {
-        public static bool operator ==(Entity<T> a, Entity<T> b)
+        public static bool operator ==(Entity<TEntityId> a, Entity<TEntityId> b)
         {
             if (a is null && b is null)
                 return true;
@@ -22,36 +27,27 @@ namespace OpenSystem.Core.Domain.Entities
             return a.Equals(b);
         }
 
-        public static bool operator !=(Entity<T> a, Entity<T> b)
+        public static bool operator !=(Entity<TEntityId> a, Entity<TEntityId> b)
         {
             return !(a == b);
         }
 
-        public T Id { get; set; } = default!;
+        public TEntityId Id { get; set; } = default!;
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public ValueTask<Result> ValidateAsync()
         {
-            var ret = InnerValidate(validationContext);
-            if (ret.Failed)
-                return GetValidationResult(ret).Yield();
-
-            return Enumerable.Empty<ValidationResult>();
-        }
-
-        public async ValueTask<Result> ValidateAsync()
-        {
-            return InnerValidate(null);
+            return ValueTask.FromResult(InnerValidate(null));
         }
 
         public object Clone()
         {
-            var serialized = JsonSerializer.Serialize<Entity<T>>(this);
-            return JsonSerializer.Deserialize<Entity<T>>(serialized);
+            var serialized = JsonSerializer.Serialize<Entity<TEntityId>>(this);
+            return JsonSerializer.Deserialize<Entity<TEntityId>>(serialized);
         }
 
         public override bool Equals(object? obj)
         {
-            if (!(obj is Entity<T> other))
+            if (!(obj is Entity<TEntityId> other))
                 return false;
 
             if (ReferenceEquals(this, other))
@@ -71,6 +67,11 @@ namespace OpenSystem.Core.Domain.Entities
             return (Id.ToString() + Id).GetHashCode();
         }
 
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Id;
+        }
+
         /// <summary>
         /// Allow derived class to add validations
         /// </summary>
@@ -79,26 +80,9 @@ namespace OpenSystem.Core.Domain.Entities
             return Result.Success();
         }
 
-        protected ValidationResult GetValidationResult(Result ret)
-        {
-            return new ValidationResult(ResultCode.Serialize(ret.Type, ret.Code));
-        }
-
-        protected ValidationResult GetValidationResult(Type resultCodeType, int code)
-        {
-            return GetValidationResult(Result.Failure(resultCodeType, code));
-        }
-
-        protected ValidationResult GetValidationResult(int code)
-        {
-            return GetValidationResult(typeof(ResultCodeValidation), code);
-        }
-
         private bool IsTransient()
         {
             return Id is not null;
         }
     }
-
-    public abstract class Entity : Entity<Guid>, IEntity, IIndexed { }
 }

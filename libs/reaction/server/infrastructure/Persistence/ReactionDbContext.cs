@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace OpenSystem.Reaction.Infrastructure.Persistence
 {
-    public class ReactionDbContext : HistoricalDbContext<ReactionEntity>
+    /*public class ReactionDbContext : HistoricalDbContext<ReactionEntity>
     {
         public DbSet<ReactionEntity> Reaction => Set<ReactionEntity>();
 
@@ -25,5 +25,5 @@ namespace OpenSystem.Reaction.Infrastructure.Persistence
             base.InnerOnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-    }
+    }*/
 }

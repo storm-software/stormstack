@@ -15,5 +15,7 @@ namespace OpenSystem.Core.Domain.Settings
         public ScheduledServiceSettings? ScheduledServiceSettings { get; set; }
 
         public FileExportServiceSettings? FileExportServiceSettings { get; set; }
+
+        public EventSourcingSettings EventSourcingSettings { get; set; }
     }
 }

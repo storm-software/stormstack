@@ -9,33 +9,32 @@ using OpenSystem.Core.Infrastructure.Persistence.ValueConverters;
 
 namespace OpenSystem.Core.Infrastructure.Persistence.MappingConfigurations
 {
-  public abstract class AuditableConfiguration<TEntity>
-    : BaseConfiguration<TEntity>
-    where TEntity : AuditableEntity
-  {
-    protected override sealed void InnerConfigure(EntityTypeBuilder<TEntity> builder)
+    public abstract class AuditableConfiguration<TEntity, TEntityId>
+        : BaseConfiguration<TEntity, TEntityId>
+        where TEntity : AuditableEntity<TEntityId>
+        where TEntityId : EntityId
     {
-      /*builder.OwnsOne(x => x.EventCounter, y => {
-        y.Property(r => r.Value)
-          .HasColumnName("EventCounter")
-          .IsRequired();
-      });*/
-      builder.Property(x => x.Status)
-        .IsRequired()
-        .HasConversion<EnumIntegerValueConverter<EntityStatusTypes>>();
-      builder.Property(x => x.CreatedBy)
-        .IsRequired();
-      builder.Property(x => x.CreatedDateTime)
-        .IsRequired();
-      builder.Property(x => x.EventType)
-        .IsRequired()
-        .HasConversion<EnumStringValueConverter<EntityEventTypes>>();
+        protected override sealed void InnerConfigure(EntityTypeBuilder<TEntity> builder)
+        {
+            /*builder.OwnsOne(x => x.EventCounter, y => {
+              y.Property(r => r.Value)
+                .HasColumnName("EventCounter")
+                .IsRequired();
+            });*/
+            builder
+                .Property(x => x.Status)
+                .IsRequired()
+                .HasConversion<EnumIntegerValueConverter<EntityStatusTypes>>();
+            builder.Property(x => x.CreatedBy).IsRequired();
+            builder.Property(x => x.CreatedDateTime).IsRequired();
+            builder
+                .Property(x => x.EventType)
+                .IsRequired()
+                .HasConversion<EnumStringValueConverter<EntityEventTypes>>();
 
-      ConfigureColumns(builder);
-    }
+            ConfigureColumns(builder);
+        }
 
-    protected virtual void ConfigureColumns(EntityTypeBuilder<TEntity> builder)
-    {
+        protected virtual void ConfigureColumns(EntityTypeBuilder<TEntity> builder) { }
     }
-  }
 }
