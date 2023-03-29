@@ -10,6 +10,7 @@ using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Settings;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace OpenSystem.Core.Infrastructure.Utilities
@@ -27,6 +28,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                 HeaderNames.AccessControlMaxAge,
                 HeaderNames.StrictTransportSecurity,
                 HeaderNames.WWWAuthenticate,
+                HeaderKeys.CorrelationId
             };
 
         public static bool IsSuccessStatusCode(int? statusCode = Status404NotFound) =>
@@ -50,6 +52,13 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
             return false;
         }
+
+        public static bool ShouldIncludeDetails(
+            HttpContext context,
+            ErrorHandlingSettings? settings = null
+        ) =>
+            context.RequestServices.GetRequiredService<IHostEnvironment>().IsDevelopment()
+            && settings?.ReportStack != false;
 
         public static int MapToStatusCode(Exception exception)
         {
@@ -185,10 +194,14 @@ namespace OpenSystem.Core.Infrastructure.Utilities
         {
             var extensions = new Dictionary<string, object?> { { "traceId", GetTraceId(context) } };
             extensions.Add("severity", ResultSeverityTypes.Error);
-            if (!string.IsNullOrEmpty(extendedDetail))
-                extensions.Add("extendedDetail", extendedDetail);
-            if (!string.IsNullOrEmpty(stackTrace))
-                extensions.Add("stackTrace", stackTrace);
+
+            if (ShouldIncludeDetails(context))
+            {
+                if (!string.IsNullOrEmpty(extendedDetail))
+                    extensions.Add("extendedDetail", extendedDetail);
+                if (!string.IsNullOrEmpty(stackTrace))
+                    extensions.Add("stackTrace", stackTrace);
+            }
 
             SetProblemResponseHeaders(context);
             return Results.Problem(
@@ -257,10 +270,14 @@ namespace OpenSystem.Core.Infrastructure.Utilities
         {
             var extensions = new Dictionary<string, object?> { { "traceId", GetTraceId(context) } };
             extensions.Add("severity", ResultSeverityTypes.Error);
-            if (!string.IsNullOrEmpty(extendedDetail))
-                extensions.Add("extendedDetail", extendedDetail);
-            if (!string.IsNullOrEmpty(stackTrace))
-                extensions.Add("stackTrace", stackTrace);
+
+            if (ShouldIncludeDetails(context))
+            {
+                if (!string.IsNullOrEmpty(extendedDetail))
+                    extensions.Add("extendedDetail", extendedDetail);
+                if (!string.IsNullOrEmpty(stackTrace))
+                    extensions.Add("stackTrace", stackTrace);
+            }
 
             SetProblemResponseHeaders(context);
             return Results.ValidationProblem(
@@ -329,6 +346,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                 context.Response.Headers.LastModified = DateTimeOffset.UtcNow.ToString("G");
             }
 
+            context.Response.ContentType = HttpContentTypeConstants.Json;
             SetResponseHeaders(context);
         }
 
