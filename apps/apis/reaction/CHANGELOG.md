@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/sullivanpj/open-system/compare/apis-reaction-v1.10.0...apis-reaction-v1.11.0) (2023-03-29)
+
+
+### Features
+
+* **core-dotnet-domain:** Event sourcing upgrades ([194f00b](https://github.com/sullivanpj/open-system/commit/194f00bd2a8b293d1f7ecefb6feccc265bdd981b))
+
 # [1.10.0](https://github.com/sullivanpj/open-system/compare/apis-reaction-v1.9.0...apis-reaction-v1.10.0) (2023-03-26)
 
 
