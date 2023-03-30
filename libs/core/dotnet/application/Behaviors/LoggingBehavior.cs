@@ -4,6 +4,7 @@ using OpenSystem.Core.Application.Services;
 using Microsoft.Extensions.Logging;
 using MediatR;
 using Microsoft.Extensions.Hosting;
+using OpenSystem.Core.Domain.Constants;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
@@ -47,14 +48,15 @@ namespace OpenSystem.Core.Application.Behaviors
             }
 
             _logger.LogInformation(
-                "Starting Request: {Name} {@UserId} {@UserName} {@Request}",
+                "********************************{NewLine}Starting Request: {Name} {@UserId} {@UserName} {NewLine} {@Request}",
+                Literals.NewLine,
                 requestName,
                 userId,
                 userName,
                 request
             );
 
-            if (_hostEnvironment.IsDevelopment())
+            /*if (_hostEnvironment.IsDevelopment())
                 request
                     .GetType()
                     .GetProperties()
@@ -68,33 +70,18 @@ namespace OpenSystem.Core.Application.Behaviors
                                 p.PropertyType.Name,
                                 p.GetValue(request, null)?.ToString()?.Trim()
                             )
-                    );
+                    );*/
 
             var response = await next();
 
             _logger.LogInformation(
-                "Completing Request: {Name} {@UserId} {@UserName} {@Response}",
+                "Completing Request: {Name} {@UserId} {@UserName} {NewLine} {@Response} {NewLine}********************************",
                 requestName,
                 userId,
                 userName,
-                response
+                response,
+                Literals.NewLine
             );
-
-            if (_hostEnvironment.IsDevelopment())
-                response
-                    ?.GetType()
-                    .GetProperties()
-                    .Where(p => p.PropertyType == typeof(string))
-                    .ToList()
-                    .ForEach(
-                        p =>
-                            _logger.LogDebug(
-                                "{Name} ({Type}): {@Value}",
-                                p.Name,
-                                p.PropertyType.Name,
-                                p.GetValue(request, null)?.ToString()?.Trim()
-                            )
-                    );
 
             return response;
         }

@@ -76,6 +76,8 @@
     "OpenTelemetry.Instrumentation.AspNetCore": "1.0.0-rc9.14",
     "OpenTelemetry.Extensions.Hosting": "1.4.0",
     "System.Linq.Async": "6.0.1",
-    "OpenTelemetry.Instrumentation.Http": "1.0.0-rc9.14"
+    "OpenTelemetry.Instrumentation.Http": "1.0.0-rc9.14",
+    "Serilog.Sinks.Console": "4.1.1-dev-00910",
+    "Serilog.Sinks.OpenTelemetry": "1.0.0-dev-00113"
   }
 }

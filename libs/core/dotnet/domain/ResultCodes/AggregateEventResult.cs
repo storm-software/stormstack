@@ -6,6 +6,7 @@ using FluentValidation.Results;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Events;
+using OpenSystem.Core.Domain.Extensions;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
@@ -15,20 +16,19 @@ namespace OpenSystem.Core.Domain.ResultCodes
         public static IAggregateEventResult Success(
             IVersionedIndex? data,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
-        ) => new AggregateEventResult(data, domainEvents, string.Empty);
+        ) => new AggregateEventResult(data, domainEvents);
 
         public static IAggregateEventResult Success(
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
-        ) => new AggregateEventResult(null, domainEvents, string.Empty);
+        ) => new AggregateEventResult(null, domainEvents);
 
         public static IAggregateEventResult Failure(
             Type type,
             int code,
-            string? detail = null,
-            string? extendedDetail = null,
+            string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<ValidationFailure>? fields = null,
+            List<FieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
         )
@@ -37,8 +37,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
                 type,
                 code,
                 domainEvents,
-                detail,
-                extendedDetail,
+                extendedMessage,
                 severity,
                 helpLink,
                 fields,
@@ -46,25 +45,50 @@ namespace OpenSystem.Core.Domain.ResultCodes
             );
         }
 
+        public static IAggregateEventResult Failure(
+            int code,
+            List<FieldValidationResult> fields,
+            string? extendedMessage = null,
+            IReadOnlyCollection<IDomainEvent>? domainEvents = null
+        )
+        {
+            return new AggregateEventResult(
+                typeof(ResultCodeValidation),
+                code,
+                domainEvents,
+                extendedMessage,
+                ResultSeverityTypes.Error,
+                null,
+                fields,
+                null
+            );
+        }
+
+        public static IAggregateEventResult Failure(
+            List<FieldValidationResult> fields,
+            string? extendedMessage = null,
+            IReadOnlyCollection<IDomainEvent>? domainEvents = null
+        )
+        {
+            return new AggregateEventResult(
+                typeof(ResultCodeValidation),
+                ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred,
+                domainEvents,
+                extendedMessage,
+                ResultSeverityTypes.Error,
+                null,
+                fields,
+                null
+            );
+        }
+
         public IReadOnlyCollection<IDomainEvent>? DomainEvents { get; private set; }
 
         public AggregateEventResult(
             IVersionedIndex? data,
-            IReadOnlyCollection<IDomainEvent>? domainEvents = null,
-            string? detail = null,
-            string? extendedDetail = null,
-            ResultSeverityTypes severity = ResultSeverityTypes.None,
-            string? helpLink = null,
-            Dictionary<string, object>? formattedMessagePlaceholderValues = null
+            IReadOnlyCollection<IDomainEvent>? domainEvents = null
         )
-            : base(
-                data,
-                detail,
-                extendedDetail,
-                severity,
-                helpLink,
-                formattedMessagePlaceholderValues
-            )
+            : base(data)
         {
             DomainEvents = domainEvents;
         }
@@ -73,18 +97,16 @@ namespace OpenSystem.Core.Domain.ResultCodes
             Type type,
             int code,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null,
-            string? detail = null,
-            string? extendedDetail = null,
+            string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<ValidationFailure>? fields = null,
+            List<FieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
             : base(
                 type,
                 code,
-                detail,
-                extendedDetail,
+                extendedMessage,
                 severity,
                 helpLink,
                 fields,
@@ -98,18 +120,16 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string type,
             int code,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null,
-            string? detail = null,
-            string? extendedDetail = null,
+            string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<ValidationFailure>? fields = null,
+            List<FieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
             : base(
                 type,
                 code,
-                detail,
-                extendedDetail,
+                extendedMessage,
                 severity,
                 helpLink,
                 formattedMessagePlaceholderValues

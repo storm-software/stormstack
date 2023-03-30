@@ -1,13 +1,11 @@
-
-
-namespace OpenSystem.Core.Domain.Constants
+namespace OpenSystem.Core.Infrastructure.WebApi.Constants
 {
     public class HttpContentTypeConstants
     {
         public const string Json = "application/json";
 
         public const string Xml = "application/xml";
-    
+
         public const string Text = "text/plain";
 
         public const string OctetStream = "application/octet-stream";
@@ -17,6 +15,5 @@ namespace OpenSystem.Core.Domain.Constants
         public const string ProblemJson = "application/problem+json";
 
         public const string ProblemXml = "application/problem+xml";
-        
     }
 }

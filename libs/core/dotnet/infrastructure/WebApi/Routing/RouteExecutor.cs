@@ -12,6 +12,7 @@ using OpenSystem.Core.Application.Queries;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Exceptions;
+using OpenSystem.Core.Domain.ReadStores;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Infrastructure.ModelBinding;
 using OpenSystem.Core.Infrastructure.Utilities;
@@ -50,16 +51,23 @@ namespace OpenSystem.Core.Infrastructure.Routing
             }
             catch (Exception e)
             {
-                response = HttpUtility.CreateProblem(context, e);
-
                 var log = GetLogger(context);
                 log.LogError(
-                    "An error has occurred during request {Type}: {Message} \r\nStack Trace: {StackTrace}",
+                    "An Open System exception occurred while calling the mediator pipeline during request {Type}: {Message} \r\nStack Trace: {StackTrace}",
                     _type.FullName,
                     e.Message,
                     e.Demystify().StackTrace
                 );
+                if (e.InnerException != null && e.InnerException is Exception innerException)
+                    log.LogError(
+                        "Inner exception detail from request '{Type}': {Message} \r\nStack Trace: {StackTrace}",
+                        _type.FullName,
+                        innerException.Message,
+                        innerException.Demystify().StackTrace
+                    );
                 log.LogDebug("{Type} Exception Details: {e}", e);
+
+                response = HttpUtility.CreateProblem(context, e);
             }
 
             if (response != null)
@@ -84,7 +92,7 @@ namespace OpenSystem.Core.Infrastructure.Routing
                         Status400BadRequest
                     );
 
-                return await HandleQueryAsync(query, httpContext);
+                return await HandleQueryAsync((IQuery<object>)request, httpContext);
             }
             else
             {
@@ -121,7 +129,7 @@ namespace OpenSystem.Core.Infrastructure.Routing
             if (result?.Succeeded != true)
                 return HttpUtility.CreateProblem(httpContext, result as AggregateEventResult);
 
-            return HttpUtility.CreateOk(httpContext, (IResult<object>)result);
+            return HttpUtility.CreateOk(httpContext, result as IResult<object>);
         }
 
         private async ValueTask<IResult> HandleQueryAsync(
@@ -139,11 +147,13 @@ namespace OpenSystem.Core.Infrastructure.Routing
                     )
                 );
 
-            var ret = await _queryProcessor.ProcessAsync<object>(query, httpContext.RequestAborted);
-            if (!(ret is Result result) || result.Failed)
-                return HttpUtility.CreateProblem(httpContext, ret as Result);
+            var result = await _queryProcessor.ProcessAsync(query, httpContext.RequestAborted);
+            if (result == null)
+                return HttpUtility.CreateProblem(httpContext, result as Result, Status404NotFound);
+            if (result is Result resultObj && resultObj.Failed)
+                return HttpUtility.CreateProblem(httpContext, resultObj);
 
-            return HttpUtility.CreateOk(httpContext, result);
+            return HttpUtility.CreateOk(httpContext, Result.Success(result));
         }
     }
 }

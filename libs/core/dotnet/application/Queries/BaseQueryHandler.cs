@@ -1,26 +1,29 @@
 using AutoMapper;
 using OpenSystem.Core.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
+using OpenSystem.Core.Domain.ReadStores;
 
 namespace OpenSystem.Core.Application.Queries
 {
-    public abstract class BaseQueryHandler<TRequest, TResponse> : IQueryHandler<TRequest, TResponse>
-        where TRequest : class, IQuery<TResponse>
+    public abstract class BaseQueryHandler<TRequest, TReadModel>
+        : IQueryHandler<TRequest, TReadModel>
+        where TRequest : class, IQuery<TReadModel>
+        where TReadModel : ReadModel
     {
         protected readonly IMapper Mapper;
 
-        protected readonly ILogger<BaseQueryHandler<TRequest, TResponse>> Logger;
+        protected readonly ILogger<BaseQueryHandler<TRequest, TReadModel>> Logger;
 
         public BaseQueryHandler(
             IMapper mapper,
-            ILogger<BaseQueryHandler<TRequest, TResponse>> logger
+            ILogger<BaseQueryHandler<TRequest, TReadModel>> logger
         )
         {
             Mapper = mapper;
             Logger = logger;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<TReadModel> Handle(TRequest request, CancellationToken cancellationToken)
         {
             Logger.LogDebug($"Query processing - {request.GetType().Name}");
 
@@ -38,12 +41,12 @@ namespace OpenSystem.Core.Application.Queries
             CancellationToken cancellationToken
         );
 
-        protected virtual ValueTask<TResponse> MapResponseAsync(
+        protected virtual ValueTask<TReadModel> MapResponseAsync(
             object queryResult,
             CancellationToken cancellationToken
         )
         {
-            return ValueTask.FromResult(Mapper.Map<TResponse>(queryResult));
+            return ValueTask.FromResult(Mapper.Map<TReadModel>(queryResult));
         }
     }
 }

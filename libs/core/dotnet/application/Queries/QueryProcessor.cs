@@ -4,6 +4,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Application.Models;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.ReadStores;
 
 namespace OpenSystem.Core.Application.Queries
 {
@@ -37,10 +39,7 @@ namespace OpenSystem.Core.Application.Queries
             _sender = sender;
         }
 
-        public async Task<TResult> ProcessAsync<TResult>(
-            IQuery<TResult> query,
-            CancellationToken cancellationToken
-        )
+        public async Task<object?> ProcessAsync(object query, CancellationToken cancellationToken)
         {
             /*var queryType = query.GetType();
             var cacheItem = GetCacheItem(queryType);
@@ -61,7 +60,21 @@ namespace OpenSystem.Core.Application.Queries
 
             return await task.ConfigureAwait(false);*/
 
-            return await _sender.Send(query, cancellationToken);
+            _logger.LogDebug(
+                "Processing query {QueryType} \r\nRequest: {Query}",
+                query.GetType().PrettyPrint(),
+                query
+            );
+
+            var result = await _sender.Send(query, cancellationToken);
+
+            _logger.LogDebug(
+                "Completed query {QueryType} \r\nResult: {result}",
+                query.GetType().PrettyPrint(),
+                result
+            );
+
+            return result;
         }
 
         /*private CacheItem GetCacheItem(Type queryType)

@@ -75,7 +75,7 @@ namespace OpenSystem.Core.Domain.Utilities
                 try
                 {
                     var result = await action(cancellationToken).ConfigureAwait(false);
-                    _logger.LogTrace(
+                    _logger.LogInformation(
                         "Finished execution of {Label} after {RetryCount} retries and {Seconds} seconds",
                         label,
                         currentRetryCount,
@@ -101,7 +101,7 @@ namespace OpenSystem.Core.Domain.Utilities
                 currentRetryCount++;
                 if (retry.RetryAfter != TimeSpan.Zero)
                 {
-                    _logger.LogTrace(
+                    _logger.LogWarning(
                         "Exception {ExceptionType} with message {ExceptionMessage} is transient, retrying action {Label} after {Seconds} seconds for retry count {RetryCount}",
                         currentException.GetType().PrettyPrint(),
                         currentException.Message,
@@ -113,7 +113,7 @@ namespace OpenSystem.Core.Domain.Utilities
                 }
                 else
                 {
-                    _logger.LogTrace(
+                    _logger.LogWarning(
                         "Exception {ExceptionType} with message {ExceptionMessage} is transient, retrying action {Label} NOW for retry count {RetryCount}",
                         currentException.GetType().PrettyPrint(),
                         currentException.Message,

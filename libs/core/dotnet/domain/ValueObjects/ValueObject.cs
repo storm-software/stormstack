@@ -39,21 +39,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
 
         public ValueObject()
         {
-            var context = new ValidationContext<object>(this);
-            var ret = InnerValidate(context);
-            if (ret.Failed)
-                throw new Exceptions.ValidationException(typeof(ResultCodeValidation), ret.Code);
-        }
-
-        public virtual IEnumerable<ValidationResult> Validate(
-            ValidationContext<object> validationContext
-        )
-        {
-            var ret = InnerValidate(validationContext);
-            if (ret.Failed)
-                yield return GetValidationResult(ret.Type, ret.Code);
-
-            yield break;
+            //var context = new ValidationContext<object>(this);
         }
 
         public override bool Equals(object? obj)
@@ -120,11 +106,6 @@ namespace OpenSystem.Core.Domain.ValueObjects
             return $"{{{string.Join(", ", GetProperties().Select(f => $"{f.Name}: {f.GetValue(this)}"))}}}";
         }
 
-        protected virtual Result InnerValidate(ValidationContext<object> validationContext)
-        {
-            return Result.Success();
-        }
-
         protected virtual IEnumerable<PropertyInfo> GetProperties()
         {
             return TypeProperties.GetOrAdd(
@@ -135,16 +116,6 @@ namespace OpenSystem.Core.Domain.ValueObjects
                         .OrderBy(p => p.Name)
                         .ToList()
             );
-        }
-
-        protected ValidationResult GetValidationResult(Type resultCodeType, int code)
-        {
-            return new ValidationResult();
-        }
-
-        protected ValidationResult GetValidationResult(string resultCodeType, int code)
-        {
-            return new ValidationResult();
         }
 
         private int CompareComponents(object? object1, object? object2)

@@ -10,12 +10,12 @@ using FluentValidation;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
-    public class EmailAddress : SingleValueObject<string>
+    public class EmailAddress : SingleValueObject<string>, IValidatableValueObject<string>
     {
         public EmailAddress(string value)
             : base(value) { }
 
-        protected override Result InnerValidate(ValidationContext<object> validationContext)
+        public IEnumerable<FieldValidationResult> Validate(string value, string? fieldName = null)
         {
             if (
                 StringExtensions.IsSet(Value)
@@ -27,12 +27,12 @@ namespace OpenSystem.Core.Domain.ValueObjects
                         + @"[a-zA-Z]{2,}))$"
                 ).IsMatch(Value)
             )
-                return Result.Failure(
-                    typeof(ResultCodeValidation),
-                    ResultCodeValidation.InvalidEmailFormat
+                yield return FieldValidationResult.Failure(
+                    fieldName,
+                    ResultCodeValidation.InvalidEmailFormat,
+                    null,
+                    value
                 );
-
-            return Result.Success();
         }
     }
 }

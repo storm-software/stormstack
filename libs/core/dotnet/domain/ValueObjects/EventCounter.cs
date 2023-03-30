@@ -30,19 +30,14 @@ namespace OpenSystem.Core.Domain.ValueObjects
 
         public static bool operator <=(EventCounter a, EventCounter b) => a.Value <= b.Value;
 
-        protected override Result InnerValidate(ValidationContext<object> validationContext)
+        public new IEnumerable<FieldValidationResult> Validate(int value, string? fieldName = null)
         {
-            var ret = base.InnerValidate(validationContext);
-            if (ret.Failed)
-                return ret;
-
             if (Value <= 0)
-                return Result.Failure(
-                    typeof(ResultCodeValidation),
-                    ResultCodeValidation.NumericValueMustBePositive
+                yield return FieldValidationResult.Failure(
+                    fieldName,
+                    ResultCodeValidation.NumericValueMustBePositive,
+                    value
                 );
-
-            return Result.Success();
         }
     }
 }

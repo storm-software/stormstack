@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using FluentValidation;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
@@ -7,19 +6,24 @@ using OpenSystem.Core.Domain.Utilities;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
-    public abstract class Identity<T> : SingleValueObject<string>, IIdentity
+    public abstract class Identity<T>
+        : SingleValueObject<string>,
+            IIdentity,
+            IValidatableValueObject<string>
         where T : Identity<T>
     {
         private static readonly string Prefix;
 
         private static readonly Regex ValueValidation;
 
+        private static string FieldName = "Id";
+
         private static Func<string, T> _createIdentityFunc;
 
         static Identity()
         {
-            var name = typeof(T).Name;
-            if (name.Equals("id", StringComparison.OrdinalIgnoreCase))
+            FieldName = typeof(T).Name;
+            if (FieldName.Equals("id", StringComparison.OrdinalIgnoreCase))
             {
                 Prefix = string.Empty;
                 ValueValidation = new Regex(
@@ -36,17 +40,6 @@ namespace OpenSystem.Core.Domain.ValueObjects
                     RegexOptions.Compiled
                 );
             }
-        }
-
-        protected override Result InnerValidate(ValidationContext<object> validationContext)
-        {
-            if (Value is null || Value.Equals(default(T)))
-                return Result.Failure(
-                    typeof(ResultCodeValidation),
-                    ResultCodeValidation.IdentifierCannotBeNull
-                );
-
-            return Result.Success();
         }
 
         public static T New => With(Guid.NewGuid());
@@ -84,36 +77,64 @@ namespace OpenSystem.Core.Domain.ValueObjects
 
         public static bool IsValid(string value)
         {
-            return !Validate(value).Any();
+            return !InnerValidate(value).Any();
         }
 
-        public static IEnumerable<string> Validate(string value)
+        public IEnumerable<FieldValidationResult> Validate(string value, string? fieldName = null)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                yield return $"Identity of type '{typeof(T).PrettyPrint()}' is null or empty";
-                yield break;
-            }
+            return InnerValidate(value, fieldName);
+        }
 
-            if (!string.Equals(value.Trim(), value, StringComparison.OrdinalIgnoreCase))
-                yield return $"Identity '{value}' of type '{typeof(T).PrettyPrint()}' contains leading and/or trailing spaces";
-            if (!string.IsNullOrEmpty(Prefix) && !value.StartsWith(Prefix))
-                yield return $"Identity '{value}' of type '{typeof(T).PrettyPrint()}' does not start with '{Prefix}'";
-            if (!ValueValidation.IsMatch(value))
-                yield return $"Identity '{value}' of type '{typeof(T).PrettyPrint()}' does not follow the syntax '{Prefix}[GUID]' in lower case";
+        public static IEnumerable<FieldValidationResult> InnerValidate(
+            string value,
+            string? fieldName = null
+        )
+        {
+            if (value is string strValue)
+            {
+                if (string.IsNullOrEmpty(strValue))
+                    yield return FieldValidationResult.Failure(
+                        fieldName,
+                        ResultCodeValidation.IdentifierCannotBeNull,
+                        $"Identity of type '{typeof(T).PrettyPrint()}' is null or empty",
+                        strValue
+                    );
+                if (!string.Equals(strValue.Trim(), strValue, StringComparison.OrdinalIgnoreCase))
+                    yield return FieldValidationResult.Failure(
+                        fieldName,
+                        ResultCodeValidation.InvalidIdentifier,
+                        $"Identity '{strValue}' of type '{typeof(T).PrettyPrint()}' contains leading and/or trailing spaces",
+                        strValue
+                    );
+                if (!string.IsNullOrEmpty(Prefix) && !strValue.StartsWith(Prefix))
+                    yield return FieldValidationResult.Failure(
+                        fieldName,
+                        ResultCodeValidation.InvalidIdentifier,
+                        $"Identity '{strValue}' of type '{typeof(T).PrettyPrint()}' does not start with '{Prefix}'",
+                        strValue
+                    );
+                if (!ValueValidation.IsMatch(strValue))
+                    yield return FieldValidationResult.Failure(
+                        fieldName,
+                        ResultCodeValidation.InvalidIdentifier,
+                        $"Identity '{strValue}' of type '{typeof(T).PrettyPrint()}' does not follow the syntax '{Prefix}[GUID]' in lower case",
+                        strValue
+                    );
+            }
+            else if (value is null || value.Equals(default(T)))
+            {
+                yield return FieldValidationResult.Failure(
+                    fieldName,
+                    ResultCodeValidation.IdentifierCannotBeNull,
+                    $"Identity of type '{typeof(T).PrettyPrint()}' is null or empty",
+                    value?.ToString()
+                );
+            }
         }
 
         protected Identity(string value)
             : base(value)
         {
-            var validationErrors = Validate(value).ToList();
-            if (validationErrors.Any())
-            {
-                throw new ArgumentException(
-                    $"Identity is invalid: {string.Join(", ", validationErrors)}"
-                );
-            }
-
             _lazyGuid = new Lazy<Guid>(
                 () => Guid.Parse(ValueValidation.Match(Value).Groups["guid"].Value)
             );

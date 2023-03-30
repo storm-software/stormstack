@@ -39,6 +39,7 @@ using System.Threading;
 using OpenSystem.Reaction.Application.Models;
 using System.Text.Json;
 using OpenSystem.Core.Infrastructure.WebApi.Extensions;
+using OpenSystem.Core.Infrastructure.Logging;
 
 const string SERVICE_NAME = "ReactionService.Api";
 
@@ -49,7 +50,9 @@ try
     builder.Services.AddConfiguration(builder.Configuration, out var appSettings);
 
     // load up serilog configuration
-    Log.Logger = new LoggerConfiguration().ReadFrom
+    Log.Logger = builder.AddSerilogLogging(builder.Configuration);
+
+    /*new LoggerConfiguration().ReadFrom
         .Configuration(builder.Configuration)
         .CreateBootstrapLogger();
     builder.Host.UseSerilog(
@@ -57,7 +60,8 @@ try
         {
             configuration.ReadFrom.Configuration(builder.Configuration).ReadFrom.Services(services);
         }
-    );
+    );*/
+
     /*builder.Services.AddHttpLogging(logging =>
       {
           logging.LoggingFields = HttpLoggingFields.All;
@@ -210,34 +214,7 @@ try
 
     var app = builder.Build();
 
-    app.UseSecurityInfrastructure();
-
-    app.UseSerilogRequestLogging(options =>
-    {
-        options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
-        {
-            diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
-            diagnosticContext.Set("RequestPath", httpContext.Request.Path);
-            diagnosticContext.Set("RequestProtocol", httpContext.Request.Protocol);
-            diagnosticContext.Set("RequestQueryString", httpContext.Request.QueryString.Value);
-            diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
-            diagnosticContext.Set(
-                "RequestHeaders",
-                httpContext.Request.Headers.ToDictionary(h => h.Key, h => h.Value.ToString())
-            );
-            diagnosticContext.Set(
-                "RequestCookies",
-                httpContext.Request.Cookies.ToDictionary(c => c.Key, c => c.Value.ToString())
-            );
-            diagnosticContext.Set("RequestServices", httpContext.RequestServices);
-            diagnosticContext.Set("RequestContentType", httpContext.Request.ContentType);
-            diagnosticContext.Set("RequestContentLength", httpContext.Request.ContentLength);
-            diagnosticContext.Set("RequestBody", httpContext.Request.Body);
-            diagnosticContext.Set("RequestIsHttps", httpContext.Request.IsHttps);
-            diagnosticContext.Set("RequestMethod", httpContext.Request.Method);
-            diagnosticContext.Set("RequestAborted", httpContext.RequestAborted);
-        };
-    });
+    app.UseSecurityInfrastructure().UseSerilogLogging();
 
     /*var versionSet = app.NewApiVersionSet()
       .HasApiVersion(new ApiVersion(1, 0))

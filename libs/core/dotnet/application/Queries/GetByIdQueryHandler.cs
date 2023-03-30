@@ -1,29 +1,43 @@
 using OpenSystem.Core.Domain.ReadStores;
 using OpenSystem.Core.Application.Models;
+using AutoMapper;
 
 namespace OpenSystem.Core.Application.Queries
 {
-    public class GetByIdQueryHandler<TReadStore, TReadModel>
-        : IQueryHandler<GetByIdQuery<TReadModel>, TReadModel>
-        where TReadStore : IReadModelStore<TReadModel>
+    public class GetByIdQueryHandler<TData, TReadModelStore, TReadModel>
+        : IQueryHandler<GetByIdQuery<TData>, TData>
+        where TReadModelStore : IReadModelStore<TReadModel>
         where TReadModel : class, IReadModel
     {
-        private readonly TReadStore _readStore;
+        private readonly TReadModelStore _readModelStore;
 
-        public GetByIdQueryHandler(TReadStore readStore)
+        private readonly IMapper _mapper;
+
+        public GetByIdQueryHandler(TReadModelStore readStore, IMapper mapper)
         {
-            _readStore = readStore;
+            _readModelStore = readStore;
+            _mapper = mapper;
         }
 
-        public async Task<TReadModel> Handle(
-            GetByIdQuery<TReadModel> query,
+        public async Task<TData> Handle(
+            GetByIdQuery<TData> query,
             CancellationToken cancellationToken
         )
         {
-            var readModelEnvelope = await _readStore
+            var readModelEnvelope = await _readModelStore
                 .GetAsync(query.Id, cancellationToken)
                 .ConfigureAwait(false);
-            return readModelEnvelope.ReadModel;
+
+            return _mapper.Map<TData>(readModelEnvelope.ReadModel);
         }
+    }
+
+    public class GetByIdQueryHandler<TReadModelStore, TReadModel>
+        : GetByIdQueryHandler<TReadModel, TReadModelStore, TReadModel>
+        where TReadModelStore : IReadModelStore<TReadModel>
+        where TReadModel : class, IReadModel
+    {
+        public GetByIdQueryHandler(TReadModelStore readStore, IMapper mapper)
+            : base(readStore, mapper) { }
     }
 }

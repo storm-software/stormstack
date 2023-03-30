@@ -4,8 +4,7 @@ using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Application.Queries
 {
-    public class GetByIdQuery<TReadModel> : IQuery<TReadModel>
-        where TReadModel : class, IReadModel
+    public class GetByIdQuery<TData> : IQuery<TData>
     {
         public string Id { get; }
 

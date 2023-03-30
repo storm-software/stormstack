@@ -1,10 +1,7 @@
-using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.Serialization;
 using OpenSystem.Core.Domain.ReadStores;
-using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Enums;
-using OpenSystem.Core.Domain.Events;
+using OpenSystem.Core.Domain.Extensions;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
@@ -14,7 +11,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
     {
         public static ReadModelUpdateResult<TReadModel> Success(bool isModified) =>
             new ReadModelUpdateResult<TReadModel>(
-                typeof(ResultCodeGeneral)?.FullName,
+                typeof(ResultCodeGeneral).PrettyPrint(),
                 ResultCodeGeneral.NoErrorOccurred,
                 isModified
             );
@@ -34,8 +31,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string type,
             int code,
             bool isModified,
-            string? detail = null,
-            string? extendedDetail = null,
+            string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
             IList<FieldValidationResult>? fields = null,
@@ -44,8 +40,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             : base(
                 type,
                 code,
-                detail,
-                extendedDetail,
+                extendedMessage,
                 severity,
                 helpLink,
                 formattedMessagePlaceholderValues
@@ -72,9 +67,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
         )
         {
             base.InnerGetObjectData(ref info, context);
-
-            if (IsModified != null)
-                info.AddValue("IsModified", IsModified);
+            info.AddValue("IsModified", IsModified);
         }
     }
 }

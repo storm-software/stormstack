@@ -1,3 +1,4 @@
+using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Application.Sagas

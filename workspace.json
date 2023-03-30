@@ -14,7 +14,6 @@
     "core-dotnet-application": "libs/core/dotnet/application",
     "core-dotnet-domain": "libs/core/dotnet/domain",
     "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",
-    "core-dotnet-webapi": "libs/core/dotnet/webapi",
     "core-typescript-utilities": "libs/core/typescript/utilities",
     "design-system-components": "design-system/components",
     "design-system-tokens": "design-system/tokens",

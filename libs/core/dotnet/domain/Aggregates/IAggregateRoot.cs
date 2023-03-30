@@ -1,11 +1,14 @@
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Events;
+using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Aggregates
 {
     public interface IAggregateRoot : IVersioned
     {
+        IAggregateName Name { get; }
+
         IEnumerable<IUncommittedEvent> UncommittedEvents { get; }
 
         IEnumerable<SourceId> PreviousSourceIds { get; }
@@ -23,13 +26,15 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         void ApplyEvents(IReadOnlyCollection<IDomainEvent> domainEvents);
 
-        IIndexed GetIdentity();
+        IIdentity GetIdentity();
 
         Task LoadAsync(
             IEventStore eventStore,
             //ISnapshotStore snapshotStore,
             CancellationToken cancellationToken
         );
+
+        ValueTask<IAggregateEventResult> ValidateAsync(IDomainEvent @event);
     }
 
     public interface IAggregateRoot<out TIdentity> : IAggregateRoot

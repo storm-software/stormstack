@@ -9,24 +9,23 @@ using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Application.Queries;
 using MediatR;
 using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Reaction.Domain.ReadStores;
 
 namespace OpenSystem.Reaction.Application.Queries
 {
-    public class GetReactionsCountQueryHandler<TReadStore, TReadModel>
+    public class GetReactionsCountQueryHandler
         : IQueryHandler<GetReactionsCountQuery, GetReactionsCount200Response>
-        where TReadStore : IReadModelStore<TReadModel>
-        where TReadModel : GetReactionsCount200Response, IReadModel
     {
-        private readonly TReadStore _readStore;
+        private readonly IReadModelStore<ReactionReadModel> _readStore;
 
         private readonly IMapper _mapper;
 
-        private readonly ILogger<GetReactionsCountQueryHandler<TReadStore, TReadModel>> _logger;
+        private readonly ILogger<GetReactionsCountQueryHandler> _logger;
 
         public GetReactionsCountQueryHandler(
-            TReadStore readStore,
+            IReadModelStore<ReactionReadModel> readStore,
             IMapper mapper,
-            ILogger<GetReactionsCountQueryHandler<TReadStore, TReadModel>> logger
+            ILogger<GetReactionsCountQueryHandler> logger
         )
         {
             _readStore = readStore;
@@ -44,7 +43,9 @@ namespace OpenSystem.Reaction.Application.Queries
                 .ConfigureAwait(false);
 
             _logger.LogInformation("ReadModel: {0}", readModelEnvelope.ReadModel);
+
             var result = _mapper.Map<GetReactionsCount200Response>(readModelEnvelope.ReadModel);
+
             _logger.LogInformation(
                 "GetReactionsCount200Response: {0}",
                 readModelEnvelope.ReadModel

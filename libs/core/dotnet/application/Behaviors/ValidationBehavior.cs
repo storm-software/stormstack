@@ -1,19 +1,14 @@
-using OpenSystem.Core.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
-using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Common;
-using OpenSystem.Core.Domain.Enums;
-using OpenSystem.Core.Application.Interfaces;
-using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Application.Commands;
 
 namespace OpenSystem.Core.Application.Behaviors
 {
-    public class ValidationBehavior<TRequest> : IRequestPreProcessor<TRequest>
-        where TRequest : ICommand
+    public class ValidationBehavior<TRequest> : IPipelineBehavior<TRequest, IAggregateEventResult>
+        where TRequest : class, ICommand
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -74,7 +69,11 @@ namespace OpenSystem.Core.Application.Behaviors
           return await next();
         }*/
 
-        public async Task Process(TRequest request, CancellationToken cancellationToken)
+        public async Task<IAggregateEventResult> Handle(
+            TRequest request,
+            RequestHandlerDelegate<IAggregateEventResult> next,
+            CancellationToken cancellationToken
+        )
         {
             if (_validators.Any())
             {
@@ -92,13 +91,40 @@ namespace OpenSystem.Core.Application.Behaviors
                     .SelectMany(result => result.Errors)
                     .ToList();
                 if (failures.Any())
-                    throw new Domain.Exceptions.ValidationException(failures);
+                {
+                    _logger.LogError(
+                        "Validation errors - {RequestName} {@ValidationErrors}",
+                        typeof(TRequest).Name,
+                        failures
+                    );
+
+                    return (IAggregateEventResult)
+                        Result<IVersionedIndex>.Failure(
+                            failures
+                                .Select(
+                                    failure =>
+                                        FieldValidationResult.Failure(
+                                            failure.PropertyName,
+                                            typeof(ResultCodeValidation),
+                                            int.TryParse(failure.ErrorCode, out int code)
+                                                ? code
+                                                : ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred,
+                                            failure.AttemptedValue,
+                                            failure.ErrorMessage
+                                        )
+                                )
+                                .ToList(),
+                            "The request failed one or more application-level validations"
+                        );
+                }
 
                 _logger.LogDebug(
                     "Request {RequestName} validated successfully",
                     typeof(TRequest).Name
                 );
             }
+
+            return await next();
         }
     }
 }

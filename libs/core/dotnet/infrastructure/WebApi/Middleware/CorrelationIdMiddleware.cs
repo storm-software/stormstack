@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using OpenSystem.Core.Domain.Constants;
+using OpenSystem.Core.Infrastructure.WebApi.Constants;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Extensions.DependencyInjection;
 using OpenSystem.Core.Domain.Utilities;

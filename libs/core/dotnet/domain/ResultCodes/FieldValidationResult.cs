@@ -21,9 +21,8 @@ namespace OpenSystem.Core.Domain.ResultCodes
             Type type,
             int code,
             object? attemptedValue,
+            string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
-            string? detail = null,
-            string? extendedDetail = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
         {
@@ -33,8 +32,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
                 code,
                 attemptedValue,
                 severity,
-                detail,
-                extendedDetail,
+                extendedMessage,
                 formattedMessagePlaceholderValues
             );
         }
@@ -44,9 +42,8 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string type,
             int code,
             object? attemptedValue,
+            string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
-            string? detail = null,
-            string? extendedDetail = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
         {
@@ -56,8 +53,27 @@ namespace OpenSystem.Core.Domain.ResultCodes
                 code,
                 attemptedValue,
                 severity,
-                detail,
-                extendedDetail,
+                extendedMessage,
+                formattedMessagePlaceholderValues
+            );
+        }
+
+        public static FieldValidationResult Failure(
+            string fieldName,
+            int code,
+            object? attemptedValue,
+            string? extendedMessage = null,
+            ResultSeverityTypes severity = ResultSeverityTypes.Error,
+            Dictionary<string, object>? formattedMessagePlaceholderValues = null
+        )
+        {
+            return new FieldValidationResult(
+                fieldName,
+                typeof(ResultCodeValidation).PrettyPrint(),
+                code,
+                attemptedValue,
+                severity,
+                extendedMessage,
                 formattedMessagePlaceholderValues
             );
         }
@@ -68,15 +84,13 @@ namespace OpenSystem.Core.Domain.ResultCodes
             int code,
             object? attemptedValue,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
-            string? detail = null,
-            string? extendedDetail = null,
+            string? extendedMessage = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
             : base(
-                type?.PrettyPrint(),
+                type.PrettyPrint(),
                 code,
-                detail,
-                extendedDetail,
+                extendedMessage,
                 severity,
                 formattedMessagePlaceholderValues
             )
@@ -91,11 +105,10 @@ namespace OpenSystem.Core.Domain.ResultCodes
             int code,
             object? attemptedValue,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
-            string? detail = null,
-            string? extendedDetail = null,
+            string? extendedMessage = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
-            : base(type, code, detail, extendedDetail, severity, formattedMessagePlaceholderValues)
+            : base(type, code, extendedMessage, severity, formattedMessagePlaceholderValues)
         {
             FieldName = fieldName;
             AttemptedValue = attemptedValue;

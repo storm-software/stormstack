@@ -1,4 +1,5 @@
 using OpenSystem.Core.Application.Behaviors;
+using OpenSystem.Core.Application.Commands;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,9 +28,14 @@ namespace OpenSystem.Core.Application
                 typeof(IRequestExceptionHandler<,>),
                 typeof(UnhandledExceptionBehavior<,>)
             );
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<ICommand,IAggregateEventResult>), typeof(ValidationBehavior<ICommand>));
+            services.AddTransient(
+                typeof(IPipelineBehavior<,>),
+                typeof(AuthorizationBehavior<,>)
+            );
 
             //services.AddTransient(typeof(IRequestPreProcessor<>), typeof(ValidationBehavior<>));
 
@@ -49,6 +55,7 @@ namespace OpenSystem.Core.Application
                 .AddJsonFile(
                     $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ??
               "Production"}.json",
+                    true,
                     true
                 )
                 .AddEnvironmentVariables()

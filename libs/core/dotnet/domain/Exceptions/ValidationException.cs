@@ -1,14 +1,13 @@
-using FluentValidation.Results;
 using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.Exceptions
 {
     public class ValidationException : BaseException
     {
-        public List<ValidationFailure>? Errors { get; init; }
+        public List<FieldValidationResult>? Failures { get; init; }
 
         public ValidationException(
-            IEnumerable<ValidationFailure> failures,
+            IEnumerable<FieldValidationResult> failures,
             string? extendedMessage = null
         )
             : base(
@@ -17,7 +16,17 @@ namespace OpenSystem.Core.Domain.Exceptions
                 extendedMessage
             )
         {
-            Errors = failures.ToList();
+            Failures = failures.ToList();
+        }
+
+        public ValidationException(
+            int resultCode,
+            IEnumerable<FieldValidationResult>? failures = null,
+            string? extendedMessage = null
+        )
+            : this(typeof(ResultCodeValidation), resultCode, extendedMessage)
+        {
+            Failures = failures?.ToList();
         }
 
         public ValidationException(int resultCode, string? extendedMessage = null)

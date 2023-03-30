@@ -1,4 +1,5 @@
 using OpenSystem.Core.Domain.Enums;
+using OpenSystem.Core.Domain.Extensions;
 
 namespace OpenSystem.Core.Domain.Exceptions
 {
@@ -20,7 +21,7 @@ namespace OpenSystem.Core.Domain.Exceptions
         )
             : base(ResultCodes.ResultCode.Serialize(resultType, resultCode), exception)
         {
-            ResultType = resultType.FullName;
+            ResultType = resultType.PrettyPrint();
             ResultCode = resultCode;
             ExtendedMessage = extendedMessage;
         }

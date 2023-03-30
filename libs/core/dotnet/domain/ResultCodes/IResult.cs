@@ -1,7 +1,6 @@
-using FluentValidation.Results;
-using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Common;
 
-namespace OpenSystem.Core.Domain.Common
+namespace OpenSystem.Core.Domain.ResultCodes
 {
     public interface IResult<T> : IBaseResult
     {
@@ -9,6 +8,6 @@ namespace OpenSystem.Core.Domain.Common
 
         public string? HelpLink { get; set; }
 
-        public List<ValidationFailure> Fields { get; init; }
+        public List<FieldValidationResult> Failures { get; init; }
     }
 }

@@ -41,6 +41,9 @@ namespace OpenSystem.Reaction.Application.Models
         [Payload]
         public AddReactionRequest Payload { get; set; }
 
+        public AddReactionCommand()
+            : base(Domain.ValueObjects.ReactionId.New) { }
+
         public AddReactionCommand(ReactionId reactionId)
             : base(reactionId) { }
 
@@ -118,6 +121,9 @@ namespace OpenSystem.Reaction.Application.Models
         /// </summary>
         [Identifier]
         public string ReactionId { get; set; }
+
+        public RemoveReactionCommand()
+            : base(Domain.ValueObjects.ReactionId.New) { }
 
         public RemoveReactionCommand(ReactionId reactionId)
             : base(reactionId) { }

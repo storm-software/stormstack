@@ -3,14 +3,17 @@ using System.Text.Json;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using OpenSystem.Core.Domain.Common;
-using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Settings;
+using OpenSystem.Core.Infrastructure.WebApi.Constants;
+using Serilog;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace OpenSystem.Core.Infrastructure.Utilities
@@ -104,7 +107,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
         public static IResult CreateOk(
             HttpContext context,
-            OpenSystem.Core.Domain.Common.IResult<object> result
+            OpenSystem.Core.Domain.ResultCodes.IResult<object> result
         )
         {
             SetOkResponseHeaders(context, result);
@@ -174,12 +177,14 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                         result?.Severity ?? ResultSeverityTypes.Error,
                         result?.Type,
                         result?.Code,
-                        result?.ExtendedDetail,
+                        result?.ExtendedMessage,
                         result?.StackTrace,
                         result?.HelpLink
                     )
             };
         }
+
+        private static ILogger _log = Log.ForContext(typeof(HttpUtility));
 
         private static IResult CreateProblem(
             HttpContext context,
@@ -187,7 +192,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? type = null,
             int? code = null,
-            string? extendedDetail = null,
+            string? extendedMessage = null,
             string? stackTrace = null,
             string? helpLink = null
         )
@@ -197,14 +202,14 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
             if (ShouldIncludeDetails(context))
             {
-                if (!string.IsNullOrEmpty(extendedDetail))
-                    extensions.Add("extendedDetail", extendedDetail);
+                if (!string.IsNullOrEmpty(extendedMessage))
+                    extensions.Add("extendedMessage", extendedMessage);
                 if (!string.IsNullOrEmpty(stackTrace))
                     extensions.Add("stackTrace", stackTrace);
             }
 
             SetProblemResponseHeaders(context);
-            return Results.Problem(
+            var result = Results.Problem(
                 ResultCode.Serialize(
                     type != null ? type : typeof(ResultCodeGeneral).PrettyPrint(),
                     (int)(code != null ? code : ResultCodeGeneral.GeneralError)
@@ -215,6 +220,16 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                 helpLink ?? GetStatusCodeUrl(statusCode),
                 extensions
             );
+
+            _log.Error(
+                "Http {Method} error ({StatusCode}) in {Path}: {Result}",
+                context.Request.Method,
+                statusCode,
+                context.Request.Path,
+                result
+            );
+
+            return result;
         }
 
         private static IResult CreateValidationProblem(
@@ -226,7 +241,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
             var baseException = exception as BaseException;
             return CreateValidationProblem(
                 context,
-                exception?.Errors,
+                exception?.Failures,
                 statusCode != null ? (int)statusCode : Status400BadRequest,
                 exception?.Severity,
                 baseException?.ResultType,
@@ -245,12 +260,12 @@ namespace OpenSystem.Core.Infrastructure.Utilities
         {
             return CreateValidationProblem(
                 context,
-                result?.Fields,
+                result?.Failures,
                 statusCode != null ? (int)statusCode : Status400BadRequest,
                 result?.Severity,
                 result?.Type,
                 result?.Code,
-                result?.ExtendedDetail,
+                result?.ExtendedMessage,
                 result?.StackTrace,
                 result?.HelpLink
             );
@@ -258,12 +273,12 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
         private static IResult CreateValidationProblem(
             HttpContext context,
-            List<ValidationFailure>? errors = null,
+            List<FieldValidationResult>? failures = null,
             int statusCode = Status400BadRequest,
             ResultSeverityTypes? severity = null,
             string? type = null,
             int? code = null,
-            string? extendedDetail = null,
+            string? extendedMessage = null,
             string? stackTrace = null,
             string? helpLink = null
         )
@@ -273,16 +288,16 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
             if (ShouldIncludeDetails(context))
             {
-                if (!string.IsNullOrEmpty(extendedDetail))
-                    extensions.Add("extendedDetail", extendedDetail);
+                if (!string.IsNullOrEmpty(extendedMessage))
+                    extensions.Add("extendedMessage", extendedMessage);
                 if (!string.IsNullOrEmpty(stackTrace))
                     extensions.Add("stackTrace", stackTrace);
             }
 
             SetProblemResponseHeaders(context);
-            return Results.ValidationProblem(
-                errors
-                    ?.GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+            var result = Results.ValidationProblem(
+                failures
+                    ?.GroupBy(e => e.FieldName, e => ResultCode.Serialize(e.Type, e.Code))
                     ?.ToDictionary(
                         failureGroup => failureGroup.Key,
                         failureGroup => failureGroup.ToArray()
@@ -301,6 +316,16 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                 helpLink ?? GetStatusCodeUrl(statusCode),
                 extensions
             );
+
+            _log.Error(
+                "Http {Method} validation error ({StatusCode}) in {Path}: {Result}",
+                context.Request.Method,
+                statusCode,
+                context.Request.Path,
+                result
+            );
+
+            return result;
         }
 
         private static IResult CreateNotFound(HttpContext context)
@@ -309,10 +334,8 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                 context,
                 Status404NotFound,
                 ResultSeverityTypes.Error,
-                ResultCode.Serialize(
-                    typeof(ResultCodeApplication),
-                    ResultCodeApplication.NoResultsFound
-                )
+                typeof(ResultCodeApplication).PrettyPrint(),
+                ResultCodeApplication.NoResultsFound
             );
         }
 
@@ -322,7 +345,8 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                 context,
                 Status401Unauthorized,
                 ResultSeverityTypes.Error,
-                ResultCode.Serialize(typeof(ResultCodeSecurity), ResultCodeSecurity.ForbiddenAccess)
+                typeof(ResultCodeSecurity).PrettyPrint(),
+                ResultCodeSecurity.ForbiddenAccess
             );
         }
 
@@ -333,7 +357,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
         private static void SetOkResponseHeaders(
             HttpContext context,
-            OpenSystem.Core.Domain.Common.IResult<object>? result = null
+            OpenSystem.Core.Domain.ResultCodes.IResult<object>? result = null
         )
         {
             if (result?.Data != null)

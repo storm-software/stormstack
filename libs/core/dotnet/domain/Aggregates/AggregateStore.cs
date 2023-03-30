@@ -142,7 +142,7 @@ namespace OpenSystem.Core.Domain.Aggregates
                         var result = await updateAggregate(aggregate, c).ConfigureAwait(false);
                         if (result.Failed)
                         {
-                            _logger.LogDebug(
+                            _logger.LogWarning(
                                 "Execution failed on aggregate {AggregateType}, disregarding any events emitted",
                                 typeof(TAggregate).PrettyPrint()
                             );
@@ -191,6 +191,7 @@ namespace OpenSystem.Core.Domain.Aggregates
                         }
                         catch (Exception e)
                         {
+                            _logger.LogWarning("*************** In the agg store ***************");
                             var (handled, updatedAggregateUpdateResult) =
                                 await _aggregateStoreResilienceStrategy
                                     .HandleCommitFailedAsync<

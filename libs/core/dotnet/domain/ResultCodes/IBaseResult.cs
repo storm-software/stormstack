@@ -14,9 +14,7 @@ namespace OpenSystem.Core.Domain.Common
 
         public bool Failed => !Succeeded;
 
-        public string? Detail { get; set; }
-
-        public string? ExtendedDetail { get; set; }
+        public string? ExtendedMessage { get; set; }
 
         public string? StackTrace { get; set; }
 

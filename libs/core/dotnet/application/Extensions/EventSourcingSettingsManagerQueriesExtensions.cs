@@ -5,6 +5,7 @@ using OpenSystem.Core.Application.Utilities;
 using OpenSystem.Core.Domain.Jobs;
 using OpenSystem.Core.Application.Queries;
 using Microsoft.Extensions.DependencyInjection;
+using OpenSystem.Core.Domain.ReadStores;
 
 namespace OpenSystem.Core.Application.Extensions
 {
@@ -14,7 +15,8 @@ namespace OpenSystem.Core.Application.Extensions
             this EventSourcingSettingsManager eventFlowOptions
         )
             where TQueryHandler : class, IQueryHandler<TQuery, TResult>
-            where TQuery : IQuery<TResult>
+            where TQuery : class, IQuery<TResult>
+            where TResult : ReadModel
         {
             eventFlowOptions.ServiceCollection.AddTransient<
                 IQueryHandler<TQuery, TResult>,

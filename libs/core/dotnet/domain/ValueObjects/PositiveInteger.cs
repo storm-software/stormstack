@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
-    public class PositiveInteger : BaseInteger
+    public class PositiveInteger : BaseInteger, IValidatableValueObject<int>
     {
         public PositiveInteger(int value)
             : base(value) { }
@@ -32,15 +32,14 @@ namespace OpenSystem.Core.Domain.ValueObjects
 
         public static bool operator <=(PositiveInteger a, PositiveInteger b) => a.Value <= b.Value;
 
-        protected override Result InnerValidate(ValidationContext<object> validationContext)
+        public IEnumerable<FieldValidationResult> Validate(int value, string? fieldName = null)
         {
             if (Value < 0)
-                return Result.Failure(
-                    typeof(ResultCodeValidation),
-                    ResultCodeValidation.NumericValueMustBePositive
+                yield return FieldValidationResult.Failure(
+                    fieldName,
+                    ResultCodeValidation.NumericValueMustBePositive,
+                    value
                 );
-
-            return Result.Success();
         }
     }
 }

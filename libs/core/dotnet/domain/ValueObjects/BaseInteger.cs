@@ -34,16 +34,5 @@ namespace OpenSystem.Core.Domain.ValueObjects
         public static BaseInteger MaxValue => new BaseInteger(int.MaxValue);
 
         public static BaseInteger MinValue => new BaseInteger(int.MinValue);
-
-        protected override Result InnerValidate(ValidationContext<object> validationContext)
-        {
-            if (Value < 0)
-                return Result.Failure(
-                    typeof(ResultCodeValidation),
-                    ResultCodeValidation.NumericValueMustBePositive
-                );
-
-            return Result.Success();
-        }
     }
 }

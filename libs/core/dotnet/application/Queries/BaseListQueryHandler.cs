@@ -3,17 +3,19 @@ using OpenSystem.Core.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain.ReadStores;
 
 namespace OpenSystem.Core.Application.Queries
 {
-    public abstract class BaseListQueryHandler<TRequest, TData>
-        : BaseQueryHandler<TRequest, Paged<TData>>,
-            IQueryListHandler<TRequest, TData>
-        where TRequest : class, IQuery<Paged<TData>>
+    public abstract class BaseListQueryHandler<TRequest, TPagedListReadModel, TData>
+        : BaseQueryHandler<TRequest, TPagedListReadModel>,
+            IQueryListHandler<TRequest, TPagedListReadModel, TData>
+        where TRequest : class, IQuery<TPagedListReadModel>
+        where TPagedListReadModel : PagedListReadModel<TData>
     {
         public BaseListQueryHandler(
             IMapper mapper,
-            ILogger<BaseListQueryHandler<TRequest, TData>> logger
+            ILogger<BaseListQueryHandler<TRequest, TPagedListReadModel, TData>> logger
         )
             : base(mapper, logger) { }
 
@@ -28,7 +30,7 @@ namespace OpenSystem.Core.Application.Queries
         )
         {
             var result = await HandleQueryAsync(request, cancellationToken);
-            if (result == null || (result is IList<TData> listResult && listResult.Count == 0))
+            if (result == null || (result is List<TData> listResult && listResult.Count == 0))
                 throw new NotFoundException();
 
             return result;

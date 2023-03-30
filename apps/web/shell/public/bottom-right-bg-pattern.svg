@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <rect id="pattern-distribution-module-bottom-right-mono-ink-500x500-a" width="500" height="500" x="0" y="0"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="pattern-distribution-module-bottom-right-mono-ink-500x500-b" fill="#fff">
+      <use xlink:href="#pattern-distribution-module-bottom-right-mono-ink-500x500-a"/>
+    </mask>
+    <g mask="url(#pattern-distribution-module-bottom-right-mono-ink-500x500-b)">
+      <g transform="translate(0 77)">
+        <ellipse cx="349.5" cy="350" fill="#292C36" rx="349.5" ry="350" transform="rotate(-180 349.5 408.5)"/>
+        <g fill="#424854" transform="translate(278)">
+          <polygon points="0 248 18 248 18 230 0 230" transform="rotate(-180 9 239)"/>
+          <polygon points="0 202 18 202 18 184 0 184" transform="rotate(-180 9 193)"/>
+          <polygon points="0 156 18 156 18 138 0 138" transform="rotate(-180 9 147)"/>
+          <polygon points="0 110 18 110 18 92 0 92" transform="rotate(-180 9 101)"/>
+          <polygon points="0 294 18 294 18 276 0 276" transform="rotate(-180 9 285)"/>
+          <polygon points="46 248 64 248 64 230 46 230" transform="rotate(-180 55 239)"/>
+          <polygon points="46 202 64 202 64 184 46 184" transform="rotate(-180 55 193)"/>
+          <polygon points="46 156 64 156 64 138 46 138" transform="rotate(-180 55 147)"/>
+          <polygon points="46 110 64 110 64 92 46 92" transform="rotate(-180 55 101)"/>
+          <polygon points="46 64 64 64 64 46 46 46" transform="rotate(-180 55 55)"/>
+          <polygon points="0 64 18 64 18 46 0 46" transform="rotate(-180 9 55)"/>
+          <polygon points="46 18 64 18 64 0 46 0" transform="rotate(-180 55 9)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

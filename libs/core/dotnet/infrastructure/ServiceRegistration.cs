@@ -196,46 +196,16 @@ namespace OpenSystem.Core.Infrastructure
             return builder;
         }
 
-        public static void UseCoreMiddleware(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCoreMiddleware(this IApplicationBuilder app)
         {
             app.UseMiddleware<CorrelationIdMiddleware>();
+            return app;
         }
 
-        /// <summary>
-        /// Adds the required services for <see cref="UseProblemDetails"/> to work correctly,
-        /// using the specified <paramref name="configure"/> callback for configuration.
-        /// </summary>
-        /// <param name="services">The service collection to add the services to.</param>
-        /// <param name="configure"></param>
-        public static IServiceCollection AddProblemDetailsFactory(this IServiceCollection services)
-        {
-            //services.TryAddSingleton<LibProblemDetailsFactory>();
-            //services.TryAddSingleton<ProblemDetailsMarkerService, ProblemDetailsMarkerService>();
-
-            services.TryAddSingleton<
-                IProblemDetailsResponseFactory,
-                ProblemDetailsResponseFactory
-            >();
-            /*services.TryAddSingleton<IActionResultExecutor<ObjectResult>,
-              ObjectResultExecutor>();*/
-
-            return services;
-        }
-
-        /// <summary>
-        /// Adds the required services for <see cref="UseProblemDetails"/> to work correctly,
-        /// using the specified <paramref name="configure"/> callback for configuration.
-        /// </summary>
-        /// <param name="services">The service collection to add the services to.</param>
-        /// <param name="configure"></param>
-        public static void UseProblemDetailsFactory(this IApplicationBuilder app)
-        {
-            app.UseMiddleware<ProblemDetailsMiddleware>();
-        }
-
-        public static void UseSecurityInfrastructure(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSecurityInfrastructure(this IApplicationBuilder app)
         {
             app.UseSecurityHeaders();
+            return app;
         }
 
         /// <summary>

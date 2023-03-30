@@ -2,6 +2,7 @@ using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ValueObjects;
 
@@ -16,13 +17,14 @@ namespace OpenSystem.Core.Domain.Aggregates
             Action<TAggregate, IAggregateEvent>
         > ApplyMethods;
 
-        private static readonly AggregateName AggregateName = typeof(TAggregate).GetAggregateName();
+        private static readonly IAggregateName AggregateName =
+            typeof(TAggregate).GetAggregateName();
 
         private readonly List<IUncommittedEvent> _uncommittedEvents = new List<IUncommittedEvent>();
 
         private CircularBuffer<SourceId> _previousSourceIds = new CircularBuffer<SourceId>(10);
 
-        public virtual AggregateName Name => AggregateName;
+        public virtual IAggregateName Name => AggregateName;
 
         public TIdentity Id { get; }
 
@@ -248,14 +250,40 @@ namespace OpenSystem.Core.Domain.Aggregates
             _eventAppliers.Add(eventApplier);
         }
 
+        public virtual ValueTask<IAggregateEventResult> ValidateAsync(IDomainEvent @event)
+        {
+            if (Id is IValidatableValueObject<string> validatableId)
+            {
+                var validationErrors = validatableId.Validate(Id.Value)?.ToList();
+                if (validationErrors?.Any() == true)
+                    return ValueTask.FromResult(
+                        AggregateEventResult.Failure(
+                            ResultCodeValidation.InvalidIdentifier,
+                            validationErrors,
+                            "The request's identity field value failed domain-level internal validations"
+                        )
+                    );
+            }
+
+            if (Name is IValidatableValueObject<string> validatableName)
+            {
+                var validationErrors = validatableName.Validate(Name.Value)?.ToList();
+                if (validationErrors?.Any() == true)
+                    return ValueTask.FromResult(
+                        AggregateEventResult.Failure(
+                            ResultCodeValidation.InvalidIdentifier,
+                            validationErrors,
+                            "The request's identity field value failed domain-level internal validations"
+                        )
+                    );
+            }
+
+            return ValueTask.FromResult(AggregateEventResult.Success());
+        }
+
         public override string ToString()
         {
             return $"{GetType().PrettyPrint()} v{Version}(-{_uncommittedEvents.Count})";
-        }
-
-        IIndexed IAggregateRoot.GetIdentity()
-        {
-            throw new NotImplementedException();
         }
     }
 }

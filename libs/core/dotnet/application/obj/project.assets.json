@@ -941,6 +941,7 @@
           "Microsoft.EntityFrameworkCore": "7.0.2",
           "Microsoft.Extensions.DependencyInjection": "7.0.0",
           "Nito.AsyncEx": "5.1.2",
+          "Serilog.AspNetCore": "6.1.0",
           "System.Linq.Async": "6.0.1"
         },
         "compile": {

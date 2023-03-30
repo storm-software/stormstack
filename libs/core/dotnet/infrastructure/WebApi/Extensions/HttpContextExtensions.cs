@@ -2,8 +2,6 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
-using OpenSystem.Core.Application.Utilities;
-using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Infrastructure.WebApi.Constants;
 
 namespace OpenSystem.Core.Infrastructure.WebApi.Extensions

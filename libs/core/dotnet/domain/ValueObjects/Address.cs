@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
-    public class Address : SingleValueObject<AddressFields>
+    public class Address : SingleValueObject<AddressFields>, IValidatableValueObject<AddressFields>
     {
         public Address(AddressFields value)
             : base(value) { }
@@ -31,12 +31,11 @@ namespace OpenSystem.Core.Domain.ValueObjects
             yield return Value.PostalCode;
         }
 
-        protected override Result InnerValidate(ValidationContext<object> validationContext)
+        public IEnumerable<FieldValidationResult> Validate(
+            AddressFields value,
+            string? fieldName = null
+        )
         {
-            var ret = base.InnerValidate(validationContext);
-            if (ret.Failed)
-                return ret;
-
             if (
                 Value == null
                 || string.IsNullOrEmpty(Value.AddressLine1)
@@ -46,12 +45,11 @@ namespace OpenSystem.Core.Domain.ValueObjects
                 || string.IsNullOrEmpty(Value.CountryCode)
                 || string.IsNullOrEmpty(Value.PostalCode)
             )
-                return Result.Failure(
-                    typeof(ResultCodeValidation),
-                    ResultCodeValidation.IdentifierCannotBeNull
+                yield return FieldValidationResult.Failure(
+                    fieldName,
+                    ResultCodeValidation.IdentifierCannotBeNull,
+                    value
                 );
-
-            return Result.Success();
         }
     }
 
