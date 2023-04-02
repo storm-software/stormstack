@@ -5,6 +5,7 @@ using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ValueObjects;
+using OpenSystem.Core.Domain.Snapshots;
 
 namespace OpenSystem.Core.Domain.Events
 {
@@ -18,7 +19,7 @@ namespace OpenSystem.Core.Domain.Events
 
         private readonly IEventPersistence _eventPersistence;
 
-        //private readonly ISnapshotStore _snapshotStore;
+        private readonly ISnapshotStore _snapshotStore;
 
         private readonly IEventUpgradeManager _eventUpgradeManager;
 
@@ -30,13 +31,13 @@ namespace OpenSystem.Core.Domain.Events
             IEventJsonSerializer eventJsonSerializer,
             IEventUpgradeManager eventUpgradeManager,
             IEnumerable<IMetadataProvider> metadataProviders,
-            IEventPersistence eventPersistence
-        /*ISnapshotStore snapshotStore*/
+            IEventPersistence eventPersistence,
+            ISnapshotStore snapshotStore
         )
         {
             _logger = logger;
             _eventPersistence = eventPersistence;
-            //_snapshotStore = snapshotStore;
+            _snapshotStore = snapshotStore;
             _aggregateFactory = aggregateFactory;
             _eventJsonSerializer = eventJsonSerializer;
             _eventUpgradeManager = eventUpgradeManager;
@@ -196,10 +197,7 @@ namespace OpenSystem.Core.Domain.Events
                 .CreateNewAggregateAsync<TAggregate, TIdentity>(id)
                 .ConfigureAwait(false);
             await aggregate
-                .LoadAsync(
-                    this, /*_snapshotStore,*/
-                    cancellationToken
-                )
+                .LoadAsync(this, _snapshotStore, cancellationToken)
                 .ConfigureAwait(false);
             return aggregate;
         }

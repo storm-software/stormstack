@@ -235,7 +235,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
                     $"An OpenSystem error has occurred. Please contact your system administrator with the information provided below. {Literals.NewLine}"
                 );
 
-                sb.Append($"{Literals.NewLine} ---- Error Details ---- ");
+                sb.Append($"{Literals.NewLine}---- Error Details ---- ");
                 sb.Append($"{Literals.NewLine}Type: ");
                 sb.Append(!string.IsNullOrWhiteSpace(Type) ? Type : Literals.NotApplicable);
                 sb.Append($"{Literals.NewLine}Code: ");
@@ -265,7 +265,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
                 if (Failures != null && Failures.Count > 0)
                 {
-                    sb.Append($"{Literals.NewLine} ---- Validation Failures ---- ");
+                    sb.Append($"{Literals.NewLine}---- Validation Failures ---- ");
                     foreach (FieldValidationResult failure in Failures)
                     {
                         sb.Append($"{Literals.NewLine}{Literals.Tab}FieldName: ");
@@ -310,7 +310,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
                 if (!string.IsNullOrWhiteSpace(StackTrace))
                 {
-                    sb.Append($"{Literals.NewLine} ---- Stack Trace ---- {Literals.NewLine}");
+                    sb.Append($"{Literals.NewLine}---- Stack Trace ---- {Literals.NewLine}");
                     sb.Append(
                         !string.IsNullOrWhiteSpace(StackTrace) ? StackTrace : Literals.NotApplicable
                     );
@@ -332,7 +332,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
                 sb.Append($"Request complete successfully. {Literals.NewLine}");
 
-                sb.Append($"{Literals.NewLine} ---- Result Details ---- ");
+                sb.Append($"{Literals.NewLine}---- Result Details ---- ");
                 sb.Append($"{Literals.NewLine}Type: ");
                 sb.Append(!string.IsNullOrWhiteSpace(Type) ? Type : Literals.NotApplicable);
                 sb.Append($"{Literals.NewLine}Code: ");
@@ -360,7 +360,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
                         : Literals.NotApplicable
                 );
 
-                sb.Append($"{Literals.NewLine} ---- Data ---- ");
+                sb.Append($"{Literals.NewLine}---- Data ---- {Literals.NewLine}");
                 sb.Append(Data != null ? Data : Literals.NotApplicable);
 
                 return sb.ToString();

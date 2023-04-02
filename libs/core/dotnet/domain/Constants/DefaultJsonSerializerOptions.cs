@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace OpenSystem.Core.Domain.Constants
 {
-  public class DefaultJsonSerializerOptions
-  {
-      public static  JsonSerializerOptions Options => new()
-      {
-          Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs),
-          PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-          PropertyNameCaseInsensitive = true,
-          Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
-      };
-  }
+    public sealed class DefaultJsonSerializerOptions
+    {
+        public static JsonSerializerOptions Options =>
+            new()
+            {
+                Encoder = JavaScriptEncoder.Create(
+                    UnicodeRanges.BasicLatin,
+                    UnicodeRanges.CjkUnifiedIdeographs
+                ),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+            };
+    }
 }
-
-
-
-

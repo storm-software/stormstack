@@ -23,8 +23,6 @@ namespace OpenSystem.Core.Application.Extensions
                 .AddSubscribers(fromAssembly, predicate)
                 .AddEventUpgraders(fromAssembly, predicate)
                 .AddQueryHandlers(fromAssembly, predicate)
-                //.AddSnapshots(fromAssembly, predicate)
-                //.AddSnapshotUpgraders(fromAssembly, predicate)
                 .AddSagas(fromAssembly, predicate)
                 .AddSagaLocators(fromAssembly, predicate);
         }

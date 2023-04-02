@@ -43,7 +43,7 @@ namespace OpenSystem.Reaction.Application.Mappings
                 .ForMember(dest => dest.Count, act => act.MapFrom(src => src.Count));
             CreateMap<List<(string Type, int Count)>, List<ReactionCountRecord>>();*/
 
-
+            CreateMap<ReactionDetailEntity, ReactionCountRecord>();
             CreateMap<ReactionReadModel, GetReactionsCount200Response>()
                 .ForMember(dest => dest.Data, act => act.MapFrom(src => src.Details));
         }

@@ -66,13 +66,6 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         public TypeOptions Type { get; set; }
 
         /// <summary>
-        /// Gets or Sets ContentId
-        /// </summary>
-        [Required]
-        [DataMember(Name = "contentId", EmitDefaultValue = false)]
-        public string ContentId { get; set; }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -81,7 +74,6 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             var sb = new StringBuilder();
             sb.Append("class AddReactionRequest {\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  ContentId: ").Append(ContentId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -96,7 +88,6 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
                 copyTo = new AddReactionRequest();
 
             copyTo.Type = this.Type;
-            copyTo.ContentId = this.ContentId;
 
             return copyTo;
         }
@@ -139,11 +130,7 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             if (ReferenceEquals(this, other))
                 return true;
 
-            return (Type == other.Type || Type.Equals(other.Type))
-                && (
-                    ContentId == other.ContentId
-                    || ContentId != null && ContentId.Equals(other.ContentId)
-                );
+            return (Type == other.Type || Type.Equals(other.Type));
         }
 
         /// <summary>

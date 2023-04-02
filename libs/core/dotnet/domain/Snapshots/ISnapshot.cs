@@ -1,6 +1,6 @@
 using OpenSystem.Core.Domain.Common;
 
-namespace OpenSystem.Core.Domain.Events.Snapshots
+namespace OpenSystem.Core.Domain.Snapshots
 {
     public interface ISnapshot : IVersioned { }
 }

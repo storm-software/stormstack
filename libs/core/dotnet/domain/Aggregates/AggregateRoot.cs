@@ -3,6 +3,7 @@ using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Snapshots;
 using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ValueObjects;
 
@@ -111,7 +112,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         public virtual async Task LoadAsync(
             IEventStore eventStore,
-            //ISnapshotStore snapshotStore,
+            ISnapshotStore snapshotStore,
             CancellationToken cancellationToken
         )
         {
@@ -127,7 +128,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         public virtual async Task<IReadOnlyCollection<IDomainEvent>> CommitAsync(
             IEventStore eventStore,
-            //ISnapshotStore snapshotStore,
+            ISnapshotStore snapshotStore,
             ISourceId sourceId,
             CancellationToken cancellationToken
         )
@@ -188,9 +189,7 @@ namespace OpenSystem.Core.Domain.Aggregates
         protected virtual void ApplyEvent(IAggregateEvent<TAggregate, TIdentity> aggregateEvent)
         {
             if (aggregateEvent == null)
-            {
                 throw new ArgumentNullException(nameof(aggregateEvent));
-            }
 
             var eventType = aggregateEvent.GetType();
             if (_eventHandlers.ContainsKey(eventType))

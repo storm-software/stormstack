@@ -7,6 +7,7 @@ using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Settings;
+using OpenSystem.Core.Domain.Snapshots;
 using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ValueObjects;
 
@@ -24,7 +25,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         private readonly IEventStore _eventStore;
 
-        /*private readonly ISnapshotStore _snapshotStore;*/
+        private readonly ISnapshotStore _snapshotStore;
 
         private readonly ICancellationSettings _cancellationConfiguration;
 
@@ -42,8 +43,8 @@ namespace OpenSystem.Core.Domain.Aggregates
             ITransientFaultHandler<IOptimisticConcurrencyRetryStrategy> transientFaultHandler,
             IAggregateStoreResilienceStrategy aggregateStoreResilienceStrategy,
             ICancellationSettings cancellationConfiguration,
-            EventSourcingSettings configuration
-        /*ISnapshotStore snapshotStore*/
+            EventSourcingSettings configuration,
+            ISnapshotStore snapshotStore
         )
         {
             _logger = logger;
@@ -55,7 +56,7 @@ namespace OpenSystem.Core.Domain.Aggregates
             _cancellationConfiguration = cancellationConfiguration;
             _configuration = configuration;
 
-            /*_snapshotStore = snapshotStore;*/
+            _snapshotStore = snapshotStore;
         }
 
         public async Task<TAggregate> LoadAsync<TAggregate, TIdentity>(
@@ -69,10 +70,7 @@ namespace OpenSystem.Core.Domain.Aggregates
                 .CreateNewAggregateAsync<TAggregate, TIdentity>(id)
                 .ConfigureAwait(false);
             await aggregate
-                .LoadAsync(
-                    _eventStore, /*_snapshotStore,*/
-                    cancellationToken
-                )
+                .LoadAsync(_eventStore, _snapshotStore, cancellationToken)
                 .ConfigureAwait(false);
             return aggregate;
         }
@@ -168,7 +166,7 @@ namespace OpenSystem.Core.Domain.Aggregates
                             var domainEvents = await aggregate
                                 .CommitAsync(
                                     _eventStore,
-                                    /*_snapshotStore,*/
+                                    _snapshotStore,
                                     sourceId,
                                     cancellationToken
                                 )
@@ -275,11 +273,7 @@ namespace OpenSystem.Core.Domain.Aggregates
             where TIdentity : IIdentity
         {
             var domainEvents = await aggregate
-                .CommitAsync(
-                    _eventStore, /*_snapshotStore,*/
-                    sourceId,
-                    cancellationToken
-                )
+                .CommitAsync(_eventStore, _snapshotStore, sourceId, cancellationToken)
                 .ConfigureAwait(false);
 
             if (domainEvents.Any())

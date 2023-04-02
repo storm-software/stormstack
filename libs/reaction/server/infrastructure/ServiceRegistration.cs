@@ -25,6 +25,7 @@ using OpenSystem.Core.Application.Queries;
 using OpenSystem.Core.Infrastructure.EventStore.Extensions;
 using Microsoft.Extensions.Configuration;
 using OpenSystem.Core.Application;
+using OpenSystem.Core.Infrastructure.SnapshotPersistence.InMemory.Extensions;
 
 namespace OpenSystem.Reaction.Infrastructure
 {
@@ -40,6 +41,7 @@ namespace OpenSystem.Reaction.Infrastructure
                 .AddReactionEvents()
                 .AddEventSourcing(Assembly.GetExecutingAssembly())
                 .UseInMemoryReadStoreFor<ReactionReadModel>()
+                .UseInMemorySnapshotPersistence()
                 .UseEventStoreEventPersistence(configuration);
 
             /*services.AddPersistenceInfrastructure(settings);

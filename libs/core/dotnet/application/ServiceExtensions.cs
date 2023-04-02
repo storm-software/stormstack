@@ -20,7 +20,7 @@ using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.Jobs;
 using OpenSystem.Core.Domain.Common;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using OpenSystem.Core.Domain.Events.Snapshots;
+using OpenSystem.Core.Domain.Snapshots;
 using OpenSystem.Core.Domain.ReadStores;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Core.Application.Subscribers;
@@ -32,9 +32,9 @@ namespace OpenSystem.Core.Application
     {
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            //services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            //services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(
                 typeof(IRequestExceptionHandler<,>),
                 typeof(UnhandledExceptionBehavior<,>)
@@ -71,29 +71,6 @@ namespace OpenSystem.Core.Application
 
             services.TryAddSingleton<ILoadedVersions<ICommand>>(
                 new LoadedVersions<ICommand>(cbAggregateEventTypes)
-            );
-
-            return services;
-        }
-
-        public static IServiceCollection AddSnapshots(
-            this IServiceCollection services,
-            IEnumerable<Type> snapshotTypes
-        )
-        {
-            var cbSnapshots = new ConcurrentBag<Type>();
-            foreach (var snapshotType in snapshotTypes)
-            {
-                if (!typeof(ISnapshot).GetTypeInfo().IsAssignableFrom(snapshotType))
-                    throw new ArgumentException(
-                        $"Type {snapshotType.PrettyPrint()} is not a {typeof(ISnapshot).PrettyPrint()}"
-                    );
-
-                cbSnapshots.Add(snapshotType);
-            }
-
-            services.TryAddSingleton<ILoadedVersions<ISnapshot>>(
-                new LoadedVersions<ISnapshot>(cbSnapshots)
             );
 
             return services;
@@ -174,10 +151,7 @@ namespace OpenSystem.Core.Application
                 typeof(InMemoryEventPersistence)
             );
             serviceCollection.AddTransient(typeof(ICommandBus), typeof(CommandBus));
-            /*serviceCollection.AddTransient(typeof(ISnapshotStore, SnapshotStore>();
-            serviceCollection.AddTransient(typeof(ISnapshotSerializer, SnapshotSerializer>();
-            serviceCollection.AddTransient(typeof(ISnapshotPersistence, NullSnapshotPersistence>();
-            serviceCollection.AddTransient(typeof(ISnapshotUpgradeService, SnapshotUpgradeService>();*/
+
             serviceCollection.AddTransient(typeof(IReadModelPopulator), typeof(ReadModelPopulator));
             serviceCollection.AddTransient(
                 typeof(IEventJsonSerializer),
@@ -218,10 +192,6 @@ namespace OpenSystem.Core.Application
             serviceCollection.AddSingleton<Func<Type, ISagaErrorHandler>>(_ => __ => null);
 
             // Definition services
-            /*serviceCollection.AddSingleton(typeof(
-                ISnapshotDefinitionService,
-                SnapshotDefinitionService
-            ));*/
             serviceCollection.AddSingleton(
                 typeof(IJobDefinitionService),
                 typeof(JobDefinitionService)

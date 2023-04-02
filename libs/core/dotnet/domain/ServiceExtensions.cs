@@ -11,6 +11,7 @@ using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ReadStores;
 using OpenSystem.Core.Domain.Settings;
 using OpenSystem.Core.Domain.Common;
+using OpenSystem.Core.Domain.Snapshots;
 
 namespace OpenSystem.Core.Domain
 {
@@ -159,11 +160,125 @@ namespace OpenSystem.Core.Domain
                 && type.GetGenericTypeDefinition() == typeof(IEventUpgrader<,>);
         }
 
+        public static IServiceCollection AddSnapshots(
+            this IServiceCollection services,
+            IEnumerable<Type> snapshotTypes
+        )
+        {
+            var cbSnapshots = new ConcurrentBag<Type>();
+            foreach (var snapshotType in snapshotTypes)
+            {
+                if (!typeof(ISnapshot).GetTypeInfo().IsAssignableFrom(snapshotType))
+                    throw new ArgumentException(
+                        $"Type {snapshotType.PrettyPrint()} is not a {typeof(ISnapshot).PrettyPrint()}"
+                    );
+
+                cbSnapshots.Add(snapshotType);
+            }
+
+            services.TryAddSingleton<ILoadedVersions<ISnapshot>>(
+                new LoadedVersions<ISnapshot>(cbSnapshots)
+            );
+
+            return services;
+        }
+
+        public static IServiceCollection AddSnapshots(
+            this IServiceCollection services,
+            params Type[] snapshotTypes
+        )
+        {
+            return services.AddSnapshots(snapshotTypes);
+        }
+
+        public static IServiceCollection AddSnapshots(
+            this IServiceCollection services,
+            Assembly fromAssembly,
+            Predicate<Type> predicate = null
+        )
+        {
+            predicate = predicate ?? (t => true);
+            var snapshotTypes = fromAssembly
+                .GetTypes()
+                .Where(
+                    t =>
+                        !t.GetTypeInfo().IsAbstract
+                        && typeof(ISnapshot).GetTypeInfo().IsAssignableFrom(t)
+                )
+                .Where(t => predicate(t));
+            return services.AddSnapshots(snapshotTypes);
+        }
+
+        public static IServiceCollection AddSnapshotUpgraders(
+            this IServiceCollection services,
+            Assembly fromAssembly,
+            Predicate<Type> predicate = null
+        )
+        {
+            predicate = predicate ?? (t => true);
+
+            var snapshotUpgraderTypes = fromAssembly
+                .GetTypes()
+                .Where(t => !t.GetTypeInfo().IsAbstract)
+                .Where(t => t.GetTypeInfo().GetInterfaces().Any(IsSnapshotUpgraderInterface))
+                .Where(t => !t.HasConstructorParameterOfType(IsSnapshotUpgraderInterface))
+                .Where(t => predicate(t));
+
+            return services.AddSnapshotUpgraders(snapshotUpgraderTypes);
+        }
+
+        public static IServiceCollection AddSnapshotUpgraders(
+            this IServiceCollection services,
+            params Type[] snapshotUpgraderTypes
+        )
+        {
+            return services.AddSnapshotUpgraders((IEnumerable<Type>)snapshotUpgraderTypes);
+        }
+
+        public static IServiceCollection AddSnapshotUpgraders(
+            this IServiceCollection services,
+            IEnumerable<Type> snapshotUpgraderTypes
+        )
+        {
+            foreach (var snapshotUpgraderType in snapshotUpgraderTypes)
+            {
+                var interfaceType = snapshotUpgraderType
+                    .GetTypeInfo()
+                    .GetInterfaces()
+                    .Single(IsSnapshotUpgraderInterface);
+                services.AddTransient(interfaceType, snapshotUpgraderType);
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection UseSnapshotPersistence<T>(
+            this IServiceCollection services,
+            ServiceLifetime serviceLifetime
+        )
+            where T : class, ISnapshotPersistence
+        {
+            services.Replace(
+                ServiceDescriptor.Describe(typeof(ISnapshotPersistence), typeof(T), serviceLifetime)
+            );
+
+            return services;
+        }
+
+        private static bool IsSnapshotUpgraderInterface(Type type)
+        {
+            return type.GetTypeInfo().IsGenericType
+                && type.GetGenericTypeDefinition() == typeof(ISnapshotUpgrader<,>);
+        }
+
         public static IServiceCollection AddDomainDefaults(
             this IServiceCollection serviceCollection
         )
         {
             serviceCollection.AddMemoryCache();
+
+            serviceCollection.AddSnapshots(Assembly.GetExecutingAssembly());
+            serviceCollection.AddSnapshotUpgraders(Assembly.GetExecutingAssembly());
 
             // Default no-op resilience strategies
             serviceCollection.AddTransient(
@@ -192,6 +307,15 @@ namespace OpenSystem.Core.Domain
                 typeof(InMemoryEventPersistence)
             );
             serviceCollection.AddTransient(typeof(IAggregateStore), typeof(AggregateStore));
+
+            serviceCollection.AddTransient(typeof(ISnapshotStore), typeof(SnapshotStore));
+            serviceCollection.AddTransient(typeof(ISnapshotSerializer), typeof(SnapshotSerializer));
+
+            serviceCollection.AddTransient(
+                typeof(ISnapshotUpgradeService),
+                typeof(SnapshotUpgradeService)
+            );
+
             serviceCollection.AddTransient(typeof(IReadModelPopulator), typeof(ReadModelPopulator));
             serviceCollection.AddTransient(
                 typeof(IEventJsonSerializer),
@@ -218,6 +342,10 @@ namespace OpenSystem.Core.Domain
             serviceCollection.AddSingleton(typeof(IReadModelFactory<>), typeof(ReadModelFactory<>));
 
             // Definition services
+            serviceCollection.AddSingleton(
+                typeof(ISnapshotDefinitionService),
+                typeof(SnapshotDefinitionService)
+            );
             serviceCollection.AddSingleton(
                 typeof(IEventDefinitionService),
                 typeof(EventDefinitionService)

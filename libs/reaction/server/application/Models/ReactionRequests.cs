@@ -29,14 +29,14 @@ namespace OpenSystem.Reaction.Application.Models
     /// Add Reaction
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
-    [AddCommand("/api/v1/reactions/{ReactionId}")]
+    [AddCommand("/api/v1/reactions/{Id}")]
     public class AddReactionCommand : Command<ReactionAggregate, ReactionId>
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
         [Identifier]
-        public string ReactionId { get; set; }
+        public string Id { get; set; }
 
         [Payload]
         public AddReactionRequest Payload { get; set; }
@@ -93,14 +93,14 @@ namespace OpenSystem.Reaction.Application.Models
     /// Get Reaction Counts
     /// </summary>
     /// <remarks>Return the reaction counts for a specific article, comment, etc. </remarks>
-    [Query("/api/v1/reactions/{ReactionId}/count")]
+    [Query("/api/v1/reactions/{Id}/count")]
     public class GetReactionsCountQuery : IQuery<GetReactionsCount200Response>
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
         [Identifier]
-        public string ReactionId { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// The type of reaction the user had

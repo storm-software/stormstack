@@ -41,17 +41,25 @@ namespace OpenSystem.Core.Infrastructure.Routing
 
         internal async Task Handle(HttpContext context)
         {
+            var log = GetLogger(context);
             IResult response;
+
             try
             {
                 var request = await context.BindToAsync(_type);
+
+                log.LogInformation(
+                    "Starting request {Type}: {Request} \r\n",
+                    _type.FullName,
+                    request
+                );
+
                 var routeContext = new DefaultRouteHandlerInvocationContext(context, request);
 
                 response = (IResult)await _handler.Invoke(routeContext);
             }
             catch (Exception e)
             {
-                var log = GetLogger(context);
                 log.LogError(
                     "An OpenSystem exception occurred while calling the mediator pipeline during request {Type}: {Message} \r\nStack Trace: {StackTrace}",
                     _type.FullName,

@@ -3,7 +3,7 @@ namespace OpenSystem.Core.Domain.Constants
     /// <summary>
     /// A set of constants related to App settings
     /// </summary>
-    public class SettingConstants
+    public sealed class SettingConstants
     {
         public const string CacheInstanceName = "OpenSystem";
 

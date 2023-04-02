@@ -1,6 +1,7 @@
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Snapshots;
 using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Aggregates
@@ -17,7 +18,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         Task<IReadOnlyCollection<IDomainEvent>> CommitAsync(
             IEventStore eventStore,
-            //ISnapshotStore snapshotStore,
+            ISnapshotStore snapshotStore,
             ISourceId sourceId,
             CancellationToken cancellationToken
         );
@@ -30,7 +31,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         Task LoadAsync(
             IEventStore eventStore,
-            //ISnapshotStore snapshotStore,
+            ISnapshotStore snapshotStore,
             CancellationToken cancellationToken
         );
 

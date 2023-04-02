@@ -4,7 +4,7 @@ namespace OpenSystem.Core.Domain.Constants
     /// Place to put non-localized code literals where we can
     /// keep shared strings organized and together
     /// </summary>
-    public class Literals
+    public sealed class Literals
     {
         public const string FieldSeparator = "|";
 
