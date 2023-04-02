@@ -1,6 +1,7 @@
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using FluentValidation;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
@@ -31,7 +32,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
             yield return Value.PostalCode;
         }
 
-        public IEnumerable<FieldValidationResult> Validate(
+        public IEnumerable<IFieldValidationResult> Validate(
             AddressFields value,
             string? fieldName = null
         )

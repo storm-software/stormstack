@@ -79,7 +79,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         public async Task<IAggregateEventResult> UpdateAsync<TAggregate, TIdentity>(
             TIdentity id,
-            SourceId sourceId,
+            ISourceId sourceId,
             Func<TAggregate, CancellationToken, Task> updateAggregate,
             CancellationToken cancellationToken
         )
@@ -105,7 +105,7 @@ namespace OpenSystem.Core.Domain.Aggregates
             TExecutionResult
         >(
             TIdentity id,
-            SourceId sourceId,
+            ISourceId sourceId,
             Func<TAggregate, CancellationToken, Task<TExecutionResult>> updateAggregate,
             CancellationToken cancellationToken
         )
@@ -191,7 +191,6 @@ namespace OpenSystem.Core.Domain.Aggregates
                         }
                         catch (Exception e)
                         {
-                            _logger.LogWarning("*************** In the agg store ***************");
                             var (handled, updatedAggregateUpdateResult) =
                                 await _aggregateStoreResilienceStrategy
                                     .HandleCommitFailedAsync<
@@ -269,7 +268,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         public async Task<IAggregateEventResult> StoreAsync<TAggregate, TIdentity>(
             TAggregate aggregate,
-            SourceId sourceId,
+            ISourceId sourceId,
             CancellationToken cancellationToken
         )
             where TAggregate : IAggregateRoot<TIdentity>

@@ -1,10 +1,10 @@
-using OpenSystem.Core.Domain.ValueObjects;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.Extensions
 {
     public static class SourceIdExtensions
     {
-        public static bool IsNone(this SourceId sourceId)
+        public static bool IsNone(this ISourceId sourceId)
         {
             return string.IsNullOrEmpty(sourceId?.Value);
         }

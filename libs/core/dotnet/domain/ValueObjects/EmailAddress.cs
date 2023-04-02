@@ -1,12 +1,8 @@
 using System;
 using System.Text.RegularExpressions;
-using System.ComponentModel.DataAnnotations;
 using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Domain.ValueObjects;
-using System.Linq;
 using OpenSystem.Core.Domain.ResultCodes;
-using OpenSystem.Core.Domain.Exceptions;
-using FluentValidation;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
@@ -15,7 +11,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
         public EmailAddress(string value)
             : base(value) { }
 
-        public IEnumerable<FieldValidationResult> Validate(string value, string? fieldName = null)
+        public IEnumerable<IFieldValidationResult> Validate(string value, string? fieldName = null)
         {
             if (
                 StringExtensions.IsSet(Value)

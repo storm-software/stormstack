@@ -47,7 +47,7 @@ namespace OpenSystem.Reaction.Application.Models
         public AddReactionCommand(ReactionId reactionId)
             : base(reactionId) { }
 
-        public AddReactionCommand(ReactionId reactionId, SourceId sourceId)
+        public AddReactionCommand(ReactionId reactionId, CommandId sourceId)
             : base(reactionId, sourceId) { }
     }
 
@@ -128,7 +128,7 @@ namespace OpenSystem.Reaction.Application.Models
         public RemoveReactionCommand(ReactionId reactionId)
             : base(reactionId) { }
 
-        public RemoveReactionCommand(ReactionId reactionId, SourceId sourceId)
+        public RemoveReactionCommand(ReactionId reactionId, CommandId sourceId)
             : base(reactionId, sourceId) { }
     }
 }

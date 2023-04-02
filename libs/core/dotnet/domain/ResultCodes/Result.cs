@@ -19,8 +19,8 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
         public string? HelpLink { get; set; }
 
-        public List<FieldValidationResult> Failures { get; init; } =
-            new List<FieldValidationResult>();
+        public List<IFieldValidationResult> Failures { get; init; } =
+            new List<IFieldValidationResult>();
 
         public static Result<TData> Success() =>
             new Result<TData>(
@@ -36,7 +36,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<FieldValidationResult>? fields = null,
+            List<IFieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
         {
@@ -71,7 +71,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
         }
 
         public static Result<TData> Failure(
-            List<FieldValidationResult> fields,
+            List<IFieldValidationResult> fields,
             string? extendedMessage = null
         )
         {
@@ -112,7 +112,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<FieldValidationResult>? fields = null,
+            List<IFieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
             : base(
@@ -162,7 +162,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             LogFailure();
         }
 
-        public FieldValidationResult AddFieldError(FieldValidationResult field)
+        public IFieldValidationResult AddFieldError(IFieldValidationResult field)
         {
             Failures.Add(field);
             return field;
@@ -395,7 +395,12 @@ namespace OpenSystem.Core.Domain.ResultCodes
         {
             return base.GetHashCode() + (HelpLink + StackTrace).GetHashCode();
         }
+
+    public static IAggregateEventResult Failure(List<FieldValidationResult> fieldValidationResults, string v)
+    {
+      throw new NotImplementedException();
     }
+  }
 
     [Serializable]
     public class Result : Result<object>
@@ -411,7 +416,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<FieldValidationResult>? fields = null,
+            List<IFieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
         {
@@ -428,7 +433,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
         public static Result Failure(
             int code,
-            List<FieldValidationResult> fields,
+            List<IFieldValidationResult> fields,
             string? extendedMessage = null
         )
         {
@@ -443,7 +448,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
         }
 
         public static new Result Failure(
-            List<FieldValidationResult> fields,
+            List<IFieldValidationResult> fields,
             string? extendedMessage = null
         )
         {
@@ -475,7 +480,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<FieldValidationResult>? fields = null,
+            List<IFieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
             : base(

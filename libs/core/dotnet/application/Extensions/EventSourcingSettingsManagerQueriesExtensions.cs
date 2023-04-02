@@ -9,32 +9,29 @@ using OpenSystem.Core.Domain.ReadStores;
 
 namespace OpenSystem.Core.Application.Extensions
 {
-    public static class EventSourcingSettingsManagerQueriesExtensions
+    public static class ServiceCollectionQueriesExtensions
     {
-        public static EventSourcingSettingsManager AddQueryHandler<TQueryHandler, TQuery, TResult>(
-            this EventSourcingSettingsManager eventFlowOptions
+        public static IServiceCollection AddQueryHandler<TQueryHandler, TQuery, TResult>(
+            this IServiceCollection serviceCollection
         )
             where TQueryHandler : class, IQueryHandler<TQuery, TResult>
             where TQuery : class, IQuery<TResult>
             where TResult : ReadModel
         {
-            eventFlowOptions.ServiceCollection.AddTransient<
-                IQueryHandler<TQuery, TResult>,
-                TQueryHandler
-            >();
-            return eventFlowOptions;
+            serviceCollection.AddTransient<IQueryHandler<TQuery, TResult>, TQueryHandler>();
+            return serviceCollection;
         }
 
-        public static EventSourcingSettingsManager AddQueryHandlers(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddQueryHandlers(
+            this IServiceCollection serviceCollection,
             params Type[] queryHandlerTypes
         )
         {
-            return eventFlowOptions.AddQueryHandlers((IEnumerable<Type>)queryHandlerTypes);
+            return serviceCollection.AddQueryHandlers((IEnumerable<Type>)queryHandlerTypes);
         }
 
-        public static EventSourcingSettingsManager AddQueryHandlers(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddQueryHandlers(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
@@ -45,11 +42,11 @@ namespace OpenSystem.Core.Application.Extensions
                 .Where(t => t.GetTypeInfo().GetInterfaces().Any(IsQueryHandlerInterface))
                 .Where(t => !t.HasConstructorParameterOfType(IsQueryHandlerInterface))
                 .Where(t => predicate(t));
-            return eventFlowOptions.AddQueryHandlers(subscribeSynchronousToTypes);
+            return serviceCollection.AddQueryHandlers(subscribeSynchronousToTypes);
         }
 
-        public static EventSourcingSettingsManager AddQueryHandlers(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddQueryHandlers(
+            this IServiceCollection serviceCollection,
             IEnumerable<Type> queryHandlerTypes
         )
         {
@@ -71,11 +68,11 @@ namespace OpenSystem.Core.Application.Extensions
 
                 foreach (var queryHandlerInterface in queryHandlerInterfaces)
                 {
-                    eventFlowOptions.ServiceCollection.AddTransient(queryHandlerInterface, t);
+                    serviceCollection.AddTransient(queryHandlerInterface, t);
                 }
             }
 
-            return eventFlowOptions;
+            return serviceCollection;
         }
 
         private static bool IsQueryHandlerInterface(this Type type)

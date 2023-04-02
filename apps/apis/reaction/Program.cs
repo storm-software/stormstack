@@ -95,7 +95,7 @@ try
     builder.Services.AddProblemDetails();
 
     builder.Services.AddReactionApplicationLayer();
-    builder.Services.AddReactionPersistenceInfrastructure(appSettings);
+    builder.Services.AddReactionPersistenceInfrastructure(builder.Configuration);
     builder.Services.AddReactionServiceInfrastructure(appSettings);
 
     /*builder.Services.AddSwaggerGen(c =>
@@ -228,8 +228,6 @@ try
         // do the thing
         return Results.Ok();
     });  */
-
-
 
 
     if (app.Environment.IsDevelopment())

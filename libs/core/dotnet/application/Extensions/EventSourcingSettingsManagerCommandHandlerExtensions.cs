@@ -11,10 +11,10 @@ using OpenSystem.Core.Application.Utilities;
 
 namespace OpenSystem.Core.Application.Extensions
 {
-    public static class EventSourcingSettingsManagerCommandHandlerExtensions
+    public static class ServiceCollectionCommandHandlerExtensions
     {
-        public static EventSourcingSettingsManager AddCommandHandlers(
-            this EventSourcingSettingsManager eventSourcingSettingsManager,
+        public static IServiceCollection AddCommandHandlers(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
@@ -25,21 +25,20 @@ namespace OpenSystem.Core.Application.Extensions
                 .Where(t => t.GetTypeInfo().GetInterfaces().Any(IsCommandHandlerInterface))
                 .Where(t => !t.HasConstructorParameterOfType(IsCommandHandlerInterface))
                 .Where(t => predicate(t));
-            return eventSourcingSettingsManager.AddCommandHandlers(commandHandlerTypes);
+
+            return serviceCollection.AddCommandHandlers(commandHandlerTypes);
         }
 
-        public static EventSourcingSettingsManager AddCommandHandlers(
-            this EventSourcingSettingsManager eventSourcingSettingsManager,
+        public static IServiceCollection AddCommandHandlers(
+            this IServiceCollection serviceCollection,
             params Type[] commandHandlerTypes
         )
         {
-            return eventSourcingSettingsManager.AddCommandHandlers(
-                (IEnumerable<Type>)commandHandlerTypes
-            );
+            return serviceCollection.AddCommandHandlers((IEnumerable<Type>)commandHandlerTypes);
         }
 
-        public static EventSourcingSettingsManager AddCommandHandlers(
-            this EventSourcingSettingsManager eventSourcingSettingsManager,
+        public static IServiceCollection AddCommandHandlers(
+            this IServiceCollection serviceCollection,
             IEnumerable<Type> commandHandlerTypes
         )
         {
@@ -61,14 +60,11 @@ namespace OpenSystem.Core.Application.Extensions
 
                 foreach (var handlesCommandType in handlesCommandTypes)
                 {
-                    eventSourcingSettingsManager.ServiceCollection.AddTransient(
-                        handlesCommandType,
-                        t
-                    );
+                    serviceCollection.AddTransient(handlesCommandType, t);
                 }
             }
 
-            return eventSourcingSettingsManager;
+            return serviceCollection;
         }
 
         private static bool IsCommandHandlerInterface(this Type type)

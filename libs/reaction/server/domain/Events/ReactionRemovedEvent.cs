@@ -6,8 +6,10 @@ using OpenSystem.Reaction.Domain.Aggregates;
 
 namespace OpenSystem.Reaction.Domain.Events
 {
-    [EventVersion("ReactionRemoved", 1)]
-    public class ReactionRemovedEvent : AggregateEvent<ReactionAggregate, ReactionId>
+    [EventVersion("ReactionRemovedEvent", 1)]
+    public class ReactionRemovedEvent
+        : AggregateEvent<ReactionAggregate, ReactionId>,
+            IAggregateEvent
     {
         public ReactionTypes Type { get; }
 

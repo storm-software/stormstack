@@ -8,10 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace OpenSystem.Core.Application.Extensions
 {
-    public static class EventSourcingSettingsManagerSagaExtensions
+    public static class IServiceCollectionSagaExtensions
     {
-        public static EventSourcingSettingsManager AddSagas(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddSagas(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
@@ -22,19 +22,19 @@ namespace OpenSystem.Core.Application.Extensions
                 .Where(t => !t.GetTypeInfo().IsAbstract && t.IsAssignableTo<ISaga>())
                 .Where(t => predicate(t));
 
-            return eventFlowOptions.AddSagas(sagaTypes);
+            return serviceCollection.AddSagas(sagaTypes);
         }
 
-        public static EventSourcingSettingsManager AddSagas(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddSagas(
+            this IServiceCollection serviceCollection,
             params Type[] sagaTypes
         )
         {
-            return eventFlowOptions.AddSagas(sagaTypes);
+            return serviceCollection.AddSagas(sagaTypes);
         }
 
-        public static EventSourcingSettingsManager AddSagaLocators(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddSagaLocators(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
@@ -46,19 +46,19 @@ namespace OpenSystem.Core.Application.Extensions
                 .Where(t => !t.HasConstructorParameterOfType(x => x.IsAssignableTo<ISagaLocator>()))
                 .Where(t => predicate(t));
 
-            return eventFlowOptions.AddSagaLocators(sagaTypes);
+            return serviceCollection.AddSagaLocators(sagaTypes);
         }
 
-        public static EventSourcingSettingsManager AddSagaLocators(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddSagaLocators(
+            this IServiceCollection serviceCollection,
             params Type[] sagaLocatorTypes
         )
         {
-            return eventFlowOptions.AddSagaLocators((IEnumerable<Type>)sagaLocatorTypes);
+            return serviceCollection.AddSagaLocators((IEnumerable<Type>)sagaLocatorTypes);
         }
 
-        public static EventSourcingSettingsManager AddSagaLocators(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddSagaLocators(
+            this IServiceCollection serviceCollection,
             IEnumerable<Type> sagaLocatorTypes
         )
         {
@@ -70,10 +70,10 @@ namespace OpenSystem.Core.Application.Extensions
                         $"Type '{sagaLocatorType.PrettyPrint()}' is not a '{typeof(ISagaLocator).PrettyPrint()}'"
                     );
                 }
-                eventFlowOptions.ServiceCollection.AddTransient(sagaLocatorType);
+                serviceCollection.AddTransient(sagaLocatorType);
             }
 
-            return eventFlowOptions;
+            return serviceCollection;
         }
     }
 }

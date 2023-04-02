@@ -12,8 +12,19 @@ using OpenSystem.Core.Domain.Settings;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Application.Models;
 using MediatR.Pipeline;
-using OpenSystem.Core.Application.Interfaces;
+using OpenSystem.Core.Domain;
 using OpenSystem.Core.Domain.Enums;
+using System.Collections.Concurrent;
+using OpenSystem.Core.Application.Sagas;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.Jobs;
+using OpenSystem.Core.Domain.Common;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenSystem.Core.Domain.Events.Snapshots;
+using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Domain.Events;
+using OpenSystem.Core.Application.Subscribers;
+using OpenSystem.Core.Application.Queries;
 
 namespace OpenSystem.Core.Application
 {
@@ -31,15 +42,200 @@ namespace OpenSystem.Core.Application
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<ICommand,IAggregateEventResult>), typeof(ValidationBehavior<ICommand>));
             services.AddTransient(
-                typeof(IPipelineBehavior<,>),
-                typeof(AuthorizationBehavior<,>)
+                typeof(IPipelineBehavior<ICommand, IAggregateEventResult>),
+                typeof(ValidationBehavior<ICommand>)
             );
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
 
             //services.AddTransient(typeof(IRequestPreProcessor<>), typeof(ValidationBehavior<>));
 
             return services;
+        }
+
+        public static IServiceCollection AddCommands(
+            this IServiceCollection services,
+            IEnumerable<Type> commandTypes
+        )
+        {
+            var cbAggregateEventTypes = new ConcurrentBag<Type>();
+            foreach (var commandType in commandTypes)
+            {
+                if (!typeof(ICommand).GetTypeInfo().IsAssignableFrom(commandType))
+                    throw new ArgumentException(
+                        $"Type {commandType.PrettyPrint()} is not a {typeof(ICommand).PrettyPrint()}"
+                    );
+
+                cbAggregateEventTypes.Add(commandType);
+            }
+
+            services.TryAddSingleton<ILoadedVersions<ICommand>>(
+                new LoadedVersions<ICommand>(cbAggregateEventTypes)
+            );
+
+            return services;
+        }
+
+        public static IServiceCollection AddSnapshots(
+            this IServiceCollection services,
+            IEnumerable<Type> snapshotTypes
+        )
+        {
+            var cbSnapshots = new ConcurrentBag<Type>();
+            foreach (var snapshotType in snapshotTypes)
+            {
+                if (!typeof(ISnapshot).GetTypeInfo().IsAssignableFrom(snapshotType))
+                    throw new ArgumentException(
+                        $"Type {snapshotType.PrettyPrint()} is not a {typeof(ISnapshot).PrettyPrint()}"
+                    );
+
+                cbSnapshots.Add(snapshotType);
+            }
+
+            services.TryAddSingleton<ILoadedVersions<ISnapshot>>(
+                new LoadedVersions<ISnapshot>(cbSnapshots)
+            );
+
+            return services;
+        }
+
+        public static IServiceCollection AddJobs(
+            this IServiceCollection services,
+            IEnumerable<Type> jobTypes
+        )
+        {
+            var cbJobTypes = new ConcurrentBag<Type>();
+            foreach (var jobType in jobTypes)
+            {
+                if (!typeof(IJob).GetTypeInfo().IsAssignableFrom(jobType))
+                    throw new ArgumentException(
+                        $"Type {jobType.PrettyPrint()} is not a {typeof(IJob).PrettyPrint()}"
+                    );
+
+                cbJobTypes.Add(jobType);
+            }
+
+            services.TryAddSingleton<ILoadedVersions<IJob>>(new LoadedVersions<IJob>(cbJobTypes));
+
+            return services;
+        }
+
+        public static IServiceCollection AddSagas(
+            this IServiceCollection services,
+            IEnumerable<Type> sagaTypes
+        )
+        {
+            var cbSagaTypes = new ConcurrentBag<Type>();
+            foreach (var sagaType in sagaTypes)
+            {
+                if (!typeof(ISaga).GetTypeInfo().IsAssignableFrom(sagaType))
+                {
+                    throw new ArgumentException(
+                        $"Type {sagaType.PrettyPrint()} is not a {typeof(ISaga).PrettyPrint()}"
+                    );
+                }
+
+                cbSagaTypes.Add(sagaType);
+            }
+
+            services.TryAddSingleton<ILoadedVersions<ISaga>>(
+                new LoadedVersions<ISaga>(cbSagaTypes)
+            );
+
+            return services;
+        }
+
+        public static IServiceCollection AddApplicationDefaults(
+            this IServiceCollection serviceCollection
+        )
+        {
+            serviceCollection.AddDomainDefaults();
+
+            // Default no-op resilience strategies
+            serviceCollection.AddTransient(
+                typeof(IDispatchToReadStoresResilienceStrategy),
+                typeof(NoDispatchToReadStoresResilienceStrategy)
+            );
+            serviceCollection.AddTransient(
+                typeof(ISagaUpdateResilienceStrategy),
+                typeof(NoSagaUpdateResilienceStrategy)
+            );
+            serviceCollection.AddTransient(
+                typeof(IDispatchToReadStores),
+                typeof(DispatchToReadStores)
+            );
+            serviceCollection.AddTransient(typeof(IEventStore), typeof(BaseEventStore));
+            serviceCollection.AddSingleton(
+                typeof(IEventUpgradeContextFactory),
+                typeof(EventUpgradeContextFactory)
+            );
+            serviceCollection.AddSingleton(
+                typeof(IEventPersistence),
+                typeof(InMemoryEventPersistence)
+            );
+            serviceCollection.AddTransient(typeof(ICommandBus), typeof(CommandBus));
+            /*serviceCollection.AddTransient(typeof(ISnapshotStore, SnapshotStore>();
+            serviceCollection.AddTransient(typeof(ISnapshotSerializer, SnapshotSerializer>();
+            serviceCollection.AddTransient(typeof(ISnapshotPersistence, NullSnapshotPersistence>();
+            serviceCollection.AddTransient(typeof(ISnapshotUpgradeService, SnapshotUpgradeService>();*/
+            serviceCollection.AddTransient(typeof(IReadModelPopulator), typeof(ReadModelPopulator));
+            serviceCollection.AddTransient(
+                typeof(IEventJsonSerializer),
+                typeof(EventJsonSerializer)
+            );
+
+            serviceCollection.AddTransient(typeof(IJobScheduler), typeof(InstantJobScheduler));
+            serviceCollection.AddTransient(typeof(IJobRunner), typeof(JobRunner));
+
+            serviceCollection.AddTransient(
+                typeof(IReadModelDomainEventApplier),
+                typeof(ReadModelDomainEventApplier)
+            );
+            serviceCollection.AddTransient(
+                typeof(ISerializedCommandPublisher),
+                typeof(SerializedCommandPublisher)
+            );
+            serviceCollection.AddTransient(typeof(IQueryProcessor), typeof(QueryProcessor));
+
+            serviceCollection.AddTransient(
+                typeof(IDispatchToSubscriberResilienceStrategy),
+                typeof(NoDispatchToSubscriberResilienceStrategy)
+            );
+
+            serviceCollection.AddTransient(
+                typeof(IDispatchToEventSubscribers),
+                typeof(DispatchToEventSubscribers)
+            );
+            serviceCollection.AddTransient(
+                typeof(IDomainEventPublisher),
+                typeof(DomainEventPublisher)
+            );
+            serviceCollection.AddTransient(typeof(ISagaStore), typeof(SagaAggregateStore));
+            serviceCollection.AddTransient(typeof(ISagaErrorHandler), typeof(SagaErrorHandler));
+            serviceCollection.AddTransient(typeof(IDispatchToSagas), typeof(DispatchToSagas));
+            serviceCollection.AddTransient(typeof(ISagaUpdater<,,,>), typeof(SagaUpdater<,,,>));
+            serviceCollection.AddSingleton(typeof(IReadModelFactory<>), typeof(ReadModelFactory<>));
+            serviceCollection.AddSingleton<Func<Type, ISagaErrorHandler>>(_ => __ => null);
+
+            // Definition services
+            /*serviceCollection.AddSingleton(typeof(
+                ISnapshotDefinitionService,
+                SnapshotDefinitionService
+            ));*/
+            serviceCollection.AddSingleton(
+                typeof(IJobDefinitionService),
+                typeof(JobDefinitionService)
+            );
+            serviceCollection.AddSingleton(
+                typeof(ISagaDefinitionService),
+                typeof(SagaDefinitionService)
+            );
+            serviceCollection.AddSingleton(
+                typeof(ICommandDefinitionService),
+                typeof(CommandDefinitionService)
+            );
+
+            return serviceCollection;
         }
 
         public static IServiceCollection AddConfiguration(
@@ -177,6 +373,7 @@ namespace OpenSystem.Core.Application
                     TimeSpan.FromMilliseconds(delayBeforeRetryOnOptimisticConcurrencyExceptions);
 
             services.AddSingleton<EventSourcingSettings>(oSettings.EventSourcingSettings);
+            services.AddSingleton<ICancellationSettings>(oSettings.EventSourcingSettings);
 
             services.AddSingleton<ApplicationSettings>(oSettings);
             return services;

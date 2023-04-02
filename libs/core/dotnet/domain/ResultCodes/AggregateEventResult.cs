@@ -28,7 +28,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<FieldValidationResult>? fields = null,
+            List<IFieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
         )
@@ -47,7 +47,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
         public static IAggregateEventResult Failure(
             int code,
-            List<FieldValidationResult> fields,
+            List<IFieldValidationResult> fields,
             string? extendedMessage = null,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
         )
@@ -65,7 +65,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
         }
 
         public static IAggregateEventResult Failure(
-            List<FieldValidationResult> fields,
+            List<IFieldValidationResult> fields,
             string? extendedMessage = null,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
         )
@@ -100,7 +100,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<FieldValidationResult>? fields = null,
+            List<IFieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
             : base(
@@ -123,7 +123,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             string? extendedMessage = null,
             ResultSeverityTypes severity = ResultSeverityTypes.Error,
             string? helpLink = null,
-            List<FieldValidationResult>? fields = null,
+            List<IFieldValidationResult>? fields = null,
             Dictionary<string, object>? formattedMessagePlaceholderValues = null
         )
             : base(

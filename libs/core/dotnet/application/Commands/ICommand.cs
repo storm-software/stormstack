@@ -13,7 +13,7 @@ namespace OpenSystem.Core.Application.Commands
             CancellationToken cancellationToken
         );
 
-        SourceId GetSourceId();
+        CommandId GetSourceId();
     }
 
     public interface ICommand<TAggregate, TIdentity> : ICommand
@@ -24,7 +24,7 @@ namespace OpenSystem.Core.Application.Commands
 
         TAggregate Aggregate { get; set; }
 
-        SourceId SourceId { get; }
+        CommandId SourceId { get; }
     }
 
     public interface ICommand<TAggregate, TIdentity, TExecutionResult>

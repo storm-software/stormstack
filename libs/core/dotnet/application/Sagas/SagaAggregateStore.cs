@@ -33,7 +33,7 @@ namespace OpenSystem.Core.Application.Sagas
         public override async Task<ISaga> UpdateAsync(
             SagaId sagaId,
             Type sagaType,
-            SourceId sourceId,
+            ISourceId sourceId,
             Func<ISaga, CancellationToken, Task> updateSaga,
             CancellationToken cancellationToken
         )
@@ -69,7 +69,7 @@ namespace OpenSystem.Core.Application.Sagas
             Func<
                 SagaAggregateStore,
                 SagaId,
-                SourceId,
+                ISourceId,
                 Func<ISaga, CancellationToken, Task>,
                 CancellationToken,
                 Task<IReadOnlyCollection<IDomainEvent>>
@@ -108,7 +108,7 @@ namespace OpenSystem.Core.Application.Sagas
                             Func<
                                 SagaAggregateStore,
                                 SagaId,
-                                SourceId,
+                                ISourceId,
                                 Func<ISaga, CancellationToken, Task>,
                                 CancellationToken,
                                 Task<IReadOnlyCollection<IDomainEvent>>
@@ -127,7 +127,7 @@ namespace OpenSystem.Core.Application.Sagas
 
         public async Task<IAggregateEventResult> UpdateAggregateAsync<TAggregate, TIdentity>(
             TIdentity id,
-            SourceId sourceId,
+            ISourceId sourceId,
             Func<TAggregate, CancellationToken, Task> updateAggregate,
             CancellationToken cancellationToken
         )

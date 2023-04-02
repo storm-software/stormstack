@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Utilities;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
@@ -10,9 +11,14 @@ namespace OpenSystem.Core.Domain.ValueObjects
             IValidatableValueObject<string>
     {
         public AggregateName(string value)
-            : base(value) { }
+            : base(value)
+        {
+            _lazyGuid = new Lazy<Guid>(() => GuidUtility.Deterministic.Namespaces.Aggregates);
+        }
 
-        public IEnumerable<FieldValidationResult> Validate(string value, string? fieldName = null)
+        public Guid GetGuid() => _lazyGuid.Value;
+
+        public IEnumerable<IFieldValidationResult> Validate(string value, string? fieldName = null)
         {
             if (string.IsNullOrWhiteSpace(value))
                 yield return FieldValidationResult.Failure(
@@ -27,5 +33,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
                     value
                 );
         }
+
+        private readonly Lazy<Guid> _lazyGuid;
     }
 }

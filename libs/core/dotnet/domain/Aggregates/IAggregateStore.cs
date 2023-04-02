@@ -16,7 +16,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         Task<IAggregateEventResult> UpdateAsync<TAggregate, TIdentity>(
             TIdentity id,
-            SourceId sourceId,
+            ISourceId sourceId,
             Func<TAggregate, CancellationToken, Task> updateAggregate,
             CancellationToken cancellationToken
         )
@@ -25,7 +25,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         Task<IAggregateEventResult> UpdateAsync<TAggregate, TIdentity, TExecutionResult>(
             TIdentity id,
-            SourceId sourceId,
+            ISourceId sourceId,
             Func<TAggregate, CancellationToken, Task<TExecutionResult>> updateAggregate,
             CancellationToken cancellationToken
         )
@@ -35,7 +35,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         Task<IAggregateEventResult> StoreAsync<TAggregate, TIdentity>(
             TAggregate aggregate,
-            SourceId sourceId,
+            ISourceId sourceId,
             CancellationToken cancellationToken
         )
             where TAggregate : IAggregateRoot<TIdentity>

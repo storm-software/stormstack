@@ -10,25 +10,25 @@ using OpenSystem.Core.Domain.Aggregates;
 
 namespace OpenSystem.Core.Application.Extensions
 {
-    public static class EventSourcingSettingsManagerReadStoresExtensions
+    public static class ServiceCollectionReadStoresExtensions
     {
         private static readonly MethodInfo UseSingleAggregateRestoreMethod =
-            typeof(EventSourcingSettingsManagerReadStoresExtensions)
+            typeof(ServiceCollectionReadStoresExtensions)
                 .GetTypeInfo()
                 .GetMethods()
                 .Single(
                     m => m.Name == nameof(UseReadStoreFor) && m.GetGenericArguments().Length == 4
                 );
 
-        public static EventSourcingSettingsManager UseReadStoreFor<TReadStore, TReadModel>(
-            this EventSourcingSettingsManager eventFlowOptions
+        public static IServiceCollection UseReadStoreFor<TReadStore, TReadModel>(
+            this IServiceCollection serviceCollection
         )
             where TReadStore : class, IReadModelStore<TReadModel>
             where TReadModel : class, IReadModel
         {
             (Type aggregateType, Type idType) = GetSingleAggregateTypes<TReadModel>();
 
-            return (EventSourcingSettingsManager)
+            return (IServiceCollection)
                 UseSingleAggregateRestoreMethod
                     .MakeGenericMethod(
                         aggregateType,
@@ -36,22 +36,22 @@ namespace OpenSystem.Core.Application.Extensions
                         typeof(TReadStore),
                         typeof(TReadModel)
                     )
-                    .Invoke(null, new object[] { eventFlowOptions });
+                    .Invoke(null, new object[] { serviceCollection });
         }
 
         [Obsolete("Use the simpler method UseReadStoreFor<TReadStore, TReadModel> instead.")]
-        public static EventSourcingSettingsManager UseReadStoreFor<
+        public static IServiceCollection UseReadStoreFor<
             TAggregate,
             TIdentity,
             TReadStore,
             TReadModel
-        >(this EventSourcingSettingsManager eventFlowOptions)
+        >(this IServiceCollection serviceCollection)
             where TAggregate : IAggregateRoot<TIdentity>
             where TIdentity : IIdentity
             where TReadStore : class, IReadModelStore<TReadModel>
             where TReadModel : class, IReadModel
         {
-            eventFlowOptions.ServiceCollection
+            serviceCollection
                 .AddTransient<
                     IReadStoreManager,
                     SingleAggregateReadStoreManager<TAggregate, TIdentity, TReadStore, TReadModel>
@@ -60,19 +60,17 @@ namespace OpenSystem.Core.Application.Extensions
                     IQueryHandler<GetByIdQuery<TReadModel>, TReadModel>,
                     GetByIdQueryHandler<TReadStore, TReadModel>
                 >();
-            return eventFlowOptions;
+            return serviceCollection;
         }
 
-        public static EventSourcingSettingsManager UseReadStoreFor<
-            TReadStore,
-            TReadModel,
-            TReadModelLocator
-        >(this EventSourcingSettingsManager eventFlowOptions)
+        public static IServiceCollection UseReadStoreFor<TReadStore, TReadModel, TReadModelLocator>(
+            this IServiceCollection serviceCollection
+        )
             where TReadStore : class, IReadModelStore<TReadModel>
             where TReadModel : class, IReadModel
             where TReadModelLocator : IReadModelLocator
         {
-            eventFlowOptions.ServiceCollection
+            serviceCollection
                 .AddTransient<
                     IReadStoreManager,
                     MultipleAggregateReadStoreManager<TReadStore, TReadModel, TReadModelLocator>
@@ -81,7 +79,7 @@ namespace OpenSystem.Core.Application.Extensions
                     IQueryHandler<GetByIdQuery<TReadModel>, TReadModel>,
                     GetByIdQueryHandler<TReadStore, TReadModel>
                 >();
-            return eventFlowOptions;
+            return serviceCollection;
         }
 
         private static (Type aggregateType, Type idType) GetSingleAggregateTypes<TReadModel>()

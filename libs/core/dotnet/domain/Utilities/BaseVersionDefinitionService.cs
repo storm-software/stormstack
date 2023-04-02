@@ -156,7 +156,7 @@ namespace OpenSystem.Core.Domain.Utilities
             if (!TryGetDefinition(type, out var definition))
             {
                 throw new ArgumentException(
-                    $"No definition for type '{type.PrettyPrint()}', have you remembered to load it during EventFlow initialization"
+                    $"No definition for type '{type.PrettyPrint()}', have you remembered to load it during application initialization"
                 );
             }
 
@@ -168,7 +168,7 @@ namespace OpenSystem.Core.Domain.Utilities
             if (!TryGetDefinitions(type, out var definitions))
             {
                 throw new ArgumentException(
-                    $"No definition for type '{type.PrettyPrint()}', have you remembered to load it during EventFlow initialization"
+                    $"No definition for type '{type.PrettyPrint()}', have you remembered to load it during application initialization"
                 );
             }
 
@@ -228,6 +228,7 @@ namespace OpenSystem.Core.Domain.Utilities
 
         private TDefinition CreateDefinitionFromName(Type versionedType)
         {
+
             var match = NameRegex.Match(versionedType.Name);
             if (!match.Success)
             {

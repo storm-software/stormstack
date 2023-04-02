@@ -1,13 +1,14 @@
+using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.Exceptions
 {
     public class ValidationException : BaseException
     {
-        public List<FieldValidationResult>? Failures { get; init; }
+        public List<IFieldValidationResult>? Failures { get; init; }
 
         public ValidationException(
-            IEnumerable<FieldValidationResult> failures,
+            IEnumerable<IFieldValidationResult> failures,
             string? extendedMessage = null
         )
             : base(
@@ -21,7 +22,7 @@ namespace OpenSystem.Core.Domain.Exceptions
 
         public ValidationException(
             int resultCode,
-            IEnumerable<FieldValidationResult>? failures = null,
+            IEnumerable<IFieldValidationResult>? failures = null,
             string? extendedMessage = null
         )
             : this(typeof(ResultCodeValidation), resultCode, extendedMessage)

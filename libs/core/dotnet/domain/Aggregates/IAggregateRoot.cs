@@ -11,18 +11,18 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         IEnumerable<IUncommittedEvent> UncommittedEvents { get; }
 
-        IEnumerable<SourceId> PreviousSourceIds { get; }
+        IEnumerable<ISourceId> PreviousSourceIds { get; }
 
         bool IsNew { get; }
 
         Task<IReadOnlyCollection<IDomainEvent>> CommitAsync(
             IEventStore eventStore,
             //ISnapshotStore snapshotStore,
-            SourceId sourceId,
+            ISourceId sourceId,
             CancellationToken cancellationToken
         );
 
-        bool HasSourceId(SourceId sourceId);
+        bool HasSourceId(ISourceId sourceId);
 
         void ApplyEvents(IReadOnlyCollection<IDomainEvent> domainEvents);
 

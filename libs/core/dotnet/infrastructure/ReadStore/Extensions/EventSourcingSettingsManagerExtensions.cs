@@ -10,32 +10,31 @@ using OpenSystem.Core.Infrastructure.ReadStores.InMemory;
 
 namespace OpenSystem.Core.Infrastructure.ReadStores.Extensions
 {
-    public static class EventSourcingSettingsManagerExtensions
+    public static class IServiceCollectionExtensions
     {
-        public static EventSourcingSettingsManager UseInMemoryReadStoreFor<TReadModel>(
-            this EventSourcingSettingsManager eventFlowOptions
+        public static IServiceCollection UseInMemoryReadStoreFor<TReadModel>(
+            this IServiceCollection services
         )
             where TReadModel : class, IReadModel
         {
-            RegisterInMemoryReadStore<TReadModel>(eventFlowOptions.ServiceCollection);
-            eventFlowOptions.UseReadStoreFor<IInMemoryReadStore<TReadModel>, TReadModel>();
-            return eventFlowOptions;
+            RegisterInMemoryReadStore<TReadModel>(services);
+            services.UseReadStoreFor<IInMemoryReadStore<TReadModel>, TReadModel>();
+            return services;
         }
 
-        public static EventSourcingSettingsManager UseInMemoryReadStoreFor<
-            TReadModel,
-            TReadModelLocator
-        >(this EventSourcingSettingsManager eventFlowOptions)
+        public static IServiceCollection UseInMemoryReadStoreFor<TReadModel, TReadModelLocator>(
+            this IServiceCollection services
+        )
             where TReadModel : class, IReadModel
             where TReadModelLocator : IReadModelLocator
         {
-            RegisterInMemoryReadStore<TReadModel>(eventFlowOptions.ServiceCollection);
-            eventFlowOptions.UseReadStoreFor<
+            RegisterInMemoryReadStore<TReadModel>(services);
+            services.UseReadStoreFor<
                 IInMemoryReadStore<TReadModel>,
                 TReadModel,
                 TReadModelLocator
             >();
-            return eventFlowOptions;
+            return services;
         }
 
         private static void RegisterInMemoryReadStore<TReadModel>(

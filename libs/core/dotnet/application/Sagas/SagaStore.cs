@@ -7,7 +7,7 @@ namespace OpenSystem.Core.Application.Sagas
     {
         public async Task<TSaga> UpdateAsync<TSaga>(
             SagaId sagaId,
-            SourceId sourceId,
+            ISourceId sourceId,
             Func<TSaga, CancellationToken, Task> updateSaga,
             CancellationToken cancellationToken
         )
@@ -27,7 +27,7 @@ namespace OpenSystem.Core.Application.Sagas
         public abstract Task<ISaga> UpdateAsync(
             SagaId sagaId,
             Type sagaType,
-            SourceId sourceId,
+            ISourceId sourceId,
             Func<ISaga, CancellationToken, Task> updateSaga,
             CancellationToken cancellationToken
         );

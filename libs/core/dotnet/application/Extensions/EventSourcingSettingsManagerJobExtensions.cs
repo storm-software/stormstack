@@ -3,21 +3,22 @@ using System.Reflection;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Application.Utilities;
 using OpenSystem.Core.Domain.Jobs;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OpenSystem.Core.Application.Extensions
 {
     public static class EventSourcingSettingsManagerJobExtensions
     {
-        public static EventSourcingSettingsManager AddJobs(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddJobs(
+            this IServiceCollection serviceCollection,
             params Type[] jobTypes
         )
         {
-            return eventFlowOptions.AddJobs(jobTypes);
+            return serviceCollection.AddJobs(jobTypes as IEnumerable<Type>);
         }
 
-        public static EventSourcingSettingsManager AddJobs(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddJobs(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
@@ -28,7 +29,7 @@ namespace OpenSystem.Core.Application.Extensions
                 .Where(type => !type.GetTypeInfo().IsAbstract && type.IsAssignableTo<IJob>())
                 .Where(t => !t.HasConstructorParameterOfType(i => i.IsAssignableTo<IJob>()))
                 .Where(t => predicate(t));
-            return eventFlowOptions.AddJobs(jobTypes);
+            return serviceCollection.AddJobs(jobTypes);
         }
     }
 }

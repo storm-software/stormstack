@@ -98,24 +98,23 @@ namespace OpenSystem.Core.Application.Behaviors
                         failures
                     );
 
-                    return (IAggregateEventResult)
-                        Result<IVersionedIndex>.Failure(
-                            failures
-                                .Select(
-                                    failure =>
-                                        FieldValidationResult.Failure(
-                                            failure.PropertyName,
-                                            typeof(ResultCodeValidation),
-                                            int.TryParse(failure.ErrorCode, out int code)
-                                                ? code
-                                                : ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred,
-                                            failure.AttemptedValue,
-                                            failure.ErrorMessage
-                                        )
-                                )
-                                .ToList(),
-                            "The request failed one or more application-level validations"
-                        );
+                    return AggregateEventResult.Failure(
+                        failures
+                            .Select(
+                                failure =>
+                                    FieldValidationResult.Failure(
+                                        failure.PropertyName,
+                                        typeof(ResultCodeValidation),
+                                        int.TryParse(failure.ErrorCode, out int code)
+                                            ? code
+                                            : ResultCodeValidation.OneOrMoreValidationFailuresHaveOccurred,
+                                        failure.AttemptedValue,
+                                        failure.ErrorMessage
+                                    )
+                            )
+                            .ToList(),
+                        "The request failed one or more application-level validations"
+                    );
                 }
 
                 _logger.LogDebug(

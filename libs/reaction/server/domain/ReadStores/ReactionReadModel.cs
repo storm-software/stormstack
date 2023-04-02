@@ -64,7 +64,10 @@ namespace OpenSystem.Reaction.Domain.ReadStores
             var detail = Details.FirstOrDefault(d => d.Type == @event.AggregateEvent.Type);
             if (detail == null)
             {
-                detail = new ReactionDetailEntity(@event.AggregateEvent.Type, Id);
+                detail = new ReactionDetailEntity(
+                    @event.AggregateEvent.Type,
+                    @event.AggregateIdentity
+                );
                 Details.Add(detail);
             }
 
@@ -85,7 +88,10 @@ namespace OpenSystem.Reaction.Domain.ReadStores
             var detail = Details.FirstOrDefault(d => d.Type == @event.AggregateEvent.Type);
             if (detail == null)
             {
-                detail = new ReactionDetailEntity(@event.AggregateEvent.Type, Id);
+                detail = new ReactionDetailEntity(
+                    @event.AggregateEvent.Type,
+                    @event.AggregateIdentity
+                );
                 Details.Add(detail);
             }
 

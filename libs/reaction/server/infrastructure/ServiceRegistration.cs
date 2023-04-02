@@ -23,6 +23,8 @@ using OpenSystem.Core.Application.Extensions;
 using OpenSystem.Core.Application.Commands;
 using OpenSystem.Core.Application.Queries;
 using OpenSystem.Core.Infrastructure.EventStore.Extensions;
+using Microsoft.Extensions.Configuration;
+using OpenSystem.Core.Application;
 
 namespace OpenSystem.Reaction.Infrastructure
 {
@@ -30,15 +32,15 @@ namespace OpenSystem.Reaction.Infrastructure
     {
         public static void AddReactionPersistenceInfrastructure(
             this IServiceCollection services,
-            ApplicationSettings settings
+            IConfiguration configuration
         )
         {
-            EventSourcingSettingsManager
-                .New(services)
-                .ConfigureOptimisticConcurrencyRetry(4, TimeSpan.FromMilliseconds(100))
+            services
+                .AddApplicationDefaults()
+                .AddReactionEvents()
                 .AddEventSourcing(Assembly.GetExecutingAssembly())
                 .UseInMemoryReadStoreFor<ReactionReadModel>();
-            //.UseEventStoreEventStore(settings.ConnectionStrings);
+            //.UseEventStoreEventStore(configuration);
 
             /*services.AddPersistenceInfrastructure(settings);
 

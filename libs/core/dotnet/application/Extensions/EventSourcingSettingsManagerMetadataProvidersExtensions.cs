@@ -9,27 +9,27 @@ using OpenSystem.Core.Domain.Events;
 
 namespace OpenSystem.Core.Application.Extensions
 {
-    public static class EventSourcingSettingsManagerMetadataProvidersExtensions
+    public static class ServiceCollectionMetadataProvidersExtensions
     {
-        public static EventSourcingSettingsManager AddMetadataProvider<TMetadataProvider>(
-            this EventSourcingSettingsManager eventFlowOptions
+        public static IServiceCollection AddMetadataProvider<TMetadataProvider>(
+            this IServiceCollection serviceCollection
         )
             where TMetadataProvider : class, IMetadataProvider
         {
-            eventFlowOptions.ServiceCollection.AddTransient<IMetadataProvider, TMetadataProvider>();
-            return eventFlowOptions;
+            serviceCollection.AddTransient<IMetadataProvider, TMetadataProvider>();
+            return serviceCollection;
         }
 
-        public static EventSourcingSettingsManager AddMetadataProviders(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddMetadataProviders(
+            this IServiceCollection serviceCollection,
             params Type[] metadataProviderTypes
         )
         {
-            return eventFlowOptions.AddMetadataProviders((IEnumerable<Type>)metadataProviderTypes);
+            return serviceCollection.AddMetadataProviders((IEnumerable<Type>)metadataProviderTypes);
         }
 
-        public static EventSourcingSettingsManager AddMetadataProviders(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddMetadataProviders(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
@@ -40,11 +40,11 @@ namespace OpenSystem.Core.Application.Extensions
                 .Where(IsMetadataProvider)
                 .Where(t => !t.HasConstructorParameterOfType(IsMetadataProvider))
                 .Where(t => predicate(t));
-            return eventFlowOptions.AddMetadataProviders(metadataProviderTypes);
+            return serviceCollection.AddMetadataProviders(metadataProviderTypes);
         }
 
-        public static EventSourcingSettingsManager AddMetadataProviders(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddMetadataProviders(
+            this IServiceCollection serviceCollection,
             IEnumerable<Type> metadataProviderTypes
         )
         {
@@ -59,9 +59,9 @@ namespace OpenSystem.Core.Application.Extensions
                     );
                 }
 
-                eventFlowOptions.ServiceCollection.AddTransient(typeof(IMetadataProvider), t);
+                serviceCollection.AddTransient(typeof(IMetadataProvider), t);
             }
-            return eventFlowOptions;
+            return serviceCollection;
         }
 
         private static bool IsMetadataProvider(this Type type)

@@ -1,19 +1,21 @@
 using System.Collections.Concurrent;
 using System.Reflection;
-using OpenSystem.Core.Application.Utilities;
+using Microsoft.Extensions.DependencyInjection;
+using OpenSystem.Core.Domain;
 
 namespace OpenSystem.Core.Application.Extensions
 {
-    public static class EventSourcingSettingsManagerExtensions
+    public static class ServiceCollectionExtensions
     {
-        public static EventSourcingSettingsManager AddEventSourcing(
-            this EventSourcingSettingsManager eventSourcingSettingsManager,
+        public static IServiceCollection AddEventSourcing(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
         {
-            return eventSourcingSettingsManager
-                .AddEvents(fromAssembly, predicate)
+            return serviceCollection
+                //.AddEvents(fromAssembly, predicate)
+                .AddApplicationDefaults()
                 .AddJobs(fromAssembly, predicate)
                 .AddCommands(fromAssembly, predicate)
                 .AddCommandHandlers(fromAssembly, predicate)

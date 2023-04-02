@@ -191,10 +191,13 @@ namespace OpenSystem.Core.Domain.Utilities
             public static class Namespaces
             {
                 public static readonly Guid Events = Guid.Parse(
-                    "387F5B61-9E98-439A-BFF1-15AD0EA91EA0"
+                    "826a5a8c-6052-4737-a539-a03581d8120d"
                 );
                 public static readonly Guid Commands = Guid.Parse(
-                    "4286D89F-7F92-430B-8E00-E468FE3C3F59"
+                    "d1b20b3e-decd-4350-a4c6-bbc26914eb58"
+                );
+                public static readonly Guid Aggregates = Guid.Parse(
+                    "409ddb18-b5b2-47db-8127-50f3f846f6b0"
                 );
             }
 

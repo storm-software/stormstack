@@ -15,7 +15,7 @@ namespace OpenSystem.Core.Domain.ReadStores
 
         private static readonly ISet<Type> AggregateEventTypes;
 
-        protected ILogger Logger { get; }
+        protected ILogger<ReadStoreManager<TReadModelStore, TReadModel>> Logger { get; }
 
         protected IServiceProvider ServiceProvider { get; }
 
@@ -64,7 +64,7 @@ namespace OpenSystem.Core.Domain.ReadStores
         }
 
         protected ReadStoreManager(
-            ILogger logger,
+            ILogger<ReadStoreManager<TReadModelStore, TReadModel>> logger,
             IServiceProvider serviceProvider,
             TReadModelStore readModelStore,
             IReadModelDomainEventApplier readModelDomainEventApplier,

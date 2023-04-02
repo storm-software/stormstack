@@ -2,7 +2,7 @@ using OpenSystem.Core.Domain.Enums;
 
 namespace OpenSystem.Core.Domain.Settings
 {
-    public class EventSourcingSettings : IEventSourcingSettings
+    public class EventSourcingSettings : ICancellationSettings
     {
         public int NumberOfRetriesOnOptimisticConcurrencyExceptions { get; set; } = 4;
 
@@ -19,5 +19,7 @@ namespace OpenSystem.Core.Domain.Settings
             CancellationBoundaryTypes.BeforeCommittingEvents;
 
         public int PopulateReadModelEventPageSize { get; set; } = 200;
+
+        public int SingleEventStreamPageSize { get; set; } = 200;
     }
 }

@@ -10,6 +10,7 @@ using OpenSystem.Core.Domain.Events;
 using OpenSystem.Reaction.Domain.Events;
 using OpenSystem.Reaction.Domain.Entities;
 using OpenSystem.Reaction.Domain.ResultCodes;
+using OpenSystem.Core.Domain.Attributes;
 
 namespace OpenSystem.Reaction.Domain.Aggregates
 {

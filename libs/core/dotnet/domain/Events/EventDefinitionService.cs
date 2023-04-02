@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.Attributes;
-using OpenSystem.Core.Domain.Settings;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.Events
 {
@@ -11,11 +11,11 @@ namespace OpenSystem.Core.Domain.Events
     {
         public EventDefinitionService(
             ILogger<EventDefinitionService> logger,
-            ILoadedVersions loadedVersions
+            ILoadedVersions<IAggregateEvent> loadedVersions
         )
             : base(logger)
         {
-            Load(loadedVersions.Events);
+            Load(loadedVersions.Items);
         }
 
         protected override EventDefinition CreateDefinition(uint version, Type type, string name)

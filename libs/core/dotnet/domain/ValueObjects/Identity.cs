@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Extensions;
@@ -6,6 +7,7 @@ using OpenSystem.Core.Domain.Utilities;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
+    [JsonConverter(typeof(SingleValueObjectConverter))]
     public abstract class Identity<T>
         : SingleValueObject<string>,
             IIdentity,
@@ -80,12 +82,14 @@ namespace OpenSystem.Core.Domain.ValueObjects
             return !InnerValidate(value).Any();
         }
 
-        public IEnumerable<FieldValidationResult> Validate(string value, string? fieldName = null)
+        public Guid GetGuid() => _lazyGuid.Value;
+
+        public IEnumerable<IFieldValidationResult> Validate(string value, string? fieldName = null)
         {
             return InnerValidate(value, fieldName);
         }
 
-        public static IEnumerable<FieldValidationResult> InnerValidate(
+        public static IEnumerable<IFieldValidationResult> InnerValidate(
             string value,
             string? fieldName = null
         )
@@ -141,7 +145,5 @@ namespace OpenSystem.Core.Domain.ValueObjects
         }
 
         private readonly Lazy<Guid> _lazyGuid;
-
-        public Guid GetGuid() => _lazyGuid.Value;
     }
 }

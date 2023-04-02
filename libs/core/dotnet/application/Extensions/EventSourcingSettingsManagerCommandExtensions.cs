@@ -4,21 +4,22 @@ using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Application.Utilities;
 using OpenSystem.Core.Domain.Jobs;
 using OpenSystem.Core.Application.Commands;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OpenSystem.Core.Application.Extensions
 {
-    public static class EventSourcingSettingsManagerCommandExtensions
+    public static class ServiceCollectionCommandExtensions
     {
-        public static EventSourcingSettingsManager AddCommands(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddCommands(
+            this IServiceCollection serviceCollection,
             params Type[] commandTypes
         )
         {
-            return eventFlowOptions.AddCommands(commandTypes);
+            return serviceCollection.AddCommands(commandTypes);
         }
 
-        public static EventSourcingSettingsManager AddCommands(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddCommands(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
@@ -32,7 +33,8 @@ namespace OpenSystem.Core.Application.Extensions
                         && typeof(ICommand).GetTypeInfo().IsAssignableFrom(t)
                 )
                 .Where(t => predicate(t));
-            return eventFlowOptions.AddCommands(commandTypes);
+
+            return serviceCollection.AddCommands(commandTypes);
         }
     }
 }

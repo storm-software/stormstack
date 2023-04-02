@@ -107,11 +107,11 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
         public static IResult CreateOk(
             HttpContext context,
-            OpenSystem.Core.Domain.ResultCodes.IResult<object> result
+            OpenSystem.Core.Domain.Common.IResult<object> result
         )
         {
             SetOkResponseHeaders(context, result);
-            if (result.Data is IVersioned versioned && versioned.Version == 1)
+            if (result?.Data is IVersioned versioned && versioned.Version == 1)
                 return Results.Created(
                     versioned is IVersionedIndex versionedIndex
                         ? $"{context.Request.Path}/{versionedIndex.Id}"
@@ -119,7 +119,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                     versioned.Version
                 );
 
-            return Results.Ok(result.Data);
+            return Results.Ok(result?.Data);
         }
 
         public static IResult CreateProblem(
@@ -273,7 +273,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
         private static IResult CreateValidationProblem(
             HttpContext context,
-            List<FieldValidationResult>? failures = null,
+            List<IFieldValidationResult>? failures = null,
             int statusCode = Status400BadRequest,
             ResultSeverityTypes? severity = null,
             string? type = null,
@@ -357,7 +357,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
 
         private static void SetOkResponseHeaders(
             HttpContext context,
-            OpenSystem.Core.Domain.ResultCodes.IResult<object>? result = null
+            OpenSystem.Core.Domain.Common.IResult<object>? result = null
         )
         {
             if (result?.Data != null)

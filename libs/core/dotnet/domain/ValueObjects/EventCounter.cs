@@ -1,4 +1,4 @@
-using FluentValidation;
+using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Core.Domain.ValueObjects
@@ -30,7 +30,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
 
         public static bool operator <=(EventCounter a, EventCounter b) => a.Value <= b.Value;
 
-        public new IEnumerable<FieldValidationResult> Validate(int value, string? fieldName = null)
+        public new IEnumerable<IFieldValidationResult> Validate(int value, string? fieldName = null)
         {
             if (Value <= 0)
                 yield return FieldValidationResult.Failure(

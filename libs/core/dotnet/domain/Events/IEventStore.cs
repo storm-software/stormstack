@@ -12,7 +12,7 @@ namespace OpenSystem.Core.Domain.Events
         >(
             TIdentity id,
             IReadOnlyCollection<IUncommittedEvent> uncommittedDomainEvents,
-            SourceId sourceId,
+            ISourceId sourceId,
             CancellationToken cancellationToken
         )
             where TAggregate : IAggregateRoot<TIdentity>

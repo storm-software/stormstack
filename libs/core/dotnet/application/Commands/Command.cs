@@ -11,7 +11,7 @@ namespace OpenSystem.Core.Application.Commands
         where TAggregate : IAggregateRoot<TIdentity>
         where TIdentity : IIdentity
     {
-        public SourceId SourceId { get; }
+        public CommandId SourceId { get; }
 
         public TIdentity AggregateId { get; }
 
@@ -22,7 +22,7 @@ namespace OpenSystem.Core.Application.Commands
         protected Command(TIdentity aggregateId)
             : this(aggregateId, CommandId.New) { }
 
-        protected Command(TIdentity aggregateId, SourceId sourceId)
+        protected Command(TIdentity aggregateId, CommandId sourceId)
         {
             if (aggregateId == null)
                 throw new ArgumentNullException(nameof(aggregateId));
@@ -41,7 +41,7 @@ namespace OpenSystem.Core.Application.Commands
             return await commandBus.PublishAsync(this, cancellationToken).ConfigureAwait(false);
         }
 
-        public SourceId GetSourceId()
+        public CommandId GetSourceId()
         {
             return SourceId;
         }

@@ -1,28 +1,22 @@
 using System;
 using System.Net;
-using EventStore.ClientAPI;
+using EventStore.Client;
 using Microsoft.Extensions.DependencyInjection;
 using OpenSystem.Core.Application.Utilities;
 using OpenSystem.Core.Domain.Settings;
-using OpenSystem.Core.Domain.Utilities;
+using OpenSystem.Core.Domain;
 using OpenSystem.Core.Infrastructure.EventStore.Repositories;
-using Serilog;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenSystem.Core.Infrastructure.EventStore.Settings;
 
 namespace OpenSystem.Core.Infrastructure.EventStore.Extensions
 {
     public static class EventSourcingSettingsExtensions
     {
-        public static EventSourcingSettingsManager UseEventStoreEventStore(
-            this EventSourcingSettingsManager eventSourcingSettings
-        )
-        {
-            return (EventSourcingSettingsManager)
-                eventSourcingSettings.UseEventPersistence<EventStoreEventPersistence>();
-        }
-
-        public static EventSourcingSettingsManager UseEventStoreEventStore(
-            this EventSourcingSettingsManager eventSourcingSettings,
-            ConnectionStringSettings settings,
+        public static IServiceCollection UseEventStoreEventPersistence(
+            this IServiceCollection services,
+            IConfiguration configuration,
             string connectionNamePrefix = "OpenSystem"
         )
         {
@@ -30,53 +24,33 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Extensions
                 ? string.Empty
                 : connectionNamePrefix + " - ";
 
-            var eventStoreConnection = EventStoreConnection.Create(
-                settings.EventStoreConnection,
-                ConnectionSettings.Create().KeepReconnecting(),
-                $"{sanitizedConnectionNamePrefix}Connection v{typeof(EventSourcingSettingsExtensions).Assembly.GetName().Version}"
-            );
-            eventStoreConnection.Connected += (sender, args) =>
-                Log.Information(
-                    "Connection '{ConnectionName}' to {RemoteEndPoint} event store established.",
-                    args.Connection.ConnectionName,
-                    args.RemoteEndPoint
-                );
-            eventStoreConnection.Reconnecting += (sender, args) =>
-                Log.Information(
-                    "Re-establishing connection '{ConnectionName}' to event store.",
-                    args.Connection.ConnectionName
-                );
-            eventStoreConnection.Disconnected += (sender, args) =>
-                Log.Warning(
-                    "Connection '{ConnectionName}' to {RemoteEndPoint} event store lost.",
-                    args.Connection.ConnectionName,
-                    args.RemoteEndPoint
-                );
-            eventStoreConnection.ErrorOccurred += (sender, args) =>
-                Log.Error(
-                    "Error occurred on event store '{ConnectionName}'. \r\nException: {Exception}",
-                    args.Connection.ConnectionName,
-                    args.Exception.ToString()
-                );
+            services.AddEventStoreClient(configuration.GetConnectionString("EventStoreConnection"));
+            services.UseEventPersistence<EventStoreEventPersistence>();
 
-            Task.Run(async () =>
-                {
-                    await eventStoreConnection.ConnectAsync().ConfigureAwait(false);
-                })
-                .Wait();
+            services.AddEventStoreConfiguration(configuration);
 
-            return (EventSourcingSettingsManager)
-                eventSourcingSettings
-                    .RegisterServices(
-                        f =>
-                            f.Add(
-                                new ServiceDescriptor(
-                                    typeof(IEventStoreConnection),
-                                    eventStoreConnection
-                                )
-                            )
-                    )
-                    .UseEventPersistence<EventStoreEventPersistence>();
+            return services;
+        }
+
+        public static IServiceCollection AddEventStoreConfiguration(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
+        {
+            var settings = configuration.GetSection("EventSourcingSettings");
+
+            var eventStoreSettings = new EventStoreSettings
+            {
+                QueryMaxCount = settings.GetValue<int>("QueryMaxCount"),
+            };
+
+            var queryDeadline = settings.GetValue<int>("QueryDeadline");
+            if (queryDeadline != null)
+                eventStoreSettings.QueryDeadline = TimeSpan.FromMilliseconds(queryDeadline);
+
+            services.TryAddSingleton<IEventStoreSettings>(eventStoreSettings);
+
+            return services;
         }
     }
 }

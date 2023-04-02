@@ -53,7 +53,7 @@ namespace OpenSystem.Core.Infrastructure.Routing
             {
                 var log = GetLogger(context);
                 log.LogError(
-                    "An Open System exception occurred while calling the mediator pipeline during request {Type}: {Message} \r\nStack Trace: {StackTrace}",
+                    "An OpenSystem exception occurred while calling the mediator pipeline during request {Type}: {Message} \r\nStack Trace: {StackTrace}",
                     _type.FullName,
                     e.Message,
                     e.Demystify().StackTrace

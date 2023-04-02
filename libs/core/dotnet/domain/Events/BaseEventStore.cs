@@ -48,7 +48,7 @@ namespace OpenSystem.Core.Domain.Events
         > StoreAsync<TAggregate, TIdentity>(
             TIdentity id,
             IReadOnlyCollection<IUncommittedEvent> uncommittedDomainEvents,
-            SourceId sourceId,
+            ISourceId sourceId,
             CancellationToken cancellationToken
         )
             where TAggregate : IAggregateRoot<TIdentity>
@@ -65,7 +65,7 @@ namespace OpenSystem.Core.Domain.Events
             }
 
             var aggregateType = typeof(TAggregate);
-            _logger.LogTrace(
+            _logger.LogDebug(
                 "Storing {UncommittedDomainEventsCount} events for aggregate {AggregateType} with ID {Id}",
                 uncommittedDomainEvents.Count,
                 aggregateType.PrettyPrint(),
@@ -127,7 +127,6 @@ namespace OpenSystem.Core.Domain.Events
                         .Select(e => _eventJsonSerializer.Deserialize(e))
                         .ToList();
 
-            // TODO: Pass a real IAsyncEnumerable instead
             domainEvents = await _eventUpgradeManager
                 .UpgradeAsync(
                     domainEvents.ToAsyncEnumerable(),
@@ -179,7 +178,6 @@ namespace OpenSystem.Core.Domain.Events
                 return domainEvents;
             }
 
-            // TODO: Pass a real IAsyncEnumerable instead
             domainEvents = await _eventUpgradeManager
                 .UpgradeAsync(domainEvents.ToAsyncEnumerable(), cancellationToken)
                 .ToArrayAsync(cancellationToken);

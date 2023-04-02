@@ -8,6 +8,6 @@ namespace OpenSystem.Core.Domain.ValueObjects
 {
     public interface IValidatableValueObject<in TValue> : ISingleValueObject
     {
-        IEnumerable<FieldValidationResult> Validate(TValue value, string? fieldName = null);
+        IEnumerable<IFieldValidationResult> Validate(TValue value, string? fieldName = null);
     }
 }

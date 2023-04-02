@@ -1,8 +1,9 @@
+using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Application.Commands
 {
-    public class CommandId : SourceId
+    public class CommandId : Identity<CommandId>, ISourceId
     {
         public CommandId(string value)
             : base(value) { }

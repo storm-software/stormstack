@@ -1,6 +1,5 @@
 using OpenSystem.Core.Domain.ResultCodes;
-using OpenSystem.Core.Domain.Exceptions;
-using FluentValidation;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.ValueObjects
 {
@@ -32,7 +31,7 @@ namespace OpenSystem.Core.Domain.ValueObjects
 
         public static bool operator <=(PositiveInteger a, PositiveInteger b) => a.Value <= b.Value;
 
-        public IEnumerable<FieldValidationResult> Validate(int value, string? fieldName = null)
+        public IEnumerable<IFieldValidationResult> Validate(int value, string? fieldName = null)
         {
             if (Value < 0)
                 yield return FieldValidationResult.Failure(

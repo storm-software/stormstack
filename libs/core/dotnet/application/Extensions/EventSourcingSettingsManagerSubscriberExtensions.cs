@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace OpenSystem.Core.Application.Extensions
 {
-    public static class EventSourcingSettingsManagerSubscriberExtensions
+    public static class IServiceCollectionSubscriberExtensions
     {
         private static readonly Type SubscribeSynchronousToType = typeof(ISubscribeSynchronousTo<
             ,,
@@ -22,52 +22,52 @@ namespace OpenSystem.Core.Application.Extensions
         private static readonly Type SubscribeSynchronousToAllType =
             typeof(ISubscribeSynchronousToAll);
 
-        public static EventSourcingSettingsManager AddSynchronousSubscriber<
+        public static IServiceCollection AddSynchronousSubscriber<
             TAggregate,
             TIdentity,
             TEvent,
             TSubscriber
-        >(this EventSourcingSettingsManager eventFlowOptions)
+        >(this IServiceCollection serviceCollection)
             where TAggregate : IAggregateRoot<TIdentity>
             where TIdentity : IIdentity
             where TEvent : IAggregateEvent<TAggregate, TIdentity>
             where TSubscriber : class, ISubscribeSynchronousTo<TAggregate, TIdentity, TEvent>
         {
-            eventFlowOptions.ServiceCollection.AddTransient<
+            serviceCollection.AddTransient<
                 ISubscribeSynchronousTo<TAggregate, TIdentity, TEvent>,
                 TSubscriber
             >();
-            return eventFlowOptions;
+            return serviceCollection;
         }
 
-        public static EventSourcingSettingsManager AddAsynchronousSubscriber<
+        public static IServiceCollection AddAsynchronousSubscriber<
             TAggregate,
             TIdentity,
             TEvent,
             TSubscriber
-        >(this EventSourcingSettingsManager eventFlowOptions)
+        >(this IServiceCollection serviceCollection)
             where TAggregate : IAggregateRoot<TIdentity>
             where TIdentity : IIdentity
             where TEvent : IAggregateEvent<TAggregate, TIdentity>
             where TSubscriber : class, ISubscribeAsynchronousTo<TAggregate, TIdentity, TEvent>
         {
-            eventFlowOptions.ServiceCollection.AddTransient<
+            serviceCollection.AddTransient<
                 ISubscribeAsynchronousTo<TAggregate, TIdentity, TEvent>,
                 TSubscriber
             >();
-            return eventFlowOptions;
+            return serviceCollection;
         }
 
-        public static EventSourcingSettingsManager AddSubscribers(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddSubscribers(
+            this IServiceCollection serviceCollection,
             params Type[] types
         )
         {
-            return eventFlowOptions.AddSubscribers((IEnumerable<Type>)types);
+            return serviceCollection.AddSubscribers((IEnumerable<Type>)types);
         }
 
-        public static EventSourcingSettingsManager AddSubscribers(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddSubscribers(
+            this IServiceCollection serviceCollection,
             Assembly fromAssembly,
             Predicate<Type> predicate = null
         )
@@ -78,11 +78,11 @@ namespace OpenSystem.Core.Application.Extensions
                 .Where(t => t.GetTypeInfo().GetInterfaces().Any(IsSubscriberInterface))
                 .Where(t => !t.HasConstructorParameterOfType(IsSubscriberInterface))
                 .Where(t => predicate(t));
-            return eventFlowOptions.AddSubscribers(types);
+            return serviceCollection.AddSubscribers(types);
         }
 
-        public static EventSourcingSettingsManager AddSubscribers(
-            this EventSourcingSettingsManager eventFlowOptions,
+        public static IServiceCollection AddSubscribers(
+            this IServiceCollection serviceCollection,
             IEnumerable<Type> subscribeSynchronousToTypes
         )
         {
@@ -107,11 +107,11 @@ namespace OpenSystem.Core.Application.Extensions
 
                 foreach (var subscribeTo in subscribeTos)
                 {
-                    eventFlowOptions.ServiceCollection.AddTransient(subscribeTo, t);
+                    serviceCollection.AddTransient(subscribeTo, t);
                 }
             }
 
-            return eventFlowOptions;
+            return serviceCollection;
         }
 
         private static bool IsSubscriberInterface(Type type)

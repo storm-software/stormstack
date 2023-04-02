@@ -24,11 +24,11 @@ namespace OpenSystem.Core.Application.Sagas
 
         public SagaDefinitionService(
             ILogger<SagaDefinitionService> logger,
-            ILoadedVersions loadedVersionedTypes
+            ILoadedVersions<ISaga> loadedVersions
         )
         {
             _logger = logger;
-            LoadSagas(loadedVersionedTypes.Sagas);
+            LoadSagas(loadedVersions.Items);
         }
 
         public void LoadSagas(params Type[] sagaTypes)

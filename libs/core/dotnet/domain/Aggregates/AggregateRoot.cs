@@ -22,7 +22,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         private readonly List<IUncommittedEvent> _uncommittedEvents = new List<IUncommittedEvent>();
 
-        private CircularBuffer<SourceId> _previousSourceIds = new CircularBuffer<SourceId>(10);
+        private CircularBuffer<ISourceId> _previousSourceIds = new CircularBuffer<ISourceId>(10);
 
         public virtual IAggregateName Name => AggregateName;
 
@@ -34,7 +34,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         public IEnumerable<IUncommittedEvent> UncommittedEvents => _uncommittedEvents;
 
-        public IEnumerable<SourceId> PreviousSourceIds => _previousSourceIds.AsEnumerable();
+        public IEnumerable<ISourceId> PreviousSourceIds => _previousSourceIds.AsEnumerable();
 
         static AggregateRoot()
         {
@@ -63,10 +63,10 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         protected void SetSourceIdHistory(int count)
         {
-            _previousSourceIds = new CircularBuffer<SourceId>(count);
+            _previousSourceIds = new CircularBuffer<ISourceId>(count);
         }
 
-        protected void AddPreviousSourceIds(IEnumerable<SourceId> sourceIds)
+        protected void AddPreviousSourceIds(IEnumerable<ISourceId> sourceIds)
         {
             foreach (var sourceId in sourceIds)
             {
@@ -74,18 +74,16 @@ namespace OpenSystem.Core.Domain.Aggregates
             }
         }
 
-        public virtual bool HasSourceId(SourceId sourceId)
+        public virtual bool HasSourceId(ISourceId sourceId)
         {
             return !sourceId.IsNone() && _previousSourceIds.Any(s => s.Value == sourceId.Value);
         }
 
-        protected virtual void Emit<TEvent>(TEvent aggregateEvent, IMetadata metadata = null)
+        protected virtual void Emit<TEvent>(TEvent aggregateEvent, IMetadata? metadata = null)
             where TEvent : IAggregateEvent<TAggregate, TIdentity>
         {
             if (aggregateEvent == null)
-            {
                 throw new ArgumentNullException(nameof(aggregateEvent));
-            }
 
             var aggregateSequenceNumber = Version + 1;
             var eventId = EventId.NewDeterministic(
@@ -99,13 +97,11 @@ namespace OpenSystem.Core.Domain.Aggregates
                 AggregateSequenceNumber = aggregateSequenceNumber,
                 AggregateName = Name.Value,
                 AggregateId = Id.Value,
-                EventId = (EventId)eventId
+                EventId = eventId
             };
             eventMetadata.Add(MetadataKeys.TimestampEpoch, now.ToUnixTime().ToString());
             if (metadata != null)
-            {
                 eventMetadata.AddRange(metadata);
-            }
 
             var uncommittedEvent = new UncommittedEvent(aggregateEvent, eventMetadata);
 
@@ -132,7 +128,7 @@ namespace OpenSystem.Core.Domain.Aggregates
         public virtual async Task<IReadOnlyCollection<IDomainEvent>> CommitAsync(
             IEventStore eventStore,
             //ISnapshotStore snapshotStore,
-            SourceId sourceId,
+            ISourceId sourceId,
             CancellationToken cancellationToken
         )
         {

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ValueObjects;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Application.Commands
 {
@@ -24,7 +25,7 @@ namespace OpenSystem.Core.Application.Commands
             _commandBus = commandBus;
         }
 
-        public async Task<SourceId> PublishSerializedCommandAsync(
+        public async Task<ISourceId> PublishSerializedCommandAsync(
             string name,
             uint version,
             string json,

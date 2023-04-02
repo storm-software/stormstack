@@ -14,7 +14,7 @@ namespace OpenSystem.Core.Domain.Entities
             IIndexed<TEntityId>,
             ICloneable,
             IEntity<TEntityId>
-        where TEntityId : EntityId
+        where TEntityId : IIdentity
     {
         public static bool operator ==(Entity<TEntityId> a, Entity<TEntityId> b)
         {

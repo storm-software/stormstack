@@ -110,7 +110,7 @@ namespace OpenSystem.Core.Application.Sagas
                     .UpdateAsync(
                         sagaId,
                         details.SagaType,
-                        (SourceId)domainEvent.Metadata.EventId,
+                        domainEvent.Metadata.EventId,
                         (s, c) => UpdateSagaAsync(s, domainEvent, details, c),
                         cancellationToken
                     )

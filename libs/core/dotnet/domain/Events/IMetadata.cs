@@ -7,7 +7,7 @@ namespace OpenSystem.Core.Domain.Events
     {
         EventId EventId { get; }
 
-        SourceId SourceId { get; }
+        ISourceId SourceId { get; }
 
         string EventName { get; }
 

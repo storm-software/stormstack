@@ -1,11 +1,13 @@
 using System.Data.Entity.Core;
 using System.Text;
-using EventStore.ClientAPI;
-using EventStore.ClientAPI.Exceptions;
+using EventStore.Client;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Events;
+using OpenSystem.Core.Domain.Exceptions;
+using OpenSystem.Core.Infrastructure.EventStore.Settings;
+using static EventStore.Client.EventStoreClient;
 
 namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
 {
@@ -13,7 +15,9 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
     {
         private readonly ILogger<EventStoreEventPersistence> _logger;
 
-        private readonly IEventStoreConnection _connection;
+        private readonly EventStoreClient _eventStoreClient;
+
+        private readonly IEventStoreSettings _eventStoreSettings = new EventStoreSettings();
 
         private class EventStoreEvent : ICommittedDomainEvent
         {
@@ -28,11 +32,15 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
 
         public EventStoreEventPersistence(
             ILogger<EventStoreEventPersistence> logger,
-            IEventStoreConnection connection
+            EventStoreClient eventStoreClient,
+            IEventStoreSettings eventStoreSettings
         )
         {
             _logger = logger;
-            _connection = connection;
+            _eventStoreClient = eventStoreClient;
+
+            if (_eventStoreSettings != null)
+                _eventStoreSettings = eventStoreSettings;
         }
 
         public async Task<AllCommittedEventsPage> LoadAllCommittedEvents(
@@ -43,21 +51,16 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
         {
             var nextPosition = ParsePosition(globalPosition);
             var resolvedEvents = new List<ResolvedEvent>();
-            AllEventsSlice allEventsSlice;
+            ReadAllStreamResult allEventsSlice;
 
-            do
-            {
-                allEventsSlice = await _connection
-                    .ReadAllEventsForwardAsync(nextPosition, pageSize, false)
-                    .ConfigureAwait(false);
-                resolvedEvents.AddRange(
-                    allEventsSlice.Events.Where(e => !e.OriginalStreamId.StartsWith("$"))
-                );
-                nextPosition = allEventsSlice.NextPosition;
-            } while (resolvedEvents.Count < pageSize && !allEventsSlice.IsEndOfStream);
+            allEventsSlice = _eventStoreClient.ReadAllAsync(
+                Direction.Forwards,
+                nextPosition,
+                pageSize,
+                false
+            );
 
-            var eventStoreEvents = Map(resolvedEvents);
-
+            var eventStoreEvents = await MapAll(allEventsSlice);
             return new AllCommittedEventsPage(
                 new GlobalPosition(
                     string.Format(
@@ -73,9 +76,7 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
         private static Position ParsePosition(GlobalPosition globalPosition)
         {
             if (globalPosition.IsStart)
-            {
                 return Position.Start;
-            }
 
             var parts = globalPosition.Value.Split('-');
             if (parts.Length != 2)
@@ -91,7 +92,7 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
             var commitPosition = long.Parse(parts[0]);
             var preparePosition = long.Parse(parts[1]);
 
-            return new Position(commitPosition, preparePosition);
+            return new Position((ulong)commitPosition, (ulong)preparePosition);
         }
 
         public async Task<IReadOnlyCollection<ICommittedDomainEvent>> CommitEventsAsync(
@@ -113,46 +114,39 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
                 )
                 .ToList();
 
-            var expectedVersion = Math.Max(
-                serializedEvents.Min(e => e.AggregateSequenceNumber) - 2,
-                ExpectedVersion.NoStream
-            );
             var eventData = serializedEvents
                 .Select(e =>
                 {
-                    // While it might be tempting to use e.Metadata.EventId here, we can't
-                    // as EventStore won't detect optimistic concurrency exceptions then
-                    var guid = Guid.NewGuid();
-
-                    var eventType = string.Format(
-                        "{0}.{1}.{2}",
-                        e.Metadata[MetadataKeys.AggregateName],
-                        e.Metadata.EventName,
-                        e.Metadata.EventVersion
+                    return new EventData(
+                        Uuid.NewUuid(),
+                        $"{e.Metadata[MetadataKeys.AggregateName]}.{e.Metadata.EventName}.{e.Metadata.EventVersion}",
+                        Encoding.UTF8.GetBytes(e.SerializedData),
+                        Encoding.UTF8.GetBytes(e.SerializedMetadata)
                     );
-                    var data = Encoding.UTF8.GetBytes(e.SerializedData);
-                    var meta = Encoding.UTF8.GetBytes(e.SerializedMetadata);
-                    return new EventData(guid, eventType, true, data, meta);
                 })
                 .ToList();
 
             try
             {
-                var writeResult = await _connection
-                    .AppendToStreamAsync(id.Value, expectedVersion, eventData)
+                var writeResult = await _eventStoreClient
+                    .AppendToStreamAsync(
+                        id.Value,
+                        serializedEvents.Min(e => e.AggregateSequenceNumber) - 2,
+                        eventData
+                    )
                     .ConfigureAwait(false);
 
                 _logger.LogInformation(
                     "Wrote entity {0} with version {1} ({2},{3})",
                     id,
-                    writeResult.NextExpectedVersion - 1,
+                    writeResult.NextExpectedStreamRevision - 1,
                     writeResult.LogPosition.CommitPosition,
                     writeResult.LogPosition.PreparePosition
                 );
             }
             catch (WrongExpectedVersionException e)
             {
-                throw new OptimisticConcurrencyException(e.Message, e);
+                throw new Domain.Exceptions.OptimisticConcurrencyException(e.Message, e);
             }
 
             return committedDomainEvents;
@@ -164,45 +158,76 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
             CancellationToken cancellationToken
         )
         {
-            var streamEvents = new List<ResolvedEvent>();
-
-            StreamEventsSlice currentSlice;
-            var nextSliceStart =
-                fromEventSequenceNumber <= 1 ? StreamPosition.Start : fromEventSequenceNumber - 1; // Starts from zero
-
+            var pendingStreams = new List<ReadStreamResult>();
+            var nextSliceStart = StreamPosition.FromInt64(fromEventSequenceNumber);
             do
             {
-                currentSlice = await _connection
-                    .ReadStreamEventsForwardAsync(id.Value, nextSliceStart, 200, false)
-                    .ConfigureAwait(false);
-                nextSliceStart = (int)currentSlice.NextEventNumber;
-                streamEvents.AddRange(currentSlice.Events);
-            } while (!currentSlice.IsEndOfStream);
+                var pendingStream = _eventStoreClient.ReadStreamAsync(
+                    Direction.Backwards,
+                    id.Value,
+                    nextSliceStart,
+                    _eventStoreSettings.QueryMaxCount,
+                    false,
+                    _eventStoreSettings.QueryDeadline
+                );
+                if (await pendingStream.ReadState == ReadState.StreamNotFound)
+                    throw new NotFoundException(
+                        $"Stream for {id.Value} v{nextSliceStart} could not be found."
+                    );
 
-            return Map(streamEvents);
+                pendingStreams.Add(pendingStream);
+                nextSliceStart = StreamPosition.FromInt64(
+                    (int)nextSliceStart.ToUInt64() - _eventStoreSettings.QueryMaxCount
+                );
+            } while (StreamPosition.Start < nextSliceStart);
+
+            return (
+                await Task.WhenAll(pendingStreams.Select(p => Map(p))).ConfigureAwait(false)
+            ).Aggregate((a, b) => a.Concat(b).ToList());
         }
 
         public Task DeleteEventsAsync(IIdentity id, CancellationToken cancellationToken)
         {
-            return _connection.DeleteStreamAsync(id.Value, ExpectedVersion.Any);
+            return _eventStoreClient.DeleteAsync(id.Value, StreamState.Any);
         }
 
-        private static IReadOnlyCollection<EventStoreEvent> Map(
-            IEnumerable<ResolvedEvent> resolvedEvents
+        private async Task<IReadOnlyCollection<ICommittedDomainEvent>> Map(
+            ReadStreamResult streamResult
         )
         {
-            return resolvedEvents
+            return await streamResult
                 .Select(
                     e =>
-                        new EventStoreEvent
+                        new EventStoreEvent()
                         {
-                            AggregateSequenceNumber = (uint)(e.Event.EventNumber + 1), // Starts from zero
-                            Metadata = Encoding.UTF8.GetString(e.Event.Metadata),
+                            AggregateSequenceNumber = (uint)(e.Event.EventNumber + 1),
+                            Metadata = Encoding.UTF8.GetString(e.Event.Metadata.Span),
                             AggregateId = e.OriginalStreamId,
-                            Data = Encoding.UTF8.GetString(e.Event.Data),
+                            Data = Encoding.UTF8.GetString(e.Event.Data.Span),
                         }
                 )
-                .ToList();
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+
+        private async Task<IReadOnlyCollection<ICommittedDomainEvent>> MapAll(
+            ReadAllStreamResult streamResult
+        )
+        {
+            return await streamResult
+                .Where(e => !e.Event.EventType.StartsWith("$"))
+                .Select(
+                    e =>
+                        new EventStoreEvent()
+                        {
+                            AggregateSequenceNumber = (uint)(e.Event.EventNumber + 1),
+                            Metadata = Encoding.UTF8.GetString(e.Event.Metadata.Span),
+                            AggregateId = e.OriginalStreamId,
+                            Data = Encoding.UTF8.GetString(e.Event.Data.Span),
+                        }
+                )
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }

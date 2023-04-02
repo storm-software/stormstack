@@ -1,8 +1,7 @@
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Attributes;
-using OpenSystem.Core.Domain.Settings;
+using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Utilities;
-using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Domain.Jobs
 {
@@ -12,11 +11,11 @@ namespace OpenSystem.Core.Domain.Jobs
     {
         public JobDefinitionService(
             ILogger<JobDefinitionService> logger,
-            ILoadedVersions loadedVersions
+            ILoadedVersions<IJob> loadedVersions
         )
             : base(logger)
         {
-            Load(loadedVersions.Jobs);
+            Load(loadedVersions.Items);
         }
 
         protected override JobDefinition CreateDefinition(uint version, Type type, string name)

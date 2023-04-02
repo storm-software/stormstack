@@ -26,9 +26,9 @@ namespace OpenSystem.Core.Domain.Events
         }
 
         [JsonIgnore]
-        public SourceId SourceId
+        public ISourceId SourceId
         {
-            get => GetMetadataValue(MetadataKeys.SourceId, v => new SourceId(v));
+            get => GetMetadataValue(MetadataKeys.SourceId, v => new MetadataId(v));
             set => Add(MetadataKeys.SourceId, value.Value);
         }
 

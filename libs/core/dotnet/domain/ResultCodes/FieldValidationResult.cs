@@ -6,17 +6,18 @@ using MediatR;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
     [Serializable]
-    public class FieldValidationResult : BaseResult
+    public class FieldValidationResult : BaseResult, IFieldValidationResult
     {
         public string FieldName { get; set; }
 
         public object? AttemptedValue { get; set; }
 
-        public static FieldValidationResult Failure(
+        public static IFieldValidationResult Failure(
             string fieldName,
             Type type,
             int code,
@@ -37,7 +38,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             );
         }
 
-        public static FieldValidationResult Failure(
+        public static IFieldValidationResult Failure(
             string fieldName,
             string type,
             int code,
@@ -58,7 +59,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
             );
         }
 
-        public static FieldValidationResult Failure(
+        public static IFieldValidationResult Failure(
             string fieldName,
             int code,
             object? attemptedValue,
