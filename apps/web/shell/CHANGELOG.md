@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/sullivanpj/open-system/compare/web-shell-v1.18.0...web-shell-v1.18.1) (2023-04-02)
+
+
+### Bug Fixes
+
+* **core-dotnet-domain:** Resolved issues around query request execution ([4fd21df](https://github.com/sullivanpj/open-system/commit/4fd21dff1abb0fa5a88e490d017de7a1652cdb62))
+
 # [1.18.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.17.0...web-shell-v1.18.0) (2023-03-19)
 
 
