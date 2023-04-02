@@ -1,3 +1,17 @@
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/user-server-domain-v1.7.0...user-server-domain-v1.8.0) (2023-04-02)
+
+
+### Bug Fixes
+
+* **core-dotnet-domain:** Cleaned up aggregate event return type ([9f21df1](https://github.com/sullivanpj/open-system/commit/9f21df15cf357ff84622865a86b3b6daf621782a))
+* **core-dotnet-domain:** Resolved issues around query request execution ([4fd21df](https://github.com/sullivanpj/open-system/commit/4fd21dff1abb0fa5a88e490d017de7a1652cdb62))
+
+
+### Features
+
+* **core-dotnet-application:** Update to use service collection for DI ([d52c4c0](https://github.com/sullivanpj/open-system/commit/d52c4c06c92090bd716265b1e0740dcdfd5bd864))
+* **core-dotnet-domain:** Event sourcing upgrades ([194f00b](https://github.com/sullivanpj/open-system/commit/194f00bd2a8b293d1f7ecefb6feccc265bdd981b))
+
 # [1.8.0](https://github.com/sullivanpj/open-system/compare/user-server-domain-v1.7.0...user-server-domain-v1.8.0) (2023-03-29)
 
 
