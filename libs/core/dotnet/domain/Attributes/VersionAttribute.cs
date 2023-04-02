@@ -5,9 +5,9 @@ namespace OpenSystem.Core.Domain.Attributes
     public abstract class VersionAttribute : Attribute
     {
         public string Name { get; }
-        public uint Version { get; }
+        public ulong Version { get; }
 
-        protected VersionAttribute(string name, uint version)
+        protected VersionAttribute(string name, ulong version)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));

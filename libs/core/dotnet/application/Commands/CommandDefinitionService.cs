@@ -19,7 +19,7 @@ namespace OpenSystem.Core.Application.Commands
             Load(loadedVersions.Items);
         }
 
-        protected override CommandDefinition CreateDefinition(uint version, Type type, string name)
+        protected override CommandDefinition CreateDefinition(ulong version, Type type, string name)
         {
             return new CommandDefinition(version, type, name);
         }

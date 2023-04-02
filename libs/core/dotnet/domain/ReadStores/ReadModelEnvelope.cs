@@ -4,7 +4,7 @@ namespace OpenSystem.Core.Domain.ReadStores
 {
     public abstract class ReadModelEnvelope
     {
-        protected ReadModelEnvelope(string readModelId, long? version)
+        protected ReadModelEnvelope(string readModelId, ulong? version)
         {
             if (string.IsNullOrEmpty(readModelId))
                 throw new ArgumentNullException(nameof(readModelId));
@@ -14,13 +14,13 @@ namespace OpenSystem.Core.Domain.ReadStores
         }
 
         public string ReadModelId { get; }
-        public long? Version { get; }
+        public ulong? Version { get; }
     }
 
     public class ReadModelEnvelope<TReadModel> : ReadModelEnvelope
         where TReadModel : class, IReadModel
     {
-        private ReadModelEnvelope(string readModelId, TReadModel readModel, long? version)
+        private ReadModelEnvelope(string readModelId, TReadModel readModel, ulong? version)
             : base(readModelId, version)
         {
             ReadModel = readModel;
@@ -41,7 +41,7 @@ namespace OpenSystem.Core.Domain.ReadStores
         public static ReadModelEnvelope<TReadModel> With(
             string readModelId,
             TReadModel readModel,
-            long? version
+            ulong? version
         )
         {
             return new ReadModelEnvelope<TReadModel>(readModelId, readModel, version);
@@ -50,7 +50,7 @@ namespace OpenSystem.Core.Domain.ReadStores
         public static ReadModelEnvelope<TReadModel> With(
             string readModelId,
             TReadModel readModel,
-            long version
+            ulong version
         )
         {
             return new ReadModelEnvelope<TReadModel>(readModelId, readModel, version);
@@ -67,7 +67,7 @@ namespace OpenSystem.Core.Domain.ReadStores
 
         public ReadModelUpdateResult<TReadModel> AsModifiedResult<TReadModel>(
             TReadModel readModel,
-            long? version = null
+            ulong? version = null
         )
             where TReadModel : class, IReadModel
         {

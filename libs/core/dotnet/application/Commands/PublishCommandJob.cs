@@ -8,7 +8,7 @@ namespace OpenSystem.Core.Application.Commands
     [JobVersion("PublishCommand", 1)]
     public class PublishCommandJob : IJob
     {
-        public PublishCommandJob(string data, string name, uint version)
+        public PublishCommandJob(string data, string name, ulong version)
         {
             Data = data;
             Name = name;
@@ -19,7 +19,7 @@ namespace OpenSystem.Core.Application.Commands
 
         public string Name { get; }
 
-        public uint Version { get; set; }
+        public ulong Version { get; set; }
 
         public Task ExecuteAsync(
             IServiceProvider serviceProvider,

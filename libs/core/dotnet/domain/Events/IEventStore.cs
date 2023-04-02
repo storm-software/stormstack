@@ -35,7 +35,7 @@ namespace OpenSystem.Core.Domain.Events
         Task<IReadOnlyCollection<IDomainEvent<TAggregate, TIdentity>>> LoadEventsAsync<
             TAggregate,
             TIdentity
-        >(TIdentity id, int fromEventSequenceNumber, CancellationToken cancellationToken)
+        >(TIdentity id, ulong fromEventSequenceNumber, CancellationToken cancellationToken)
             where TAggregate : IAggregateRoot<TIdentity>
             where TIdentity : IIdentity;
 

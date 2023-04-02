@@ -18,7 +18,7 @@ namespace OpenSystem.Core.Domain.Events
             Load(loadedVersions.Items);
         }
 
-        protected override EventDefinition CreateDefinition(uint version, Type type, string name)
+        protected override EventDefinition CreateDefinition(ulong version, Type type, string name)
         {
             return new EventDefinition(version, type, name);
         }

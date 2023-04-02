@@ -152,7 +152,7 @@ namespace OpenSystem.Core.Domain.Events
             IReadOnlyCollection<IDomainEvent<TAggregate, TIdentity>>
         > LoadEventsAsync<TAggregate, TIdentity>(
             TIdentity id,
-            int fromEventSequenceNumber,
+            ulong fromEventSequenceNumber,
             CancellationToken cancellationToken
         )
             where TAggregate : IAggregateRoot<TIdentity>

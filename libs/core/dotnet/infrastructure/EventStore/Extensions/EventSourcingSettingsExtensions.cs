@@ -24,10 +24,9 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Extensions
                 ? string.Empty
                 : connectionNamePrefix + " - ";
 
+            services.AddEventStoreConfiguration(configuration);
             services.AddEventStoreClient(configuration.GetConnectionString("EventStoreConnection"));
             services.UseEventPersistence<EventStoreEventPersistence>();
-
-            services.AddEventStoreConfiguration(configuration);
 
             return services;
         }
@@ -37,8 +36,7 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Extensions
             IConfiguration configuration
         )
         {
-            var settings = configuration.GetSection("EventSourcingSettings");
-
+            var settings = configuration.GetSection("EventStoreSettings");
             var eventStoreSettings = new EventStoreSettings
             {
                 QueryMaxCount = settings.GetValue<int>("QueryMaxCount"),

@@ -18,7 +18,7 @@ namespace OpenSystem.Core.Domain.Jobs
             Load(loadedVersions.Items);
         }
 
-        protected override JobDefinition CreateDefinition(uint version, Type type, string name)
+        protected override JobDefinition CreateDefinition(ulong version, Type type, string name)
         {
             return new JobDefinition(version, type, name);
         }

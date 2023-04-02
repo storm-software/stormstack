@@ -9,7 +9,7 @@ namespace OpenSystem.Core.Domain.Events
         where TAggregate : IAggregateRoot<TIdentity>
         where TIdentity : IIdentity
     {
-        public uint Version { get; set; } = 1;
+        public ulong Version { get; set; } = 1;
 
         public override string ToString()
         {

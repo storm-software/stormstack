@@ -30,9 +30,9 @@ namespace OpenSystem.Core.Domain.Utilities
 
         private readonly ConcurrentDictionary<
             string,
-            Dictionary<uint, TDefinition>
+            Dictionary<ulong, TDefinition>
         > _definitionByNameAndVersion =
-            new ConcurrentDictionary<string, Dictionary<uint, TDefinition>>();
+            new ConcurrentDictionary<string, Dictionary<ulong, TDefinition>>();
 
         protected BaseVersionDefinitionService(ILogger logger)
         {
@@ -98,7 +98,7 @@ namespace OpenSystem.Core.Domain.Utilities
 
                     if (!_definitionByNameAndVersion.TryGetValue(definition.Name, out var versions))
                     {
-                        versions = new Dictionary<uint, TDefinition>();
+                        versions = new Dictionary<ulong, TDefinition>();
                         _definitionByNameAndVersion.TryAdd(definition.Name, versions);
                     }
 
@@ -129,7 +129,7 @@ namespace OpenSystem.Core.Domain.Utilities
             return _definitionByNameAndVersion.SelectMany(kv => kv.Value.Values);
         }
 
-        public bool TryGetDefinition(string name, uint version, out TDefinition definition)
+        public bool TryGetDefinition(string name, ulong version, out TDefinition definition)
         {
             if (_definitionByNameAndVersion.TryGetValue(name, out var versions))
                 return versions.TryGetValue(version, out definition);
@@ -139,7 +139,7 @@ namespace OpenSystem.Core.Domain.Utilities
             return false;
         }
 
-        public TDefinition GetDefinition(string name, uint version)
+        public TDefinition GetDefinition(string name, ulong version)
         {
             if (!TryGetDefinition(name, version, out var definition))
             {
@@ -209,7 +209,7 @@ namespace OpenSystem.Core.Domain.Utilities
             return true;
         }
 
-        protected abstract TDefinition CreateDefinition(uint version, Type type, string name);
+        protected abstract TDefinition CreateDefinition(ulong version, Type type, string name);
 
         private IEnumerable<TDefinition> CreateDefinitions(Type versionedType)
         {
@@ -228,7 +228,6 @@ namespace OpenSystem.Core.Domain.Utilities
 
         private TDefinition CreateDefinitionFromName(Type versionedType)
         {
-
             var match = NameRegex.Match(versionedType.Name);
             if (!match.Success)
             {
@@ -237,11 +236,11 @@ namespace OpenSystem.Core.Domain.Utilities
                 );
             }
 
-            uint version = 1;
+            ulong version = 1;
             var groups = match.Groups["version"];
             if (groups.Success)
             {
-                version = uint.Parse(groups.Value);
+                version = ulong.Parse(groups.Value);
             }
 
             var name = match.Groups["name"].Value;

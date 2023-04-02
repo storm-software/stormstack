@@ -5,11 +5,13 @@ namespace OpenSystem.Core.Domain.ValueObjects
 {
     public abstract class VersionDefinition : ValueObject
     {
-        public uint Version { get; }
+        public ulong Version { get; }
+
         public Type Type { get; }
+
         public string Name { get; }
 
-        protected VersionDefinition(uint version, Type type, string name)
+        protected VersionDefinition(ulong version, Type type, string name)
         {
             Version = version;
             Type = type;

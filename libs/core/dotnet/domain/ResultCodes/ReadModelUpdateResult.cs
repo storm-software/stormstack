@@ -18,7 +18,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
         public bool IsModified { get; }
 
-        public ReadModelUpdateResult(string readModelId, TReadModel readModel, long? version)
+        public ReadModelUpdateResult(string readModelId, TReadModel readModel, ulong? version)
             : this(ReadModelEnvelope<TReadModel>.With(readModelId, readModel, version), true) { }
 
         public ReadModelUpdateResult(ReadModelEnvelope<TReadModel> envelope, bool isModified)

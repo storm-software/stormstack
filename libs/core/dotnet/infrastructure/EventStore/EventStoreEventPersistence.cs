@@ -27,7 +27,7 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
 
             public string Metadata { get; set; }
 
-            public uint AggregateSequenceNumber { get; set; }
+            public ulong AggregateSequenceNumber { get; set; }
         }
 
         public EventStoreEventPersistence(
@@ -139,7 +139,7 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
                 _logger.LogInformation(
                     "Wrote entity {0} with version {1} ({2},{3})",
                     id,
-                    writeResult.NextExpectedStreamRevision - 1,
+                    writeResult.NextExpectedStreamRevision,
                     writeResult.LogPosition.CommitPosition,
                     writeResult.LogPosition.PreparePosition
                 );
@@ -154,12 +154,13 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
 
         public async Task<IReadOnlyCollection<ICommittedDomainEvent>> LoadCommittedEventsAsync(
             IIdentity id,
-            int fromEventSequenceNumber,
+            ulong fromEventSequenceNumber,
             CancellationToken cancellationToken
         )
         {
             var pendingStreams = new List<ReadStreamResult>();
-            var nextSliceStart = StreamPosition.FromInt64(fromEventSequenceNumber);
+            var nextSliceStart = new StreamPosition(fromEventSequenceNumber);
+            var queryMaxCount = ulong.CreateChecked(_eventStoreSettings.QueryMaxCount);
             do
             {
                 var pendingStream = _eventStoreClient.ReadStreamAsync(
@@ -171,14 +172,10 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
                     _eventStoreSettings.QueryDeadline
                 );
                 if (await pendingStream.ReadState == ReadState.StreamNotFound)
-                    throw new NotFoundException(
-                        $"Stream for {id.Value} v{nextSliceStart} could not be found."
-                    );
+                    return new List<ICommittedDomainEvent>();
 
                 pendingStreams.Add(pendingStream);
-                nextSliceStart = StreamPosition.FromInt64(
-                    (int)nextSliceStart.ToUInt64() - _eventStoreSettings.QueryMaxCount
-                );
+                nextSliceStart = nextSliceStart - queryMaxCount;
             } while (StreamPosition.Start < nextSliceStart);
 
             return (
@@ -200,7 +197,7 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
                     e =>
                         new EventStoreEvent()
                         {
-                            AggregateSequenceNumber = (uint)(e.Event.EventNumber + 1),
+                            AggregateSequenceNumber = e.Event.EventNumber.ToUInt64() + 1,
                             Metadata = Encoding.UTF8.GetString(e.Event.Metadata.Span),
                             AggregateId = e.OriginalStreamId,
                             Data = Encoding.UTF8.GetString(e.Event.Data.Span),
@@ -220,7 +217,7 @@ namespace OpenSystem.Core.Infrastructure.EventStore.Repositories
                     e =>
                         new EventStoreEvent()
                         {
-                            AggregateSequenceNumber = (uint)(e.Event.EventNumber + 1),
+                            AggregateSequenceNumber = e.Event.EventNumber.ToUInt64() + 1,
                             Metadata = Encoding.UTF8.GetString(e.Event.Metadata.Span),
                             AggregateId = e.OriginalStreamId,
                             Data = Encoding.UTF8.GetString(e.Event.Data.Span),

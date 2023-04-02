@@ -10,14 +10,14 @@ namespace OpenSystem.Core.Domain.Events
             IAggregateEvent aggregateEvent,
             IMetadata metadata,
             string aggregateIdentity,
-            uint aggregateSequenceNumber
+            ulong aggregateSequenceNumber
         );
 
         IDomainEvent<TAggregate, TIdentity> Create<TAggregate, TIdentity>(
             IAggregateEvent aggregateEvent,
             IMetadata metadata,
             TIdentity id,
-            uint aggregateSequenceNumber
+            ulong aggregateSequenceNumber
         )
             where TAggregate : IAggregateRoot<TIdentity>
             where TIdentity : IIdentity;

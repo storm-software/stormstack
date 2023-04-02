@@ -11,7 +11,7 @@ namespace OpenSystem.Core.Domain.Events
 
         Type EventType { get; }
 
-        uint AggregateSequenceNumber { get; }
+        ulong AggregateSequenceNumber { get; }
 
         IMetadata Metadata { get; }
 

@@ -8,8 +8,11 @@ namespace OpenSystem.Core.Application.Commands
     public class SerializedCommandPublisher : ISerializedCommandPublisher
     {
         private readonly ILogger<SerializedCommandPublisher> _logger;
+
         private readonly ICommandDefinitionService _commandDefinitionService;
+
         private readonly IJsonSerializer _jsonSerializer;
+
         private readonly ICommandBus _commandBus;
 
         public SerializedCommandPublisher(
@@ -27,7 +30,7 @@ namespace OpenSystem.Core.Application.Commands
 
         public async Task<ISourceId> PublishSerializedCommandAsync(
             string name,
-            uint version,
+            ulong version,
             string json,
             CancellationToken cancellationToken
         )

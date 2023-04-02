@@ -16,7 +16,7 @@ namespace OpenSystem.Core.Domain.Events
 
         public Type EventType => typeof(TAggregateEvent);
 
-        public uint AggregateSequenceNumber { get; }
+        public ulong AggregateSequenceNumber { get; }
 
         public TAggregateEvent AggregateEvent { get; }
 
@@ -31,7 +31,7 @@ namespace OpenSystem.Core.Domain.Events
             IMetadata metadata,
             DateTimeOffset timestamp,
             TIdentity aggregateIdentity,
-            uint aggregateSequenceNumber
+            ulong aggregateSequenceNumber
         )
         {
             if (aggregateEvent == null)

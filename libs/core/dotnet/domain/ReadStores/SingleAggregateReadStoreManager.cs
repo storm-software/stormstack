@@ -50,7 +50,8 @@ namespace OpenSystem.Core.Domain.ReadStores
                             g.OrderBy(d => d.AggregateSequenceNumber).ToList()
                         )
                 )
-                .ToList();
+                .ToList()
+                .AsReadOnly();
         }
 
         private async Task<TReadModel> GetOrCreateReadModel(
@@ -127,7 +128,7 @@ namespace OpenSystem.Core.Domain.ReadStores
                 eventsToApply = await _eventStore
                     .LoadEventsAsync<TAggregate, TIdentity>(
                         identity,
-                        (int)version + 1,
+                        version + 1,
                         cancellationToken
                     )
                     .ConfigureAwait(false);

@@ -6,7 +6,7 @@ namespace OpenSystem.Core.Domain.Events
 
         string SerializedData { get; }
 
-        uint AggregateSequenceNumber { get; }
+        ulong AggregateSequenceNumber { get; }
 
         IMetadata Metadata { get; }
     }

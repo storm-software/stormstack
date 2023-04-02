@@ -8,6 +8,6 @@ namespace OpenSystem.Core.Domain.Events
 
         string Metadata { get; }
 
-        uint AggregateSequenceNumber { get; }
+        ulong AggregateSequenceNumber { get; }
     }
 }

@@ -6,7 +6,7 @@ namespace OpenSystem.Core.Domain.Jobs
 {
     public class JobDefinition : VersionDefinition
     {
-        public JobDefinition(uint version, Type type, string name)
+        public JobDefinition(ulong version, Type type, string name)
             : base(version, type, name) { }
     }
 }

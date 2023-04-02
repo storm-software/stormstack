@@ -28,7 +28,7 @@ namespace OpenSystem.Core.Domain.Aggregates
 
         public TIdentity Id { get; }
 
-        public uint Version { get; set; }
+        public ulong Version { get; set; }
 
         public virtual bool IsNew => Version <= 0;
 

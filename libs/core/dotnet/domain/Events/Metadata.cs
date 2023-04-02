@@ -40,9 +40,9 @@ namespace OpenSystem.Core.Domain.Events
         }
 
         [JsonIgnore]
-        public uint EventVersion
+        public ulong EventVersion
         {
-            get => GetMetadataValue(MetadataKeys.EventVersion, uint.Parse);
+            get => GetMetadataValue(MetadataKeys.EventVersion, ulong.Parse);
             set => Add(MetadataKeys.EventVersion, value.ToString());
         }
 
@@ -60,9 +60,9 @@ namespace OpenSystem.Core.Domain.Events
                 : Timestamp.ToUnixTime();
 
         [JsonIgnore]
-        public uint AggregateSequenceNumber
+        public ulong AggregateSequenceNumber
         {
-            get => GetMetadataValue(MetadataKeys.AggregateSequenceNumber, uint.Parse);
+            get => GetMetadataValue(MetadataKeys.AggregateSequenceNumber, ulong.Parse);
             set => Add(MetadataKeys.AggregateSequenceNumber, value.ToString());
         }
 

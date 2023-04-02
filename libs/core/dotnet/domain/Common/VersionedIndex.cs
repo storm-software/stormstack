@@ -6,9 +6,9 @@ namespace OpenSystem.Core.Domain.Common
     public class VersionedIndex<TIdentity> : Indexed<TIdentity>, IVersionedIndex<TIdentity>
         where TIdentity : IIdentity
     {
-        public uint Version { get; set; } = 0;
+        public ulong Version { get; set; } = 0;
 
-        public VersionedIndex(IIdentity id, uint version)
+        public VersionedIndex(IIdentity id, ulong version)
         {
             Id = id;
             Version = version;

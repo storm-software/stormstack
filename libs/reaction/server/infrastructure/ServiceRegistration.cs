@@ -39,8 +39,8 @@ namespace OpenSystem.Reaction.Infrastructure
                 .AddApplicationDefaults()
                 .AddReactionEvents()
                 .AddEventSourcing(Assembly.GetExecutingAssembly())
-                .UseInMemoryReadStoreFor<ReactionReadModel>();
-            //.UseEventStoreEventStore(configuration);
+                .UseInMemoryReadStoreFor<ReactionReadModel>()
+                .UseEventStoreEventPersistence(configuration);
 
             /*services.AddPersistenceInfrastructure(settings);
 

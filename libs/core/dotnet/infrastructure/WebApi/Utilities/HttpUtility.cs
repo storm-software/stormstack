@@ -161,7 +161,7 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                         baseException?.Severity ?? ResultSeverityTypes.Error,
                         baseException?.ResultType,
                         baseException?.ResultCode,
-                        baseException?.Message,
+                        baseException?.ExtendedMessage,
                         baseException?.StackTrace,
                         baseException?.HelpLink
                     )

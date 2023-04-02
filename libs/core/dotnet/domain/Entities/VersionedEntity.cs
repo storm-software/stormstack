@@ -8,6 +8,6 @@ namespace OpenSystem.Core.Domain.Entities
             IVersionedEntity<TEntityId>
         where TEntityId : EntityId
     {
-        public uint Version { get; set; } = 0;
+        public ulong Version { get; set; } = 0;
     }
 }

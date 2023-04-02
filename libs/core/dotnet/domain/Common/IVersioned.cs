@@ -2,6 +2,6 @@ namespace OpenSystem.Core.Domain.Common
 {
     public interface IVersioned
     {
-        public uint Version { get; set; }
+        ulong Version { get; set; }
     }
 }

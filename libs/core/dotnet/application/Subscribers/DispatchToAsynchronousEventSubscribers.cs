@@ -12,7 +12,7 @@ namespace OpenSystem.Core.Application.Subscribers
 
         public string Metadata { get; }
 
-        public uint Version { get; set; }
+        public ulong Version { get; set; }
 
         public DispatchToAsynchronousEventSubscribersJob(string @event, string metadata)
         {

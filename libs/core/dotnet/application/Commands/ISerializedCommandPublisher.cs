@@ -6,7 +6,7 @@ namespace OpenSystem.Core.Application.Commands
     {
         Task<ISourceId> PublishSerializedCommandAsync(
             string name,
-            uint version,
+            ulong version,
             string json,
             CancellationToken cancellationToken
         );

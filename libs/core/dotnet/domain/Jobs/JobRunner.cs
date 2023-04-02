@@ -26,7 +26,7 @@ namespace OpenSystem.Core.Domain.Jobs
 
         public Task ExecuteAsync(
             string jobName,
-            uint version,
+            ulong version,
             string json,
             CancellationToken cancellationToken
         )

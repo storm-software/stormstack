@@ -6,14 +6,14 @@ namespace OpenSystem.Core.Domain.Events
 
         public string SerializedData { get; }
 
-        public uint AggregateSequenceNumber { get; }
+        public ulong AggregateSequenceNumber { get; }
 
         public IMetadata Metadata { get; }
 
         public SerializedEvent(
             string serializedMetadata,
             string serializedData,
-            uint aggregateSequenceNumber,
+            ulong aggregateSequenceNumber,
             IMetadata metadata
         )
         {

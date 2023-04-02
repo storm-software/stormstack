@@ -11,13 +11,13 @@ namespace OpenSystem.Core.Domain.Events
 
         string EventName { get; }
 
-        uint EventVersion { get; }
+        ulong EventVersion { get; }
 
         DateTimeOffset Timestamp { get; }
 
         long TimestampEpoch { get; }
 
-        uint AggregateSequenceNumber { get; }
+        ulong AggregateSequenceNumber { get; }
 
         string AggregateId { get; }
 

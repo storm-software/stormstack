@@ -18,7 +18,7 @@ namespace OpenSystem.Core.Domain.Events
 
         Task<IReadOnlyCollection<ICommittedDomainEvent>> LoadCommittedEventsAsync(
             IIdentity id,
-            int fromEventSequenceNumber,
+            ulong fromEventSequenceNumber,
             CancellationToken cancellationToken
         );
 

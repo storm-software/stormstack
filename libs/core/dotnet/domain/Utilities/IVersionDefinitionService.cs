@@ -11,11 +11,11 @@ namespace OpenSystem.Core.Domain.Utilities
 
         IEnumerable<TDefinition> GetDefinitions(string name);
 
-        bool TryGetDefinition(string name, uint version, out TDefinition definition);
+        bool TryGetDefinition(string name, ulong version, out TDefinition definition);
 
         IEnumerable<TDefinition> GetAllDefinitions();
 
-        TDefinition GetDefinition(string name, uint version);
+        TDefinition GetDefinition(string name, ulong version);
 
         TDefinition GetDefinition(Type type);
 

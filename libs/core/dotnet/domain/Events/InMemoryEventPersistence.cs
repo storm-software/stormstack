@@ -22,7 +22,7 @@ namespace OpenSystem.Core.Domain.Events
 
         private class InMemoryCommittedDomainEvent : ICommittedDomainEvent
         {
-            public long GlobalSequenceNumber { get; set; }
+            public int GlobalSequenceNumber { get; set; }
 
             public string AggregateId { get; set; }
 
@@ -32,7 +32,7 @@ namespace OpenSystem.Core.Domain.Events
 
             public string Metadata { get; set; }
 
-            public uint AggregateSequenceNumber { get; set; }
+            public ulong AggregateSequenceNumber { get; set; }
 
             public override string ToString()
             {
@@ -108,7 +108,7 @@ namespace OpenSystem.Core.Domain.Events
             CancellationToken cancellationToken
         )
         {
-            var startPosition = globalPosition.IsStart ? 0 : long.Parse(globalPosition.Value);
+            var startPosition = globalPosition.IsStart ? 0 : int.Parse(globalPosition.Value);
 
             var committedDomainEvents = _eventStore
                 .SelectMany(kv => kv.Value)
@@ -136,9 +136,7 @@ namespace OpenSystem.Core.Domain.Events
         )
         {
             if (!serializedEvents.Any())
-            {
                 return new List<ICommittedDomainEvent>();
-            }
 
             using (await _asyncLock.WaitAsync(cancellationToken).ConfigureAwait(false))
             {
@@ -173,7 +171,7 @@ namespace OpenSystem.Core.Domain.Events
                     id.Value,
                     s => new ImmutableEventCollection(newCommittedDomainEvents),
                     (s, collection) =>
-                        collection.Count == expectedVersion
+                        ulong.CreateChecked(collection.Count) == expectedVersion
                             ? collection.Add(newCommittedDomainEvents)
                             : collection
                 );
@@ -186,7 +184,7 @@ namespace OpenSystem.Core.Domain.Events
 
         public Task<IReadOnlyCollection<ICommittedDomainEvent>> LoadCommittedEventsAsync(
             IIdentity id,
-            int fromEventSequenceNumber,
+            ulong fromEventSequenceNumber,
             CancellationToken cancellationToken
         )
         {

@@ -26,7 +26,6 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
     [DataContract]
     public class AddReactionRequest : IEquatable<AddReactionRequest>
     {
-
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
@@ -34,7 +33,6 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum TypeOptions
         {
-
             /// <summary>
             /// Enum Like for like
             /// </summary>
@@ -68,6 +66,13 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         public TypeOptions Type { get; set; }
 
         /// <summary>
+        /// Gets or Sets ContentId
+        /// </summary>
+        [Required]
+        [DataMember(Name = "contentId", EmitDefaultValue = false)]
+        public string ContentId { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -76,6 +81,7 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             var sb = new StringBuilder();
             sb.Append("class AddReactionRequest {\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  ContentId: ").Append(ContentId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -87,9 +93,10 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         public AddReactionRequest CopyTo(AddReactionRequest? copyTo)
         {
             if (copyTo == null)
-              copyTo = new AddReactionRequest();
+                copyTo = new AddReactionRequest();
 
             copyTo.Type = this.Type;
+            copyTo.ContentId = this.ContentId;
 
             return copyTo;
         }
@@ -100,8 +107,10 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         /// <returns>JSON string presentation of the object</returns>
         public string ToJson()
         {
-            return JsonSerializer.Serialize(this,
-              new JsonSerializerOptions { WriteIndented = true });
+            return JsonSerializer.Serialize(
+                this,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
         }
 
         /// <summary>
@@ -111,8 +120,10 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         /// <returns>Boolean</returns>
         public override bool Equals(object obj)
         {
-            if (obj is null) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (obj is null)
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
             return obj.GetType() == GetType() && Equals((AddReactionRequest)obj);
         }
 
@@ -123,14 +134,15 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
         /// <returns>Boolean</returns>
         public bool Equals(AddReactionRequest other)
         {
-            if (other is null) return false;
-            if (ReferenceEquals(this, other)) return true;
+            if (other is null)
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
 
-            return
-                (
-                    Type == other.Type ||
-
-                    Type.Equals(other.Type)
+            return (Type == other.Type || Type.Equals(other.Type))
+                && (
+                    ContentId == other.ContentId
+                    || ContentId != null && ContentId.Equals(other.ContentId)
                 );
         }
 
@@ -145,13 +157,13 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
 
-                    hashCode = hashCode * 59 + Type.GetHashCode();
+                hashCode = hashCode * 59 + Type.GetHashCode();
                 return hashCode;
             }
         }
 
         #region Operators
-        #pragma warning disable 1591
+#pragma warning disable 1591
 
         public static bool operator ==(AddReactionRequest left, AddReactionRequest right)
         {
@@ -163,7 +175,7 @@ namespace OpenSystem.Reaction.Application.Models.DTOs
             return !Equals(left, right);
         }
 
-        #pragma warning restore 1591
+#pragma warning restore 1591
         #endregion Operators
     }
 }

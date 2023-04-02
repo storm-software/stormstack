@@ -126,8 +126,7 @@ namespace OpenSystem.Core.Infrastructure.Routing
                 );
 
             var result = await command.PublishAsync(_commandBus, httpContext.RequestAborted);
-            GetLogger(httpContext)
-                .LogDebug("Response received from command bus: {Message}", result);
+            GetLogger(httpContext).LogDebug("Response received from command bus: {Result}", result);
             if (result?.Succeeded != true)
                 return HttpUtility.CreateProblem(httpContext, (Result?)result);
 

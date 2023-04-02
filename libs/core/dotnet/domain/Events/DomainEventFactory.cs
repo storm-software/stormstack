@@ -19,11 +19,11 @@ namespace OpenSystem.Core.Domain.Events
 
         private static readonly ConcurrentDictionary<
             Type,
-            Func<IAggregateEvent, IMetadata, DateTimeOffset, IIdentity, uint, IDomainEvent>
+            Func<IAggregateEvent, IMetadata, DateTimeOffset, IIdentity, ulong, IDomainEvent>
         > DomainEventTypeToCreateInstanceFuncMap =
             new ConcurrentDictionary<
                 Type,
-                Func<IAggregateEvent, IMetadata, DateTimeOffset, IIdentity, uint, IDomainEvent>
+                Func<IAggregateEvent, IMetadata, DateTimeOffset, IIdentity, ulong, IDomainEvent>
             >();
 
         private static readonly ConcurrentDictionary<
@@ -36,7 +36,7 @@ namespace OpenSystem.Core.Domain.Events
             IAggregateEvent aggregateEvent,
             IMetadata metadata,
             string aggregateIdentity,
-            uint aggregateSequenceNumber
+            ulong aggregateSequenceNumber
         )
         {
             var domainEventType = AggregateEventToDomainEventTypeMap.GetOrAdd(
@@ -72,7 +72,7 @@ namespace OpenSystem.Core.Domain.Events
                     IMetadata,
                     DateTimeOffset,
                     IIdentity,
-                    uint,
+                    ulong,
                     IDomainEvent
                 >(
                     aggregateEvent.GetType(),
@@ -98,7 +98,7 @@ namespace OpenSystem.Core.Domain.Events
             IAggregateEvent aggregateEvent,
             IMetadata metadata,
             TIdentity id,
-            uint aggregateSequenceNumber
+            ulong aggregateSequenceNumber
         )
             where TAggregate : IAggregateRoot<TIdentity>
             where TIdentity : IIdentity

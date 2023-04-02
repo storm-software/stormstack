@@ -17,7 +17,7 @@ namespace OpenSystem.Core.Application.Commands
 
         public TAggregate Aggregate { get; set; }
 
-        public uint Version { get; set; }
+        public ulong Version { get; set; }
 
         protected Command(TIdentity aggregateId)
             : this(aggregateId, CommandId.New) { }

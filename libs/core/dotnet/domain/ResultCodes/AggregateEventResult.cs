@@ -20,7 +20,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
         public static IAggregateEventResult Success(
             IIdentity id,
-            uint version,
+            ulong version,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
         ) => new AggregateEventResult(new VersionedIndex<IIdentity>(id, version), domainEvents);
 
