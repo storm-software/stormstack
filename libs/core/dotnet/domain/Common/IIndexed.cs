@@ -1,9 +1,8 @@
 namespace OpenSystem.Core.Domain.Common
 {
-    public interface IIndexed<T>
+    public interface IIndexed<in TIdentity>
+        where TIdentity : IIdentity
     {
-        public T Id { get; set; }
+        public IIdentity Id { get; set; }
     }
-
-    public interface IIndexed : IIndexed<Guid> { }
 }

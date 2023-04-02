@@ -11,16 +11,18 @@ using OpenSystem.Core.Domain.Extensions;
 namespace OpenSystem.Core.Domain.ResultCodes
 {
     [Serializable]
-    public class AggregateEventResult : Result<IVersionedIndex>, IAggregateEventResult
+    public class AggregateEventResult : Result<IVersionedIndex<IIdentity>>, IAggregateEventResult
     {
         public static IAggregateEventResult Success(
-            IVersionedIndex? data,
+            IVersionedIndex<IIdentity> data,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
         ) => new AggregateEventResult(data, domainEvents);
 
         public static IAggregateEventResult Success(
+            IIdentity id,
+            uint version,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
-        ) => new AggregateEventResult(null, domainEvents);
+        ) => new AggregateEventResult(new VersionedIndex<IIdentity>(id, version), domainEvents);
 
         public static IAggregateEventResult Failure(
             Type type,
@@ -85,7 +87,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
         public IReadOnlyCollection<IDomainEvent>? DomainEvents { get; private set; }
 
         public AggregateEventResult(
-            IVersionedIndex? data,
+            IVersionedIndex<IIdentity>? data,
             IReadOnlyCollection<IDomainEvent>? domainEvents = null
         )
             : base(data)

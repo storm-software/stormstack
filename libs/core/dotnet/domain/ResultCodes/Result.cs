@@ -15,7 +15,7 @@ namespace OpenSystem.Core.Domain.ResultCodes
     {
         private static ILogger _log = Log.ForContext(typeof(Result<TData>));
 
-        public TData? Data { get; set; }
+        public object? Data { get; set; }
 
         public string? HelpLink { get; set; }
 
@@ -214,6 +214,9 @@ namespace OpenSystem.Core.Domain.ResultCodes
         {
             try
             {
+                if (Succeeded)
+                    return ToSuccessString();
+
                 return ToErrorString();
             }
             catch (Exception x)
@@ -321,6 +324,53 @@ namespace OpenSystem.Core.Domain.ResultCodes
             }
         }
 
+        public string ToSuccessString()
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append($"Request complete successfully. {Literals.NewLine}");
+
+                sb.Append($"{Literals.NewLine} ---- Result Details ---- ");
+                sb.Append($"{Literals.NewLine}Type: ");
+                sb.Append(!string.IsNullOrWhiteSpace(Type) ? Type : Literals.NotApplicable);
+                sb.Append($"{Literals.NewLine}Code: ");
+                sb.Append(
+                    !string.IsNullOrWhiteSpace(Code.ToString())
+                        ? Code.ToString()
+                        : Literals.NotApplicable
+                );
+                sb.Append($"{Literals.NewLine}Extended message: ");
+                sb.Append(
+                    !string.IsNullOrWhiteSpace(ExtendedMessage)
+                        ? ExtendedMessage
+                        : Literals.NotApplicable
+                );
+                sb.Append($"{Literals.NewLine}Severity: ");
+                sb.Append(
+                    !string.IsNullOrWhiteSpace(Severity.ToString())
+                        ? Severity.ToString()
+                        : Literals.NotApplicable
+                );
+                sb.Append($"{Literals.NewLine}Help Link: ");
+                sb.Append(
+                    !string.IsNullOrWhiteSpace(HelpLink?.ToString())
+                        ? HelpLink.ToString()
+                        : Literals.NotApplicable
+                );
+
+                sb.Append($"{Literals.NewLine} ---- Data ---- ");
+                sb.Append(Data != null ? Data : Literals.NotApplicable);
+
+                return sb.ToString();
+            }
+            catch (Exception x)
+            {
+                return x.Message;
+            }
+        }
+
         public string ToDisplayString(string strAdditionalInformation)
         {
             try
@@ -396,11 +446,14 @@ namespace OpenSystem.Core.Domain.ResultCodes
             return base.GetHashCode() + (HelpLink + StackTrace).GetHashCode();
         }
 
-    public static IAggregateEventResult Failure(List<FieldValidationResult> fieldValidationResults, string v)
-    {
-      throw new NotImplementedException();
+        public static IAggregateEventResult Failure(
+            List<FieldValidationResult> fieldValidationResults,
+            string v
+        )
+        {
+            throw new NotImplementedException();
+        }
     }
-  }
 
     [Serializable]
     public class Result : Result<object>

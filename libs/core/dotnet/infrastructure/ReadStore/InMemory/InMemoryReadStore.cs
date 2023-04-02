@@ -102,7 +102,8 @@ namespace OpenSystem.Core.Infrastructure.ReadStores.InMemory
                     if (readModelContext.IsMarkedForDeletion)
                         _readModels.Remove(readModelId);
                     else
-                        _readModels[readModelId] = readModelUpdateResult.Data;
+                        _readModels[readModelId] =
+                            (ReadModelEnvelope<TReadModel>)readModelUpdateResult.Data;
                 }
             }
         }

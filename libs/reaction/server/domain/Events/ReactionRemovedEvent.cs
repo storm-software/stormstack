@@ -6,7 +6,7 @@ using OpenSystem.Reaction.Domain.Aggregates;
 
 namespace OpenSystem.Reaction.Domain.Events
 {
-    [EventVersion("ReactionRemovedEvent", 1)]
+    [EventVersion("ReactionRemoved", 1)]
     public class ReactionRemovedEvent
         : AggregateEvent<ReactionAggregate, ReactionId>,
             IAggregateEvent

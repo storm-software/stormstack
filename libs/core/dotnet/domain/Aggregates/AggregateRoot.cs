@@ -274,7 +274,7 @@ namespace OpenSystem.Core.Domain.Aggregates
                     );
             }
 
-            return ValueTask.FromResult(AggregateEventResult.Success());
+            return ValueTask.FromResult(AggregateEventResult.Success(Id, Version));
         }
 
         public override string ToString()

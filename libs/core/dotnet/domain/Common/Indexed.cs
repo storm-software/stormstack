@@ -1,9 +1,8 @@
 namespace OpenSystem.Core.Domain.Common
 {
-    public class Indexed<T> : IIndexed<T>
+    public class Indexed<TIdentity> : IIndexed<TIdentity>
+        where TIdentity : IIdentity
     {
-        public T Id { get; set; }
+        public IIdentity Id { get; set; }
     }
-
-    public class Indexed : Indexed<Guid>, IIndexed { }
 }

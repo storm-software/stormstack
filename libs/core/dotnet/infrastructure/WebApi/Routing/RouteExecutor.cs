@@ -126,10 +126,12 @@ namespace OpenSystem.Core.Infrastructure.Routing
                 );
 
             var result = await command.PublishAsync(_commandBus, httpContext.RequestAborted);
+            GetLogger(httpContext)
+                .LogDebug("Response received from command bus: {Message}", result);
             if (result?.Succeeded != true)
-                return HttpUtility.CreateProblem(httpContext, result as AggregateEventResult);
+                return HttpUtility.CreateProblem(httpContext, (Result?)result);
 
-            return HttpUtility.CreateOk(httpContext, result as IResult<object>);
+            return HttpUtility.CreateOk(httpContext, result);
         }
 
         private async ValueTask<IResult> HandleQueryAsync(

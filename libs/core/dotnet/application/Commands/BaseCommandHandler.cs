@@ -63,7 +63,7 @@ namespace OpenSystem.Core.Application.Commands
             return await MapResponseAsync(result);
         }
 
-        protected abstract ValueTask<IVersionedIndex> InnerHandleAsync(
+        protected abstract ValueTask<IVersionedIndex<IIdentity>> InnerHandleAsync(
             TAggregate entity,
             TRequest request,
             CancellationToken cancellationToken
@@ -77,11 +77,13 @@ namespace OpenSystem.Core.Application.Commands
             return ValueTask.FromResult<TAggregate>(Mapper.Map<TAggregate>(request));
         }
 
-        protected virtual ValueTask<IAggregateEventResult> MapResponseAsync(IVersionedIndex entity)
+        protected virtual ValueTask<IAggregateEventResult> MapResponseAsync(
+            IVersionedIndex<IIdentity> entity
+        )
         {
             return ValueTask.FromResult<IAggregateEventResult>(
                 AggregateEventResult.Success(
-                    new VersionedIndex { Id = entity.Id, Version = entity.Version }
+                    new VersionedIndex<IIdentity>(entity.Id, entity.Version)
                 )
             );
         }

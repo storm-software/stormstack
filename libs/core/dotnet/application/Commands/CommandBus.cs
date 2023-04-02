@@ -74,16 +74,6 @@ namespace OpenSystem.Core.Application.Commands
                 if (aggregateEventResult.DomainEvents.Any())
                 {
                     _logger.LogTrace(
-                        "Execution command {CommandType} with ID {CommandId} on aggregate {AggregateType} did NOT result in any domain events, was success: {IsSuccess}",
-                        command.GetType().PrettyPrint(),
-                        command.SourceId,
-                        typeof(TAggregate).PrettyPrint(),
-                        aggregateEventResult?.Succeeded
-                    );
-                }
-                else
-                {
-                    _logger.LogTrace(
                         "Execution command {CommandType} with ID {CommandId} on aggregate {AggregateType} resulted in these events: {EventTypes}, was success: {IsSuccess}",
                         command.GetType().PrettyPrint(),
                         command.SourceId,
@@ -91,6 +81,16 @@ namespace OpenSystem.Core.Application.Commands
                         aggregateEventResult.DomainEvents
                             .Select(d => d.EventType.PrettyPrint())
                             .ToList(),
+                        aggregateEventResult?.Succeeded
+                    );
+                }
+                else
+                {
+                    _logger.LogTrace(
+                        "Execution command {CommandType} with ID {CommandId} on aggregate {AggregateType} did NOT result in any domain events, was success: {IsSuccess}",
+                        command.GetType().PrettyPrint(),
+                        command.SourceId,
+                        typeof(TAggregate).PrettyPrint(),
                         aggregateEventResult?.Succeeded
                     );
                 }

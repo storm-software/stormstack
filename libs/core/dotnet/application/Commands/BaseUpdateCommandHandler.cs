@@ -22,7 +22,7 @@ namespace OpenSystem.Core.Application.Commands
         )
             : base(mapper, logger) { }
 
-        protected async override sealed ValueTask<IVersionedIndex> InnerHandleAsync(
+        protected async override sealed ValueTask<IVersionedIndex<IIdentity>> InnerHandleAsync(
             TAggregate entity,
             TRequest request,
             CancellationToken cancellationToken
@@ -33,7 +33,7 @@ namespace OpenSystem.Core.Application.Commands
 
             // await SaveChangesAsync(cancellationToken);
 
-            return (IVersionedIndex)entity;
+            return (IVersionedIndex<IIdentity>)entity;
         }
 
         protected virtual Task<TAggregate> HandleCommandAsync(

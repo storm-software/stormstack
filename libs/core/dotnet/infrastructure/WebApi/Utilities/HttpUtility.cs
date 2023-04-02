@@ -110,14 +110,26 @@ namespace OpenSystem.Core.Infrastructure.Utilities
             OpenSystem.Core.Domain.Common.IResult<object> result
         )
         {
-            SetOkResponseHeaders(context, result);
-            if (result?.Data is IVersioned versioned && versioned.Version == 1)
-                return Results.Created(
-                    versioned is IVersionedIndex versionedIndex
-                        ? $"{context.Request.Path}/{versionedIndex.Id}"
-                        : context.Request.Path,
-                    versioned.Version
-                );
+            SetOkResponseHeaders(context, result.Data);
+            return Results.Ok(result?.Data);
+        }
+
+        public static IResult CreateOk(HttpContext context, IAggregateEventResult result)
+        {
+            SetOkResponseHeaders(context, result.Data);
+            if (result?.Data is IVersionedIndex<IIdentity> versionedIndex)
+            {
+                var data = new Dictionary<string, object>
+                {
+                    { "id", versionedIndex.Id.Value },
+                    { "version", versionedIndex.Version }
+                };
+
+                if (versionedIndex.Version == 1)
+                    return Results.Created($"{context.Request.Path}/{versionedIndex.Id}", data);
+
+                return Results.Ok(data);
+            }
 
             return Results.Ok(result?.Data);
         }
@@ -355,16 +367,13 @@ namespace OpenSystem.Core.Infrastructure.Utilities
             context.Response.Headers.RequestId = HttpUtility.GetTraceId(context);
         }
 
-        private static void SetOkResponseHeaders(
-            HttpContext context,
-            OpenSystem.Core.Domain.Common.IResult<object>? result = null
-        )
+        private static void SetOkResponseHeaders(HttpContext context, object? data = null)
         {
-            if (result?.Data != null)
+            if (data != null)
             {
-                if (result.Data is IVersioned versioned)
+                if (data is IVersioned versioned)
                     context.Response.Headers.ETag = versioned.Version.ToString();
-                if (result.Data is IIndexed indexed)
+                if (data is IIndexed<IIdentity> indexed)
                     context.Response.Headers.Location = $"{context.Request.Path}/{indexed.Id}";
 
                 context.Response.Headers.LastModified = DateTimeOffset.UtcNow.ToString("G");

@@ -37,7 +37,7 @@ namespace OpenSystem.Reaction.Domain.Aggregates
 
             Emit(new ReactionAddedEvent(type));
 
-            return AggregateEventResult.Success();
+            return AggregateEventResult.Success(Id, Version);
         }
 
         public IAggregateEventResult RemoveReaction(ReactionTypes type)
@@ -59,7 +59,7 @@ namespace OpenSystem.Reaction.Domain.Aggregates
 
             Emit(new ReactionRemovedEvent(type));
 
-            return AggregateEventResult.Success();
+            return AggregateEventResult.Success(Id, Version);
         }
 
         public void Apply(ReactionAddedEvent @event)

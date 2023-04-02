@@ -92,7 +92,7 @@ namespace OpenSystem.Core.Domain.Aggregates
                     async (a, c) =>
                     {
                         await updateAggregate(a, c).ConfigureAwait(false);
-                        return AggregateEventResult.Success();
+                        return AggregateEventResult.Success(id, a.Version);
                     },
                     cancellationToken
                 )
@@ -291,7 +291,7 @@ namespace OpenSystem.Core.Domain.Aggregates
                     .ConfigureAwait(false);
             }
 
-            return AggregateEventResult.Success(domainEvents);
+            return AggregateEventResult.Success(aggregate.Id, aggregate.Version, domainEvents);
         }
     }
 }

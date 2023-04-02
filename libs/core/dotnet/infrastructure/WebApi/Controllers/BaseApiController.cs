@@ -27,21 +27,20 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
         /// Constructor method for BaseApiController
         /// </summary>
         /// <remarks>Constructor method to generate an instance of a BaseApiController</remarks>
-        public BaseApiController(ILogger<BaseApiController> logger,
-            IHttpContextAccessor context)
+        public BaseApiController(ILogger<BaseApiController> logger, IHttpContextAccessor context)
         {
-          if (context.HttpContext != null)
-          {
-            Context = context.HttpContext;
-            BaseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}";
-          }
-          else
-          {
-            BaseUrl = "http://localhost";
-          }
+            if (context.HttpContext != null)
+            {
+                Context = context.HttpContext;
+                BaseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}";
+            }
+            else
+            {
+                BaseUrl = "http://localhost";
+            }
 
-          Logger = logger;
-          Logger.LogInformation($"{Context?.Request.Host} is running");
+            Logger = logger;
+            Logger.LogInformation($"{Context?.Request.Host} is running");
         }
 
         /// <summary>
@@ -58,10 +57,10 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
         [Route("/status")]
         public async Task<IActionResult> Status()
         {
-          var status = $"Running on {Context?.Request.Host}";
+            var status = $"Running on {Context?.Request.Host}";
 
-          Logger.LogInformation(status);
-          return Ok(status);
+            Logger.LogInformation(status);
+            return Ok(status);
         }
 
         /// <summary>
@@ -78,67 +77,87 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
         [Route("/health-check")]
         public async Task<IActionResult> HealthCheck()
         {
-          var message = $"{Context?.Request.Host} is running at full health";
+            var message = $"{Context?.Request.Host} is running at full health";
 
-          Logger.LogInformation(message);
-          return Ok(message);
+            Logger.LogInformation(message);
+            return Ok(message);
         }
 
         /// <summary>
         /// Send request to the mediator
         /// </summary>
-        public async Task<TResponse> SendRequest<TResponse>(IRequest<TResponse> request,
-          CancellationToken cancellationToken)
+        public async Task<TResponse> SendRequest<TResponse>(
+            IRequest<TResponse> request,
+            CancellationToken cancellationToken
+        )
         {
-          if (_sender == null)
-          {
-            Logger.LogError($"Could not inject the mediator service into the API Controller during request '{Context?.Request.Path}'.");
-            var statusCodeResult = StatusCode(StatusCodes.Status500InternalServerError,
-              Result.Failure(typeof(ResultCodeApplication),
-              ResultCodeApplication.MissingMediator));
-          }
+            if (_sender == null)
+            {
+                Logger.LogError(
+                    $"Could not inject the mediator service into the API Controller during request '{Context?.Request.Path}'."
+                );
+                var statusCodeResult = StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    Result.Failure(
+                        typeof(ResultCodeApplication),
+                        ResultCodeApplication.MissingMediator
+                    )
+                );
+            }
 
-          Logger.LogInformation($"Sending {Context?.Request.Path} request to mediator");
+            Logger.LogInformation($"Sending {Context?.Request.Path} request to mediator");
 
-          return await _sender.Send<TResponse>(request,
-            cancellationToken);
-          /*if (ret.Failed)
-            return ret;*/
+            return await _sender.Send<TResponse>(request, cancellationToken);
+            /*if (ret.Failed)
+              return ret;*/
         }
 
         /// <summary>
         /// Send request to the mediator
         /// </summary>
-        public async ValueTask<IActionResult> SendRequestAsync<TResponse>(IRequest<Result<TResponse>> request,
-          CancellationToken cancellationToken)
+        public async ValueTask<IActionResult> SendRequestAsync<TResponse>(
+            IRequest<Result<TResponse>> request,
+            CancellationToken cancellationToken
+        )
         {
-          if (_sender == null)
-          {
-            Logger.LogError($"Could not inject the mediator service into the API Controller during request '{Context?.Request.Path}'.");
-            var statusCodeResult = StatusCode(StatusCodes.Status500InternalServerError,
-              Result.Failure(typeof(ResultCodeApplication),
-              ResultCodeApplication.MissingMediator));
-          }
+            if (_sender == null)
+            {
+                Logger.LogError(
+                    $"Could not inject the mediator service into the API Controller during request '{Context?.Request.Path}'."
+                );
+                var statusCodeResult = StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    Result.Failure(
+                        typeof(ResultCodeApplication),
+                        ResultCodeApplication.MissingMediator
+                    )
+                );
+            }
 
-          Logger.LogInformation($"Sending {request.GetType().Name} ({Context?.Request.Path}) request to mediator");
+            Logger.LogInformation(
+                $"Sending {request.GetType().Name} ({Context?.Request.Path}) request to mediator"
+            );
 
-          var ret = await _sender.Send<Result<TResponse>>(request,
-            cancellationToken);
-          if (ret.Failed)
-          {
-            Logger.LogError($"Failure occurred during {request.GetType().Name} ({Context?.Request.Path}) mediator request");
-            return BadRequest(ret);
-          }
+            var ret = await _sender.Send<Result<TResponse>>(request, cancellationToken);
+            if (ret.Failed)
+            {
+                Logger.LogError(
+                    $"Failure occurred during {request.GetType().Name} ({Context?.Request.Path}) mediator request"
+                );
+                return BadRequest(ret);
+            }
 
-          Logger.LogInformation($"Completed {request.GetType().Name} ({Context?.Request.Path})  mediator request");
+            Logger.LogInformation(
+                $"Completed {request.GetType().Name} ({Context?.Request.Path})  mediator request"
+            );
 
-          return Ok(ret.Data);
+            return Ok(ret.Data);
         }
 
         /// <summary>
         /// Send command request to the mediator
         /// </summary>
-        protected async ValueTask<IActionResult> SendCommandAsync(IRequest<Result<IIndexed>> request,
+        /*protected async ValueTask<IActionResult> SendCommandAsync(IRequest<Result<IIndexed>> request,
           CancellationToken cancellationToken)
         {
           if (_sender == null)
@@ -162,41 +181,58 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
           Logger.LogInformation($"Completed {request.GetType().Name} ({Context?.Request.Path})  mediator request");
 
           return Ok(ret.Data);
-        }
+        }*/
 
         /// <summary>
         /// Send command request to the mediator
         /// </summary>
-        protected async ValueTask<IActionResult> SendQueryAsync<TData>(IRequest<Result<TData>> request,
-          CancellationToken cancellationToken)
+        protected async ValueTask<IActionResult> SendQueryAsync<TData>(
+            IRequest<Result<TData>> request,
+            CancellationToken cancellationToken
+        )
         {
-          if (_sender == null)
-          {
-            Logger.LogError($"Could not inject the mediator service into the API Controller during request '{Context?.Request.Path}'.");
-            var statusCodeResult = StatusCode(StatusCodes.Status500InternalServerError,
-              Result.Failure(typeof(ResultCodeApplication),
-              ResultCodeApplication.MissingMediator));
-          }
+            if (_sender == null)
+            {
+                Logger.LogError(
+                    $"Could not inject the mediator service into the API Controller during request '{Context?.Request.Path}'."
+                );
+                var statusCodeResult = StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    Result.Failure(
+                        typeof(ResultCodeApplication),
+                        ResultCodeApplication.MissingMediator
+                    )
+                );
+            }
 
-          Logger.LogInformation($"Sending {request.GetType().Name} ({Context?.Request.Path}) request to mediator");
+            Logger.LogInformation(
+                $"Sending {request.GetType().Name} ({Context?.Request.Path}) request to mediator"
+            );
 
-          var ret = await _sender.Send<Result<TData>>(request,
-            cancellationToken);
-          if (ret.Failed)
-          {
-            Logger.LogError($"Failure occurred during {request.GetType().Name} ({Context?.Request.Path}) mediator request");
-            if (string.Equals(ret.Type,
-               typeof(ResultCodeApplication).FullName.ToString(),
-               StringComparison.CurrentCultureIgnoreCase) &&
-              ret.Code == ResultCodeApplication.NoResultsFound)
-              return NotFound(ret);
+            var ret = await _sender.Send<Result<TData>>(request, cancellationToken);
+            if (ret.Failed)
+            {
+                Logger.LogError(
+                    $"Failure occurred during {request.GetType().Name} ({Context?.Request.Path}) mediator request"
+                );
+                if (
+                    string.Equals(
+                        ret.Type,
+                        typeof(ResultCodeApplication).FullName.ToString(),
+                        StringComparison.CurrentCultureIgnoreCase
+                    )
+                    && ret.Code == ResultCodeApplication.NoResultsFound
+                )
+                    return NotFound(ret);
 
-            return BadRequest(ret);
-          }
+                return BadRequest(ret);
+            }
 
-          Logger.LogInformation($"Completed {request.GetType().Name} ({Context?.Request.Path})  mediator request");
+            Logger.LogInformation(
+                $"Completed {request.GetType().Name} ({Context?.Request.Path})  mediator request"
+            );
 
-          return Ok(ret.Data);
+            return Ok(ret.Data);
         }
     }
 }

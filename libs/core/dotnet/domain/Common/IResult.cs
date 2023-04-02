@@ -1,8 +1,8 @@
 namespace OpenSystem.Core.Domain.Common
 {
-    public interface IResult<T> : IBaseResult
+    public interface IResult<in T> : IBaseResult
     {
-        public T? Data { get; set; }
+        public object? Data { get; set; }
 
         public string? HelpLink { get; set; }
 

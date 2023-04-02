@@ -32,7 +32,7 @@ namespace OpenSystem.Core.Domain.Entities
             return !(a == b);
         }
 
-        public TEntityId Id { get; set; } = default!;
+        public IIdentity Id { get; set; } = default!;
 
         public ValueTask<Result> ValidateAsync()
         {

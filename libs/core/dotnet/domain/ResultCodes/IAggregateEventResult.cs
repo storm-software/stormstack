@@ -3,7 +3,7 @@ using OpenSystem.Core.Domain.Events;
 
 namespace OpenSystem.Core.Domain.ResultCodes
 {
-    public interface IAggregateEventResult : IResult<IVersionedIndex>
+    public interface IAggregateEventResult : IResult<IVersionedIndex<IIdentity>>
     {
         IReadOnlyCollection<IDomainEvent> DomainEvents { get; }
 
