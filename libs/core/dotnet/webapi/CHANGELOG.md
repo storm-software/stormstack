@@ -1,39 +1,35 @@
-# [1.9.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.8.0...core-dotnet-domain-v1.9.0) (2023-03-29)
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.7.0...core-dotnet-webapi-v1.8.0) (2023-03-29)
 
 
 ### Features
 
 * **core-dotnet-domain:** Event sourcing upgrades ([194f00b](https://github.com/sullivanpj/open-system/commit/194f00bd2a8b293d1f7ecefb6feccc265bdd981b))
+* **core-dotnet-infrastructure:** Added CQRS minimal API code ([6810da9](https://github.com/sullivanpj/open-system/commit/6810da9afa25cd6babacb5aabbc63d7e4f3aa62d))
 
-# [1.8.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.7.0...core-dotnet-domain-v1.8.0) (2023-03-26)
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.7.0...core-dotnet-webapi-v1.8.0) (2023-03-26)
 
 
 ### Features
 
 * **core-dotnet-infrastructure:** Added CQRS minimal API code ([6810da9](https://github.com/sullivanpj/open-system/commit/6810da9afa25cd6babacb5aabbc63d7e4f3aa62d))
 
-# [1.7.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.6.0...core-dotnet-domain-v1.7.0) (2023-03-20)
+# [1.7.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.6.0...core-dotnet-webapi-v1.7.0) (2023-03-19)
 
 
 ### Features
 
 * **core-dotnet-application:** Added CommandResult and BaseQueryHandler classes ([81bf7cd](https://github.com/sullivanpj/open-system/commit/81bf7cde1ac14797ad1d95656f75c44038501740))
 
-# [1.7.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.6.0...core-dotnet-domain-v1.7.0) (2023-03-19)
+# [1.6.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.5.0...core-dotnet-webapi-v1.6.0) (2023-03-13)
 
 
 ### Features
 
-* **core-dotnet-application:** Added CommandResult and BaseQueryHandler classes ([81bf7cd](https://github.com/sullivanpj/open-system/commit/81bf7cde1ac14797ad1d95656f75c44038501740))
-
-# [1.6.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.5.0...core-dotnet-domain-v1.6.0) (2023-03-13)
-
-
-### Features
-
+* **core-dotnet-domain:** Added ApplicationSettings and configuration parser ([69b35b2](https://github.com/sullivanpj/open-system/commit/69b35b261ea576baa0d3beed8eda25a741b53805))
+* **reaction-server-infrastructure:** Added code to generate migration scripts ([182208f](https://github.com/sullivanpj/open-system/commit/182208f42fdbd8f23ee747243519e232c8b07554))
 * **reaction-ui-data-access:** Updated the reaction request handler code ([aa449d9](https://github.com/sullivanpj/open-system/commit/aa449d94ce5f2e16992cfa453a92e20087f52cf2))
 
-# [1.5.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.4.0...core-dotnet-domain-v1.5.0) (2023-03-13)
+# [1.6.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.5.0...core-dotnet-webapi-v1.6.0) (2023-03-13)
 
 
 ### Features
@@ -41,42 +37,42 @@
 * **core-dotnet-domain:** Added ApplicationSettings and configuration parser ([69b35b2](https://github.com/sullivanpj/open-system/commit/69b35b261ea576baa0d3beed8eda25a741b53805))
 * **reaction-server-infrastructure:** Added code to generate migration scripts ([182208f](https://github.com/sullivanpj/open-system/commit/182208f42fdbd8f23ee747243519e232c8b07554))
 
-# [1.4.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.3.2...core-dotnet-domain-v1.4.0) (2023-03-09)
+# [1.5.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.4.2...core-dotnet-webapi-v1.5.0) (2023-03-09)
 
 
 ### Features
 
 * **core-server-application:** Added the BaseCommandHandler base class ([00c4b04](https://github.com/sullivanpj/open-system/commit/00c4b0419338f89fb15f750e523c0fec812eede7))
 
-## [1.3.2](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.3.1...core-dotnet-domain-v1.3.2) (2023-03-06)
+## [1.4.2](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.4.1...core-dotnet-webapi-v1.4.2) (2023-03-06)
 
 
 ### Bug Fixes
 
 * **web-shell:** Resolved issue with nextjs Dockerfile ([daabe80](https://github.com/sullivanpj/open-system/commit/daabe80fd0fdb0f5ff876daea40c4976ed43081e))
 
-## [1.3.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.3.0...core-dotnet-domain-v1.3.1) (2023-02-27)
+## [1.4.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.4.0...core-dotnet-webapi-v1.4.1) (2023-02-24)
 
 
 ### Bug Fixes
 
 * **reaction-server-infrastructure:** Added implementation for server reaction logic ([b27fe67](https://github.com/sullivanpj/open-system/commit/b27fe67d5ecd0fa0808d14db5116702c0015d128))
 
-## [1.3.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.3.0...core-dotnet-domain-v1.3.1) (2023-02-27)
-
-
-### Bug Fixes
-
-* **reaction-server-infrastructure:** Added implementation for server reaction logic ([b27fe67](https://github.com/sullivanpj/open-system/commit/b27fe67d5ecd0fa0808d14db5116702c0015d128))
-
-# [1.3.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.2.0...core-dotnet-domain-v1.3.0) (2023-02-21)
+# [1.4.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.3.1...core-dotnet-webapi-v1.4.0) (2023-02-21)
 
 
 ### Features
 
 * **apis-reaction:** Added initial server-side Reaction implementation ([3f95da5](https://github.com/sullivanpj/open-system/commit/3f95da5dc2dc46e53af7e1be5c9df1602c36e5ae))
 
-# [1.2.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.1.0...core-dotnet-domain-v1.2.0) (2023-02-19)
+## [1.3.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.3.0...core-dotnet-webapi-v1.3.1) (2023-02-20)
+
+
+### Bug Fixes
+
+* **apis-contact:** Minor changes to CORS settings ([a4fecf0](https://github.com/sullivanpj/open-system/commit/a4fecf0dbe3f210132009f2b20fa7ed3d2c92608))
+
+# [1.3.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.2.0...core-dotnet-webapi-v1.3.0) (2023-02-19)
 
 
 ### Bug Fixes
@@ -92,12 +88,18 @@
 * **tools-executors-dotnet:** Added the model-api-sync (request model) executor ([2384352](https://github.com/sullivanpj/open-system/commit/2384352aaa773baf864f49314226a12f59aeea73))
 * **tools-executors-dotnet:** Added the model-api-sync tool for CQRS models ([65f186a](https://github.com/sullivanpj/open-system/commit/65f186ae050c27f771b4d425f400e97317643b55))
 
-# [1.1.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.0.0...core-dotnet-domain-v1.1.0) (2023-02-03)
+# [1.2.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.1.0...core-dotnet-webapi-v1.2.0) (2023-02-03)
 
 
 ### Features
 
 * **portfolio-ui-feature-resume:** Added code to dynamically generate Resume PDF ([6fa4d83](https://github.com/sullivanpj/open-system/commit/6fa4d8388d890045b734fb1594250e546278b831))
+
+# [1.1.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-webapi-v1.0.0...core-dotnet-webapi-v1.1.0) (2023-02-01)
+
+
+### Features
+
 * **shared-ui-feature-pdf:** Added wrapper library for PDF generator/renderer ([5ddc724](https://github.com/sullivanpj/open-system/commit/5ddc724af3ae9ae7237452e71a3fae3d20f7a6b9))
 
 # 1.0.0 (2023-02-01)
@@ -136,6 +138,7 @@
 * Added design tokens and docs app ([5701388](https://github.com/sullivanpj/open-system/commit/57013885ad07dc9f0bced7a7a6e0f3073ded84a3))
 * Added tool libraries ([77c8553](https://github.com/sullivanpj/open-system/commit/77c8553bb6c4e2a7b265839a3e0a35a4d7e294da))
 * **apis-contact:** Added the Contact API and libraries ([3e6092a](https://github.com/sullivanpj/open-system/commit/3e6092a67254355bc759a5d0d7c9a37351f2039c))
+* **apis-gateway:** Added code for API gateway container and settings ([67edc66](https://github.com/sullivanpj/open-system/commit/67edc66b3cf8295665942536eebb0b76921434e3))
 * **apis-gateway:** Added initial implementation for API Gateway ([f465daa](https://github.com/sullivanpj/open-system/commit/f465daa42bc2e37009fc7fc1b741bd9adcb8781f))
 * **apis-reaction:** Added Reaction API server-side code (initial) ([76899d1](https://github.com/sullivanpj/open-system/commit/76899d1e162900eff3fd19347e1d0f00fda5383a))
 * **core-dotnet-webapi:** Added core code for server-side libraries ([54b7746](https://github.com/sullivanpj/open-system/commit/54b7746520b58e8a3d96cd27c555d16ec23fe6ec))

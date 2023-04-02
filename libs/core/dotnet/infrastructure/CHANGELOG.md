@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-infrastructure-v1.7.0...core-dotnet-infrastructure-v1.8.0) (2023-03-29)
+
+
+### Features
+
+* **core-dotnet-domain:** Event sourcing upgrades ([194f00b](https://github.com/sullivanpj/open-system/commit/194f00bd2a8b293d1f7ecefb6feccc265bdd981b))
+* **core-dotnet-infrastructure:** Added CQRS minimal API code ([6810da9](https://github.com/sullivanpj/open-system/commit/6810da9afa25cd6babacb5aabbc63d7e4f3aa62d))
+
 # [1.8.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-infrastructure-v1.7.0...core-dotnet-infrastructure-v1.8.0) (2023-03-26)
 
 
