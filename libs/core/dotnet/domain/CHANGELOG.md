@@ -5,6 +5,13 @@
 
 * upgrade react-router from 6.5.0 to 6.7.0 ([ed50a7c](https://github.com/sullivanpj/open-system/commit/ed50a7ce6d7c7fd4b707d852a33a5fe697257bb5))
 
+## [1.10.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.10.0...core-dotnet-domain-v1.10.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* upgrade react-router from 6.5.0 to 6.7.0 ([ed50a7c](https://github.com/sullivanpj/open-system/commit/ed50a7ce6d7c7fd4b707d852a33a5fe697257bb5))
+
 # [1.10.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.9.0...core-dotnet-domain-v1.10.0) (2023-04-03)
 
 
