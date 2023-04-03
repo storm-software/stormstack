@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.7.1...core-typescript-utilities-v1.7.2) (2023-04-03)
+
+
+### Bug Fixes
+
+* upgrade react-router from 6.5.0 to 6.7.0 ([ed50a7c](https://github.com/sullivanpj/open-system/commit/ed50a7ce6d7c7fd4b707d852a33a5fe697257bb5))
+
 ## [1.7.1](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.7.0...core-typescript-utilities-v1.7.1) (2023-04-03)
 
 
