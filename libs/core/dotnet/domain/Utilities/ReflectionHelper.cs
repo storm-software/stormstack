@@ -275,6 +275,32 @@ namespace OpenSystem.Core.Domain.Utilities
             return lambda.Compile();
         }
 
+        public static Delegate CompileConstructor<TResult>(
+            Type typeOfTResult,
+            List<object> methodSignature
+        )
+        {
+            var implTypes = methodSignature.Select(e => e.GetType()).ToArray();
+            var parameters = implTypes.Select(Expression.Parameter).ToArray();
+
+            var constructorArguments = new Expression[parameters.Length];
+            for (var i = 0; i < constructorArguments.Length; i++)
+            {
+                if (methodSignature[i] == null)
+                    constructorArguments[i] = parameters[i];
+                else
+                    constructorArguments[i] = Expression.Convert(parameters[i], implTypes[i]);
+            }
+
+            var constructor = typeOfTResult.GetConstructor(implTypes);
+            if (constructor == null)
+                constructor = typeOfTResult.GetConstructors()[0];
+
+            var body = Expression.New(constructor, constructorArguments);
+            var lambda = Expression.Lambda(body, parameters);
+            return lambda.Compile();
+        }
+
         /// <summary>
         /// Handles correct upcast. If no upcast was needed, then this could be exchanged to an <c>Expression.Call</c>
         /// and an <c>Expression.Lambda</c>.

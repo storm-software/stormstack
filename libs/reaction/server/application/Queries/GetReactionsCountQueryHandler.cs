@@ -8,8 +8,8 @@ using OpenSystem.Core.Domain.ResultCodes;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Application.Queries;
 using MediatR;
-using OpenSystem.Core.Domain.ReadStores;
-using OpenSystem.Reaction.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
+using OpenSystem.Reaction.Application.ReadStores;
 
 namespace OpenSystem.Reaction.Application.Queries
 {

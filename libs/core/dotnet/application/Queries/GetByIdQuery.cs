@@ -1,5 +1,5 @@
 using OpenSystem.Core.Application.Interfaces;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Core.Application.Queries

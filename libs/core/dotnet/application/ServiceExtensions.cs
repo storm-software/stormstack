@@ -10,18 +10,16 @@ using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.Settings;
 using OpenSystem.Core.Domain.Constants;
-using OpenSystem.Core.Application.Models;
 using MediatR.Pipeline;
 using OpenSystem.Core.Domain;
 using OpenSystem.Core.Domain.Enums;
 using System.Collections.Concurrent;
 using OpenSystem.Core.Application.Sagas;
 using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Domain.Jobs;
+using OpenSystem.Core.Application.Jobs;
 using OpenSystem.Core.Domain.Common;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using OpenSystem.Core.Domain.Snapshots;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Core.Application.Subscribers;
 using OpenSystem.Core.Application.Queries;
@@ -146,25 +144,19 @@ namespace OpenSystem.Core.Application
                 typeof(IEventUpgradeContextFactory),
                 typeof(EventUpgradeContextFactory)
             );
-            serviceCollection.AddSingleton(
-                typeof(IEventPersistence),
-                typeof(InMemoryEventPersistence)
-            );
             serviceCollection.AddTransient(typeof(ICommandBus), typeof(CommandBus));
-
             serviceCollection.AddTransient(typeof(IReadModelPopulator), typeof(ReadModelPopulator));
             serviceCollection.AddTransient(
                 typeof(IEventJsonSerializer),
                 typeof(EventJsonSerializer)
             );
-
             serviceCollection.AddTransient(typeof(IJobScheduler), typeof(InstantJobScheduler));
             serviceCollection.AddTransient(typeof(IJobRunner), typeof(JobRunner));
-
             serviceCollection.AddTransient(
                 typeof(IReadModelDomainEventApplier),
                 typeof(ReadModelDomainEventApplier)
             );
+            serviceCollection.AddTransient(typeof(IReadModelPopulator), typeof(ReadModelPopulator));
             serviceCollection.AddTransient(
                 typeof(ISerializedCommandPublisher),
                 typeof(SerializedCommandPublisher)
@@ -175,7 +167,18 @@ namespace OpenSystem.Core.Application
                 typeof(IDispatchToSubscriberResilienceStrategy),
                 typeof(NoDispatchToSubscriberResilienceStrategy)
             );
-
+            serviceCollection.AddTransient(
+                typeof(IDispatchToReadStoresResilienceStrategy),
+                typeof(NoDispatchToReadStoresResilienceStrategy)
+            );
+            serviceCollection.AddTransient(
+                typeof(IDispatchToReadStores),
+                typeof(DispatchToReadStores)
+            );
+            serviceCollection.AddTransient(
+                typeof(IReadModelDomainEventApplier),
+                typeof(ReadModelDomainEventApplier)
+            );
             serviceCollection.AddTransient(
                 typeof(IDispatchToEventSubscribers),
                 typeof(DispatchToEventSubscribers)

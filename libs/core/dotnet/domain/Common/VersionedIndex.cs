@@ -21,7 +21,7 @@ namespace OpenSystem.Core.Domain.Common
                 StringBuilder sb = new StringBuilder();
 
                 sb.Append($"Type: Versioned Index {Literals.NewLine}");
-                sb.Append($"Id: {Id} {Literals.NewLine}");
+                sb.Append($"Id: {Id.Value} {Literals.NewLine}");
                 sb.Append($"Version: {Version} {Literals.NewLine}");
 
                 return sb.ToString();

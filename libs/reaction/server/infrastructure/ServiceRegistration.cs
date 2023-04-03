@@ -12,20 +12,17 @@ using OpenSystem.Core.Domain.Constants;
 using AutoMapper;
 using OpenSystem.Core.Infrastructure.Persistence.Interceptors;
 using AutoMapper.EquivalencyExpression;
-using OpenSystem.Core.Infrastructure.ReadStores.InMemory;
-using OpenSystem.Core.Infrastructure.ReadStores.Extensions;
+using OpenSystem.Core.Infrastructure.ReadStores.InMemory.Extensions;
 using OpenSystem.Core.Application.Utilities;
 using OpenSystem.Reaction.Domain.Events;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Commands;
-using OpenSystem.Reaction.Domain.ReadStores;
+using OpenSystem.Reaction.Application.ReadStores;
 using OpenSystem.Core.Application.Extensions;
-using OpenSystem.Core.Application.Commands;
-using OpenSystem.Core.Application.Queries;
-using OpenSystem.Core.Infrastructure.EventStore.Extensions;
 using Microsoft.Extensions.Configuration;
 using OpenSystem.Core.Application;
 using OpenSystem.Core.Infrastructure.SnapshotPersistence.InMemory.Extensions;
+using OpenSystem.Core.Infrastructure.EventPersistence.EventStore.Extensions;
 
 namespace OpenSystem.Reaction.Infrastructure
 {

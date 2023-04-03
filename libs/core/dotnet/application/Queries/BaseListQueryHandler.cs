@@ -3,7 +3,7 @@ using OpenSystem.Core.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Application.Interfaces;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 
 namespace OpenSystem.Core.Application.Queries
 {

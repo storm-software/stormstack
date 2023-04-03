@@ -5,13 +5,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Patterns;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenSystem.Core.Application.Attributes;
 using OpenSystem.Core.Application.Enums;
 using OpenSystem.Core.Application.Interfaces;
 using OpenSystem.Core.Application.Models;
+using OpenSystem.Core.Domain.Constants;
+using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.Settings;
+using OpenSystem.Core.Domain.Utilities;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Infrastructure.ModelBinding
 {
@@ -33,22 +39,22 @@ namespace OpenSystem.Core.Infrastructure.ModelBinding
             return (T)await BindToAsync(context, typeof(T));
         }
 
-        internal static ValueTask<object> BindToAsync(this HttpContext context, Type type)
+        /*internal static ValueTask<object> BindToAsync(this HttpContext context, Type type)
         {
             var target = Activator.CreateInstance(type);
             if (target is null)
                 throw new InvalidOperationException(
                     $"Failed to create instance of type {type.FullName}"
                 );
-            return BindToAsync(context, type, target);
-        }
 
-        internal static async ValueTask<object> BindToAsync(
-            this HttpContext context,
-            Type type,
-            object target
-        )
+            return BindToAsync(context, type, target);
+        }*/
+
+        internal static async ValueTask<object> BindToAsync(this HttpContext context, Type type)
         {
+            var memoryCache = context.RequestServices.GetService<IMemoryCache>();
+            var log = context.RequestServices.GetService<ILoggerFactory>();
+
             if (!ParameterCache.TryGetValue(type, out var parameters) || parameters is null)
                 parameters = Build(
                     type,
@@ -56,16 +62,74 @@ namespace OpenSystem.Core.Infrastructure.ModelBinding
                     context.RequestServices.GetService<ObjectParserCollection>()
                 );
 
-            foreach (var property in parameters.QueryFilters)
+            object target = null;
+            try
             {
-                if (context.Request.Query.TryGetValue(property.Name, out var queryValue))
-                    property.SetValue(target, queryValue);
+                if (parameters.Identifiers.Any())
+                {
+                    var constructorParams = new List<object>();
+                    var constructorParamsNames = new List<string>();
+                    foreach (var property in parameters.Identifiers)
+                    {
+                        if (
+                            context.Request.RouteValues.TryGetValue(
+                                property.Name,
+                                out var routeValue
+                            )
+                        )
+                        {
+                            constructorParams.Add(routeValue);
+                            constructorParamsNames.Add(property.Name);
+                        }
+                    }
+
+                    if (constructorParams.Any())
+                    {
+                        var requestConstructor = memoryCache?.GetOrCreate(
+                            CacheKey.With(type, constructorParamsNames.ToArray()),
+                            e =>
+                            {
+                                e.AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1);
+                                return ReflectionHelper.CompileConstructor<object>(
+                                    type,
+                                    constructorParams
+                                );
+                            }
+                        );
+                        if (requestConstructor != null)
+                            target = requestConstructor?.DynamicInvoke(constructorParams.ToArray());
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                log?.CreateLogger("ModelBinder")
+                    .LogWarning(
+                        ex,
+                        "Failed to create instance of type {type} with the following identifier parameters: {Identifiers}. {NewLine}Will attempt to create instance without parameters.",
+                        type.FullName,
+                        string.Join(",", parameters.Identifiers.Select(x => x.Name).ToArray()),
+                        Literals.NewLine
+                    );
+            }
+
+            if (target == null)
+                target = Activator.CreateInstance(type);
+            if (target is null)
+                throw new InvalidOperationException(
+                    $"Failed to create instance of type {type.FullName}"
+                );
 
             foreach (var property in parameters.Identifiers)
             {
                 if (context.Request.RouteValues.TryGetValue(property.Name, out var routeValue))
                     property.SetValue(target, routeValue as string);
+            }
+
+            foreach (var property in parameters.QueryFilters)
+            {
+                if (context.Request.Query.TryGetValue(property.Name, out var queryValue))
+                    property.SetValue(target, queryValue);
             }
 
             if (parameters.ExpectFormBody && context.Request.HasFormContentType)

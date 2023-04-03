@@ -124,7 +124,6 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                     { "id", versionedIndex.Id.Value },
                     { "version", versionedIndex.Version }
                 };
-
                 if (versionedIndex.Version == 1)
                     return Results.Created($"{context.Request.Path}/{versionedIndex.Id}", data);
 

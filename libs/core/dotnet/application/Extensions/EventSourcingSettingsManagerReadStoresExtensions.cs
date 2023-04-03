@@ -5,7 +5,7 @@ using OpenSystem.Core.Application.Queries;
 using OpenSystem.Core.Application.Utilities;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Domain.Aggregates;
 
 namespace OpenSystem.Core.Application.Extensions

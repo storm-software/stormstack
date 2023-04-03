@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Application.Models;
 using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 
 namespace OpenSystem.Core.Application.Queries
 {

@@ -6,9 +6,7 @@ using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Domain.Aggregates;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Domain.Jobs;
 using OpenSystem.Core.Domain.Utilities;
-using OpenSystem.Core.Domain.ReadStores;
 using OpenSystem.Core.Domain.Settings;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Snapshots;
@@ -289,25 +287,12 @@ namespace OpenSystem.Core.Domain
                 typeof(IAggregateStoreResilienceStrategy),
                 typeof(NoAggregateStoreResilienceStrategy)
             );
-            serviceCollection.AddTransient(
-                typeof(IDispatchToReadStoresResilienceStrategy),
-                typeof(NoDispatchToReadStoresResilienceStrategy)
-            );
-            serviceCollection.AddTransient(
-                typeof(IDispatchToReadStores),
-                typeof(DispatchToReadStores)
-            );
             serviceCollection.AddTransient(typeof(IEventStore), typeof(BaseEventStore));
             serviceCollection.AddSingleton(
                 typeof(IEventUpgradeContextFactory),
                 typeof(EventUpgradeContextFactory)
             );
-            serviceCollection.AddSingleton(
-                typeof(IEventPersistence),
-                typeof(InMemoryEventPersistence)
-            );
             serviceCollection.AddTransient(typeof(IAggregateStore), typeof(AggregateStore));
-
             serviceCollection.AddTransient(typeof(ISnapshotStore), typeof(SnapshotStore));
             serviceCollection.AddTransient(typeof(ISnapshotSerializer), typeof(SnapshotSerializer));
 
@@ -315,32 +300,23 @@ namespace OpenSystem.Core.Domain
                 typeof(ISnapshotUpgradeService),
                 typeof(SnapshotUpgradeService)
             );
-
-            serviceCollection.AddTransient(typeof(IReadModelPopulator), typeof(ReadModelPopulator));
             serviceCollection.AddTransient(
                 typeof(IEventJsonSerializer),
                 typeof(EventJsonSerializer)
             );
             serviceCollection.AddSingleton(typeof(IJsonSerializer), typeof(BaseJsonSerializer));
             serviceCollection.AddTransient(typeof(IJsonOptions), typeof(JsonOptions));
-            serviceCollection.AddTransient(typeof(IJobScheduler), typeof(InstantJobScheduler));
-            serviceCollection.AddTransient(typeof(IJobRunner), typeof(JobRunner));
             serviceCollection.AddSingleton(
                 typeof(IEventUpgradeManager),
                 typeof(EventUpgradeManager)
             );
             serviceCollection.AddTransient(typeof(IAggregateFactory), typeof(AggregateFactory));
-            serviceCollection.AddTransient(
-                typeof(IReadModelDomainEventApplier),
-                typeof(ReadModelDomainEventApplier)
-            );
+
             serviceCollection.AddSingleton(typeof(IDomainEventFactory), typeof(DomainEventFactory));
             serviceCollection.TryAddTransient(
                 typeof(ITransientFaultHandler<>),
                 typeof(TransientFaultHandler<>)
             );
-            serviceCollection.AddSingleton(typeof(IReadModelFactory<>), typeof(ReadModelFactory<>));
-
             // Definition services
             serviceCollection.AddSingleton(
                 typeof(ISnapshotDefinitionService),

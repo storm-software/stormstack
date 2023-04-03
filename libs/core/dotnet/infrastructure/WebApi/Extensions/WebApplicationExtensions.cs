@@ -23,9 +23,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Extensions
             var filters = RouteFilterUtility.GetFilters(type);
             var handler = new RouteExecutor(type, filters);
             foreach (var item in RequestUtility.GetRequestTypes(type))
-            {
                 app.MapMethods(item.Template, item.SupportedMethods, handler.Handle);
-            }
 
             return app;
         }
@@ -69,9 +67,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Extensions
             var config = app.Services.GetRequiredService<IOptions<MediatorSettings>>().Value;
             assembly ??= config.Assembly;
             if (assembly is null)
-            {
                 throw new NullReferenceException(nameof(assembly));
-            }
 
             foreach (var type in assembly.GetTypes())
             {

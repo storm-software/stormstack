@@ -1,7 +1,7 @@
 using AutoMapper;
 using OpenSystem.Core.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 
 namespace OpenSystem.Core.Application.Queries
 {

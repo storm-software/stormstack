@@ -8,6 +8,8 @@ using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Core.Domain.Aggregates;
 using OpenSystem.Core.Domain.ValueObjects;
+using System.Text;
+using OpenSystem.Core.Domain.Constants;
 
 namespace OpenSystem.Core.Domain.Extensions
 {
@@ -40,6 +42,20 @@ namespace OpenSystem.Core.Domain.Extensions
         public static string GetCacheKey(this Type type)
         {
             return TypeCacheKeys.GetOrAdd(type, t => $"{t.PrettyPrint()}[hash: {t.GetHashCode()}]");
+        }
+
+        public static string GetCacheKey(this Type type, List<object> constructorParams)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(type.GetCacheKey());
+            foreach (var constructorParam in constructorParams)
+            {
+                sb.Append(Literals.FieldSeparator);
+                sb.Append(constructorParam.GetType().GetCacheKey());
+            }
+
+            return sb.ToString();
         }
 
         private static string PrettyPrintRecursive(Type type, int depth)

@@ -22,6 +22,7 @@ using OpenSystem.Reaction.Domain.Aggregates;
 using OpenSystem.Reaction.Domain.ValueObjects;
 using OpenSystem.Core.Application.Queries;
 using OpenSystem.Core.Domain.ValueObjects;
+using System.Text;
 
 namespace OpenSystem.Reaction.Application.Models
 {
@@ -29,7 +30,7 @@ namespace OpenSystem.Reaction.Application.Models
     /// Add Reaction
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
-    [AddCommand("/api/v1/reactions/{Id}")]
+    [AddCommand("/api/v1/reactions/{Id?}")]
     public class AddReactionCommand : Command<ReactionAggregate, ReactionId>
     {
         /// <summary>
@@ -42,13 +43,10 @@ namespace OpenSystem.Reaction.Application.Models
         public AddReactionRequest Payload { get; set; }
 
         public AddReactionCommand()
-            : base(Domain.ValueObjects.ReactionId.New) { }
+            : base(ReactionId.New) { }
 
-        public AddReactionCommand(ReactionId reactionId)
-            : base(reactionId) { }
-
-        public AddReactionCommand(ReactionId reactionId, CommandId sourceId)
-            : base(reactionId, sourceId) { }
+        public AddReactionCommand(string id)
+            : base(ReactionId.With(id)) { }
     }
 
     /// <summary>
@@ -107,6 +105,28 @@ namespace OpenSystem.Reaction.Application.Models
         /// </summary>
         [QueryFilter]
         public string? Type { get; set; }
+
+        public GetReactionsCountQuery()
+            : base() { }
+
+        public GetReactionsCountQuery(string id)
+        {
+            Id = id;
+        }
+
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("class GetReactionsCountQuery {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("}\n");
+            return sb.ToString();
+        }
     }
 
     /// <summary>

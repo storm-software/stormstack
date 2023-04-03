@@ -1,6 +1,6 @@
 using MediatR;
 using OpenSystem.Core.Domain.Common;
-using OpenSystem.Core.Domain.Jobs;
+using OpenSystem.Core.Application.Jobs;
 using OpenSystem.Core.Domain.Utilities;
 
 namespace OpenSystem.Core.Application.Commands

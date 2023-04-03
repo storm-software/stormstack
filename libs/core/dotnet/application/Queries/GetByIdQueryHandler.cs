@@ -1,4 +1,4 @@
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Application.Models;
 using AutoMapper;
 

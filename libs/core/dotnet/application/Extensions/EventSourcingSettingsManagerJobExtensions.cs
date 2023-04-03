@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Application.Utilities;
-using OpenSystem.Core.Domain.Jobs;
+using OpenSystem.Core.Application.Jobs;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace OpenSystem.Core.Application.Extensions

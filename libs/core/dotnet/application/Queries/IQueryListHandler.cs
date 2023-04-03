@@ -1,6 +1,6 @@
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Application.Models;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 
 namespace OpenSystem.Core.Application.Queries
 {

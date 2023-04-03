@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using OpenSystem.Core.Domain.Attributes;
 using OpenSystem.Core.Domain.Events;
-using OpenSystem.Core.Domain.Jobs;
+using OpenSystem.Core.Application.Jobs;
 
 namespace OpenSystem.Core.Application.Subscribers
 {

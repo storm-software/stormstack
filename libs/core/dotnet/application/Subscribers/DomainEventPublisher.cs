@@ -3,8 +3,8 @@ using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Application.Sagas;
 using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Domain.Jobs;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.Jobs;
+using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Domain.Settings;
 using OpenSystem.Core.Domain.Events;
 

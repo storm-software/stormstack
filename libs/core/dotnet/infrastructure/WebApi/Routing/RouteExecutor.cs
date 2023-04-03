@@ -12,7 +12,7 @@ using OpenSystem.Core.Application.Queries;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Constants;
 using OpenSystem.Core.Domain.Exceptions;
-using OpenSystem.Core.Domain.ReadStores;
+using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Infrastructure.ModelBinding;
 using OpenSystem.Core.Infrastructure.Utilities;
