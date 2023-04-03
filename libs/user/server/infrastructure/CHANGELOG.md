@@ -1,3 +1,11 @@
+## [1.11.1](https://github.com/sullivanpj/open-system/compare/user-server-infrastructure-v1.11.0...user-server-infrastructure-v1.11.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* upgrade @next/font from 13.0.5 to 13.1.2 ([098ad5b](https://github.com/sullivanpj/open-system/commit/098ad5bfe8875626943db9c66614c4eb245fe064))
+* upgrade react-router-dom from 6.5.0 to 6.7.0 ([3791f0b](https://github.com/sullivanpj/open-system/commit/3791f0bf834f072078cab8bada24d35565d62982))
+
 # [1.11.0](https://github.com/sullivanpj/open-system/compare/user-server-infrastructure-v1.10.0...user-server-infrastructure-v1.11.0) (2023-04-03)
 
 
