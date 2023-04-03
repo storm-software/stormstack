@@ -47,7 +47,7 @@ jobs:
         uses: nrwl/nx-set-shas@v3
 
       - name: "Install NPM Modules"
-        run: npm npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: "Prepare Design Tokens Build Tool (Pre-Build)"
         run: npx nx run tools-executors-typescript:build:design-tokens-build
