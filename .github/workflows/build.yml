@@ -25,16 +25,16 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
-      - name: "Configure git"
-        run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-
       - name: "Checkout"
         uses: actions/checkout@v3.0.2
         with:
           lfs: true
           fetch-depth: 0
+
+      - name: "Configure git"
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
       - name: "Install .NET Core SDK"
         uses: actions/setup-dotnet@v3.0.3
@@ -44,16 +44,16 @@ jobs:
         shell: pwsh
 
       - name: "Install NPM Modules"
-      - uses: nrwl/nx-set-shas@v3
-      - run: npm npm install --legacy-peer-deps
+        uses: nrwl/nx-set-shas@v3
+        run: npm npm install --legacy-peer-deps
 
       - name: "Build Repository Tools (Pre-Build)"
-      - run: npx nx run tools-executors-typescript:build:design-tokens-build
-      - run: npx nx run design-system-tokens:build:open-system
-      - run: npx nx run tools-executors-dotnet:build:build
+        run: npx nx run tools-executors-typescript:build:design-tokens-build
+        run: npx nx run design-system-tokens:build:open-system
+        run: npx nx run tools-executors-dotnet:build:build
 
       - name: "Build Repository Packages"
-      - run: npx nx affected -t build --parallel=5 --exclude=tools-asyncapi-rabbitmq,docs
+        run: npx nx affected -t build --parallel=5 --exclude=tools-asyncapi-rabbitmq,docs
 
 #      - name: "Publish Artefacts"
 #        uses: actions/upload-artifact@v3.1.0
