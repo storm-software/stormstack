@@ -6,8 +6,6 @@ on:
       - main
   pull_request:
 
-  workflow_dispatch:
-
 env:
   CI: true
   # Disable the .NET logo in the console output.
@@ -45,21 +43,18 @@ jobs:
         run: dotnet tool restore
         shell: pwsh
 
-      - name: "Install NPM Modules" 
+      - name: "Install NPM Modules"
       - uses: nrwl/nx-set-shas@v3
       - run: npm npm install --legacy-peer-deps
 
-      - name: "Build Repository Tools (Pre-Build)"      
+      - name: "Build Repository Tools (Pre-Build)"
       - run: npx nx run tools-executors-typescript:build:design-tokens-build
       - run: npx nx run design-system-tokens:build:open-system
       - run: npx nx run tools-executors-dotnet:build:build
 
-      - name: "Build Repository Packages" 
+      - name: "Build Repository Packages"
       - run: npx nx affected -t build --parallel=5 --exclude=tools-asyncapi-rabbitmq,docs
 
-      - name: "Release Repository Packages (Post-Build)" 
-      - run: npx nx affected -t semantic-release --parallel=5 --exclude=tools-asyncapi-rabbitmq,docs
- 
 #      - name: "Publish Artefacts"
 #        uses: actions/upload-artifact@v3.1.0
 #        with:
