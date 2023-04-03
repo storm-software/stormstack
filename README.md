@@ -2,19 +2,20 @@
 
 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries.
 
-[![github](https://img.shields.io/github/package-json/v/sullivanpj/open-system?style=for-the-badge)](https://git.devops.broadridge.net/FXL/tfs/7.5)
+[![github](https://img.shields.io/github/package-json/v/sullivanpj/open-system?style=for-the-badge)](https://github.com/sullivanpj/open-system)
 [![Nx](https://img.shields.io/badge/Nx-14.4.2-lightgrey?style=for-the-badge&logo=nx&logoWidth=20)](http://nx.dev/)
-[![.Net](https://img.shields.io/badge/.NET-4.7.2-blue?style=for-the-badge&logo=dotnet&logoWidth=20)](https://dotnet.microsoft.com/en-us/)
-[![TypesScript](https://img.shields.io/badge/TypeScript-4.5.2-informational?style=for-the-badge&logo=typescript&logoWidth=20)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18.2.0-9cf?style=for-the-badge&logo=react&logoWidth=20)](https://reactjs.org/)
+[![.Net Core](https://img.shields.io/badge/.NET-7.0.3-blue?style=for-the-badge&logo=dotnet&logoWidth=20)](https://dotnet.microsoft.com/en-us/)
 [![NextJs](https://img.shields.io/badge/Next.js-13.0.5-lightgrey?style=for-the-badge&logo=nextdotjs&logoWidth=20)](https://nextjs.org/)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.0-brightgreen?style=for-the-badge&logo=openapiinitiative&logoWidth=20)](https://www.openapis.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.0.24-9cf?style=for-the-badge&logo=tailwindcss&logoWidth=20)](https://tailwindcss.com/)
-[![formatted with prettier](https://img.shields.io/badge/formatted_with-prettier-ff69b4.svg?style=for-the-badge&logo=prettier)](https://prettier.io/)
 [![documented with docusaurus](https://img.shields.io/badge/documented_with-docusaurus-success.svg?style=for-the-badge&logo=readthedocs)](https://docusaurus.io/)
 [![codecov.io](https://img.shields.io/codecov/c/github/commitizen/cz-cli.svg?style=for-the-badge)](https://codecov.io/github/commitizen/cz-cli?branch=master)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint)](http://commitizen.github.io/cz-cli/)
 ![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge)
+
+<!--#if GitHubActions-->
+[![GitHub Actions Build History](https://buildstats.info/github/chart/sullivanpj/open-system?branch=main&includeBuildsFromPullRequest=false)](https://github.com/sullivanpj/open-system/actions)
+<!--#endif-->
 
 ## Getting started
 
