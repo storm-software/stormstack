@@ -203,7 +203,7 @@
     "mustache": "^4.2.0",
     "next-intl": "^2.11.0-beta.1",
     "next-redux-wrapper": "^8.1.0",
-    "next-seo": "^5.14.1",
+    "next-seo": "^6.0.0",
     "nookies": "^2.5.2",
     "nx": "15.6.3",
     "postcss": "^8.4.19",
