@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.AutoHistory" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-preview.2.23153.2" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.5.0" />
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.18.0" />
     <PackageReference Include="Ocelot" Version="18.0.0" />
