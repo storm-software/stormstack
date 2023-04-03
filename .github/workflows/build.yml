@@ -43,8 +43,10 @@ jobs:
         run: dotnet tool restore
         shell: pwsh
 
-      - name: "Install NPM Modules"
+      - name: "Set Nx Shas"
         uses: nrwl/nx-set-shas@v3
+
+      - name: "Install NPM Modules"
         run: npm npm install --legacy-peer-deps
 
       - name: "Build Repository Tools (Pre-Build)"
@@ -60,7 +62,6 @@ jobs:
 #        with:
 #          name: ${{matrix.os}}
 #          path: "./Artefacts"
-
 #if (Docker)
 #  docker:
 #    name: Docker-${{matrix.os}}
