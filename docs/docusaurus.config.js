@@ -19,7 +19,7 @@ const config = {
   trailingSlash: false,
   titleDelimiter: "🧪",
   plugins: [
-   /* [
+    /* [
       "docusaurus-plugin-typedoc-api",
       {
         projectRoot: path.join(__dirname, ".."),
@@ -75,9 +75,14 @@ const config = {
         // Plugin Options for loading OpenAPI files
         specs: [
           {
-            id: "Message-APIs",
-            spec: "libs/static/message/common/src/message.api-spec.json",
-            route: "/end-points/message/",
+            id: "Reaction-APIs",
+            spec: "libs/reaction/config/src/reaction.api-spec.json",
+            route: "/end-points/reaction/",
+          },
+          {
+            id: "Contact-APIs",
+            spec: "libs/contact/config/src/contact.api-spec.json",
+            route: "/end-points/contact/",
           },
         ],
         theme: {},
@@ -147,8 +152,12 @@ const config = {
             position: "left",
             items: [
               {
-                to: "/end-points/message",
-                label: "Message-APIs",
+                to: "/end-points/reaction",
+                label: "Reaction-APIs",
+              },
+              {
+                to: "/end-points/contact",
+                label: "Contact-APIs",
               },
             ],
           },
