@@ -49,9 +49,13 @@ jobs:
       - name: "Install NPM Modules"
         run: npm npm install --legacy-peer-deps
 
-      - name: "Build Repository Tools (Pre-Build)"
+      - name: "Prepare Design Tokens Build Tool (Pre-Build)"
         run: npx nx run tools-executors-typescript:build:design-tokens-build
+
+      - name: "Generate Design Tokens (Pre-Build)"
         run: npx nx run design-system-tokens:build:open-system
+
+      - name: "Prepare .NET Build Tool (Pre-Build)"
         run: npx nx run tools-executors-dotnet:build:build
 
       - name: "Build Repository Packages"
