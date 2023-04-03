@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/sullivanpj/open-system/compare/apis-user-v1.11.0...apis-user-v1.12.0) (2023-04-03)
+
+
+### Features
+
+* **core-dotnet-domain:** Added snapshot functionality ([1523087](https://github.com/sullivanpj/open-system/commit/1523087cf9c5691e04c1d80218cba41a25ab4df0))
+
 # [1.11.0](https://github.com/sullivanpj/open-system/compare/apis-user-v1.10.0...apis-user-v1.11.0) (2023-04-02)
 
 
