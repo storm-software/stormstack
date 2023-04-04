@@ -85,7 +85,7 @@
     "@mdx-js/react": "^1.6.21",
     "@next/font": "^13.2.4",
     "clsx": "^1.1.1",
-    "core-js": "^3.6.5",
+    "core-js": "^3.29.1",
     "dotenv": "^16.0.3",
     "inversify-react": "^1.0.2",
     "next": "13.1.1",
