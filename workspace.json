@@ -13,7 +13,9 @@
     "contact-ui-feature-form": "libs/contact/ui/feature-form",
     "core-dotnet-application": "libs/core/dotnet/application",
     "core-dotnet-domain": "libs/core/dotnet/domain",
+    "core-dotnet-event-store": "libs/core/dotnet/event-store",
     "core-dotnet-infrastructure": "libs/core/dotnet/infrastructure",
+    "core-dotnet-serilog": "libs/core/dotnet/serilog",
     "core-typescript-utilities": "libs/core/typescript/utilities",
     "design-system-components": "design-system/components",
     "design-system-tokens": "design-system/tokens",
@@ -48,6 +50,9 @@
     "user-ui-data-access": "libs/user/ui/data-access",
     "web-blog": "apps/web/blog",
     "web-contact": "apps/web/contact",
-    "web-shell": "apps/web/shell"
+    "web-shell": "apps/web/shell",
+    "core-dotnet-api": "libs/core/dotnet/api",
+    "core-dotnet-open-telemetry": "libs/core/dotnet/open-telemetry",
+    "core-dotnet-entity-framework": "libs/core/dotnet/entity-framework"
   }
 }

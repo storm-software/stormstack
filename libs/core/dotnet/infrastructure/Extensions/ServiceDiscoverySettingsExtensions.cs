@@ -1,4 +1,4 @@
-using OpenSystem.Core.Domain.Settings;
+/*using OpenSystem.Core.Domain.Settings;
 using Consul;
 using Ocelot;
 using Ocelot.Provider.Consul;
@@ -103,3 +103,4 @@ namespace OpenSystem.Core.Infrastructure.Extensions
         }
     }
 }
+*/

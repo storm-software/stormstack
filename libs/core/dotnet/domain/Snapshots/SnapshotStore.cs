@@ -7,7 +7,9 @@ namespace OpenSystem.Core.Domain.Snapshots
     public class SnapshotStore : ISnapshotStore
     {
         private readonly ILogger<SnapshotStore> _logger;
+
         private readonly ISnapshotSerializer _snapshotSerializer;
+
         private readonly ISnapshotPersistence _snapshotPersistence;
 
         public SnapshotStore(

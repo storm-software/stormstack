@@ -8,13 +8,13 @@ using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Infrastructure.Mappings;
 using System.Globalization;
-using CsvHelper;
+//using CsvHelper;
 using OpenSystem.Core.Application.Services;
 using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
-    public class CsvFileExportService : BaseFileExportService, ICsvFileExportService
+   /* public class CsvFileExportService : BaseFileExportService, ICsvFileExportService
     {
         public new CsvFileExportServiceSettings Settings { get; set; }
 
@@ -54,5 +54,5 @@ namespace OpenSystem.Core.Infrastructure.Services
                 );
             }
         }
-    }
+    }*/
 }

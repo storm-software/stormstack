@@ -1,7 +1,5 @@
 using System.Reflection;
-using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Application.Sagas
 {
@@ -75,7 +73,9 @@ namespace OpenSystem.Core.Application.Sagas
         }
 
         public Type SagaType { get; }
+
         public Type SagaLocatorType { get; }
+
         public IReadOnlyCollection<Type> AggregateEventTypes { get; }
 
         public bool IsStartedBy(Type aggregateEventType)

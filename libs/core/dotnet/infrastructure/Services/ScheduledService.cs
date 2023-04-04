@@ -4,11 +4,12 @@ using Microsoft.Extensions.Options;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Settings;
-using Quartz;
+
+//using Quartz;
 
 namespace OpenSystem.Core.Infrastructure.Services
 {
-    public abstract class ScheduledService : BackgroundService
+    /*public abstract class ScheduledService : BackgroundService
     {
         public ScheduledServiceSettings Settings { get; }
 
@@ -85,5 +86,5 @@ namespace OpenSystem.Core.Infrastructure.Services
                   stoppingToken);
             }
         }
-    }
+    }*/
 }

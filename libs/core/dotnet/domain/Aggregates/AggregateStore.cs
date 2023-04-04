@@ -125,12 +125,10 @@ namespace OpenSystem.Core.Domain.Aggregates
                         var aggregate = await LoadAsync<TAggregate, TIdentity>(id, c)
                             .ConfigureAwait(false);
                         if (aggregate.HasSourceId(sourceId))
-                        {
                             throw new GeneralProcessingException(
                                 ResultCodeApplication.DuplicateOperation,
                                 $"Aggregate '{typeof(TAggregate).PrettyPrint()}' has already had operation '{sourceId}' performed"
                             );
-                        }
 
                         cancellationToken = _cancellationConfiguration.Limit(
                             cancellationToken,

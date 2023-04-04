@@ -2,7 +2,7 @@ using AutoMapper;
 using MediatR;
 using OpenSystem.Core.Domain.Entities;
 using OpenSystem.Core.Domain.ResultCodes;
-using OpenSystem.Core.Domain.Repositories;
+using OpenSystem.Core.Application.Repositories;
 using OpenSystem.Core.Domain.Common;
 using Microsoft.Extensions.Logging;
 using OpenSystem.Core.Application.Interfaces;
