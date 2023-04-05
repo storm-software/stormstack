@@ -1,6 +1,6 @@
 using OpenSystem.Core.Application.Enums;
 
-namespace OpenSystem.Core.Application.Attributes
+namespace OpenSystem.Core.Application.Mediator.Attributes
 {
     /// <summary>
     /// Bind property value from form content.

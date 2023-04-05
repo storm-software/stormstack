@@ -7,7 +7,7 @@
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
  */
 
-using System;
+/*using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -198,6 +198,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
             request.ContentId = contentId;
             return await SendCommandAsync(request,
               cancellationToken);
-        }*/
+        }
     }
 }
+*/

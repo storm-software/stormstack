@@ -1,5 +1,5 @@
 using System.Reflection;
-using OpenSystem.Core.Application.Attributes;
+using OpenSystem.Core.Application.Mediator.Attributes;
 
 namespace OpenSystem.Core.Application.Utilities
 {

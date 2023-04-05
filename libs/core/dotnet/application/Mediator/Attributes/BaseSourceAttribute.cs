@@ -1,7 +1,7 @@
 using OpenSystem.Core.Application.Enums;
 using OpenSystem.Core.Domain.Common;
 
-namespace OpenSystem.Core.Application.Attributes
+namespace OpenSystem.Core.Application.Mediator.Attributes
 {
     /// <summary>
     /// Bind property value to request body.

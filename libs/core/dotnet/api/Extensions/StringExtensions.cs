@@ -1,5 +1,5 @@
+using System.Text.Json;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json.Linq;
 
 namespace OpenSystem.Core.Api.Extensions
 {
@@ -15,7 +15,7 @@ namespace OpenSystem.Core.Api.Extensions
             {
                 try
                 {
-                    var obj = JToken.Parse(text);
+                    using var obj = JsonDocument.Parse(text);
                     return true;
                 }
                 catch (Exception)
@@ -33,8 +33,8 @@ namespace OpenSystem.Core.Api.Extensions
         {
             try
             {
-                var obj = JToken.Parse(text);
-                return (true, obj.ToString());
+                using var obj = JsonDocument.Parse(text);
+                return (true, obj != null ? obj.ToString() : string.Empty);
             }
             catch (Exception)
             {

@@ -53,6 +53,7 @@
     "web-shell": "apps/web/shell",
     "core-dotnet-api": "libs/core/dotnet/api",
     "core-dotnet-open-telemetry": "libs/core/dotnet/open-telemetry",
-    "core-dotnet-entity-framework": "libs/core/dotnet/entity-framework"
+    "core-dotnet-entity-framework": "libs/core/dotnet/entity-framework",
+    "reaction-dotnet": "libs/reaction/dotnet"
   }
 }

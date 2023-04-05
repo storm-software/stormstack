@@ -3,20 +3,6 @@
   Use it to set default property values that can be overridden in specific projects.
 -->
 <Project>
-  <!--#if (AuthoringMode)-->
-  <PropertyGroup>
-    <!-- Workaround to build this project: https://github.com/dotnet/templating/issues/1438 -->
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <DotnetFramework>false</DotnetFramework>
-    <EditorConfig>true</EditorConfig>
-    <ImplicitUsings>true</ImplicitUsings>
-    <MIT>true</MIT>
-    <Nullable>true</Nullable>
-    <StyleCop>true</StyleCop>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <!--#endif-->
-
   <PropertyGroup>
     <!-- Output path configuration -->
     <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</RepoRoot>
@@ -24,29 +10,8 @@
     <BaseOutputPath>$(RepoRoot)dist/$(ProjectRelativePath)</BaseOutputPath>
     <OutputPath>$(BaseOutputPath)</OutputPath>
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Build">
-    <LangVersion>latest</LangVersion>
-    <EnforceCodeStyleInBuild Condition="'$(EditorConfig)' == 'true'">true</EnforceCodeStyleInBuild>
-    <AnalysisLevel>latest</AnalysisLevel>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors Condition="'$(TreatWarningsAsErrors)' == 'true'">true</TreatWarningsAsErrors>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Package">
-    <Authors>Pat Sullivan</Authors>
-    <Company>Pat Sullivan Development</Company>
-    <Copyright>Copyright © 2023. Pat Sullivan Development. All rights Reserved</Copyright>
-    <PackageRequireLicenseAcceptance Condition="'$(License)' != 'None'">true</PackageRequireLicenseAcceptance>
-    <PackageLicenseExpression Condition="'$(MIT)' == 'true'">BSD</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/sullivanpj/open-system</PackageProjectUrl>
-    <PackageIcon>Icon.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/sullivanpj/open-system.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>https://github.com/sullivanpj/open-system/releases</PackageReleaseNotes>
   </PropertyGroup>
 </Project>

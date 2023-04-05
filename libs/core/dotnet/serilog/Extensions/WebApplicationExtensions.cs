@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using OpenSystem.Core.Domain.Constants;
-using OpenSystem.Core.Domain.Settings;
+using Serilog.AspNetCore;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 

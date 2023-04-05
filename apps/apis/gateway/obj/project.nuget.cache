@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5b10ZVYjjD5KL293yJgtO4YLqyadiQ4RDfCfhvIZgqwHNNlN698m7FTUCrNSCOpwyDNRjG5vnnz2PQvLTgIH1A==",
+  "dgSpecHash": "VtMRt65f94ZbZLKQZCOc8cJ1wHIH3MDZYE3YRfK7XXoJhtDNaqeMXWu3Cof+7JBhhfHmGDGL9T261X7LuZreag==",
   "success": true,
   "projectFilePath": "c:\\Development\\open-system\\apps\\apis\\gateway\\OpenSystem.Apis.Gateway.csproj",
   "expectedPackageFiles": [
@@ -22,7 +22,7 @@
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\6.0.1\\microsoft.aspnetcore.jsonpatch.6.0.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.aspnetcore.middlewareanalysis\\6.0.1\\microsoft.aspnetcore.middlewareanalysis.6.0.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\6.0.1\\microsoft.aspnetcore.mvc.newtonsoftjson.6.0.1.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.2\\microsoft.aspnetcore.openapi.7.0.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.4\\microsoft.aspnetcore.openapi.7.0.4.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.7\\microsoft.entityframeworkcore.6.0.7.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.7\\microsoft.entityframeworkcore.abstractions.6.0.7.nupkg.sha512",

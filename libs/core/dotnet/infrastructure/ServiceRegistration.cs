@@ -2,19 +2,113 @@
 using OpenSystem.Core.Application.Services;
 using OpenSystem.Core.Infrastructure.Services;
 using OpenSystem.Core.Domain.Settings;
-using OpenSystem.Core.Infrastructure.Service;
 using System.Reflection;
 using OpenSystem.Core.Application.Models;
-using OpenSystem.Core.Application.Utilities;
+using OpenSystem.Core.Application.Commands.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using OpenSystem.Core.Application.Jobs;
+using OpenSystem.Core.Application.ReadStores;
+using OpenSystem.Core.Domain.Events;
+using OpenSystem.Core.Infrastructure.Publishers;
+using OpenSystem.Core.Application.Commands;
+using OpenSystem.Core.Application.Sagas;
+using OpenSystem.Core.Infrastructure.Jobs;
+using OpenSystem.Core.Application.Publishers;
+using OpenSystem.Core.Infrastructure.Sagas;
+using OpenSystem.Core.Application.Queries;
+using OpenSystem.Core.Domain;
+using OpenSystem.Core.Application.Subscribers.Extensions;
+using OpenSystem.Core.Application.Mediator.Extensions;
+using OpenSystem.Core.Infrastructure.Jobs.Extensions;
+using OpenSystem.Core.Domain.Snapshots;
+using OpenSystem.Core.Domain.Utilities;
+using OpenSystem.Core.Domain.Aggregates;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using OpenSystem.Core.Application.Sagas.Extensions;
 
 namespace OpenSystem.Core.Infrastructure
 {
     public static class ServiceRegistration
     {
-        public static IServiceCollection AddEventSourcing(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddEventSourcing(
+            this IServiceCollection serviceCollection,
+            Assembly fromAssembly,
+            bool useDefaults = false
+        )
         {
-            serviceCollection.AddDomainDefaults();
+            if (useDefaults)
+                serviceCollection.AddEventSourcingDefaults();
+
+            serviceCollection
+                .AddCommands(fromAssembly)
+                .AddCommandHandlers(fromAssembly)
+                .AddEvents(fromAssembly)
+                .AddEventUpgraders(fromAssembly)
+                .AddSubscribers(fromAssembly)
+                .AddSnapshots(fromAssembly)
+                .AddJobs(fromAssembly)
+                .AddSagas(fromAssembly);
+
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddEventSourcingDefaults(
+            this IServiceCollection serviceCollection
+        )
+        {
+            serviceCollection.AddMemoryCache();
+
+            serviceCollection.AddSnapshots(Assembly.GetExecutingAssembly());
+            serviceCollection.AddSnapshotUpgraders(Assembly.GetExecutingAssembly());
+
+            // Default no-op resilience strategies
+            serviceCollection.AddTransient(
+                typeof(IOptimisticConcurrencyRetryStrategy),
+                typeof(OptimisticConcurrencyRetryStrategy)
+            );
+            serviceCollection.AddTransient(
+                typeof(IAggregateStoreResilienceStrategy),
+                typeof(NoAggregateStoreResilienceStrategy)
+            );
+            serviceCollection.AddTransient(typeof(IEventStore), typeof(BaseEventStore));
+            serviceCollection.AddSingleton(
+                typeof(IEventUpgradeContextFactory),
+                typeof(EventUpgradeContextFactory)
+            );
+            serviceCollection.AddTransient(typeof(IAggregateStore), typeof(AggregateStore));
+            serviceCollection.AddTransient(typeof(ISnapshotStore), typeof(SnapshotStore));
+            serviceCollection.AddTransient(typeof(ISnapshotSerializer), typeof(SnapshotSerializer));
+
+            serviceCollection.AddTransient(
+                typeof(ISnapshotUpgradeService),
+                typeof(SnapshotUpgradeService)
+            );
+            serviceCollection.AddTransient(
+                typeof(IEventJsonSerializer),
+                typeof(EventJsonSerializer)
+            );
+            serviceCollection.AddSingleton(typeof(IJsonSerializer), typeof(BaseJsonSerializer));
+            serviceCollection.AddTransient(typeof(IJsonOptions), typeof(JsonOptions));
+            serviceCollection.AddSingleton(
+                typeof(IEventUpgradeManager),
+                typeof(EventUpgradeManager)
+            );
+            serviceCollection.AddTransient(typeof(IAggregateFactory), typeof(AggregateFactory));
+
+            serviceCollection.AddSingleton(typeof(IDomainEventFactory), typeof(DomainEventFactory));
+            serviceCollection.TryAddTransient(
+                typeof(ITransientFaultHandler<>),
+                typeof(TransientFaultHandler<>)
+            );
+            // Definition services
+            serviceCollection.AddSingleton(
+                typeof(ISnapshotDefinitionService),
+                typeof(SnapshotDefinitionService)
+            );
+            serviceCollection.AddSingleton(
+                typeof(IEventDefinitionService),
+                typeof(EventDefinitionService)
+            );
 
             // Default no-op resilience strategies
             serviceCollection.AddTransient(
@@ -104,9 +198,9 @@ namespace OpenSystem.Core.Infrastructure
         public static void AddServiceInfrastructure(this IServiceCollection services)
         {
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-            services.AddTransient<ICurrentUserService, CurrentUserService>();
-            services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<ICsvFileExportService, CsvFileExportService>();
+            //services.AddTransient<ICurrentUserService, CurrentUserService>();
+            //services.AddTransient<IEmailService, EmailService>();
+            //services.AddTransient<ICsvFileExportService, CsvFileExportService>();
 
             /*services.AddTransient<IIdentityService,
               IdentityService>();*/
@@ -121,24 +215,24 @@ namespace OpenSystem.Core.Infrastructure
                .AddIdentity<ApplicationUser, IdentityRole>()
                .AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<ApplicationDbContext>();
- 
+
              services.AddIdentityServer(options =>
              {
                  options.UserInteraction.LoginUrl = "/user/login";
                  options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
- 
+
                  options.UserInteraction.LogoutUrl = "/user/logout";
- 
+
                  options.UserInteraction.ConsentUrl = "/user/login/consent";
                  options.UserInteraction.ConsentReturnUrlParameter = "returnUrl";
- 
+
                  options.UserInteraction.ErrorUrl = "/user/login/access-denied";
                  options.UserInteraction.ErrorIdParameter = "errorId";
- 
+
                  options.UserInteraction.DeviceVerificationUrl = "/user/login/device-verification";
              })
                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
- 
+
              services
                  .AddAuthentication()
                  .AddGoogle(options =>
@@ -164,19 +258,19 @@ namespace OpenSystem.Core.Infrastructure
                      microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                      microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
                  }).AddIdentityServerJwt();
- 
+
              services.ConfigureApplicationCookie(options =>
              {
                  options.LoginPath = new PathString("/user/login");
                  options.LogoutPath = new PathString("/user/logout");
                  //options.ReturnUrlParameter = new PathString("/user");
                  options.AccessDeniedPath = new PathString("/user/login/access-denied");
- 
+
                  /*options.SlidingExpiration = true;
- 
+
                  options.Cookie.HttpOnly = true;
                  options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
- 
+
                  options.Events = new CookieAuthenticationEvents
                  {
                      OnRedirectToLogin = x =>
@@ -186,7 +280,7 @@ namespace OpenSystem.Core.Infrastructure
                      }
                  };
              });
- 
+
              services.AddAuthorization(
                  options =>
                      options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator"))

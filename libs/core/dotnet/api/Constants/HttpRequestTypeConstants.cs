@@ -1,6 +1,4 @@
-
-
-namespace OpenSystem.Core.Infrastructure.WebApi.Constants
+namespace OpenSystem.Core.Api.Constants
 {
     public class HttpRequestTypeConstants
     {

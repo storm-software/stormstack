@@ -1,45 +1,16 @@
-using System;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
-using OpenSystem.Reaction.Application;
-using OpenSystem.Core.Application.Services;
-using OpenSystem.Core.Infrastructure.WebApi.Services;
-using OpenSystem.Core.Infrastructure.Extensions;
-using OpenSystem.Core.Infrastructure;
-using OpenSystem.Reaction.Infrastructure;
-// using OpenSystem.Reaction.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 using OpenSystem.Core.Application;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using HealthChecks.UI.Client;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
-using OpenSystem.Core.Infrastructure.WebApi.Filters;
 using System.Reflection;
-using Microsoft.AspNetCore.HttpLogging;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Threading.Tasks;
-using OpenSystem.Reaction.Application.Models.DTOs;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.ComponentModel.DataAnnotations;
-using OpenSystem.Core.Domain.Common;
-using System.Threading;
-using OpenSystem.Reaction.Application.Models;
 using System.Text.Json;
-using OpenSystem.Core.Infrastructure.WebApi.Extensions;
-using OpenSystem.Core.Infrastructure.Logging;
+using OpenSystem.Core.Api.Extensions;
+using OpenSystem.Core.Serilog.Extensions;
+using OpenSystem.Reaction;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 
 const string SERVICE_NAME = "ReactionService.Api";
 
@@ -94,9 +65,12 @@ try
 
     builder.Services.AddProblemDetails();
 
-    builder.Services.AddReactionApplicationLayer();
-    builder.Services.AddReactionPersistenceInfrastructure(builder.Configuration);
-    builder.Services.AddReactionServiceInfrastructure(appSettings);
+    builder.Services.AddCoreMiddleware();
+
+    builder.Services.AddReactionServices(builder.Configuration);
+
+    //builder.Services.AddReactionPersistenceInfrastructure(builder.Configuration);
+    //builder.Services.AddReactionServiceInfrastructure(appSettings);
 
     /*builder.Services.AddSwaggerGen(c =>
     {
@@ -174,27 +148,25 @@ try
 
     //builder.Services.AddControllersExtension();
 
-    builder.Services.Configure<JsonOptions>(options =>
+    /*builder.Services.Configure<JsonOptions>(options =>
     {
         options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    });
-
-    builder.Services.AddMediator(Assembly.GetExecutingAssembly());
+    });*/
 
     // CORS
-    builder.Services.AddCorsExtension();
-    builder.Services.AddHealthChecks();
+
+    // builder.Services.AddHealthChecks();
 
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-    builder.Services.AddHttpContextAccessor();
+    //builder.Services.AddHttpContextAccessor();
 
     //API Security
-    builder.Services.AddJWTAuthentication(builder.Configuration);
-    builder.Services.AddAuthorizationPolicies(builder.Configuration);
+    //builder.Services.AddJWTAuthentication(builder.Configuration);
+    //builder.Services.AddAuthorizationPolicies(builder.Configuration);
 
     // Add Anti-CSRF/XSRF services
-    builder.Services.AddAntiforgery();
+    // builder.Services.AddAntiforgery();
 
     // API version
     //builder.Services.AddApiVersioningExtension();
@@ -214,7 +186,7 @@ try
 
     var app = builder.Build();
 
-    app.UseSecurityInfrastructure().UseSerilogLogging();
+    app.UseCoreMiddleware().UseSerilogLogging();
 
     /*var versionSet = app.NewApiVersionSet()
       .HasApiVersion(new ApiVersion(1, 0))
@@ -288,9 +260,9 @@ try
             .AllowCredentials();
     });
 
-    app.UseAntiforgery();
+    //app.UseAntiforgery();
     //app.UseIdentityServer();
-    app.UseAuthorization();
+    //app.UseAuthorization();
 
     app.UseCoreMiddleware();
 
@@ -305,7 +277,7 @@ try
     // app.UseHttpLogging();
     // app.UseW3CLogging();
 
-    app.UseHealthChecks(
+    /*app.UseHealthChecks(
         "/health-check",
         new HealthCheckOptions
         {
@@ -318,7 +290,7 @@ try
                 [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable,
             },
         }
-    );
+    );*/
 
     /*var group = app.MapGroup("/api/v1/reactions")
         .AddEndPointRequestHandlers()
@@ -326,7 +298,7 @@ try
         //.WithOpenApi()
         .WithTags("v{version:apiVersion}");*/
 
-    app.MapAllRequests(Assembly.Load("OpenSystem.Reaction.Application"));
+    app.MapAllRequests(Assembly.Load("OpenSystem.Reaction"));
 
     app.Run();
 
@@ -343,6 +315,8 @@ try
 }
 catch (Exception ex)
 {
+    Console.WriteLine(ex.Message);
+    Console.WriteLine(ex.StackTrace);
     Log.Fatal(ex, $"An error occurred starting {SERVICE_NAME}");
 }
 finally

@@ -1,4 +1,4 @@
-using OpenSystem.Core.Application.Attributes;
+using OpenSystem.Core.Application.Commands.Attributes;
 using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ValueObjects;
 

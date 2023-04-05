@@ -6,6 +6,7 @@ using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ValueObjects;
 using OpenSystem.Core.Application.Sagas;
 using OpenSystem.Core.Application.Publishers;
+using OpenSystem.Core.Infrastructure.Sagas;
 
 namespace OpenSystem.Core.Infrastructure.Publishers
 {

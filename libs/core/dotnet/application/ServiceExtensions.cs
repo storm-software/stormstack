@@ -13,16 +13,6 @@ using OpenSystem.Core.Domain.Constants;
 using MediatR.Pipeline;
 using OpenSystem.Core.Domain;
 using OpenSystem.Core.Domain.Enums;
-using System.Collections.Concurrent;
-using OpenSystem.Core.Application.Sagas;
-using OpenSystem.Core.Domain.Extensions;
-using OpenSystem.Core.Application.Jobs;
-using OpenSystem.Core.Domain.Common;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using OpenSystem.Core.Application.ReadStores;
-using OpenSystem.Core.Domain.Events;
-using OpenSystem.Core.Application.Subscribers;
-using OpenSystem.Core.Application.Queries;
 
 namespace OpenSystem.Core.Application
 {
@@ -31,7 +21,7 @@ namespace OpenSystem.Core.Application
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            //services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(
                 typeof(IRequestExceptionHandler<,>),

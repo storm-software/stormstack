@@ -1,4 +1,4 @@
-namespace OpenSystem.Core.Application.Attributes
+namespace OpenSystem.Core.Application.Mediator.Attributes
 {
     public sealed class AddCommandAttribute : RequestTypeAttribute
     {

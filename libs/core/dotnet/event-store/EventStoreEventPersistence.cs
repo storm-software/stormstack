@@ -1,4 +1,3 @@
-using System.Data.Entity.Core;
 using System.Text;
 using EventStore.Client;
 using Microsoft.Extensions.Logging;

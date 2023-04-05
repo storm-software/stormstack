@@ -2,6 +2,10 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 using System.Collections.Concurrent;
+using OpenSystem.Core.Domain.Extensions;
+using OpenSystem.Core.Domain.Common;
+using OpenSystem.Core.Application.Jobs;
+using OpenSystem.Core.Infrastructure.Publishers;
 
 namespace OpenSystem.Core.Infrastructure.Jobs.Extensions
 {
@@ -12,7 +16,11 @@ namespace OpenSystem.Core.Infrastructure.Jobs.Extensions
             IEnumerable<Type> jobTypes
         )
         {
-            var cbJobTypes = new ConcurrentBag<Type>();
+            var cbJobTypes = new ConcurrentBag<Type>
+            {
+                typeof(PublishCommandJob),
+                typeof(DispatchToAsynchronousEventSubscribersJob)
+            };
             foreach (var jobType in jobTypes)
             {
                 if (!typeof(IJob).GetTypeInfo().IsAssignableFrom(jobType))

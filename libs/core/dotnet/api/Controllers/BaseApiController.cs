@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -105,8 +105,8 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
             Logger.LogInformation($"Sending {Context?.Request.Path} request to mediator");
 
             return await _sender.Send<TResponse>(request, cancellationToken);
-            /*if (ret.Failed)
-              return ret;*/
+            if (ret.Failed)
+              return ret;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
         /// <summary>
         /// Send command request to the mediator
         /// </summary>
-        /*protected async ValueTask<IActionResult> SendCommandAsync(IRequest<Result<IIndexed>> request,
+        protected async ValueTask<IActionResult> SendCommandAsync(IRequest<Result<IIndexed>> request,
           CancellationToken cancellationToken)
         {
           if (_sender == null)
@@ -178,7 +178,7 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
           Logger.LogInformation($"Completed {request.GetType().Name} ({Context?.Request.Path})  mediator request");
 
           return Ok(ret.Data);
-        }*/
+        }
 
         /// <summary>
         /// Send command request to the mediator
@@ -232,4 +232,4 @@ namespace OpenSystem.Core.Infrastructure.WebApi.Controllers
             return Ok(ret.Data);
         }
     }
-}
+}*/

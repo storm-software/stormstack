@@ -9,7 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OpenSystem.Core.Application.Attributes;
+using OpenSystem.Core.Application.Mediator.Attributes;
 using OpenSystem.Core.Application.Enums;
 using OpenSystem.Core.Application.Interfaces;
 using OpenSystem.Core.Application.Models;

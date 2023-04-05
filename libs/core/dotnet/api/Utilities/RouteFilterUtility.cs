@@ -1,7 +1,6 @@
 using System.Reflection;
-using OpenSystem.Core.Infrastructure.Routing;
 
-namespace OpenSystem.Core.Infrastructure.Utilities
+namespace OpenSystem.Core.Api.Utilities
 {
     public static class RouteFilterUtility
     {

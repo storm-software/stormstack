@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using OpenSystem.Core.Application.Attributes;
+using OpenSystem.Core.Application.Commands.Attributes;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ValueObjects;

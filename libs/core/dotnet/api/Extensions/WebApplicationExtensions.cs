@@ -4,11 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using OpenSystem.Core.Domain.Settings;
-using OpenSystem.Core.Infrastructure.ModelBinding;
-using OpenSystem.Core.Infrastructure.Routing;
+using OpenSystem.Core.Api.ModelBinding;
 using OpenSystem.Core.Application.Utilities;
-using OpenSystem.Core.Infrastructure.Utilities;
-using OpenSystem.Core.Application.Attributes;
+using OpenSystem.Core.Api.Utilities;
+using OpenSystem.Core.Application.Mediator.Attributes;
+using OpenSystem.Core.Application.Interfaces;
+using MediatR;
 
 namespace OpenSystem.Core.Api.Extensions
 {
@@ -70,16 +71,12 @@ namespace OpenSystem.Core.Api.Extensions
 
             foreach (var type in assembly.GetTypes())
             {
+                Console.WriteLine(type.FullName);
                 var maps = type.GetCustomAttributes<RequestTypeAttribute>();
                 if (!maps.Any())
                     continue;
 
-                if (
-                    type.GetInterfaces()
-                        .Any(
-                            item => item == typeof(IBaseRequest) || item == typeof(IRequest<object>)
-                        )
-                )
+                if (type.GetInterfaces().Any(item => item == typeof(IBaseRequest)))
                     yield return type;
             }
         }

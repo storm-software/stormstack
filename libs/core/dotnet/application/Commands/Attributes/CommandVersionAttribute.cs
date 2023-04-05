@@ -1,6 +1,6 @@
 using OpenSystem.Core.Domain.Attributes;
 
-namespace OpenSystem.Core.Application.Attributes
+namespace OpenSystem.Core.Application.Commands.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class CommandVersionAttribute : VersionAttribute

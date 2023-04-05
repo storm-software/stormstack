@@ -2,7 +2,6 @@ using System.Net;
 using System.Reflection;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
-using OpenSystem.Core.Application.Attributes;
 
 namespace OpenSystem.Core.Api.Filters
 {
@@ -59,22 +58,17 @@ namespace OpenSystem.Core.Api.Filters
             for (int i = 0; i < parameters.Length; i++)
             {
                 ParameterInfo parameter = parameters[i];
-                if (parameter.GetCustomAttribute<ValidateAttribute>() is not null)
-                {
-                    Type validatorType = typeof(IValidator<>).MakeGenericType(
-                        parameter.ParameterType
-                    );
+                Type validatorType = typeof(IValidator<>).MakeGenericType(parameter.ParameterType);
 
-                    // Note that FluentValidation validators needs to be registered as singleton
-                    IValidator? validator = serviceProvider.GetService(validatorType) as IValidator;
-                    if (validator is not null)
-                        yield return new ValidationDescriptor
-                        {
-                            ArgumentIndex = i,
-                            ArgumentType = parameter.ParameterType,
-                            Validator = validator
-                        };
-                }
+                // Note that FluentValidation validators needs to be registered as singleton
+                IValidator? validator = serviceProvider.GetService(validatorType) as IValidator;
+                if (validator is not null)
+                    yield return new ValidationDescriptor
+                    {
+                        ArgumentIndex = i,
+                        ArgumentType = parameter.ParameterType,
+                        Validator = validator
+                    };
             }
         }
 

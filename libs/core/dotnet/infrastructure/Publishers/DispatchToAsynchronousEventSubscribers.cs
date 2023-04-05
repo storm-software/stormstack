@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Core.Application.Jobs;
+using OpenSystem.Core.Application.Publishers;
 
 namespace OpenSystem.Core.Infrastructure.Publishers
 {

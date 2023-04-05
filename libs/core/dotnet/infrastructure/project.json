@@ -9,7 +9,8 @@
       "outputs": ["{workspaceRoot}/dist/libs/core/dotnet/infrastructure"],
       "options": {
         "configuration": "Debug",
-        "noDependencies": true
+        "noDependencies": true,
+        "verbosity": "diagnostic"
       },
       "configurations": {
         "production": {

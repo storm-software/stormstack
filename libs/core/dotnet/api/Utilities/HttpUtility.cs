@@ -1,22 +1,21 @@
 using System.Diagnostics;
 using System.Text.Json;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
+using OpenSystem.Core.Api.Constants;
 using OpenSystem.Core.Domain.Common;
 using OpenSystem.Core.Domain.Enums;
 using OpenSystem.Core.Domain.Exceptions;
 using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Domain.Settings;
-using OpenSystem.Core.Infrastructure.WebApi.Constants;
 using Serilog;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
-namespace OpenSystem.Core.Infrastructure.Utilities
+namespace OpenSystem.Core.Api.Utilities
 {
     public static class HttpUtility
     {
@@ -31,6 +30,12 @@ namespace OpenSystem.Core.Infrastructure.Utilities
                 HeaderNames.AccessControlMaxAge,
                 HeaderNames.StrictTransportSecurity,
                 HeaderNames.WWWAuthenticate,
+                HeaderNames.ContentSecurityPolicy,
+                HeaderNames.ContentSecurityPolicyReportOnly,
+                HeaderNames.XContentTypeOptions,
+                HeaderNames.XFrameOptions,
+                HeaderKeys.XXssProtection,
+                HeaderKeys.ReferrerPolicy,
                 HeaderKeys.CorrelationId
             };
 
