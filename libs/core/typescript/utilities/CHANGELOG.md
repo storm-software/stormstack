@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.7.2...core-typescript-utilities-v1.8.0) (2023-04-05)
+
+
+### Features
+
+* **core-dotnet-infrastructure:** Re-organization of .net core libraries ([8fca64d](https://github.com/sullivanpj/open-system/commit/8fca64d764e36c5baac9dd7fd7a0e2287cc26a37))
+
 ## [1.7.2](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.7.1...core-typescript-utilities-v1.7.2) (2023-04-03)
 
 
