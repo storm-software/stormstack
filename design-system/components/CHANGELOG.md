@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.10.2...design-system-components-v1.11.0) (2023-04-06)
+
+
+### Features
+
+* **core-dotnet-infrastructure:** Re-organization of .net core libraries ([8fca64d](https://github.com/sullivanpj/open-system/commit/8fca64d764e36c5baac9dd7fd7a0e2287cc26a37))
+
 # [1.11.0](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.10.2...design-system-components-v1.11.0) (2023-04-05)
 
 
