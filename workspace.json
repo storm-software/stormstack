@@ -54,6 +54,7 @@
     "reaction-dotnet": "libs/reaction/dotnet",
     "akka-dotnet-configuration": "libs/akka/dotnet/configuration",
     "akka-dotnet-api": "libs/akka/dotnet/api",
-    "akka-dotnet-core": "libs/akka/dotnet/core"
+    "akka-dotnet-core": "libs/akka/dotnet/core",
+    "akka-dotnet-serilog": "libs/akka/dotnet/serilog"
   }
 }

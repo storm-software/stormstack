@@ -97,6 +97,7 @@
     "Petabridge.Cmd.Remote": "1.3.0",
     "Akka.Cluster.Sharding": "1.5.1",
     "Akka.Persistence": "1.5.1",
-    "Akka.Cluster.Hosting": "1.5.1.1"
+    "Akka.Cluster.Hosting": "1.5.1.1",
+    "Akka.Logger.Serilog": "1.5.0.1"
   }
 }

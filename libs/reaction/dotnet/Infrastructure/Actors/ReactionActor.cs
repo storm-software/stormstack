@@ -3,7 +3,7 @@ using Akka.Event;
 using Akka.Persistence;
 using OpenSystem.Core.Domain.Aggregates;
 using OpenSystem.Core.Domain.Events;
-using OpenSystem.Core.Domain.ResultCodes;
+using OpenSystem.Akka.Serilog.Extensions;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Domain.Aggregates;
 using OpenSystem.Reaction.Domain.Enums;
@@ -18,7 +18,7 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
 
         private ReactionAggregate _aggregate;
 
-        private readonly ILoggingAdapter _log = Context.GetLogger();
+        private readonly ILoggingAdapter _log = Context.GetSerilogLogger();
 
         public ReactionActor(ReactionId id)
         {

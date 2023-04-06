@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TpACaMkQs+8oZTGX4oa1V6OA7CrnkTyKXM/y/6BAEcx9qa7l0MaPwb1OndSHCzKh4XZwS+1AXxLndJbIMLUxLg==",
+  "dgSpecHash": "cC2jxX9IkhL0OB2H8C8zbpmG4IczQBE9jV7rg0iMnVPXp22u4BciIkO2PaqpnRsguG/hajVOjTF10c33I919iA==",
   "success": true,
   "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\infrastructure\\OpenSystem.Core.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -9,14 +9,14 @@
     "C:\\Users\\patjo\\.nuget\\packages\\ben.demystifier\\0.4.1\\ben.demystifier.0.4.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.0.0\\mediatr.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\mediatr\\12.0.1\\mediatr.12.0.1.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.1.0\\mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.2\\microsoft.entityframeworkcore.7.0.2.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.2\\microsoft.entityframeworkcore.abstractions.7.0.2.nupkg.sha512",
-    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.2\\microsoft.entityframeworkcore.analyzers.7.0.2.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.4\\microsoft.entityframeworkcore.7.0.4.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.4\\microsoft.entityframeworkcore.abstractions.7.0.4.nupkg.sha512",
+    "C:\\Users\\patjo\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.4\\microsoft.entityframeworkcore.analyzers.7.0.4.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\microsoft.extensions.configuration\\2.0.0\\microsoft.extensions.configuration.2.0.0.nupkg.sha512",
@@ -55,5 +55,16 @@
     "C:\\Users\\patjo\\.nuget\\packages\\system.reflection.metadata\\5.0.0\\system.reflection.metadata.5.0.0.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\system.text.json\\4.6.0\\system.text.json.4.6.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package version outside of dependency constraint: MediatR.Extensions.Microsoft.DependencyInjection 11.1.0 requires MediatR (>= 11.0.0 && < 12.0.0) but version MediatR 12.0.1 was resolved.",
+      "libraryId": "MediatR",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\core\dotnet\event-store\OpenSystem.Core.EventStore.csproj" />
     <ProjectReference Include="..\..\akka\dotnet\core\OpenSystem.Akka.Core.csproj" />
     <ProjectReference Include="..\..\akka\dotnet\configuration\OpenSystem.Akka.Configuration.csproj" />
+    <ProjectReference Include="..\..\akka\dotnet\serilog\OpenSystem.Akka.Serilog.csproj" />
   </ItemGroup>
 
   <ItemGroup>
