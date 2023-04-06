@@ -2,8 +2,6 @@ using Serilog;
 using Serilog.Events;
 using OpenSystem.Core.Application;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 using OpenSystem.Core.Api.Extensions;
 using OpenSystem.Core.Serilog.Extensions;
 using OpenSystem.Reaction;
@@ -64,13 +62,10 @@ try
     Log.Information($"Starting {SERVICE_NAME} end point service.");
 
     // builder.Services.AddServiceDiscovery(builder.Configuration);
-
     //builder.Services.AddProblemDetailsFactory();
 
     builder.Services.AddProblemDetails();
-
     builder.Services.AddCoreMiddleware();
-
     builder.Services.AddReactionServices(builder.Configuration);
 
     builder.Services.AddAkkaApi(
@@ -78,6 +73,7 @@ try
         (akkaConfigurationBuilder, serviceProvider) =>
         {
             akkaConfigurationBuilder
+                .ConfigurePostgreSqlPersistence(serviceProvider)
                 .ConfigureActorSystem(serviceProvider)
                 .ConfigureReactionActors(serviceProvider);
         }

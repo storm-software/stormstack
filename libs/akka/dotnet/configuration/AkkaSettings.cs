@@ -41,12 +41,20 @@ namespace OpenSystem.Akka.Configuration
     public enum PersistenceMode
     {
         InMemory,
-        Azure
+        Azure,
+        PostgreSql,
     }
 
     public class AzureStorageSettings
     {
         public string ConnectionStringName { get; set; } = "Azurite";
+    }
+
+    public class PostgreSqlStorageSettings
+    {
+        public string JournalConnectionStringName { get; set; } = "PostgreSqlJournal";
+
+        public string SnapshotConnectionStringName { get; set; } = "PostgreSqlSnapshot";
     }
 
     public class AkkaSettings

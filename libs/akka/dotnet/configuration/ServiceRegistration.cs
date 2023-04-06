@@ -30,8 +30,7 @@ namespace OpenSystem.Akka.Configuration
                     configBuilder.LogConfigOnStart = settings.LogConfigOnStart;
                     configBuilder.AddLoggerFactory();
                 })
-                .ConfigureNetwork(sp)
-                .ConfigurePersistence(sp);
+                .ConfigureNetwork(sp);
         }
 
         public static AkkaConfigurationBuilder ConfigureNetwork(
