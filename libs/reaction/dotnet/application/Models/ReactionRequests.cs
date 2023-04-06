@@ -30,23 +30,23 @@ namespace OpenSystem.Reaction.Application.Models
     /// Add Reaction
     /// </summary>
     /// <remarks>Add a new reaction to an article</remarks>
-    [AddCommand("/api/v1/reactions/{Id?}")]
+    [AddCommand("/api/v1/reactions/{ReactionId?}")]
     public class AddReactionCommand : Command<ReactionAggregate, ReactionId>
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
         [Identifier]
-        public string Id { get; set; }
+        public string ReactionId { get; set; }
 
         [Payload]
         public AddReactionRequest Payload { get; set; }
 
         public AddReactionCommand()
-            : base(ReactionId.New) { }
+            : base(Domain.ValueObjects.ReactionId.New) { }
 
         public AddReactionCommand(string id)
-            : base(ReactionId.With(id)) { }
+            : base(Domain.ValueObjects.ReactionId.With(id)) { }
     }
 
     /// <summary>

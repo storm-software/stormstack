@@ -19,6 +19,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+        <ContainerPort Include="80" Type="tcp" />
+        <ContainerPort Include="443" Type="tcp" />
+        <ContainerPort Include="8558" Type="tcp" />
+        <ContainerPort Include="8081" Type="tcp" />
+        <ContainerPort Include="9110" Type="tcp" />
+    </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Akka" Version="1.5.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
@@ -41,6 +50,7 @@
     <ProjectReference Include="..\..\..\libs\reaction\dotnet\OpenSystem.Reaction.csproj" />
     <ProjectReference Include="..\..\..\libs\core\dotnet\serilog\OpenSystem.Core.Serilog.csproj" />
     <ProjectReference Include="..\..\..\libs\core\dotnet\api\OpenSystem.Core.Api.csproj" />
+    <ProjectReference Include="..\..\..\libs\akka\dotnet\api\OpenSystem.Akka.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,6 +5,7 @@
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
+
   <PropertyGroup>
     <Description>The Core .NET Infrastructure Library used by the Open System repository</Description>
     <Copyright>Copyright (c) 2022 Patrick Sullivan</Copyright>

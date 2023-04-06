@@ -7,13 +7,14 @@ namespace OpenSystem.Core.Application.Commands
 {
     public abstract class Command<TAggregate, TIdentity>
         : ValueObject,
+            IIndexed<TIdentity>,
             ICommand<TAggregate, TIdentity>
         where TAggregate : IAggregateRoot<TIdentity>
         where TIdentity : IIdentity
     {
         public CommandId SourceId { get; }
 
-        public TIdentity AggregateId { get; }
+        public IIdentity Id { get; set; }
 
         public TAggregate Aggregate { get; set; }
 
@@ -29,7 +30,7 @@ namespace OpenSystem.Core.Application.Commands
             if (sourceId == null)
                 throw new ArgumentNullException(nameof(sourceId));
 
-            AggregateId = aggregateId;
+            Id = aggregateId;
             SourceId = sourceId;
         }
 

@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using OpenSystem.Akka.Api;
+using OpenSystem.Akka.Api.Extensions;
+using OpenSystem.Akka.Configuration;
+using OpenSystem.Reaction.Infrastructure.Actors;
 
 const string SERVICE_NAME = "ReactionService.Api";
 
@@ -68,6 +72,20 @@ try
     builder.Services.AddCoreMiddleware();
 
     builder.Services.AddReactionServices(builder.Configuration);
+
+    builder.Services.AddAkkaApi(
+        builder.Configuration,
+        (akkaConfigurationBuilder, serviceProvider) =>
+        {
+            akkaConfigurationBuilder
+                .ConfigureActorSystem(serviceProvider)
+                .ConfigureReactionActors(serviceProvider);
+        }
+    );
+
+    //builder.Services.AddControllers();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    //builder.Services.AddEndpointsApiExplorer();
 
     //builder.Services.AddReactionPersistenceInfrastructure(builder.Configuration);
     //builder.Services.AddReactionServiceInfrastructure(appSettings);
@@ -186,7 +204,9 @@ try
 
     var app = builder.Build();
 
-    app.UseCoreMiddleware().UseSerilogLogging();
+    app.UseSerilogLogging().UseCoreMiddleware();
+
+    app.UseAkkaHealthCheck();
 
     /*var versionSet = app.NewApiVersionSet()
       .HasApiVersion(new ApiVersion(1, 0))
@@ -264,8 +284,6 @@ try
     //app.UseIdentityServer();
     //app.UseAuthorization();
 
-    app.UseCoreMiddleware();
-
     /*app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -298,7 +316,9 @@ try
         //.WithOpenApi()
         .WithTags("v{version:apiVersion}");*/
 
-    app.MapAllRequests(Assembly.Load("OpenSystem.Reaction"));
+    app.MapAllRequests<ReactionActor>(Assembly.Load("OpenSystem.Reaction"));
+
+    //app.MapControllers();
 
     app.Run();
 

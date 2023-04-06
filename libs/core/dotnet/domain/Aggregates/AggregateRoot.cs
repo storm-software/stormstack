@@ -71,8 +71,13 @@ namespace OpenSystem.Core.Domain.Aggregates
         {
             foreach (var sourceId in sourceIds)
             {
-                _previousSourceIds.Put(sourceId);
+                AddPreviousSourceId(sourceId);
             }
+        }
+
+        protected void AddPreviousSourceId(ISourceId sourceId)
+        {
+            _previousSourceIds.Put(sourceId);
         }
 
         public virtual bool HasSourceId(ISourceId sourceId)
@@ -179,6 +184,45 @@ namespace OpenSystem.Core.Domain.Aggregates
                 .Select(e => e.Metadata.SourceId);
 
             AddPreviousSourceIds(sourceIds);
+        }
+
+        public virtual T ApplyEvents<T>(IReadOnlyCollection<IDomainEvent> domainEvents)
+            where T : AggregateRoot<TAggregate, TIdentity>
+        {
+            ApplyEvents(domainEvents);
+
+            return this as T;
+        }
+
+        public virtual T ApplyEvent<T>(IDomainEvent domainEvent)
+            where T : AggregateRoot<TAggregate, TIdentity>
+        {
+            if (domainEvent == null)
+            {
+                throw new ArgumentNullException(nameof(domainEvent));
+            }
+
+            if (domainEvent.AggregateSequenceNumber != Version + 1)
+                throw new InvalidOperationException(
+                    $"Cannot apply aggregate event of type '{domainEvent.GetType().PrettyPrint()}' "
+                        + $"with SequenceNumber {domainEvent.AggregateSequenceNumber} on aggregate "
+                        + $"with version {Version}"
+                );
+
+            var aggregateEvent = domainEvent.GetAggregateEvent();
+            if (!(aggregateEvent is IAggregateEvent<TAggregate, TIdentity> e))
+            {
+                throw new ArgumentException(
+                    $"Aggregate event of type '{domainEvent.GetType()}' does not belong with aggregate '{this}'"
+                );
+            }
+
+            ApplyEvent(e);
+
+            if (domainEvent.Metadata.ContainsKey(MetadataKeys.SourceId))
+                AddPreviousSourceId(domainEvent.Metadata.SourceId);
+
+            return this as T;
         }
 
         public IIdentity GetIdentity()

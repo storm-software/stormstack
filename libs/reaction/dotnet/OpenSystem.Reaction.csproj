@@ -18,9 +18,15 @@
     <ProjectReference Include="..\..\core\dotnet\application\OpenSystem.Core.Application.csproj" />
     <ProjectReference Include="..\..\core\dotnet\infrastructure\OpenSystem.Core.Infrastructure.csproj" />
     <ProjectReference Include="..\..\core\dotnet\event-store\OpenSystem.Core.EventStore.csproj" />
+    <ProjectReference Include="..\..\akka\dotnet\core\OpenSystem.Akka.Core.csproj" />
+    <ProjectReference Include="..\..\akka\dotnet\configuration\OpenSystem.Akka.Configuration.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Akka.Cluster.Hosting" Version="1.5.1.1" />
+    <PackageReference Include="Akka.Hosting" Version="1.5.1.1" />
+    <PackageReference Include="Akka.Persistence" Version="1.5.1" />
+    <PackageReference Include="Akka.Cluster.Sharding" Version="1.5.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>

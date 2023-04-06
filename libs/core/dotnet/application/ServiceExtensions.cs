@@ -47,16 +47,14 @@ namespace OpenSystem.Core.Application
             out ApplicationSettings oSettings
         )
         {
+            var environment =
+                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
             oSettings = new ApplicationSettings();
             configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", false, true)
-                .AddJsonFile(
-                    $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ??
-              "Production"}.json",
-                    true,
-                    true
-                )
+                .AddJsonFile($"appsettings.{environment}.json", true, true)
                 .AddEnvironmentVariables()
                 //.AddUserSecrets()
                 .Build();

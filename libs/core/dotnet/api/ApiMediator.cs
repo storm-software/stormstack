@@ -1,17 +1,9 @@
 using System.Diagnostics;
-using System.Reflection;
-using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
 using OpenSystem.Core.Application.Commands;
-using OpenSystem.Core.Application.Interfaces;
 using OpenSystem.Core.Application.Queries;
-using OpenSystem.Core.Domain.Common;
-using OpenSystem.Core.Domain.Constants;
-using OpenSystem.Core.Domain.Exceptions;
-using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Core.Api.ModelBinding;
 using OpenSystem.Core.Api.Utilities;
@@ -19,13 +11,13 @@ using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace OpenSystem.Core.Api
 {
-    internal sealed class RouteExecutor
+    public class ApiMediator
     {
         private readonly Type _type;
 
         private readonly EndpointRouteHandler _handler;
 
-        internal RouteExecutor(Type type, IEnumerable<RouteHandlerFilterAttribute> filters)
+        public ApiMediator(Type type, IEnumerable<RouteHandlerFilterAttribute> filters)
         {
             _type = type;
             var action = new EndpointRouteHandler(EndpointHandler);
@@ -35,10 +27,10 @@ namespace OpenSystem.Core.Api
             _handler = action;
         }
 
-        private static ILogger<RouteExecutor> GetLogger(HttpContext context) =>
-            context.RequestServices.GetRequiredService<ILogger<RouteExecutor>>();
+        protected static ILogger<ApiMediator> GetLogger(HttpContext context) =>
+            context.RequestServices.GetRequiredService<ILogger<ApiMediator>>();
 
-        internal async Task Handle(HttpContext context)
+        public async Task Handle(HttpContext context)
         {
             var log = GetLogger(context);
             IResult response;
@@ -81,6 +73,53 @@ namespace OpenSystem.Core.Api
                 await response.ExecuteAsync(context).ConfigureAwait(false);
         }
 
+        protected virtual async ValueTask<IResult> HandleCommandAsync(
+            ICommand command,
+            HttpContext httpContext
+        )
+        {
+            var _commandBus = httpContext.RequestServices.GetRequiredService<ICommandBus>();
+            if (_commandBus == null)
+                return HttpUtility.CreateProblem(
+                    httpContext,
+                    Result.Failure(
+                        typeof(ResultCodeApplication),
+                        ResultCodeApplication.MissingMediator
+                    )
+                );
+
+            var result = await command.PublishAsync(_commandBus, httpContext.RequestAborted);
+            GetLogger(httpContext).LogDebug("Response received from command bus: {Result}", result);
+            if (result?.Succeeded != true)
+                return HttpUtility.CreateProblem(httpContext, (Result?)result);
+
+            return HttpUtility.CreateOk(httpContext, result);
+        }
+
+        protected virtual async ValueTask<IResult> HandleQueryAsync(
+            IQuery<object> query,
+            HttpContext httpContext
+        )
+        {
+            var _queryProcessor = httpContext.RequestServices.GetRequiredService<IQueryProcessor>();
+            if (_queryProcessor == null)
+                return HttpUtility.CreateProblem(
+                    httpContext,
+                    Result.Failure(
+                        typeof(ResultCodeApplication),
+                        ResultCodeApplication.MissingMediator
+                    )
+                );
+
+            var result = await _queryProcessor.ProcessAsync(query, httpContext.RequestAborted);
+            if (result == null)
+                return HttpUtility.CreateProblem(httpContext, result as Result, Status404NotFound);
+            if (result is Result resultObj && resultObj.Failed)
+                return HttpUtility.CreateProblem(httpContext, resultObj);
+
+            return HttpUtility.CreateOk(httpContext, Result.Success(result));
+        }
+
         private async ValueTask<object?> EndpointHandler(RouteHandlerInvocationContext context)
         {
             var httpContext = context.HttpContext;
@@ -115,53 +154,6 @@ namespace OpenSystem.Core.Api
 
                 return await HandleCommandAsync(command, httpContext);
             }
-        }
-
-        private async ValueTask<IResult> HandleCommandAsync(
-            ICommand command,
-            HttpContext httpContext
-        )
-        {
-            var _commandBus = httpContext.RequestServices.GetRequiredService<ICommandBus>();
-            if (_commandBus == null)
-                return HttpUtility.CreateProblem(
-                    httpContext,
-                    Result.Failure(
-                        typeof(ResultCodeApplication),
-                        ResultCodeApplication.MissingMediator
-                    )
-                );
-
-            var result = await command.PublishAsync(_commandBus, httpContext.RequestAborted);
-            GetLogger(httpContext).LogDebug("Response received from command bus: {Result}", result);
-            if (result?.Succeeded != true)
-                return HttpUtility.CreateProblem(httpContext, (Result?)result);
-
-            return HttpUtility.CreateOk(httpContext, result);
-        }
-
-        private async ValueTask<IResult> HandleQueryAsync(
-            IQuery<object> query,
-            HttpContext httpContext
-        )
-        {
-            var _queryProcessor = httpContext.RequestServices.GetRequiredService<IQueryProcessor>();
-            if (_queryProcessor == null)
-                return HttpUtility.CreateProblem(
-                    httpContext,
-                    Result.Failure(
-                        typeof(ResultCodeApplication),
-                        ResultCodeApplication.MissingMediator
-                    )
-                );
-
-            var result = await _queryProcessor.ProcessAsync(query, httpContext.RequestAborted);
-            if (result == null)
-                return HttpUtility.CreateProblem(httpContext, result as Result, Status404NotFound);
-            if (result is Result resultObj && resultObj.Failed)
-                return HttpUtility.CreateProblem(httpContext, resultObj);
-
-            return HttpUtility.CreateOk(httpContext, Result.Success(result));
         }
     }
 }

@@ -8,7 +8,6 @@ using OpenSystem.Core.Api.ModelBinding;
 using OpenSystem.Core.Application.Utilities;
 using OpenSystem.Core.Api.Utilities;
 using OpenSystem.Core.Application.Mediator.Attributes;
-using OpenSystem.Core.Application.Interfaces;
 using MediatR;
 
 namespace OpenSystem.Core.Api.Extensions
@@ -21,7 +20,7 @@ namespace OpenSystem.Core.Api.Extensions
         public static WebApplication MapRequest(this WebApplication app, Type type)
         {
             var filters = RouteFilterUtility.GetFilters(type);
-            var handler = new RouteExecutor(type, filters);
+            var handler = new ApiMediator(type, filters);
             foreach (var item in RequestUtility.GetRequestTypes(type))
                 app.MapMethods(item.Template, item.SupportedMethods, handler.Handle);
 
@@ -36,7 +35,7 @@ namespace OpenSystem.Core.Api.Extensions
         )
         {
             var filters = RouteFilterUtility.GetFilters(type);
-            var handler = new RouteExecutor(type, filters);
+            var handler = new ApiMediator(type, filters);
             app.MapMethods(pattern, httpMethods, handler.Handle);
             return app;
         }
@@ -62,7 +61,7 @@ namespace OpenSystem.Core.Api.Extensions
             return app;
         }
 
-        private static IEnumerable<Type> GetTypes(IHost app, Assembly? assembly = null)
+        public static IEnumerable<Type> GetTypes(IHost app, Assembly? assembly = null)
         {
             var config = app.Services.GetRequiredService<IOptions<MediatorSettings>>().Value;
             assembly ??= config.Assembly;

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
  <PropertyGroup>
-    <Description>The Core .NET API Library used by the Open System repository</Description>
+    <Description>The Core .NET Web API Library used by the Open System repository</Description>
     <Copyright>Copyright (c) 2022 Patrick Sullivan</Copyright>
     <Authors>Patrick Sullivan</Authors>
     <TargetFramework>net7.0</TargetFramework>

@@ -126,11 +126,18 @@ namespace OpenSystem.Core.Api.Utilities
             {
                 var data = new Dictionary<string, object>
                 {
-                    { "id", versionedIndex.Id.Value },
+                    { "id", versionedIndex.Id?.ToString() },
                     { "version", versionedIndex.Version }
                 };
                 if (versionedIndex.Version == 1)
-                    return Results.Created($"{context.Request.Path}/{versionedIndex.Id}", data);
+                    return Results.Created(
+                        !string.IsNullOrEmpty(versionedIndex.Id?.ToString())
+                        && context.Request.Path.Value?.Contains(versionedIndex.Id.ToString())
+                            != true
+                            ? $"{context.Request.Path}/{versionedIndex.Id}"
+                            : context.Request.Path,
+                        data
+                    );
 
                 return Results.Ok(data);
             }
@@ -378,7 +385,11 @@ namespace OpenSystem.Core.Api.Utilities
                 if (data is IVersioned versioned)
                     context.Response.Headers.ETag = versioned.Version.ToString();
                 if (data is IIndexed<IIdentity> indexed)
-                    context.Response.Headers.Location = $"{context.Request.Path}/{indexed.Id}";
+                    context.Response.Headers.Location =
+                        !string.IsNullOrEmpty(indexed.Id?.ToString())
+                        && context.Request.Path.Value?.Contains(indexed.Id.ToString()) != true
+                            ? $"{context.Request.Path}/{indexed.Id}"
+                            : context.Request.Path.ToString();
 
                 context.Response.Headers.LastModified = DateTimeOffset.UtcNow.ToString("G");
             }

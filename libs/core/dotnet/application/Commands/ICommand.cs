@@ -16,12 +16,10 @@ namespace OpenSystem.Core.Application.Commands
         CommandId GetSourceId();
     }
 
-    public interface ICommand<TAggregate, TIdentity> : ICommand
+    public interface ICommand<TAggregate, TIdentity> : IIndexed<TIdentity>, ICommand
         where TAggregate : IAggregateRoot<TIdentity>
         where TIdentity : IIdentity
     {
-        TIdentity AggregateId { get; }
-
         TAggregate Aggregate { get; set; }
 
         CommandId SourceId { get; }

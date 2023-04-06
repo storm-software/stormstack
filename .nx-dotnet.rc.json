@@ -81,6 +81,22 @@
     "Serilog.Extensions.Logging": "3.1.0",
     "FluentValidation": "11.5.1",
     "Serilog.Sinks.File": "5.0.0",
-    "Serilog.Sinks.Async": "1.5.0"
+    "Serilog.Sinks.Async": "1.5.0",
+    "Akka.HealthCheck": "1.5.0.1",
+    "Akka.HealthCheck.Hosting": "1.5.0.1",
+    "Akka.HealthCheck.Hosting.Web": "1.5.0.1",
+    "Akka.Hosting": "1.5.1.1",
+    "Akka.Cluster": "1.5.1",
+    "Akka.Management": "1.5.0",
+    "Akka.Persistence.Azure": "1.5.1",
+    "Akka.Persistence.Azure.Hosting": "1.5.1",
+    "Akka.Discovery.Azure": "1.5.0",
+    "Akka.Discovery.KubernetesApi": "1.5.0",
+    "Petabridge.Cmd.Cluster": "1.3.0",
+    "Petabridge.Cmd.Cluster.Sharding": "1.3.0",
+    "Petabridge.Cmd.Remote": "1.3.0",
+    "Akka.Cluster.Sharding": "1.5.1",
+    "Akka.Persistence": "1.5.1",
+    "Akka.Cluster.Hosting": "1.5.1.1"
   }
 }

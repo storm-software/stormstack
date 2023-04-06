@@ -7,47 +7,47 @@
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
  */
 
-/*using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.Extensions.Logging;
+using Akka.Hosting;
+using Akka.Actor;
+using OpenSystem.Reaction.Infrastructure.Actors;
+using System.Threading.Tasks;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Application.Models.DTOs;
-using System.Text.Json;
-using OpenSystem.Core.Infrastructure.WebApi.Controllers;
-using Microsoft.Extensions.Logging;
+using System.Threading;
+using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Apis.Reaction.Controllers.v1
 {
-
     /// <summary>
     /// Controller for ReactionApi service implementation(s)
     /// </summary>
     [Description("Controller for ReactionApi service implementation(s)")]
-    [Authorize]
-    [ApiVersion("1")]
-    [Route("api/v{version:apiVersion}")]
-    public sealed class ReactionApiController : BaseApiController
+    [ApiController]
+    [Route("api/v1")]
+    public sealed class ReactionApiController : ControllerBase
     {
+        private readonly ILogger<ReactionApiController> _logger;
+        private readonly IActorRef _counterActor;
+
         /// <summary>
         /// Constructor method for ReactionApiController
         /// </summary>
         /// <remarks>Constructor method to generate an instance of a ReactionApiController</remarks>
-        public ReactionApiController(ILogger<ReactionApiController> _logger,
-            IHttpContextAccessor _context)
-            : base(_logger,
-            _context)
+        public ReactionApiController(
+            ILogger<ReactionApiController> logger,
+            IRequiredActor<ReactionActor> counterActor
+        )
         {
+            _logger = logger;
+            _counterActor = counterActor.ActorRef;
         }
-/*
+
         /// <summary>
         /// Add Reaction
         /// </summary>
@@ -59,32 +59,85 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
-        [MapToApiVersion("1")]
         [HttpPost]
-        [Route("reactions/{contentId}")]
+        [Route("reactions/{contentId?}")]
         [Consumes("application/json")]
-        [AllowAnonymous]
-        [SwaggerOperation("AddReaction")]
-        [SwaggerResponse(statusCode: 200, type: typeof(CommandSuccessResponse), description: "OK")]
-        [SwaggerResponse(statusCode: 401, type: typeof(ProblemDetailsResponse), description: "Unauthorized")]
-        [SwaggerResponse(statusCode: 404, type: typeof(ProblemDetailsResponse), description: "Not Found")]
-        [SwaggerResponse(statusCode: 500, type: typeof(ProblemDetailsResponse), description: "Internal Server Error")]
-        [SwaggerResponse(statusCode: 503, type: typeof(ProblemDetailsResponse), description: "Service Unavailable")]
-        public  async Task<IActionResult> AddReaction([FromRoute (Name = "contentId")][Required]string contentId,
-          [FromBody]AddReactionRequest? requestBody,
-          CancellationToken cancellationToken)
+        public async Task<IActionResult> AddReaction(
+            [FromRoute(Name = "contentId")] string contentId,
+            [FromBody] AddReactionRequest? requestBody,
+            CancellationToken cancellationToken
+        )
         {
+            try
+            {
+                _logger.LogInformation("**** AddReaction called");
+                // Create an instance of the request object
+                var request = new AddReactionCommand(contentId);
 
-            // Create an instance of the request object
-            var request = new AddReactionCommand();
+                if (requestBody != null)
+                {
+                    request.Payload = requestBody;
+                }
 
-            if (requestBody != null)
-              requestBody.Copy(request);
+                var actor = _counterActor;
+                if (actor == null)
+                {
+                    _logger.LogError("**** AddReaction actor is null");
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable);
+                }
+                _logger.LogInformation("*** AddReaction Sending Request");
+                //request.ContentId = contentId;
+                var result = await actor.Ask<IAggregateEventResult>(
+                    request,
+                    TimeSpan.FromSeconds(20)
+                );
+                _logger.LogInformation("*** AddReaction result: {0}", result);
 
-            request.ContentId = contentId;
-            return await SendCommandAsync(request,
-              cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("**** AddReaction exception: {0}", ex);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
+
+        [HttpGet]
+        [Route("reactions/{contentId?}")]
+        [Consumes("application/json")]
+        public async Task<IActionResult> GetReactionsCount(
+            [FromRoute(Name = "contentId")] string contentId,
+            [FromQuery(Name = "type")] string? type,
+            CancellationToken cancellationToken
+        )
+        {
+            try
+            {
+                _logger.LogInformation("**** GetReactionsCount called");
+                // Create an instance of the request object
+                var request = new GetReactionsCountQuery(contentId);
+                request.Type = type;
+
+                var actor = _counterActor;
+                if (actor == null)
+                {
+                    _logger.LogError("**** GetReactionsCount actor is null");
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable);
+                }
+
+                //request.ContentId = contentId;
+                var result = await actor.Ask(request);
+                _logger.LogInformation("*** GetReactionsCount result: {0}", result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("**** GetReactionsCount exception: {0}", ex);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         /// <summary>
         /// Get Reactions
         /// </summary>
@@ -99,7 +152,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         /// <response code="404">Not Found</response>
         /// <response code="500">Internal Server Error</response>
         /// <response code="503">Service Unavailable</response>
-        [MapToApiVersion("1")]
+        /*[MapToApiVersion("1")]
         [HttpGet]
         [Route("reactions/{contentId}")]
         [Consumes("application/json")]
@@ -198,7 +251,6 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
             request.ContentId = contentId;
             return await SendCommandAsync(request,
               cancellationToken);
-        }
+        }*/
     }
 }
-*/

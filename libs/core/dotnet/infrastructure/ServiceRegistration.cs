@@ -3,7 +3,6 @@ using OpenSystem.Core.Application.Services;
 using OpenSystem.Core.Infrastructure.Services;
 using OpenSystem.Core.Domain.Settings;
 using System.Reflection;
-using OpenSystem.Core.Application.Models;
 using OpenSystem.Core.Application.Commands.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using OpenSystem.Core.Application.Jobs;

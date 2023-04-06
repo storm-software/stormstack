@@ -59,7 +59,7 @@ namespace OpenSystem.Core.Application.Commands
 
             var aggregateEventResult = await _aggregateStore
                 .UpdateAsync<TAggregate, TIdentity>(
-                    command.AggregateId,
+                    (TIdentity)command.Id,
                     command.SourceId,
                     (a, c) =>
                     {
