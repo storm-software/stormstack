@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-infrastructure-v1.11.0...core-dotnet-infrastructure-v1.12.0) (2023-04-06)
+
+
+### Features
+
+* **akka-dotnet-core:** Added Akka.NET to the server stack ([c667347](https://github.com/sullivanpj/open-system/commit/c66734723e6f23db7ac95e655431c649a1053af6))
+
 # [1.11.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-infrastructure-v1.10.2...core-dotnet-infrastructure-v1.11.0) (2023-04-05)
 
 
