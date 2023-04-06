@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Akka.Serilog", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Akka.Postgresql", "libs\akka\dotnet\postgresql\OpenSystem.Akka.Postgresql.csproj", "{F954CA60-3D03-49D4-90E4-FD91500CCBEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Akka.Redis", "libs\akka\dotnet\redis\OpenSystem.Akka.Redis.csproj", "{C1D93861-E9F0-47F4-82A8-4F102D77649F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -168,6 +170,10 @@ Global
 		{F954CA60-3D03-49D4-90E4-FD91500CCBEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F954CA60-3D03-49D4-90E4-FD91500CCBEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F954CA60-3D03-49D4-90E4-FD91500CCBEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D93861-E9F0-47F4-82A8-4F102D77649F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D93861-E9F0-47F4-82A8-4F102D77649F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D93861-E9F0-47F4-82A8-4F102D77649F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D93861-E9F0-47F4-82A8-4F102D77649F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BCA9D2EE-C840-4EC6-86BE-4E7CFBD6BCF1} = {B1A29E6C-6B59-429E-AB79-1F7F8AF61484}
@@ -197,5 +203,6 @@ Global
 		{031D88AC-DEBC-480E-A9FA-5BCE5CAD5F58} = {0A42925C-ED8F-431B-AFA3-7D5FE10E7B80}
 		{0B3E2392-AC9B-4485-A5C6-D911347403D2} = {0A42925C-ED8F-431B-AFA3-7D5FE10E7B80}
 		{F954CA60-3D03-49D4-90E4-FD91500CCBEA} = {0A42925C-ED8F-431B-AFA3-7D5FE10E7B80}
+		{C1D93861-E9F0-47F4-82A8-4F102D77649F} = {0A42925C-ED8F-431B-AFA3-7D5FE10E7B80}
 	EndGlobalSection
 EndGlobal

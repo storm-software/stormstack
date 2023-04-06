@@ -100,6 +100,7 @@
     "Akka.Cluster.Hosting": "1.5.1.1",
     "Akka.Logger.Serilog": "1.5.0.1",
     "Akka.Persistence.PostgreSql": "1.5.2",
-    "Akka.Persistence.Hosting": "1.5.1.1"
+    "Akka.Persistence.Hosting": "1.5.1.1",
+    "Akka.Persistence.Redis": "1.5.0"
   }
 }

@@ -73,6 +73,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
             return $@"
                     journal {{
                         plugin = ""akka.persistence.journal.postgresql""
+
                         postgresql {{
                             # qualified type name of the PostgreSql persistence journal actor
                             class = ""Akka.Persistence.PostgreSql.Journal.PostgreSqlJournal, Akka.Persistence.PostgreSql""
@@ -152,6 +153,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
             return $@"
                     snapshot-store {{
                         plugin = ""akka.persistence.snapshot-store.postgresql""
+
                         postgresql {{
                             # qualified type name of the PostgreSql persistence journal actor
 			                class = ""Akka.Persistence.PostgreSql.Snapshot.PostgreSqlSnapshotStore, Akka.Persistence.PostgreSql""

@@ -7,19 +7,22 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-root}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
 
-  reaction.db:
+  reaction.write-db:
+    ports:
+      - "5432:5432"
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: reaction.db
+      POSTGRES_USER: ${POSTGRES_USER:-root}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-root}
+      POSTGRES_DB: ${POSTGRES_USER:-reaction.write-db}
 
-  eventstore.db:
+  reaction.read-db:
+    ports:
+      - "5434:5432"
     environment:
-      EVENTSTORE_CLUSTER_SIZE: 1
-      EVENTSTORE_RUN_PROJECTIONS: All
-      EVENTSTORE_START_STANDARD_PROJECTIONS: true
-      EVENTSTORE_EXT_TCP_PORT: 1113
-      EVENTSTORE_HTTP_PORT: 2113
-      EVENTSTORE_INSECURE: true
-      EVENTSTORE_ENABLE_EXTERNAL_TCP: false
-      EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: true
+      POSTGRES_USER: ${POSTGRES_USER:-root}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-root}
+      POSTGRES_DB: ${POSTGRES_USER:-reaction.read-db}
+
+  reaction.snapshot-db:
+    ports:
+      - "5430:6379"
