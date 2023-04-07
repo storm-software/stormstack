@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.11.0...design-system-components-v1.11.1) (2023-04-07)
+
+
+### Bug Fixes
+
+* upgrade react-hook-form from 7.43.0 to 7.43.6 ([#97](https://github.com/sullivanpj/open-system/issues/97)) ([f1ed443](https://github.com/sullivanpj/open-system/commit/f1ed44363ee85dddbdcd539faaeaf3ac32031c5d))
+
 # [1.11.0](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.10.2...design-system-components-v1.11.0) (2023-04-06)
 
 
