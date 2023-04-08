@@ -1,3 +1,11 @@
+## [1.12.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-infrastructure-v1.12.0...core-dotnet-infrastructure-v1.12.1) (2023-04-08)
+
+
+### Bug Fixes
+
+* upgrade @heroicons/react from 2.0.13 to 2.0.16 ([#99](https://github.com/sullivanpj/open-system/issues/99)) ([a73bad2](https://github.com/sullivanpj/open-system/commit/a73bad2e5ba08b23acd37cbe0f36bcc7c527b434))
+* upgrade react-hook-form from 7.43.0 to 7.43.6 ([#97](https://github.com/sullivanpj/open-system/issues/97)) ([f1ed443](https://github.com/sullivanpj/open-system/commit/f1ed44363ee85dddbdcd539faaeaf3ac32031c5d))
+
 # [1.12.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-infrastructure-v1.11.0...core-dotnet-infrastructure-v1.12.0) (2023-04-06)
 
 
