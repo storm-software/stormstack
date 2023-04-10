@@ -1,3 +1,10 @@
+## [1.11.3](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.11.2...design-system-components-v1.11.3) (2023-04-10)
+
+
+### Bug Fixes
+
+* upgrade tslib from 2.4.1 to 2.5.0 ([#113](https://github.com/sullivanpj/open-system/issues/113)) ([0425246](https://github.com/sullivanpj/open-system/commit/04252469781c3c3ca9981047afaf33e716b9bba0))
+
 ## [1.11.2](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.11.1...design-system-components-v1.11.2) (2023-04-10)
 
 
