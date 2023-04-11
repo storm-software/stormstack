@@ -1,3 +1,22 @@
+# [1.14.0](https://github.com/sullivanpj/open-system/compare/apis-reaction-v1.13.1...apis-reaction-v1.14.0) (2023-04-11)
+
+
+### Bug Fixes
+
+* upgrade @heroicons/react from 2.0.13 to 2.0.16 ([#99](https://github.com/sullivanpj/open-system/issues/99)) ([a73bad2](https://github.com/sullivanpj/open-system/commit/a73bad2e5ba08b23acd37cbe0f36bcc7c527b434))
+* upgrade react-hook-form from 7.43.0 to 7.43.6 ([#97](https://github.com/sullivanpj/open-system/issues/97)) ([f1ed443](https://github.com/sullivanpj/open-system/commit/f1ed44363ee85dddbdcd539faaeaf3ac32031c5d))
+* upgrade react-router from 6.5.0 to 6.7.0 ([ed50a7c](https://github.com/sullivanpj/open-system/commit/ed50a7ce6d7c7fd4b707d852a33a5fe697257bb5))
+* upgrade tslib from 2.4.1 to 2.5.0 ([#113](https://github.com/sullivanpj/open-system/issues/113)) ([0425246](https://github.com/sullivanpj/open-system/commit/04252469781c3c3ca9981047afaf33e716b9bba0))
+
+
+### Features
+
+* **akka-dotnet-core:** Added Akka.NET to the server stack ([c667347](https://github.com/sullivanpj/open-system/commit/c66734723e6f23db7ac95e655431c649a1053af6))
+* **akka-dotnet-postgresql:** Added extension library for PostgreSQL DBs in Akka ([9b4fe48](https://github.com/sullivanpj/open-system/commit/9b4fe481c3420ae0abc16c4e29a8b2a4877cc8c2))
+* **akka-dotnet-redis:** Added Akka Redis extension library ([3bee08b](https://github.com/sullivanpj/open-system/commit/3bee08b9a773e22a9d463914504cf56e7cb786da))
+* **akka-dotnet-serilog:** Added Serilog logging extension project for Akka ([dd19803](https://github.com/sullivanpj/open-system/commit/dd198038d603295ac4d723c43c70aaa9a0c81c99))
+* **core-dotnet-infrastructure:** Re-organization of .net core libraries ([8fca64d](https://github.com/sullivanpj/open-system/commit/8fca64d764e36c5baac9dd7fd7a0e2287cc26a37))
+
 ## [1.13.1](https://github.com/sullivanpj/open-system/compare/apis-reaction-v1.13.0...apis-reaction-v1.13.1) (2023-04-03)
 
 
