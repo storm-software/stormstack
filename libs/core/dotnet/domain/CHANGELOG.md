@@ -1,3 +1,11 @@
+## [1.12.2](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.12.1...core-dotnet-domain-v1.12.2) (2023-04-11)
+
+
+### Bug Fixes
+
+* upgrade @heroicons/react from 2.0.13 to 2.0.16 ([#99](https://github.com/sullivanpj/open-system/issues/99)) ([a73bad2](https://github.com/sullivanpj/open-system/commit/a73bad2e5ba08b23acd37cbe0f36bcc7c527b434))
+* upgrade tslib from 2.4.1 to 2.5.0 ([#113](https://github.com/sullivanpj/open-system/issues/113)) ([0425246](https://github.com/sullivanpj/open-system/commit/04252469781c3c3ca9981047afaf33e716b9bba0))
+
 ## [1.12.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-domain-v1.12.0...core-dotnet-domain-v1.12.1) (2023-04-07)
 
 
