@@ -1,3 +1,11 @@
+## [1.12.2](https://github.com/sullivanpj/open-system/compare/core-dotnet-infrastructure-v1.12.1...core-dotnet-infrastructure-v1.12.2) (2023-04-12)
+
+
+### Bug Fixes
+
+* upgrade react-hook-form from 7.43.6 to 7.43.7 ([#124](https://github.com/sullivanpj/open-system/issues/124)) ([b47d554](https://github.com/sullivanpj/open-system/commit/b47d554517c9d1d61540732a3b29614fc63240e5))
+* upgrade tslib from 2.4.1 to 2.5.0 ([#113](https://github.com/sullivanpj/open-system/issues/113)) ([0425246](https://github.com/sullivanpj/open-system/commit/04252469781c3c3ca9981047afaf33e716b9bba0))
+
 ## [1.12.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-infrastructure-v1.12.0...core-dotnet-infrastructure-v1.12.1) (2023-04-08)
 
 
