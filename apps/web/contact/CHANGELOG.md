@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/sullivanpj/open-system/compare/web-contact-v1.13.0...web-contact-v1.13.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* upgrade react-hook-form from 7.43.6 to 7.43.7 ([#124](https://github.com/sullivanpj/open-system/issues/124)) ([b47d554](https://github.com/sullivanpj/open-system/commit/b47d554517c9d1d61540732a3b29614fc63240e5))
+
 # [1.13.0](https://github.com/sullivanpj/open-system/compare/web-contact-v1.12.1...web-contact-v1.13.0) (2023-04-11)
 
 
