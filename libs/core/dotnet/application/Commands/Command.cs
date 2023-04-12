@@ -20,6 +20,8 @@ namespace OpenSystem.Core.Application.Commands
 
         public ulong Version { get; set; }
 
+        public UserId UserId { get; set; }
+
         protected Command(TIdentity aggregateId)
             : this(aggregateId, CommandId.New) { }
 

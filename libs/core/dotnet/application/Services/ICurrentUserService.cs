@@ -1,11 +1,13 @@
 namespace OpenSystem.Core.Application.Services
 {
-  public interface ICurrentUserService
-  {
-      string UserId { get; }
+    using OpenSystem.Core.Domain.ValueObjects;
 
-      string? UserName { get; }
+    public interface ICurrentUserService
+    {
+        UserId UserId { get; }
 
-      bool IsAuthenticated { get; }
-  }
+        string? UserName { get; }
+
+        bool IsAuthenticated { get; }
+    }
 }

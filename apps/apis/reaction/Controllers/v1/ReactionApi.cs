@@ -41,7 +41,7 @@ namespace OpenSystem.Apis.Reaction.Controllers.v1
         /// <remarks>Constructor method to generate an instance of a ReactionApiController</remarks>
         public ReactionApiController(
             ILogger<ReactionApiController> logger,
-            IRequiredActor<ReactionActor> counterActor
+            IRequiredActor<ReactionCommandHandler> counterActor
         )
         {
             _logger = logger;

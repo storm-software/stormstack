@@ -12,6 +12,7 @@ using OpenSystem.Core.Infrastructure.ReadStores.Extensions;
 using OpenSystem.Core.Infrastructure.Snapshots.Extensions;
 using OpenSystem.Core.EventStore.Extensions;
 using OpenSystem.Core.Application.Mediator.Extensions;
+using OpenSystem.Core.Domain.Events;
 
 namespace OpenSystem.Reaction
 {
@@ -28,17 +29,19 @@ namespace OpenSystem.Reaction
             services.AddValidatorsFromAssembly(assembly);
 
             services.AddMediator(assembly);
-            services.AddMediatR(assembly);
+            //services.AddMediatR(assembly);
 
             // services.AddEvents(Assembly.GetExecutingAssembly());
             services.AddApplicationLayer();
             services.AddServiceInfrastructure();
 
-            services
+            // services.AddSingleton(typeof(IDomainEventFactory), typeof(DomainEventFactory));
+
+            /*services
                 .AddEventSourcing(assembly, true)
                 .UseInMemoryReadStoreFor<ReactionReadModel>()
                 .UseInMemorySnapshotPersistence()
-                .UseEventStoreEventPersistence(configuration);
+                .UseEventStoreEventPersistence(configuration);*/
 
             return services;
         }

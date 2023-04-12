@@ -11,8 +11,11 @@ using Microsoft.Extensions.Hosting;
 using System;
 using OpenSystem.Akka.Api;
 using OpenSystem.Akka.Api.Extensions;
+using OpenSystem.Akka.PostgreSql.Extensions;
 using OpenSystem.Akka.Configuration;
 using OpenSystem.Reaction.Infrastructure.Actors;
+using Akka.Persistence.Hosting;
+using OpenSystem.Reaction.Infrastructure.Persistence;
 
 const string SERVICE_NAME = "ReactionService.Api";
 
@@ -64,8 +67,7 @@ try
     // builder.Services.AddServiceDiscovery(builder.Configuration);
     //builder.Services.AddProblemDetailsFactory();
 
-    builder.Services.AddProblemDetails();
-    builder.Services.AddCoreMiddleware();
+
     builder.Services.AddReactionServices(builder.Configuration);
 
     builder.Services.AddAkkaApi(
@@ -73,8 +75,8 @@ try
         (akkaConfigurationBuilder, serviceProvider) =>
         {
             akkaConfigurationBuilder
-                .ConfigurePostgreSqlPersistence(serviceProvider)
                 .ConfigureActorSystem(serviceProvider)
+                .ConfigurePostgreSqlPersistence(serviceProvider, ReactionJournalBuilder.Tagger)
                 .ConfigureReactionActors(serviceProvider);
         }
     );
@@ -312,7 +314,7 @@ try
         //.WithOpenApi()
         .WithTags("v{version:apiVersion}");*/
 
-    app.MapAllRequests<ReactionActor>(Assembly.Load("OpenSystem.Reaction"));
+    app.MapAllRequests<ReactionCommandHandler>(Assembly.Load("OpenSystem.Reaction"));
 
     //app.MapControllers();
 

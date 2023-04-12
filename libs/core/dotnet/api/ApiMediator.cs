@@ -93,7 +93,7 @@ namespace OpenSystem.Core.Api
             if (result?.Succeeded != true)
                 return HttpUtility.CreateProblem(httpContext, (Result?)result);
 
-            return HttpUtility.CreateOk(httpContext, result);
+            return HttpUtility.CreateOk(httpContext, (Domain.Common.IResult<object>)result);
         }
 
         protected virtual async ValueTask<IResult> HandleQueryAsync(
@@ -117,7 +117,10 @@ namespace OpenSystem.Core.Api
             if (result is Result resultObj && resultObj.Failed)
                 return HttpUtility.CreateProblem(httpContext, resultObj);
 
-            return HttpUtility.CreateOk(httpContext, Result.Success(result));
+            return HttpUtility.CreateOk(
+                httpContext,
+                Result.Success(result) as Domain.Common.IResult<object>
+            );
         }
 
         private async ValueTask<object?> EndpointHandler(RouteHandlerInvocationContext context)

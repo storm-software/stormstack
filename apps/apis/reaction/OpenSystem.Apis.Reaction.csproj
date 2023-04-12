@@ -27,7 +27,7 @@
     </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.5.1" />
+    <PackageReference Include="Akka" Version="1.5.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
@@ -51,6 +51,7 @@
     <ProjectReference Include="..\..\..\libs\core\dotnet\serilog\OpenSystem.Core.Serilog.csproj" />
     <ProjectReference Include="..\..\..\libs\core\dotnet\api\OpenSystem.Core.Api.csproj" />
     <ProjectReference Include="..\..\..\libs\akka\dotnet\api\OpenSystem.Akka.Api.csproj" />
+    <ProjectReference Include="..\..\..\libs\akka\dotnet\postgresql\OpenSystem.Akka.PostgreSql.csproj" />
   </ItemGroup>
 
   <ItemGroup>

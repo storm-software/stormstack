@@ -445,14 +445,6 @@ namespace OpenSystem.Core.Domain.ResultCodes
         {
             return base.GetHashCode() + (HelpLink + StackTrace).GetHashCode();
         }
-
-        public static IAggregateEventResult Failure(
-            List<FieldValidationResult> fieldValidationResults,
-            string v
-        )
-        {
-            throw new NotImplementedException();
-        }
     }
 
     [Serializable]
@@ -461,6 +453,13 @@ namespace OpenSystem.Core.Domain.ResultCodes
         public static new Result Success(object? data = null)
         {
             return new Result(data);
+        }
+
+        public static Result Success(IIdentity id, ulong version)
+        {
+            return Result<IVersionedIndex<IIdentity>>.Success(
+                new VersionedIndex<IIdentity>(id, version)
+            );
         }
 
         public static new Result Failure(

@@ -63,7 +63,7 @@ namespace OpenSystem.Akka.Configuration
 
         public bool UseClustering { get; set; } = true;
 
-        public bool LogConfigOnStart { get; set; } = false;
+        public bool LogConfigOnStart { get; set; } = true;
 
         public RemoteOptions RemoteOptions { get; set; } =
             new()

@@ -13,9 +13,13 @@ namespace OpenSystem.Reaction.Domain.Events
     {
         public ReactionTypes Type { get; }
 
-        public ReactionRemovedEvent(ReactionTypes type)
+        public string UserId { get; }
+
+        public ReactionRemovedEvent(string userId, ReactionTypes type)
+            : base()
         {
             Type = type;
+            UserId = userId;
         }
     }
 }

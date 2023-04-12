@@ -2,6 +2,7 @@ using Akka.Actor;
 using Akka.Cluster.Hosting;
 using Akka.Cluster.Sharding;
 using Akka.Hosting;
+using Akka.Persistence.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using OpenSystem.Akka.Configuration;
 using OpenSystem.Akka.Core.Actors;
@@ -23,10 +24,14 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
 
             if (settings.UseClustering)
             {
-                return builder.WithShardRegion<ReactionActor>(
+                return builder.WithShardRegion<ReactionCommandHandler>(
                     "reaction",
                     (system, registry, resolver) =>
-                        s => Props.Create(() => new ReactionActor(ReactionId.With(s))),
+                        s =>
+                            Props.Create(
+                                () =>
+                                    new ReactionCommandHandler(serviceProvider, ReactionId.With(s))
+                            ),
                     extractor,
                     settings.ShardOptions
                 );
@@ -39,11 +44,18 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
                         var parent = system.ActorOf(
                             GenericChildPerEntityParent.Props(
                                 extractor,
-                                s => Props.Create(() => new ReactionActor(ReactionId.With(s)))
+                                s =>
+                                    Props.Create(
+                                        () =>
+                                            new ReactionCommandHandler(
+                                                serviceProvider,
+                                                ReactionId.With(s)
+                                            )
+                                    )
                             ),
                             "reactions"
                         );
-                        registry.Register<ReactionActor>(parent);
+                        registry.Register<ReactionCommandHandler>(parent);
                     }
                 );
             }

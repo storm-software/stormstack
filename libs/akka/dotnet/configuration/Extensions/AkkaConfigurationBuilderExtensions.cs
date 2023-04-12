@@ -14,7 +14,7 @@ namespace OpenSystem.Akka.Configuration.Extensions
 {
     public static class AkkaConfigurationBuilderExtensions
     {
-        public static AkkaConfigurationBuilder ConfigurePersistence(
+        /*public static AkkaConfigurationBuilder ConfigurePersistence(
             this AkkaConfigurationBuilder builder,
             IServiceProvider serviceProvider
         )
@@ -73,7 +73,7 @@ namespace OpenSystem.Akka.Configuration.Extensions
                     }}
                 }}
             }}";
-        }
+        }*/
 
         public static AkkaConfigurationBuilder ConfigurePetabridgeCmd(
             this AkkaConfigurationBuilder builder

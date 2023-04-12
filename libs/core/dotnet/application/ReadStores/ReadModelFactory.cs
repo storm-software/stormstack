@@ -8,7 +8,7 @@ namespace OpenSystem.Core.Application.ReadStores
     public class ReadModelFactory<TReadModel> : IReadModelFactory<TReadModel>
         where TReadModel : IReadModel
     {
-        private readonly ILogger<ReadModelFactory<TReadModel>> _logger;
+        private ILogger<ReadModelFactory<TReadModel>> _logger;
 
         private static Func<TReadModel> _createReadModelFunc;
 
@@ -31,6 +31,11 @@ namespace OpenSystem.Core.Application.ReadStores
         }
 
         public ReadModelFactory(ILogger<ReadModelFactory<TReadModel>> logger)
+        {
+            _logger = logger;
+        }
+
+        public void SetLogger(ILogger<ReadModelFactory<TReadModel>> logger)
         {
             _logger = logger;
         }

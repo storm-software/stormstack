@@ -23,6 +23,7 @@ using OpenSystem.Reaction.Domain.ValueObjects;
 using OpenSystem.Core.Application.Queries;
 using OpenSystem.Core.Domain.ValueObjects;
 using System.Text;
+using OpenSystem.Reaction.Application.ReadStores;
 
 namespace OpenSystem.Reaction.Application.Models
 {
@@ -53,15 +54,9 @@ namespace OpenSystem.Reaction.Application.Models
     /// Get Reactions
     /// </summary>
     /// <remarks>Return the reactions for a specific article, comment, etc. </remarks>
-    [Query("/api/v1/reactions/{ReactionId}")]
-    public class GetReactionsQuery : IQuery<Paged<ReactionDetailRecord>>
+    [Query("/api/v1/reactions")]
+    public class GetReactionsQuery : Query<Paged<ReactionDetailRecord>>
     {
-        /// <summary>
-        /// The id of the article/comment
-        /// </summary>
-        [Identifier]
-        public string ReactionId { get; set; }
-
         /// <summary>
         /// The current page number of the selected data
         /// </summary>
@@ -88,17 +83,43 @@ namespace OpenSystem.Reaction.Application.Models
     }
 
     /// <summary>
-    /// Get Reaction Counts
+    /// Get Reactions
     /// </summary>
-    /// <remarks>Return the reaction counts for a specific article, comment, etc. </remarks>
-    [Query("/api/v1/reactions/{Id}/count")]
-    public class GetReactionsCountQuery : IQuery<GetReactionsCount200Response>
+    /// <remarks>Return the reactions for a specific article, comment, etc. </remarks>
+    [Query("/api/v1/reactions/{ReactionId}")]
+    public class GetReactionByIdQuery : GetByIdQuery<ReactionReadModel, ReactionId>
     {
         /// <summary>
         /// The id of the article/comment
         /// </summary>
         [Identifier]
-        public string Id { get; set; }
+        public string ReactionId { get; set; }
+
+        /// <summary>
+        /// The type of reaction the user had
+        /// </summary>
+        [QueryFilter]
+        public string? Type { get; set; }
+
+        public GetReactionByIdQuery()
+            : base(Domain.ValueObjects.ReactionId.New) { }
+
+        public GetReactionByIdQuery(string id)
+            : base(Domain.ValueObjects.ReactionId.With(id)) { }
+    }
+
+    /// <summary>
+    /// Get Reaction Counts
+    /// </summary>
+    /// <remarks>Return the reaction counts for a specific article, comment, etc. </remarks>
+    [Query("/api/v1/reactions/{ReactionId}/count")]
+    public class GetReactionsCountQuery : Query<GetReactionsCount200Response>
+    {
+        /// <summary>
+        /// The id of the article/comment
+        /// </summary>
+        [Identifier]
+        public string ReactionId { get; set; }
 
         /// <summary>
         /// The type of reaction the user had
@@ -111,7 +132,7 @@ namespace OpenSystem.Reaction.Application.Models
 
         public GetReactionsCountQuery(string id)
         {
-            Id = id;
+            ReactionId = id;
         }
 
         /// <summary>
@@ -122,7 +143,7 @@ namespace OpenSystem.Reaction.Application.Models
         {
             var sb = new StringBuilder();
             sb.Append("class GetReactionsCountQuery {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Id: ").Append(ReactionId).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -145,10 +166,7 @@ namespace OpenSystem.Reaction.Application.Models
         public RemoveReactionCommand()
             : base(Domain.ValueObjects.ReactionId.New) { }
 
-        public RemoveReactionCommand(ReactionId reactionId)
-            : base(reactionId) { }
-
-        public RemoveReactionCommand(ReactionId reactionId, CommandId sourceId)
-            : base(reactionId, sourceId) { }
+        public RemoveReactionCommand(string id)
+            : base(Domain.ValueObjects.ReactionId.With(id)) { }
     }
 }

@@ -6,6 +6,8 @@ using System.Diagnostics;
 using Akka.HealthCheck.Hosting.Web;
 using OpenSystem.Akka.Configuration;
 using OpenSystem.Akka.Configuration.Extensions;
+using OpenSystem.Core.Domain.Events;
+using OpenSystem.Core.Api.Extensions;
 
 namespace OpenSystem.Akka.Api
 {
@@ -17,6 +19,10 @@ namespace OpenSystem.Akka.Api
             Action<AkkaConfigurationBuilder, IServiceProvider> configureActors
         )
         {
+            services.AddProblemDetails();
+            services.AddCoreMiddleware();
+            services.AddAkkaEventSourcing();
+
             services.WithAkkaHealthCheck(HealthCheckType.All);
             services.ConfigureAkkaApi(
                 configuration,

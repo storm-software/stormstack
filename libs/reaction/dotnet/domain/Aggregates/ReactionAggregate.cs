@@ -1,16 +1,12 @@
-using OpenSystem.Core.Domain.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
 using OpenSystem.Reaction.Domain.Enums;
-using OpenSystem.Core.Domain.Extensions;
-using System.Globalization;
 using OpenSystem.Core.Domain.ResultCodes;
 using OpenSystem.Reaction.Domain.ValueObjects;
 using OpenSystem.Core.Domain.Aggregates;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Reaction.Domain.Events;
-using OpenSystem.Reaction.Domain.Entities;
 using OpenSystem.Reaction.Domain.ResultCodes;
-using OpenSystem.Core.Domain.Attributes;
+using OpenSystem.Core.Domain.ValueObjects;
+using OpenSystem.Reaction.Domain.Entities;
 
 namespace OpenSystem.Reaction.Domain.Aggregates
 {
@@ -21,69 +17,72 @@ namespace OpenSystem.Reaction.Domain.Aggregates
     {
         private bool _isDisabled = false;
 
-        private List<ReactionDetailEntity> _details = new List<ReactionDetailEntity>();
+        private Dictionary<string, ReactionDetailEntity> _details =
+            new Dictionary<string, ReactionDetailEntity>();
 
         public ReactionAggregate(ReactionId id)
             : base(id) { }
 
-        public IAggregateEventResult AddReaction(ReactionTypes type)
+        public Result AddReaction(UserId userId, ReactionTypes type)
         {
             if (_isDisabled)
-                return AggregateEventResult.Failure(
+                return Result.Failure(
                     typeof(ResultCodeReaction),
                     ResultCodeReaction.ReactionsAreDisabled,
                     $"Reactions for {Id.Value} have been temporarily disabled"
                 );
+            if (string.IsNullOrEmpty(userId?.Value))
+                return Result.Failure(
+                    typeof(ResultCodeApplication),
+                    ResultCodeApplication.UserIdNotFound,
+                    $"The User Id could not be found"
+                );
+            if (_details.ContainsKey(userId.Value))
+                return Result.Failure(
+                    typeof(ResultCodeReaction),
+                    ResultCodeReaction.ReactionAlreadyExists,
+                    $"A reaction to content '{Id.Value}' is already saved for {userId}"
+                );
 
-            Emit(new ReactionAddedEvent(type));
+            Emit(new ReactionAddedEvent(userId.Value, type));
 
-            return AggregateEventResult.Success(Id, Version);
+            return Result.Success(Id, Version);
         }
 
-        public IAggregateEventResult RemoveReaction(ReactionTypes type)
+        public Result RemoveReaction(UserId userId)
         {
             if (_isDisabled)
-                return AggregateEventResult.Failure(
+                return Result.Failure(
                     typeof(ResultCodeReaction),
                     ResultCodeReaction.ReactionsAreDisabled,
                     $"Reactions for {Id.Value} have been temporarily disabled"
                 );
-
-            var detail = _details.FirstOrDefault(d => d.Type == type);
-            if (detail != null && detail.Count <= 0)
-                return AggregateEventResult.Failure(
+            if (string.IsNullOrEmpty(userId?.Value))
+                return Result.Failure(
+                    typeof(ResultCodeApplication),
+                    ResultCodeApplication.UserIdNotFound,
+                    $"The User Id could not be found"
+                );
+            if (!_details.ContainsKey(userId.Value))
+                return Result.Failure(
                     typeof(ResultCodeReaction),
                     ResultCodeReaction.NoReactionsExist,
-                    $"There are no {type} reactions for {Id.Value} that can be removed"
+                    $"There is no reaction to content '{Id.Value}' that can be removed for {userId}"
                 );
 
-            Emit(new ReactionRemovedEvent(type));
+            Emit(new ReactionRemovedEvent(userId.Value, _details[userId.Value].Type));
 
-            return AggregateEventResult.Success(Id, Version);
+            return Result.Success(Id, Version);
         }
 
         public void Apply(ReactionAddedEvent @event)
         {
-            var detail = _details.FirstOrDefault(d => d.Type == @event.Type);
-            if (detail == null)
-            {
-                detail = new ReactionDetailEntity(@event.Type, Id);
-                _details.Add(detail);
-            }
-
-            detail.Count++;
+            _details.Add(@event.UserId, new ReactionDetailEntity(@event.UserId, @event.Type));
         }
 
         public void Apply(ReactionRemovedEvent @event)
         {
-            var detail = _details.FirstOrDefault(d => d.Type == @event.Type);
-            if (detail == null)
-            {
-                detail = new ReactionDetailEntity(@event.Type, Id);
-                _details.Add(detail);
-            }
-
-            detail.Count--;
+            _details.Remove(@event.UserId);
         }
     }
 }

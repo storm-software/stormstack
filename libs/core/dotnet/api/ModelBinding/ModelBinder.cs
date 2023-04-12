@@ -18,22 +18,23 @@ using OpenSystem.Core.Domain.Extensions;
 using OpenSystem.Core.Domain.Settings;
 using OpenSystem.Core.Domain.Utilities;
 using OpenSystem.Core.Domain.ValueObjects;
+using OpenSystem.Core.Application.Services;
 
 namespace OpenSystem.Core.Api.ModelBinding
 {
-    internal sealed class ParameterDictionary : TypeObjectDictionary<RequestParameter?> { }
+    public sealed class ParameterDictionary : TypeObjectDictionary<RequestParameter?> { }
 
     public static class ModelBinder
     {
         private static readonly ParameterDictionary ParameterCache = new();
         private static IJsonOptions? _jsonSerializerOptions;
 
-        internal static RequestParameter? GetRequestParameter(Type type)
+        public static RequestParameter? GetRequestParameter(Type type)
         {
             return ParameterCache.TryGetValue(type, out var parameter) ? parameter : null;
         }
 
-        internal static async Task<T> BindToAsync<T>(this HttpContext context)
+        public static async Task<T> BindToAsync<T>(this HttpContext context)
             where T : IBaseRequest<IResult>
         {
             return (T)await BindToAsync(context, typeof(T));
@@ -50,7 +51,7 @@ namespace OpenSystem.Core.Api.ModelBinding
             return BindToAsync(context, type, target);
         }*/
 
-        internal static async ValueTask<object> BindToAsync(this HttpContext context, Type type)
+        public static async ValueTask<object> BindToAsync(this HttpContext context, Type type)
         {
             var memoryCache = context.RequestServices.GetService<IMemoryCache>();
             var log = context.RequestServices.GetService<ILoggerFactory>();
@@ -71,6 +72,8 @@ namespace OpenSystem.Core.Api.ModelBinding
                     var constructorParamsNames = new List<string>();
                     foreach (var property in parameters.Identifiers)
                     {
+                        log?.CreateLogger("ModelBinder")
+                            .LogWarning("***** Id: {Name}", property.Name);
                         if (
                             context.Request.RouteValues.TryGetValue(
                                 property.Name,
@@ -83,6 +86,13 @@ namespace OpenSystem.Core.Api.ModelBinding
                         }
                     }
 
+                    log?.CreateLogger("ModelBinder")
+                        .LogWarning("***** ConstructorParams: {Name}", constructorParams);
+                    log?.CreateLogger("ModelBinder")
+                        .LogWarning(
+                            "***** ConstructorParams Type: {Name}",
+                            constructorParams.GetType()
+                        );
                     if (constructorParams.Any())
                     {
                         var requestConstructor = memoryCache?.GetOrCreate(
@@ -96,8 +106,16 @@ namespace OpenSystem.Core.Api.ModelBinding
                                 );
                             }
                         );
+                        log?.CreateLogger("ModelBinder")
+                            .LogWarning(
+                                "***** ConstructorParams: {Name}",
+                                constructorParams.ToArray()
+                            );
                         if (requestConstructor != null)
                             target = requestConstructor?.DynamicInvoke(constructorParams.ToArray());
+                        else
+                            log?.CreateLogger("ModelBinder")
+                                .LogWarning("***** requestConstructor: is null");
                     }
                 }
             }
@@ -122,6 +140,8 @@ namespace OpenSystem.Core.Api.ModelBinding
 
             foreach (var property in parameters.Identifiers)
             {
+                log?.CreateLogger("ModelBinder")
+                    .LogWarning("***** Identifiers: {Name}", property.Name);
                 if (context.Request.RouteValues.TryGetValue(property.Name, out var routeValue))
                     property.SetValue(target, routeValue as string);
             }
@@ -176,45 +196,20 @@ namespace OpenSystem.Core.Api.ModelBinding
             parameters.Request?.SetValue(target, context.Request);
             parameters.Response?.SetValue(target, context.Response);
 
+            if (
+                target is IBaseRequest baseRequest
+                && string.IsNullOrEmpty(baseRequest.UserId?.Value)
+            )
+            {
+                var currentUserService = context.RequestServices.GetService<ICurrentUserService>();
+                if (currentUserService != null)
+                    baseRequest.UserId = currentUserService.UserId;
+            }
+
             return target;
         }
 
-        private static BaseSourceAttribute? GetInferredBinding(
-            PropertyInfo propertyInfo,
-            RoutePattern pattern
-        )
-        {
-            var propType = propertyInfo.PropertyType;
-            BaseSourceAttribute? bind = null;
-            if (
-                propType == typeof(string)
-                || propType.IsValueType
-                || propType.IsPrimitive
-                || propType.IsEnum
-            )
-            {
-                // implicit binding declaration
-                foreach (var parameter in pattern.Parameters)
-                {
-                    if (
-                        !string.Equals(
-                            parameter.Name,
-                            propertyInfo.Name,
-                            StringComparison.OrdinalIgnoreCase
-                        )
-                    )
-                        continue;
-                    bind = new IdentifierAttribute(parameter.Name);
-                    break;
-                }
-
-                bind ??= new QueryFilterAttribute();
-            }
-
-            return bind;
-        }
-
-        internal static RequestParameter Build(
+        public static RequestParameter Build(
             Type type,
             HttpContext context,
             ObjectParserCollection? parsers = null
@@ -312,6 +307,48 @@ namespace OpenSystem.Core.Api.ModelBinding
             ParameterCache[type] = null;
         }
 
+        public static void AddDefaultParsers(ObjectParserCollection collection)
+        {
+            collection.TryAdd(typeof(string), input => input.ToString());
+            collection.TryAdd(typeof(string[]), input => input.ToArray());
+            collection.TryAdd(typeof(IEnumerable<string>), input => input.ToArray());
+        }
+
+        private static BaseSourceAttribute? GetInferredBinding(
+            PropertyInfo propertyInfo,
+            RoutePattern pattern
+        )
+        {
+            var propType = propertyInfo.PropertyType;
+            BaseSourceAttribute? bind = null;
+            if (
+                propType == typeof(string)
+                || propType.IsValueType
+                || propType.IsPrimitive
+                || propType.IsEnum
+            )
+            {
+                // implicit binding declaration
+                foreach (var parameter in pattern.Parameters)
+                {
+                    if (
+                        !string.Equals(
+                            parameter.Name,
+                            propertyInfo.Name,
+                            StringComparison.OrdinalIgnoreCase
+                        )
+                    )
+                        continue;
+                    bind = new IdentifierAttribute(parameter.Name);
+                    break;
+                }
+
+                bind ??= new QueryFilterAttribute();
+            }
+
+            return bind;
+        }
+
         private static bool IsHttpContext(PropertyInfo property, RequestParameter parameters)
         {
             var propType = property.PropertyType;
@@ -334,13 +371,6 @@ namespace OpenSystem.Core.Api.ModelBinding
             }
 
             return false;
-        }
-
-        internal static void AddDefaultParsers(ObjectParserCollection collection)
-        {
-            collection.TryAdd(typeof(string), input => input.ToString());
-            collection.TryAdd(typeof(string[]), input => input.ToArray());
-            collection.TryAdd(typeof(IEnumerable<string>), input => input.ToArray());
         }
     }
 }

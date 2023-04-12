@@ -94,6 +94,19 @@ namespace OpenSystem.Core.Domain.Events
             );
         }
 
+        public IEnumerable<IDomainEvent> Create(IEnumerable<IUncommittedEvent> uncommittedEvents)
+        {
+            return uncommittedEvents.Select(
+                e =>
+                    Create(
+                        e.AggregateEvent,
+                        e.Metadata,
+                        e.Metadata.AggregateId,
+                        e.Metadata.AggregateSequenceNumber
+                    )
+            );
+        }
+
         public IDomainEvent<TAggregate, TIdentity> Create<TAggregate, TIdentity>(
             IAggregateEvent aggregateEvent,
             IMetadata metadata,

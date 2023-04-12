@@ -16,9 +16,9 @@ namespace OpenSystem.Core.Domain.ResultCodes
         {
             if (a is null && b is null)
                 return true;
-            if (a != null || b != null)
+            if (a is null || b is null)
                 return false;
-            return a.Equals(b);
+            return (a?.Equals(b) != true);
         }
 
         public static bool operator !=(BaseResult? a, BaseResult? b)

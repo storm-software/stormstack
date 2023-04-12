@@ -9,6 +9,7 @@ using static Microsoft.AspNetCore.Http.StatusCodes;
 using Akka.Actor;
 using OpenSystem.Core.Api;
 using Akka.Hosting;
+using OpenSystem.Core.Domain.Common;
 
 namespace OpenSystem.Akka.Api
 {
@@ -41,15 +42,13 @@ namespace OpenSystem.Akka.Api
                     )
                 );
 
-            var result = await _actor.ActorRef.Ask<IAggregateEventResult>(
-                command,
-                TimeSpan.FromSeconds(20)
-            );
+            var result = await _actor.ActorRef.Ask<Result>(command, TimeSpan.FromSeconds(10));
+
             GetLogger(httpContext).LogDebug("Response received from command bus: {Result}", result);
             if (result?.Succeeded != true)
-                return HttpUtility.CreateProblem(httpContext, (Result?)result);
+                return HttpUtility.CreateProblem(httpContext, result);
 
-            return HttpUtility.CreateOk(httpContext, result);
+            return HttpUtility.CreateOk(httpContext, (Result<IVersionedIndex<IIdentity>>)result);
         }
 
         protected override async ValueTask<IResult> HandleQueryAsync(
@@ -66,13 +65,13 @@ namespace OpenSystem.Akka.Api
                     )
                 );
 
-            var result = await _actor.ActorRef.Ask(query, TimeSpan.FromSeconds(20));
+            var result = await _actor.ActorRef.Ask<Result>(query, TimeSpan.FromSeconds(10));
             if (result == null)
                 return HttpUtility.CreateProblem(httpContext, result as Result, Status404NotFound);
             if (result is Result resultObj && resultObj.Failed)
                 return HttpUtility.CreateProblem(httpContext, resultObj);
 
-            return HttpUtility.CreateOk(httpContext, Result.Success(result));
+            return HttpUtility.CreateOk(httpContext, result as Result<object>);
         }
     }
 }

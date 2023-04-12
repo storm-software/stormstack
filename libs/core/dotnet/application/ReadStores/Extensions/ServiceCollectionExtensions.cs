@@ -54,8 +54,8 @@ namespace OpenSystem.Core.Application.ReadStores.Extensions
                     SingleAggregateReadStoreManager<TAggregate, TIdentity, TReadStore, TReadModel>
                 >()
                 .AddTransient<
-                    IQueryHandler<GetByIdQuery<TReadModel>, TReadModel>,
-                    GetByIdQueryHandler<TReadStore, TReadModel>
+                    IQueryHandler<GetByIdQuery<TReadModel, TIdentity>, TReadModel>,
+                    GetByIdQueryHandler<TReadStore, TReadModel, TIdentity>
                 >();
             return services;
         }
@@ -73,8 +73,8 @@ namespace OpenSystem.Core.Application.ReadStores.Extensions
                     MultipleAggregateReadStoreManager<TReadStore, TReadModel, TReadModelLocator>
                 >()
                 .AddTransient<
-                    IQueryHandler<GetByIdQuery<TReadModel>, TReadModel>,
-                    GetByIdQueryHandler<TReadStore, TReadModel>
+                    IQueryHandler<GetByIdQuery<TReadModel, IIdentity>, TReadModel>,
+                    GetByIdQueryHandler<TReadStore, TReadModel, IIdentity>
                 >();
             return services;
         }

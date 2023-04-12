@@ -1,11 +1,12 @@
 using OpenSystem.Core.Domain.Aggregates;
 using OpenSystem.Core.Domain.Common;
-using OpenSystem.Core.Domain.Extensions;
 
 namespace OpenSystem.Core.Domain.Events
 {
     public interface IDomainEventFactory
     {
+        IEnumerable<IDomainEvent> Create(IEnumerable<IUncommittedEvent> uncommittedEvents);
+
         IDomainEvent Create(
             IAggregateEvent aggregateEvent,
             IMetadata metadata,

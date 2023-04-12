@@ -1,4 +1,5 @@
 using System.Reflection;
+using OpenSystem.Core.Domain.ValueObjects;
 
 namespace OpenSystem.Core.Application.Models
 {

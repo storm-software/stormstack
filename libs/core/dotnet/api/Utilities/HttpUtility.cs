@@ -119,7 +119,10 @@ namespace OpenSystem.Core.Api.Utilities
             return Results.Ok(result?.Data);
         }
 
-        public static IResult CreateOk(HttpContext context, IAggregateEventResult result)
+        public static IResult CreateOk(
+            HttpContext context,
+            Result<IVersionedIndex<IIdentity>> result
+        )
         {
             SetOkResponseHeaders(context, result.Data);
             if (result?.Data is IVersionedIndex<IIdentity> versionedIndex)

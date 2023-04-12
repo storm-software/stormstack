@@ -49,15 +49,11 @@ namespace OpenSystem.Core.Domain.Aggregates
         protected AggregateRoot(TIdentity id)
         {
             if (id == null)
-            {
                 throw new ArgumentNullException(nameof(id));
-            }
             if (!(this is TAggregate))
-            {
                 throw new InvalidOperationException(
                     $"Aggregate '{GetType().PrettyPrint()}' specifies '{typeof(TAggregate).PrettyPrint()}' as generic argument, it should be its own type"
                 );
-            }
 
             Id = id;
         }
@@ -91,7 +87,12 @@ namespace OpenSystem.Core.Domain.Aggregates
             if (aggregateEvent == null)
                 throw new ArgumentNullException(nameof(aggregateEvent));
 
-            var aggregateSequenceNumber = Version + 1;
+            var aggregateSequenceNumber =
+                (
+                    _uncommittedEvents.Count() > 0
+                        ? _uncommittedEvents.Max(e => e.Metadata.AggregateSequenceNumber)
+                        : Version
+                ) + 1;
             var eventId = EventId.NewDeterministic(
                 GuidUtility.Deterministic.Namespaces.Events,
                 $"{Id.Value}-v{aggregateSequenceNumber}"
@@ -110,8 +111,6 @@ namespace OpenSystem.Core.Domain.Aggregates
                 eventMetadata.AddRange(metadata);
 
             var uncommittedEvent = new UncommittedEvent(aggregateEvent, eventMetadata);
-
-            ApplyEvent(aggregateEvent);
             _uncommittedEvents.Add(uncommittedEvent);
         }
 
@@ -149,16 +148,16 @@ namespace OpenSystem.Core.Domain.Aggregates
                     cancellationToken
                 )
                 .ConfigureAwait(false);
-            _uncommittedEvents.Clear();
+
+            ClearUncommittedEvents();
+
             return domainEvents;
         }
 
         public virtual void ApplyEvents(IReadOnlyCollection<IDomainEvent> domainEvents)
         {
             if (domainEvents == null)
-            {
                 throw new ArgumentNullException(nameof(domainEvents));
-            }
 
             foreach (var domainEvent in domainEvents)
             {
@@ -198,9 +197,7 @@ namespace OpenSystem.Core.Domain.Aggregates
             where T : AggregateRoot<TAggregate, TIdentity>
         {
             if (domainEvent == null)
-            {
                 throw new ArgumentNullException(nameof(domainEvent));
-            }
 
             if (domainEvent.AggregateSequenceNumber != Version + 1)
                 throw new InvalidOperationException(
@@ -228,6 +225,11 @@ namespace OpenSystem.Core.Domain.Aggregates
         public IIdentity GetIdentity()
         {
             return Id;
+        }
+
+        public void ClearUncommittedEvents()
+        {
+            _uncommittedEvents.Clear();
         }
 
         protected virtual void ApplyEvent(IAggregateEvent<TAggregate, TIdentity> aggregateEvent)

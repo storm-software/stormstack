@@ -17,6 +17,8 @@ namespace OpenSystem.Reaction.Domain.ResultCodes
 
         public const int NoReactionsExist = 2;
 
+        public const int ReactionAlreadyExists = 3;
+
 		#endregion Constants
 
 		#endregion Public

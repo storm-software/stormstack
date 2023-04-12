@@ -12,6 +12,9 @@ using Akka.Discovery.Azure;
 using Akka.Cluster.Sharding;
 using Akka.Management;
 using OpenSystem.Akka.Configuration.Extensions;
+using OpenSystem.Core.Domain.Aggregates;
+using OpenSystem.Core.Domain.Events;
+using OpenSystem.Core.Application.ReadStores;
 
 namespace OpenSystem.Akka.Configuration
 {
@@ -104,6 +107,22 @@ namespace OpenSystem.Akka.Configuration
             }
 
             return b;
+        }
+
+        public static IServiceCollection AddAkkaEventSourcing(
+            this IServiceCollection serviceCollection
+        )
+        {
+            // serviceCollection.AddMemoryCache();
+
+
+            serviceCollection.AddTransient(typeof(IAggregateFactory), typeof(AggregateFactory));
+
+            serviceCollection.AddSingleton(typeof(IDomainEventFactory), typeof(DomainEventFactory));
+
+            serviceCollection.AddSingleton(typeof(IReadModelFactory<>), typeof(ReadModelFactory<>));
+
+            return serviceCollection;
         }
     }
 }

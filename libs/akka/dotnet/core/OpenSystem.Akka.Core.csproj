@@ -18,7 +18,7 @@
     <PackageReference Include="Akka.Cluster.Sharding" Version="1.5.1" />
   </ItemGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\core\dotnet\domain\OpenSystem.Core.Domain.csproj" />
   </ItemGroup>
 

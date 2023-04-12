@@ -8,7 +8,7 @@ using OpenSystem.Core.Api.ModelBinding;
 using OpenSystem.Core.Application.Utilities;
 using OpenSystem.Core.Api.Utilities;
 using OpenSystem.Core.Application.Mediator.Attributes;
-using MediatR;
+using OpenSystem.Core.Application.Interfaces;
 
 namespace OpenSystem.Core.Api.Extensions
 {

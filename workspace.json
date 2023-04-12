@@ -57,6 +57,7 @@
     "akka-dotnet-core": "libs/akka/dotnet/core",
     "akka-dotnet-serilog": "libs/akka/dotnet/serilog",
     "akka-dotnet-postgresql": "libs/akka/dotnet/postgresql",
-    "akka-dotnet-redis": "libs/akka/dotnet/redis"
+    "akka-dotnet-redis": "libs/akka/dotnet/redis",
+    "akka-dotnet-domain": "libs/akka/dotnet/domain"
   }
 }

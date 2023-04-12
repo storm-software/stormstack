@@ -39,15 +39,18 @@ namespace OpenSystem.Apis.Reaction.Authentication
     public class ApiKeyRequirementHandler : AuthorizationHandler<ApiKeyRequirement>
     {
         /// <copydoc cref="AuthorizationHandler{T}.HandleRequirementAsync" />
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ApiKeyRequirement requirement)
+        protected override Task HandleRequirementAsync(
+            AuthorizationHandlerContext context,
+            ApiKeyRequirement requirement
+        )
         {
             SucceedRequirementIfApiKeyPresentAndValid(context, requirement);
             return Task.CompletedTask;
         }
 
-        private void SucceedRequirementIfApiKeyPresentAndValid(AuthorizationHandlerContext context, ApiKeyRequirement requirement)
-        {
-
-        }
+        private void SucceedRequirementIfApiKeyPresentAndValid(
+            AuthorizationHandlerContext context,
+            ApiKeyRequirement requirement
+        ) { }
     }
 }

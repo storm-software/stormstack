@@ -40,6 +40,8 @@ namespace OpenSystem.Core.Domain.ResultCodes
 
         public const int UnknownJob = 15;
 
+        public const int UserIdNotFound = 16;
+
 		#endregion Constants
 
 		#endregion Public

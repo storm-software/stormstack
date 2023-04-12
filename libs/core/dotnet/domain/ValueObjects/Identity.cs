@@ -82,6 +82,8 @@ namespace OpenSystem.Core.Domain.ValueObjects
             return !InnerValidate(value).Any();
         }
 
+        public static string GetPrefixName() => Prefix;
+
         public Guid GetGuid() => _lazyGuid.Value;
 
         public IEnumerable<IFieldValidationResult> Validate(string value, string? fieldName = null)

@@ -22,6 +22,8 @@ namespace OpenSystem.Core.Application.Mediator.Extensions
             Action<ObjectParserCollection>? configureParsers = null
         )
         {
+            services.AddMemoryCache();
+
             services.Configure<MediatorSettings>(config =>
             {
                 configure(config);
@@ -49,6 +51,8 @@ namespace OpenSystem.Core.Application.Mediator.Extensions
             Action<ObjectParserCollection>? configureParsers = null
         )
         {
+            services.AddMemoryCache();
+
             assembly ??= Assembly.GetCallingAssembly();
             services.Configure<MediatorSettings>(configuration =>
             {

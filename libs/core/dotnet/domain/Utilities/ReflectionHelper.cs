@@ -294,7 +294,18 @@ namespace OpenSystem.Core.Domain.Utilities
 
             var constructor = typeOfTResult.GetConstructor(implTypes);
             if (constructor == null)
+            {
+                Console.WriteLine(
+                    $"Type {typeOfTResult.PrettyPrint()} doesn't have constructor of {typeOfTResult.Name}({string.Join(",", implTypes.Select(e => e.PrettyPrint()))})"
+                );
                 constructor = typeOfTResult.GetConstructors()[0];
+            }
+            else
+            {
+                Console.WriteLine(
+                    $"Type {typeOfTResult.PrettyPrint()} has constructor of {typeOfTResult.Name}({string.Join(",", implTypes.Select(e => e.PrettyPrint()))})"
+                );
+            }
 
             var body = Expression.New(constructor, constructorArguments);
             var lambda = Expression.Lambda(body, parameters);

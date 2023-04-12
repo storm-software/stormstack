@@ -39,7 +39,7 @@ namespace OpenSystem.Reaction.Application.Queries
         )
         {
             var readModelEnvelope = await _readStore
-                .GetAsync(query.Id, cancellationToken)
+                .GetAsync(query.ReactionId, cancellationToken)
                 .ConfigureAwait(false);
 
             _logger.LogInformation("ReadModel: {0}", readModelEnvelope.ReadModel);

@@ -21,13 +21,17 @@
     <ProjectReference Include="..\..\akka\dotnet\core\OpenSystem.Akka.Core.csproj" />
     <ProjectReference Include="..\..\akka\dotnet\configuration\OpenSystem.Akka.Configuration.csproj" />
     <ProjectReference Include="..\..\akka\dotnet\serilog\OpenSystem.Akka.Serilog.csproj" />
+    <ProjectReference Include="..\..\akka\dotnet\postgresql\OpenSystem.Akka.PostgreSql.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka.Cluster.Hosting" Version="1.5.1.1" />
-    <PackageReference Include="Akka.Hosting" Version="1.5.1.1" />
-    <PackageReference Include="Akka.Persistence" Version="1.5.1" />
-    <PackageReference Include="Akka.Cluster.Sharding" Version="1.5.1" />
+    <PackageReference Include="Akka.Cluster.Hosting" Version="1.5.2" />
+    <PackageReference Include="Akka.Hosting" Version="1.5.2" />
+    <PackageReference Include="Akka.Persistence" Version="1.5.2" />
+    <PackageReference Include="Akka.Cluster.Sharding" Version="1.5.2" />
+    <PackageReference Include="Akka.Persistence.PostgreSql" Version="1.5.2" />
+    <PackageReference Include="Akka.Persistence.Query" Version="1.5.2" />
+    <PackageReference Include="Akka.Persistence.Query.Sql" Version="1.5.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>

@@ -55,22 +55,22 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
 
-  reaction.snapshot-db:
-    container_name: reaction.snapshot-db
-    image: redis:alpine
-    restart: always
-    ports:
-      - "5430:6379"
-    networks:
-      - network-microservice
-    volumes:
-      - snapshot-data:/data
-    environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+ # reaction.snapshot-db:
+   # container_name: reaction.snapshot-db
+   # image: redis:alpine
+  #  restart: always
+   # ports:
+   #   - "5430:6379"
+  #  networks:
+   #   - network-microservice
+  #  volumes:
+   #   - snapshot-data:/data
+  #  environment:
+  #    ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
 
 volumes:
   pgadmin-data:
   write-data:
   read-data:
-  snapshot-data:
-    driver: local
+  #snapshot-data:
+  #  driver: local
