@@ -1,3 +1,31 @@
+## [1.12.4](https://github.com/sullivanpj/open-system/compare/core-dotnet-application-v1.12.3...core-dotnet-application-v1.12.4) (2023-04-12)
+
+
+### Bug Fixes
+
+* upgrade react-hook-form from 7.43.6 to 7.43.7 ([#124](https://github.com/sullivanpj/open-system/issues/124)) ([b47d554](https://github.com/sullivanpj/open-system/commit/b47d554517c9d1d61540732a3b29614fc63240e5))
+
+## [1.12.3](https://github.com/sullivanpj/open-system/compare/core-dotnet-application-v1.12.2...core-dotnet-application-v1.12.3) (2023-04-11)
+
+
+### Bug Fixes
+
+* upgrade tslib from 2.4.1 to 2.5.0 ([#113](https://github.com/sullivanpj/open-system/issues/113)) ([0425246](https://github.com/sullivanpj/open-system/commit/04252469781c3c3ca9981047afaf33e716b9bba0))
+
+## [1.12.2](https://github.com/sullivanpj/open-system/compare/core-dotnet-application-v1.12.1...core-dotnet-application-v1.12.2) (2023-04-08)
+
+
+### Bug Fixes
+
+* upgrade @heroicons/react from 2.0.13 to 2.0.16 ([#99](https://github.com/sullivanpj/open-system/issues/99)) ([a73bad2](https://github.com/sullivanpj/open-system/commit/a73bad2e5ba08b23acd37cbe0f36bcc7c527b434))
+
+## [1.12.1](https://github.com/sullivanpj/open-system/compare/core-dotnet-application-v1.12.0...core-dotnet-application-v1.12.1) (2023-04-07)
+
+
+### Bug Fixes
+
+* upgrade react-hook-form from 7.43.0 to 7.43.6 ([#97](https://github.com/sullivanpj/open-system/issues/97)) ([f1ed443](https://github.com/sullivanpj/open-system/commit/f1ed44363ee85dddbdcd539faaeaf3ac32031c5d))
+
 # [1.12.0](https://github.com/sullivanpj/open-system/compare/core-dotnet-application-v1.11.0...core-dotnet-application-v1.12.0) (2023-04-06)
 
 

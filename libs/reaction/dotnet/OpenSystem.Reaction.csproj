@@ -29,9 +29,12 @@
     <PackageReference Include="Akka.Hosting" Version="1.5.2" />
     <PackageReference Include="Akka.Persistence" Version="1.5.2" />
     <PackageReference Include="Akka.Cluster.Sharding" Version="1.5.2" />
+<<<<<<< HEAD
     <PackageReference Include="Akka.Persistence.PostgreSql" Version="1.5.2" />
     <PackageReference Include="Akka.Persistence.Query" Version="1.5.2" />
     <PackageReference Include="Akka.Persistence.Query.Sql" Version="1.5.2" />
+=======
+>>>>>>> c7e91e43cc7d57799db7f7d2d5dc422eeb385458
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
