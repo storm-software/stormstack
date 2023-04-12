@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/sullivanpj/open-system/compare/apis-reaction-v1.14.0...apis-reaction-v1.14.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* upgrade react-hook-form from 7.43.6 to 7.43.7 ([#124](https://github.com/sullivanpj/open-system/issues/124)) ([b47d554](https://github.com/sullivanpj/open-system/commit/b47d554517c9d1d61540732a3b29614fc63240e5))
+
 # [1.14.0](https://github.com/sullivanpj/open-system/compare/apis-reaction-v1.13.1...apis-reaction-v1.14.0) (2023-04-11)
 
 
