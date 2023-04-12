@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/sullivanpj/open-system/compare/apis-gateway-v1.12.1...apis-gateway-v1.13.0) (2023-04-12)
+
+
+### Features
+
+* **akka-dotnet-api:** Resolved issues with command handling actor ([49a134d](https://github.com/sullivanpj/open-system/commit/49a134d4d20bf16744d350603e7097a2a05136c5))
+
 ## [1.12.1](https://github.com/sullivanpj/open-system/compare/apis-gateway-v1.12.0...apis-gateway-v1.12.1) (2023-04-12)
 
 
