@@ -38,29 +38,35 @@ const antiqueOlive = localFont({
 const permanentMarker = Permanent_Marker({
   variable: "--font-permanent-marker",
   weight: "400",
+  subsets: ["latin"],
 });
 
 const abrilFatface = Abril_Fatface({
   variable: "--font-abril-fatface",
   weight: "400",
+  subsets: ["latin"],
 });
 
 const anybody = Anybody({
   variable: "--font-anybody",
+  subsets: ["latin"],
 });
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
 });
 
 const frankRuhlLibre = Frank_Ruhl_Libre({
   variable: "--font-frank-ruhl-libre",
   weight: "700",
+  subsets: ["latin"],
 });
 
 const rockSalt = Nothing_You_Could_Do({
   variable: "--font-rock-salt",
   weight: "400",
+  subsets: ["latin"],
 });
 
 const NavHeader = dynamic(() => import("./nav-header"));

@@ -1,11 +1,10 @@
 const { withNx } = require("@nrwl/next/plugins/with-nx");
-const withNextIntl = require("next-intl/withNextIntl");
 const { CONTACT_URL, REACTION_API_HOST } = process.env;
 
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
-const nextConfig = {
+module.exports = withNx({
   basePath: "",
   nx: {
     svgr: false,
@@ -20,9 +19,6 @@ const nextConfig = {
 
   experimental: {
     appDir: true,
-    fontLoaders: [
-      { loader: "@next/font/google", options: { subsets: ["latin"] } },
-    ],
   },
 
   transpilePackages: [
@@ -97,9 +93,4 @@ const nextConfig = {
       },
     };
   },
-};
-
-module.exports = withNextIntl({
-  ...withNx(nextConfig),
-  i18nConfig: "./i18n.config.ts",
 });

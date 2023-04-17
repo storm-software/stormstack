@@ -27,7 +27,6 @@
     "**/*.js",
     "**/*.jsx",
     "next-env.d.ts",
-    "../../../next-intl.config.ts",
     "../../../apps/web/shell/.next/types/**/*.ts"
   ],
   "exclude": [
