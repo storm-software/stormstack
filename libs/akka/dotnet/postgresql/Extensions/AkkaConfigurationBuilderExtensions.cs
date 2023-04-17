@@ -12,6 +12,7 @@ using Akka.Persistence.Hosting;
 using PersistenceMode = Akka.Persistence.Hosting.PersistenceMode;
 using OpenSystem.Akka.PostgreSql.Constants;
 using Akka.Persistence.Sql.Hosting;
+using Akka.Persistence.Sql;
 
 namespace OpenSystem.Akka.PostgreSql.Extensions
 {
@@ -59,28 +60,51 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
                 nameof(writeSettings.ConnectionString) + " != null"
             );
 
-            return builder
-                .WithPostgreSqlPersistence(
+            /*var readSettings = configuration
+                .GetSection("PostgreSqlReadJournalSettings")
+                .Get<AkkaPostgreSqlSettings>();
+            Debug.Assert(readSettings != null, nameof(readSettings) + " != null");
+            readSettings.ConnectionString = configuration.GetConnectionString(
+                readSettings.ConnectionStringName
+            );
+            Debug.Assert(
+                readSettings.ConnectionString != null,
+                nameof(readSettings.ConnectionString) + " != null"
+            );*/
+
+            /* builder
+                 .WithPostgreSqlPersistence(
+                     writeSettings.ConnectionString,
+                     PersistenceMode.Both,
+                     "public",
+                     true,
+                     StoredAsType.ByteA,
+                     false,
+                     true,
+                     journalBuilder,
+                     AkkaPostgreSqlConstants.PluginId
+
+                     builder.WithSqlPersistence(
+                writeSettings.ConnectionString,
+                LinqToDB.ProviderName.PostgreSQL15,
+                PersistenceMode.Both,
+                "public",
+                journalBuilder,
+                true,
+                AkkaPostgreSqlConstants.PluginId,
+                false
+            );
+                 )*/
+
+
+            return builder.AddHocon(
+                GetPostgreSqlLinqToDBPersistenceHocon(
                     writeSettings.ConnectionString,
-                    PersistenceMode.Both,
-                    "public",
-                    true,
-                    StoredAsType.ByteA,
-                    false,
-                    true,
-                    journalBuilder,
-                    AkkaPostgreSqlConstants.PluginId
-                )
-                .WithSqlPersistence(
                     writeSettings.ConnectionString,
-                    LinqToDB.ProviderName.PostgreSQL15,
-                    PersistenceMode.Both,
-                    "public",
-                    journalBuilder,
-                    true,
-                    AkkaPostgreSqlConstants.PluginId,
-                    false
-                );
+                    writeSettings.ConnectionString
+                ),
+                HoconAddMode.Prepend
+            );
         }
 
         /* public static Config GetPostgreSqlLinqToDBPersistenceHocon(IServiceProvider serviceProvider)
@@ -118,18 +142,43 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
              return GetPostgreSqlLinqToDBPersistenceHocon(readSettings, writeSettings);
          }*/
 
-        /*   public static Config GetPostgreSqlLinqToDBPersistenceHocon(
-               AkkaPostgreSqlSettings readSettings,
-               AkkaPostgreSqlSettings writeSettings
-           )
-           {
-               return $@"
-                       akka.persistence {{
+        public static Config GetPostgreSqlLinqToDBPersistenceHocon(
+            string writeJournalConnectionString,
+            string readJournalConnectionString,
+            string snapshotConnectionString
+        )
+        {
+            return $@"
+    akka.persistence {{
      journal {{
+        # Absolute path to the journal plugin configuration entry used by
+        # persistent actor or view by default.
+        # Persistent actor or view can override `journalPluginId` method
+        # in order to rely on a different journal plugin.
+        plugin = ""{AkkaPostgreSqlConstants.WriteJournalPluginId}""
+
+        # List of journal plugins to start automatically. Use "" for the default journal plugin.
+        auto-start-journals = [""{AkkaPostgreSqlConstants.WriteJournalPluginId}""]
+
+        sharding {{
+            # qualified type name of the persistence journal actor
+            class = ""Akka.Persistence.Sql.Journal.SqlWriteJournal, Akka.Persistence.Sql""
+
+            # connection string used for database access
+            connection-string = ""{writeJournalConnectionString}""
+
+            # separate collections / tables for Akka.Cluster.Sharding
+            collection = ""EventJournalSharding""
+            metadata-collection = ""MetadataSharding""
+        }}
+
        sql {{
          class = ""Akka.Persistence.Sql.Journal.SqlWriteJournal, Akka.Persistence.Sql""
          plugin-dispatcher = ""akka.persistence.dispatchers.default-plugin-dispatcher""
-         connection-string = ""{writeSettings.ConnectionString}"" # Connection String is Required!
+         connection-string = ""{writeJournalConnectionString}""
+
+        collection = ""EventJournal""
+        metadata-collection = ""Metadata""
 
          # Provider name is required.
          # Refer to LinqToDb.ProviderName for values
@@ -137,12 +186,12 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
          # To avoid provider detection performance penalty
          # Don't worry if your DB is newer than what is listed;
          # Just pick the newest one (if yours is still newer)
-         provider-name = ""LinqToDB.DataProvider.PostgreSQL""
+         provider-name = ""{LinqToDB.ProviderName.PostgreSQL15}""
 
-   # If true, journal_metadata is created and used for deletes
+         # If true, journal_metadata is created and used for deletes
          # and max sequence number queries.
          # note that there is a performance penalty for using this.
-         delete-compatibility-mode = false
+         delete-compatibility-mode = true
 
          # The database schema, table names, and column names configuration mapping.
          # The details are described in their respective configuration block below.
@@ -185,7 +234,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
          # Number of Concurrent writers.
          # On larger servers with more cores you can increase this number
          # But in most cases 2-4 is a safe bet.
-         parallelism = 3
+         parallelism = 4
 
          # If a batch is larger than this number,
          # Plugin will utilize Linq2db's
@@ -198,7 +247,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
 
          # Only set to TRUE if unit tests pass with the connection string you intend to use!
          # This setting will go away once https://github.com/linq2db/linq2db/issues/2466 is resolved
-         use-clone-connection = true
+         use-clone-connection = false
 
          # This dispatcher will be used for the Stream Materializers
          # Note that while all calls will be Async to Linq2Db,
@@ -216,7 +265,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
          #   * TagTable
          #     This value will make the plugin stores event tags inside a separate tag
          #     table to improve tag related query speed.
-         tag-write-mode = Csv
+         tag-write-mode = TagTable
 
          # The character used to delimit the CSV formatted tag column.
          # This setting is only effective if `tag-write-mode` is set to `Csv`
@@ -244,7 +293,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
          # Use this if you're not migrating from old Akka.Persistence plugins
          default {{
            # If you want to specify a schema for your tables, you can do so here.
-           # schema-name = {writeSettings.SchemaName ?? "public"}
+           schema-name = public
 
            journal {{
              # A flag to indicate if the writer_uuid column should be generated and be populated in run-time.
@@ -259,7 +308,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
              #      that the `writer-uuid` column to be present inside the journal table.
              use-writer-uuid-column = true
 
-             table-name = {writeSettings.JournalTableName ?? "event_journal"}
+             table-name = ""event_journal""
 
              columns {{
                ordering = ordering
@@ -276,23 +325,34 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
            }}
 
            metadata {{
-               table-name = {writeSettings.MetaTableName ?? "metadata"}
+               table-name = ""metadata""
 
                columns {{
                    persistence-id = persistence_id
                    sequence-number = sequence_nr
                }}
            }}
+
+        tag {{
+          table-name = ""tags""
+          columns {{
+            ordering-id = ordering_id
+            tag-value = tag
+            persistence-id = persistence_id
+            sequence-nr = sequence_nr
+          }}
+        }}
+
        }}
 
 
          # Akka.Persistence.PostgreSql compatibility table name and column name mapping
          postgresql {{
-           schema-name = {writeSettings.SchemaName ?? "public"}
+           schema-name = public
 
            journal {{
              use-writer-uuid-column = true
-             table-name = {writeSettings.JournalTableName ?? "event_journal"}
+             table-name = ""event_journal""
 
              columns {{
                ordering = ordering
@@ -309,14 +369,115 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
            }}
 
            metadata {{
-             table-name = {writeSettings.MetaTableName ?? "metadata"}
+             table-name = ""metadata""
 
              columns {{
                persistence-id = persistence_id
                sequence-number = sequence_nr
              }}
            }}
+
+           tag {{
+          table-name = ""tags""
+          columns {{
+            ordering-id = ordering_id
+            tag-value = tag
+            persistence-id = persistence_id
+            sequence-nr = sequence_nr
+          }}
+        }}
          }}
+
+
+         # Akka.Persistence.SqlServer compatibility table name and column name mapping
+      sql-server {{
+        schema-name = dbo
+        journal {{
+          use-writer-uuid-column = false
+          table-name = ""EventJournal""
+          columns {{
+            ordering = Ordering
+            deleted = IsDeleted
+            persistence-id = PersistenceId
+            sequence-number = SequenceNr
+            created = Timestamp
+            tags = Tags
+            message = Payload
+            identifier = SerializerId
+            manifest = Manifest
+          }}
+        }}
+
+        metadata {{
+          table-name = ""Metadata""
+          columns {{
+            persistence-id = PersistenceId
+            sequence-number = SequenceNr
+          }}
+        }}
+      }}
+
+      sqlserver = ${{akka.persistence.journal.sql.sql-server}} # backward compatibility naming
+
+      # Akka.Persistence.Sqlite compatibility table name and column name mapping
+      sqlite {{
+        schema-name = null
+
+        journal {{
+          use-writer-uuid-column = false
+          table-name = ""event_journal""
+          columns {{
+            ordering = ordering
+            deleted = is_deleted
+            persistence-id = persistence_id
+            sequence-number = sequence_nr
+            created = timestamp
+            tags = tags
+            message = payload
+            identifier = serializer_id
+            manifest = manifest
+          }}
+        }}
+
+        metadata {{
+          table-name = ""journal_metadata""
+          columns {{
+            persistence-id = persistence_id
+            sequence-number = sequence_nr
+          }}
+        }}
+      }}
+
+      # Akka.Persistence.MySql compatibility table name and column name mapping
+      mysql {{
+        schema-name = null
+        journal {{
+          use-writer-uuid-column = false
+          table-name = ""event_journal""
+          columns {{
+            ordering = ordering
+            deleted = is_deleted
+            persistence-id = persistence_id
+            sequence-number = sequence_nr
+            created = created_at
+            tags = tags
+            message = payload
+            identifier = serializer_id
+            manifest = manifest
+          }}
+        }}
+
+        metadata {{
+          table-name = ""metadata""
+          columns {{
+            persistence-id = persistence_id
+            sequence-number = sequence_nr
+          }}
+        }}
+        }}
+
+
+       }}
        }}
 
 
@@ -326,12 +487,12 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
            class = ""Akka.Persistence.Sql.Query.SqlReadJournalProvider, Akka.Persistence.Sql""
 
            # You should specify your proper sql journal plugin configuration path here.
-           write-plugin = ""Akka.Persistence.Sql.Journal""
+           write-plugin = ""{AkkaPostgreSqlConstants.WriteJournalPluginId}""
 
            max-buffer-size = 500 # Number of events to buffer at a time.
            refresh-interval = 1s # interval for refreshing
 
-           connection-string = ""{readSettings.ConnectionString}"" # Connection String is Required!
+           connection-string = ""{readJournalConnectionString}""
 
            # This setting dictates how journal event tags are being read from the database.
            # Valid values:
@@ -342,7 +503,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
            #   * TagTable
            #     This value will make the plugin read event tags from the tag
            #     table to improve tag related query speed.
-           tag-read-mode = Csv
+           tag-read-mode = TagTable
 
            journal-sequence-retrieval {{
              batch-size = 10000
@@ -358,7 +519,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
            # To avoid provider detection performance penalty
            # Don't worry if your DB is newer than what is listed;
            # Just pick the newest one (if yours is still newer)
-           provider-name = ""LinqToDB.DataProvider.PostgreSQL""
+           provider-name = ""{LinqToDB.ProviderName.PostgreSQL15}""
 
            # if set to sqlite, sqlserver, mysql, or postgresql,
            # Column names will be compatible with Akka.Persistence.Sql
@@ -386,7 +547,7 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
            # Number of Concurrent writers.
            # On larger servers with more cores you can increase this number
            # But in most cases 2-4 is a safe bet.
-           parallelism = 3
+           parallelism = 4
 
            # If a batch is larger than this number,
            # Plugin will utilize Linq2db's
@@ -399,55 +560,163 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
 
            # Only set to TRUE if unit tests pass with the connection string you intend to use!
            # This setting will go away once https://github.com/linq2db/linq2db/issues/2466 is resolved
-           use-clone-connection = true
+           use-clone-connection = false
 
            tag-separator = "";""
 
            dao = ""Akka.Persistence.Sql.Journal.Dao.ByteArrayJournalDao, Akka.Persistence.Sql""
 
-           default = ${{akka.persistence.journal.sql.postgresql}}
-           postgresql = ${{akka.persistence.journal.sql.postgresql}}
+           # default = akka.persistence.journal.sql.postgresql
+           # postgresql = akka.persistence.journal.sql.postgresql
+
+            default = ${{akka.persistence.journal.sql.default}}
+            sql-server = ${{akka.persistence.journal.sql.sql-server}}
+            sqlite = ${{akka.persistence.journal.sql.sqlite}}
+            postgresql = ${{akka.persistence.journal.sql.postgresql}}
+            mysql = ${{akka.persistence.journal.sql.mysql}}
          }}
        }}
-     }}
+    }}
+
+    snapshot-store {{
+        # Absolute path to the snapshot plugin configuration entry used by
+        # persistent actor or view by default.
+        # Persistent actor or view can override `snapshotPluginId` method
+        # in order to rely on a different snapshot plugin.
+        # It is not mandatory to specify a snapshot store plugin.
+        # If you don't use snapshots you don't have to configure it.
+        # Note that Cluster Sharding is using snapshots, so if you
+        # use Cluster Sharding you need to define a snapshot store plugin.
+        plugin =  ""{AkkaPostgreSqlConstants.SnapshotPluginId}""
+
+        # List of snapshot stores to start automatically. Use "" for the default snapshot store.
+        auto-start-snapshot-stores = [""{AkkaPostgreSqlConstants.SnapshotPluginId}""]
+
+        sharding {{
+           class = ""Akka.Persistence.Sql.Snapshot.SqlSnapshotStore, Akka.Persistence.Sql""
+
+            # connection string used for database access
+            connection-string = ""{snapshotConnectionString}""
+
+            # separate collections / tables for Akka.Cluster.Sharding
+            collection = ""SnapshotStoreSharding""
+        }}
+
+        sql {{
+        class = ""Akka.Persistence.Sql.Snapshot.SqlSnapshotStore, Akka.Persistence.Sql""
+        plugin-dispatcher = ""akka.persistence.dispatchers.default-plugin-dispatcher""
+        connection-string = ""{snapshotConnectionString}""
+
+        collection = ""SnapshotStore""
+
+        # Provider name is required.
+        # Refer to LinqToDb.ProviderName for values
+        # Always use a specific version if possible
+        # To avoid provider detection performance penalty
+        # Don't worry if your DB is newer than what is listed;
+        # Just pick the newest one (if yours is still newer)
+        provider-name = ""{LinqToDB.ProviderName.PostgreSQL15}""
+
+        # Only set to TRUE if unit tests pass with the connection string you intend to use!
+        # This setting will go away once https://github.com/linq2db/linq2db/issues/2466 is resolved
+        use-clone-connection = false
+
+        # The database schema, table names, and column names configuration mapping.
+        # The details are described in their respective configuration block below.
+        # If set to sqlite, sql-server, mysql, or postgresql,
+        # column names will be compatible with Akka.Persistence.Sql
+        table-mapping = postgresql
+
+        # Default serializer used as manifest serializer when applicable and payload serializer when
+        # no specific binding overrides are specified.
+        # If set to null, the default `System.Object` serializer is used.
+        serializer = null
+
+        dao = ""Akka.Persistence.Sql.Snapshot.ByteArraySnapshotDao, Akka.Persistence.Sql""
+
+        # if true, tables will attempt to be created.
+        auto-initialize = true
+
+        # if true, a warning will be logged
+        # if auto-init of tables fails.
+        # set to false if you don't want this warning logged
+        # perhaps if running CI tests or similar.
+        warn-on-auto-init-fail = true
+
+        default {{
+            schema-name = public
+            snapshot {{
+            table-name = ""snapshot_store""
+            columns {{
+                persistence-id = persistence_id
+                sequence-number = sequence_nr
+                snapshot = payload
+                manifest = manifest
+                created = created_at
+                serializerId = serializer_id
+            }}
+            }}
+        }}
+
+
+        postgresql {{
+            schema-name = public
+            snapshot {{
+            table-name = ""snapshot_store""
+            columns {{
+                persistence-id = persistence_id
+                sequence-number = sequence_nr
+                snapshot = payload
+                manifest = manifest
+                created = created_at
+                serializerId = serializer_id
+            }}
+        }}
+    }}
+
+  }}
+}}
+        }}
+
+
 
                    ";
-           }*/
-
-        public static Config GetPostgreSqlPersistenceHocon(IServiceProvider serviceProvide)
-        {
-            return $@"
-                akka.persistence {{
-                        {GetPostgreSqlJournalPersistenceHocon(serviceProvide)}
-
-                        {GetPostgreSqlSnapshotPersistenceHocon(serviceProvide)}
-                    }}
-                ";
         }
 
-        public static Config GetPostgreSqlJournalPersistenceHocon(IServiceProvider serviceProvider)
-        {
-            var settings = serviceProvider.GetRequiredService<AkkaSettings>();
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+        /* public static Config GetPostgreSqlPersistenceHocon(IServiceProvider serviceProvide)
+         {
+             return $@"
+                 akka.persistence {{
+                         {GetPostgreSqlJournalPersistenceHocon(serviceProvide)}
 
-            var connectionJournalStringName = configuration
-                .GetSection("PostgreSqlWriteJournalSettings")
-                .Get<PostgreSqlJournalSettings>()
-                ?.ConnectionStringName;
-            Debug.Assert(
-                connectionJournalStringName != null,
-                nameof(connectionJournalStringName) + " != null"
-            );
-            var connectionJournalString = configuration.GetConnectionString(
-                connectionJournalStringName
-            );
-            Debug.Assert(
-                connectionJournalString != null,
-                nameof(connectionJournalString) + " != null"
-            );
+                         {GetPostgreSqlSnapshotPersistenceHocon(serviceProvide)}
+                     }}
+                 ";
+         }
 
-            return GetPostgreSqlJournalPersistenceHocon(connectionJournalString);
-        }
+         public static Config GetPostgreSqlJournalPersistenceHocon(IServiceProvider serviceProvider)
+         {
+             var settings = serviceProvider.GetRequiredService<AkkaSettings>();
+             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+
+             var connectionJournalStringName = configuration
+                 .GetSection("PostgreSqlWriteJournalSettings")
+                 .Get<PostgreSqlJournalSettings>()
+                 ?.ConnectionStringName;
+             Debug.Assert(
+                 connectionJournalStringName != null,
+                 nameof(connectionJournalStringName) + " != null"
+             );
+             var connectionJournalString = configuration.GetConnectionString(
+                 connectionJournalStringName
+             );
+             Debug.Assert(
+                 connectionJournalString != null,
+                 nameof(connectionJournalString) + " != null"
+             );
+
+             return GetPostgreSqlJournalPersistenceHocon(connectionJournalString);
+         }*/
 
         public static Config GetPostgreSqlJournalPersistenceHocon(string connectionString)
         {

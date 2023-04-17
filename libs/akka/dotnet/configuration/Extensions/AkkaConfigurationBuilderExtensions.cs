@@ -84,6 +84,7 @@ namespace OpenSystem.Akka.Configuration.Extensions
                 cmd.RegisterCommandPalette(ClusterCommands.Instance);
                 cmd.RegisterCommandPalette(new RemoteCommands());
                 cmd.RegisterCommandPalette(ClusterShardingCommands.Instance);
+                cmd.Start();
             });
         }
     }

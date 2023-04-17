@@ -9,8 +9,6 @@ using OpenSystem.Reaction.Domain.Aggregates;
 using OpenSystem.Reaction.Domain.Enums;
 using OpenSystem.Reaction.Domain.ValueObjects;
 using OpenSystem.Akka.PostgreSql.Constants;
-using Akka.Persistence.Query;
-using Akka.Persistence.Query.Sql;
 using Akka.Streams.Dsl;
 using OpenSystem.Reaction.Domain.Events;
 using OpenSystem.Reaction.Application.ReadStores;
@@ -18,6 +16,16 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Domain.ResultCodes;
 using Akka.Streams;
+using Akka.Streams.Dsl;
+using Akka.Streams.Kafka.Dsl;
+using Akka.Streams.Kafka.Messages;
+using Akka.Streams.Kafka.Settings;
+using Confluent.Kafka;
+using Config = Akka.Configuration.Config;
+using OpenSystem.Akka.Kafka;
+using Microsoft.Extensions.Configuration;
+using Akka.Persistence.Query;
+using SqlReadJournal = Akka.Persistence.Sql.Query.SqlReadJournal;
 
 namespace OpenSystem.Reaction.Infrastructure.Actors
 {
@@ -36,7 +44,7 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
 
         private ReactionAggregate _aggregate;
 
-        private ReactionReadModel _readModel;
+        private SqlReadJournal _readJournal;
 
         private IServiceScope _scope;
 
@@ -47,6 +55,8 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
             _scope = sp.CreateScope();
 
             // distinguish both type and entity Id in the EventJournal
+
+
             _domainEventFactory = _scope.ServiceProvider.GetRequiredService<IDomainEventFactory>();
             /*_readModelDomainEventApplier =
                 _scope.ServiceProvider.GetRequiredService<IReadModelDomainEventApplier>();
@@ -54,10 +64,17 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
             _readModelFactory = _scope.ServiceProvider.GetRequiredService<
                 IReadModelFactory<ReactionReadModel>
             >();*/
-            _readModel = new ReactionReadModel(id.Value);
+            //_readModel = new ReactionReadModel(id.Value);
 
             _aggregate = new ReactionAggregate(id);
             PersistenceId = _aggregate.GetIdentity().ToString();
+
+            var configuration = _scope.ServiceProvider.GetRequiredService<IConfiguration>();
+            var kafkaSettings = configuration.GetSection("KafkaSettings").Get<AkkaKafkaSettings>();
+
+            /*var producerSettings = ProducerSettings<string, string>
+                .Create(Context.System, null, null)
+                .WithBootstrapServers(kafkaSettings?.BootstrapServer);*/
 
             Recover<SnapshotOffer>(offer =>
             {
@@ -76,22 +93,60 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
             Command<GetReactionsCountQuery>(f => Sender.Tell(_aggregate));
 
             // Add read journal to the actor system and get a reference to it
-            var readJournal = PersistenceQuery
+            _readJournal = PersistenceQuery
                 .Get(Context.System)
-                .ReadJournalFor<SqlReadJournal>(SqlReadJournal.Identifier);
+                .ReadJournalFor<SqlReadJournal>(AkkaPostgreSqlConstants.ReadJournalPluginId);
             var mat = ActorMaterializer.Create(Context.System);
 
-            // write a query to get all events for the current actor
-            var query = readJournal.EventsByPersistenceId(PersistenceId, 0, long.MaxValue);
+            var producerSettings = ProducerSettings<string, string>
+                .Create(Context.System, null, null)
+                .WithBootstrapServers(kafkaSettings?.BootstrapServer);
 
-            // run the query and subscribe to the stream
-            var types = query
+            var eventStream = _readJournal
+                .EventsByPersistenceId(PersistenceId, 0, long.MaxValue)
                 .Where(
                     e =>
                         e.Event is IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent>
                         || e.Event
                             is IDomainEvent<ReactionAggregate, ReactionId, ReactionRemovedEvent>
                 )
+                .Select(e => new ProducerRecord<string, string>("reactions", e.ToString()));
+
+            /*     ..MergeMaterialized(
+                     Sink.Aggregate<ReactionTypeReadModel, ReactionReadModel>(
+                         new ReactionReadModel(PersistenceId),
+                         (acc, next) =>
+                         {
+                             acc.Types.Add(next);
+                             return acc;
+                         }
+                     ),
+                     mat
+                 );
+
+
+                 .Run(
+                     Sink.Aggregate<ReactionTypeReadModel, ReactionReadModel>(
+                         new ReactionReadModel(PersistenceId),
+                         (acc, next) =>
+                         {
+                             acc.Types.Add(next);
+                             return acc;
+                         }
+                     ),
+                     mat
+                 )
+                 .PipeTo<ReactionReadModel>(Self);*/
+
+            /*.Select(e => new ProducerRecord<string, string>(e.Event.ToString(), e.ToString()))
+            .RunWith(KafkaProducer.PlainSink(producerSettings), mat);*/
+
+            /*.Select(elem => ProducerMessage.Single(new ProducerRecord<string, string>(PersistenceId, $"key-{elem}", elem)))
+                .Via(KafkaProducer.FlexiFlow<string, string, NotUsed>(producerSettings))*/
+
+            // run the query and subscribe to the stream
+            /*var types = query
+
                 .GroupBy(
                     Enum.GetValues(typeof(ReactionTypes)).Length,
                     e =>
@@ -106,7 +161,7 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
                                 > rre
                                 ? rre.AggregateEvent.Type
                                 : ReactionTypes.Like
-                );
+                );*/
 
             /*var readModelStream = types.Aggregate(
                 new ReactionTypeReadModel(),
@@ -127,185 +182,152 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
                 }
             );*/
 
-            Command<GetReactionByIdQuery>(
-                request =>
+            /* Command<GetReactionByIdQuery>(
+                 request =>
+                 {
+                     types
+                         .Aggregate(
+                             new ReactionTypeReadModel(),
+                             (acc, next) =>
+                             {
+                                 if (
+                                     next.Event
+                                     is IDomainEvent<
+                                         ReactionAggregate,
+                                         ReactionId,
+                                         ReactionAddedEvent
+                                     > rae
+                                 )
+                                     acc.Apply(rae);
+                                 else if (
+                                     next.Event
+                                     is IDomainEvent<
+                                         ReactionAggregate,
+                                         ReactionId,
+                                         ReactionRemovedEvent
+                                     > rre
+                                 )
+                                     acc.Apply(rre);
+
+                                 return acc;
+                             }
+                         )
+                         .RunWith(
+                             Sink.Aggregate<ReactionTypeReadModel, ReactionReadModel>(
+                                 new ReactionReadModel(PersistenceId),
+                                 (acc, next) =>
+                                 {
+                                     acc.Types.Add(next);
+                                     return acc;
+                                 }
+                             ),
+                             mat
+                         )
+                         .PipeTo<ReactionReadModel>(
+                             Sender,
+                             true,
+                             Self,
+                             e => Result.Success(e),
+                             e => Result.Failure(e)
+                         );
+                 },
+                 request => string.IsNullOrEmpty(request.Type)
+             );*/
+
+            Command<GetReactionByIdQuery>(request =>
+            {
+                if (_readJournal == null)
                 {
-                    types
-                        .Aggregate(
-                            new ReactionTypeReadModel(),
-                            (acc, next) =>
-                            {
-                                if (
-                                    next.Event
-                                    is IDomainEvent<
-                                        ReactionAggregate,
-                                        ReactionId,
-                                        ReactionAddedEvent
-                                    > rae
-                                )
-                                    acc.Apply(rae);
-                                else if (
-                                    next.Event
-                                    is IDomainEvent<
-                                        ReactionAggregate,
-                                        ReactionId,
-                                        ReactionRemovedEvent
-                                    > rre
-                                )
-                                    acc.Apply(rre);
+                    Sender.Tell(
+                        Result.Failure(typeof(ResultCodeGeneral), ResultCodeGeneral.GeneralError)
+                    );
+                    return;
+                }
 
-                                return acc;
-                            }
-                        )
-                        .RunWith(
-                            Sink.Aggregate<ReactionTypeReadModel, ReactionReadModel>(
-                                new ReactionReadModel(PersistenceId),
-                                (acc, next) =>
-                                {
-                                    acc.Types.Add(next);
-                                    return acc;
-                                }
-                            ),
-                            mat
-                        )
-                        .PipeTo<ReactionReadModel>(
-                            Sender,
-                            true,
-                            Self,
-                            e => Result.Success(e),
-                            e => Result.Failure(e)
-                        );
-                },
-                request => string.IsNullOrEmpty(request.Type)
-            );
+                eventStream.RunWith(KafkaProducer.PlainSink(producerSettings), mat);
 
-            Command<GetReactionByIdQuery>(
-                request =>
-                {
-                    if (
-                        !string.IsNullOrEmpty(request.Type)
-                        && Enum.TryParse(typeof(ReactionTypes), request.Type, true, out var type)
-                        && type is ReactionTypes reactionType
-                    )
-                        types
-                            .Where(
-                                e =>
-                                    (
-                                        e.Event
-                                            is IDomainEvent<
-                                                ReactionAggregate,
-                                                ReactionId,
-                                                ReactionAddedEvent
-                                            > rae
-                                        && rae.AggregateEvent.Type == reactionType
-                                    )
-                                    || (
-                                        e.Event
-                                            is IDomainEvent<
-                                                ReactionAggregate,
-                                                ReactionId,
-                                                ReactionRemovedEvent
-                                            > rre
-                                        && rre.AggregateEvent.Type == reactionType
-                                    )
+                Sender.Tell(Result.Success());
+
+                /*.RunWith(
+                    Sink.Aggregate<EventEnvelope, ReactionReadModel>(
+                        new ReactionReadModel(PersistenceId),
+                        (acc, next) =>
+                        {
+                            if (
+                                next.Event
+                                is IDomainEvent<
+                                    ReactionAggregate,
+                                    ReactionId,
+                                    ReactionAddedEvent
+                                > rae
                             )
-                            .Aggregate(
-                                new ReactionTypeReadModel(),
-                                (acc, next) =>
-                                {
-                                    if (
-                                        next.Event
-                                        is IDomainEvent<
-                                            ReactionAggregate,
-                                            ReactionId,
-                                            ReactionAddedEvent
-                                        > rae
-                                    )
-                                        acc.Apply(rae);
-                                    else if (
-                                        next.Event
-                                        is IDomainEvent<
-                                            ReactionAggregate,
-                                            ReactionId,
-                                            ReactionRemovedEvent
-                                        > rre
-                                    )
-                                        acc.Apply(rre);
-
-                                    return acc;
-                                }
+                                acc.Apply(rae);
+                            else if (
+                                next.Event
+                                is IDomainEvent<
+                                    ReactionAggregate,
+                                    ReactionId,
+                                    ReactionRemovedEvent
+                                > rre
                             )
-                            .RunWith(
-                                Sink.Aggregate<ReactionTypeReadModel, ReactionReadModel>(
-                                    new ReactionReadModel(PersistenceId),
-                                    (acc, next) =>
-                                    {
-                                        acc.Types.Add(next);
-                                        return acc;
-                                    }
-                                ),
-                                mat
-                            )
-                            .PipeTo<ReactionReadModel>(
-                                Sender,
-                                true,
-                                Self,
-                                e => Result.Success(e),
-                                e => Result.Failure(e)
-                            );
-                },
-                request => !string.IsNullOrEmpty(request.Type)
-            );
-
-            /*.MergeMaterialized(
-                Sink.ForEach<ReactionTypeReadModel>(e => _readModel.Types.Add(e)),
-                Keep.Left
-            )
-            .Run(Context.System);*/
-
-            /*.ToMaterialized(
-                Sink.ForEach<IDictionary<ReactionTypes, int>>(e => _readModel.Apply(e)),
-                Keep.Left
-            );*/
-
-            /*.ToMaterialized(
-                Sink.ForEach<IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent>>(
-                    e => _readModel.Apply(e)
-                ),
-                Keep.Left
-            )
-            .Run(Context.System);*/
-
-            /*
-            var stream = query
-                .Where(
-                    e =>
-                        e.Event is IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent>
-                        || e.Event
-                            is IDomainEvent<ReactionAggregate, ReactionId, ReactionRemovedEvent>
-                )
-                .Select(
-                    e => e.Event as IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent>
-                ).GroupBy(e => e)
-                .ToMaterialized(
-                    Sink.ForEach<IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent>>(
-                        e => _readModel.Apply(e)
+                                acc.Apply(rre);
+                            _logger.Info("**** Accumulating ^^^^^^ {0}", acc);
+                            return acc;
+                        }
                     ),
-                    Keep.Left
+                    mat
                 )
-                .Run(Context.System);
+                .RunAggregate(
+                    new ReactionReadModel(PersistenceId),
+                    (acc, next) =>
+                    {
+                        if (
+                            next.Event
+                            is IDomainEvent<
+                                ReactionAggregate,
+                                ReactionId,
+                                ReactionAddedEvent
+                            > rae
+                        )
+                            acc.Apply(rae);
+                        else if (
+                            next.Event
+                            is IDomainEvent<
+                                ReactionAggregate,
+                                ReactionId,
+                                ReactionRemovedEvent
+                            > rre
+                        )
+                            acc.Apply(rre);
+                        _logger.Info("**** Accumulating ^^^^^^ {0}", acc);
+                        return acc;
+                    },
+                    mat
+                )
+                .PipeTo<ReactionReadModel>(
+                    Self,
+                    Sender,
+                    readModel =>
+                    {
+                        _logger.Info(" ^^^^^^ PipeTo {0} ^^^^^^", readModel);
+                        Sender.Tell(Result.Success(readModel));
 
-            Command<SubscribeToCounter>(subscribe =>
+                        return readModel;
+                    }
+                );*/
+            });
+
+            /*Command<SubscribeToCounter>(subscribe =>
             {
                 _subscribers.Add(subscribe.Subscriber);
                 Sender.Tell(new CounterCommandResponse(_aggregate.CounterId, true));
                 Context.Watch(subscribe.Subscriber);
             });
 
-            Command<UnsubscribeToCounter>(counter =>
+            Command<UnsubscribeToCounter>(unsubscribe =>
             {
-                Context.Unwatch(counter.Subscriber);
-                _subscribers.Remove(counter.Subscriber);
+                Context.Unwatch(unsubscribe.Subscriber);
+                _subscribers.Remove(unsubscribe.Subscriber);
             });*/
 
             Command<AddReactionCommand>(request =>
@@ -361,9 +383,7 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
 
                 Sender.Tell(Result.Success(_aggregate.Id, _aggregate.Version + 1));
 
-                if (
-                    _aggregate.UncommittedEvents != null && _aggregate.UncommittedEvents.Count() > 0
-                )
+                if (_aggregate.UncommittedEvents != null && _aggregate.UncommittedEvents.Any())
                 {
                     PersistAll(
                         _domainEventFactory.Create(_aggregate.UncommittedEvents),
@@ -394,6 +414,17 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
                 DeleteSnapshots(new SnapshotSelectionCriteria(success.Metadata.SequenceNr - 1));
             });
         }
+
+        /*protected override bool Receive(object message)
+        {
+            _logger.Info("Message received: {0}", message);
+
+
+            if (message is ReactionReadModel reactionReadModel)
+                _readModel = reactionReadModel;
+
+            return base.Receive(message);
+        }*/
 
         public override void AroundPreStart()
         {

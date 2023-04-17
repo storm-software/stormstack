@@ -106,6 +106,9 @@
     "Akka.Persistence.Sql.Common": "1.5.2",
     "Akka.Persistence.Query.Sql": "1.5.2",
     "Akka.Persistence.SqlServer": "1.5.2",
-    "Akka.Persistence.Sql.Hosting": "1.5.2-beta1"
+    "Akka.Persistence.Sql.Hosting": "1.5.2-beta1",
+    "Akka.Streams.Kafka": "1.5.0",
+    "Microsoft.Bcl.AsyncInterfaces": "7.0.0",
+    "Akka.Cluster.Tools": "1.5.2"
   }
 }

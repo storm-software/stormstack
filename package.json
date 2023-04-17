@@ -88,6 +88,7 @@
     "core-js": "^3.6.5",
     "dotenv": "^16.0.3",
     "inversify-react": "^1.1.0",
+    "kafkajs": "^2.2.4",
     "next": "13.1.1",
     "prism-react-renderer": "^1.2.1",
     "radash": "^9.1.0",

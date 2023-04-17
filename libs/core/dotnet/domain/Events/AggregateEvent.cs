@@ -9,7 +9,17 @@ namespace OpenSystem.Core.Domain.Events
         where TAggregate : IAggregateRoot<TIdentity>
         where TIdentity : IIdentity
     {
+        public static string ToTopic(Type eventType, ulong version)
+        {
+            return $"{eventType.PrettyPrint()}-v{version}";
+        }
+
         public ulong Version { get; set; } = 1;
+
+        public string ToTopic()
+        {
+            return AggregateEvent<TAggregate, TIdentity>.ToTopic(GetType(), Version);
+        }
 
         public override string ToString()
         {

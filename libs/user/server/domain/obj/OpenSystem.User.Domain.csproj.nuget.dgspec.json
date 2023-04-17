@@ -53,7 +53,7 @@
             },
             "FluentValidation": {
               "target": "Package",
-              "version": "[11.5.1, )"
+              "version": "[11.5.2, )"
             },
             "MediatR": {
               "target": "Package",
@@ -61,7 +61,7 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.4, )"
+              "version": "[7.0.5, )"
             },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",

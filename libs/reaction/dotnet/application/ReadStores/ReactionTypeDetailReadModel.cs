@@ -8,6 +8,10 @@ namespace OpenSystem.Reaction.Application.ReadStores
 
         public DateTimeOffset ReactedOn { get; set; }
 
+        public bool IsRemoved { get; set; } = false;
+
+        public DateTimeOffset? RemovedOn { get; set; }
+
         public ReactionTypeDetailReadModel(string userId, DateTimeOffset reactedOn)
         {
             UserId = userId;

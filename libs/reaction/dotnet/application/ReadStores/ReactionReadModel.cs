@@ -27,5 +27,29 @@ namespace OpenSystem.Reaction.Application.ReadStores
         {
             ReactionId = reactionId;
         }
+
+        public void Apply(IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent> @event)
+        {
+            var type = Types.FirstOrDefault(d => d.Type == @event.AggregateEvent.Type);
+            if (type == null)
+            {
+                type = new ReactionTypeReadModel();
+                Types.Add(type);
+            }
+
+            type.Apply(@event);
+        }
+
+        public void Apply(IDomainEvent<ReactionAggregate, ReactionId, ReactionRemovedEvent> @event)
+        {
+            var type = Types.FirstOrDefault(d => d.Type == @event.AggregateEvent.Type);
+            if (type == null)
+            {
+                type = new ReactionTypeReadModel();
+                Types.Add(type);
+            }
+
+            type.Apply(@event);
+        }
     }
 }

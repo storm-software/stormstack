@@ -21,7 +21,7 @@ services:
     image: dpage/pgadmin4
     restart: always
     ports:
-      - "5050:80"
+      - 5050:80
     networks:
       - network-microservice
     volumes:
@@ -34,7 +34,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - "5432:5432"
+      - 5432:5432
     networks:
       - network-microservice
     volumes:
@@ -42,29 +42,95 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
 
-  reaction.read-db:
-    container_name: reaction.read-db
-    image: postgres
-    restart: always
-    ports:
-      - "5434:5432"
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
     networks:
-      - network-microservice
-    volumes:
-      - read-data:/var/lib/postgresql/data
+     - network-microservice
+    ports:
+      - 2181:2181
     environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
 
- # reaction.snapshot-db:
-   # container_name: reaction.snapshot-db
-   # image: redis:alpine
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka
+    container_name: kafka
+    networks:
+     - network-microservice
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+      - 9997:9997
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://192.168.1.18:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9997
+      KAFKA_JMX_HOSTNAME: kafka
+
+  init-kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    networks:
+     - network-microservice
+    volumes:
+       - ./message.json:/data/message.json
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:29092 --list
+
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic reactions --replication-factor 1 --partitions 1
+
+      kafka-console-producer --bootstrap-server kafka:29092 --topic reactions < /data/message.json'
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:29092 --list
+      "
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    networks:
+     - network-microservice
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 192.168.1.18:9092
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+      DYNAMIC_CONFIG_ENABLED: 'true'
+
+      #KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schemaregistry:8085
+      #KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: first
+      #KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083
+
+
+  # reaction.read-db:
+  #  container_name: reaction.read-db
+  #  image: redis:alpine
   #  restart: always
-   # ports:
-   #   - "5430:6379"
+  #  ports:
+  #    - "5430:6379"
   #  networks:
-   #   - network-microservice
+  #    - network-microservice
   #  volumes:
-   #   - snapshot-data:/data
+  #    - read-data:/data
   #  environment:
   #    ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
 
@@ -74,3 +140,64 @@ volumes:
   read-data:
   #snapshot-data:
   #  driver: local
+
+
+  # reaction.read-db:
+  #  container_name: reaction.read-db
+  #  image: postgres
+  #  restart: always
+  #  ports:
+  #    - "5434:5432"
+  #  networks:
+  #    - network-microservice
+  #  volumes:
+  #    - read-data:/var/lib/postgresql/data
+  #  environment:
+  #    ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+
+  #zookeeper:
+  #  image: confluentinc/cp-zookeeper:latest
+  #  container_name: zookeeper
+  #  networks:
+  #   - network-microservice
+  #  ports:
+  #    - 2181:2181
+  #  environment:
+  #    ZOOKEEPER_CLIENT_PORT: 2181
+  #    ZOOKEEPER_TICK_TIME: 2000
+
+  #kafka:
+  #  image: confluentinc/cp-kafka:latest
+  #  container_name: kafka
+  #  networks:
+  #   - network-microservice
+  #  depends_on:
+  #    - zookeeper
+  #  ports:
+  #    - 9092:9092
+  #  environment:
+  #    KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #    KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+  #    KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+  #    KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+  #    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #    KAFKA_LOG_CLEANER_DELETE_RETENTION_MS: 5000
+  #    KAFKA_BROKER_ID: 1
+  #    KAFKA_MIN_INSYNC_REPLICAS: 1
+
+ # kafka-ui:
+ #   container_name: kafka-ui
+ #   image: provectuslabs/kafka-ui:latest
+ #   ports:
+ #     - 8084:8080
+ #   networks:
+ #     - network-microservice
+ #   environment:
+ #     - KAFKA_CLUSTERS_0_NAME=network-microservice
+ #     - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=PLAINTEXT://kafka:29092
+    #  - KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://schema-registry:8081
+    #  - KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME=debezium
+    #  - KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS=http://debezium-connect:8083
+  #  depends_on:
+  #    - zookeeper
+  #    - kafka

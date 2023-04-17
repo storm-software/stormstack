@@ -13,6 +13,7 @@ using OpenSystem.Akka.Api;
 using OpenSystem.Akka.Api.Extensions;
 using OpenSystem.Akka.PostgreSql.Extensions;
 using OpenSystem.Akka.Configuration;
+using OpenSystem.Akka.Kafka.Extensions;
 using OpenSystem.Reaction.Infrastructure.Actors;
 using Akka.Persistence.Hosting;
 using OpenSystem.Reaction.Infrastructure.Persistence;
@@ -77,6 +78,7 @@ try
             akkaConfigurationBuilder
                 .ConfigureActorSystem(serviceProvider)
                 .ConfigurePostgreSqlPersistence(serviceProvider, ReactionJournalBuilder.Tagger)
+                .ConfigureKafkaStreams(serviceProvider)
                 .ConfigureReactionActors(serviceProvider);
         }
     );

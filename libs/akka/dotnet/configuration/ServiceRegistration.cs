@@ -1,4 +1,4 @@
-﻿using Akka.Configuration;
+using Akka.Configuration;
 using Akka.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

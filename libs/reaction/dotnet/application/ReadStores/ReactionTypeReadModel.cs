@@ -21,21 +21,6 @@ namespace OpenSystem.Reaction.Application.ReadStores
             Type = type;
         }
 
-        public void AddDetail(string userId, DateTimeOffset reactedOn)
-        {
-            var detail = Details.FirstOrDefault(d => d.UserId == userId);
-            if (detail == null)
-            {
-                detail = new ReactionTypeDetailReadModel(userId, reactedOn);
-                Details.Add(detail);
-            }
-        }
-
-        public void RemoveDetail(string userId)
-        {
-            Details.RemoveAll(d => d.UserId == userId);
-        }
-
         public void Apply(IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent> @event)
         {
             Type = @event.AggregateEvent.Type;
@@ -49,13 +34,26 @@ namespace OpenSystem.Reaction.Application.ReadStores
                 );
                 Details.Add(detail);
             }
+
+            detail.IsRemoved = false;
+            detail.RemovedOn = null;
         }
 
         public void Apply(IDomainEvent<ReactionAggregate, ReactionId, ReactionRemovedEvent> @event)
         {
             Type = @event.AggregateEvent.Type;
-            if (Details.Any(t => t.UserId == @event.AggregateEvent.UserId))
-                RemoveDetail(@event.AggregateEvent.UserId);
+            var detail = Details.FirstOrDefault(d => d.UserId == @event.AggregateEvent.UserId);
+            if (detail == null)
+            {
+                detail = new ReactionTypeDetailReadModel(
+                    @event.AggregateEvent.UserId,
+                    @event.Timestamp
+                );
+                Details.Add(detail);
+            }
+
+            detail.IsRemoved = true;
+            detail.RemovedOn = @event.Timestamp;
         }
     }
 }
