@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-notifications-v1.11.1...shared-ui-feature-notifications-v1.12.0) (2023-04-17)
+
+
+### Features
+
+* **akka-dotnet-core:** Load akka generated events to a kafka topic ([9f81871](https://github.com/sullivanpj/open-system/commit/9f818714bb2b5ccb250a58aa746206cc6b4de393))
+
 ## [1.11.1](https://github.com/sullivanpj/open-system/compare/shared-ui-feature-notifications-v1.11.0...shared-ui-feature-notifications-v1.11.1) (2023-04-12)
 
 
