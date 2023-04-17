@@ -1,3 +1,11 @@
+# [1.12.0](https://github.com/sullivanpj/open-system/compare/user-server-application-v1.11.1...user-server-application-v1.12.0) (2023-04-17)
+
+
+### Features
+
+* **akka-dotnet-api:** Resolved issues with command handling actor ([49a134d](https://github.com/sullivanpj/open-system/commit/49a134d4d20bf16744d350603e7097a2a05136c5))
+* **akka-dotnet-core:** Load akka generated events to a kafka topic ([9f81871](https://github.com/sullivanpj/open-system/commit/9f818714bb2b5ccb250a58aa746206cc6b4de393))
+
 ## [1.11.1](https://github.com/sullivanpj/open-system/compare/user-server-application-v1.11.0...user-server-application-v1.11.1) (2023-04-12)
 
 

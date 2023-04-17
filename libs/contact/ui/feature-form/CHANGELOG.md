@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/sullivanpj/open-system/compare/contact-ui-feature-form-v1.7.1...contact-ui-feature-form-v1.8.0) (2023-04-17)
+
+
+### Features
+
+* **akka-dotnet-core:** Load akka generated events to a kafka topic ([9f81871](https://github.com/sullivanpj/open-system/commit/9f818714bb2b5ccb250a58aa746206cc6b4de393))
+
 ## [1.7.1](https://github.com/sullivanpj/open-system/compare/contact-ui-feature-form-v1.7.0...contact-ui-feature-form-v1.7.1) (2023-04-12)
 
 
