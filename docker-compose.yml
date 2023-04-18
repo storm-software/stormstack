@@ -53,10 +53,10 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
-  kafka:
+  broker:
     image: confluentinc/cp-kafka:latest
-    hostname: kafka
-    container_name: kafka
+    hostname: broker
+    container_name: broker
     networks:
      - network-microservice
     depends_on:
@@ -66,22 +66,23 @@ services:
       - 9997:9997
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://192.168.1.18:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://${ROOT_HOST}:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       KAFKA_JMX_PORT: 9997
-      KAFKA_JMX_HOSTNAME: kafka
+      KAFKA_JMX_HOSTNAME: broker
 
   init-kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
-      - kafka
+      - broker
     entrypoint: [ '/bin/sh', '-c' ]
     networks:
      - network-microservice
@@ -90,16 +91,60 @@ services:
     command: |
       "
       # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:29092 --list
+      kafka-topics --bootstrap-server broker:29092 --list
 
       echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic reactions --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic blog.engagement.reaction.count --replication-factor 1 --partitions 1
 
-      kafka-console-producer --bootstrap-server kafka:29092 --topic reactions < /data/message.json'
+      kafka-console-producer --bootstrap-server broker:29092 --topic blog.engagement.reaction.count < /data/message.json'
 
       echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:29092 --list
+      kafka-topics --bootstrap-server broker:29092 --list
       "
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - broker
+    ports:
+      - 8081:8081
+    networks:
+      - network-microservice
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: ${ROOT_HOST}:9092
+      SCHEMA_REGISTRY_LISTENERS: http://schema-registry:8081
+
+  ksqldb-server:
+    image: confluentinc/cp-ksqldb-server:latest
+    hostname: ksqldb-server
+    container_name: ksqldb-server
+    depends_on:
+      - broker
+      - schema-registry
+    ports:
+      - 8088:8088
+    networks:
+      - network-microservice
+    environment:
+      KSQL_LISTENERS: http://ksqldb-server:8088
+      KSQL_BOOTSTRAP_SERVERS: ${ROOT_HOST}:9092
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: true
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: true
+
+  ksqldb-cli:
+    image: confluentinc/cp-ksqldb-cli:latest
+    container_name: ksqldb-cli
+    networks:
+      - network-microservice
+    depends_on:
+      - broker
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true
 
   kafka-ui:
     container_name: kafka-ui
@@ -109,12 +154,13 @@ services:
     networks:
      - network-microservice
     depends_on:
-      - kafka
+      - broker
     environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: 192.168.1.18:9092
+      KAFKA_CLUSTERS_0_NAME: cluster-0
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ${ROOT_HOST}:9092
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
       KAFKA_CLUSTERS_0_METRICS_PORT: 9997
-      DYNAMIC_CONFIG_ENABLED: 'true'
+      DYNAMIC_CONFIG_ENABLED: true
 
       #KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schemaregistry:8085
       #KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: first

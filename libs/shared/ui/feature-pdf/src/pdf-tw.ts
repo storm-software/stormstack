@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Font } from "@react-pdf/renderer";
-import createTw from "react-pdf-tailwind";
+import { createTw } from "react-pdf-tailwind";
 
 const extend: any = require("../../../../../dist/design-system/tokens/js/theme");
 const AnybodyBold: any = require("../../../../../assets/fonts/Anybody-Black.ttf");

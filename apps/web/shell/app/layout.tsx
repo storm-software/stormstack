@@ -124,13 +124,13 @@ export default function RootLayout({
                   </h3>
                   <div className="flex flex-row gap-16">
                     <div className="flex flex-col gap-1">
-                      <Link variant={LinkVariants.SECONDARY}>Home</Link>
-                      <Link variant={LinkVariants.SECONDARY}>About</Link>
-                      <Link variant={LinkVariants.SECONDARY}>Contact</Link>
+                      <Link variant="secondary">Home</Link>
+                      <Link variant="secondary">About</Link>
+                      <Link variant="secondary">Contact</Link>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <Link variant={LinkVariants.SECONDARY}>Projects</Link>
-                      <Link variant={LinkVariants.SECONDARY}>Privacy</Link>
+                      <Link variant="secondary">Projects</Link>
+                      <Link variant="secondary">Privacy</Link>
                     </div>
                   </div>
                 </div>
@@ -138,16 +138,16 @@ export default function RootLayout({
                   <h3 className="whitespace-nowrap font-label-4 text-4xl text-slate-200 underline">
                     Blog
                   </h3>
-                  <Link variant={LinkVariants.SECONDARY}>Articles</Link>
-                  <Link variant={LinkVariants.SECONDARY}>Latest</Link>
+                  <Link variant="secondary">Articles</Link>
+                  <Link variant="secondary">Latest</Link>
                 </div>
                 <div className="flex flex-col gap-2">
                   <h3 className="whitespace-nowrap font-label-4 text-4xl text-slate-200 underline">
                     Docs
                   </h3>
-                  <Link variant={LinkVariants.SECONDARY}>Open System</Link>
-                  <Link variant={LinkVariants.SECONDARY}>Design System</Link>
-                  <Link variant={LinkVariants.SECONDARY}>Storybook</Link>
+                  <Link variant="secondary">Open System</Link>
+                  <Link variant="secondary">Design System</Link>
+                  <Link variant="secondary">Storybook</Link>
                 </div>
                 <div className="flex h-full flex-col items-center">
                   <PdfResumeDownloadLink />

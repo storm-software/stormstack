@@ -1,10 +1,8 @@
 import {
   Link as DesignComponentLink,
   LinkProps as DesignComponentLinkProps,
-  LinkVariants,
   PropsWithBase,
 } from "@open-system/design-system-components";
-import clsx from "clsx";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 
 import { HTMLAttributeAnchorTarget } from "react";
@@ -41,16 +39,7 @@ export function Link({
       target={inNewTab ? "_blank" : target}
       {...props}>
       {typeof children === "string" ? (
-        <DesignComponentLink
-          {...props}
-          variant={variant}
-          className={clsx(
-            {
-              "text-link-2 hover:text-hover-link-2":
-                variant === LinkVariants.SECONDARY,
-            },
-            className
-          )}>
+        <DesignComponentLink {...props} variant={variant} className={className}>
           {children}
         </DesignComponentLink>
       ) : (

@@ -49,6 +49,29 @@ namespace OpenSystem.Reaction.Domain.Aggregates
             return Result.Success(Id, Version);
         }
 
+        public Result UpdateReaction(UserId userId, ReactionTypes type)
+        {
+            if (_isDisabled)
+                return Result.Failure(
+                    typeof(ResultCodeReaction),
+                    ResultCodeReaction.ReactionsAreDisabled,
+                    $"Reactions for {Id.Value} have been temporarily disabled"
+                );
+            if (string.IsNullOrEmpty(userId?.Value))
+                return Result.Failure(
+                    typeof(ResultCodeApplication),
+                    ResultCodeApplication.UserIdNotFound,
+                    $"The User Id could not be found"
+                );
+
+            if (_details.ContainsKey(userId.Value))
+                Emit(new ReactionRemovedEvent(userId.Value, _details[userId.Value].Type));
+
+            Emit(new ReactionAddedEvent(userId.Value, type));
+
+            return Result.Success(Id, Version);
+        }
+
         public Result RemoveReaction(UserId userId)
         {
             if (_isDisabled)

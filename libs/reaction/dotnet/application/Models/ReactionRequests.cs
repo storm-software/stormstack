@@ -51,6 +51,29 @@ namespace OpenSystem.Reaction.Application.Models
     }
 
     /// <summary>
+    /// Update Reaction
+    /// </summary>
+    /// <remarks>Update an existing reaction to an article</remarks>
+    [UpdateCommand("/api/v1/reactions/{ReactionId?}")]
+    public class UpdateReactionCommand : Command<ReactionAggregate, ReactionId>
+    {
+        /// <summary>
+        /// The id of the article/comment
+        /// </summary>
+        [Identifier]
+        public string ReactionId { get; set; }
+
+        [Payload]
+        public UpdateReactionRequest Payload { get; set; }
+
+        public UpdateReactionCommand()
+            : base(Domain.ValueObjects.ReactionId.New) { }
+
+        public UpdateReactionCommand(string id)
+            : base(Domain.ValueObjects.ReactionId.With(id)) { }
+    }
+
+    /// <summary>
     /// Get Reactions
     /// </summary>
     /// <remarks>Return the reactions for a specific article, comment, etc. </remarks>

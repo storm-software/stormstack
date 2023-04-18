@@ -25,6 +25,12 @@
       "commands": [
         "minver"
       ]
+    },
+    "apache.avro.tools": {
+      "version": "1.11.1",
+      "commands": [
+        "avrogen"
+      ]
     }
   }
 }
