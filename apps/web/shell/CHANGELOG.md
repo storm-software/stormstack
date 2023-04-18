@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.20.0...web-shell-v1.21.0) (2023-04-18)
+
+
+### Features
+
+* **reaction-dotnet:** Added avro schema validation through kafka ([678fbc9](https://github.com/sullivanpj/open-system/commit/678fbc97424f1716826323a9832a82610cdafcfc))
+
 # [1.20.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.19.1...web-shell-v1.20.0) (2023-04-18)
 
 
