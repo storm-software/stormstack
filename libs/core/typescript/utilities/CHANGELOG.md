@@ -1,3 +1,11 @@
+# [1.9.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.8.2...core-typescript-utilities-v1.9.0) (2023-04-19)
+
+
+### Features
+
+* **akka-dotnet-core:** Load akka generated events to a kafka topic ([9f81871](https://github.com/sullivanpj/open-system/commit/9f818714bb2b5ccb250a58aa746206cc6b4de393))
+* **reaction-dotnet:** Added avro schema validation through kafka ([678fbc9](https://github.com/sullivanpj/open-system/commit/678fbc97424f1716826323a9832a82610cdafcfc))
+
 # [1.9.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.8.2...core-typescript-utilities-v1.9.0) (2023-04-18)
 
 
