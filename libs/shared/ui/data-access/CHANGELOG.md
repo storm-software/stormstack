@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/sullivanpj/open-system/compare/shared-ui-data-access-v1.9.0...shared-ui-data-access-v1.10.0) (2023-04-18)
+
+
+### Features
+
+* **reaction-dotnet:** Added avro schema validation through kafka ([678fbc9](https://github.com/sullivanpj/open-system/commit/678fbc97424f1716826323a9832a82610cdafcfc))
+
 # [1.9.0](https://github.com/sullivanpj/open-system/compare/shared-ui-data-access-v1.8.1...shared-ui-data-access-v1.9.0) (2023-04-18)
 
 

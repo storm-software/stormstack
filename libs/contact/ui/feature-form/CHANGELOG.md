@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/sullivanpj/open-system/compare/contact-ui-feature-form-v1.8.0...contact-ui-feature-form-v1.9.0) (2023-04-18)
+
+
+### Features
+
+* **reaction-dotnet:** Added avro schema validation through kafka ([678fbc9](https://github.com/sullivanpj/open-system/commit/678fbc97424f1716826323a9832a82610cdafcfc))
+
 # [1.8.0](https://github.com/sullivanpj/open-system/compare/contact-ui-feature-form-v1.7.1...contact-ui-feature-form-v1.8.0) (2023-04-17)
 
 

@@ -1,3 +1,17 @@
+# [1.14.0](https://github.com/sullivanpj/open-system/compare/user-server-infrastructure-v1.13.0...user-server-infrastructure-v1.14.0) (2023-04-19)
+
+
+### Features
+
+* **reaction-dotnet:** Added avro schema validation through kafka ([678fbc9](https://github.com/sullivanpj/open-system/commit/678fbc97424f1716826323a9832a82610cdafcfc))
+
+# [1.14.0](https://github.com/sullivanpj/open-system/compare/user-server-infrastructure-v1.13.0...user-server-infrastructure-v1.14.0) (2023-04-18)
+
+
+### Features
+
+* **reaction-dotnet:** Added avro schema validation through kafka ([678fbc9](https://github.com/sullivanpj/open-system/commit/678fbc97424f1716826323a9832a82610cdafcfc))
+
 # [1.13.0](https://github.com/sullivanpj/open-system/compare/user-server-infrastructure-v1.12.1...user-server-infrastructure-v1.13.0) (2023-04-17)
 
 
