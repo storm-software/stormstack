@@ -76,10 +76,16 @@ namespace OpenSystem.Akka.Configuration
             new ClusterOptions()
             {
                 // use our dynamic local host name by default
-                SeedNodes = new[] { $"akka.tcp://AkkaWebApi@{Dns.GetHostName()}:8081" }
+                SeedNodes = new[] { $"akka.tcp://AkkaWebApi@{Dns.GetHostName()}:8091" }
             };
 
         public ShardOptions ShardOptions { get; set; } = new ShardOptions();
+
+        public string? Name { get; set; }
+        public string? Role { get; set; }
+        public bool? RecreateOnFailure { get; set; }
+        public bool? PreferOldest { get; set; }
+        public bool? VerboseDebugLogging { get; set; }
 
         public PersistenceMode PersistenceMode { get; set; } = PersistenceMode.InMemory;
 

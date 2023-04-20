@@ -12,6 +12,9 @@ using OpenSystem.Core.Domain.Events;
 using OpenSystem.Reaction.Domain.ValueObjects;
 using OpenSystem.Reaction.Domain.Events;
 using OpenSystem.Reaction.Infrastructure.Actors;
+using OpenSystem.Akka.PostgreSql.Constants;
+using Akka.Persistence.Query;
+using SqlReadJournal = Akka.Persistence.Sql.Query.SqlReadJournal;
 
 namespace OpenSystem.Reaction.Infrastructure.Actors
 {
@@ -31,42 +34,46 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
                     "reaction",
                     (system, registry, resolver) =>
                         id =>
-                            Props.Create(
+                        {
+                            var reactionId = ReactionId.With(id);
+
+                            var readJournal = PersistenceQuery
+                                .Get(system)
+                                .ReadJournalFor<SqlReadJournal>(
+                                    AkkaPostgreSqlConstants.ReadJournalPluginId
+                                );
+
+                            var reactionViewMaster = system.ActorOf(
+                                Props.Create(
+                                    () =>
+                                        new ReactionViewMaster(
+                                            serviceProvider,
+                                            reactionId,
+                                            readJournal
+                                        )
+                                ),
+                                $"pub-{reactionId.Value}"
+                            );
+                            registry.Register<ReactionViewMaster>(reactionViewMaster);
+
+                            var propsFactory = Props.Create(
                                 () =>
-                                    new ReactionCommandHandler(serviceProvider, ReactionId.With(id))
-                            ),
+                                    new ReactionCommandHandler(
+                                        serviceProvider,
+                                        reactionId,
+                                        reactionViewMaster
+                                    )
+                            );
+
+                            reactionViewMaster.Tell(
+                                new ReactionViewMaster.BeginTrackingReactions()
+                            );
+
+                            return propsFactory;
+                        },
                     extractor,
                     settings.ShardOptions
                 );
-                /*.WithActors(
-                    (system, registry, resolver) =>
-                    {
-                        var parent = system.ActorOf(
-                        ReactionQueryHandler.Props(serviceProvider,
-                            extractor,
-                            s =>
-                            {
-                                var id = ReactionId.With(s);
-                                var consumerSettings = ConsumerSettings<string, IDomainEvent>
-                                    .Create(system, null, null)
-                                    .WithBootstrapServers("localhost:29092")
-                                    .WithGroupId("group1")
-                                    .WithClientId(id.Value)
-                                    .WithProperty("session.timeout.ms", "6000");
-
-                                return Props.Create(serviceProvider,
-                                            id,
-
-
-                                );
-                            },
-                            "reaction-queries"
-                        )
-                        );
-
-                        registry.Register<ReactionQueryHandler>(parent);
-                    }
-                );*/
             }
             else
             {
@@ -76,14 +83,44 @@ namespace OpenSystem.Reaction.Infrastructure.Actors
                         var parent = system.ActorOf(
                             GenericChildPerEntityParent.Props(
                                 extractor,
-                                s =>
-                                    Props.Create(
+                                id =>
+                                {
+                                    var reactionId = ReactionId.With(id);
+
+                                    var readJournal = PersistenceQuery
+                                        .Get(system)
+                                        .ReadJournalFor<SqlReadJournal>(
+                                            AkkaPostgreSqlConstants.ReadJournalPluginId
+                                        );
+
+                                    var reactionViewMaster = system.ActorOf(
+                                        Props.Create(
+                                            () =>
+                                                new ReactionViewMaster(
+                                                    serviceProvider,
+                                                    reactionId,
+                                                    readJournal
+                                                )
+                                        ),
+                                        $"pub-{reactionId.Value}"
+                                    );
+                                    registry.Register<ReactionViewMaster>(reactionViewMaster);
+
+                                    var propsFactory = Props.Create(
                                         () =>
                                             new ReactionCommandHandler(
                                                 serviceProvider,
-                                                ReactionId.With(s)
+                                                reactionId,
+                                                reactionViewMaster
                                             )
-                                    )
+                                    );
+
+                                    reactionViewMaster.Tell(
+                                        new ReactionViewMaster.BeginTrackingReactions()
+                                    );
+
+                                    return propsFactory;
+                                }
                             ),
                             "reactions"
                         );

@@ -110,6 +110,8 @@
     "Akka.Streams.Kafka": "1.5.0",
     "Microsoft.Bcl.AsyncInterfaces": "7.0.0",
     "Akka.Cluster.Tools": "1.5.2",
-    "Confluent.SchemaRegistry": "2.1.0"
+    "Confluent.SchemaRegistry": "2.1.0",
+    "Apache.Avro": "1.11.1",
+    "Confluent.SchemaRegistry.Serdes.Avro": "2.1.0"
   }
 }

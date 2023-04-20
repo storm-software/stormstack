@@ -27,7 +27,7 @@
         "options": {
             "commands": [
               "dotnet avrogen -s libs/reaction/dotnet/Domain/Events/ReactionEventMessage.V1.asvc libs/reaction/dotnet/Domain/Events",
-              "move libs/reaction/dotnet/Domain/Events/OpenSystem/Reaction/Domain/Events/Models libs/reaction/dotnet/Domain/Events",
+              "move /y libs/reaction/dotnet/Domain/Events/OpenSystem/Reaction/Domain/Events/Models libs/reaction/dotnet/Domain/Events",
               "rimraf libs/reaction/dotnet/Domain/Events/OpenSystem"
             ],
             "parallel": false
