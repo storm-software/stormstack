@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.21.0...web-shell-v1.22.0) (2023-04-24)
+
+
+### Features
+
+* **web-shell:** Major changes for GraphQL implementation ([834802e](https://github.com/sullivanpj/open-system/commit/834802eda1c76ae3d236b92a2616c0c6ab061bab))
+
 # [1.21.0](https://github.com/sullivanpj/open-system/compare/web-shell-v1.20.0...web-shell-v1.21.0) (2023-04-18)
 
 
