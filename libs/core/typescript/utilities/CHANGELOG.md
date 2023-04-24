@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.9.0...core-typescript-utilities-v1.10.0) (2023-04-24)
+
+
+### Features
+
+* **web-shell:** Major changes for GraphQL implementation ([834802e](https://github.com/sullivanpj/open-system/commit/834802eda1c76ae3d236b92a2616c0c6ab061bab))
+
 # [1.9.0](https://github.com/sullivanpj/open-system/compare/core-typescript-utilities-v1.8.2...core-typescript-utilities-v1.9.0) (2023-04-19)
 
 
