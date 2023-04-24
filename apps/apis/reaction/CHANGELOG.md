@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/sullivanpj/open-system/compare/apis-reaction-v1.17.0...apis-reaction-v1.18.0) (2023-04-20)
+
+
+### Features
+
+* **akka-dotnet-kafka:** Resolved writting issue preventing outbound flow ([89f5933](https://github.com/sullivanpj/open-system/commit/89f5933517e16fb14516e519f20bd8ab149c34f8))
+
 # [1.17.0](https://github.com/sullivanpj/open-system/compare/apis-reaction-v1.16.0...apis-reaction-v1.17.0) (2023-04-18)
 
 
