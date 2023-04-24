@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.13.0...design-system-components-v1.14.0) (2023-04-24)
+
+
+### Features
+
+* **web-shell:** Major changes for GraphQL implementation ([834802e](https://github.com/sullivanpj/open-system/commit/834802eda1c76ae3d236b92a2616c0c6ab061bab))
+
 # [1.13.0](https://github.com/sullivanpj/open-system/compare/design-system-components-v1.12.0...design-system-components-v1.13.0) (2023-04-18)
 
 
