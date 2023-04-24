@@ -21,6 +21,12 @@
     ]
   ],
   "plugins": [
+    [
+      "relay",
+      {
+        "artifactDirectory": "./libs/data-catalog/graphql/src/__generated__"
+      }
+    ],
     "@babel/plugin-transform-shorthand-properties",
     "@babel/plugin-transform-block-scoping",
     [
@@ -47,7 +53,6 @@
         "loose": true
       }
     ],
-    "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-syntax-dynamic-import",
     [
       "@babel/plugin-proposal-object-rest-spread",

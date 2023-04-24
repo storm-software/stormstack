@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": false,
   "prettier.eslintIntegration": true,
+  "relay.autoStartCompiler": true,
   "eslint.validate": [
     "javascript",
     "javascriptreact",

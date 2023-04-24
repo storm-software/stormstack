@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "../../../dist/tools/executors/typescript",
     "declaration": true,
-    "rootDir": ".",
     "types": ["node"],
     "downlevelIteration": true
   },

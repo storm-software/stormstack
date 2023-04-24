@@ -10,6 +10,11 @@
       "schema": "../../../dist/tools/executors/typescript/client-redux-sync/schema.json",
       "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec."
     },
+    "client-gql-sync": {
+      "implementation": "../../../dist/tools/executors/typescript/client-gql-sync/impl",
+      "schema": "../../../dist/tools/executors/typescript/client-gql-sync/schema.json",
+      "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec."
+    },
     "client-api-joi-sync": {
       "implementation": "../../../dist/tools/executors/typescript/client-api-joi-sync/impl",
       "schema": "../../../dist/tools/executors/typescript/client-api-joi-sync/schema.json",

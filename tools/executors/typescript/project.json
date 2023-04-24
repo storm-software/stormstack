@@ -168,6 +168,32 @@
               "output": "."
             }
           ]
+        },
+        "client-gql-sync": {
+          "outputPath": "dist/tools/executors/typescript/client-gql-sync",
+          "rollupConfig": "tools/executors/typescript/client-gql-sync/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/typescript",
+              "glob": "**/*!(design-gql-sync)/**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/typescript/client-gql-sync",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
         }
       }
     },

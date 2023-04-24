@@ -7,6 +7,7 @@ import {
 import { ModalReference } from "@open-system/shared-ui-components";
 import { ForwardedRef, forwardRef } from "react";
 
+// eslint-disable-next-line react/display-name
 const SubscriptionModalFormClient = forwardRef<
   ModalReference,
   SubscriptionModalFormProps

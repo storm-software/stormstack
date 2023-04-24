@@ -1,3 +1,4 @@
 .prettierignore
 .docusaurus/
 dist/**
+**/dotnet/**

@@ -20,14 +20,14 @@ import { useDispatch } from "react-redux";
 import { SubscriptionCheckbox } from "../subscription-checkbox";
 
 export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
-  const [createContact] = useCreateContactMutation();
-  const dispatch = useDispatch();
+  //const [createContact] = useCreateContactMutation();
+  //const dispatch = useDispatch();
 
   const handleSubmit = useCallback(
     async (values: ContactFormValues) => {
       console.log(values);
 
-      await createContact({
+      /*await createContact({
         body: {
           ...values,
         },
@@ -35,9 +35,9 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
 
       dispatch(
         addSuccessNotification("You're now subscribed to email notifications")
-      );
+      );*/
     },
-    [createContact, dispatch]
+    []
   );
 
   return (

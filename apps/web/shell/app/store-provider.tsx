@@ -1,12 +1,18 @@
 "use client";
 
 import { BaseComponentProps } from "@open-system/design-system-components";
-import { Provider } from "react-redux";
-import { store } from "../store/store";
+import { Suspense } from "react";
+import { RelayEnvironmentProvider } from "react-relay";
+import { getCurrentEnvironment } from "../relay/environment";
 
 export default function RootProvider({
   children,
   ...props
 }: BaseComponentProps) {
-  return <Provider store={store}>{children}</Provider>;
+  const environment = getCurrentEnvironment();
+  return (
+    <RelayEnvironmentProvider environment={environment}>
+      <Suspense fallback="Loading...">{children}</Suspense>
+    </RelayEnvironmentProvider>
+  );
 }

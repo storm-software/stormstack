@@ -17,7 +17,7 @@ export const NotificationGroup = ({
   children,
   ...props
 }: BaseComponentProps) => {
-  const notifications = useSelector(selectNotificationList);
+  const notifications = []; //useSelector(selectNotificationList);
 
   const portalRef = useRef<Element | null>(null);
 

@@ -1,0 +1,26 @@
+{
+  "name": "core-typescript-data-access",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core-typescript/data-access/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/core-typescript/data-access",
+        "main": "libs/core-typescript/data-access/src/index.ts",
+        "tsConfig": "libs/core-typescript/data-access/tsconfig.lib.json",
+        "assets": ["libs/core-typescript/data-access/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/core-typescript/data-access/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

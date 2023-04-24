@@ -13,6 +13,14 @@ module.exports = withNx({
   swcMinify: true,
   reactStrictMode: true,
 
+  compiler: {
+    relay: {
+      src: "./",
+      language: "typescript",
+      artifactDirectory: "libs/data-catalog/graphql/src/__generated__",
+    },
+  },
+
   typescript: {
     ignoreBuildErrors: true,
   },

@@ -32,8 +32,20 @@
         "libs/contact/ui/feature-form/src/*"
       ],
       "@open-system/contacts/config": ["libs/contacts/config/src/index.ts"],
+      "@open-system/core-typescript-data-access": [
+        "libs/core/typescript/data-access/src/index.ts"
+      ],
+      "@open-system/core-typescript-kafka": [
+        "libs/core/typescript/kafka/src/index.ts"
+      ],
       "@open-system/core-typescript-utilities": [
         "libs/core/typescript/utilities/src/index.ts"
+      ],
+      "@open-system/data-catalog-graphql": [
+        "libs/data-catalog/graphql/src/index.ts"
+      ],
+      "@open-system/data-catalog-graphql/*": [
+        "libs/data-catalog/graphql/src/*"
       ],
       "@open-system/design-system-components": [
         "design-system/components/src/index.ts"

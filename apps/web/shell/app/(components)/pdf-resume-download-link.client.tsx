@@ -1,12 +1,13 @@
 "use client";
 
-import {
+/*import {
   PdfResumeDownloadLink,
   PdfResumeDownloadLinkProps,
-} from "@open-system/portfolio-ui-feature-resume/pdf-resume-download-link";
+} from "@open-system/portfolio-ui-feature-resume/pdf-resume-download-link";*/
 
 export default function PdfResumeDownloadLinkClient(
-  props: PdfResumeDownloadLinkProps
+  props: any, // PdfResumeDownloadLinkProps
 ) {
-  return <PdfResumeDownloadLink {...props} />;
+  //return <PdfResumeDownloadLink {...props} />;
+  return null;
 }

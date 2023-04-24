@@ -12,7 +12,6 @@ import { Link } from "@open-system/shared-ui-components/link";
 import { Footer } from "@open-system/shared-ui-feature-layout/footer";
 import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links";
 import clsx from "clsx";
-import { LinkVariants } from "design-system/components/src/link";
 import dynamic from "next/dynamic";
 import React from "react";
 import "../styles/globals.css";
@@ -73,6 +72,13 @@ const NavHeader = dynamic(() => import("./nav-header"));
 const CookiePolicyBanner = dynamic(
   () => import("./(components)/cookie-policy-banner.client")
 );
+
+export const metadata = {
+  themeColor: '#18181B',
+  title: {
+    template: "%s | Pat Sullivan Development",
+  },
+};
 
 export default function RootLayout({
   children,

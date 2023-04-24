@@ -46,6 +46,14 @@
         "generator": "open-system-typescript-redux"
       }
     },
+    "client-gql-sync": {
+      "executor": "@open-system/executors-typescript:client-gql-sync",
+      "options": {
+        "outputFileTypes": "libs/reaction/ui/data-access/src/gql/types.ts",
+        "outputFileSchemaAst": "libs/reaction/ui/data-access/src/gql/schema.graphql",
+        "outputFileClient": "libs/reaction/ui/data-access/src/gql/client.ts",
+      }
+    },
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
