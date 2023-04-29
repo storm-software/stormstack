@@ -6,6 +6,7 @@
  * - Express: https://github.com/vercel/next.js/tree/canary/examples/custom-server-express
  * - Hapi: https://github.com/vercel/next.js/tree/canary/examples/custom-server-hapi
  */
+import "helios-opentelemetry-sdk";
 import { createServer } from "http";
 import next from "next";
 import * as path from "path";

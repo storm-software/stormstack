@@ -2,15 +2,12 @@ import { ExecutorContext } from "@nrwl/devkit";
 // import { ConsoleLogger } from "@open-system/core-typescript-utilities";
 //import { generateGraphQL } from "@confluentinc/ksqldb-graphql";
 import { codegen } from "@graphql-codegen/core";
-import { Types } from "@graphql-codegen/plugin-helpers";
 import * as schemaAstPlugin from "@graphql-codegen/schema-ast";
 import * as timePlugin from "@graphql-codegen/time";
-import * as typescriptPlugin from "@graphql-codegen/typescript";
-import * as typescriptOperationsPlugin from "@graphql-codegen/typescript-operations";
-import * as typescriptReactApolloPlugin from "@graphql-codegen/typescript-react-apollo";
+import { addResolversToSchema } from "@graphql-tools/schema";
+import { buildKsqlDBGraphQL } from "@open-system/core-typescript-kafka";
 import fs from "node:fs";
 import path from "node:path";
-import { buildKsqlDBGraphQL } from "./ksql/schema";
 import { ClientGraphQLSyncExecutorSchema } from "./schema";
 
 export default async function (
@@ -54,7 +51,7 @@ export default async function (
       },
     });
 
-    let config: Types.GenerateOptions = {
+    /*let config: Types.GenerateOptions = {
       documents: [],
       config: {},
       // used by a plugin internally, although the 'typescript' plugin currently
@@ -102,15 +99,25 @@ export default async function (
       "utf8"
     );
 
-    console.info("Client GraphQL sync succeeded.");
+    console.info("Client GraphQL sync succeeded.");*/
 
-    config = {
+    const config = {
       documents: [],
-      config: {},
+      config: {
+        namingConvention: "change-case-all#PascalCase",
+      },
       // used by a plugin internally, although the 'typescript' plugin currently
       // returns the string output, rather than writing to a file
       filename: outputFileSchemaAst,
-      schema: schemas,
+      schema: addResolversToSchema({
+        schema: schemas,
+        resolvers: {
+          ...subscriptionResolvers,
+          ...queryResolvers,
+          ...mutationResolvers,
+          KsqlProcessingLog: null,
+        },
+      }) as any,
       plugins: [
         // Each plugin should be an object
         {
@@ -137,7 +144,7 @@ export default async function (
 
     console.info("Generating GraphQL Schema AST code...");
 
-    output = await codegen(config);
+    const output = await codegen(config);
 
     console.info(
       `Writing GraphQL Schema AST code to file ${outputFileSchemaAst}.`
@@ -149,9 +156,9 @@ export default async function (
       "utf8"
     );
 
-    console.info("Client GraphQL Types sync succeeded.");
+    console.info("GraphQL Schema AST sync succeeded.");
 
-    config = {
+    /*config = {
       documents: [],
       config: {},
       // used by a plugin internally, although the 'typescript' plugin currently
@@ -202,7 +209,7 @@ export default async function (
       "utf8"
     );
 
-    console.info("Client GraphQL sync succeeded.");
+    console.info("Client GraphQL sync succeeded.");*/
 
     return { success: true };
   } catch (e) {

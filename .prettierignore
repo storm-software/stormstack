@@ -2,3 +2,4 @@
 .docusaurus/
 dist/**
 **/dotnet/**
+node_modules/

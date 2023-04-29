@@ -12,6 +12,7 @@ import { Link } from "@open-system/shared-ui-components/link";
 import { Footer } from "@open-system/shared-ui-feature-layout/footer";
 import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links";
 import clsx from "clsx";
+import "helios-opentelemetry-sdk";
 import dynamic from "next/dynamic";
 import React from "react";
 import "../styles/globals.css";
@@ -74,7 +75,7 @@ const CookiePolicyBanner = dynamic(
 );
 
 export const metadata = {
-  themeColor: '#18181B',
+  themeColor: "#18181B",
   title: {
     template: "%s | Pat Sullivan Development",
   },

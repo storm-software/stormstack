@@ -89,7 +89,9 @@ function createNetwork() {
 function createEnvironment() {
   return new Environment({
     network: createNetwork(),
-    store: new Store(RecordSource.create()),
+    store: new Store(RecordSource.create(), {
+      queryCacheExpirationTime: 5 * 60 * 1000,
+    }),
     isServer: IS_SERVER,
   });
 }

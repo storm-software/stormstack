@@ -1,3 +1,5 @@
+import { GraphQLLiveDirective } from "@envelop/live-query";
+import { pascalCase } from "change-case";
 import {
   GraphQLFloat,
   GraphQLList,
@@ -8,12 +10,18 @@ import {
   GraphQLString,
   isInputType,
   printSchema,
-} from 'graphql';
-import { RequestOptions } from 'http';
-import { KsqlDBMutation, Missing } from './graphQLObjectTypes';
-import { runCommand } from './requester';
-import { ResolverGenerator } from './resolvers';
-import { Config, Field, KSqlDBEntities, KsqlDBResponse, ResolverFields } from './type/definition';
+} from "graphql";
+import { RequestOptions } from "http";
+import { KsqlDBMutation, Missing } from "./graphQLObjectTypes";
+import { runCommand } from "./requester";
+import { ResolverGenerator } from "./resolvers";
+import {
+  Config,
+  Field,
+  KSqlDBEntities,
+  KsqlDBResponse,
+  ResolverFields,
+} from "./type/definition";
 
 const TypeMap = {
   STRING: GraphQLString,
@@ -46,26 +54,70 @@ const setSchemaType = (accum: KSqlDBEntities, field: Field): void => {
       type: sclarType,
     };
   } else {
-    const sclarType: GraphQLScalarType = TypeMap[field.schema.type] as GraphQLScalarType;
+    const sclarType: GraphQLScalarType = TypeMap[
+      field.schema.type
+    ] as GraphQLScalarType;
     accum[field.name] = {
       type: sclarType,
     };
   }
 };
 
-const buildSchemaObject = (accum: KSqlDBEntities, field: Field): KSqlDBEntities => {
+const buildSchemaObject = (
+  accum: KSqlDBEntities,
+  field: Field
+): KSqlDBEntities => {
   if (field.schema.fields == null) {
     setSchemaType(accum, field);
   } else if (Array.isArray(field.schema.fields)) {
     const fields = field.schema.fields.reduce(buildSchemaObject, {});
-    if (accum[field.name] == null) {
-      accum[field.name] = { type: new GraphQLObjectType({ name: field.name, fields: fields }) };
+    if (accum[formatName(field.name)] == null) {
+      accum[formatName(field.name)] = {
+        type: new GraphQLObjectType({
+          name: formatName(field.name),
+          fields: fields,
+        }),
+      };
     } else {
       // eslint-disable-next-line
-      console.warn(`${field.name} already exists.`);
+      console.warn(`${formatName(field.name)} already exists.`);
     }
   }
   return accum;
+};
+
+/*const formatEntities = (entities: KSqlDBEntities): KSqlDBEntities => {
+  return Object.keys(entities).reduce((ret: KSqlDBEntities, key: string) => {
+    const entity = (entities as any)[key];
+    if (entity) {
+    (ret as any)[formatName(key)] = {
+      type: new GraphQLObjectType({ name: formatName(entity.name), fields: entity.fields && entity.fields.length formatFields(entity.fields) })
+    };
+  }
+
+    return ret;
+  }, {});
+};
+
+const formatFields = (fields: KSqlDBEntities): KSqlDBEntities => {
+  if (fields != null) {
+    return fields..map((f: Field) => formatField(f));
+  }
+
+  return fields;
+};
+
+const formatField = (field: Field): Field => {
+  if (field?.schema?.fields) {
+    field.schema.fields = formatFields(field.schema.fields);
+  }
+
+  field.name = formatName(field.name);
+  return field;
+};*/
+
+const formatName = (name: string | null): string => {
+  return pascalCase(name ?? "");
 };
 
 export const generateSchemaFromKsql = ({
@@ -74,7 +126,7 @@ export const generateSchemaFromKsql = ({
 }: KsqlDBResponse): GraphQLObjectTypeConfig<void, void> => {
   const schemaFields = fields.reduce(buildSchemaObject, {});
   return {
-    name,
+    name: formatName(name),
     fields: schemaFields,
   };
 };
@@ -88,7 +140,10 @@ const generateGraphQLArgs = (fields: any): any =>
     return accum;
   }, {});
 
-function generateQueries(streams: Array<KsqlDBResponse>, subscriptionFields: any) {
+function generateQueries(
+  streams: Array<KsqlDBResponse>,
+  subscriptionFields: any
+) {
   return (accum: { [name: string]: any }, query: any): any => {
     const schemaType = new GraphQLObjectType(query);
     const ksqlDBQuery = streams.find(stream => stream.name === query.name);
@@ -135,21 +190,30 @@ export const generateSchemaAndFields = (
 } => {
   const schemas: GraphQLObjectTypeConfig<void, void>[] = [];
   for (const stream of streams) {
-    schemas.push(generateSchemaFromKsql(stream));
+    console.log("### first ");
+    const first = stream;
+    console.log(first);
+    const second = generateSchemaFromKsql(first);
+    console.log("### second ");
+    console.log(second);
+    schemas.push(second);
   }
 
   const subscriptionFields = schemas.reduce(generateSubscription, {});
   const mutationFields = schemas.reduce(generateMutations, {});
 
-  let queryFields = schemas.reduce(generateQueries(streams, subscriptionFields), {});
+  let queryFields = schemas.reduce(
+    generateQueries(streams, subscriptionFields),
+    {}
+  );
   // if you have no materialized views, graphql won't work, so default to subscriptions, already logged out this won't work
   // why default? http://spec.graphql.org/June2018/#sec-Schema
   if (Object.keys(queryFields).length === 0) {
     // eslint-disable-next-line
     console.error(
-      'No materalized views have been registered.',
-      'Only subscriptions and mutations will be work properly.',
-      'Defaulting `type Query` to null scalar since it is required by graphQL.'
+      "No materialized views have been registered.",
+      "Only subscriptions and mutations will be work properly.",
+      "Defaulting `type Query` to null scalar since it is required by graphQL."
     );
     queryFields = { KsqlDBGraphQLError: Missing };
   }
@@ -157,15 +221,21 @@ export const generateSchemaAndFields = (
   return {
     schema: new GraphQLSchema({
       query: new GraphQLObjectType({
-        name: 'Query',
+        name: "Query",
         fields: queryFields,
       }),
+
       subscription: new GraphQLObjectType({
-        name: 'Subscription',
+        name: "Subscription",
         fields: subscriptionFields,
       }),
 
-      mutation: new GraphQLObjectType({ name: 'Mutation', fields: mutationFields }),
+      mutation: new GraphQLObjectType({
+        name: "Mutation",
+        fields: mutationFields,
+      }),
+
+      directives: [GraphQLLiveDirective],
     }),
     fields: {
       queryFields: Object.keys(queryFields)
@@ -183,28 +253,27 @@ export const generateSchemaAndFields = (
 };
 
 const schemas = async (
-  options: RequestOptions,
+  options: RequestOptions
 ): Promise<{ schema: GraphQLSchema; fields: ResolverFields } | undefined> => {
-  const ksql = 'show streams extended; show tables extended;';
+  const ksql = "show streams extended; show tables extended;";
   try {
     const response = await runCommand(ksql, options);
     const streams: Array<KsqlDBResponse> = response.data[0].sourceDescriptions;
     const tables: Array<KsqlDBResponse> = response.data[1].sourceDescriptions;
 
     if (streams.length === 0) {
-      throw new Error(`No ksql tables exist on ksql server ${options.hostname}:${options.port}`);
+      throw new Error(
+        `No ksql tables exist on ksql server ${options.hostname}:${options.port}`
+      );
     }
 
     return generateSchemaAndFields(streams.concat(tables));
   } catch (e) {
-    // eslint-disable-next-line
-    console.error(`Could not generate schemas:`, e.message);
+    console.error(`Could not generate schemas:`, (e as any)?.message);
   }
 };
 
-export function buildKsqlDBGraphQL({
-  options,
-}: Config): Promise<{
+export function buildKsqlDBGraphQL({ options }: Config): Promise<{
   schemas: any;
   queryResolvers: any;
   subscriptionResolvers: any;
@@ -217,11 +286,8 @@ export function buildKsqlDBGraphQL({
         if (result) {
           // eslint-disable-next-line
           console.log(printSchema(result.schema));
-          const {
-            queryResolvers,
-            subscriptionResolvers,
-            mutationResolvers,
-          } = new ResolverGenerator(result.fields);
+          const { queryResolvers, subscriptionResolvers, mutationResolvers } =
+            new ResolverGenerator(result.fields);
           resolve({
             schemas: result.schema,
             queryResolvers,
@@ -229,11 +295,12 @@ export function buildKsqlDBGraphQL({
             mutationResolvers,
           });
         } else {
-          throw new Error('Unable to create schemas and resolvers');
+          throw new Error("Unable to create schemas and resolvers");
         }
       } catch (e) {
-        throw new Error(e);
+        throw new Error(e as any);
       }
     })();
   });
 }
+

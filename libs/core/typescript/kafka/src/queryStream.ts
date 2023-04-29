@@ -246,13 +246,3 @@ export const asyncIteratorQueryStream = (
   return new AsyncIteratorQueryStream(session, queryStreamArgs, mapRow);
 };
 
-// usage
-//
-// const session = http2.connect('https://localhost:8089');
-// const q = asyncIteratorQueryStream(session, { sql: 'select * from foo' });
-// (async () => {
-//     for await (const row: Record<string, any> of q) {
-//         // ...
-//     }
-// })();
-

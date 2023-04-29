@@ -1,13 +1,17 @@
 const { withNx } = require("@nrwl/next/plugins/with-nx");
+const flowRight = require("lodash/flowRight");
+const withI18n = require("./config/withI18n");
+const withEnv = require("./config/withEnv");
+const withSentry = require("./config/withSentry");
 const { CONTACT_URL, REACTION_API_HOST } = process.env;
 
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
-module.exports = withNx({
+const nextConfig = withNx({
   basePath: "",
   nx: {
-    svgr: false,
+    svgr: true,
   },
 
   swcMinify: true,
@@ -19,10 +23,6 @@ module.exports = withNx({
       language: "typescript",
       artifactDirectory: "libs/data-catalog/graphql/src/__generated__",
     },
-  },
-
-  typescript: {
-    ignoreBuildErrors: true,
   },
 
   experimental: {
@@ -42,6 +42,34 @@ module.exports = withNx({
     "@open-system/portfolio-ui-feature-resume",
   ],
 
+  // Disable linting during build => the linter may have optional dev dependencies
+  // (eslint-plugin-cypress) that wont exist during prod build
+  // You should lint manually only
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+
+  env: {
+    NEXT_PUBLIC_IS_USING_LOCAL_DATABASE: !!(process.env.MONGO_URI || "").match(
+      /localhost/
+    ),
+  },
+
+  webpack: defaultConfig => {
+    defaultConfig.module.rules.push({
+      test: /\.ya?ml$/,
+      use: "js-yaml-loader",
+    });
+
+    defaultConfig.experiments.topLevelAwait = true;
+    return defaultConfig;
+  },
+
   async redirects() {
     return [
       {
@@ -51,55 +79,6 @@ module.exports = withNx({
       },
     ];
   },
-
-  /*async rewrites() {
-    return [
-      {
-        source: "/api/reaction/:path*",
-        destination: `${REACTION_API_HOST}/api/:path*`,
-      },
-    ];
-  },*/
-
-  webpack(config) {
-    return {
-      ...config,
-      module: {
-        ...config?.module,
-        rules: [
-          ...(config?.module?.rules ?? []),
-          {
-            loader: "@svgr/webpack",
-            options: {
-              prettier: false,
-              svgo: true,
-              svgoConfig: {
-                plugins: [
-                  {
-                    name: "preset-default",
-                    params: {
-                      overrides: { removeViewBox: false },
-                    },
-                  },
-                ],
-              },
-              titleProp: true,
-            },
-            test: /\.svg$/,
-          },
-          {
-            test: /\.(eot|ttf|woff|woff2)$/,
-            use: {
-              loader: "file-loader",
-              options: {
-                name: "[name].[ext]",
-                publicPath: "fonts",
-                outputPath: "fonts",
-              },
-            },
-          },
-        ],
-      },
-    };
-  },
 });
+
+module.exports = flowRight([withEnv, withI18n, withSentry])(nextConfig);

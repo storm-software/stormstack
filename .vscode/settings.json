@@ -1,7 +1,21 @@
 {
-  "editor.formatOnSave": false,
-  "prettier.eslintIntegration": true,
+  /******************************
+  * relay graphql
+  ******************************/
   "relay.autoStartCompiler": true,
+
+  /******************************
+  * bracket pair colorization
+  ******************************/
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+
+  /******************************
+  * eslint / prettier
+  ******************************/
+  "editor.formatOnSave": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -10,39 +24,58 @@
   ],
   "[javascript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.organizeImports": true,
+      "source.sortMembers": true
+    },
   },
   "[javascriptreact]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.organizeImports": true,
+      "source.sortMembers": true
+    },
   },
   "[typescript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.organizeImports": true,
+      "source.sortMembers": true
+    },
   },
   "[typescriptreact]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.organizeImports": true,
+      "source.sortMembers": true
+    },
   },
-  "[csharp]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "csharpier.csharpier-vscode"
-  },
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": "active",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": true,
-    "source.sortMembers": true
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
+
+  /******************************
+  * csharpier 
+  ******************************/
+  "[csharp]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "csharpier.csharpier-vscode"
+  },
+
+  /******************************
+  * vscode-icons 
+  ******************************/
   "vsicons.associations.files": [
     {
       "icon": "registry",
@@ -73,9 +106,33 @@
       "extensions": ["jest.preset.js"],
       "filename": true,
       "format": "svg"
-    }
+    },
+    {
+      "icon": "config",
+      "extensions": ["environment.ts"],
+      "format": "svg"
+    },
+    {
+      "icon": "config",
+      "extensions": ["environment.ts"],
+      "format": "svg"
+    },
+    {
+      "icon": "dotenv",
+      "extensions": [".env", ".env.local", ".env.production"],
+      "languages": ["dotenv"],
+      "format": "svg",
+    },
+    {
+      "icon": "sentry",
+      "extensions": [".sentryclirc", "sentry.client.config.js", "sentry.server.config.js", "sentry.properties"],
+      "format": "svg",
+    },
   ],
   "vsicons.associations.folders": [
+    {
+    "icon": "graphql", "extensions": ["graphql", "gql"], "format": "svg" 
+    },
     {
       "icon": "www",
       "extensions": ["shell"],
@@ -83,7 +140,7 @@
     },
     {
       "icon": "config",
-      "extensions": ["environments"],
+      "extensions": ["environment"],
       "format": "svg"
     },
     {
@@ -157,10 +214,10 @@
       "format": "svg"
     }
   ],
-  "docwriter.progress.trackClasses": true,
-  "docwriter.progress.trackTypes": true,
-  "docwriter.custom.template": "{{summary}}\n\nGenerated on {{date}}\n\n{{#params}}\n@param {{name}} - {{paramExplained}}\n{{/params}}\n{{#returnExplained}}\n@returns {{.}}\n{{/returnExplained}}",
-  "docwriter.style": "JSDoc",
+
+  /******************************
+  * commitizen
+  ******************************/
   "commitizen.capitalizeWindowsDriveLetter": true,
   "commitizen.autoSync": false,
   "commitizen.showOutputChannel": "always"

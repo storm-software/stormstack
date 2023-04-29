@@ -224,29 +224,21 @@ schema {
 }
 
 type Query {
-  REACTION_COUNT(ID: String, KSQL_COL_0: String, COUNT: Float): REACTION_COUNT
-  REACTIONS(ID: String, TYPE: String, COUNT: Float): REACTIONS
+  KsqlDBGraphQLError: NoPullQueries
   __schema: __Schema!
   __type(name: String!): __Type
 }
 
-type REACTION_COUNT {
-  ID: String
-  KSQL_COL_0: String
-  COUNT: Float
-}
-
-type REACTIONS {
-  ID: String
-  TYPE: String
-  COUNT: Float
-}
+"""
+No materialized views have been registered. Register materialized views in order to use pull queries. Refer to https://cnfl.io/queries for info on query types.
+"""
+scalar NoPullQueries
 
 type Mutation {
-  KSQL_PROCESSING_LOG(LOGGER: String, LEVEL: String, TIME: Float): KsqlDBMutation
-  REACTION_S(ID: String, TYPE: String, USERID: String, COUNT: Float): KsqlDBMutation
-  REACTION_COUNT(ID: String, KSQL_COL_0: String, COUNT: Float): KsqlDBMutation
-  REACTIONS(ID: String, TYPE: String, COUNT: Float): KsqlDBMutation
+  KsqlProcessingLog(LOGGER: String, LEVEL: String, TIME: Float): KsqlDBMutation
+  ReactionStream(CONTENTID: String, USERID: String, TYPE: String, COUNT: Float): KsqlDBMutation
+  ReactionUser(CONTENTID: String, USERID: String, TYPE: String, COUNT: Float): KsqlDBMutation
+  ReactionType(CONTENTID: String, TYPE: String, COUNT: Float): KsqlDBMutation
 }
 
 type KsqlDBMutation {
@@ -255,29 +247,29 @@ type KsqlDBMutation {
 }
 
 type Subscription {
-  KSQL_PROCESSING_LOG(LOGGER: String, LEVEL: String, TIME: Float): KSQL_PROCESSING_LOG
-  REACTION_S(ID: String, TYPE: String, USERID: String, COUNT: Float): REACTION_S
-  REACTION_COUNT(ID: String, KSQL_COL_0: String, COUNT: Float): REACTION_COUNT
-  REACTIONS(ID: String, TYPE: String, COUNT: Float): REACTIONS
+  KsqlProcessingLog(LOGGER: String, LEVEL: String, TIME: Float): KsqlProcessingLog
+  ReactionStream(CONTENTID: String, USERID: String, TYPE: String, COUNT: Float): ReactionStream
+  ReactionUser(CONTENTID: String, USERID: String, TYPE: String, COUNT: Float): ReactionUser
+  ReactionType(CONTENTID: String, TYPE: String, COUNT: Float): ReactionType
 }
 
-type KSQL_PROCESSING_LOG {
+type KsqlProcessingLog {
   LOGGER: String
   LEVEL: String
   TIME: Float
-  MESSAGE: MESSAGE
+  Message: Message
 }
 
-type MESSAGE {
+type Message {
   TYPE: Float
-  DESERIALIZATIONERROR: DESERIALIZATIONERROR
-  RECORDPROCESSINGERROR: RECORDPROCESSINGERROR
-  PRODUCTIONERROR: PRODUCTIONERROR
-  SERIALIZATIONERROR: SERIALIZATIONERROR
-  KAFKASTREAMSTHREADERROR: KAFKASTREAMSTHREADERROR
+  Deserializationerror: Deserializationerror
+  Recordprocessingerror: Recordprocessingerror
+  Productionerror: Productionerror
+  Serializationerror: Serializationerror
+  Kafkastreamsthreaderror: Kafkastreamsthreaderror
 }
 
-type DESERIALIZATIONERROR {
+type Deserializationerror {
   TARGET: String
   ERRORMESSAGE: String
   RECORDB64: String
@@ -285,17 +277,17 @@ type DESERIALIZATIONERROR {
   topic: String
 }
 
-type RECORDPROCESSINGERROR {
+type Recordprocessingerror {
   ERRORMESSAGE: String
   RECORD: String
   CAUSE: [String]
 }
 
-type PRODUCTIONERROR {
+type Productionerror {
   ERRORMESSAGE: String
 }
 
-type SERIALIZATIONERROR {
+type Serializationerror {
   TARGET: String
   ERRORMESSAGE: String
   RECORD: String
@@ -303,18 +295,31 @@ type SERIALIZATIONERROR {
   topic: String
 }
 
-type KAFKASTREAMSTHREADERROR {
+type Kafkastreamsthreaderror {
   ERRORMESSAGE: String
   THREADNAME: String
   CAUSE: [String]
 }
 
-type REACTION_S {
-  ID: String
-  TYPE: String
+type ReactionStream {
+  CONTENTID: String
   USERID: String
+  TYPE: String
+  COUNT: Float
+}
+
+type ReactionUser {
+  CONTENTID: String
+  USERID: String
+  TYPE: String
+  COUNT: Float
+}
+
+type ReactionType {
+  CONTENTID: String
+  TYPE: String
   COUNT: Float
 }
 # # OpenSystem GraphQL Types 
 # **Do not modify this file manually** 
-# The schema generated on: 04/24/2023 amt 02:54:17
+# The schema generated on: 04/28/2023 amt 01:02:31

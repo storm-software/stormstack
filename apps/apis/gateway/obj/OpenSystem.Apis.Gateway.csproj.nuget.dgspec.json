@@ -65,23 +65,23 @@
             },
             "Ocelot": {
               "target": "Package",
-              "version": "[18.0.0, )"
+              "version": "[19.0.2, )"
             },
             "Ocelot.Administration": {
               "target": "Package",
-              "version": "[18.0.0, )"
+              "version": "[19.0.2, )"
             },
             "Ocelot.Cache.CacheManager": {
               "target": "Package",
-              "version": "[18.0.0, )"
+              "version": "[19.0.2, )"
             },
             "Ocelot.Provider.Consul": {
               "target": "Package",
-              "version": "[18.0.0, )"
+              "version": "[19.0.2, )"
             },
             "Ocelot.Provider.Polly": {
               "target": "Package",
-              "version": "[18.0.0, )"
+              "version": "[19.0.2, )"
             },
             "Polly": {
               "target": "Package",

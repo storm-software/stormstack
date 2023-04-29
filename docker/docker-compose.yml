@@ -231,6 +231,25 @@ services:
         condition: always
         delay: 5s
 
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    networks:
+     - network-microservice
+    depends_on:
+      - broker
+    environment:
+      KAFKA_CLUSTERS_0_NAME: cluster-0
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ${KAFKA_HOST}
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+      KAFKA_CLUSTERS_0_KSQLDBSERVER: http://ksqldb-server:8088
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+      DYNAMIC_CONFIG_ENABLED: true
+
+
       #KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schemaregistry:8085
       #KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: first
       #KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083

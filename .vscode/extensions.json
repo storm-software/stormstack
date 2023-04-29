@@ -5,6 +5,8 @@
     "firsttris.vscode-jest-runner",
     "dbaeumer.vscode-eslint",
     "ms-vscode-remote.remote-containers",
-    "asyncapi.asyncapi-preview"
+    "asyncapi.asyncapi-preview",
+    "ms-dotnettools.csharp",
+    "streetsidesoftware.code-spell-checker"
   ]
 }

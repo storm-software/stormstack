@@ -47,7 +47,6 @@ module.exports = {
       "confirmCommit":
         "Are you sure you want to proceed with the commit above?",
     },
-
     "types": [
       {
         "value": "feat",
@@ -168,7 +167,6 @@ module.exports = {
         "emoji": ":open_file_folder:",
       },
     ],
-
     "allowCustomScopes": false,
     "allowEmptyScopes": false,
     "allowBreakingChanges": ["feat", "fix"],

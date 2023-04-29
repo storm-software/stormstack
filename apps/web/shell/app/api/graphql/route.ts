@@ -2,8 +2,10 @@
 // import { KafkaPubSubEngine } from "@open-system/core-typescript-data-access";
 import { envelop, useEngine, useLogger, useSchema } from "@envelop/core";
 import { useOpenTelemetry } from "@envelop/opentelemetry";
+import { useSentry } from "@envelop/sentry";
 import { addResolversToSchema } from "@graphql-tools/schema";
 import { buildKsqlDBGraphQL } from "@open-system/core-typescript-kafka";
+import "@sentry/tracing";
 import { execute, parse, specifiedRules, subscribe, validate } from "graphql";
 import {
   Request as HelixRequest,
@@ -102,6 +104,8 @@ const session: ClientHttp2Session = createSession() as ClientHttp2Session;*/
 });
 */
 
+export const runtime = "edge";
+
 const { schemas, queryResolvers, subscriptionResolvers, mutationResolvers } =
   await buildKsqlDBGraphQL({
     options: {
@@ -116,10 +120,22 @@ const getEnveloped = envelop({
     useSchema(
       addResolversToSchema({
         schema: schemas,
-        resolvers: queryResolvers,
+        resolvers: {
+          ...subscriptionResolvers,
+          ...queryResolvers,
+          ...mutationResolvers,
+        },
       })
     ),
     useLogger(),
+    useSentry({
+      includeRawResult: true, // set to `true` in order to include the execution result in the metadata collected
+      includeResolverArgs: true, // set to `true` in order to include the args passed to resolvers
+      includeExecuteVariables: true, // set to `true` in order to include the operation variables values
+      //appendTags: args => {}, // if you wish to add custom "tags" to the Sentry transaction created per operation
+      // configureScope: (args, scope) => {}, // if you wish to modify the Sentry scope
+      //skip: executionArgs => {} // if you wish to modify the skip specific operations
+    }),
     useOpenTelemetry({
       resolvers: true, // Tracks resolvers calls, and tracks resolvers thrown errors
       variables: true, // Includes the operation variables values as part of the metadata collected
