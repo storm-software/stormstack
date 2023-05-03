@@ -9,6 +9,7 @@ import {
   Store,
   Variables,
 } from "relay-runtime";
+import * as Sentry from "@sentry/nextjs";
 
 const HTTP_ENDPOINT = "localhost:3000/api/graphql";
 const IS_SERVER = typeof window === typeof undefined;
@@ -25,35 +26,52 @@ export async function networkFetch(
     );
   }*/
 
-  const resp = await fetch(HTTP_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      // Authorization: `bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: request.text,
-      variables,
-    }),
+  const transaction = Sentry.startTransaction({
+    name: "Fetch Transaction",
   });
-  const json = await resp.json();
 
-  // GraphQL returns exceptions (for example, a missing required variable) in the "errors"
-  // property of the response. If any exceptions occurred when processing the request,
-  // throw an error to indicate to the developer what went wrong.
-  if (Array.isArray(json.errors)) {
-    console.error(json.errors);
-    throw new Error(
-      `Error fetching GraphQL query '${
-        request.name
-      }' with variables '${JSON.stringify(variables)}': ${JSON.stringify(
-        json.errors
-      )}`
-    );
+  try {
+    Sentry.configureScope(scope => {
+      scope.setSpan(transaction);
+    });
+
+    const res = await fetch("/api/sentry-example-api");
+    if (!res.ok) {
+      throw new Error("Sentry Example Frontend Error");
+    }
+
+    const resp = await fetch(HTTP_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        // Authorization: `bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: request.text,
+        variables,
+      }),
+    });
+    const json = await resp.json();
+
+    // GraphQL returns exceptions (for example, a missing required variable) in the "errors"
+    // property of the response. If any exceptions occurred when processing the request,
+    // throw an error to indicate to the developer what went wrong.
+    if (Array.isArray(json.errors)) {
+      console.error(json.errors);
+      throw new Error(
+        `Error fetching GraphQL query '${
+          request.name
+        }' with variables '${JSON.stringify(variables)}': ${JSON.stringify(
+          json.errors
+        )}`
+      );
+    }
+
+    return json;
+  } finally {
+    transaction.finish();
   }
-
-  return json;
 }
 
 export const responseCache: QueryResponseCache | null = IS_SERVER

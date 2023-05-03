@@ -21,7 +21,7 @@ const withSentry = (nextConfig = {}) => {
       shouldDisableSentry = true;
     }
 
-    if (!process.env.SENTRY_PROJECT) {
+    if (!process.env.SENTRY_PROJECT || !process.env.SENTRY_ORGANIZATION) {
       console.warn(
         "No Sentry project set. This is expected for Vercel preview deployments, but shouldn't happen with the main branch."
       );
@@ -41,25 +41,45 @@ const withSentry = (nextConfig = {}) => {
     );
   }
 
-  return {
-    ...withSentryConfig(nextConfig, {
-      // Additional config options for the Sentry Webpack plugin. Keep in mind that
-      // the following options are set automatically, and overriding them is not
-      // recommended:
-      //   release, url, org, project, authToken, configFile, stripPrefix,
-      //   urlPrefix, include, ignore
+  return withSentryConfig(
+    nextConfig,
+    {
+      // For all available options, see:
+      // https://github.com/getsentry/sentry-webpack-plugin#options
+
+      // Suppresses source map uploading logs during build
+      org: process.env.SENTRY_ORGANIZATION,
+      project: process.env.SENTRY_PROJECT,
 
       silent: true, // Suppresses all logs
+
       // For all available options, see:
       // https://github.com/getsentry/sentry-webpack-plugin#options.
       // Will disable release creation and source map upload during local dev
       dryRun: shouldDisableSentry,
       disableServerWebpackPlugin: shouldDisableSentry,
       disableClientWebpackPlugin: shouldDisableSentry,
-    }),
-    disableServerWebpackPlugin: shouldDisableSentry,
-    disableClientWebpackPlugin: shouldDisableSentry,
-  };
+    },
+    {
+      // For all available options, see:
+      // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+      // Upload a larger set of source maps for prettier stack traces (increases build time)
+      widenClientFileUpload: true,
+
+      // Transpiles SDK to be compatible with IE11 (increases bundle size)
+      transpileClientSDK: true,
+
+      // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
+      tunnelRoute: "/monitoring",
+
+      // Hides source maps from generated client bundles
+      hideSourceMaps: true,
+
+      // Automatically tree-shake Sentry logger statements to reduce bundle size
+      disableLogger: true,
+    }
+  );
 };
 
 module.exports = withSentry;

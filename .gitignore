@@ -414,3 +414,6 @@ MigrationBackup/
 
 # Local stoplight config
 **/.stoplight.json
+
+# Sentry Auth Token
+.sentryclirc
