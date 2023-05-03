@@ -1,20 +1,5 @@
 version: "3.9"
 
-networks:
-  # Network for microservices
-  network-microservice:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.28.4.0/24
-  network-eventstore:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.28.6.0/24
-
 services:
   pgadmin:
     container_name: pgadmin
@@ -22,8 +7,6 @@ services:
     restart: always
     ports:
       - 5050:80
-    networks:
-      - network-microservice
     volumes:
       - pgadmin-data:/root/.pgadmin
     environment:
@@ -38,9 +21,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - 5432:5432
-    networks:
-      - network-microservice
+      - 5434:5432
     volumes:
       - write-data:/var/lib/postgresql/data
     environment:
@@ -50,155 +31,150 @@ services:
         condition: always
         delay: 5s
 
+  postgres:
+    image: debezium/postgres:15
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
-    networks:
-     - network-microservice
     ports:
       - 2181:2181
+      - 2888:2888
+      - 3888:3888
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-      KAFKA_JMX_PORT: 9585 
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
 
-  kafka-broker:
-    image: confluentinc/cp-enterprise-kafka:latest
-    hostname: kafka-broker
-    container_name: kafka-broker
-    networks:
-      - network-microservice
-    depends_on:
-      - zookeeper
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
     ports:
       - 9092:9092
+      - 29092:29092
       - 9997:9997
+    depends_on:
+      - zookeeper
     environment:
-      KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://kafka-schema-registry:8081
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
-      CONNECT_CONFLUENT_TOPIC_REPLICATION_FACTOR: 1
-      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
-      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
-      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka-broker:29092
-      CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT: zookeeper:2181
-      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
-      CONFLUENT_METRICS_ENABLE: true
-      CONFLUENT_SUPPORT_CUSTOMER_ID: "OpenSystem"
-      KAFKA_JMX_PORT: 9581
-      KAFKA_JMX_HOSTNAME: kafka-broker
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
-
-  kafka-schema-registry:
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NODE_ID: 1
+      KAFKA_JMX_PORT: 9997
+      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka0 -Dcom.sun.management.jmxremote.rmi.port=9997
+      
+  schema-registry:
     image: confluentinc/cp-schema-registry:latest
-    hostname: kafka-schema-registry
-    container_name: kafka-schema-registry
+    hostname: schema-registry
+    container_name: schema-registry
     depends_on:
-      - kafka-broker
+      - kafka
     ports:
-      - 8081:8081
-    networks:
-      - network-microservice
+      - "8081:8081"
     environment:
-      SCHEMA_REGISTRY_HOST_NAME: kafka-schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka-broker:29092'
-      SCHEMA_REGISTRY_LISTENERS: http://kafka-schema-registry:8081
-      KAFKA_JMX_PORT: 9582 
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:9092
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      SCHEMA_REGISTRY_SCHEMA_REGISTRY_INTER_INSTANCE_PROTOCOL: "http"
+      SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL: INFO
+      SCHEMA_REGISTRY_KAFKASTORE_TOPIC: _schemas
 
   ksqldb-server:
-    image: confluentinc/cp-ksqldb-server:latest
+    image: confluentinc/ksqldb-server:latest
     hostname: ksqldb-server
     container_name: ksqldb-server
     depends_on:
-      - kafka-broker
-      - kafka-schema-registry
+      - kafka
+      - schema-registry
     ports:
-      - 8088:8088
-    networks:
-      - network-microservice
+      - "8088:8088"
     environment:
-      KSQL_CONFIG_DIR: "/etc/ksql"
+      KSQL_CONFIG_DIR: "/etc/ksqldb"
+      KSQL_LOG4J_OPTS: "-Dlog4j.configuration=file:/etc/ksqldb/log4j.properties"
+      KSQL_BOOTSTRAP_SERVERS: "kafka:9092"
       KSQL_HOST_NAME: ksqldb-server
-      KSQL_LISTENERS: "http://localhost:8088"
-      KSQL_BOOTSTRAP_SERVERS: 'kafka-broker:29092'
-      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://kafka-schema-registry:8081
-      KSQL_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
-      KSQL_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
-      KSQL_KSQL_CONNECT_URL: "http://kafka-connect:8083"
-      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: true
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: true
+      KSQL_LISTENERS: http://0.0.0.0:8088
       KSQL_CACHE_MAX_BYTES_BUFFERING: 0
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+      KSQL_KSQL_CONNECT_URL: http://kafka-connect:8083 
 
   ksqldb-cli:
-    image: confluentinc/cp-ksqldb-cli:latest
+    image: confluentinc/ksqldb-cli:latest
     container_name: ksqldb-cli
-    networks:
-      - network-microservice
     depends_on:
-      - kafka-broker
+      - kafka
       - ksqldb-server
     entrypoint: /bin/sh
     tty: true
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
+    environment:
+      KSQL_CONFIG_DIR: "/etc/ksqldb"
+    volumes:
+      - ./src:/opt/app/src
+      - ./test:/opt/app/test
 
   kafka-connect:
-    image: cnfldemos/kafka-connect-datagen:0.6.0-7.3.0
     hostname: kafka-connect
     container_name: kafka-connect
-    networks:
-     - network-microservice
+    build:
+      context: debezium-jdbc
     depends_on:
-      - zookeeper
-      - kafka-broker
-      - kafka-schema-registry
-      - kafka-connect
-      - ksqldb-server
+      - kafka
+      - postgres
+      - schema-registry
     ports:
-      - 3040:3040
+      - "8083:8083"
     environment:
-      ADV_HOST: localhost
-      WEB_PORT: 3040
-      KAFKA_REST_SCHEMA_REGISTRY_URL: http://kafka-schema-registry:8081
-      ZK_PORT: 2181
-      BROKER_PORT: 29092
-      REGISTRY_PORT: 8081
-      CONNECT_PORT : 8083
-      SCHEMA_REGISTRY_KAFKASTORE_TOPIC: _schemas
-      CONNECT_PLUGIN_PATH: /var/run/connect/connectors/stream-reactor,/var/run/connect/connectors/third-party,/connectors
-      VANILLA_CONNECT: 1
-      SERDE_TOOLS: 1
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
+      CONNECT_BOOTSTRAP_SERVERS: "kafka:9092" 
+      CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect" 
+      CONNECT_REST_PORT: 8083 
+      CONNECT_GROUP_ID: kafka-connect 
+      CONNECT_CONFIG_STORAGE_TOPIC: _kafka-connect-configs 
+      CONNECT_OFFSET_STORAGE_TOPIC: _kafka-connect-offsets 
+      CONNECT_STATUS_STORAGE_TOPIC: _kafka-connect-status 
+      CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter 
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081' 
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter 
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081' 
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter" 
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter" 
+      CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO" 
+      CONNECT_LOG4J_LOGGERS: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR" 
+      CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN: "[%d] %p %X{connector.context}%m (%c:%L)%n" 
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components/"
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - kafka
+      - schema-registry
+      - ksqldb-server
+      - kafka-connect
+    environment:
+      KAFKA_CLUSTERS_0_NAME: cluster-0
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:9092"
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+      KAFKA_CLUSTERS_0_KSQLDBSERVER: http://ksqldb-server:8088
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: connect-0
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083
+      DYNAMIC_CONFIG_ENABLED: true
 
 volumes:
   pgadmin-data:
