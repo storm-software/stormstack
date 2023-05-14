@@ -1,13 +1,13 @@
 import { Entity, Schema } from "redis-om";
 
 export interface Reaction extends Entity {
-  clientId: string;
+  contentId: string;
   type: string;
   count: number;
 }
 
 export const schema = new Schema("reaction", {
-  clientId: { type: "string" },
+  contentId: { type: "string" },
   type: { type: "string" },
-  count: { type: "number" },
+  count: { type: "number", indexed: false },
 });

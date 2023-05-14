@@ -3,6 +3,8 @@ import { connection } from "../../redis/connection";
 import { getRepository } from "../../redis/reaction-repository";
 import LikeButtonClient from "./LikeButtonClient";
 
+// export const revalidate = 60;
+
 export type LikeButtonProps = PropsWithBase<{
   contentId: string;
 }>;

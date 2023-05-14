@@ -1,4 +1,4 @@
-import { getJestProjects } from "@nrwl/jest";
+import { getJestProjects } from "@nx/jest";
 
 /**
  * Config for Jest unit tests

@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import SubscriptionModalForm from "../../(components)/subscription-modal-form.client";
 import fog from "../../../public/images/fog.png";
 import Comet from "./comet";
 import Moon from "./moon.svg";
@@ -63,30 +62,30 @@ export default function Header() {
       ref={ref}
       className="relative flex flex-col overflow-hidden bg-gradient-to-t from-blue-900 to-blue-900/5 bg-[length:100%_100%] bg-fixed pb-10">
       <motion.div className="z-10" style={{ translateX: bgX, translateY: bgY }}>
-        <Moon className="absolute top-10 left-16 h-48 w-48 animate-float-moon rounded-full shadow-[0_0_35px_35px_rgba(0,0,0,0.025)] shadow-yellow-100/20 transition-shadow" />
-        <div className="absolute top-16 left-[45%] z-40 rotate-45">
+        <Moon className="absolute left-16 top-10 h-48 w-48 animate-float-moon rounded-full shadow-[0_0_35px_35px_rgba(0,0,0,0.025)] shadow-yellow-100/20 transition-shadow" />
+        <div className="absolute left-[45%] top-16 z-40 rotate-45">
           <Rocket />
         </div>
-        <Star className="top-[10rem] left-0 animate-shine1" rotate={true} />
+        <Star className="left-0 top-[10rem] animate-shine1" rotate={true} />
         <Star
-          className="top-[30rem] left-[5rem] animate-shine3"
+          className="left-[5rem] top-[30rem] animate-shine3"
           rotate={true}
         />
-        <Star className="top-[25rem] left-[15rem] animate-shine2" />
-        <Star className="top-[5rem] left-[24rem] animate-shine1" />
-        <Star className="top-[10rem] left-[31rem] animate-shine3" />
+        <Star className="left-[15rem] top-[25rem] animate-shine2" />
+        <Star className="left-[24rem] top-[5rem] animate-shine1" />
+        <Star className="left-[31rem] top-[10rem] animate-shine3" />
         <Star
-          className="top-[6rem] left-[38rem] animate-shine2"
+          className="left-[38rem] top-[6rem] animate-shine2"
           rotate={true}
         />
-        <Star className="top-[20rem] left-[40rem] animate-shine1" />
-        <Star className="top-[6rem] right-[8rem] animate-shine1" />
+        <Star className="left-[40rem] top-[20rem] animate-shine1" />
+        <Star className="right-[8rem] top-[6rem] animate-shine1" />
         <Star
-          className="top-[3rem] right-[36rem] animate-shine3"
+          className="right-[36rem] top-[3rem] animate-shine3"
           rotate={true}
         />
         <Star
-          className="top-[20rem] right-[6rem] animate-shine2"
+          className="right-[6rem] top-[20rem] animate-shine2"
           rotate={true}
         />
       </motion.div>
@@ -142,11 +141,10 @@ export default function Header() {
       <div className="z-30 mb-8 flex flex-row justify-center">
         <Heading level={4} className="text-5xl leading-10">
           Software designed for{" "}
-          <span className="underline decoration-primary decoration-dotted decoration-8 underline-offset-8">
+
             <span className="bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-clip-text text-transparent">
               tomorrow&apos;s
-            </span>
-          </span>{" "}
+            </span>{" "}
           brands
         </Heading>
       </div>
@@ -166,7 +164,7 @@ export default function Header() {
               details="Receive email notifications on future updates"
             />
           </motion.div>
-          <SubscriptionModalForm ref={modalRef} />
+          {/*<SubscriptionModalForm ref={modalRef} />*/}
           <PdfResumeDownload>
             <motion.div
               initial={{ opacity: 0, scale: 0 }}

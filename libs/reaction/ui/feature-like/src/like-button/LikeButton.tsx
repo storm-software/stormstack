@@ -1,19 +1,6 @@
 "use client";
 
 import { PropsWithBase } from "@open-system/design-system-components";
-import {
-  useAddReactionMutation,
-  useRemoveReactionMutation,
-} from "@open-system/reaction-ui-data-access/apis";
-import { AddReactionRequestTypeEnum } from "@open-system/reaction-ui-data-access/models";
-import {
-  addReactionHistory,
-  removeReactionHistory,
-  selectReactionHistory,
-} from "@open-system/reaction-ui-data-access/state";
-import { useRouter } from "next/navigation";
-import { useCallback, useTransition } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import CheckIcon from "../../assets/heart-check.svg";
 import PlusIcon from "../../assets/heart-plus.svg";
 
@@ -23,7 +10,7 @@ export type LikeButtonProps = PropsWithBase<{
 }>;
 
 export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
-  const router = useRouter();
+  /*const router = useRouter();
   const [, startTransition] = useTransition();
 
   const reactions = useSelector(selectReactionHistory);
@@ -56,12 +43,12 @@ export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
     startTransition(() => {
       router.refresh();
     });
-  }, [addReaction, contentId, dispatch, reactions, removeReaction, router]);
+  }, [addReaction, contentId, dispatch, reactions, removeReaction, router]);*/
 
   return (
-    <div onClick={toggleIsLiked} className="group h-fit w-fit cursor-pointer">
+    <div className="group h-fit w-fit cursor-pointer">
       <div className="relative mb-7 group-hover:animate-bounce">
-        {reactions[contentId] ? (
+        {true === false /*reactions[contentId]*/ ? (
           <CheckIcon className="w-32" />
         ) : (
           <PlusIcon className="w-32" />
@@ -74,7 +61,7 @@ export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
       </div>
       <div className="absolute bottom-0 flex w-full justify-center px-4 pb-2">
         <label className="cursor-pointer font-like-label text-2xl text-primary transition duration-300 group-hover:text-quaternary group-hover:underline">
-          {reactions[contentId] ? "Liked" : "Like"}
+          {true === false /*reactions[contentId]*/ ? "Liked" : "Like"}
         </label>
       </div>
     </div>

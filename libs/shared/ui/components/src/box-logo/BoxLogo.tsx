@@ -86,10 +86,10 @@ export function BoxLogo({ className }: BaseComponentProps) {
           x2="248.397"
           y2="415.578"
           gradientUnits="userSpaceOnUse">
-          <stop stop-color="#EE2668" />
-          <stop offset="0.5" stop-color="#9747FF" />
-          <stop offset="0.862188" stop-color="#5590F6" />
-          <stop offset="1" stop-color="#3CACF2" />
+          <stop stopColor="#EE2668" />
+          <stop offset="0.5" stopColor="#9747FF" />
+          <stop offset="0.862188" stopColor="#5590F6" />
+          <stop offset="1" stopColor="#3CACF2" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_329_394"
@@ -98,10 +98,10 @@ export function BoxLogo({ className }: BaseComponentProps) {
           x2="223.035"
           y2="519.927"
           gradientUnits="userSpaceOnUse">
-          <stop stop-color="#EE2668" />
-          <stop offset="0.5" stop-color="#9747FF" />
-          <stop offset="0.862188" stop-color="#5590F6" />
-          <stop offset="1" stop-color="#3CACF2" />
+          <stop stopColor="#EE2668" />
+          <stop offset="0.5" stopColor="#9747FF" />
+          <stop offset="0.862188" stopColor="#5590F6" />
+          <stop offset="1" stopColor="#3CACF2" />
         </linearGradient>
       </defs>
     </svg>

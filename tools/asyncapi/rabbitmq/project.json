@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "bundle": {
-      "executor": "@nrwl/rollup:rollup",
+      "executor": "@nx/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/asyncapi/rabbitmq",
@@ -59,7 +59,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "tools/asyncapi/rabbitmq/jest.config.ts",

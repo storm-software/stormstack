@@ -24,7 +24,6 @@ module.exports = {
       "fontFamily": {
         ...extend.fontFamily,
         "app-title-1": ["var(--font-melody)", ...fontFamily.sans],
-        "nyc-title-1": ["var(--font-frank-ruhl-libre)", ...fontFamily.sans],
         "header-1": ["var(--font-melody)", ...fontFamily.sans],
         "header-2": ["var(--font-melody)", ...fontFamily.sans],
         "header-3": ["var(--font-melody)", ...fontFamily.sans],
@@ -90,8 +89,8 @@ module.exports = {
         "fog3": "fog 18s ease-in infinite",
         "fog4": "fog 24s ease-in infinite",
         "fog5": "fog 32s ease-in infinite",
-        "comet1": "comet1 20s linear 3s infinite",
-        "comet2": "comet2 15s linear 8s infinite",
+        "comet1": "comet1 15s linear 3s infinite",
+        "comet2": "comet2 10s linear 8s infinite",
       },
       "keyframes": {
         ...extend.keyframes,

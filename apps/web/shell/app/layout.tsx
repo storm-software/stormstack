@@ -1,12 +1,3 @@
-import {
-  Abril_Fatface,
-  Anybody,
-  Frank_Ruhl_Libre,
-  Inter,
-  Nothing_You_Could_Do,
-  Permanent_Marker,
-} from "@next/font/google";
-import localFont from "@next/font/local";
 import { BoxLogo } from "@open-system/shared-ui-components/box-logo";
 import { Link } from "@open-system/shared-ui-components/link";
 import { Footer } from "@open-system/shared-ui-feature-layout/footer";
@@ -15,57 +6,16 @@ import clsx from "clsx";
 import dynamic from "next/dynamic";
 import React from "react";
 import "../styles/globals.css";
+import {
+  melody,
+  inter,
+  anybody,
+  antiqueOlive,
+  permanentMarker,
+  satoshi,
+} from "../styles/fonts";
 import ContactFooterForm from "./(components)/contact-footer-form";
 import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
-
-const melody = localFont({
-  variable: "--font-melody",
-  src: "../../../../assets/fonts/BLMelody-Bold.woff2",
-});
-
-const satoshi = localFont({
-  variable: "--font-satoshi",
-  src: "../../../../assets/fonts/Satoshi-Bold.otf",
-});
-
-const antiqueOlive = localFont({
-  variable: "--font-antique-olive",
-  src: "../../../../assets/fonts/Antique-Olive-Black.ttf",
-});
-
-const permanentMarker = Permanent_Marker({
-  variable: "--font-permanent-marker",
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const abrilFatface = Abril_Fatface({
-  variable: "--font-abril-fatface",
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const anybody = Anybody({
-  variable: "--font-anybody",
-  subsets: ["latin"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const frankRuhlLibre = Frank_Ruhl_Libre({
-  variable: "--font-frank-ruhl-libre",
-  weight: "700",
-  subsets: ["latin"],
-});
-
-const rockSalt = Nothing_You_Could_Do({
-  variable: "--font-rock-salt",
-  weight: "400",
-  subsets: ["latin"],
-});
 
 const NavHeader = dynamic(() => import("./nav-header"));
 const CookiePolicyBanner = dynamic(
@@ -92,11 +42,8 @@ export default function RootLayout({
         inter.variable,
         anybody.variable,
         antiqueOlive.variable,
-        frankRuhlLibre.variable,
-        abrilFatface.variable,
         permanentMarker.variable,
         satoshi.variable,
-        rockSalt.variable,
         "bg-bg-1 antialiased"
       )}>
       <head />
