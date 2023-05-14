@@ -32,27 +32,27 @@ export interface ILogger {
   /**
    * Log success message
    */
-  success: (message: string) => Promise<void>;
+  success: (...message: any[]) => any;
 
   /**
    * Log error message
    */
-  error: (message: string) => Promise<void>;
+  error: (...message: any[]) => any;
 
   /**
    * Log warn message
    */
-  warn: (message: string) => Promise<void>;
+  warn: (...message: any[]) => any;
 
   /**
    * Log info message
    */
-  info: (message: string) => Promise<void>;
+  info: (...message: any[]) => any;
 
   /**
    * Log debug message
    */
-  debug: (message: string) => Promise<void>;
+  debug: (...message: any[]) => any;
 }
 
 export interface ICustomUtilityClass {

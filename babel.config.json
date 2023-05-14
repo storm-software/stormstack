@@ -21,12 +21,6 @@
     ]
   ],
   "plugins": [
-    [
-      "relay",
-      {
-        "artifactDirectory": "./libs/data-catalog/graphql/src/__generated__"
-      }
-    ],
     "@babel/plugin-transform-shorthand-properties",
     "@babel/plugin-transform-block-scoping",
     [

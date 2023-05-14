@@ -7,22 +7,12 @@ import { PreloadedQuery, graphql, usePreloadedQuery } from "react-relay";
 
 type LikeButtonClientProps = PropsWithBase<{
   contentId: string;
-  queryRef: PreloadedQuery<LikeButtonClientQuery>;
+  count: number;
 }>;
 
 export default function LikeButtonClient(props: LikeButtonClientProps) {
-  const data = usePreloadedQuery(
-    graphql`
-      query LikeButtonClientQuery($ID: String!) {
-        REACTIONS(ID: $ID) {
-          ID
-          TYPE
-          COUNT
-        }
-      }
-    `,
-    props.queryRef
+ 
+  return (
+    <LikeButtonInner {...props} />
   );
-
-  return <LikeButtonInner {...props} count={data?.REACTIONS?.COUNT ?? 0} />;
 }

@@ -1,154 +1,147 @@
+namespace OpenSystem.Akka.PostgreSql.Extensions;
+
 using System.Diagnostics;
-using Akka.Persistence.PostgreSql;
-using Akka.Configuration;
-using Akka.Hosting;
+using global::Akka.Persistence.PostgreSql;
+using global::Akka.Configuration;
+using global::Akka.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using OpenSystem.Akka.Configuration;
-using Akka.Persistence.PostgreSql.Hosting;
-using Akka.Actor;
-using Akka.Hosting;
-using Akka.Persistence.Hosting;
-using PersistenceMode = Akka.Persistence.Hosting.PersistenceMode;
+using global::Akka.Persistence.Hosting;
 using OpenSystem.Akka.PostgreSql.Constants;
-using Akka.Persistence.Sql.Hosting;
-using Akka.Persistence.Sql;
 
-namespace OpenSystem.Akka.PostgreSql.Extensions
+public static class AkkaConfigurationBuilderExtensions
 {
-    public static class AkkaConfigurationBuilderExtensions
+    /*public static AkkaConfigurationBuilder ConfigurePostgreSqlPersistence(
+        this AkkaConfigurationBuilder builder,
+        IServiceProvider serviceProvider
+    )
     {
-        /*public static AkkaConfigurationBuilder ConfigurePostgreSqlPersistence(
-            this AkkaConfigurationBuilder builder,
-            IServiceProvider serviceProvider
-        )
-        {
 
 
-            builder.AddHocon(
-                GetPersistenceHocon(connectionJournalString)
-                    .WithFallback(PostgreSqlPersistence.DefaultJournalConfig),
-                HoconAddMode.Append
-            );
+        builder.AddHocon(
+            GetPersistenceHocon(connectionJournalString)
+                .WithFallback(PostgreSqlPersistence.DefaultJournalConfig),
+            HoconAddMode.Append
+        );
 
 
 
-            return builder.AddHocon(
-                GetPostgreSqlPersistenceHocon(connectionJournalString, connectionSnapshotString)
-                    .WithFallback(PostgreSqlPersistence.DefaultConfiguration()),
-                HoconAddMode.Append
-            );
-        }*/
+        return builder.AddHocon(
+            GetPostgreSqlPersistenceHocon(connectionJournalString, connectionSnapshotString)
+                .WithFallback(PostgreSqlPersistence.DefaultConfiguration()),
+            HoconAddMode.Append
+        );
+    }*/
 
-        public static AkkaConfigurationBuilder ConfigurePostgreSqlPersistence(
-            this AkkaConfigurationBuilder builder,
-            IServiceProvider serviceProvider,
-            Action<AkkaPersistenceJournalBuilder>? journalBuilder = null
-        )
-        {
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    public static AkkaConfigurationBuilder ConfigurePostgreSqlPersistence(
+        this AkkaConfigurationBuilder builder,
+        IServiceProvider serviceProvider,
+        Action<AkkaPersistenceJournalBuilder>? journalBuilder = null
+    )
+    {
+        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
-            var writeSettings = configuration
-                .GetSection("PostgreSqlWriteJournalSettings")
-                .Get<AkkaPostgreSqlSettings>();
-            Debug.Assert(writeSettings != null, nameof(writeSettings) + " != null");
-            writeSettings.ConnectionString = configuration.GetConnectionString(
-                writeSettings.ConnectionStringName
-            );
-            Debug.Assert(
-                writeSettings.ConnectionString != null,
-                nameof(writeSettings.ConnectionString) + " != null"
-            );
+        var writeSettings = configuration
+            .GetSection("PostgreSqlWriteJournalSettings")
+            .Get<AkkaPostgreSqlSettings>();
+        Debug.Assert(writeSettings != null, nameof(writeSettings) + " != null");
+        writeSettings.ConnectionString = configuration.GetConnectionString(
+            writeSettings.ConnectionStringName
+        );
+        Debug.Assert(
+            writeSettings.ConnectionString != null,
+            nameof(writeSettings.ConnectionString) + " != null"
+        );
 
-            /*var readSettings = configuration
-                .GetSection("PostgreSqlReadJournalSettings")
-                .Get<AkkaPostgreSqlSettings>();
-            Debug.Assert(readSettings != null, nameof(readSettings) + " != null");
-            readSettings.ConnectionString = configuration.GetConnectionString(
-                readSettings.ConnectionStringName
-            );
-            Debug.Assert(
-                readSettings.ConnectionString != null,
-                nameof(readSettings.ConnectionString) + " != null"
-            );*/
+        /*var readSettings = configuration
+            .GetSection("PostgreSqlReadJournalSettings")
+            .Get<AkkaPostgreSqlSettings>();
+        Debug.Assert(readSettings != null, nameof(readSettings) + " != null");
+        readSettings.ConnectionString = configuration.GetConnectionString(
+            readSettings.ConnectionStringName
+        );
+        Debug.Assert(
+            readSettings.ConnectionString != null,
+            nameof(readSettings.ConnectionString) + " != null"
+        );*/
 
-            /* builder
-                 .WithPostgreSqlPersistence(
-                     writeSettings.ConnectionString,
-                     PersistenceMode.Both,
-                     "public",
-                     true,
-                     StoredAsType.ByteA,
-                     false,
-                     true,
-                     journalBuilder,
-                     AkkaPostgreSqlConstants.PluginId
+        /* builder
+             .WithPostgreSqlPersistence(
+                 writeSettings.ConnectionString,
+                 PersistenceMode.Both,
+                 "public",
+                 true,
+                 StoredAsType.ByteA,
+                 false,
+                 true,
+                 journalBuilder,
+                 AkkaPostgreSqlConstants.PluginId
 
-                     builder.WithSqlPersistence(
+                 builder.WithSqlPersistence(
+            writeSettings.ConnectionString,
+            LinqToDB.ProviderName.PostgreSQL15,
+            PersistenceMode.Both,
+            "public",
+            journalBuilder,
+            true,
+            AkkaPostgreSqlConstants.PluginId,
+            false
+        );
+             )*/
+
+
+        return builder.AddHocon(
+            GetPostgreSqlLinqToDBPersistenceHocon(
                 writeSettings.ConnectionString,
-                LinqToDB.ProviderName.PostgreSQL15,
-                PersistenceMode.Both,
-                "public",
-                journalBuilder,
-                true,
-                AkkaPostgreSqlConstants.PluginId,
-                false
-            );
-                 )*/
+                writeSettings.ConnectionString,
+                writeSettings.ConnectionString
+            ),
+            HoconAddMode.Prepend
+        );
+    }
 
+    /* public static Config GetPostgreSqlLinqToDBPersistenceHocon(IServiceProvider serviceProvider)
+     {
+         var settings = serviceProvider.GetRequiredService<AkkaSettings>();
+         var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
-            return builder.AddHocon(
-                GetPostgreSqlLinqToDBPersistenceHocon(
-                    writeSettings.ConnectionString,
-                    writeSettings.ConnectionString,
-                    writeSettings.ConnectionString
-                ),
-                HoconAddMode.Prepend
-            );
-        }
+         var readSettings = configuration
+             .GetSection("PostgreSqlReadJournalSettings")
+             .Get<AkkaPostgreSqlSettings>();
+         Debug.Assert(
+             readSettings.ConnectionStringName != null,
+             nameof(readSettings.ConnectionStringName) + " != null"
+         );
+         readSettings.ConnectionString = configuration.GetConnectionString(
+             readSettings.ConnectionStringName
+         );
+         Debug.Assert(
+             readSettings.ConnectionString != null,
+             nameof(readSettings.ConnectionString) + " != null"
+         );
 
-        /* public static Config GetPostgreSqlLinqToDBPersistenceHocon(IServiceProvider serviceProvider)
-         {
-             var settings = serviceProvider.GetRequiredService<AkkaSettings>();
-             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+         var writeSettings = configuration
+             .GetSection("PostgreSqlWriteJournalSettings")
+             .Get<AkkaPostgreSqlSettings>();
+         Debug.Assert(writeSettings != null, nameof(writeSettings) + " != null");
+         writeSettings.ConnectionString = configuration.GetConnectionString(
+             writeSettings.ConnectionStringName
+         );
+         Debug.Assert(
+             writeSettings.ConnectionString != null,
+             nameof(writeSettings.ConnectionString) + " != null"
+         );
 
-             var readSettings = configuration
-                 .GetSection("PostgreSqlReadJournalSettings")
-                 .Get<AkkaPostgreSqlSettings>();
-             Debug.Assert(
-                 readSettings.ConnectionStringName != null,
-                 nameof(readSettings.ConnectionStringName) + " != null"
-             );
-             readSettings.ConnectionString = configuration.GetConnectionString(
-                 readSettings.ConnectionStringName
-             );
-             Debug.Assert(
-                 readSettings.ConnectionString != null,
-                 nameof(readSettings.ConnectionString) + " != null"
-             );
+         return GetPostgreSqlLinqToDBPersistenceHocon(readSettings, writeSettings);
+     }*/
 
-             var writeSettings = configuration
-                 .GetSection("PostgreSqlWriteJournalSettings")
-                 .Get<AkkaPostgreSqlSettings>();
-             Debug.Assert(writeSettings != null, nameof(writeSettings) + " != null");
-             writeSettings.ConnectionString = configuration.GetConnectionString(
-                 writeSettings.ConnectionStringName
-             );
-             Debug.Assert(
-                 writeSettings.ConnectionString != null,
-                 nameof(writeSettings.ConnectionString) + " != null"
-             );
-
-             return GetPostgreSqlLinqToDBPersistenceHocon(readSettings, writeSettings);
-         }*/
-
-        public static Config GetPostgreSqlLinqToDBPersistenceHocon(
-            string writeJournalConnectionString,
-            string readJournalConnectionString,
-            string snapshotConnectionString
-        )
-        {
-            return $@"
+    public static Config GetPostgreSqlLinqToDBPersistenceHocon(
+        string writeJournalConnectionString,
+        string readJournalConnectionString,
+        string snapshotConnectionString
+    ) =>
+        $@"
     akka.persistence {{
      journal {{
         # Absolute path to the journal plugin configuration entry used by
@@ -681,46 +674,45 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
 
 
                    ";
-        }
 
-        /* public static Config GetPostgreSqlPersistenceHocon(IServiceProvider serviceProvide)
-         {
-             return $@"
-                 akka.persistence {{
-                         {GetPostgreSqlJournalPersistenceHocon(serviceProvide)}
+    /* public static Config GetPostgreSqlPersistenceHocon(IServiceProvider serviceProvide)
+     {
+         return $@"
+             akka.persistence {{
+                     {GetPostgreSqlJournalPersistenceHocon(serviceProvide)}
 
-                         {GetPostgreSqlSnapshotPersistenceHocon(serviceProvide)}
-                     }}
-                 ";
-         }
+                     {GetPostgreSqlSnapshotPersistenceHocon(serviceProvide)}
+                 }}
+             ";
+     }
 
-         public static Config GetPostgreSqlJournalPersistenceHocon(IServiceProvider serviceProvider)
-         {
-             var settings = serviceProvider.GetRequiredService<AkkaSettings>();
-             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+     public static Config GetPostgreSqlJournalPersistenceHocon(IServiceProvider serviceProvider)
+     {
+         var settings = serviceProvider.GetRequiredService<AkkaSettings>();
+         var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
-             var connectionJournalStringName = configuration
-                 .GetSection("PostgreSqlWriteJournalSettings")
-                 .Get<PostgreSqlJournalSettings>()
-                 ?.ConnectionStringName;
-             Debug.Assert(
-                 connectionJournalStringName != null,
-                 nameof(connectionJournalStringName) + " != null"
-             );
-             var connectionJournalString = configuration.GetConnectionString(
-                 connectionJournalStringName
-             );
-             Debug.Assert(
-                 connectionJournalString != null,
-                 nameof(connectionJournalString) + " != null"
-             );
+         var connectionJournalStringName = configuration
+             .GetSection("PostgreSqlWriteJournalSettings")
+             .Get<PostgreSqlJournalSettings>()
+             ?.ConnectionStringName;
+         Debug.Assert(
+             connectionJournalStringName != null,
+             nameof(connectionJournalStringName) + " != null"
+         );
+         var connectionJournalString = configuration.GetConnectionString(
+             connectionJournalStringName
+         );
+         Debug.Assert(
+             connectionJournalString != null,
+             nameof(connectionJournalString) + " != null"
+         );
 
-             return GetPostgreSqlJournalPersistenceHocon(connectionJournalString);
-         }*/
+         return GetPostgreSqlJournalPersistenceHocon(connectionJournalString);
+     }*/
 
-        public static Config GetPostgreSqlJournalPersistenceHocon(string connectionString)
-        {
-            return $@"
+    public static Config GetPostgreSqlJournalPersistenceHocon(string connectionString)
+    {
+        return $@"
                     journal {{
                         plugin = ""akka.persistence.journal.postgresql""
 
@@ -773,34 +765,34 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
                         }}
                     }}
                 ";
-        }
+    }
 
-        public static Config GetPostgreSqlSnapshotPersistenceHocon(IServiceProvider serviceProvider)
-        {
-            var settings = serviceProvider.GetRequiredService<AkkaSettings>();
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            var connectionSnapshotStringName = configuration
-                .GetSection("PostgreSqlSnapshotSettings")
-                .Get<PostgreSqlSnapshotStoreSettings>()
-                ?.ConnectionStringName;
-            Debug.Assert(
-                connectionSnapshotStringName != null,
-                nameof(connectionSnapshotStringName) + " != null"
-            );
-            var connectionSnapshotString = configuration.GetConnectionString(
-                connectionSnapshotStringName
-            );
-            Debug.Assert(
-                connectionSnapshotString != null,
-                nameof(connectionSnapshotString) + " != null"
-            );
+    public static Config GetPostgreSqlSnapshotPersistenceHocon(IServiceProvider serviceProvider)
+    {
+        var settings = serviceProvider.GetRequiredService<AkkaSettings>();
+        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+        var connectionSnapshotStringName = configuration
+            .GetSection("PostgreSqlSnapshotSettings")
+            .Get<PostgreSqlSnapshotStoreSettings>()
+            ?.ConnectionStringName;
+        Debug.Assert(
+            connectionSnapshotStringName != null,
+            nameof(connectionSnapshotStringName) + " != null"
+        );
+        var connectionSnapshotString = configuration.GetConnectionString(
+            connectionSnapshotStringName
+        );
+        Debug.Assert(
+            connectionSnapshotString != null,
+            nameof(connectionSnapshotString) + " != null"
+        );
 
-            return GetPostgreSqlSnapshotPersistenceHocon(connectionSnapshotString);
-        }
+        return GetPostgreSqlSnapshotPersistenceHocon(connectionSnapshotString);
+    }
 
-        public static Config GetPostgreSqlSnapshotPersistenceHocon(string connectionString)
-        {
-            return $@"
+    public static Config GetPostgreSqlSnapshotPersistenceHocon(string connectionString)
+    {
+        return $@"
                     snapshot-store {{
                         plugin = ""akka.persistence.snapshot-store.postgresql""
 
@@ -835,6 +827,5 @@ namespace OpenSystem.Akka.PostgreSql.Extensions
                         }}
                     }}
                 ";
-        }
     }
 }

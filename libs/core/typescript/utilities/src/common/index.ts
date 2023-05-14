@@ -7,3 +7,5 @@ export * from "./noop";
 export * from "./observable-wrappers";
 export * from "./result";
 export * from "./type-checks";
+export * from "./env-fns";
+export * from "./date-fns";

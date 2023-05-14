@@ -41,26 +41,11 @@ const withSentry = (nextConfig = {}) => {
     );
   }
 
-  return withSentryConfig(
-    nextConfig,
-    {
-      // For all available options, see:
-      // https://github.com/getsentry/sentry-webpack-plugin#options
+  nextConfig = {
+    ...nextConfig,
+    sentry: {
+      ...nextConfig.sentry,
 
-      // Suppresses source map uploading logs during build
-      org: process.env.SENTRY_ORGANIZATION,
-      project: process.env.SENTRY_PROJECT,
-
-      silent: true, // Suppresses all logs
-
-      // For all available options, see:
-      // https://github.com/getsentry/sentry-webpack-plugin#options.
-      // Will disable release creation and source map upload during local dev
-      dryRun: shouldDisableSentry,
-      disableServerWebpackPlugin: shouldDisableSentry,
-      disableClientWebpackPlugin: shouldDisableSentry,
-    },
-    {
       // For all available options, see:
       // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
@@ -78,8 +63,26 @@ const withSentry = (nextConfig = {}) => {
 
       // Automatically tree-shake Sentry logger statements to reduce bundle size
       disableLogger: true,
-    }
-  );
+    },
+  };
+
+  return withSentryConfig(nextConfig, {
+    // For all available options, see:
+    // https://github.com/getsentry/sentry-webpack-plugin#options
+
+    // Suppresses source map uploading logs during build
+    org: process.env.SENTRY_ORGANIZATION,
+    project: process.env.SENTRY_PROJECT,
+
+    silent: true, // Suppresses all logs
+
+    // For all available options, see:
+    // https://github.com/getsentry/sentry-webpack-plugin#options.
+    // Will disable release creation and source map upload during local dev
+    dryRun: shouldDisableSentry,
+    disableServerWebpackPlugin: shouldDisableSentry,
+    disableClientWebpackPlugin: shouldDisableSentry,
+  });
 };
 
 module.exports = withSentry;

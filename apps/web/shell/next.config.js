@@ -1,32 +1,24 @@
 const { withNx } = require("@nrwl/next/plugins/with-nx");
 const flowRight = require("lodash/flowRight");
-const withI18n = require("./config/withI18n");
-const withEnv = require("./config/withEnv");
+// const withI18n = require("./config/withI18n");
+// const withEnv = require("./config/withEnv");
 const withSentry = require("./config/withSentry");
 const { CONTACT_URL, REACTION_API_HOST } = process.env;
 
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
-const nextConfig = withNx({
+const nextConfig = {
   basePath: "",
   nx: {
-    svgr: true,
+    svgr: false,
   },
 
   swcMinify: true,
   reactStrictMode: true,
 
-  compiler: {
-    relay: {
-      src: "./",
-      language: "typescript",
-      artifactDirectory: "libs/data-catalog/graphql/src/__generated__",
-    },
-  },
-
   experimental: {
-    appDir: true,
+    serverActions: true,
   },
 
   transpilePackages: [
@@ -50,24 +42,53 @@ const nextConfig = withNx({
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+
   typescript: {
     ignoreBuildErrors: true,
   },
 
-  env: {
-    NEXT_PUBLIC_IS_USING_LOCAL_DATABASE: !!(process.env.MONGO_URI || "").match(
-      /localhost/
-    ),
-  },
+  webpack(config) {
+    config.experiments.topLevelAwait = true;
 
-  webpack: defaultConfig => {
-    defaultConfig.module.rules.push({
-      test: /\.ya?ml$/,
-      use: "js-yaml-loader",
-    });
-
-    defaultConfig.experiments.topLevelAwait = true;
-    return defaultConfig;
+    return {
+      ...config,
+      module: {
+        ...config?.module,
+        rules: [
+          ...(config?.module?.rules ?? []),
+          {
+            loader: "@svgr/webpack",
+            options: {
+              prettier: false,
+              svgo: true,
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: "preset-default",
+                    params: {
+                      overrides: { removeViewBox: false },
+                    },
+                  },
+                ],
+              },
+              titleProp: true,
+            },
+            test: /\.svg$/,
+          },
+          {
+            test: /\.(eot|ttf|woff|woff2)$/,
+            use: {
+              loader: "file-loader",
+              options: {
+                name: "[name].[ext]",
+                publicPath: "fonts",
+                outputPath: "fonts",
+              },
+            },
+          },
+        ],
+      },
+    };
   },
 
   async redirects() {
@@ -79,6 +100,6 @@ const nextConfig = withNx({
       },
     ];
   },
-});
+};
 
-module.exports = flowRight([withEnv, withI18n, withSentry])(nextConfig);
+module.exports = flowRight([withNx])(nextConfig);

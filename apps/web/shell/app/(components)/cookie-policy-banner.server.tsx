@@ -4,7 +4,6 @@ import {
   UserState,
 } from "@open-system/shared-ui-data-access";
 import { cookies } from "next/headers";
-import CookiePolicyBannerClient from "./cookie-policy-banner.client";
 
 export default function CookiePolicyBanner(props: BaseComponentProps) {
   const cookie = cookies()?.get?.(UserDataConstants.COOKIE_NAME)?.value;
@@ -15,6 +14,8 @@ export default function CookiePolicyBanner(props: BaseComponentProps) {
   }
 
   return (
-    <>{!userData?.hasAgreedToPrivacyPolicy && <CookiePolicyBannerClient />}</>
+    <>
+      {/*!userData?.hasAgreedToPrivacyPolicy && <CookiePolicyBannerClient />*/}
+    </>
   );
 }

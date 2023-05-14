@@ -10,7 +10,7 @@ services:
 
   reaction.write-db:
     ports:
-      - "5434:5432"
+      - "5432:5432"
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
       POSTGRES_USER: ${POSTGRES_USER:-root}

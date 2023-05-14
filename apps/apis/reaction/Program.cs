@@ -17,6 +17,7 @@ using OpenSystem.Akka.Kafka.Extensions;
 using OpenSystem.Reaction.Infrastructure.Actors;
 using Akka.Persistence.Hosting;
 using OpenSystem.Reaction.Infrastructure.Persistence;
+using OpenSystem.Reaction.Infrastructure.Extensions;
 
 const string SERVICE_NAME = "ReactionService.Api";
 
@@ -316,7 +317,7 @@ try
         //.WithOpenApi()
         .WithTags("v{version:apiVersion}");*/
 
-    app.MapAllRequests<ReactionCommandHandler>(Assembly.Load("OpenSystem.Reaction"));
+    _ = app.MapAllRequests<ReactionCommandHandler>(Assembly.Load("OpenSystem.Reaction"));
 
     //app.MapControllers();
 

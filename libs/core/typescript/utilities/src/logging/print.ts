@@ -1,5 +1,12 @@
 import chalk from "chalk";
-import { isEmpty, isObject, isPrimitive } from "../common";
+import {
+  DateTime,
+  formatDateTime,
+  isEmpty,
+  isObject,
+  isPrimitive,
+  isProduction,
+} from "../common";
 
 /**
  * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
@@ -11,21 +18,70 @@ import { isEmpty, isObject, isPrimitive } from "../common";
  * @param {string} [prefix] - The prefix to use for the message.
  */
 const print = (
-  message: any,
+  message: any | any[],
   newLine = true,
   newLineAfter = true,
-  prefix?: string
+  prefix?: string,
+  postfix?: string,
+  stackTrace?: string
 ): any => {
-  return !isPrimitive(message) && !isObject(message) && !isEmpty(message)
-    ? message
-    : `${newLine ? "\n" : ""}${prefix ? `${prefix} ` : ""}${
-        isEmpty(message)
-          ? ""
-          : isObject(message)
-          ? JSON.stringify(message)
-          : message
-      }${newLineAfter ? "\n" : ""}`;
+  return `${newLine ? "\n" : ""}${prefix ? `${prefix} ` : ""}${
+    Array.isArray(message)
+      ? message.reduce((ret, m, i) => {
+          ret += formatLine(m) + (i < message.length - 1 ? "\n" : "");
+          return ret;
+        }, "")
+      : formatLine(message)
+  }${postfix ? postfix : ""}${
+    !isProduction()
+      ? "\n" +
+        chalk.bold("Timestamp: ") +
+        formatDateTime(
+          DateTime.current,
+          { smallestUnit: "milliseconds" },
+          "UTC"
+        ) +
+        "\n" +
+        chalk.bold("Stack Trace: ") +
+        (stackTrace ? stackTrace : new Error().stack?.substring(6) ?? "")
+      : ""
+  }${newLineAfter ? "\n" : ""}`;
 };
+
+/**
+ * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
+ * (defaults to `true`), a `newLineAfter` of type `boolean` (defaults to `true`), and an optional
+ * `prefix` of type `string`
+ * @param {string} message - string - The message to print
+ * @param [newLine=true] - boolean - Whether to print a new line before the message.
+ * @param [newLineAfter=true] - boolean
+ * @param {string} [prefix] - The prefix to use for the message.
+ */
+const format = (message: any): string =>
+  isEmpty(message)
+    ? "<Empty>"
+    : !isPrimitive(message) && !isObject(message)
+    ? "<Object>"
+    : isObject(message)
+    ? JSON.stringify(message)
+    : message;
+
+/**
+ * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
+ * (defaults to `true`), a `newLineAfter` of type `boolean` (defaults to `true`), and an optional
+ * `prefix` of type `string`
+ * @param {string} message - string - The message to print
+ * @param [newLine=true] - boolean - Whether to print a new line before the message.
+ * @param [newLineAfter=true] - boolean
+ * @param {string} [prefix] - The prefix to use for the message.
+ */
+const formatLine = (message: any): string =>
+  Array.isArray(message)
+    ? message.reduce((ret, m, i) => {
+        ret += formatLine(m) + (i < message.length - 1 ? ", " : "");
+        return ret;
+      }, "")
+    : format(message);
 
 /**
  * It takes a message, a boolean for whether or not to print a new line before the message, a boolean
@@ -36,11 +92,18 @@ const print = (
  * @param [newLineAfter=true] - If true, a new line will be printed after the message.
  */
 export const printInfo = (
-  message: string,
+  message: any[],
   newLine = true,
   newLineAfter = true
 ) => {
-  console.info(print(message, newLine, newLineAfter, chalk.blue("i")));
+  console.info(
+    print(
+      message,
+      newLine,
+      newLineAfter,
+      chalk.bold.blue(" > " + chalk.bgBlue.whiteBright(" i ") + " INFO -")
+    )
+  );
 };
 
 /**
@@ -63,11 +126,18 @@ export const printInfo = (
  * @param [newLineAfter=true] - boolean
  */
 export const printSuccess = (
-  message: string,
+  message: any[],
   newLine = true,
   newLineAfter = true
 ) => {
-  console.log(print(message, newLine, newLineAfter, chalk.green("✓")));
+  console.log(
+    print(
+      message,
+      newLine,
+      newLineAfter,
+      chalk.bold.green(" > " + chalk.bgGreen.whiteBright(" ✓ ") + " SUCCESS -")
+    )
+  );
 };
 
 /**
@@ -77,11 +147,18 @@ export const printSuccess = (
  * @param [newLineAfter=true] - boolean
  */
 export const printWarning = (
-  message: string,
+  message: any[],
   newLine = true,
   newLineAfter = true
 ) => {
-  console.warn(print(message, newLine, newLineAfter, chalk.yellow("!")));
+  console.warn(
+    print(
+      message,
+      newLine,
+      newLineAfter,
+      chalk.bold.yellow(" > " + chalk.bgYellow.blackBright(" ! ") + " WARN -")
+    )
+  );
 };
 
 /**
@@ -92,11 +169,26 @@ export const printWarning = (
  * @param [newLineAfter=true] - boolean
  */
 export const printError = (
-  message: string,
+  message: any[] | Error,
   newLine = true,
   newLineAfter = true
 ) => {
-  console.error(print(message, newLine, newLineAfter, chalk.red("!")));
+  const error = message as Error;
+
+  console.error(
+    print(
+      error?.message ? error.message : message,
+      newLine,
+      newLineAfter,
+      chalk.bold.red(
+        ` > ${chalk.bgRed.whiteBright(" ! ")} ERROR ${
+          chalk.italic(error?.name ? `(${error.name}) ` : "")
+        }-`
+      ),
+      undefined,
+      error.stack
+    )
+  );
 };
 
 /**

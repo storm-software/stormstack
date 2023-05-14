@@ -1,620 +1,315 @@
-using Akka.Actor;
-using Akka.Event;
-using Akka.Persistence;
-using OpenSystem.Core.Domain.Aggregates;
+namespace OpenSystem.Reaction.Infrastructure.Actors;
+
+using global::Akka.Actor;
+using global::Akka.Event;
+using global::Akka.Persistence;
 using OpenSystem.Core.Domain.Events;
 using OpenSystem.Akka.Serilog.Extensions;
 using OpenSystem.Reaction.Application.Models;
 using OpenSystem.Reaction.Domain.Aggregates;
 using OpenSystem.Reaction.Domain.ValueObjects;
 using OpenSystem.Akka.PostgreSql.Constants;
-using Akka.Streams.Dsl;
+using global::Akka.Streams.Dsl;
 using OpenSystem.Reaction.Domain.Events;
-using OpenSystem.Reaction.Application.ReadStores;
 using Microsoft.Extensions.DependencyInjection;
-using OpenSystem.Core.Application.ReadStores;
 using OpenSystem.Core.Domain.ResultCodes;
-using Akka.Streams;
-using Akka.Streams.Dsl;
-using Akka.Streams.Kafka.Dsl;
-using Akka.Streams.Kafka.Messages;
-using Akka.Streams.Kafka.Settings;
+using global::Akka.Streams;
+using global::Akka.Streams.Kafka.Dsl;
+using global::Akka.Streams.Kafka.Messages;
+using global::Akka.Streams.Kafka.Settings;
 using Confluent.Kafka;
-using Config = Akka.Configuration.Config;
 using OpenSystem.Akka.Kafka;
 using Microsoft.Extensions.Configuration;
-using Akka.Persistence.Query;
-using SqlReadJournal = Akka.Persistence.Sql.Query.SqlReadJournal;
-using OpenSystem.Reaction.Domain.Events.Models;
+using global::Akka.Persistence.Query;
+using SqlReadJournal = global::Akka.Persistence.Sql.Query.SqlReadJournal;
 using Confluent.SchemaRegistry.Serdes;
 using Confluent.SchemaRegistry;
+using OpenSystem.Blog.Reaction.Application.Models;
+using Confluent.Kafka.SyncOverAsync;
 
-namespace OpenSystem.Reaction.Infrastructure.Actors
+public sealed class ReactionCommandHandler : ReceivePersistentActor
 {
-    public sealed class ReactionCommandHandler : ReceivePersistentActor
+    public override string? PersistenceId { get; }
+
+    // currently, do not persist subscribers, but would be easy to add
+    private readonly HashSet<IActorRef> subscribers = new();
+
+    private readonly IDomainEventFactory domainEventFactory;
+
+    private ReactionAggregate aggregate;
+
+    private readonly IConfiguration configuration;
+
+    private readonly IServiceScope scope;
+
+    private readonly ILoggingAdapter logger = Context.GetSerilogLogger();
+
+    public ReactionCommandHandler(IServiceProvider sp, ReactionId id)
     {
-        public override string? PersistenceId { get; }
+        this.scope = sp.CreateScope();
 
-        // currently, do not persist subscribers, but would be easy to add
-        private readonly HashSet<IActorRef> _subscribers = new();
+        this.aggregate = new ReactionAggregate(id);
+        this.PersistenceId = this.aggregate.GetIdentity().ToString();
 
-        private readonly IDomainEventFactory _domainEventFactory;
+        this.configuration = this.scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
-        private readonly IReadModelFactory<ReactionReadModel> _readModelFactory;
+        var kafkaSettings = this.configuration.GetSection("KafkaSettings").Get<AkkaKafkaSettings>();
 
-        private readonly IReadModelDomainEventApplier _readModelDomainEventApplier;
-
-        private ReactionAggregate _aggregate;
-
-        private SqlReadJournal _readJournal;
-
-        private IConfiguration _configuration;
-
-        private CachedSchemaRegistryClient _schemaRegistry;
-
-        private IServiceScope _scope;
-
-        private readonly ILoggingAdapter _logger = Context.GetSerilogLogger();
-
-        private IActorRef _eventPublisher;
-
-        public ReactionCommandHandler(IServiceProvider sp, ReactionId id, IActorRef eventPublisher)
-        {
-            _scope = sp.CreateScope();
-
-            _eventPublisher = eventPublisher;
-
-            // distinguish both type and entity Id in the EventJournal
-
-
-            _domainEventFactory = _scope.ServiceProvider.GetRequiredService<IDomainEventFactory>();
-            /*_readModelDomainEventApplier =
-                _scope.ServiceProvider.GetRequiredService<IReadModelDomainEventApplier>();
-
-            _readModelFactory = _scope.ServiceProvider.GetRequiredService<
-                IReadModelFactory<ReactionReadModel>
-            >();*/
-            //_readModel = new ReactionReadModel(id.Value);
-
-            _aggregate = new ReactionAggregate(id);
-            PersistenceId = _aggregate.GetIdentity().ToString();
-
-            _configuration = _scope.ServiceProvider.GetRequiredService<IConfiguration>();
-
-            /*_schemaRegistry = new CachedSchemaRegistryClient(
-                new SchemaRegistryConfig
+        var materializer = Context.System.Materializer();
+        var producerSettings = ProducerSettings<Null, ReactionEventValues>
+            .Create(
+                Context.System,
+                null,
+                new AvroSerializer<ReactionEventValues>(
+                    new CachedSchemaRegistryClient(
+                        new SchemaRegistryConfig
+                        {
+                            Url = kafkaSettings?.SchemaRegistry,
+                            BasicAuthUserInfo =
+                                $"{kafkaSettings?.SchemaRegistrySaslUsername}:{kafkaSettings?.SchemaRegistrySaslPassword}"
+                        }
+                    )
+                ).AsSyncOverAsync()
+            )
+            .WithBootstrapServers(kafkaSettings?.BootstrapServer)
+            .WithProducerConfig(
+                new ProducerConfig
                 {
-                    Url = _configuration
-                        .GetSection("KafkaSettings")
-                        .Get<AkkaKafkaSettings>()
-                        ?.SchemaRegistryUrl
+                    SaslUsername = kafkaSettings?.SaslUsername,
+                    SaslPassword = kafkaSettings?.SaslPassword,
+                    SaslMechanism = SaslMechanism.Plain,
+                    SecurityProtocol = SecurityProtocol.SaslSsl,
                 }
             );
 
-            _readJournal = PersistenceQuery
-                .Get(Context.System)
-                .ReadJournalFor<SqlReadJournal>(AkkaPostgreSqlConstants.ReadJournalPluginId);
-
-            /*var producerSettings = ProducerSettings<string, string>
-                .Create(Context.System, null, null)
-                .WithBootstrapServers(kafkaSettings?.BootstrapServer);*/
-
-            Recover<SnapshotOffer>(offer =>
+        _ = PersistenceQuery
+            .Get(Context.System)
+            .ReadJournalFor<SqlReadJournal>(AkkaPostgreSqlConstants.ReadJournalPluginId)
+            .EventsByPersistenceId(this.PersistenceId, 0, long.MaxValue)
+            .Where(
+                e =>
+                    e.Event
+                        is IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent>
+                            or IDomainEvent<ReactionAggregate, ReactionId, ReactionRemovedEvent>
+            )
+            .Select(e =>
             {
-                if (offer.Snapshot is ReactionAggregate aggregate)
+                this.logger.Info(
+                    "PSPSPSPSPSPSPSPS Received access to stock price mediator... Starting pricing views..."
+                );
+                if (e.Event is not IDomainEvent domainEvent)
                 {
-                    _aggregate = aggregate;
-                    _logger.Info("Recovered initial value of [{0}]", aggregate);
+                    return null;
                 }
-            });
 
-            Recover<IDomainEvent>(@event =>
-            {
-                _aggregate = _aggregate.ApplyEvent<ReactionAggregate>(@event);
-            });
-
-            Command<GetReactionsCountQuery>(f => Sender.Tell(_aggregate));
-
-            // Add read journal to the actor system and get a reference to it
-
-
-            /* Command<GetReactionByIdQuery>(request =>
-             {
-                 if (_readJournal == null)
-                 {
-                     Sender.Tell(
-                         Result.Failure(
-                             typeof(ResultCodeGeneral),
-                             ResultCodeGeneral.GeneralError
-                         )
-                     );
-                     return;
-                 }
-
-                 //eventStream.RunWith(KafkaProducer.PlainSink(producerSettings), mat);
-
-                 Sender.Tell(Result.Success());
-
-                 /*.RunWith(
-                     Sink.Aggregate<EventEnvelope, ReactionReadModel>(
-                         new ReactionReadModel(PersistenceId),
-                         (acc, next) =>
-                         {
-                             if (
-                                 next.Event
-                                 is IDomainEvent<
-                                     ReactionAggregate,
-                                     ReactionId,
-                                     ReactionAddedEvent
-                                 > rae
-                             )
-                                 acc.Apply(rae);
-                             else if (
-                                 next.Event
-                                 is IDomainEvent<
-                                     ReactionAggregate,
-                                     ReactionId,
-                                     ReactionRemovedEvent
-                                 > rre
-                             )
-                                 acc.Apply(rre);
-                             _logger.Info("**** Accumulating ^^^^^^ {0}", acc);
-                             return acc;
-                         }
-                     ),
-                     mat
-                 )
-                 .RunAggregate(
-                     new ReactionReadModel(PersistenceId),
-                     (acc, next) =>
-                     {
-                         if (
-                             next.Event
-                             is IDomainEvent<
-                                 ReactionAggregate,
-                                 ReactionId,
-                                 ReactionAddedEvent
-                             > rae
-                         )
-                             acc.Apply(rae);
-                         else if (
-                             next.Event
-                             is IDomainEvent<
-                                 ReactionAggregate,
-                                 ReactionId,
-                                 ReactionRemovedEvent
-                             > rre
-                         )
-                             acc.Apply(rre);
-                         _logger.Info("**** Accumulating ^^^^^^ {0}", acc);
-                         return acc;
-                     },
-                     mat
-                 )
-                 .PipeTo<ReactionReadModel>(
-                     Self,
-                     Sender,
-                     readModel =>
-                     {
-                         _logger.Info(" ^^^^^^ PipeTo {0} ^^^^^^", readModel);
-                         Sender.Tell(Result.Success(readModel));
-
-                         return readModel;
-                     }
-                 );*/
-            /*   });
-           }*/
-
-            /*     ..MergeMaterialized(
-                     Sink.Aggregate<ReactionTypeReadModel, ReactionReadModel>(
-                         new ReactionReadModel(PersistenceId),
-                         (acc, next) =>
-                         {
-                             acc.Types.Add(next);
-                             return acc;
-                         }
-                     ),
-                     mat
-                 );
-
-
-                 .Run(
-                     Sink.Aggregate<ReactionTypeReadModel, ReactionReadModel>(
-                         new ReactionReadModel(PersistenceId),
-                         (acc, next) =>
-                         {
-                             acc.Types.Add(next);
-                             return acc;
-                         }
-                     ),
-                     mat
-                 )
-                 .PipeTo<ReactionReadModel>(Self);*/
-
-            /*.Select(e => new ProducerRecord<string, string>(e.Event.ToString(), e.ToString()))
-            .RunWith(KafkaProducer.PlainSink(producerSettings), mat);*/
-
-            /*.Select(elem => ProducerMessage.Single(new ProducerRecord<string, string>(PersistenceId, $"key-{elem}", elem)))
-                .Via(KafkaProducer.FlexiFlow<string, string, NotUsed>(producerSettings))*/
-
-            // run the query and subscribe to the stream
-            /*var types = query
-
-                .GroupBy(
-                    Enum.GetValues(typeof(ReactionTypes)).Length,
-                    e =>
-                        e.Event
+                return new ProducerRecord<Null, ReactionEventValues>(
+                    "blog.reaction",
+                    new ReactionEventValues
+                    {
+                        ContentId = this.PersistenceId,
+                        UserId = domainEvent
                             is IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent> rae
-                            ? rae.AggregateEvent.Type
-                            : e.Event
+                            ? rae.AggregateEvent.UserId
+                            : domainEvent
                                 is IDomainEvent<
                                     ReactionAggregate,
                                     ReactionId,
                                     ReactionRemovedEvent
                                 > rre
-                                ? rre.AggregateEvent.Type
-                                : ReactionTypes.Like
-                );*/
-
-            /*var readModelStream = types.Aggregate(
-                new ReactionTypeReadModel(),
-                (acc, next) =>
-                {
-                    if (
-                        next.Event
-                        is IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent> rae
-                    )
-                        acc.Apply(rae);
-                    else if (
-                        next.Event
-                        is IDomainEvent<ReactionAggregate, ReactionId, ReactionRemovedEvent> rre
-                    )
-                        acc.Apply(rre);
-
-                    return acc;
-                }
-            );*/
-
-            /* Command<GetReactionByIdQuery>(
-                 request =>
-                 {
-                     types
-                         .Aggregate(
-                             new ReactionTypeReadModel(),
-                             (acc, next) =>
-                             {
-                                 if (
-                                     next.Event
-                                     is IDomainEvent<
-                                         ReactionAggregate,
-                                         ReactionId,
-                                         ReactionAddedEvent
-                                     > rae
-                                 )
-                                     acc.Apply(rae);
-                                 else if (
-                                     next.Event
-                                     is IDomainEvent<
-                                         ReactionAggregate,
-                                         ReactionId,
-                                         ReactionRemovedEvent
-                                     > rre
-                                 )
-                                     acc.Apply(rre);
-
-                                 return acc;
-                             }
-                         )
-                         .RunWith(
-                             Sink.Aggregate<ReactionTypeReadModel, ReactionReadModel>(
-                                 new ReactionReadModel(PersistenceId),
-                                 (acc, next) =>
-                                 {
-                                     acc.Types.Add(next);
-                                     return acc;
-                                 }
-                             ),
-                             mat
-                         )
-                         .PipeTo<ReactionReadModel>(
-                             Sender,
-                             true,
-                             Self,
-                             e => Result.Success(e),
-                             e => Result.Failure(e)
-                         );
-                 },
-                 request => string.IsNullOrEmpty(request.Type)
-             );*/
-
-
-            /*Command<SubscribeToCounter>(subscribe =>
-            {
-                _subscribers.Add(subscribe.Subscriber);
-                Sender.Tell(new CounterCommandResponse(_aggregate.CounterId, true));
-                Context.Watch(subscribe.Subscriber);
-            });
-
-            Command<UnsubscribeToCounter>(unsubscribe =>
-            {
-                Context.Unwatch(unsubscribe.Subscriber);
-                _subscribers.Remove(unsubscribe.Subscriber);
-            });*/
-
-            Command<AddReactionCommand>(request =>
-            {
-                var response = _aggregate.AddReaction(
-                    request.UserId,
-                    (OpenSystem.Reaction.Domain.Enums.ReactionTypes)
-                        Enum.Parse(
-                            typeof(OpenSystem.Reaction.Domain.Enums.ReactionTypes),
-                            request.Payload.Type.ToString(),
-                            true
-                        )
+                                ? rre.AggregateEvent.UserId
+                                : string.Empty,
+                        Type = ReactionTypes.Like,
+                        Count =
+                            e.Event
+                            is IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent>
+                                ? 1
+                                : -1
+                    }
                 );
-                if (response?.Succeeded != true)
-                {
-                    Sender.Tell(response);
-                    return;
-                }
+            })
+            .RunWith(KafkaProducer.PlainSink(producerSettings), materializer);
 
-                Sender.Tell(Result.Success(_aggregate.Id, _aggregate.Version + 1));
+        this.domainEventFactory =
+            this.scope.ServiceProvider.GetRequiredService<IDomainEventFactory>();
 
-                if (_aggregate.UncommittedEvents != null && _aggregate.UncommittedEvents.Any())
-                {
-                    PersistAll(
-                        _domainEventFactory.Create(_aggregate.UncommittedEvents),
-                        @event =>
-                        {
-                            _aggregate = _aggregate.ApplyEvent<ReactionAggregate>(@event);
-                            _logger.Info(
-                                "Updated aggregate via {0} - new value is {1}",
-                                @event,
-                                _aggregate.Id
-                            );
-
-                            _eventPublisher.Tell(@event);
-
-                            // push events to all subscribers
-                            foreach (var subscriber in _subscribers)
-                            {
-                                subscriber.Tell(@event);
-                            }
-                            SaveSnapshotWhenAble();
-                        }
-                    );
-                    _aggregate.ClearUncommittedEvents();
-                }
-            });
-
-            Command<UpdateReactionCommand>(request =>
+        this.Recover<SnapshotOffer>(offer =>
+        {
+            if (offer.Snapshot is ReactionAggregate aggregate)
             {
-                var response = _aggregate.UpdateReaction(
-                    request.UserId,
-                    (OpenSystem.Reaction.Domain.Enums.ReactionTypes)
-                        Enum.Parse(
-                            typeof(OpenSystem.Reaction.Domain.Enums.ReactionTypes),
-                            request.Payload.Type.ToString(),
-                            true
-                        )
-                );
-                if (response?.Succeeded != true)
-                {
-                    Sender.Tell(response);
-                    return;
-                }
-
-                Sender.Tell(Result.Success(_aggregate.Id, _aggregate.Version + 1));
-
-                if (_aggregate.UncommittedEvents != null && _aggregate.UncommittedEvents.Any())
-                {
-                    PersistAll(
-                        _domainEventFactory.Create(_aggregate.UncommittedEvents),
-                        @event =>
-                        {
-                            _aggregate = _aggregate.ApplyEvent<ReactionAggregate>(@event);
-                            _logger.Info(
-                                "Updated aggregate via {0} - new value is {1}",
-                                @event,
-                                _aggregate.Id
-                            );
-
-                            _eventPublisher.Tell(@event);
-
-                            // push events to all subscribers
-                            foreach (var subscriber in _subscribers)
-                            {
-                                subscriber.Tell(@event);
-                            }
-                            SaveSnapshotWhenAble();
-                        }
-                    );
-                    _aggregate.ClearUncommittedEvents();
-                }
-            });
-
-            Command<RemoveReactionCommand>(request =>
-            {
-                var response = _aggregate.RemoveReaction(request.UserId);
-                if (response?.Succeeded != true)
-                {
-                    Sender.Tell(response);
-                    return;
-                }
-
-                Sender.Tell(Result.Success(_aggregate.Id, _aggregate.Version + 1));
-
-                if (_aggregate.UncommittedEvents != null && _aggregate.UncommittedEvents.Any())
-                {
-                    PersistAll(
-                        _domainEventFactory.Create(_aggregate.UncommittedEvents),
-                        @event =>
-                        {
-                            _aggregate = _aggregate.ApplyEvent<ReactionAggregate>(@event);
-                            _logger.Info(
-                                "Updated aggregate via {0} - new value is {1}",
-                                @event,
-                                _aggregate.Id
-                            );
-
-                            _eventPublisher.Tell(@event);
-
-                            // push events to all subscribers
-                            foreach (var subscriber in _subscribers)
-                            {
-                                subscriber.Tell(@event);
-                            }
-                            SaveSnapshotWhenAble();
-                        }
-                    );
-                    _aggregate.ClearUncommittedEvents();
-                }
-            });
-
-            Command<SaveSnapshotSuccess>(success =>
-            {
-                // delete all older snapshots (but leave journal intact, in case we want to do projections with that data)
-                DeleteSnapshots(new SnapshotSelectionCriteria(success.Metadata.SequenceNr - 1));
-            });
-        }
-
-        /// <summary>
-        ///     User overridable callback.
-        ///     <p />
-        ///     Is called when an Actor is started.
-        ///     Actors are automatically started asynchronously when created.
-        ///     Empty default implementation.
-        /// </summary>
-        protected override void PreStart()
-        {
-            //var kafkaSettings = _configuration.GetSection("KafkaSettings").Get<AkkaKafkaSettings>();
-
-            //var mat = ActorMaterializer.Create(Context.System);
-
-            /*Action<DeliveryReport<Null, ReactionEventMessage>> handler = r =>
-                _logger.Info(
-                    !r.Error.IsError
-                        ? $"Delivered message to {r.TopicPartitionOffset}"
-                        : $"Delivery Error: {r.Error.Reason}"
-                );*/
-
-            /*_readJournal
-                .EventsByPersistenceId(PersistenceId, 0, long.MaxValue)
-                .Where(
-                    e =>
-                        e.Event is IDomainEvent<ReactionAggregate, ReactionId, ReactionAddedEvent>
-                        || e.Event
-                            is IDomainEvent<ReactionAggregate, ReactionId, ReactionRemovedEvent>
-                )
-                .Select(
-                    e =>
-                        new ProducerRecord<Null, ReactionEventMessage>(
-                            "blog.engagement.reaction.count",
-                            new ReactionEventMessage
-                            {
-                                Id = PersistenceId,
-                                UserId = e.Event
-                                    is IDomainEvent<
-                                        ReactionAggregate,
-                                        ReactionId,
-                                        ReactionAddedEvent
-                                    > rae
-                                    ? rae.AggregateEvent.UserId
-                                    : e.Event
-                                        is IDomainEvent<
-                                            ReactionAggregate,
-                                            ReactionId,
-                                            ReactionRemovedEvent
-                                        > rre
-                                        ? rre.AggregateEvent.UserId
-                                        : string.Empty,
-                                Type = ReactionTypes.Like,
-                                Count =
-                                    e.Event
-                                    is IDomainEvent<
-                                        ReactionAggregate,
-                                        ReactionId,
-                                        ReactionAddedEvent
-                                    >
-                                        ? 1
-                                        : -1
-                            }
-                        )
-                )
-                .RunWith(
-                    KafkaProducer.PlainSink<Null, ReactionEventMessage>(
-                        ProducerSettings<Null, ReactionEventMessage>
-                            .Create(
-                                Context.System,
-                                null,
-                                new SyncAvroSerializer<ReactionEventMessage>(_schemaRegistry)
-                            )
-                            .WithBootstrapServers(
-                                _configuration
-                                    .GetSection("KafkaSettings")
-                                    .Get<AkkaKafkaSettings>()
-                                    ?.BootstrapServer
-                            )
-                    ),
-                    Context.System.Materializer()
-                );*/
-        }
-
-        /// <summary>
-        /// TBD
-        /// </summary>
-        /// <param name="action">TBD</param>
-        /*protected void RunTask(Action action)
-        {
-            ActorTaskScheduler.RunTask(action);
-        }*/
-
-        /*protected override bool Receive(object message)
-        {
-            _logger.Info("Message received: {0}", message);
-
-            if (message is ReactionReadModel reactionReadModel)
-                _readModel = reactionReadModel;
-
-            return base.Receive(message);
-        }*/
-
-        public override void AroundPreStart()
-        {
-            _logger.Info("Starting up");
-            /*_readModelFactory
-                .CreateAsync(PersistenceId, new CancellationToken())
-                .ContinueWith(t =>
-                {
-                    _readModel = t.Result;
-                    _logger.Info("Recovered initial value of [{0}]", _readModel);
-                });*/
-
-            base.AroundPreStart();
-        }
-
-        public override void AroundPostStop()
-        {
-            _logger.Info("Stopping actor");
-            base.AroundPreStart();
-        }
-
-        private void SaveSnapshotWhenAble()
-        {
-            // save a new snapshot every 25 events, in order to keep recovery times bounded
-            if (LastSequenceNr % 25 == 0)
-            {
-                SaveSnapshot(_aggregate);
+                this.aggregate = aggregate;
+                this.logger.Info("Recovered initial value of [{0}]", aggregate);
             }
-        }
+        });
 
-        private Action<T> WrapAsyncHandler<T>(Func<T, Task> asyncHandler)
+        this.Recover<IDomainEvent>(
+            @event => this.aggregate = this.aggregate.ApplyEvent<ReactionAggregate>(@event)
+        );
+
+        this.Command<GetReactionsCountQuery>(f => this.Sender.Tell(this.aggregate));
+
+        /*Command<SubscribeToCounter>(subscribe =>
         {
-            return m =>
+            _subscribers.Add(subscribe.Subscriber);
+            Sender.Tell(new CounterCommandResponse(_aggregate.CounterId, true));
+            Context.Watch(subscribe.Subscriber);
+        });
+
+        Command<UnsubscribeToCounter>(unsubscribe =>
+        {
+            Context.Unwatch(unsubscribe.Subscriber);
+            _subscribers.Remove(unsubscribe.Subscriber);
+        });*/
+
+        this.Command<AddReactionCommand>(request =>
+        {
+            var response = this.aggregate.AddReaction(
+                request.UserId,
+                (Domain.Enums.ReactionTypes)
+                    Enum.Parse(
+                        typeof(Domain.Enums.ReactionTypes),
+                        request.Payload.Type.ToString(),
+                        true
+                    )
+            );
+            if (response?.Succeeded != true)
             {
-                Func<Task> wrap = () => asyncHandler(m);
-                RunTask(wrap);
-            };
+                this.Sender.Tell(response);
+                return;
+            }
+
+            this.Sender.Tell(Result.Success(this.aggregate.Id, this.aggregate.Version + 1));
+
+            if (this.aggregate.UncommittedEvents != null && this.aggregate.UncommittedEvents.Any())
+            {
+                this.PersistAll(
+                    this.domainEventFactory.Create(this.aggregate.UncommittedEvents),
+                    @event =>
+                    {
+                        this.aggregate = this.aggregate.ApplyEvent<ReactionAggregate>(@event);
+                        this.logger.Info(
+                            "Updated aggregate via {0} - new value is {1}",
+                            @event,
+                            this.aggregate.Id
+                        );
+
+                        // push events to all subscribers
+                        foreach (var subscriber in this.subscribers)
+                        {
+                            subscriber.Tell(@event);
+                        }
+
+                        this.SaveSnapshotWhenAble();
+                    }
+                );
+                this.aggregate.ClearUncommittedEvents();
+            }
+        });
+
+        this.Command<UpdateReactionCommand>(request =>
+        {
+            var response = this.aggregate.UpdateReaction(
+                request.UserId,
+                (Domain.Enums.ReactionTypes)
+                    Enum.Parse(
+                        typeof(Domain.Enums.ReactionTypes),
+                        request.Payload.Type.ToString(),
+                        true
+                    )
+            );
+            if (response?.Succeeded != true)
+            {
+                this.Sender.Tell(response);
+                return;
+            }
+
+            this.Sender.Tell(Result.Success(this.aggregate.Id, this.aggregate.Version + 1));
+
+            if (this.aggregate.UncommittedEvents != null && this.aggregate.UncommittedEvents.Any())
+            {
+                this.PersistAll(
+                    this.domainEventFactory.Create(this.aggregate.UncommittedEvents),
+                    @event =>
+                    {
+                        this.aggregate = this.aggregate.ApplyEvent<ReactionAggregate>(@event);
+                        this.logger.Info(
+                            "Updated aggregate via {0} - new value is {1}",
+                            @event,
+                            this.aggregate.Id
+                        );
+
+                        // push events to all subscribers
+                        foreach (var subscriber in this.subscribers)
+                        {
+                            subscriber.Tell(@event);
+                        }
+                        this.SaveSnapshotWhenAble();
+                    }
+                );
+                this.aggregate.ClearUncommittedEvents();
+            }
+        });
+
+        this.Command<RemoveReactionCommand>(request =>
+        {
+            var response = this.aggregate.RemoveReaction(request.UserId);
+            if (response?.Succeeded != true)
+            {
+                this.Sender.Tell(response);
+                return;
+            }
+
+            this.Sender.Tell(Result.Success(this.aggregate.Id, this.aggregate.Version + 1));
+
+            if (this.aggregate.UncommittedEvents != null && this.aggregate.UncommittedEvents.Any())
+            {
+                this.PersistAll(
+                    this.domainEventFactory.Create(this.aggregate.UncommittedEvents),
+                    @event =>
+                    {
+                        this.aggregate = this.aggregate.ApplyEvent<ReactionAggregate>(@event);
+                        this.logger.Info(
+                            "Updated aggregate via {0} - new value is {1}",
+                            @event,
+                            this.aggregate.Id
+                        );
+
+                        // push events to all subscribers
+                        foreach (var subscriber in this.subscribers)
+                        {
+                            subscriber.Tell(@event);
+                        }
+                        this.SaveSnapshotWhenAble();
+                    }
+                );
+                this.aggregate.ClearUncommittedEvents();
+            }
+        });
+
+        this.Command<SaveSnapshotSuccess>(
+            success =>
+                // delete all older snapshots (but leave journal intact, in case we want to do projections with that data)
+                this.DeleteSnapshots(new SnapshotSelectionCriteria(success.Metadata.SequenceNr - 1))
+        );
+    }
+
+    public override void AroundPreStart()
+    {
+        this.logger.Info($"Starting actor {this.GetType().Name} - {this.PersistenceId}");
+        base.AroundPreStart();
+    }
+
+    public override void AroundPostStop()
+    {
+        this.logger.Info("Stopping actor  {this.GetType().Name} - {this.PersistenceId}");
+        base.AroundPreStart();
+    }
+
+    private void SaveSnapshotWhenAble()
+    {
+        // save a new snapshot every 25 events, in order to keep recovery times bounded
+        if (this.LastSequenceNr % 25 == 0)
+        {
+            this.SaveSnapshot(this.aggregate);
         }
     }
 }

@@ -1,5 +1,6 @@
 import { GraphQLLiveDirective } from "@envelop/live-query";
-import { pascalCase } from "change-case";
+import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { camelCase, camelCaseTransformMerge } from "change-case";
 import {
   GraphQLFloat,
   GraphQLList,
@@ -21,6 +22,7 @@ import {
   KSqlDBEntities,
   KsqlDBResponse,
   ResolverFields,
+  SkipStreamList,
 } from "./type/definition";
 
 const TypeMap = {
@@ -42,23 +44,23 @@ const TypeMap = {
 const setSchemaType = (accum: KSqlDBEntities, field: Field): void => {
   if (TypeMap[field.schema.type] == null) {
     // eslint-disable-next-line
-    console.error(`type ${field.schema.type} is not supported`);
+    ConsoleLogger.error(`type ${field.schema.type} is not supported`);
     return;
   }
 
   if (field.schema.memberSchema?.type != null) {
-    const sclarType: GraphQLScalarType = TypeMap[field.schema.type][
+    const scalarType: GraphQLScalarType = TypeMap[field.schema.type][
       field.schema.memberSchema.type
     ] as GraphQLScalarType;
     accum[field.name] = {
-      type: sclarType,
+      type: scalarType,
     };
   } else {
-    const sclarType: GraphQLScalarType = TypeMap[
+    const scalarType: GraphQLScalarType = TypeMap[
       field.schema.type
     ] as GraphQLScalarType;
     accum[field.name] = {
-      type: sclarType,
+      type: scalarType,
     };
   }
 };
@@ -71,53 +73,19 @@ const buildSchemaObject = (
     setSchemaType(accum, field);
   } else if (Array.isArray(field.schema.fields)) {
     const fields = field.schema.fields.reduce(buildSchemaObject, {});
-    if (accum[formatName(field.name)] == null) {
-      accum[formatName(field.name)] = {
+    if (accum[field.name] == null) {
+      accum[field.name] = {
         type: new GraphQLObjectType({
-          name: formatName(field.name),
+          name: field.name,
           fields: fields,
         }),
       };
     } else {
       // eslint-disable-next-line
-      console.warn(`${formatName(field.name)} already exists.`);
+      ConsoleLogger.warn(`${field.name} already exists.`);
     }
   }
   return accum;
-};
-
-/*const formatEntities = (entities: KSqlDBEntities): KSqlDBEntities => {
-  return Object.keys(entities).reduce((ret: KSqlDBEntities, key: string) => {
-    const entity = (entities as any)[key];
-    if (entity) {
-    (ret as any)[formatName(key)] = {
-      type: new GraphQLObjectType({ name: formatName(entity.name), fields: entity.fields && entity.fields.length formatFields(entity.fields) })
-    };
-  }
-
-    return ret;
-  }, {});
-};
-
-const formatFields = (fields: KSqlDBEntities): KSqlDBEntities => {
-  if (fields != null) {
-    return fields..map((f: Field) => formatField(f));
-  }
-
-  return fields;
-};
-
-const formatField = (field: Field): Field => {
-  if (field?.schema?.fields) {
-    field.schema.fields = formatFields(field.schema.fields);
-  }
-
-  field.name = formatName(field.name);
-  return field;
-};*/
-
-const formatName = (name: string | null): string => {
-  return pascalCase(name ?? "");
 };
 
 export const generateSchemaFromKsql = ({
@@ -126,7 +94,7 @@ export const generateSchemaFromKsql = ({
 }: KsqlDBResponse): GraphQLObjectTypeConfig<void, void> => {
   const schemaFields = fields.reduce(buildSchemaObject, {});
   return {
-    name: formatName(name),
+    name,
     fields: schemaFields,
   };
 };
@@ -182,6 +150,7 @@ function generateMutations(accum: { [name: string]: any }, query: any): any {
   };
   return accum;
 }
+
 export const generateSchemaAndFields = (
   streams: Array<KsqlDBResponse>
 ): {
@@ -190,13 +159,10 @@ export const generateSchemaAndFields = (
 } => {
   const schemas: GraphQLObjectTypeConfig<void, void>[] = [];
   for (const stream of streams) {
-    console.log("### first ");
-    const first = stream;
-    console.log(first);
-    const second = generateSchemaFromKsql(first);
-    console.log("### second ");
-    console.log(second);
-    schemas.push(second);
+    const nextSchema = generateSchemaFromKsql(stream);
+    ConsoleLogger.info(JSON.stringify(nextSchema));
+
+    schemas.push(nextSchema);
   }
 
   const subscriptionFields = schemas.reduce(generateSubscription, {});
@@ -210,7 +176,7 @@ export const generateSchemaAndFields = (
   // why default? http://spec.graphql.org/June2018/#sec-Schema
   if (Object.keys(queryFields).length === 0) {
     // eslint-disable-next-line
-    console.error(
+    ConsoleLogger.error(
       "No materialized views have been registered.",
       "Only subscriptions and mutations will be work properly.",
       "Defaulting `type Query` to null scalar since it is required by graphQL."
@@ -224,17 +190,14 @@ export const generateSchemaAndFields = (
         name: "Query",
         fields: queryFields,
       }),
-
       subscription: new GraphQLObjectType({
         name: "Subscription",
         fields: subscriptionFields,
       }),
-
       mutation: new GraphQLObjectType({
         name: "Mutation",
         fields: mutationFields,
       }),
-
       directives: [GraphQLLiveDirective],
     }),
     fields: {
@@ -252,24 +215,87 @@ export const generateSchemaAndFields = (
   };
 };
 
+const formatName = (name: string | null): string => {
+  return camelCase(name ?? "", { transform: camelCaseTransformMerge });
+};
+
+const formatField = (field: Field): Field | null => {
+  return field
+    ? {
+        ...field,
+        name: formatName(field.name),
+        /*schema: field.schema
+          ? {
+              ...field.schema,
+              fields: field.schema?.fields
+                ? field.schema?.fields?.map(f => formatField(f))
+                : [],
+            }
+          : null,*/
+      }
+    : null;
+};
+
+const formatResponses = (
+  responses: Array<KsqlDBResponse>
+): Array<KsqlDBResponse> => {
+  return responses.reduce(
+    (ret: Array<KsqlDBResponse>, response: KsqlDBResponse) => {
+      if (!SkipStreamList.includes(response.name.toLowerCase()))
+        ret.push({
+          ...response,
+          name: formatName(response.name),
+          fields: response.fields.map(f => formatField(f)),
+        });
+
+      return ret;
+    },
+    []
+  );
+};
+
 const schemas = async (
   options: RequestOptions
 ): Promise<{ schema: GraphQLSchema; fields: ResolverFields } | undefined> => {
-  const ksql = "show streams extended; show tables extended;";
   try {
-    const response = await runCommand(ksql, options);
-    const streams: Array<KsqlDBResponse> = response.data[0].sourceDescriptions;
-    const tables: Array<KsqlDBResponse> = response.data[1].sourceDescriptions;
-
-    if (streams.length === 0) {
+    const response = await runCommand(
+      "show tables extended; show streams extended;",
+      options
+    );
+    ConsoleLogger.info(response);
+    if (
+      !response?.data &&
+      Array.isArray(response.data) &&
+      response.data.length > 0
+    ) {
       throw new Error(
-        `No ksql tables exist on ksql server ${options.hostname}:${options.port}`
+        `No response received from ksql server ${options.hostname}:${options.port}`
       );
     }
 
-    return generateSchemaAndFields(streams.concat(tables));
+    const streams: Array<KsqlDBResponse> = response.data[0].sourceDescriptions;
+    return generateSchemaAndFields(
+      formatResponses(streams.concat(response.data[1].sourceDescriptions))
+    );
+
+    /*const streams: Array<KsqlDBResponse> = formatResponses(
+      response.data[0].sourceDescriptions
+    );
+    if (streams.length === 0) {
+      throw new Error(
+        `No materialized tables exist on ksql server ${options.hostname}:${options.port}`
+      );
+    }
+    //if (response.data.length === 1) {
+      return generateSchemaAndFields(streams);
+   /* }
+
+    return generateSchemaAndFields(
+      streams.concat(formatResponses(response.data[1].sourceDescriptions))
+    );*/
   } catch (e) {
-    console.error(`Could not generate schemas:`, (e as any)?.message);
+    ConsoleLogger.error("Could not generate schemas");
+    ConsoleLogger.exception(e as Error);
   }
 };
 
@@ -285,7 +311,7 @@ export function buildKsqlDBGraphQL({ options }: Config): Promise<{
         const result = await schemas(options);
         if (result) {
           // eslint-disable-next-line
-          console.log(printSchema(result.schema));
+          ConsoleLogger.info(printSchema(result.schema));
           const { queryResolvers, subscriptionResolvers, mutationResolvers } =
             new ResolverGenerator(result.fields);
           resolve({
@@ -298,6 +324,7 @@ export function buildKsqlDBGraphQL({ options }: Config): Promise<{
           throw new Error("Unable to create schemas and resolvers");
         }
       } catch (e) {
+        ConsoleLogger.exception(e as Error);
         throw new Error(e as any);
       }
     })();

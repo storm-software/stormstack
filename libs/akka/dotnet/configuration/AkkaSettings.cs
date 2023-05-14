@@ -1,94 +1,97 @@
+namespace OpenSystem.Akka.Configuration;
+
 using System.Net;
-using Akka.Cluster.Hosting;
-using Akka.Remote.Hosting;
+using global::Akka.Cluster.Hosting;
+using global::Akka.Remote.Hosting;
 
-namespace OpenSystem.Akka.Configuration
+public class AkkaManagementOptions
 {
-    public class AkkaManagementOptions
-    {
-        public bool Enabled { get; set; } = false;
+    public bool Enabled { get; set; }
 
-        public string Hostname { get; set; } = Dns.GetHostName();
+    public string Hostname { get; set; } = Dns.GetHostName();
 
-        public int Port { get; set; } = 8558;
+    public int Port { get; set; } = 8558;
 
-        public string PortName { get; set; } = "management";
+    public string PortName { get; set; } = "management";
 
-        public string ServiceName { get; set; } = "akka-management";
-
-        /// <summary>
-        /// Determines the number of nodes we need to make contact with in order to form a cluster initially.
-        ///
-        /// 3 is a safe default value.
-        /// </summary>
-        public int RequiredContactPointsNr { get; set; } = 3;
-
-        public DiscoveryMethod DiscoveryMethod { get; set; } = DiscoveryMethod.Config;
-    }
+    public string ServiceName { get; set; } = "akka-management";
 
     /// <summary>
-    /// Determines which Akka.Discovery method to use when discovering other nodes to form and join clusters.
+    /// Determines the number of nodes we need to make contact with in order to form a cluster initially.
+    ///
+    /// 3 is a safe default value.
     /// </summary>
-    public enum DiscoveryMethod
-    {
-        Config,
-        Kubernetes,
-        AwsEcsTagBased,
-        AwsEc2TagBased,
-        AzureTableStorage
-    }
+    public int RequiredContactPointsNr { get; set; } = 3;
 
-    public enum PersistenceMode
-    {
-        InMemory,
-        Azure,
-        PostgreSql,
-    }
+    public DiscoveryMethod DiscoveryMethod { get; set; } = DiscoveryMethod.Config;
+}
 
-    public class AzureStorageSettings
-    {
-        public string ConnectionStringName { get; set; } = "Azurite";
-    }
+/// <summary>
+/// Determines which Akka.Discovery method to use when discovering other nodes to form and join clusters.
+/// </summary>
+public enum DiscoveryMethod
+{
+    Config,
+    Kubernetes,
+    AwsEcsTagBased,
+    AwsEc2TagBased,
+    AzureTableStorage
+}
 
-    public class PostgreSqlStorageSettings
-    {
-        public string JournalConnectionStringName { get; set; } = "PostgreSqlJournal";
+public enum PersistenceMode
+{
+    InMemory,
+    Azure,
+    PostgreSql,
+}
 
-        public string SnapshotConnectionStringName { get; set; } = "PostgreSqlSnapshot";
-    }
+public class AzureStorageSettings
+{
+    public string ConnectionStringName { get; set; } = "Azurite";
+}
 
-    public class AkkaSettings
-    {
-        public string ActorSystemName { get; set; } = "AkkaWeb";
+public class PostgreSqlStorageSettings
+{
+    public string JournalConnectionStringName { get; set; } = "PostgreSqlJournal";
 
-        public bool UseClustering { get; set; } = true;
+    public string SnapshotConnectionStringName { get; set; } = "PostgreSqlSnapshot";
+}
 
-        public bool LogConfigOnStart { get; set; } = true;
+public class AkkaSettings
+{
+    public string ActorSystemName { get; set; } = "AkkaWeb";
 
-        public RemoteOptions RemoteOptions { get; set; } =
-            new()
-            {
-                // can be overridden via config, but is dynamic by default
-                PublicHostName = Dns.GetHostName()
-            };
+    public bool UseClustering { get; set; } = true;
 
-        public ClusterOptions ClusterOptions { get; set; } =
-            new ClusterOptions()
-            {
-                // use our dynamic local host name by default
-                SeedNodes = new[] { $"akka.tcp://AkkaWebApi@{Dns.GetHostName()}:8091" }
-            };
+    public bool LogConfigOnStart { get; set; } = true;
 
-        public ShardOptions ShardOptions { get; set; } = new ShardOptions();
+    public RemoteOptions RemoteOptions { get; set; } =
+        new()
+        {
+            // can be overridden via config, but is dynamic by default
+            PublicHostName = Dns.GetHostName()
+        };
 
-        public string? Name { get; set; }
-        public string? Role { get; set; }
-        public bool? RecreateOnFailure { get; set; }
-        public bool? PreferOldest { get; set; }
-        public bool? VerboseDebugLogging { get; set; }
+    public ClusterOptions ClusterOptions { get; set; } =
+        new ClusterOptions()
+        {
+            // use our dynamic local host name by default
+            SeedNodes = new[] { $"akka.tcp://AkkaWebApi@{Dns.GetHostName()}:8082" }
+        };
 
-        public PersistenceMode PersistenceMode { get; set; } = PersistenceMode.InMemory;
+    public ShardOptions ShardOptions { get; set; } = new ShardOptions();
 
-        public AkkaManagementOptions? AkkaManagementOptions { get; set; }
-    }
+    public string? Name { get; set; }
+
+    public string? Role { get; set; }
+
+    public bool? RecreateOnFailure { get; set; }
+
+    public bool? PreferOldest { get; set; }
+
+    public bool? VerboseDebugLogging { get; set; }
+
+    public PersistenceMode PersistenceMode { get; set; } = PersistenceMode.InMemory;
+
+    public AkkaManagementOptions? AkkaManagementOptions { get; set; }
 }

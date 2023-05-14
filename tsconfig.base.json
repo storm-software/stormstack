@@ -41,12 +41,6 @@
       "@open-system/core-typescript-utilities": [
         "libs/core/typescript/utilities/src/index.ts"
       ],
-      "@open-system/data-catalog-graphql": [
-        "libs/data-catalog/graphql/src/index.ts"
-      ],
-      "@open-system/data-catalog-graphql/*": [
-        "libs/data-catalog/graphql/src/*"
-      ],
       "@open-system/design-system-components": [
         "design-system/components/src/index.ts"
       ],

@@ -50,7 +50,7 @@
       "executor": "@open-system/executors-typescript:client-gql-sync",
       "options": {
         "outputFileTypes": "libs/reaction/ui/data-access/src/gql/types.ts",
-        "outputFileSchemaAst": "libs/reaction/ui/data-access/src/gql/schema.graphql",
+        "outputFileSchemaAst": "gql/schema.graphql",
         "outputFileClient": "libs/reaction/ui/data-access/src/gql/client.ts",
       }
     },

@@ -1,5 +1,5 @@
-import { RequestOptions } from 'http';
-import { ClientHttp2Session } from 'http2';
+import { RequestOptions } from "http";
+import { ClientHttp2Session } from "http2";
 
 import {
   GraphQLFieldConfigMap,
@@ -7,7 +7,7 @@ import {
   GraphQLObjectType,
   GraphQLResolveInfo,
   GraphQLScalarType,
-} from 'graphql';
+} from "graphql";
 
 export interface KSqlDBEntities {
   [key: string]: {
@@ -16,14 +16,22 @@ export interface KSqlDBEntities {
 }
 
 export type Request = (url: string, body: any, args: any) => void;
-type KsqDBContext = { ksqlDB: { options: RequestOptions; session: ClientHttp2Session } };
+type KsqDBContext = {
+  ksqlDB: { options: RequestOptions; session: ClientHttp2Session };
+};
 
 export interface Config {
   options: RequestOptions;
 }
-type KsqldbType = 'BIGINT' | 'STRING' | 'INTEGER' | 'ARRAY' | 'VARCHAR' | 'STRUCT';
+type KsqldbType =
+  | "BIGINT"
+  | "STRING"
+  | "INTEGER"
+  | "ARRAY"
+  | "VARCHAR"
+  | "STRUCT";
 export interface MemberSchema {
-  type: Exclude<'ARRAY' | 'STRUCT', KsqldbType>; // TODO - can you have arrays in member schemas?
+  type: Exclude<"ARRAY" | "STRUCT", KsqldbType>; // TODO - can you have arrays in member schemas?
 }
 
 export interface Field {
@@ -40,7 +48,7 @@ type KsqlDBQuery = {
   sinks: Array<string>;
   sinkKafkaTopics: Array<string>;
   id: string;
-  state: 'RUNNING';
+  state: "RUNNING";
 } | null;
 
 export interface KsqlDBResponse {
@@ -48,20 +56,22 @@ export interface KsqlDBResponse {
   readQueries: Array<KsqlDBQuery>;
   writeQueries: Array<KsqlDBQuery>;
   fields: Array<Field>;
-  type: 'STREAM' | 'TABLE';
+  type: "STREAM" | "TABLE";
   key: string;
   timestamp: string;
   statistics: string;
   errorStats: string;
   extended: boolean;
-  format: 'JSON' | 'AVRO'; // TODO verify this value
+  format: "JSON" | "AVRO"; // TODO verify this value
   topic: string;
   partitions: number;
   replication: number;
 }
+
 export interface Resolver {
   [key: string]: GraphQLFieldResolver<void, KsqDBContext>;
 }
+
 export interface SubscriptionResolver {
   [name: string]: {
     subscribe: (
@@ -86,11 +96,20 @@ export type ResolverFields = {
 };
 
 export type KsqlDBRest = {
-  statusCode: number,
+  statusCode: number;
   data: Array<{
-    '@type': 'source_descriptions',
-    statementText: string,
-    sourceDescriptions: Array<KsqlDBResponse>,
-    warnings: []
-  }>
-}
+    "@type": "source_descriptions";
+    statementText: string;
+    sourceDescriptions: Array<KsqlDBResponse>;
+    warnings: [];
+  }>;
+};
+
+export const SkipStreamList = [
+  "ksql_processing_log",
+  "_confluent-metrics",
+  "_schemas",
+  "_confluent-license",
+  "_confluent-monitoring",
+];
+

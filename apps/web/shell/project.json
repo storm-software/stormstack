@@ -20,10 +20,7 @@
           "outputPath": "apps/web/shell"
         },
         "production": {}
-      },
-      "dependsOn": [
-        "build-custom-server"
-      ]
+      }
     },
     "serve": {
       "executor": "@nrwl/next:server",
@@ -31,18 +28,15 @@
       "options": {
         "buildTarget": "web-shell:build",
         "dev": true,
-        "customServerTarget": "web-shell:serve-custom-server"
       },
       "configurations": {
         "development": {
           "buildTarget": "web-shell:build:development",
-          "port": 3000,
-          "customServerTarget": "web-shell:serve-custom-server:development"
+          "port": 3000
         },
         "production": {
           "buildTarget": "web-shell:build:production",
-          "dev": false,
-          "customServerTarget": "web-shell:serve-custom-server:production"
+          "dev": false
         }
       }
     },
@@ -86,36 +80,6 @@
         "npm": false,
         "changelog": true,
         "tagFormat": "web-shell-v${VERSION}"
-      }
-    },
-    "build-custom-server": {
-      "executor": "@nrwl/js:tsc",
-      "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "dist/apps/web/shell",
-        "main": "apps/web/shell/server/main.ts",
-        "tsConfig": "apps/web/shell/tsconfig.server.json",
-        "clean": false,
-        "assets": []
-      },
-      "configurations": {
-        "development": {},
-        "production": {}
-      }
-    },
-    "serve-custom-server": {
-      "executor": "@nrwl/js:node",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "web-shell:build-custom-server"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "web-shell:build-custom-server:development"
-        },
-        "production": {
-          "buildTarget": "web-shell:build-custom-server:production"
-        }
       }
     }
   },

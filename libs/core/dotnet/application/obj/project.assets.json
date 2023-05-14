@@ -1925,11 +1925,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
+      "projectUniqueName": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
       "projectName": "OpenSystem.Core.Application",
-      "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
+      "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\OpenSystem.Core.Application.csproj",
       "packagesPath": "C:\\Users\\patjo\\.nuget\\packages\\",
-      "outputPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\application\\obj\\",
+      "outputPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1950,8 +1950,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj": {
-              "projectPath": "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj"
+            "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj": {
+              "projectPath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj"
             }
           }
         }

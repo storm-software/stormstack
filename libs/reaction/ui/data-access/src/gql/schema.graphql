@@ -1,3 +1,7 @@
+# # OpenSystem GraphQL Types 
+# **Do not modify this file manually** 
+# The schema generated on: 05/11/2023 amt 03:36:02
+
 """
 Directs the executor to include this field or fragment only when the `if` argument is true.
 """
@@ -223,22 +227,31 @@ schema {
   subscription: Subscription
 }
 
+"Instruction for establishing a live connection that is updated once the underlying data changes."
+directive @live(
+  """Whether the query should be live or not."""
+  if: Boolean = true
+  """
+  Propose a desired throttle interval ot the server in order to receive updates to at most once per "throttle" milliseconds. The server must not accept this value.
+  """
+  throttle: Int
+) on QUERY
+
 type Query {
-  KsqlDBGraphQLError: NoPullQueries
+  reactionDetail(contentId: String, reactionType: String, count: Float): reactionDetail
   __schema: __Schema!
   __type(name: String!): __Type
 }
 
-"""
-No materialized views have been registered. Register materialized views in order to use pull queries. Refer to https://cnfl.io/queries for info on query types.
-"""
-scalar NoPullQueries
+type reactionDetail {
+  contentId: String
+  reactionType: String
+  count: Float
+}
 
 type Mutation {
-  KsqlProcessingLog(LOGGER: String, LEVEL: String, TIME: Float): KsqlDBMutation
-  ReactionStream(CONTENTID: String, USERID: String, TYPE: String, COUNT: Float): KsqlDBMutation
-  ReactionUser(CONTENTID: String, USERID: String, TYPE: String, COUNT: Float): KsqlDBMutation
-  ReactionType(CONTENTID: String, TYPE: String, COUNT: Float): KsqlDBMutation
+  reactionDetail(contentId: String, reactionType: String, count: Float): KsqlDBMutation
+  reactionevent(contentId: String, userId: String, reactionType: String, count: Float): KsqlDBMutation
 }
 
 type KsqlDBMutation {
@@ -247,79 +260,13 @@ type KsqlDBMutation {
 }
 
 type Subscription {
-  KsqlProcessingLog(LOGGER: String, LEVEL: String, TIME: Float): KsqlProcessingLog
-  ReactionStream(CONTENTID: String, USERID: String, TYPE: String, COUNT: Float): ReactionStream
-  ReactionUser(CONTENTID: String, USERID: String, TYPE: String, COUNT: Float): ReactionUser
-  ReactionType(CONTENTID: String, TYPE: String, COUNT: Float): ReactionType
+  reactionDetail(contentId: String, reactionType: String, count: Float): reactionDetail
+  reactionevent(contentId: String, userId: String, reactionType: String, count: Float): reactionevent
 }
 
-type KsqlProcessingLog {
-  LOGGER: String
-  LEVEL: String
-  TIME: Float
-  Message: Message
+type reactionevent {
+  contentId: String
+  userId: String
+  reactionType: String
+  count: Float
 }
-
-type Message {
-  TYPE: Float
-  Deserializationerror: Deserializationerror
-  Recordprocessingerror: Recordprocessingerror
-  Productionerror: Productionerror
-  Serializationerror: Serializationerror
-  Kafkastreamsthreaderror: Kafkastreamsthreaderror
-}
-
-type Deserializationerror {
-  TARGET: String
-  ERRORMESSAGE: String
-  RECORDB64: String
-  CAUSE: [String]
-  topic: String
-}
-
-type Recordprocessingerror {
-  ERRORMESSAGE: String
-  RECORD: String
-  CAUSE: [String]
-}
-
-type Productionerror {
-  ERRORMESSAGE: String
-}
-
-type Serializationerror {
-  TARGET: String
-  ERRORMESSAGE: String
-  RECORD: String
-  CAUSE: [String]
-  topic: String
-}
-
-type Kafkastreamsthreaderror {
-  ERRORMESSAGE: String
-  THREADNAME: String
-  CAUSE: [String]
-}
-
-type ReactionStream {
-  CONTENTID: String
-  USERID: String
-  TYPE: String
-  COUNT: Float
-}
-
-type ReactionUser {
-  CONTENTID: String
-  USERID: String
-  TYPE: String
-  COUNT: Float
-}
-
-type ReactionType {
-  CONTENTID: String
-  TYPE: String
-  COUNT: Float
-}
-# # OpenSystem GraphQL Types 
-# **Do not modify this file manually** 
-# The schema generated on: 04/28/2023 amt 01:02:31
