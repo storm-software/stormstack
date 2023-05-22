@@ -3,7 +3,8 @@ name: Deploy Docusaurus updates
 on:
   push:
     branches:
-      - main
+    #  - main
+      - disabled
 
 jobs:
   build-and-deploy:
