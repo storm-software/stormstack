@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1123.594px" height="915.415px" viewBox="0 0 1123.594 915.415" enable-background="new 0 0 1123.594 915.415"
+	 xml:space="preserve">
+<g id="Computer">
+	<polygon fill="#4C4C4C" points="881.985,862.31 860.466,877.177 693.604,533.586 753.092,495.593 881.985,497.245 	"/>
+	<rect x="693.985" y="533.177" fill="#33353D" width="166" height="344"/>
+</g>
+<g id="Desk">
+	<polygon fill="#E0D8B8" points="115.238,370.152 1015.765,382.204 1110.185,522.793 62.35,513.984 	"/>
+	<rect x="81.985" y="510.177" fill="#E0D8B8" width="22" height="352"/>
+	<rect x="149.985" y="372.177" fill="#E0D8B8" width="20" height="351"/>
+	<rect x="967.985" y="390.177" fill="#E0D8B8" width="20" height="352"/>
+	<rect x="1066.985" y="510.177" fill="#E0D8B8" width="20" height="352"/>
+</g>
+<g id="Screen">
+	
+		<rect x="273.985" y="111.177" fill="#43DADD" stroke="#33353D" stroke-width="20" stroke-miterlimit="10" width="413" height="265"/>
+	<path fill="#33353D" d="M601.694,446.177c0.011,0,0.051-0.569,0.051-0.942c0-36.925-54.213-66.775-121.087-66.775
+		s-121.087,29.807-121.087,66.732c0,0.373,0.04,0.984,0.051,0.984H601.694z"/>
+</g>
+</svg>

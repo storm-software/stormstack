@@ -10,7 +10,7 @@ import { BaseError } from "./base-error";
  *
  */
 export class MissingContextError extends BaseError {
-  public name = "MissingContextError";
+  public name = "Missing Context Error";
 
   public constructor(public contextName: string) {
     super(

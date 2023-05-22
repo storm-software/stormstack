@@ -10,13 +10,13 @@ import { BaseError } from "./base-error";
  *
  */
 export class ApiException<T> extends BaseError {
-  public name = "ApiException";
+  public name = "API Exception";
 
   public constructor(
     public code: number,
     message: string,
     public body: T,
-    public headers: { [key: string]: string }
+    public headers: Headers
   ) {
     super(
       message,

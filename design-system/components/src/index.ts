@@ -8,6 +8,7 @@ export * from "./checkbox";
 export * from "./divider";
 export * from "./field-text";
 export * from "./heading";
+export * from "./icon";
 export * from "./info-message";
 export * from "./input";
 export * from "./link";

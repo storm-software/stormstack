@@ -4,8 +4,11 @@ import { RedisConnection } from "redis-om";
 const { REDIS_CACHE_HOST, REDIS_CACHE_POST, REDIS_CACHE_PASSWORD } =
   process.env;
 
+  let connection!: RedisConnection;
+
 export const getConnection = async (): Promise<RedisConnection> => {
-  const client = createClient({
+  if (!connection) {
+  connection = createClient({
     password: REDIS_CACHE_PASSWORD,
     socket: {
       host: REDIS_CACHE_HOST,
@@ -13,7 +16,8 @@ export const getConnection = async (): Promise<RedisConnection> => {
     },
   });
 
-  await client.connect();
+  await connection.connect();
+}
 
-  return client;
+  return connection;
 };

@@ -5,15 +5,15 @@ import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-m
 import clsx from "clsx";
 import dynamic from "next/dynamic";
 import React from "react";
-import "../styles/globals.css";
 import {
-  melody,
-  inter,
-  anybody,
   antiqueOlive,
+  anybody,
+  inter,
+  melody,
   permanentMarker,
   satoshi,
 } from "../styles/fonts";
+import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
 import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
 
@@ -27,6 +27,7 @@ export const metadata = {
   title: {
     template: "%s | Pat Sullivan Development",
   },
+  metadataBase: new URL("https://pat-sullivan.com"),
 };
 
 export default function RootLayout({

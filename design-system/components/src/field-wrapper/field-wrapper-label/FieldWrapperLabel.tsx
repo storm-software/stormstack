@@ -31,7 +31,7 @@ export const FieldWrapperLabel = ({
       <label
         className={clsx(
           getFieldTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),
-          "text-label-1 font-label-1 leading-label-1 antialiased",
+          "text-label-1 font-label-1 leading-label-1 antialiased pointer-events-none",
           { "font-bold": !isEmptyObject(errors) }
         )}
         htmlFor={name}>

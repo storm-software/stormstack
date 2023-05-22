@@ -50,6 +50,7 @@ libs/**/obj
 
 tools/**/out-test/**
 tools/openapi/**/target/**
+tools/**/*.properties
 
 # Generated Docusaurus files
 .docusaurus/

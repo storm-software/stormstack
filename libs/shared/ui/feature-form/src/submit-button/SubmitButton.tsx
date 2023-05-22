@@ -12,6 +12,7 @@ export type SubmitButtonProps = Omit<ButtonProps, "type">;
 
 export function SubmitButton({
   children,
+  className,
   disabled = false,
   inverse,
   ...props
@@ -21,6 +22,7 @@ export function SubmitButton({
   return (
     <Button
       type={ButtonTypes.SUBMIT}
+      className={clsx({"cursor-wait": isSubmitting}, className)}
       hoverText="Submit"
       inverse={inverse}
       disabled={disabled || isSubmitting || !isValid}
@@ -28,7 +30,7 @@ export function SubmitButton({
       <div className="flex flex-row items-center gap-1">
         <div className="flex flex-1">{children}</div>
         {isSubmitting && (
-          <div role="status">
+          <div role="status" className="pointer-events-none">
             <svg
               aria-hidden="true"
               className={clsx(

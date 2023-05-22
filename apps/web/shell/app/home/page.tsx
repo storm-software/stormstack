@@ -9,7 +9,7 @@ import {
 import Client from "./client";
 
 export const PAGE_ID = "home";
-export const revalidate = 0;
+// export const revalidate = 0;
 
 export default async function Page() {
   return (

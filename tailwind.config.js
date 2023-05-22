@@ -7,7 +7,6 @@ const { createGlobPatternsForDependencies } = require("@nrwl/react/tailwind");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   "content": [
-
     join(__dirname, "apps/web/shell/app/**/*!(*.stories|*.spec).{ts,tsx,html}"),
     join(__dirname, "libs/**/ui/**/*!(*.stories|*.spec).{ts,tsx,html}"),
     join(
@@ -55,9 +54,13 @@ module.exports = {
       "zIndex": {
         ...extend.zIndex,
         "bg": 2,
-        "scroll": 105,
+        "scroll": 90,
+        "content-low": 100,
+        "content-mid-low": 105,
         "content": 110,
-        "footer": 120,
+        "content-mid-high": 115,
+        "content-high": 120,
+        "footer": 130,
         "like": 140,
         "nav": 145,
         "nav-buttons": 150,
@@ -75,10 +78,14 @@ module.exports = {
         "wave3": "wave 20s -1s linear infinite",
         "bubble": "bubble 10s ease-in-out infinite",
         "blink": "blink 1.5s steps(2) infinite",
+        "blink-eye": "blink-eye 6s ease-out infinite",
+        "taunt": "taunt 4s linear infinite",
         "spin-slow": "spin 5s linear infinite",
         "shine1": "shine 4s ease-in-out infinite",
         "shine2": "shine 5s ease-in-out infinite",
         "shine3": "shine 6s ease-in-out infinite",
+        "rotate-ufo": "rotate-ufo 6s linear infinite",
+        "float-ufo-child": "float-rocket 5s ease-in-out infinite",
         "float-moon": "float-moon 8s ease-in-out infinite",
         "float-rocket": "float-rocket 6s ease-in-out infinite",
         "exhaust1": "exhaust 1s ease-in-out infinite",
@@ -127,6 +134,25 @@ module.exports = {
         "blink": {
           "0%": { "opacity": 0 },
         },
+        "blink-eye": {
+          "0%": { "transform": "scale(0)" },
+          "90%": { "transform": "scale(0)" },
+          "95%": { "transform": "scale(2)" },
+          "100%": { "transform": "scale(0)" },
+        },
+        "taunt": {
+          "0%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
+          "40%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
+          "45%": { "transform": "scaleX(2)", "transform": "scaleY(10)", "borderRadius": "100%" },
+          "47%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
+          "49%": { "transform": "scaleX(2)", "transform": "scaleY(10)", "borderRadius": "100%" },
+          "55%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
+          "57%": { "transform": "scaleX(2)", "transform": "scaleY(10)", "borderRadius": "100%" },
+          "60%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
+          "65%": { "transform": "scaleX(2)", "transform": "scaleY(10)", "borderRadius": "100%" },
+          "69%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
+          "100%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
+        },
         "shine": {
           "0%": { "transform": "scale(0)" },
           "50%": { "transform": "scale(1)" },
@@ -134,13 +160,20 @@ module.exports = {
         },
         "float-moon": {
           "0%": { "transform": "translateY(0)" },
-          "50%": { "transform": "translateY(0.8rem)" },
+          "50%": { "transform": "translateY(1rem)" },
           "100%": { "transform": "translateY(0)" },
         },
         "float-rocket": {
           "0%": { "transform": "translateY(0)" },
-          "50%": { "transform": "translateY(1.2rem)" },
+          "50%": { "transform": "translateY(1.4rem)" },
           "100%": { "transform": "translateY(0)" },
+        },
+        "rotate-ufo": {
+          "0%": { "rotate": "8deg" },
+          "25%": { "rotate": "0deg" },
+          "50%": { "rotate": "-8deg" },
+          "75%": { "rotate": "0deg" },
+          "100%": { "rotate": "8deg" },
         },
         "exhaust": {
           "0%": { "transform": "scale(0)", "opacity": 0.2 },

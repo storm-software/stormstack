@@ -1,6 +1,13 @@
+import {
+  ApiException,
+  EnvConfigurationError,
+} from "@open-system/core-typescript-utilities";
 import { PropsWithBase } from "@open-system/design-system-components";
-import { connection } from "../../redis/connection";
-import { getRepository } from "../../redis/reaction-repository";
+import {
+  DOMAIN_NAME,
+  HttpErrorResult,
+  HttpPaginatedResult,
+} from "../api/reactions/route";
 import LikeButtonClient from "./LikeButtonClient";
 
 // export const revalidate = 60;
@@ -14,21 +21,46 @@ export default async function LikeButton({
   contentId,
   ...props
 }: LikeButtonProps) {
-  const repository = await getRepository(connection);
+  /*const repository = await getRepository(connection);
   const result = await repository
     .search()
     .where("contentId")
     .equals(contentId)
     .and("type")
     .equals("like")
-    .return.all();
+    .return.all();*/
 
+  if (!process.env.NEXT_PUBLIC_REACTION_QUERY_URL) {
+    throw new EnvConfigurationError("NEXT_PUBLIC_REACTION_QUERY_URL");
+  }
+
+  const url = new URL(process.env.NEXT_PUBLIC_REACTION_QUERY_URL);
+  url.pathname = "/api/reactions"
+  url.searchParams.set("contentId", contentId);
+  url.searchParams.set("type", "like");
+
+  const response = await fetch(url, {
+    next: { tags: [DOMAIN_NAME] },
+  });
+  if (!response.ok) {
+    const error = (await response.json()) as HttpErrorResult;
+    throw new ApiException(
+      response.status,
+      error.errorMessage,
+      error,
+      response.headers
+    );
+  }
+
+  const result = (await response.json()) as HttpPaginatedResult;
   return (
     <div className="fixed right-0 top-3/4 z-like">
       <LikeButtonClient
         {...props}
         contentId={contentId}
-        count={result.length > 0 ? (result[0].count as number) ?? 0 : 0}
+        count={
+          result.data.length > 0 ? (result.data[0].count as number) ?? 0 : 0
+        }
       />
     </div>
   );

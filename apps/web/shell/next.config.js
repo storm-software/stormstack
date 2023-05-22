@@ -1,16 +1,20 @@
-const { withNx } = require("@nrwl/next/plugins/with-nx");
-const flowRight = require("lodash/flowRight");
+const { composePlugins, withNx } = require("@nx/next");
+// const flowRight = require("lodash/flowRight");
 // const withI18n = require("./config/withI18n");
 // const withEnv = require("./config/withEnv");
-const withSentry = require("./config/withSentry");
-const { CONTACT_URL, REACTION_API_HOST } = process.env;
+//const withSentry = require("./config/withSentry");
+const { withSentryConfig } = require("@sentry/nextjs");
+// const { CONTACT_URL, ABLY_API_KEY } = process.env;
 
 /**
- * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
+ * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
   basePath: "",
+
   nx: {
+    // Set this to true if you would like to to use SVGR
+    // See: https://github.com/gregberge/svgr
     svgr: false,
   },
 
@@ -18,13 +22,16 @@ const nextConfig = {
   reactStrictMode: true,
 
   experimental: {
+    typedRoutes: true,
     serverActions: true,
+    serverComponentsExternalPackages: ["redis", "redis-om"],
+  },
 
-    serverComponentsExternalPackages: ["redis"],
+  devIndicators: {
+    buildActivityPosition: "bottom-right",
   },
 
   transpilePackages: [
-    "react-redux",
     "framer-motion",
     "@open-system/core-typescript-utilities",
     "@open-system/design-system-components",
@@ -93,6 +100,26 @@ const nextConfig = {
     };
   },
 
+  sentry: {
+    // For all available options, see:
+    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+    // Upload a larger set of source maps for prettier stack traces (increases build time)
+    widenClientFileUpload: true,
+
+    // Transpiles SDK to be compatible with IE11 (increases bundle size)
+    transpileClientSDK: true,
+
+    // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
+    tunnelRoute: "/monitoring",
+
+    // Hides source maps from generated client bundles
+    hideSourceMaps: true,
+
+    // Automatically tree-shake Sentry logger statements to reduce bundle size
+    disableLogger: true,
+  },
+
   async redirects() {
     return [
       {
@@ -104,4 +131,30 @@ const nextConfig = {
   },
 };
 
-module.exports = flowRight([withNx])(nextConfig);
+const plugins = [
+  // require("@next/mdx")(),
+  withNx,
+  /*config =>
+    withSentryConfig(
+      config,
+      {
+        // For all available options, see:
+        // https://github.com/getsentry/sentry-webpack-plugin#options
+
+        // Suppresses source map uploading logs during build
+        org: process.env.SENTRY_ORGANIZATION,
+        project: process.env.SENTRY_PROJECT,
+
+        silent: false, // Suppresses all logs
+
+        // For all available options, see:
+        // https://github.com/getsentry/sentry-webpack-plugin#options.
+        // Will disable release creation and source map upload during local dev
+        dryRun: false,
+        disableServerWebpackPlugin: false,
+        disableClientWebpackPlugin: false,
+      }
+    ),*/
+];
+
+module.exports = composePlugins(...plugins)(nextConfig);

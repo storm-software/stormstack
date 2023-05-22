@@ -23,6 +23,7 @@ import {
   getBorderRadius,
   getDefaultText,
   getTextColor,
+  getCursor
 } from "./Button.utils";
 
 export type ButtonProps = PropsWithBase<
@@ -125,6 +126,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         disabled={disabled}
         className={clsx(
+          getCursor(disabled),
           getBackgroundColor(disabled, variant),
           getBorderRadius(rounding),
           {
@@ -156,7 +158,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           <div
             className={clsx(
               getBorderRadius(rounding),
-              "absolute top-0 left-0 h-full w-full overflow-hidden bg-transparent p-1.5"
+              "absolute left-0 top-0 h-full w-full overflow-hidden bg-transparent p-1.5"
             )}>
             <div
               className={clsx(
@@ -244,7 +246,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                           ButtonTransitionDirections.TOP &&
                           inverse)),
                   },
-                  "absolute top-0 left-0 bg-transparent transition duration-300 ease-in-out"
+                  "absolute left-0 top-0 bg-transparent transition duration-300 ease-in-out"
                 )}>
                 {(transitionDirection !== ButtonTransitionDirections.NONE ||
                   inverse) && (

@@ -101,7 +101,7 @@ export default function Client() {
 
         <Aside />
 
-        <main className="flex snap-y snap-proximity flex-col gap-16">
+        <main className="flex snap-y snap-mandatory flex-col gap-16">
           <div className="snap-center snap-always scroll-px-9">
             <Introduction />
           </div>

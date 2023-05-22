@@ -9,3 +9,4 @@ export * from "./result";
 export * from "./type-checks";
 export * from "./env-fns";
 export * from "./date-fns";
+export * from "./integer-fns";

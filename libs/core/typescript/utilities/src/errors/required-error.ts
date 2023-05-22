@@ -7,7 +7,7 @@ import { BaseError } from "./base-error";
  * @extends {Error}
  */
 export class RequiredError extends BaseError {
-  public name = "RequiredError";
+  public name = "Required Fields Error";
 
   constructor(
     public field: string,

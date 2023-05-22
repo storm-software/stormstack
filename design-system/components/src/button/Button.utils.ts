@@ -32,6 +32,13 @@ export function getTextColor(disabled: boolean, variant: ButtonVariants) {
     : "text-primary";
 }
 
+export function getCursor(disabled: boolean) {
+  return disabled
+    ? "cursor-not-allowed"
+    : "cursor-pointer";
+}
+
+
 export function getHoverTextColor(variant: ButtonVariants) {
   return variant === ButtonVariants.GRADIENT ? "text-primary" : "text-inverse";
 }
