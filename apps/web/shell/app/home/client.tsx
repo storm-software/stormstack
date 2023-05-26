@@ -106,12 +106,12 @@ export default function Client() {
 
   <Aside />*/}
 
-{isCovered && (
-        <><div className="snap-center snap-always scroll-px-9">
-        <Introduction />
-      </div>
+      {isCovered && (
+        <>
+          <div className="snap-center snap-always scroll-px-9">
+            <Introduction />
+          </div>
 
-      
           <HorizontalSeparator />
 
           <div className="snap-center snap-always scroll-px-9">

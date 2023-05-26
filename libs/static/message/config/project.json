@@ -4,13 +4,6 @@
   "sourceRoot": "libs/static/message/config/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/static/message/config/**/*.ts"]
-      }
-    }
   },
   "tags": []
 }

@@ -4,13 +4,6 @@
   "sourceRoot": "libs/reaction/config/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/reaction/config/**/*.ts"]
-      }
-    }
   },
   "tags": []
 }

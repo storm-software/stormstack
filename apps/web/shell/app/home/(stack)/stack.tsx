@@ -46,27 +46,27 @@ export default function Stack() {
               variants={list}
               transition={{ duration: 1, delay: 1 }}>
               <StackLayer
-                className="absolute top-[600px] left-[25%] z-10"
+                className="absolute left-[25%] top-[600px] z-10"
                 header="Hardware"
                 delay={0.4}
               />
               <StackLayer
-                className="absolute top-[525px] left-[25%] z-20"
+                className="absolute left-[25%] top-[525px] z-20"
                 header="Database"
                 delay={0.3}
               />
               <StackLayer
-                className="absolute top-[450px] left-[25%] z-30"
+                className="absolute left-[25%] top-[450px] z-30"
                 header="Server-Side"
                 delay={0.2}
               />
               <StackLayer
-                className="absolute top-[375px] left-[25%] z-40"
+                className="absolute left-[25%] top-[375px] z-40"
                 header="Client-Side"
                 delay={0.1}
               />
               <StackLayer
-                className="absolute top-[300px] left-[25%] z-50"
+                className="absolute left-[25%] top-[300px] z-50"
                 header="Design System"
                 delay={0}
               />
