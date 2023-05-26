@@ -18,14 +18,14 @@ export default function LikeButtonClient(props: LikeButtonClientProps) {
       "EventSource" in window &&
       process.env.NEXT_PUBLIC_REACTION_PUBLISHER_URL
     ) {
-      const eventSource = new EventSource(
+      /*const eventSource = new EventSource(
         process.env.NEXT_PUBLIC_REACTION_PUBLISHER_URL
       );
       eventSource.onmessage = () => {
         startTransition(() => {
           router.refresh();
         });
-      };
+      };*/
     }
   }, [router]);
 

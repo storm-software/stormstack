@@ -120,7 +120,7 @@ const nextConfig = {
     disableLogger: true,
   },
 
-  async redirects() {
+  /*async redirects() {
     return [
       {
         source: "/",
@@ -128,7 +128,7 @@ const nextConfig = {
         permanent: true,
       },
     ];
-  },
+  },*/
 };
 
 const plugins = [

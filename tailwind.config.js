@@ -54,6 +54,7 @@ module.exports = {
       "zIndex": {
         ...extend.zIndex,
         "bg": 2,
+        "content-bg": 80,
         "scroll": 90,
         "content-low": 100,
         "content-mid-low": 105,
@@ -68,6 +69,7 @@ module.exports = {
         "notification": 180,
         "progress": 200,
         "loading": 250,
+        "highest": 999,
       },
       "animation": {
         ...extend.animation,
@@ -77,25 +79,12 @@ module.exports = {
         "wave2": "wave 22s linear reverse infinite",
         "wave3": "wave 20s -1s linear infinite",
         "bubble": "bubble 10s ease-in-out infinite",
-        "blink": "blink 1.5s steps(2) infinite",
-        "blink-eye": "blink-eye 6s ease-out infinite",
-        "taunt": "taunt 4s linear infinite",
         "spin-slow": "spin 5s linear infinite",
-        "shine1": "shine 4s ease-in-out infinite",
-        "shine2": "shine 5s ease-in-out infinite",
-        "shine3": "shine 6s ease-in-out infinite",
-        "rotate-ufo": "rotate-ufo 6s linear infinite",
-        "float-ufo-child": "float-rocket 5s ease-in-out infinite",
-        "float-moon": "float-moon 8s ease-in-out infinite",
-        "float-rocket": "float-rocket 6s ease-in-out infinite",
-        "exhaust1": "exhaust 1s ease-in-out infinite",
-        "exhaust2": "exhaust 2s ease-in-out infinite",
-        "exhaust3": "exhaust 3s ease-in-out infinite",
-        "fog1": "fog 6s ease-in infinite",
-        "fog2": "fog 12s ease-in infinite",
-        "fog3": "fog 18s ease-in infinite",
-        "fog4": "fog 24s ease-in infinite",
-        "fog5": "fog 32s ease-in infinite",
+        "tv-static": "tv-static 1s steps(8,end) infinite both",
+        "loading": "loading 2s ease-in-out infinite",
+        "shine": "shine 6s ease-in-out infinite",
+        "flicker": "flicker 2s ease-out 0.15s both",
+        "flicker2": "flicker 1.5s ease-out 0.15s both",
         "comet1": "comet1 15s linear 3s infinite",
         "comet2": "comet2 10s linear 8s infinite",
       },
@@ -131,69 +120,115 @@ module.exports = {
             "opacity": 0,
           },
         },
-        "blink": {
-          "0%": { "opacity": 0 },
-        },
-        "blink-eye": {
-          "0%": { "transform": "scale(0)" },
-          "90%": { "transform": "scale(0)" },
-          "95%": { "transform": "scale(2)" },
-          "100%": { "transform": "scale(0)" },
-        },
-        "taunt": {
-          "0%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
-          "40%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
-          "45%": { "transform": "scaleX(2)", "transform": "scaleY(10)", "borderRadius": "100%" },
-          "47%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
-          "49%": { "transform": "scaleX(2)", "transform": "scaleY(10)", "borderRadius": "100%" },
-          "55%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
-          "57%": { "transform": "scaleX(2)", "transform": "scaleY(10)", "borderRadius": "100%" },
-          "60%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
-          "65%": { "transform": "scaleX(2)", "transform": "scaleY(10)", "borderRadius": "100%" },
-          "69%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
-          "100%": { "transform": "scaleX(1)", "transform": "scaleY(1)", "borderRadius": "0%" },
+        "loading": {
+          "0%": { "transform": "translateX(0)" },
+          "17%": { "transform": "translateX(100%)" },
+          "33%": { "transform": "translateX(100%)" },
+          "50%": { "transform": "translateX(0)" },
+          "67%": { "transform": "translateX(-100%)" },
+          "83%": { "transform": "translateX(-100%)" },
+          "100%": { "transform": "translateX(0%)" },
         },
         "shine": {
-          "0%": { "transform": "scale(0)" },
-          "50%": { "transform": "scale(1)" },
-          "100%": { "transform": "scale(0)" },
+          "0%": { "transform": "scale(1)" },
+          "50%": { "transform": "scale(0.8)" },
+          "100%": { "transform": "scale(1)" },
         },
-        "float-moon": {
-          "0%": { "transform": "translateY(0)" },
-          "50%": { "transform": "translateY(1rem)" },
-          "100%": { "transform": "translateY(0)" },
-        },
-        "float-rocket": {
-          "0%": { "transform": "translateY(0)" },
-          "50%": { "transform": "translateY(1.4rem)" },
-          "100%": { "transform": "translateY(0)" },
-        },
-        "rotate-ufo": {
-          "0%": { "rotate": "8deg" },
-          "25%": { "rotate": "0deg" },
-          "50%": { "rotate": "-8deg" },
-          "75%": { "rotate": "0deg" },
-          "100%": { "rotate": "8deg" },
-        },
-        "exhaust": {
-          "0%": { "transform": "scale(0)", "opacity": 0.2 },
-          "75%": { "transform": "scale(1)", "opacity": 1 },
-          "100%": { "transform": "scale(1)", "opacity": 0.2 },
-        },
-        "fog": {
+        "tv-static": {
           "0%": {
-            "opacity": 0,
-            "transform": "scale(1)",
+            "transform": "translateX(0px,0px)",
           },
-          "25%": {
-            "opacity": 1,
+          "10%": {
+            "transform": "translate(-100px, 100px)",
           },
-          "75%": {
-            "opacity": 1,
+          "20%": {
+            "transform": "translate(150px, -100px)",
+          },
+          "30%": {
+            "transform": "translate(-100px,100px)",
+          },
+          "40%": {
+            "transform": "translate(100px, -150px)",
+          },
+          "50%": {
+            "transform": "translate(-100px, 200px)",
+          },
+          "60%": {
+            "transform": "translate(-200px, -100px)",
+          },
+          "70%": {
+            "transform": "translateY(50px, 100px)",
+          },
+          "80%": {
+            "transform": "translate(100px, -150px)",
+          },
+          "90%": {
+            "transform": "translate(0px, 200px)",
           },
           "100%": {
-            "transform": "scale(3)",
+            "transform": "translate(-100px, 100px)",
+          },
+        },
+        "flicker": {
+          "0%": {
             "opacity": 0,
+          },
+          "10%": {
+            "opacity": 0,
+          },
+          "10.1%": {
+            "opacity": 1,
+          },
+          "20.6%": {
+            "opacity": 0,
+          },
+          "30%": {
+            "opacity": 0,
+          },
+          "30.1%": {
+            "opacity": 1,
+          },
+          "30.5%": {
+            "opacity": 1,
+          },
+          "30.6%": {
+            "opacity": 0,
+          },
+          "50%": {
+            "opacity": 1,
+          },
+          "55%": {
+            "opacity": 1,
+          },
+          "55.1%": {
+            "opacity": 0,
+          },
+          "60%": {
+            "opacity": 1,
+          },
+          "60.1%": {
+            "opacity": 0,
+          },
+          "65%": {
+            "opacity": 0,
+          },
+          "65.1%": {
+            "opacity": 1,
+          },
+          "77%": {
+            "opacity": 0,
+          },
+          "77.1%": {
+            "opacity": 1,
+          },
+          "85%": {
+            "opacity": 1,
+          },
+          "85.1%": {
+            "opacity": 0,
+          },
+          "100%": {
+            "opacity": 1,
           },
         },
         "comet1": {

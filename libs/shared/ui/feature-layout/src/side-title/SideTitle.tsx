@@ -44,7 +44,7 @@ export function SideTitle({ className, ...props }: BaseComponentProps) {
   return (
     <AnimatePresence>
       <motion.div
-        className="sticky top-[22rem] left-16 z-0 h-0 w-0 whitespace-nowrap"
+        className="sticky left-16 top-[21.6rem] z-0 h-0 w-0 whitespace-nowrap"
         variants={variants}
         initial={false}
         animate={isHidden ? "hidden" : "shown"}>

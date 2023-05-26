@@ -28,7 +28,7 @@ export function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
         width={750}
         fill="#334155"
       />
-      <div className="flex min-h-screen w-full flex-row items-center justify-center gap-10">
+      <div className="flex h-full w-full flex-row items-center justify-center gap-10">
         <Modal title="Something went wrong!" variant={ModalVariants.ERROR}>
           <div className="flex flex-col items-center gap-6">
             <MessageBar

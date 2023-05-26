@@ -1,14 +1,9 @@
 "use client";
 
-import {
-  ScrollArrowIndicator,
-  ScrollProgressBar,
-} from "@open-system/shared-ui-feature-layout";
+import { useScroll } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HorizontalSeparator from "../(components)/horizontal-separator.server";
-import Aside from "../aside";
-import Header from "./(header)/header";
 import Introduction from "./(introduction)/introduction";
 
 const Stack = dynamic(() => import("./(stack)/stack"), {
@@ -68,7 +63,24 @@ const Architecture = dynamic(() => import("./(architecture)/architecture"), {
 export default function Client() {
   const ref = useRef<HTMLDivElement>(null);
 
-  const [viewportHeight, setViewportHeight] = useState(0);
+  const [isCovered, setIsCovered] = useState(false);
+
+  const { scrollYProgress } = useScroll();
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
+      if (isCovered && !scrollY) {
+        setIsCovered(false);
+      } else if (!isCovered && scrollY) {
+        setIsCovered(true);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [isCovered, scrollYProgress]);
+
+  /*const [viewportHeight, setViewportHeight] = useState(0);
   const onResize = useCallback((entries: ResizeObserverEntry[]) => {
     for (const entry of entries) {
       setViewportHeight(entry.contentRect.width);
@@ -84,28 +96,22 @@ export default function Client() {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [onResize]);
+  }, [onResize]);*/
 
   return (
-    <div ref={ref}>
-      <ScrollProgressBar />
-
-      <div className="z-scroll">
-        <ScrollArrowIndicator viewportHeight={viewportHeight} />
-      </div>
-
-      <div className="flex flex-col">
-        <header className="mb-60">
-          <Header />
+    <main ref={ref} className="flex snap-y snap-mandatory flex-col gap-16">
+      {/*<header className="mb-60">
+          <Header isCovered={isCovered} />
         </header>
 
-        <Aside />
+  <Aside />*/}
 
-        <main className="flex snap-y snap-mandatory flex-col gap-16">
-          <div className="snap-center snap-always scroll-px-9">
-            <Introduction />
-          </div>
+{isCovered && (
+        <><div className="snap-center snap-always scroll-px-9">
+        <Introduction />
+      </div>
 
+      
           <HorizontalSeparator />
 
           <div className="snap-center snap-always scroll-px-9">
@@ -121,8 +127,8 @@ export default function Client() {
           <div className="mt-20 snap-center snap-always scroll-px-9">
             <Architecture />
           </div>
-        </main>
-      </div>
-    </div>
+        </>
+      )}
+    </main>
   );
 }

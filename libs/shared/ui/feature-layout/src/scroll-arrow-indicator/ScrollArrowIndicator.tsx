@@ -2,13 +2,12 @@
 
 import { ArrowDownIcon } from "@heroicons/react/24/outline";
 import { BaseComponentProps } from "@open-system/design-system-components";
-import { AnimatePresence, motion, useScroll } from "framer-motion";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const SCROLL_Y_THRESHOLD = 1000;
 
 export interface ScrollArrowIndicatorProps extends BaseComponentProps {
-  viewportHeight: number;
+  viewportHeight?: number;
   scrollYThreshold?: number;
   isHidden?: boolean;
 }
@@ -19,7 +18,7 @@ export function ScrollArrowIndicator({
   scrollYThreshold = SCROLL_Y_THRESHOLD,
   ...props
 }: ScrollArrowIndicatorProps) {
-  const { scrollYProgress } = useScroll();
+  /*const { scrollYProgress } = useScroll();
   const [hideScrollArrow, setHideScrollArrow] = useState(false);
   useEffect(() => {
     const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
@@ -48,13 +47,13 @@ export function ScrollArrowIndicator({
     scrollYProgress,
     scrollYThreshold,
     viewportHeight,
-  ]);
+  ]);*/
 
   return (
     <AnimatePresence>
-      {(!hideScrollArrow || isHidden) && (
+      {!isHidden && (
         <motion.div
-          className="fixed -left-16 -bottom-16 z-scroll h-52 w-52 rounded-full border-[6px] border-secondary"
+          className="fixed -bottom-16 -left-16 z-scroll h-52 w-52 rounded-full border-[6px] border-secondary"
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0 }}

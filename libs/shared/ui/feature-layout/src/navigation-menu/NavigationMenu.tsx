@@ -10,7 +10,7 @@ import {
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/shared-ui-components";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { ReactElement } from "react";
+import { ReactElement, useState, useCallback } from "react";
 import Logo from "../../../../../../assets/box-logo-white.svg";
 import { NavigationMenuButton } from "./navigation-menu-button/NavigationMenuButton";
 import {
@@ -55,8 +55,8 @@ export function NavigationMenu({
   footer,
   ...props
 }: NavigationMenuProps) {
-  const [opened, setOpened] = React.useState(false);
-  const onClick = React.useCallback(() => {
+  const [opened, setOpened] = useState(false);
+  const onClick = useCallback(() => {
     setOpened(!opened);
   }, [setOpened, opened]);
 
@@ -128,20 +128,20 @@ export function NavigationMenu({
         </AnimatePresence>
 
         {opened && (
-          <>
-            <div className="absolute -bottom-14 h-10 w-10 animate-bubble rounded-full bg-white opacity-40" />
-            <div className="absolute -bottom-12 left-[40%] h-3 w-3 animate-bubble rounded-full bg-white opacity-10 duration-[5s]" />
-            <div className="absolute -bottom-10 left-[50%] h-12 w-12 animate-bubble rounded-full bg-white opacity-50 duration-[20s]" />
-            <div className="absolute -bottom-16 left-[70%] h-4 w-4 animate-bubble rounded-full bg-white opacity-20 duration-[8s]" />
-            <div className="absolute -bottom-20 left-[10%] h-20 w-20 animate-bubble rounded-full bg-white opacity-60 delay-[2s] duration-[20s]" />
-            <div className="absolute -bottom-28 left-[30%] h-12 w-12 animate-bubble rounded-full bg-white opacity-10 delay-[2s] duration-[5s]" />
-            <div className="absolute -bottom-36 left-[50%] h-8 w-8 animate-bubble rounded-full bg-white opacity-30 delay-[2s]" />
-            <div className="absolute -bottom-24 left-[70%] h-6 w-6 animate-bubble rounded-full bg-white opacity-20 delay-[2s] duration-[8s]" />
-            <div className="absolute -bottom-48 left-[20%] h-6 w-6 animate-bubble rounded-full bg-white opacity-10 delay-[4s] duration-[5s]" />
-            <div className="absolute -bottom-52 left-[60%] h-12 w-12 animate-bubble rounded-full bg-white opacity-30 delay-[4s]" />
-            <div className="absolute -bottom-44 left-[70%] h-4 w-4 animate-bubble rounded-full bg-white opacity-20 delay-[4s] duration-[8s]" />
-            <div className="absolute -bottom-56 left-[80%] h-16 w-16 animate-bubble rounded-full bg-white opacity-60 delay-[4s] duration-[20s]" />
-          </>
+          <div className="absolute animate-bubble bottom-0 left-0 w-full">
+            <div className="absolute -bottom-14 h-10 w-10 rounded-full bg-white opacity-50" />
+            <div className="absolute -bottom-12 left-[40%] h-3 w-3 rounded-full bg-white opacity-50" />
+            <div className="absolute -bottom-10 left-[50%] h-12 w-12 rounded-full bg-white opacity-50" />
+            <div className="absolute -bottom-16 left-[70%] h-4 w-4 rounded-full bg-white opacity-60" />
+            <div className="absolute -bottom-20 left-[10%] h-20 w-20 rounded-full bg-white opacity-60" />
+            <div className="absolute -bottom-28 left-[30%] h-12 w-12 rounded-full bg-white opacity-50" />
+            <div className="absolute -bottom-36 left-[50%] h-8 w-8 rounded-full bg-white opacity-50" />
+            <div className="absolute -bottom-24 left-[70%] h-6 w-6 rounded-full bg-white opacity-70" />
+            <div className="absolute -bottom-48 left-[20%] h-6 w-6 rounded-full bg-white opacity-60" />
+            <div className="absolute -bottom-52 left-[60%] h-12 w-12 rounded-full bg-white opacity-50" />
+            <div className="absolute -bottom-44 left-[70%] h-4 w-4 rounded-full bg-white opacity-60" />
+            <div className="absolute -bottom-56 left-[80%] h-16 w-16 rounded-full bg-white opacity-60" />
+          </div>
         )}
       </motion.div>
 

@@ -21,6 +21,11 @@ export type CardProps = PropsWithBase<{
    * An icon to display on the left side of the card
    */
   iconType?: string;
+
+  /**
+     * Event handler for card click event
+     */
+  onClick?: (event: MouseEvent) => void;
 }>;
 
 /**
@@ -32,6 +37,7 @@ export const Card = ({
   details,
   iconType,
   className,
+  onClick
 }: CardProps) => {
   const [mousePosition, setMousePosition] = useState<{
     x: number;
@@ -99,12 +105,13 @@ export const Card = ({
       onMouseMove={handleMouseMove}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
+      onClick={onClick}
       style={{
         rotateX: mousePosition.x * -30,
         rotateY: mousePosition.y * -20,
       }}
       className={clsx(
-        "group relative flex flex-row items-center gap-2 rounded-xl border-[1px] border-slate-500 bg-gradient-to-bl from-bg-1 via-bg-1 to-black transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-indigo-500/50",
+        "group relative flex flex-row items-center gap-2 rounded-xl border-[1px] border-slate-500 bg-gradient-to-bl from-bg-1/.5 via-bg-1/.5 to-black/.5 backdrop-blur-[2px] transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-indigo-500/50",
         className
       )}>
       <div className="h-fit w-fit pl-6">

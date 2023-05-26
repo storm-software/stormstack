@@ -1,10 +1,12 @@
 import { BoxLogo } from "@open-system/shared-ui-components/box-logo";
 import { Link } from "@open-system/shared-ui-components/link";
 import { Footer } from "@open-system/shared-ui-feature-layout/footer";
+import { NavigationMenu } from "@open-system/shared-ui-feature-layout/navigation-menu";
 import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
-import React from "react";
+import { ReactNode } from "react";
+import Logo from "../../../../assets/box-logo-white.svg";
 import {
   antiqueOlive,
   anybody,
@@ -17,24 +19,75 @@ import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
 import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
 
-const NavHeader = dynamic(() => import("./nav-header"));
+// const Navigation = dynamic(() => import("./nav-header"));
 const CookiePolicyBanner = dynamic(
   () => import("./(components)/cookie-policy-banner.client")
 );
 
 export const metadata = {
+  colorScheme: "dark",
   themeColor: "#18181B",
   title: {
-    template: "%s | Pat Sullivan Development",
+    template: "%s - Pat Sullivan Development",
+    default: "Pat Sullivan Development",
   },
+  authors: [{ name: "Pat Sullivan", url: "https://pat-sullivan.com" }],
   metadataBase: new URL("https://pat-sullivan.com"),
+  description:
+    "A web application by New York based software developer Pat Sullivan with the purpose of highlighting the usage of modern frameworks.",
+  noindex: false,
+  nofollow: false,
+  canonical: "https://pat-sullivan.com",
+  generator: "Pat Sullivan",
+  applicationName: "Pat Sullivan Development",
+  referrer: "origin-when-cross-origin",
+  keywords: [
+    "Pat",
+    "Patrick",
+    "Sullivan",
+    "Development",
+    "software",
+    "architect",
+    "engineer",
+    "programming",
+    "coding",
+  ],
+  creator: "Pat Sullivan",
+  publisher: "Pat Sullivan",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IE",
+    url: "https://pat-sullivan.com",
+    title: "Pat Sullivan Development | Home",
+    description:
+      "A web application by New York based software developer Pat Sullivan with the purpose of highlighting the usage of modern frameworks.",
+    profile: {
+      firstName: "Pat",
+      lastName: "Sullivan",
+      username: "sullivanpj",
+      gender: "male",
+    },
+    images: [
+      {
+        url: "https://avatars.githubusercontent.com/u/99053093?s=400&u=54c2f5ea10abfa4418158e4fe0671c32adb7d3f6&v=4",
+        width: 800,
+        height: 600,
+        alt: "Pat Sullivan Development",
+        type: "image/jpeg",
+        secureUrl:
+          "https://avatars.githubusercontent.com/u/99053093?s=400&u=54c2f5ea10abfa4418158e4fe0671c32adb7d3f6&v=4",
+      },
+    ],
+    siteName: "Pat Sullivan Development",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html
       lang="en"
@@ -49,11 +102,30 @@ export default function RootLayout({
       )}>
       <head />
       <body className="relative h-fit min-h-screen">
-        <NavHeader />
+        <nav className="fixed top-0 z-nav h-0 w-full overflow-visible">
+          {/*<NotificationGroup />*/}
+
+          <NavigationMenu
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Contact", href: "/contact" },
+              { label: "About", href: "/about" },
+              { label: "Login", href: "/" },
+            ]}
+            footer={
+              <div className="relative flex flex-row-reverse items-center justify-between gap-4">
+                <SocialMediaLinks />
+                <Link className="absolute -bottom-5 left-[42%] h-[9.5rem] w-[10rem]">
+                  <Logo className="h-[9.5rem] w-[10rem]" />
+                </Link>
+              </div>
+            }
+          />
+        </nav>
 
         <div id="root-portal" />
 
-        <div className="h-fit w-full">{children}</div>
+        <div className="h-fit w-full">{props.children}</div>
 
         <CookiePolicyBanner />
 

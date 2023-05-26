@@ -11,6 +11,10 @@
   color: #fff; /* Gecko Browsers */
 }
 
+:host {
+  --title-texts: 3;
+}
+
 input:-webkit-autofill:not(:read-only),
 input:-webkit-autofill:focus:not(:read-only),
 textarea:-webkit-autofill:not(:read-only),
@@ -41,4 +45,79 @@ select:-webkit-autofill:focus:disabled {
 
 .flip-vertical {
   transform: rotateY(180deg);
+}
+
+.title-sub-text {
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.35);
+}
+
+.title-text h1 {
+  animation-delay: 0s;
+  font-weight: bold;
+  grid-row-start: 1;
+  grid-column-start: 1;
+  --title-text-height: calc(100% / var(--title-texts) - 1px);
+  --inverse-index: calc(calc(var(--title-texts) - 1) - var(--index));
+  --clip-top: calc(var(--title-text-height) * var(--index));
+  --clip-bottom: calc(var(--title-text-height) * var(--inverse-index));
+  clip-path: inset(var(--clip-top) 0 var(--clip-bottom) 0);
+  animation: title-text 300ms cubic-bezier(0.46, 0.29, 0, 1.24) 1 backwards
+      calc(var(--index) * 100ms),
+    glitch 2s ease infinite 2s alternate-reverse;
+}
+
+.title-text h1:nth-child(odd) {
+  --glitch-translate: 8px;
+}
+.title-text h1:nth-child(even) {
+  --glitch-translate: -8px;
+}
+
+#title-text-1 {
+  --index: 0;
+}
+#title-text-2 {
+  --index: 1;
+}
+#title-text-3 {
+  --index: 2;
+}
+
+.tv-static {
+  background: transparent url("../public/images/tv-static.png") 0 0;
+}
+
+@keyframes title-text {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%);
+    text-shadow: -2px 3px 0 red, 2px -3px 0 blue;
+  }
+  60% {
+    opacity: 0.5;
+    transform: translateX(50%);
+  }
+  80% {
+    transform: none;
+    opacity: 1;
+    text-shadow: 2px -3px 0 red, -2px 3px 0 blue;
+  }
+  100% {
+    text-shadow: none;
+  }
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: -2px 3px 0 red, 2px -3px 0 blue;
+    transform: translate(var(--glitch-translate));
+  }
+  2% {
+    text-shadow: 2px -3px 0 red, -2px 3px 0 blue;
+  }
+  4%,
+  100% {
+    text-shadow: none;
+    transform: none;
+  }
 }

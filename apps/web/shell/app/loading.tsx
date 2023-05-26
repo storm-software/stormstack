@@ -1,5 +1,5 @@
-import { PageLoading } from "@open-system/shared-ui-feature-layout/page-loading";
+import { AppLoading } from "@open-system/shared-ui-feature-layout/app-loading";
 
 export default function Loading() {
-  return <PageLoading />;
+  return <AppLoading />;
 }

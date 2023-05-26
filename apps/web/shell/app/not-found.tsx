@@ -1,3 +1,3 @@
 export default function NotFound() {
-  return "Couldn't find requested resource";
+  return <p className="text-primary">Couldn&apos;t find requested resource</p>;
 }

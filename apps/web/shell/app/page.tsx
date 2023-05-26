@@ -5,9 +5,6 @@ import {
   PROFILE_JSON_LD_DEFAULT,
 } from "../next-seo.config";
 
-export const metadata = {
-  title: "Home",
-};
 
 export default function Page() {
   return (

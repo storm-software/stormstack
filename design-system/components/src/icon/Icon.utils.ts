@@ -1,7 +1,9 @@
 import PostBox from "../../../../assets/icons/post-box.json";
 import Download from "../../../../assets/icons/download.json";
 import Pencil from "../../../../assets/icons/pencil.json";
-
+import Wrench from "../../../../assets/icons/wrench.json";
+import Bell from "../../../../assets/icons/bell.json";
+import List from "../../../../assets/icons/list.json";
 
 import { IconTypes } from "./Icon.types";
 
@@ -13,7 +15,16 @@ export function getIconData(iconType: string) {
 
         case IconTypes.PENCIL:
           return Pencil;
-        
+
+          case IconTypes.WRENCH:
+            return Wrench;
+
+            case IconTypes.BELL:
+              return Bell;
+
+              case IconTypes.LIST:
+                return List;
+
     case IconTypes.POST_BOX:
     default:
       return PostBox;
