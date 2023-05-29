@@ -4,5 +4,7 @@ export const IconTypes = {
   PENCIL: "pencil",
   WRENCH: "wrench",
   BELL: "bell",
-  LIST: "list"
+  LIST: "list",
+  ERROR_ALERT: "error-alert",
+  ARROW: "arrow",
 };

@@ -22,12 +22,14 @@ export function NavigationMenuButton({
   return (
     <Button
       onClick={onClick}
+      className="h-5 w-5"
       variant={ButtonVariants.GRADIENT}
       transitionDirection={ButtonTransitionDirections.NONE}
       rounding={ButtonCornerRoundingTypes.FULL}
+      noPadding={true}
       suppressHydrationWarning={true}>
-      <div className="ml-2">
-        <svg width="90" height="40" viewBox="0 0 25 25">
+      <div className="ml-1 mt-1">
+        <svg width="30" height="30" viewBox="0 0 25 25">
           <motion.path
             fill="transparent"
             stroke="white"

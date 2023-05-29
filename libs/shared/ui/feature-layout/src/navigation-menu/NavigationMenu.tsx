@@ -8,10 +8,13 @@ import {
   ButtonVariants,
   PropsWithBase,
 } from "@open-system/design-system-components";
-import { Link } from "@open-system/shared-ui-components";
+import {
+  BoxLogo,
+  ColorSchemeTypes,
+  Link,
+} from "@open-system/shared-ui-components";
 import { AnimatePresence, motion } from "framer-motion";
-import { ReactElement, useState, useCallback } from "react";
-import Logo from "../../../../../../assets/box-logo-white.svg";
+import { ReactElement, useCallback, useState } from "react";
 import { NavigationMenuButton } from "./navigation-menu-button/NavigationMenuButton";
 import {
   NavigationMenuItem,
@@ -120,7 +123,10 @@ export function NavigationMenu({
                 footer
               ) : (
                 <Link className="mr-16 h-fit w-fit">
-                  <Logo className="h-[12rem]" />
+                  <BoxLogo
+                    className="h-[14rem]"
+                    colorScheme={ColorSchemeTypes.LIGHT}
+                  />
                 </Link>
               )}
             </motion.div>
@@ -128,7 +134,7 @@ export function NavigationMenu({
         </AnimatePresence>
 
         {opened && (
-          <div className="absolute animate-bubble bottom-0 left-0 w-full">
+          <div className="absolute bottom-0 left-0 w-full animate-bubble">
             <div className="absolute -bottom-14 h-10 w-10 rounded-full bg-white opacity-50" />
             <div className="absolute -bottom-12 left-[40%] h-3 w-3 rounded-full bg-white opacity-50" />
             <div className="absolute -bottom-10 left-[50%] h-12 w-12 rounded-full bg-white opacity-50" />
@@ -145,28 +151,20 @@ export function NavigationMenu({
         )}
       </motion.div>
 
-      <motion.div
-        className="absolute z-nav-buttons flex flex-row gap-6 px-8 pt-5"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{
-          duration: 0.8,
-          delay: 0,
-          ease: [0, 0.71, 0.2, 1.01],
-        }}>
-        <Link href="/contact">
+      <div className="absolute z-nav-buttons flex flex-row gap-6 px-8 pt-5">
+        {/*<Link href="/contact">*/}
           <Button
+            className="w-8"
             variant={ButtonVariants.PRIMARY}
             glowType={ButtonGlowTypes.ALWAYS}
             rounding={ButtonCornerRoundingTypes.FULL}
-            inverse={true}
+
             hoverText="Let's talk">
             Contact
           </Button>
-        </Link>
-
+        {/*</Link>*/}
         <NavigationMenuButton opened={opened} onClick={onClick} />
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

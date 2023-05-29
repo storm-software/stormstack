@@ -33,14 +33,8 @@ const nextConfig = {
 
   transpilePackages: [
     "framer-motion",
-    "@open-system/core-typescript-utilities",
+    "react-lottie",
     "@open-system/design-system-components",
-    "@open-system/shared-ui-components",
-    "@open-system/shared-ui-data-access",
-    "@open-system/shared-ui-feature-form",
-    "@open-system/contact-ui-data-access",
-    "@open-system/reaction-ui-data-access",
-    "@open-system/portfolio-ui-feature-resume",
   ],
 
   // Disable linting during build => the linter may have optional dev dependencies
@@ -100,7 +94,7 @@ const nextConfig = {
     };
   },
 
-  sentry: {
+  /*sentry: {
     // For all available options, see:
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
@@ -118,7 +112,7 @@ const nextConfig = {
 
     // Automatically tree-shake Sentry logger statements to reduce bundle size
     disableLogger: true,
-  },
+  },*/
 
   /*async redirects() {
     return [

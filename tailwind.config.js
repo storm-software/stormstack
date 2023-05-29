@@ -61,6 +61,7 @@ module.exports = {
         "content": 110,
         "content-mid-high": 115,
         "content-high": 120,
+        "title": 125,
         "footer": 130,
         "like": 140,
         "nav": 145,
@@ -82,7 +83,7 @@ module.exports = {
         "spin-slow": "spin 5s linear infinite",
         "tv-static": "tv-static 1s steps(8,end) infinite both",
         "loading": "loading 2s ease-in-out infinite",
-        "shine": "shine 6s ease-in-out infinite",
+        "spin-n-grow": "spin-n-grow 1.2s 2s ease-out",
         "flicker": "flicker 2s ease-out 0.15s both",
         "flicker2": "flicker 1.5s ease-out 0.15s both",
         "comet1": "comet1 15s linear 3s infinite",
@@ -129,10 +130,9 @@ module.exports = {
           "83%": { "transform": "translateX(-100%)" },
           "100%": { "transform": "translateX(0%)" },
         },
-        "shine": {
-          "0%": { "transform": "scale(1)" },
-          "50%": { "transform": "scale(0.8)" },
-          "100%": { "transform": "scale(1)" },
+        "spin-n-grow": {
+          "0%": { "transform": "scale(0); rotate(290deg);" },
+          "100%": { "transform": "scale(1); rotate(0deg);" },
         },
         "tv-static": {
           "0%": {

@@ -75,7 +75,7 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
           <SubmitButton
             transitionDirection={ButtonTransitionDirections.RIGHT}
             rounding={ButtonCornerRoundingTypes.PARTIAL}>
-            Send
+            Submit
           </SubmitButton>
         </div>
       </Form>

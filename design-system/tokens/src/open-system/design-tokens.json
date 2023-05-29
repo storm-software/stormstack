@@ -401,7 +401,7 @@
     "secondary": {
       "description": "",
       "type": "color",
-      "value": "#0ddacaff",
+      "value": "#10b981ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -413,7 +413,7 @@
     "tertiary": {
       "description": "",
       "type": "color",
-      "value": "#e81e61ff",
+      "value": "#6366f1ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -425,7 +425,7 @@
     "quaternary": {
       "description": "",
       "type": "color",
-      "value": "#1ea7fdff",
+      "value": "#0ea5e9ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -665,7 +665,7 @@
     "gradient-from": {
       "description": "",
       "type": "color",
-      "value": "#6366f1ff",
+      "value": "#7330dbff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -677,7 +677,7 @@
     "gradient-via": {
       "description": "",
       "type": "color",
-      "value": "#c463f1ff",
+      "value": "#6366f1ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {
@@ -689,7 +689,7 @@
     "gradient-to": {
       "description": "",
       "type": "color",
-      "value": "#e81e61ff",
+      "value": "#10b981ff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {

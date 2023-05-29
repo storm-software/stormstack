@@ -6,7 +6,6 @@ import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-m
 import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
-import Logo from "../../../../assets/box-logo-white.svg";
 import {
   antiqueOlive,
   anybody,
@@ -18,6 +17,7 @@ import {
 import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
 import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
+import RootProvider from "./root-provider";
 
 // const Navigation = dynamic(() => import("./nav-header"));
 const CookiePolicyBanner = dynamic(
@@ -87,7 +87,10 @@ export const metadata = {
   },
 };
 
-export default function RootLayout(props: { children: ReactNode }) {
+export default function RootLayout(props: {
+  children: ReactNode;
+  rating: ReactNode;
+}) {
   return (
     <html
       lang="en"
@@ -116,7 +119,10 @@ export default function RootLayout(props: { children: ReactNode }) {
               <div className="relative flex flex-row-reverse items-center justify-between gap-4">
                 <SocialMediaLinks />
                 <Link className="absolute -bottom-5 left-[42%] h-[9.5rem] w-[10rem]">
-                  <Logo className="h-[9.5rem] w-[10rem]" />
+                  <BoxLogo
+                    className="h-[9.5rem] w-[10rem]"
+                    colorScheme="light"
+                  />
                 </Link>
               </div>
             }
@@ -125,7 +131,11 @@ export default function RootLayout(props: { children: ReactNode }) {
 
         <div id="root-portal" />
 
-        <div className="h-fit w-full">{props.children}</div>
+        <div className="h-fit min-h-[60vh] w-full">
+          <RootProvider>{props.children}</RootProvider>
+        </div>
+
+        {props.rating}
 
         <CookiePolicyBanner />
 

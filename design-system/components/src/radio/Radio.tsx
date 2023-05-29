@@ -76,6 +76,7 @@ export const Radio = ({
       errors={errors}
       warning={warning}
       focused={focused}
+      handleFocus={handleFocus}
       disabled={disabled}
       required={required}
       noBorder={noBorder}>

@@ -77,6 +77,8 @@ export type FieldWrapperProps = PropsWithBase<{
    * The class name for height of the component
    */
   heightClassName?: string | null;
+
+  handleFocused: (event?: FocusEvent<any>) => void;
 }>;
 
 /**
@@ -93,6 +95,7 @@ export const FieldWrapper = ({
   errors = null,
   warning = null,
   focused = false,
+  handleFocused,
   disabled = false,
   required = false,
   noBorder = false,
@@ -162,6 +165,7 @@ export const FieldWrapper = ({
             errors={errors}
             warning={warning}
             focused={focused}
+            handleFocused={handleFocused}
             required={required}
           />
         )}
@@ -178,6 +182,7 @@ export const FieldWrapper = ({
                     errors={errors}
                     warning={warning}
                     focused={focused}
+                    handleFocused={handleFocused}
                     required={required}
                   />
 
@@ -303,6 +308,7 @@ export const FieldWrapper = ({
               errors={errors}
               warning={warning}
               focused={focused}
+              handleFocused={handleFocused}
               required={required}
             />
 

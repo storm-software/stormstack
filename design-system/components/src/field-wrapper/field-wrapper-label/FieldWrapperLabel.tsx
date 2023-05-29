@@ -5,12 +5,13 @@ import clsx from "clsx";
 import { PropsWithBase } from "../../types";
 import { getFieldTextStyle } from "../../utilities/field-style-utils";
 import { FieldWrapperProps } from "../FieldWrapper";
+import { useCallback } from "react";
 
 export type FieldWrapperLabelProps = PropsWithBase<
   Pick<
     FieldWrapperProps,
     "name" | "label" | "info" | "errors" | "warning" | "focused" | "required"
-  >
+  > & {   handleFocused: (event?: FocusEvent<any>) => void; }
 >;
 
 /**
@@ -24,10 +25,13 @@ export const FieldWrapperLabel = ({
   errors = null,
   warning = null,
   focused = false,
+  handleFocused,
   required = false,
 }: FieldWrapperLabelProps) => {
+  const handleClick = useCallback((event?: ClickEvent<any>) => handleFocused?.(event), [handleFocused]);
+
   return (
-    <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
+    <div onClick={handleClick} className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
       <label
         className={clsx(
           getFieldTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),

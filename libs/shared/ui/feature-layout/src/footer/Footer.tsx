@@ -6,9 +6,8 @@ import {
   DividerSizes,
   DividerVariants,
 } from "@open-system/design-system-components";
-import { Link } from "@open-system/shared-ui-components";
+import { BoxLogo, Link } from "@open-system/shared-ui-components";
 import { ReactElement } from "react";
-import Logo from "../../../../../../assets/box-logo-gradient.svg";
 
 export type FooterProps = BaseComponentProps & {
   top?: ReactElement<BaseComponentProps>;
@@ -32,8 +31,8 @@ export function Footer({ className, top, bottom, ...props }: FooterProps) {
           {bottom}
         </div>
         <div className="my-4 flex flex-row items-center justify-center lg:hidden">
-          <Link className="h-[20rem] w-[28rem]">
-            <Logo className="h-[20rem] w-[28rem]" />
+          <Link className="h-[32rem] w-[38rem]">
+            <BoxLogo className="h-[32rem] w-[38rem]" />
           </Link>
         </div>
         <div className="flex w-full flex-row justify-center pt-2 pb-3">

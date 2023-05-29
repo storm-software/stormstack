@@ -70,6 +70,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         errors={errors}
         warning={warning}
         focused={focused}
+        handleFocus={handleFocus}
         disabled={disabled}
         required={required}
         noBorder={noBorder}

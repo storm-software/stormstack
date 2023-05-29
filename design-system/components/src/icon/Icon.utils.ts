@@ -1,45 +1,46 @@
-import PostBox from "../../../../assets/icons/post-box.json";
+/*import PostBox from "../../../../assets/icons/post-box.json";
 import Download from "../../../../assets/icons/download.json";
 import Pencil from "../../../../assets/icons/pencil.json";
 import Wrench from "../../../../assets/icons/wrench.json";
 import Bell from "../../../../assets/icons/bell.json";
 import List from "../../../../assets/icons/list.json";
+import ErrorAlert from "../../../../assets/icons/error-alert.json";*/
 
 import { IconTypes } from "./Icon.types";
 
-
-export function getIconData(iconType: string) {
+export const getIconData = (iconType: string) => {
   switch (iconType) {
     case IconTypes.DOWNLOAD:
-        return Download;
+      const Download = import("../../../../assets/icons/download.json").then(mod => mod.default);
+      return Download;
 
-        case IconTypes.PENCIL:
-          return Pencil;
+    case IconTypes.PENCIL:
+      const Pencil = import("../../../../assets/icons/pencil.json").then(mod => mod.default);
+      return Pencil;
 
-          case IconTypes.WRENCH:
-            return Wrench;
+    case IconTypes.WRENCH:
+      const Wrench = import("../../../../assets/icons/wrench.json").then(mod => mod.default);
+      return Wrench;
 
-            case IconTypes.BELL:
-              return Bell;
+    case IconTypes.BELL:
+      const Bell = import("../../../../assets/icons/bell.json").then(mod => mod.default);
+      return Bell;
 
-              case IconTypes.LIST:
-                return List;
+    case IconTypes.LIST:
+      const List = import("../../../../assets/icons/list.json").then(mod => mod.default);
+      return List;
+
+    case IconTypes.ERROR_ALERT:
+      const ErrorAlert = import("../../../../assets/icons/error-alert.json").then(mod => mod.default);
+      return ErrorAlert;
+
+    case IconTypes.ARROW:
+      const Arrow = import("../../../../assets/icons/arrow.json").then(mod => mod.default);
+      return Arrow;
 
     case IconTypes.POST_BOX:
     default:
+      const PostBox = import("../../../../assets/icons/post-box.json").then(mod => mod.default);
       return PostBox;
   }
-}
-
-/*import { IconTypes } from "./Icon.types";
-import { import } from "react";
-
-// const ComponentC = dynamic(() => import("../../../assets/icons/post-box.json"), { ssr: false });
-
-export function getIconData(iconType: string) {
-  switch (iconType) {
-    case IconTypes.POST_BOX:
-    default:
-      return import("../../../../assets/icons/post-box.json");
-  }
-}*/
+};

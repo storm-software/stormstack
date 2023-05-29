@@ -29,7 +29,7 @@ export function SideTitle({ className, ...props }: BaseComponentProps) {
 
   const { scrollYProgress } = useScroll();
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((scrollY: number) => {
+    const unsubscribe = scrollYProgress.on("change", (scrollY: number) => {
       if (!isHidden && !scrollY) {
         setIsHidden(true);
       } else if (isHidden && scrollY) {
@@ -44,7 +44,7 @@ export function SideTitle({ className, ...props }: BaseComponentProps) {
   return (
     <AnimatePresence>
       <motion.div
-        className="sticky left-16 top-[21.6rem] z-0 h-0 w-0 whitespace-nowrap"
+        className="sticky left-16 top-[21.6rem] z-content-mid-low h-0 w-0 whitespace-nowrap"
         variants={variants}
         initial={false}
         animate={isHidden ? "hidden" : "shown"}>

@@ -21,9 +21,9 @@ import {
 import {
   getBackgroundColor,
   getBorderRadius,
+  getCursor,
   getDefaultText,
   getTextColor,
-  getCursor
 } from "./Button.utils";
 
 export type ButtonProps = PropsWithBase<
@@ -32,6 +32,11 @@ export type ButtonProps = PropsWithBase<
      * The variant style of the button
      */
     variant?: ButtonVariants;
+
+    /**
+     * Is the buttons background transparent
+     */
+    transparent?: boolean;
 
     /**
      * The direction the hover animation will start on
@@ -68,6 +73,11 @@ export type ButtonProps = PropsWithBase<
      */
     hoverText?: string;
 
+       /**
+     * Is padding applied in the button
+     */
+       noPadding?: boolean;
+
     /**
      * Event handler for button click event
      */
@@ -77,6 +87,16 @@ export type ButtonProps = PropsWithBase<
      * Event handler for button double click event
      */
     onDoubleClick?: (event: MouseEvent) => void;
+
+    /**
+     * Event handler for button start event
+     */
+    onHoverStart?: (event?: MouseEvent) => void;
+
+    /**
+     * Event handler for button hover end event
+     */
+    onHoverEnd?: (event?: MouseEvent) => void;
   } & ButtonHTMLAttributes<HTMLButtonElement>
 >;
 
@@ -95,9 +115,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       transitionDirection = ButtonTransitionDirections.RIGHT,
       disabled = false,
       inverse = false,
+      transparent = false,
+      noPadding = false,
       hoverText,
       onClick,
       onDoubleClick,
+      onHoverStart,
+      onHoverEnd,
       ...props
     }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
@@ -118,6 +142,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         }
       },
       [disabled, onDoubleClick]
+    );
+
+    const handleHoverStart: MouseEventHandler<HTMLButtonElement> = useCallback(
+      (event?: MouseEvent) => {
+        onHoverStart?.(event);
+      },
+      [onHoverStart]
+    );
+    const handleHoverEnd: MouseEventHandler<HTMLButtonElement> = useCallback(
+      (event?: MouseEvent) => {
+        onHoverEnd?.(event);
+      },
+      [onHoverEnd]
     );
 
     return (
@@ -145,12 +182,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...props}
         onClick={handleClick}
-        onDoubleClick={handleDoubleClick}>
+        onDoubleClick={handleDoubleClick}
+        onHoverStart={handleHoverStart}
+        onHoverEnd={handleHoverEnd}>
         <div
           className={clsx(
             getTextColor(disabled, variant),
             getBorderRadius(rounding),
-            "h-full min-w-fit bg-bg-1 px-12 py-3 text-btn-label-1 font-btn-label-1"
+            {"px-3": noPadding},
+            {"px-12": !noPadding},
+            "h-full min-w-fit bg-bg-1 py-3 text-btn-label-1 font-btn-label-1"
           )}>
           {inverse
             ? hoverText ?? getDefaultText(type)

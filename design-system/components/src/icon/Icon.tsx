@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import { PropsWithBase } from "../types";
 import { getIconData } from "./Icon.utils";
@@ -17,13 +18,25 @@ export type IconProps = PropsWithBase<{
   width?: number | string;
 }>;
 
-export function Icon({
+export const Icon = ({
   type,
   loop = false,
   autoplay = false,
   ...props
-}: IconProps) {
-  const animationData = getIconData(type);
+}: IconProps) => {
+  const [animationData, setAnimationData] = useState(null);
+  
+  useEffect(() => {
+    getIconData(type).then(data => {
+      if (data) {
+        setAnimationData(data);
+      }
+    });
+  }, [type]);
+
+  if (!animationData) {
+    return "Loading...";
+  }
 
   return (
     <Lottie

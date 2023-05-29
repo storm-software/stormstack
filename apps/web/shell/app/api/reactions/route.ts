@@ -4,8 +4,8 @@ import {
 } from "@open-system/core-typescript-utilities";
 import "@sentry/tracing";
 import { NextRequest, NextResponse } from "next/server";
-import { getConnection } from "../../../redis/get-connection";
-import { getRepository } from "../../../redis/reaction-repository";
+import { getConnection } from "../../../state/get-connection";
+import { getRepository } from "../../../state/reaction-repository";
 
 // export const runtime = "edge";
 

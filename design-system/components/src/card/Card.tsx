@@ -131,7 +131,7 @@ export const Card = ({
         <div className="z-20 flex flex-col gap-2 p-4">
           <div className="flex flex-col gap-0">
             {typeof title === "string" ? (
-              <h2 className="font-label-4 text-4xl font-bold text-primary transition-colors group-hover:text-hover-link-2">
+              <h2 className="text-left font-label-4 text-4xl font-bold text-primary transition-colors group-hover:text-hover-link-2">
                 {title}
               </h2>
             ) : (
@@ -140,7 +140,7 @@ export const Card = ({
 
             {typeof details === "string" ? (
               <div className="flex flex-row items-end gap-2">
-                <label className="text-md mb-0.5 font-label-3 text-slate-400 transition-colors hover:cursor-pointer group-hover:text-hover-link-2">
+                <label className="text-left text-md mb-0.5 font-label-3 text-slate-400 transition-colors hover:cursor-pointer group-hover:text-hover-link-2">
                   {details}
                 </label>
               </div>

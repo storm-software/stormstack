@@ -85,6 +85,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
         errors={errors}
         warning={warning}
         focused={focused}
+        handleFocus={handleFocus}
         disabled={disabled}
         required={required}
         noBorder={noBorder}
