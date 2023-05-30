@@ -1,10 +1,10 @@
 "use client";
 
+import { HorizontalSeparator } from "@open-system/shared-ui-components/horizontal-separator";
+import { useInView } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
-import HorizontalSeparator from "../(components)/horizontal-separator.server";
 import Introduction from "./(introduction)/introduction";
-import { useScroll, useInView } from "framer-motion";
 
 const Stack = dynamic(() => import("./(stack)/stack"), {
   loading: () => (

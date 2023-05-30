@@ -4,7 +4,7 @@ import {
   PdfText,
   pdfTw,
   PdfView,
-} from "@open-system/shared-ui-feature-pdf";
+} from "@open-system/core-feature-pdf";
 import titleIcon from "../../assets/title-icon.png";
 
 export function PdfResumeTitle() {

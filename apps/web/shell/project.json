@@ -8,6 +8,7 @@
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
+      "experimentalAppOnly": true,
       "options": {
         "root": "apps/web/shell",
         "outputPath": "dist/apps/web/shell",
@@ -15,7 +16,8 @@
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/web/shell"
+          "outputPath": "apps/web/shell",
+          "debug": true
         },
         "production": {}
       }

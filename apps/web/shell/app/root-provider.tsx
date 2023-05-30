@@ -1,8 +1,9 @@
 "use client";
 
-import AppHeaderStateProvider from "../components/app-header-state-provider";
+import { Provider } from "jotai";
 import { ReactNode } from "react";
+import { store } from "@open-system/core-data-access";
 
 export default function RootProvider(props: { children: ReactNode }) {
-  return <AppHeaderStateProvider>{props.children}</AppHeaderStateProvider>;
+  return <Provider store={store}>{props.children}</Provider>;
 }

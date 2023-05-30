@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: "core-typescript-utilities",
+  displayName: "core-utilities",
   preset: "../../../../jest.preset.js",
   globals: {
     "ts-jest": {

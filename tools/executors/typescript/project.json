@@ -208,5 +208,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["core-typescript-utilities"]
+  "implicitDependencies": ["core-utilities"]
 }

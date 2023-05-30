@@ -16,10 +16,8 @@ import {
 } from "../styles/fonts";
 import "../styles/globals.css";
 import ContactFooterForm from "./(components)/contact-footer-form";
-import PdfResumeDownloadLink from "./(components)/pdf-resume-download-link.client";
 import RootProvider from "./root-provider";
 
-// const Navigation = dynamic(() => import("./nav-header"));
 const CookiePolicyBanner = dynamic(
   () => import("./(components)/cookie-policy-banner.client")
 );
@@ -34,7 +32,7 @@ export const metadata = {
   authors: [{ name: "Pat Sullivan", url: "https://pat-sullivan.com" }],
   metadataBase: new URL("https://pat-sullivan.com"),
   description:
-    "A web application by New York based software developer Pat Sullivan with the purpose of highlighting the usage of modern frameworks.",
+    'Pat Sullivan is a New York based "FinTech" developer with experience in all areas of modern programming.',
   noindex: false,
   nofollow: false,
   canonical: "https://pat-sullivan.com",
@@ -58,32 +56,6 @@ export const metadata = {
     email: false,
     address: false,
     telephone: false,
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_IE",
-    url: "https://pat-sullivan.com",
-    title: "Pat Sullivan Development | Home",
-    description:
-      "A web application by New York based software developer Pat Sullivan with the purpose of highlighting the usage of modern frameworks.",
-    profile: {
-      firstName: "Pat",
-      lastName: "Sullivan",
-      username: "sullivanpj",
-      gender: "male",
-    },
-    images: [
-      {
-        url: "https://avatars.githubusercontent.com/u/99053093?s=400&u=54c2f5ea10abfa4418158e4fe0671c32adb7d3f6&v=4",
-        width: 800,
-        height: 600,
-        alt: "Pat Sullivan Development",
-        type: "image/jpeg",
-        secureUrl:
-          "https://avatars.githubusercontent.com/u/99053093?s=400&u=54c2f5ea10abfa4418158e4fe0671c32adb7d3f6&v=4",
-      },
-    ],
-    siteName: "Pat Sullivan Development",
   },
 };
 

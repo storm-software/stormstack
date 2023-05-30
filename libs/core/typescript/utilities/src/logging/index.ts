@@ -1,2 +1,2 @@
-export * from "./console-logger";
+export * from "./consoleLogger;";
 export * from "./print";

@@ -312,3 +312,12 @@ export interface HttpFetchApi {
    */
   forced?: boolean;
 }
+
+
+export const HttpMediaTypes = {
+  JSON: "application/json",
+  OCTET_STREAM: "application/octet-stream",
+  FORM: "application/x-www-form-urlencoded",
+  TEXT: "text/plain",
+  HTML: "text/html"
+};

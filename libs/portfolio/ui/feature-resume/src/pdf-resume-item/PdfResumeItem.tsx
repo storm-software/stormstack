@@ -1,5 +1,5 @@
 import { BaseComponentProps } from "@open-system/design-system-components";
-import { PdfText, pdfTw, PdfView } from "@open-system/shared-ui-feature-pdf";
+import { PdfText, pdfTw, PdfView } from "@open-system/core-feature-pdf";
 import { PdfResumeHeading } from "../pdf-resume-heading";
 import { PdfResumeParagraph } from "../pdf-resume-paragraph";
 

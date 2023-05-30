@@ -1,5 +1,5 @@
 import URLParse from "url-parse";
-import { ConsoleLogger } from "../logging/console-logger";
+import { ConsoleLogger } from "../logging/consoleLogger;
 import { HttpFetchApi, HttpMethod } from "../types";
 
 /**

@@ -85,6 +85,7 @@ export class ObjectSerializer {
           )
         );
       }
+
       return transformedData;
     } else if (type === "Date") {
       if (format == "date") {
@@ -206,7 +207,7 @@ export class ObjectSerializer {
   public static getPreferredMediaType(mediaTypes: Array<string>): string {
     /** According to OAS 3 we should default to json */
     if (!mediaTypes) {
-      return "application/json";
+      return HttpMediaTypes.JSON;
     }
 
     const normalMediaTypes = mediaTypes.map(this.normalizeMediaType);
@@ -232,11 +233,11 @@ export class ObjectSerializer {
    * Convert data to a string according the given media type
    */
   public static stringify(data: any, mediaType: string): string {
-    if (mediaType === "text/plain") {
+    if (mediaType === HttpMediaTypes.TEXT) {
       return String(data);
     }
 
-    if (mediaType === "application/json") {
+    if (mediaType === HttpMediaTypes.JSON) {
       return JSON.stringify(data);
     }
 
@@ -252,21 +253,21 @@ export class ObjectSerializer {
    */
   public static parse(
     rawData: string,
-    mediaType: string | undefined = "text/plain"
+    mediaType: string | undefined = HttpMediaTypes.TEXT
   ) {
     if (mediaType === undefined) {
       throw new Error("Cannot parse content. No Content-Type defined.");
     }
 
-    if (mediaType === "text/plain") {
+    if (mediaType === HttpMediaTypes.TEXT) {
       return rawData;
     }
 
-    if (mediaType === "application/json") {
+    if (mediaType === HttpMediaTypes.JSON) {
       return JSON.parse(rawData);
     }
 
-    if (mediaType === "text/html") {
+    if (mediaType === HttpMediaTypes.HTML) {
       return rawData;
     }
 

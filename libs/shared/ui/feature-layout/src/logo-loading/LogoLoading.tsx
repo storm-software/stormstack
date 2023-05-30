@@ -1,7 +1,7 @@
 import { BaseComponentProps } from "@open-system/design-system-components";
 import clsx from "clsx";
-import development from "../../../../../../assets/development-primary.png";
-import initials from "../../../../../../assets/initials-primary.png";
+import development from "../../../../../../assets/images/development-primary.png";
+import initials from "../../../../../../assets/images/initials-primary.png";
 import Image from "next/image";
 
 export function LogoLoading({ className, ...props }: BaseComponentProps) {

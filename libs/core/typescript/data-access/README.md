@@ -1,7 +1,7 @@
-# core-typescript-data-access
+# core-data-access
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Building
 
-Run `nx build core-typescript-data-access` to build the library.
+Run `nx build core-data-access` to build the library.

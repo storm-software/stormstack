@@ -4,9 +4,8 @@ import {
   BaseComponentProps,
   InputAutoCompleteTypes,
 } from "@open-system/design-system-components";
-import { useFieldValue, useIsDomesticCountry } from "../hooks";
-import { Input } from "../input";
-import { Textarea } from "../textarea";
+import { useIsDomesticCountry } from "@open-system/shared-ui-data-access";
+import { Input, Textarea, useFieldValue } from "@open-system/core-feature-form";
 
 export type AddressInputFieldsProps = BaseComponentProps & {
   required?: boolean;

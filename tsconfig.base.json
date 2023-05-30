@@ -32,13 +32,37 @@
         "libs/contact/ui/feature-form/src/*"
       ],
       "@open-system/contacts/config": ["libs/contacts/config/src/index.ts"],
-      "@open-system/core-typescript-data-access": [
+      "@open-system/core-components": [
+        "libs/core/typescript/components/src/index.ts"
+      ],
+      "@open-system/core-components/server": [
+        "libs/core/typescript/components/src/server.ts"
+      ],
+      "@open-system/core-data-access": [
         "libs/core/typescript/data-access/src/index.ts"
       ],
-      "@open-system/core-typescript-kafka": [
-        "libs/core/typescript/kafka/src/index.ts"
+      "@open-system/core-feature-form": [
+        "libs/core/typescript/feature-form/src/index.ts"
       ],
-      "@open-system/core-typescript-utilities": [
+      "@open-system/core-feature-form/server": [
+        "libs/core/typescript/feature-form/src/server.ts"
+      ],
+      "@open-system/core-feature-kafka": [
+        "libs/core/typescript/feature-kafka/src/index.ts"
+      ],
+      "@open-system/core-feature-notifications": [
+        "libs/core/typescript/feature-notifications/src/index.ts"
+      ],
+      "@open-system/core-feature-notifications/server": [
+        "libs/core/typescript/feature-notifications/src/server.ts"
+      ],
+      "@open-system/core-feature-pdf": [
+        "libs/core/typescript/feature-pdf/src/index.ts"
+      ],
+      "@open-system/core-feature-pdf/server": [
+        "libs/core/typescript/feature-pdf/src/server.ts"
+      ],
+      "@open-system/core-utilities": [
         "libs/core/typescript/utilities/src/index.ts"
       ],
       "@open-system/design-system-components": [
@@ -98,15 +122,6 @@
       ],
       "@open-system/shared-ui-feature-layout/*": [
         "libs/shared/ui/feature-layout/src/*"
-      ],
-      "@open-system/shared-ui-feature-notifications": [
-        "libs/shared/ui/feature-notifications/src/index.ts"
-      ],
-      "@open-system/shared-ui-feature-notifications/*": [
-        "libs/shared/ui/feature-notifications/src/*"
-      ],
-      "@open-system/shared-ui-feature-pdf": [
-        "libs/shared/ui/feature-pdf/src/index.ts"
       ],
       "@open-system/shared-ui-feature-pdf/*": [
         "libs/shared/ui/feature-pdf/src/*"

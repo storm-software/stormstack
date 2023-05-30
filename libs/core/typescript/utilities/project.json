@@ -1,5 +1,5 @@
 {
-  "name": "core-typescript-utilities",
+  "name": "core-utilities",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/core/typescript/utilities/src",
   "projectType": "library",
@@ -42,7 +42,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "core-typescript-utilities-v${VERSION}"
+        "tagFormat": "core-utilities-v${VERSION}"
       }
     }
   },

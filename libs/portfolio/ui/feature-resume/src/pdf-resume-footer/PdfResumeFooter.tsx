@@ -1,5 +1,5 @@
 import { DateTime } from "@open-system/core-typescript-utilities";
-import { PdfText, pdfTw, PdfView } from "@open-system/shared-ui-feature-pdf";
+import { PdfText, pdfTw, PdfView } from "@open-system/core-feature-pdf";
 
 export function PdfResumeFooter() {
   return (

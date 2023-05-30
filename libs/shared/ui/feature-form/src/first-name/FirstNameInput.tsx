@@ -1,7 +1,7 @@
 "use client";
 
 import { InputAutoCompleteTypes } from "@open-system/design-system-components";
-import { Input, InputProps } from "../input";
+import { Input, InputProps } from "@open-system/core-feature-form";
 
 export type FirstNameInputProps = Partial<Omit<InputProps, "min" | "max">>;
 

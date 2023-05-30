@@ -3,7 +3,7 @@ import {
   PdfPage,
   pdfTw,
   PdfView,
-} from "@open-system/shared-ui-feature-pdf";
+} from "@open-system/core-feature-pdf";
 import { PdfResumeFooter } from "../pdf-resume-footer";
 import { PdfResumeHeading } from "../pdf-resume-heading";
 import { PdfResumeItem } from "../pdf-resume-item";
