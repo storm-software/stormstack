@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import { readFileSync } from "fs";
 import type { Config, Output } from "svgo";
 import { DownloadableFile } from "../../types";

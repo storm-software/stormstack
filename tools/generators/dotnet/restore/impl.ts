@@ -4,7 +4,7 @@ import {
   getNxDotnetProjects,
   getProjectFilesForProject,
 } from "@nx-dotnet/utils";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import { spawnSync } from "child_process";
 import { DotNetRestoreSchema } from "./schema";
 

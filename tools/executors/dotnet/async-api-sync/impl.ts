@@ -1,6 +1,6 @@
 import Generator from "@asyncapi/generator";
 import { ExecutorContext } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import { AsyncApiSyncExecutorSchema } from "./schema";
 
 export default async function (

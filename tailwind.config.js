@@ -2,13 +2,13 @@ const { fontFamily } = require("tailwindcss/defaultTheme");
 const extend = require("./dist/design-system/tokens/js/theme");
 const plugin = require("tailwindcss/plugin");
 const { join } = require("path");
-const { createGlobPatternsForDependencies } = require("@nrwl/react/tailwind");
+const { createGlobPatternsForDependencies } = require("@nx/react/tailwind");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   "content": [
     join(__dirname, "apps/web/shell/app/**/*!(*.stories|*.spec).{ts,tsx,html}"),
-    join(__dirname, "libs/**/ui/**/*!(*.stories|*.spec).{ts,tsx,html}"),
+    join(__dirname, "libs/**/typescript/**/*!(*.stories|*.spec).{ts,tsx,html}"),
     join(
       __dirname,
       "design-system/components/**/*!(*.stories|*.spec).{ts,tsx,html}"

@@ -1,5 +1,5 @@
 import { ExecutorContext } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import {
   existsSync,
   lstatSync,

@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import { AllowedFormat, PartialRecord } from "../../types";
 import type { LibsType } from "../global-libs";
 

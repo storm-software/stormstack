@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import deepmerge from "deepmerge";
 import * as _ from "lodash";
 import os from "os";

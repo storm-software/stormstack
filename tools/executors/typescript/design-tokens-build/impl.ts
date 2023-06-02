@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import Path from "path";
 import { execute, toCssFontImportParser, toTailwindParser } from "../utilities";

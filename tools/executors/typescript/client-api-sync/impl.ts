@@ -1,5 +1,5 @@
 import { ExecutorContext } from "@nrwl/devkit";
-// import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+// import { ConsoleLogger } from "@open-system/core-utilities";
 import { existsSync } from "fs";
 import Path from "path";
 import { execute } from "../utilities";
@@ -19,12 +19,12 @@ export default async function (
     const rootPath = context.root;
     const projectName = context.projectName
       ? context.projectName
-      : `${domainName}-ui-data-access`;
+      : `${domainName}-data-access`;
 
     let sourceRoot =
       context.projectName && context.workspace.projects
         ? context.workspace.projects[context.projectName].sourceRoot
-        : `libs/${domainName}/ui/data-access`;
+        : `libs/${domainName}/typescript/data-access`;
     sourceRoot =
       sourceRoot.lastIndexOf("/src") > 0
         ? sourceRoot.substring(0, sourceRoot.lastIndexOf("/src"))

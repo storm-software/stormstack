@@ -1,5 +1,5 @@
 import { Tree } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import { execute } from "../utilities";
 import { ServerApiGeneratorSchema } from "./schema";
 

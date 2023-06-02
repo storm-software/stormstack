@@ -1,10 +1,10 @@
 import { ExecutorContext } from "@nrwl/devkit";
-// import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+// import { ConsoleLogger } from "@open-system/core-utilities";
 //import { generateGraphQL } from "@confluentinc/ksqldb-graphql";
-import { codegen } from "@graphql-codegen/core";
+/*import { codegen } from "@graphql-codegen/core";
 import * as schemaAstPlugin from "@graphql-codegen/schema-ast";
-import * as timePlugin from "@graphql-codegen/time";
-import { buildKsqlDBGraphQL } from "@open-system/core-typescript-kafka";
+import * as timePlugin from "@graphql-codegen/time";*/
+//import { buildKsqlDBGraphQL } from "@open-system/core-typescript-kafka";
 import fs from "node:fs";
 import path from "node:path";
 import { ClientGraphQLSyncExecutorSchema } from "./schema";
@@ -47,7 +47,7 @@ export default async function (
       return { success: false };
     }*/
 
-    const {
+    /*const {
       schemas,
       queryResolvers,
       subscriptionResolvers,
@@ -59,7 +59,7 @@ export default async function (
         protocol: KAFKA_KSQL_PROTOCOL,
         auth: `${KAFKA_KSQL_API_KEY}:${KAFKA_KSQL_API_SECRET}`,
       },
-    });
+    });*/
 
     /*let config: Types.GenerateOptions = {
       documents: [],
@@ -111,7 +111,7 @@ export default async function (
 
     console.info("Client GraphQL sync succeeded.");*/
 
-    const config = {
+    /*const config = {
       documents: [],
       config: {
         namingConvention: "change-case-all#PascalCase",
@@ -154,7 +154,7 @@ export default async function (
 
     fs.writeFileSync(path.join(context.cwd, context.workspace.projects[context.projectName].sourceRoot, outputFileSchemaAst), output, "utf8");
 
-    console.info("GraphQL Schema AST sync succeeded.");
+    console.info("GraphQL Schema AST sync succeeded.");*/
 
     /*config = {
       documents: [],

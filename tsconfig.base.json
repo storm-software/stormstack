@@ -19,17 +19,17 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@open-system/asyncapi-rabbitmq": ["tools/asyncapi/rabbitmq/index.ts"],
-      "@open-system/contact-ui-data-access": [
-        "libs/contact/ui/data-access/src/index.ts"
+      "@open-system/contact-data-access": [
+        "libs/contact/typescript/data-access/src/index.ts"
       ],
-      "@open-system/contact-ui-data-access/*": [
-        "libs/contact/ui/data-access/src/*"
+      "@open-system/contact-data-access/server": [
+        "libs/contact/typescript/data-access/src/server.ts"
       ],
-      "@open-system/contact-ui-feature-form": [
-        "libs/contact/ui/feature-form/src/index.ts"
+      "@open-system/contact-feature-form": [
+        "libs/contact/typescript/feature-form/src/index.ts"
       ],
-      "@open-system/contact-ui-feature-form/*": [
-        "libs/contact/ui/feature-form/src/*"
+      "@open-system/contact-feature-form/server": [
+        "libs/contact/typescript/feature-form/src/server.ts"
       ],
       "@open-system/contacts/config": ["libs/contacts/config/src/index.ts"],
       "@open-system/core-components": [
@@ -98,41 +98,43 @@
         "libs/reaction/ui/feature-like/src/*"
       ],
       "@open-system/reaction/config": ["libs/reaction/config/src/index.ts"],
+      "@open-system/shared-components": [
+        "libs/shared/typescript/components/src/index.ts"
+      ],
+      "@open-system/shared-components/server": [
+        "libs/shared/typescript/components/src/server.ts"
+      ],
       "@open-system/shared-config": ["libs/shared/config/src/index.ts"],
-      "@open-system/shared-ui-components": [
-        "libs/shared/ui/components/src/index.ts"
+      "@open-system/shared-data-access": [
+        "libs/shared/typescript/data-access/src/index.ts"
       ],
-      "@open-system/shared-ui-components/*": [
-        "libs/shared/ui/components/src/*"
+      "@open-system/shared-data-access/server": [
+        "libs/shared/typescript/data-access/src/server.ts"
       ],
-      "@open-system/shared-ui-data-access": [
-        "libs/shared/ui/data-access/src/index.ts"
+      "@open-system/shared-feature-address": [
+        "libs/shared/typescript/feature-address/src/index.ts"
       ],
-      "@open-system/shared-ui-data-access/*": [
-        "libs/shared/ui/data-access/src/*"
-      ],
-      "@open-system/shared-ui-feature-form": [
-        "libs/shared/ui/feature-form/src/index.ts"
-      ],
-      "@open-system/shared-ui-feature-form/*": [
-        "libs/shared/ui/feature-form/src/*"
-      ],
-      "@open-system/shared-ui-feature-layout": [
-        "libs/shared/ui/feature-layout/src/index.ts"
-      ],
-      "@open-system/shared-ui-feature-layout/*": [
-        "libs/shared/ui/feature-layout/src/*"
-      ],
-      "@open-system/shared-ui-feature-pdf/*": [
-        "libs/shared/ui/feature-pdf/src/*"
+      "@open-system/shared-feature-address/server": [
+        "libs/shared/typescript/feature-address/src/server.ts"
       ],
       "@open-system/static-message-config": [
         "libs/static/message/config/src/index.ts"
       ],
-      "@open-system/user-ui-data-access": [
-        "libs/user/ui/data-access/src/index.ts"
+      "@open-system/user-management-components": [
+        "libs/user-management/typescript/components/src/index.ts"
       ],
-      "@open-system/user/config": ["libs/user/config/src/index.ts"]
+      "@open-system/user-management-components/server": [
+        "libs/user-management/typescript/components/src/server.ts"
+      ],
+      "@open-system/user-management-config": [
+        "libs/user-management/config/src/index.ts"
+      ],
+      "@open-system/user-management-data-access": [
+        "libs/user-management/typescript/data-access/user-management-data-access/src/index.ts"
+      ],
+      "@open-system/user-management-data-access/server": [
+        "libs/user-management/typescript/data-access/user-management-data-access/src/server.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"],

@@ -1,5 +1,5 @@
 import { Tree } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import { existsSync } from "fs";
 import Path from "path";
 import { execute } from "../utilities";
