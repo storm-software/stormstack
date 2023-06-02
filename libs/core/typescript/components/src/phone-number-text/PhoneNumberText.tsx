@@ -4,7 +4,7 @@ import {
   FieldText,
   FieldTextProps,
 } from "@open-system/design-system-components";
-import { formatPhoneNumber } from "@open-system/shared-ui-data-access";
+import { formatPhoneNumber } from "@open-system/core-data-access";
 
 export type PhoneNumberTextProps = FieldTextProps & {
   phoneNumber?: string;

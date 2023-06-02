@@ -1,6 +1,6 @@
 import { Module } from "@open-system/design-system-components";
 import { ReactNode } from "react";
-import Breadcrumb from "../(components)/breadcrumb";
+import {Breadcrumb} from "@open-system/core-components";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <>
             It&apos;s a{" "}
             <span className="bg-gradient-to-r from-primary to-primary bg-[length:100%_8px] bg-bottom bg-no-repeat px-1">
-              <span className="bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
                 pleasure
               </span>
             </span>{" "}

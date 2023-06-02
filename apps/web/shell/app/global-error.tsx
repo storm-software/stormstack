@@ -1,7 +1,6 @@
 "use client";
 
-import { ErrorBoundaryProps } from "@open-system/shared-ui-components";
-import { GlobalErrorBoundary } from "@open-system/shared-ui-feature-layout/global-error-boundary";
+import { ErrorBoundaryProps, GlobalErrorBoundary } from "@open-system/core-feature-notifications";
 
 export default function GlobalError(props: ErrorBoundaryProps) {
   return <GlobalErrorBoundary {...props} />;

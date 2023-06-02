@@ -1,6 +1,6 @@
 "use client";
 
-import { SuccessContactForm } from "@open-system/contact-ui-feature-form";
+import { SuccessContactForm } from "@open-system/contact-feature-form";
 import ContactForm from "../../contact-form";
 
 export default function Page() {

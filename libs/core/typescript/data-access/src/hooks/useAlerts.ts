@@ -1,19 +1,24 @@
 import { Getter, Setter, atom } from "jotai";
 import { useMolecule } from "jotai-molecules";
-import { Molecule, MoleculeGetter, ScopeGetter } from "jotai-molecules/dist/molecule";
+import {
+  Molecule,
+  MoleculeGetter,
+  ScopeGetter,
+} from "jotai-molecules/dist/molecule";
 import { useAtomValue } from "jotai/react";
 import { useAtomCallback } from "jotai/utils";
 import { useCallback } from "react";
-import { AlertMolecule, Alert, AlertScope, alertsAtom } from "../models/alerts";
-import { moleculeWithWebStorage } from "../state/moleculeWithWebStorage";
+import { Alert, AlertMolecule, AlertScope, alertsAtom } from "../models/alerts";
 import { MessageTypes } from "../types";
+import { moleculeWithWebStorage } from "../utilities/moleculeWithWebStorage";
+import { isEmpty } from "@open-system/core-utilities";
 
 export const useAlerts = (): Record<string, Molecule<AlertMolecule>> => {
   const alerts = useAtomValue(alertsAtom);
   return alerts;
 };
 
-export const useAlertsList = (): Molecule<AlertMolecule>[] => {
+export const useAlertList = (): Molecule<AlertMolecule>[] => {
   const alerts = useAlerts();
 
   return Object.values(alerts).reduce(
@@ -25,7 +30,7 @@ export const useAlertsList = (): Molecule<AlertMolecule>[] => {
   );
 };
 
-export const useAlert = (id: string): AlertDetails | undefined => {
+export const useAlert = (id: string): AlertMolecule | undefined => {
   const alerts = useAtomValue(alertsAtom);
   return useMolecule(alerts[id]);
 };
@@ -33,7 +38,7 @@ export const useAlert = (id: string): AlertDetails | undefined => {
 export const useSetAlerts = () => {
   const add = useAtomCallback(
     useCallback((_: Getter, set: Setter, alert: Alert) => {
-      const alertMolecule: Molecule<AlertMolecule> = moleculeWithWebStorage(
+      const alertMolecule: any = moleculeWithWebStorage(
         AlertScope,
         (__: string | undefined, ___: MoleculeGetter, ____: ScopeGetter) => {
           const typeAtom = atom<MessageTypes>(alert.type);
@@ -52,7 +57,7 @@ export const useSetAlerts = () => {
       );
 
       set(alertsAtom, (prev: Record<string, Molecule<AlertMolecule>>) =>
-        alert.id
+        !isEmpty(alert.id)
           ? {
               ...prev,
               [alert.id]: alertMolecule,

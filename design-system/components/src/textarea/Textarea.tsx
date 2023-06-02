@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-typescript-utilities";
+import { isEmptyObject } from "@open-system/core-utilities";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
 import {
@@ -85,7 +85,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
         errors={errors}
         warning={warning}
         focused={focused}
-        handleFocus={handleFocus}
+        handleFocused={handleFocus}
         disabled={disabled}
         required={required}
         noBorder={noBorder}

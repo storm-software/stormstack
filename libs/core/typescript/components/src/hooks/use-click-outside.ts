@@ -1,6 +1,6 @@
 "use client";
 
-import { MutableRefObject, useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useCallback, useRef } from "react";
 
 export function useClickOutside(
   callbackFn?: () => void

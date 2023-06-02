@@ -1,13 +1,14 @@
 "use client";
 
 import {
-  ContactFormValues,
-  resetFormState,
-  saveFormState,
-  selectContactFormValues,
-} from "@open-system/contact-ui-data-access";
-import { useCreateContactMutation } from "@open-system/contact-ui-data-access/apis";
-import { ContactFormSegments } from "@open-system/contact-ui-feature-form/constants";
+  Contact,
+  useContactValue,
+  useResetContact,
+  useSetContact,
+} from "@open-system/contact-data-access";
+import { ContactFormSegments } from "@open-system/contact-feature-form";
+import { Link, Modal, ModalReference } from "@open-system/core-components";
+import { Form, SubmitButton } from "@open-system/core-feature-form";
 import {
   BaseComponentProps,
   Button,
@@ -19,15 +20,10 @@ import {
   ProgressTracker,
   ProgressTrackerItemStatus,
 } from "@open-system/design-system-components";
-import { ModalReference } from "@open-system/shared-ui-components";
-import { Link } from "@open-system/shared-ui-components/link";
-import { Modal } from "@open-system/shared-ui-components/modal";
-import { Form, SubmitButton } from "@open-system/shared-ui-feature-form";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useRef, useTransition } from "react";
 
 export interface ContactFormProps extends BaseComponentProps {
   nextPathname?: string;
@@ -47,28 +43,36 @@ export default function ContactForm({
     : null;
 
   const router = useRouter();
+
+  const setContact = useSetContact();
+  const resetContact = useResetContact();
+  const contact = useContactValue();
+  const [, startTransition] = useTransition();
+
   useEffect(() => {
-    nextPathname && router.prefetch(nextPathname);
-    previousPathname && router.prefetch(previousPathname);
+    nextPathname && router.prefetch(nextPathname as any);
+    previousPathname && router.prefetch(previousPathname as any);
   }, [router, nextPathname, previousPathname]);
 
-  const formValues = useSelector(selectContactFormValues);
-  const dispatch = useDispatch();
-
-  const [createContact] = useCreateContactMutation();
+  // const [createContact] = useCreateContactMutation();
   const handleSubmit = useCallback(
-    async (values: ContactFormValues) => {
+    async (formData: Contact) => {
       if (segment === ContactFormSegments.REVIEW) {
-        await createContact({
-          body: values,
-        }).unwrap();
+        startTransition(() => {
+          handleSubmit(formData);
+        });
       } else {
-        dispatch(saveFormState(values));
+        /*const nextContact: Contact = {} as Contact;
+        formData.forEach((value, key) => {
+          nextContact[key] = value;
+        });*/
+
+        setContact(formData);
       }
 
-      nextPathname && router.push(nextPathname);
+      nextPathname && router.push(nextPathname as any);
     },
-    [createContact, dispatch, nextPathname, router, segment]
+    [nextPathname, router, segment, setContact]
   );
 
   const modalRef = useRef<ModalReference>(null);
@@ -80,21 +84,21 @@ export default function ContactForm({
   }, []);
 
   const handleReset = useCallback(() => {
-    dispatch(resetFormState());
+    resetContact();
     router.replace("/contact");
-  }, [dispatch, router]);
+  }, [resetContact, router]);
 
   const handlePrevious = useCallback(() => {
-    previousPathname && router.push(previousPathname);
+    previousPathname && router.push(previousPathname as any);
   }, [previousPathname, router]);
 
   return (
     <>
-      <Form<ContactFormValues>
+      <Form<Contact>
         className="flex flex-col gap-8"
         onSubmit={handleSubmit}
         resetOnSubmit={false}
-        defaultValues={formValues}>
+        defaultValues={contact}>
         <motion.div
           layout
           className={clsx(
@@ -150,7 +154,7 @@ export default function ContactForm({
                             `${pathname.substring(
                               0,
                               pathname.lastIndexOf("/")
-                            )}/${ContactFormSegments.PERSONAL_INFO}`
+                            )}/${ContactFormSegments.PERSONAL_INFO}` as any
                           )
                       : undefined,
                 },
@@ -172,7 +176,7 @@ export default function ContactForm({
                             `${pathname.substring(
                               0,
                               pathname.lastIndexOf("/")
-                            )}/${ContactFormSegments.DETAILS}`
+                            )}/${ContactFormSegments.DETAILS}` as any
                           )
                       : undefined,
                 },
@@ -193,7 +197,7 @@ export default function ContactForm({
                             `${pathname.substring(
                               0,
                               pathname.lastIndexOf("/")
-                            )}/${ContactFormSegments.REVIEW}`
+                            )}/${ContactFormSegments.REVIEW}` as any
                           )
                       : undefined,
                 },

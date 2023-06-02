@@ -1,4 +1,6 @@
-import { LogoLoading } from "@open-system/shared-ui-feature-layout/logo-loading";
+"use client";
+
+import { LogoLoading } from "@open-system/shared-components";
 
 export default function Loading() {
   return (

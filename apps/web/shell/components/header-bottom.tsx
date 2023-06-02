@@ -3,7 +3,7 @@
 import { BaseComponentProps } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
-import { useIsAppHeaderDisplayed } from "../hooks/use-app-header-state";
+import { useIsHeaderDisplayedValue } from "../hooks/useHeaderState";
 import Wave from "../public/images/header-wave.svg";
 
 const container: Variants = {
@@ -29,7 +29,7 @@ export default function HeaderBottom({
   children,
   ...props
 }: BaseComponentProps) {
-  const isAppHeaderDisplayed = useIsAppHeaderDisplayed();
+  const isAppHeaderDisplayed = useIsHeaderDisplayedValue();
 
   return (
     <motion.div

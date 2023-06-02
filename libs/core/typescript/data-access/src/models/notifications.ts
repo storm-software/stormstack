@@ -1,10 +1,23 @@
-import { isDevelopment } from "@open-system/core-utilities";
+import { getGuid, isDevelopment } from "@open-system/core-utilities";
 import { atom } from "jotai";
 import { createScope, molecule } from "jotai-molecules";
-import { atomWithWebStorage } from "../state/atomWithWebStorage";
-import { LinkDetails, MessageTypes } from "../types";
+import { Molecule } from "jotai-molecules/dist/molecule";
+import { MessageTypes, MoleculeObjectKeys, ScopedObjectState } from "../types";
 
-export const NotificationScope = createScope(undefined);
+export interface LinkDetails {
+  href: string;
+  text: string;
+}
+
+export interface Notification extends ScopedObjectState {
+  type: MessageTypes;
+  message: string;
+  link?: LinkDetails;
+}
+
+export type NotificationMolecule = MoleculeObjectKeys<Notification>;
+
+export const NotificationScope = createScope(getGuid());
 
 export const NotificationMolecule = molecule((_, getScope) => {
   const id = getScope(NotificationScope);
@@ -20,7 +33,9 @@ export const NotificationMolecule = molecule((_, getScope) => {
   };
 });
 
-export const notificationsAtom = atom([]);
+export const notificationsAtom = atom<
+  Record<string, Molecule<NotificationMolecule>>
+>({});
 if (isDevelopment()) {
   notificationsAtom.debugPrivate = true;
 }

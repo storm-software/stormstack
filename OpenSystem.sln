@@ -19,17 +19,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Core.Infrastruct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Apis.Gateway", "apps\apis\gateway\OpenSystem.Apis.Gateway.csproj", "{5974C606-0599-4EAA-B3B9-8E31AAF57477}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user", "user", "{4E8C0093-2CB7-40AF-BFFD-85901D0F7CDF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user-management", "user-management", "{4E8C0093-2CB7-40AF-BFFD-85901D0F7CDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.User.Domain", "libs\user\server\domain\OpenSystem.User.Domain.csproj", "{5361C1C5-5EE0-4FAC-A490-789BE10E3304}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.UserManagement.Domain", "libs\user-management\server\domain\OpenSystem.UserManagement.Domain.csproj", "{5361C1C5-5EE0-4FAC-A490-789BE10E3304}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{4FDDF805-0410-476D-BD0D-B79C8C798637}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.Shared.Domain", "libs\shared\server\domain\OpenSystem.Shared.Domain.csproj", "{984BB7D0-144F-4631-B57E-19DF5675D9DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.User.Application", "libs\user\server\application\OpenSystem.User.Application.csproj", "{2C438603-2A28-4B7F-B715-280EDEEB6D19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.UserManagement.Application", "libs\user-management\server\application\OpenSystem.UserManagement.Application.csproj", "{2C438603-2A28-4B7F-B715-280EDEEB6D19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.User.Infrastructure", "libs\user\server\infrastructure\OpenSystem.User.Infrastructure.csproj", "{F6C742C1-252E-4D36-B16F-31849D3F6474}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSystem.UserManagement.Infrastructure", "libs\user-management\server\infrastructure\OpenSystem.UserManagement.Infrastructure.csproj", "{F6C742C1-252E-4D36-B16F-31849D3F6474}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contact", "contact", "{09FF1333-74AA-483A-B0D6-A75A5AA20399}"
 EndProject

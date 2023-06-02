@@ -1,7 +1,7 @@
 "use client";
 
 import { Heading } from "@open-system/design-system-components";
-import { Link } from "@open-system/shared-ui-components/link";
+import { Link } from "@open-system/core-components";
 import clsx from "clsx";
 import { motion, useInView } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";

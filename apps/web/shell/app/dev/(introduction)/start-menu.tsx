@@ -6,12 +6,12 @@ import {
   PowerIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
-import { DateTime } from "@open-system/core-typescript-utilities";
-import { BoxLogo } from "@open-system/shared-ui-components/box-logo";
-import { useClickOutside } from "@open-system/shared-ui-components/hooks";
+import { DateTime } from "@open-system/core-utilities";
+import { useClickOutside } from "@open-system/core-components";
+import { BoxLogo } from "@open-system/shared-components";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import notepadIcon from "../../../../../../assets/notepad-icon.png";
+import notepadIcon from "../../../../../../assets/images/notepad-icon.png";
 
 interface StartMenuProps {
   setClosed: () => void;

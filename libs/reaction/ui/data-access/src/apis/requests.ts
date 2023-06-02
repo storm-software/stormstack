@@ -6,7 +6,7 @@ import {
   fetchHttpHandler,
   ConsoleLogger,
   BaseError,
-} from '@open-system/core-typescript-utilities';
+} from '@open-system/core-utilities';
 import { AddReactionRequest } from '../models';
 import { CommandSuccessResponse } from '../models';
 import { GetReactions200Response } from '../models';
@@ -34,7 +34,7 @@ export const addReaction = async ({ contentId = undefined, body  }: { contentId?
   extraOptions?: any): Promise<{ response?: CommandSuccessResponse , error?: BaseError }> => {
   try {
     const request = ReactionApiRequestFactory.addReaction({
-      contentId, body, 
+      contentId, body,
     });
 
     ConsoleLogger.debug("Sending request:");
@@ -70,7 +70,7 @@ export const getReactions = async ({ contentId = undefined, pageNumber = 1, page
   extraOptions?: any): Promise<{ response?: GetReactions200Response , error?: BaseError }> => {
   try {
     const request = ReactionApiRequestFactory.getReactions({
-      contentId, pageNumber, pageSize, orderBy, type, 
+      contentId, pageNumber, pageSize, orderBy, type,
     });
 
     ConsoleLogger.debug("Sending request:");
@@ -106,7 +106,7 @@ export const getReactionsCount = async ({ contentId = undefined, type = undefine
   extraOptions?: any): Promise<{ response?: GetReactionsCount200Response , error?: BaseError }> => {
   try {
     const request = ReactionApiRequestFactory.getReactionsCount({
-      contentId, type, 
+      contentId, type,
     });
 
     ConsoleLogger.debug("Sending request:");
@@ -142,7 +142,7 @@ export const removeReaction = async ({ contentId = undefined }: { contentId?: st
   extraOptions?: any): Promise<{ response?: CommandSuccessResponse , error?: BaseError }> => {
   try {
     const request = ReactionApiRequestFactory.removeReaction({
-      contentId, 
+      contentId,
     });
 
     ConsoleLogger.debug("Sending request:");

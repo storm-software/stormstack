@@ -4,7 +4,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
-import notepadIcon from "../../../../../../assets/notepad-icon.png";
+import notepadIcon from "../../../../../../assets/images/notepad-icon.png";
 
 interface WindowProps {
   setMinimized: () => void;

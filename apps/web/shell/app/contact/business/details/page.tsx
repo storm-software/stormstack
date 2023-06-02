@@ -1,16 +1,13 @@
 "use client";
 
-import {
-  ContactBusinessDetailsForm,
-  ContactFormSegments,
-} from "@open-system/contact-ui-feature-form";
+import { ContactBusinessDetailsForm } from "@open-system/contact-feature-form";
 import ContactForm from "../../contact-form";
 
 export default function Page() {
   return (
     <ContactForm
-      nextPathname={`/contact/business/${ContactFormSegments.REVIEW}`}
-      previousPathname={`/contact/business/${ContactFormSegments.PERSONAL_INFO}`}>
+      nextPathname="/contact/business/review"
+      previousPathname="/contact/business/personal-info">
       <ContactBusinessDetailsForm />
     </ContactForm>
   );

@@ -1,1 +1,1 @@
-export * from "./GitHubLink";
+export * from "./LinkedInLink";

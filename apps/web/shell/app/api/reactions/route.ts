@@ -1,10 +1,7 @@
-import {
-  ConsoleLogger,
-  parseInteger,
-} from "@open-system/core-typescript-utilities";
+import { ConsoleLogger, parseInteger } from "@open-system/core-utilities";
 import "@sentry/tracing";
 import { NextRequest, NextResponse } from "next/server";
-import { getConnection } from "../../../state/get-connection";
+import { getConnection } from "../../../integrations/redis";
 import { getRepository } from "../../../state/reaction-repository";
 
 // export const runtime = "edge";
@@ -25,17 +22,16 @@ export interface HttpPaginatedResult<T = any> {
    */
   count: number;
 
-    /**
+  /**
    * Total amount of records in the view store
    */
   total: number;
 
-    /**
+  /**
    * Amount of records to offset the search request
    */
   offset: number;
 
- 
   /**
    * Returns `true` if this page is the last page and returns `false` if there are more pages available by calling next available.
    *
@@ -90,7 +86,7 @@ export async function GET(req: NextRequest) {
   }
 
   const connection = await getConnection();
-const repository = await getRepository(connection);
+  const repository = await getRepository(connection);
 
   const search = repository
     .search()

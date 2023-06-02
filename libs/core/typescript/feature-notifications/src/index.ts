@@ -2,3 +2,6 @@
 
 export * from "./notification-banner";
 export * from "./notification-group";
+export * from "./error-boundary";
+export * from "./global-error-boundary";
+export * from "./types";

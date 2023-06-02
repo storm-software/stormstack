@@ -48,11 +48,12 @@ export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
   return (
     <div className="group h-fit w-fit cursor-pointer">
       <div className="relative mb-7 group-hover:animate-bounce">
-        {true === false /*reactions[contentId]*/ ? (
+        <PlusIcon className="w-32" />
+        {/*reactions[contentId] ? (
           <CheckIcon className="w-32" />
         ) : (
           <PlusIcon className="w-32" />
-        )}
+        )*/}
         <div className="absolute top-10 flex w-full justify-center text-center">
           <label className="inset-0 mx-auto cursor-pointer font-like-label text-3xl text-primary transition duration-300 group-hover:text-quaternary">
             {count}
@@ -61,7 +62,7 @@ export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
       </div>
       <div className="absolute bottom-0 flex w-full justify-center px-4 pb-2">
         <label className="cursor-pointer font-like-label text-2xl text-primary transition duration-300 group-hover:text-quaternary group-hover:underline">
-          {true === false /*reactions[contentId]*/ ? "Liked" : "Like"}
+          Like {/*reactions[contentId] ? "Liked" : "Like"*/}
         </label>
       </div>
     </div>

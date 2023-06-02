@@ -5,10 +5,10 @@ import {
   InputProps as OsInputProps,
 } from "@open-system/design-system-components";
 import { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
-import { useFieldValue } from "../hooks/use-field-value";
-import { useIsSubmitting } from "../hooks/use-is-submitting";
+import { UseFormRegisterReturn, useFormContext } from "react-hook-form";
 import { useFieldErrors } from "../hooks/useFieldErrors";
+import { useFieldValue } from "../hooks/useFieldValue";
+import { useIsSubmitting } from "../hooks/useIsSubmitting";
 import { ValidationPropType } from "../types";
 
 export type InputProps = Omit<
@@ -38,7 +38,7 @@ export function Input({
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
 
-  const field = register(name, {
+  const field = (register?.(name, {
     required: required ? "This field is required." : undefined,
     min,
     max,
@@ -63,10 +63,11 @@ export function Input({
         : maxLength
       : undefined,
     pattern,
-  });
+  }) ?? {}) as UseFormRegisterReturn<string>;
+
   useEffect(() => {
     trigger();
-    return () => unregister(name, { keepIsValid: false });
+    return () => unregister?.(name, { keepIsValid: false });
   }, [name, trigger, unregister]);
 
   return (

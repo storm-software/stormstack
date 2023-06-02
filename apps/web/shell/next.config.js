@@ -1,9 +1,8 @@
 const { composePlugins, withNx } = require("@nx/next");
 // const flowRight = require("lodash/flowRight");
 // const withI18n = require("./config/withI18n");
-// const withEnv = require("./config/withEnv");
 //const withSentry = require("./config/withSentry");
-const { withSentryConfig } = require("@sentry/nextjs");
+// const { withSentryConfig } = require("@sentry/nextjs");
 // const { CONTACT_URL, ABLY_API_KEY } = process.env;
 
 /**
@@ -21,10 +20,23 @@ const nextConfig = {
   swcMinify: true,
   reactStrictMode: true,
 
+  /*pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],*/
+
   experimental: {
-    typedRoutes: true,
     serverActions: true,
     serverComponentsExternalPackages: ["redis", "redis-om"],
+
+    /*swcPlugins: [
+      [
+        "next-superjson-plugin",
+        {
+          excluded: [],
+        },
+      ],
+    ],
+    webpackBuildWorker: true,
+    swcTraceProfiling: true,
+    forceSwcTransforms: true,*/
   },
 
   devIndicators: {
@@ -32,9 +44,15 @@ const nextConfig = {
   },
 
   transpilePackages: [
+    "jotai",
     "framer-motion",
     "react-lottie",
+    "react-hook-form",
     "@open-system/design-system-components",
+    "@open-system/core-components",
+    "@open-system/core-feature-form",
+    "@open-system/shared-components",
+    "@open-system/contact-feature-form",
   ],
 
   // Disable linting during build => the linter may have optional dev dependencies
@@ -127,7 +145,43 @@ const nextConfig = {
 
 const plugins = [
   // require("@next/mdx")(),
+
   withNx,
+
+  config => {
+    // Enable Webpack analyzer
+    if (process.env.ANALYZE) {
+      const withBundleAnalyzer = require("@next/bundle-analyzer")({
+        enabled: !!process.env.ANALYZE,
+      });
+      return withBundleAnalyzer(config);
+    }
+
+    return config;
+  },
+
+  config => {
+    if (process.env.MAINTENANCE_MODE) {
+      config.redirects = async () => {
+        return [
+          {
+            source: "/",
+            destination: "/maintenance",
+            permanent: false,
+          },
+          {
+            source: "/((?!maintenance|_next|api).*)",
+            destination: "/maintenance",
+            permanent: false,
+          },
+          ...config.redirects,
+        ];
+      };
+    }
+
+    return config;
+  },
+
   /*config =>
     withSentryConfig(
       config,

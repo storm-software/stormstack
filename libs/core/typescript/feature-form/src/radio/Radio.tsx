@@ -7,8 +7,8 @@ import {
 } from "@open-system/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { useFieldValue } from "../hooks/use-field-value";
-import { useIsSubmitting } from "../hooks/use-is-submitting";
+import { useFieldValue } from "../hooks/useFieldValue";
+import { useIsSubmitting } from "../hooks/useIsSubmitting";
 import { useFieldErrors } from "../hooks/useFieldErrors";
 import { RadioOption } from "./Radio.types";
 

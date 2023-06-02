@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { getGuid } from "@open-system/core-typescript-utilities";
+import { getGuid } from "@open-system/core-utilities";
 import {
   BaseComponentProps,
   InputAutoCompleteTypes,

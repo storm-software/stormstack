@@ -1,4 +1,4 @@
-import { CustomUtilityClass } from "@open-system/core-typescript-utilities";
+import { CustomUtilityClass } from "@open-system/core-utilities";
 import { RefObject } from "react";
 import { FieldProxyConfig } from "../types";
 

@@ -144,14 +144,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       [disabled, onDoubleClick]
     );
 
-    const handleHoverStart: MouseEventHandler<HTMLButtonElement> = useCallback(
-      (event?: MouseEvent) => {
+    const handleHoverStart = useCallback(
+      (event?: any) => {
         onHoverStart?.(event);
       },
       [onHoverStart]
     );
-    const handleHoverEnd: MouseEventHandler<HTMLButtonElement> = useCallback(
-      (event?: MouseEvent) => {
+    const handleHoverEnd = useCallback(
+      (event?: any) => {
         onHoverEnd?.(event);
       },
       [onHoverEnd]
@@ -183,8 +183,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
-        onHoverStart={handleHoverStart}
-        onHoverEnd={handleHoverEnd}>
+        onMouseEnter={handleHoverStart}
+        onMouseLeave={handleHoverEnd}>
         <div
           className={clsx(
             getTextColor(disabled, variant),

@@ -90,6 +90,7 @@ select:-webkit-autofill:focus:disabled {
 .title-text h1:nth-child(odd) {
   --glitch-translate: 8px;
 }
+
 .title-text h1:nth-child(even) {
   --glitch-translate: -8px;
 }
@@ -97,9 +98,11 @@ select:-webkit-autofill:focus:disabled {
 #title-text-1 {
   --index: 0;
 }
+
 #title-text-2 {
   --index: 1;
 }
+
 #title-text-3 {
   --index: 2;
 }

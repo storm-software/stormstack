@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { useCallback } from "react";
-import notepadIcon from "../../../../../../assets/notepad-icon.png";
+import notepadIcon from "../../../../../../assets/images/notepad-icon.png";
 import { WindowStateTypes } from "./use-window-state";
 
 interface TaskbarItemProps {

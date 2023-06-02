@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-typescript-utilities";
+import { isEmptyObject } from "@open-system/core-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,
@@ -70,7 +70,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         errors={errors}
         warning={warning}
         focused={focused}
-        handleFocus={handleFocus}
+        handleFocused={handleFocus}
         disabled={disabled}
         required={required}
         noBorder={noBorder}

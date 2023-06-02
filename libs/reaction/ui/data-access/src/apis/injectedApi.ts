@@ -4,7 +4,7 @@ import {
   RequestContext,
   HttpFile,
   HttpHandler
-} from '@open-system/core-typescript-utilities';
+} from '@open-system/core-utilities';
 import { AddReactionRequest } from '../models';
 import { CommandSuccessResponse } from '../models';
 import { GetReactions200Response } from '../models';
@@ -30,7 +30,7 @@ export interface ReactionApiAddReactionRequest {
      */
     contentId?: string;
     /**
-     * 
+     *
      * @type AddReactionRequest
      * @memberof ReactionApiaddReaction
      */
@@ -101,7 +101,7 @@ export const reactionApi = api
     addTagTypes,
   })
   .injectEndpoints({
-    endpoints: (build: EndpointBuilder<HttpHandler, "Reaction", "reactionApi">) => ({ 
+    endpoints: (build: EndpointBuilder<HttpHandler, "Reaction", "reactionApi">) => ({
       addReaction: build.mutation<CommandSuccessResponse, ReactionApiAddReactionRequest>({
         query: queryArg => ReactionApiRequestFactory.addReaction(queryArg),
         invalidatesTags: ["Reaction"],

@@ -14,7 +14,7 @@ import {
   isEmpty,
   isString,
   isEmptyObject
-} from '@open-system/core-typescript-utilities';
+} from '@open-system/core-utilities';
 import { enumsMap, typeMap } from '../models/ObjectSerializer';
 import { AddReactionRequest } from '../models';
 import { CommandSuccessResponse } from '../models';
@@ -31,7 +31,7 @@ export class ReactionApiRequestFactory {
      * Add a new reaction to an article
      * Add Reaction
      * @param contentId The id of the article/comment
-     * @param addReactionRequest 
+     * @param addReactionRequest
      */
     public static addReaction({ contentId = undefined, body  }: { contentId?: string; body?: AddReactionRequest;  }): RequestContext {
         // verify required parameter 'contentId' is not null or undefined
@@ -79,7 +79,7 @@ export class ReactionApiRequestFactory {
     }
 
     /**
-     * Return the reactions for a specific article, comment, etc. 
+     * Return the reactions for a specific article, comment, etc.
      * Get Reactions
      * @param contentId The id of the article/comment
      * @param pageNumber The current page number of the selected data
@@ -170,7 +170,7 @@ export class ReactionApiRequestFactory {
     }
 
     /**
-     * Return the reaction counts for a specific article, comment, etc. 
+     * Return the reaction counts for a specific article, comment, etc.
      * Get Reaction Counts
      * @param contentId The id of the article/comment
      * @param type The type of reaction the user had

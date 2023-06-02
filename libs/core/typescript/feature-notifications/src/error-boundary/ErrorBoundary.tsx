@@ -1,6 +1,6 @@
 "use client";
 
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import {
   Button,
   ButtonCornerRoundingTypes,
@@ -11,7 +11,7 @@ import {
   Modal,
   ModalVariants,
 } from "@open-system/design-system-components";
-import { ErrorBoundaryProps } from "@open-system/shared-ui-components";
+import { ErrorBoundaryProps } from "../types";
 import { useEffect } from "react";
 import AlertIcon from "../../../../../../assets/alert-triangle.svg";
 

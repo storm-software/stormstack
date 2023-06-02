@@ -7,9 +7,7 @@ import {
   Heading,
   PropsWithBase,
 } from "@open-system/design-system-components";
-import { ModalReference } from "@open-system/shared-ui-components";
-import { Link } from "@open-system/shared-ui-components/link";
-import { Modal } from "@open-system/shared-ui-components/modal";
+import { Link, Modal, ModalReference  } from "@open-system/core-components";
 import { useCallback, useRef } from "react";
 
 type TechnologyProps = PropsWithBase<{

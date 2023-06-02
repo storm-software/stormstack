@@ -1,62 +1,66 @@
 "use client";
 
-import {
-  selectContactFormCreatedDateTime,
-  selectContactFormValues,
-} from "@open-system/contact-ui-data-access";
+import { useContactValue } from "@open-system/contact-data-access";
 import {
   ContactFormSegments,
   ContactTypeForm,
-} from "@open-system/contact-ui-feature-form";
-import { isEmpty } from "@open-system/core-typescript-utilities";
-import { addInfoNotification } from "@open-system/shared-ui-data-access";
+} from "@open-system/contact-feature-form";
+import { MessageTypes, useSetAlerts } from "@open-system/core-data-access";
+import { DateTime, isEmpty } from "@open-system/core-utilities";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import ContactForm from "./contact-form";
 
 export default function Page() {
-  const createdDateTime = useSelector(selectContactFormCreatedDateTime);
+  const contact = useContactValue();
+  const { add } = useSetAlerts();
 
   const router = useRouter();
-
-  const formValues = useSelector(selectContactFormValues);
-
-  const dispatch = useDispatch();
   useEffect(() => {
     if (
-      !isEmpty(createdDateTime) &&
-      createdDateTime?.getDuration().minutes &&
+      contact &&
+      !isEmpty(contact.draftSavedDateTime) &&
+      DateTime.isValid(contact.draftSavedDateTime) &&
       router &&
-      formValues?.reason
+      contact.reason
     ) {
-      dispatch(
-        addInfoNotification(
-          `Reloaded details previously added on ${createdDateTime
-            ?.getPlainDate()
-            .toLocaleString()} at ${createdDateTime
-            ?.getPlainTime()
-            .toLocaleString(undefined, { timeStyle: "short" })}`
-        )
-      );
+      add({
+        id: "234234234242",
+        type: MessageTypes.INFO,
+        summary: `Reloaded details previously added on ${contact.draftSavedDateTime
+          ?.getPlainDate()
+          .toLocaleString()} at ${contact.draftSavedDateTime
+          ?.getPlainTime()
+          .toLocaleString(undefined, { timeStyle: "short" })}`,
+        isExtendable: false,
+      });
 
-      if (formValues.reason) {
-        if (formValues.email && formValues.firstName && formValues.lastName) {
+      if (contact.reason) {
+        if (contact.email && contact.firstName && contact.lastName) {
           router.replace(
-            `/contact/${formValues.reason}/${ContactFormSegments.DETAILS}`
+            `/contact/${contact.reason}/${ContactFormSegments.DETAILS}` as any
           );
         } else {
           router.replace(
-            `/contact/${formValues.reason}/${ContactFormSegments.PERSONAL_INFO}`
+            `/contact/${contact.reason}/${ContactFormSegments.PERSONAL_INFO}` as any
           );
         }
       }
     }
-  }, [createdDateTime?.toString()]);
+  }, [
+    add,
+    contact,
+    contact.draftSavedDateTime,
+    contact.email,
+    contact.firstName,
+    contact.lastName,
+    contact.reason,
+    router,
+  ]);
 
   return (
     <ContactForm
-      nextPathname={`/contact/${formValues?.reason ?? "business"}/${
+      nextPathname={`/contact/${contact.reason ?? "business"}/${
         ContactFormSegments.PERSONAL_INFO
       }`}>
       <ContactTypeForm />

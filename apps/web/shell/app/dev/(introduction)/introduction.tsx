@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import coffee from "../../../../../../assets/coffee.png";
-import keyboard from "../../../../../../assets/keyboard.png";
+import coffee from "../../../../../../assets/images/coffee.png";
+import keyboard from "../../../../../../assets/images/keyboard.png";
 import Monitor from "./monitor";
 
 export default function Introduction() {

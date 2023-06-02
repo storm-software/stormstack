@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+import { HttpMediaTypes } from "../types";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const primitives = [
   "string",

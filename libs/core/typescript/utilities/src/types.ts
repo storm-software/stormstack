@@ -313,11 +313,33 @@ export interface HttpFetchApi {
   forced?: boolean;
 }
 
-
 export const HttpMediaTypes = {
   JSON: "application/json",
   OCTET_STREAM: "application/octet-stream",
   FORM: "application/x-www-form-urlencoded",
   TEXT: "text/plain",
-  HTML: "text/html"
+  HTML: "text/html",
+};
+
+export type HttpMethods = "DELETE" | "GET" | "HEAD" | "POST" | "PUT" | "PATCH";
+export const HttpMethods = {
+  DELETE: "DELETE" as HttpMethods,
+  GET: "GET" as HttpMethods,
+  HEAD: "HEAD" as HttpMethods,
+  POST: "POST" as HttpMethods,
+  PUT: "PUT" as HttpMethods,
+  PATCH: "PATCH" as HttpMethods,
+};
+
+export type CredentialOption = "include" | "same-origin" | "omit";
+
+export type Rollback = Record<
+  string,
+  (initialValue: any, currentValue: any) => any
+>;
+
+export type QueryOptions = {
+  credentials?: CredentialOption;
+  method?: HttpMethods;
+  headers?: { [key: string]: any };
 };

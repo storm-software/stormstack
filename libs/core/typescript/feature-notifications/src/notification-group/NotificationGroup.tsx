@@ -1,7 +1,8 @@
 "use client";
 
+import { AlertScope, useAlerts } from "@open-system/core-data-access";
 import { BaseComponentProps } from "@open-system/design-system-components";
-import { Notification } from "@open-system/shared-ui-data-access";
+import { ScopeProvider } from "jotai-molecules";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { NotificationBanner } from "../notification-banner";
@@ -13,7 +14,7 @@ export const NotificationGroup = ({
   children,
   ...props
 }: BaseComponentProps) => {
-  const notifications = []; //useSelector(selectNotificationList);
+  const alerts = useAlerts();
 
   const portalRef = useRef<Element | null>(null);
 
@@ -26,13 +27,10 @@ export const NotificationGroup = ({
   return mounted && portalRef.current
     ? createPortal(
         <div className="fixed z-notification flex h-0 w-full flex-col gap-2 overflow-visible p-5">
-          {notifications.map((notification: Notification, i: number) => (
-            <NotificationBanner
-              key={notification.id}
-              id={notification.id}
-              type={notification.type}
-              message={notification.message}
-            />
+          {Object.values(alerts).map((alert: any, i) => (
+            <ScopeProvider key={i} scope={AlertScope} value={alert.id}>
+              <NotificationBanner id={alert.id} />
+            </ScopeProvider>
           ))}
         </div>,
         portalRef.current

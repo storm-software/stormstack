@@ -18,7 +18,7 @@ export const formatDateTime = (
   dateTime
     ? `${dateTime
         .toZonedDateTime({
-          timeZone: timeZone ?? process.env.DEFAULT_TIMEZONE ?? "UTC",
+          timeZone: timeZone /*?? process.env.DEFAULT_TIMEZONE*/ ?? "UTC",
           calendar: "gregory",
         })
         .toString(options)}`
@@ -40,6 +40,6 @@ export const formatDateTimeISO = (
 ): string =>
   dateTime
     ? `${dateTime
-        .toZonedDateTimeISO(timeZone ?? process.env.DEFAULT_TIMEZONE ?? "UTC")
+        .toZonedDateTimeISO(timeZone /*?? process.env.DEFAULT_TIMEZONE*/ ?? "UTC")
         .toString(options)}`
     : "";

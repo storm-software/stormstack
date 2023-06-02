@@ -1,7 +1,7 @@
 import {
   ApiException,
   EnvConfigurationError,
-} from "@open-system/core-typescript-utilities";
+} from "@open-system/core-utilities";
 import LikeButtonClient from "../(components)/LikeButtonClient";
 import {
   DOMAIN_NAME,

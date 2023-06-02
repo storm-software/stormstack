@@ -1,7 +1,7 @@
 import {
   ApiException,
   EnvConfigurationError,
-} from "@open-system/core-typescript-utilities";
+} from "@open-system/core-utilities";
 import { PropsWithBase } from "@open-system/design-system-components";
 import {
   DOMAIN_NAME,

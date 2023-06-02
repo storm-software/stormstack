@@ -1,7 +1,7 @@
 import {
   ApiException,
   ConsoleLogger,
-} from "@open-system/core-typescript-utilities";
+} from "@open-system/core-utilities";
 import { RequestOptions } from "http";
 import { KsqlDBRest } from "./type/types";
 

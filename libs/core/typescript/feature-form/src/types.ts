@@ -1,7 +1,7 @@
 import {
   BrowserNativeObject,
   NestedValue
-} from "@open-system/core-typescript-utilities";
+} from "@open-system/core-utilities";
 
 export type DeepPartial<T> = T extends BrowserNativeObject | NestedValue
   ? T

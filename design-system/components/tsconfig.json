@@ -8,9 +8,10 @@
     "forceConsistentCasingInFileNames": true,
     "strict": false,
     "noImplicitOverride": false,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true
   },
   "files": [],

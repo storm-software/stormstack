@@ -1,4 +1,4 @@
-import { fetchHttpHandler } from "@open-system/core-typescript-utilities";
+import { fetchHttpHandler } from "@open-system/core-utilities";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 // initialize an empty api service that we'll inject endpoints into later as needed

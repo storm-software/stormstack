@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import Image from "next/image";
-import notepadIcon from "../../../../../../assets/notepad-icon.png";
+import notepadIcon from "../../../../../../assets/images/notepad-icon.png";
 import { WindowStateTypes } from "./use-window-state";
 import Window from "./window";
 

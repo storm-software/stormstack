@@ -1,6 +1,6 @@
 /**
  * Reaction APIs
- * A collection of APIs used to get and set user reactions and comments for an article/page 
+ * A collection of APIs used to get and set user reactions and comments for an article/page
  *
  * OpenAPI spec version: 1
  * Contact: Patrick.Joseph.Sullivan@protonmail.com
@@ -12,7 +12,7 @@
 
 import {
   HttpFile,
-} from '@open-system/core-typescript-utilities';
+} from '@open-system/core-utilities';
 
 
 export class ProblemDetailsResponseField {

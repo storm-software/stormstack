@@ -10,10 +10,10 @@ import {
   AuthApiKey,
   AuthUsername,
   AuthPassword
-} from "@open-system/core-typescript-utilities";
+} from "@open-system/core-utilities";
 import type {
   TokenProvider
-} from "@open-system/core-typescript-utilities";
+} from "@open-system/core-utilities";
 
 
 export type AuthMethods = {

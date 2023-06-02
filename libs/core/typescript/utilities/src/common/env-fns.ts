@@ -1,5 +1,4 @@
 export const isProduction = (): boolean =>
-  !!(process.env.NODE_ENV?.toLowerCase() === "production");
+  false/*!!(process.env.NODE_ENV?.toLowerCase() "development" === "production");*/
 
-  export const isDevelopment = (): boolean =>
-  !isProduction();
+export const isDevelopment = (): boolean => !isProduction();

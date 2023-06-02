@@ -1,10 +1,10 @@
-import { BoxLogo } from "@open-system/shared-ui-components/box-logo";
-import { Link } from "@open-system/shared-ui-components/link";
-import { Footer } from "@open-system/shared-ui-feature-layout/footer";
-import { NavigationMenu } from "@open-system/shared-ui-feature-layout/navigation-menu";
-import { SocialMediaLinks } from "@open-system/shared-ui-feature-layout/social-media-links";
+import { Link, SocialMediaLinks } from "@open-system/core-components";
+import {
+  BoxLogo,
+  Footer,
+  NavigationMenu,
+} from "@open-system/shared-components";
 import clsx from "clsx";
-import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 import {
   antiqueOlive,
@@ -15,12 +15,12 @@ import {
   satoshi,
 } from "../styles/fonts";
 import "../styles/globals.css";
-import ContactFooterForm from "./(components)/contact-footer-form";
+// import {ContactFooterForm} from "@open-system/contact-ui-feature-form";
 import RootProvider from "./root-provider";
 
-const CookiePolicyBanner = dynamic(
+/*const CookiePolicyBanner = dynamic(
   () => import("./(components)/cookie-policy-banner.client")
-);
+);*/
 
 export const metadata = {
   colorScheme: "dark",
@@ -107,14 +107,14 @@ export default function RootLayout(props: {
           <RootProvider>{props.children}</RootProvider>
         </div>
 
-        {props.rating}
+        {/*props.rating*/}
 
-        <CookiePolicyBanner />
+        {/*<CookiePolicyBanner />*/}
 
         <Footer
           top={
             <div className="flex flex-row gap-16">
-              <ContactFooterForm />
+              {/*<ContactFooterForm />*/}
               <div className="hidden flex-row items-center justify-center lg:flex">
                 <Link className="h-[20rem] w-[28rem]">
                   <BoxLogo className="h-[20rem] w-[28rem]" />
@@ -156,7 +156,7 @@ export default function RootLayout(props: {
                 <Link variant="secondary">Storybook</Link>
               </div>
               <div className="flex h-full flex-col items-center">
-                <PdfResumeDownloadLink />
+                {/*<PdfResumeDownloadLink />*/}
               </div>
               <div className="flex flex-1 flex-col items-center justify-center sm:flex-row">
                 <div className="flex w-fit flex-col gap-0.5">

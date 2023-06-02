@@ -1,10 +1,10 @@
 "use client";
 
 import { SpeakerWaveIcon, WifiIcon } from "@heroicons/react/24/outline";
-import { DateTime } from "@open-system/core-typescript-utilities";
+import { DateTime } from "@open-system/core-utilities";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import startButton from "../../../../../../assets/start-button.png";
+import startButton from "../../../../../../assets/images/start-button.png";
 import StartMenu from "./start-menu";
 import TaskbarItem from "./taskbar-item";
 import { StartMenuStateTypes } from "./use-start-menu-state";

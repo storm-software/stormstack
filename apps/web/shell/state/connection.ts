@@ -1,3 +1,3 @@
-import { getConnection } from "./get-connection";
+import { getConnection } from "../integrations/redis";
 
 export const connection = await getConnection();

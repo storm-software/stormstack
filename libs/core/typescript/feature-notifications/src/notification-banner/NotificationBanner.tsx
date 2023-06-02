@@ -1,17 +1,16 @@
 "use client";
 
+import { ModalReference } from "@open-system/core-components";
+import { AlertMolecule, useSetAlerts } from "@open-system/core-data-access";
 import {
   MessageBar,
   MessageBarVariants,
   PropsWithBase,
 } from "@open-system/design-system-components";
-import { ModalReference } from "@open-system/shared-ui-components";
-import {
-  NotificationTypes,
-  removeNotification,
-} from "@open-system/shared-ui-data-access";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAtomValue } from "jotai";
+import { useMolecule } from "jotai-molecules";
 import {
   ForwardedRef,
   forwardRef,
@@ -19,23 +18,12 @@ import {
   useImperativeHandle,
   useState,
 } from "react";
-import { useDispatch } from "react-redux";
 
 export type NotificationBannerProps = PropsWithBase<{
   /**
    * Identifier of the notification in the store
    */
   id: string;
-
-  /**
-   * The type of the notification
-   */
-  type?: NotificationTypes;
-
-  /**
-   * The text message displayed at the top of the modal
-   */
-  message: string;
 
   /**
    * The initial value for the `opened` state when the modal is first rendered
@@ -51,24 +39,25 @@ export const NotificationBanner = forwardRef<
   NotificationBannerProps
 >(
   (
-    {
-      id,
-      className,
-      message,
-      initialOpened = true,
-      type = NotificationTypes.INFO,
-    }: NotificationBannerProps,
+    { id, className, initialOpened = true }: NotificationBannerProps,
     ref: ForwardedRef<ModalReference>
   ) => {
     const [opened, setOpened] = useState(initialOpened);
 
-    const dispatch = useDispatch();
+    const alertAtom = useMolecule(AlertMolecule);
+    const alert = useAtomValue(alertAtom);
+    const type = useAtomValue<string>(alert.typeAtom);
+    const summary = useAtomValue<string>(alert.summaryAtom);
+
+    // const details = useAtomValue(alert.detailsAtom);
+
+    const { remove } = useSetAlerts();
 
     const handleOpen = useCallback(() => !opened && setOpened(true), [opened]);
     const handleClose = useCallback(() => {
       opened && setOpened(false);
-      dispatch(removeNotification(id));
-    }, [dispatch, id, opened]);
+      remove(id);
+    }, [remove, id, opened]);
 
     useImperativeHandle<ModalReference, ModalReference>(
       ref,
@@ -95,7 +84,7 @@ export const NotificationBanner = forwardRef<
             }}>
             <MessageBar
               variant={type as MessageBarVariants}
-              message={message}
+              message={summary ?? ""}
               onClose={handleClose}
             />
           </motion.div>

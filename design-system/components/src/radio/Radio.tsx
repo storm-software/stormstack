@@ -42,8 +42,8 @@ export const Radio = ({
 }: RadioProps) => {
   const [focused, setFocused] = useState<boolean>(false);
   const handleFocus = useCallback(
-    (event: FocusEvent<HTMLInputElement>) => {
-      event.stopPropagation();
+    (event?: FocusEvent<any>) => {
+      event && event.stopPropagation();
 
       if (!disabled) {
         setFocused(true);
@@ -76,7 +76,7 @@ export const Radio = ({
       errors={errors}
       warning={warning}
       focused={focused}
-      handleFocus={handleFocus}
+      handleFocused={handleFocus}
       disabled={disabled}
       required={required}
       noBorder={noBorder}>

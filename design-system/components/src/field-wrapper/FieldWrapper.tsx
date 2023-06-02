@@ -1,19 +1,20 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 "use client";
 
-import { isEmptyObject } from "@open-system/core-typescript-utilities";
+import { isEmptyObject } from "@open-system/core-utilities";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
+import { FocusEvent } from "react";
 import { PropsWithBase } from "../types";
 import { getFieldTextStyle } from "../utilities/field-style-utils";
 import { getSvgFillStyle } from "../utilities/svg-style-utils";
-import { FieldWrapperLabel } from "./field-wrapper-label";
 import { FieldLabelPlacementTypes } from "./FieldWrapper.types";
 import {
   getBorderStyle,
   getIsBorderDisplayed,
   getPulseBackgroundStyle,
 } from "./FieldWrapper.utils";
+import { FieldWrapperLabel } from "./field-wrapper-label";
 
 export type FieldWrapperProps = PropsWithBase<{
   /**
@@ -124,7 +125,7 @@ export const FieldWrapper = ({
       )}>
       <motion.div
         className={clsx(
-          "absolute left-0 top-0 bottom-0 flex w-[5px] flex-row items-center overflow-y-hidden"
+          "absolute bottom-0 left-0 top-0 flex w-[5px] flex-row items-center overflow-y-hidden"
         )}
         initial={false}
         animate={isBorderDisplayed ? "opened" : "closed"}>
@@ -227,7 +228,7 @@ export const FieldWrapper = ({
             {children}
 
             {disabled && !noDisabledIcon && (
-              <div className="absolute top-1/4 right-3">
+              <div className="absolute right-3 top-1/4">
                 <svg
                   width="20"
                   height="20"

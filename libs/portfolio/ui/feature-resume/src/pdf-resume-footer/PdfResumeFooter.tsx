@@ -1,4 +1,4 @@
-import { DateTime } from "@open-system/core-typescript-utilities";
+import { DateTime } from "@open-system/core-utilities";
 import { PdfText, pdfTw, PdfView } from "@open-system/core-feature-pdf";
 
 export function PdfResumeFooter() {

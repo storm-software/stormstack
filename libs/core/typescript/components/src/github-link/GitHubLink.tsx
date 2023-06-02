@@ -1,3 +1,5 @@
+"use client";
+
 import { BaseComponentProps } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { Link } from "../link";

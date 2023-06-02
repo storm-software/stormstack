@@ -1,6 +1,6 @@
 "use client";
 
-import { HorizontalSeparator } from "@open-system/shared-ui-components/horizontal-separator";
+import { HorizontalSeparator } from "@open-system/core-components";
 import { useInView } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRef } from "react";

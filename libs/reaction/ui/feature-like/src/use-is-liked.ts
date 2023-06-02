@@ -1,10 +1,10 @@
 "use client";
 
 //import { AbstractReactionsApi } from "@open-system/reaction-ui-data-access";
-import { parseCookies, setCookie } from "nookies";
+//import { parseCookies, setCookie } from "nookies";
 import { useCallback, useState } from "react";
-import { UserLikeHistoryConstants } from "./constants";
-import { UserLikeHistory } from "./types";
+//import { UserLikeHistoryConstants } from "./constants";
+//import { UserLikeHistory } from "./types";
 
 export function useIsLiked(
   pageId: string,
@@ -16,18 +16,12 @@ export function useIsLiked(
   return [
     isLiked,
     useCallback(async () => {
-      const cookie: UserLikeHistory = parseCookies()?.[
+      /*const cookie: UserLikeHistory = parseCookies()?.[
         UserLikeHistoryConstants.COOKIE_NAME
       ]
         ? JSON.parse(parseCookies()?.[UserLikeHistoryConstants.COOKIE_NAME])
         : {};
       console.log(cookie);
-
-      /*await api.addArticleReaction({
-        id: pageId,
-        type: "like",
-        userId: "PSUL",
-      });*/
 
       cookie[pageId] = !cookie[pageId];
       setIsLiked(cookie[pageId]);
@@ -36,7 +30,7 @@ export function useIsLiked(
         null,
         UserLikeHistoryConstants.COOKIE_NAME,
         JSON.stringify(cookie)
-      );
+      );*/
     }, [pageId]),
   ];
 }

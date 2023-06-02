@@ -1,5 +1,5 @@
 import { GraphQLLiveDirective } from "@envelop/live-query";
-import { ConsoleLogger } from "@open-system/core-typescript-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import { camelCase, camelCaseTransformMerge } from "change-case";
 import {
   GraphQLFloat,

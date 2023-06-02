@@ -21,8 +21,13 @@ export function SubmitButton({
   inverse,
   ...props
 }: SubmitButtonProps) {
-  const { isSubmitting, isValidating, isSubmitSuccessful, isValid as isRequiredMissing } = useFormState();
-  const isValid = useIsValid(true);
+  const {
+    isSubmitting,
+    isValidating,
+    isSubmitSuccessful,
+    isValid,
+  } = useFormState();
+  const isAnyError = useIsValid(true);
 
   const [isStopped, setIsStopped] = useState(true);
   const handleHoverStart = useCallback(() => {
@@ -49,8 +54,8 @@ export function SubmitButton({
         disabled ||
         isSubmitting ||
         isSubmitSuccessful ||
-        isRequiredMissing ||
-        !isValid ||
+        isValid ||
+        !isAnyError ||
         isValidating
       }
       {...props}>
@@ -62,7 +67,7 @@ export function SubmitButton({
           isSubmitting={isSubmitting}
           isValidating={isValidating}
           isSubmitSuccessful={isSubmitSuccessful}
-          isValid={!isValid && !isRequiredMissing}
+          isValid={!isAnyError && !isValid}
         />
       </div>
     </Button>

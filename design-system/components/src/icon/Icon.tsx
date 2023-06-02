@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import { PropsWithBase } from "../types";
-import { getIconData } from "./Icon.utils";
 
 export type IconProps = PropsWithBase<{
   /**
@@ -24,18 +23,27 @@ export const Icon = ({
   autoplay = false,
   ...props
 }: IconProps) => {
-  const [animationData, setAnimationData] = useState(null);
-  
+  const [animationData, setAnimationData] = useState<any>(null);
+
   useEffect(() => {
-    getIconData(type).then(data => {
-      if (data) {
-        setAnimationData(data);
+    if (type) {
+      setAnimationData(null /*getIconData(type)*/);
+    }
+
+    /*async function fetchData() {
+      if (type) {
+        const data = await getIconData(type);
+
+        if (data) {
+          setAnimationData(data);
+        }
       }
-    });
+    }
+    fetchData();*/
   }, [type]);
 
   if (!animationData) {
-    return "Loading...";
+    return <p>Loading...</p>;
   }
 
   return (
@@ -51,4 +59,4 @@ export const Icon = ({
       }}
     />
   );
-}
+};
