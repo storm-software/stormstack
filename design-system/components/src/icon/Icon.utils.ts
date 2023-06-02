@@ -9,14 +9,14 @@ import Wrench from "../../assets/icons/wrench.json";
 
 import { IconTypes } from "./Icon.types";
 
-/*const Download = dynamic(() => import("../../assets/icons/download.json"));
+const Download = dynamic(() => import("../../assets/icons/download.json"));
 const Pencil = dynamic(() => import("../../assets/icons/pencil.json"));
 const Wrench = dynamic(() => import("../../assets/icons/wrench.json"));
 const Bell = dynamic(() => import("../../assets/icons/bell.json"));
 const List = dynamic(() => import("../../assets/icons/list.json"));
 const ErrorAlert = dynamic(() => import("../../assets/icons/error-alert.json"));
 const Arrow = dynamic(() => import("../../assets/icons/arrow.json"));
-const PostBox = dynamic(() => import("../../assets/icons/post-box.json"));*/
+const PostBox = dynamic(() => import("../../assets/icons/post-box.json"));
 
 export const getIconData = async (iconType: string) => {
   if (iconType === IconTypes.DOWNLOAD) {

@@ -60,7 +60,7 @@ export default function Page() {
                 className="h-full min-h-[8rem] hover:cursor-pointer"
                 title="Contact"
                 details="Reach out to me for anything and everything"
-                iconType="postbox"
+                iconType="post-box"
               />
               <Card
                 className="h-full min-h-[8rem] hover:cursor-pointer"

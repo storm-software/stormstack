@@ -159,7 +159,7 @@ export function NavigationMenu({
         {/*<Link href="/contact">*/}
           <Button
             className="w-8"
-            variant={ButtonVariants.PRIMARY}
+            variant={ButtonVariants.GRADIENT}
             glowType={ButtonGlowTypes.ALWAYS}
             rounding={ButtonCornerRoundingTypes.FULL}
 
