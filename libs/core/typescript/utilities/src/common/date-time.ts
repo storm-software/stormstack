@@ -1,7 +1,7 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { IDateTime, Tokens } from "../types";
 import { getGuid } from "./get-unique-id";
-import { isBigInt, isDate } from "./type-checks";
+import { isBigInt, isDate, isFunction } from "./type-checks";
 
 /**
  * A wrapper of the and Date class
@@ -19,7 +19,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    * @returns The function isDateTime is returning a boolean value.
    */
   public static isJsDate(obj: unknown): obj is Date {
-    return isDate(obj) || DateTime.isDateTime(obj);
+    return isDate(obj);
   }
 
   /**
@@ -56,7 +56,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    * @returns A new instance of DateTime with the current date and time.
    */
   public static get current(): DateTime {
-    return new DateTime(Temporal.Now.instant());
+    return DateTime.create(Temporal.Now.instant());
   }
 
   /**
@@ -116,10 +116,9 @@ export class DateTime extends Temporal.Instant implements IDateTime {
     super(
       isBigInt(dateTime)
         ? dateTime
-        : Temporal.Instant.from(
-            (DateTime.isJsDate(dateTime) ? dateTime.toUTCString() : dateTime) ??
-              DateTime.current
-          ).epochNanoseconds
+        : DateTime.isJsDate(dateTime) && isFunction(dateTime.toISOString)
+        ? Temporal.Instant.from(dateTime.toISOString()).epochNanoseconds
+        : Temporal.Now.instant().epochNanoseconds
     );
 
     this._type = (this as unknown as object)?.constructor.name;

@@ -7,7 +7,7 @@ import {
   ButtonTypes,
 } from "@open-system/design-system-components";
 import clsx from "clsx";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormState } from "react-hook-form";
 import { useIsValid } from "../hooks/useIsValid";
 import { SubmitButtonIcon } from "./SubmitButtonIcon";
@@ -19,55 +19,54 @@ export function SubmitButton({
   className,
   disabled = false,
   inverse,
+  variant,
   ...props
 }: SubmitButtonProps) {
-  const {
-    isSubmitting,
-    isValidating,
-    isSubmitSuccessful,
-    isValid,
-  } = useFormState();
-  const isAnyError = useIsValid(true);
+  const { isSubmitting, isValidating, isSubmitSuccessful, isValid } =
+    useFormState();
+  const isError = !useIsValid(true);
 
-  const [isStopped, setIsStopped] = useState(true);
-  const handleHoverStart = useCallback(() => {
-    if (isStopped) {
-      setIsStopped(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  useEffect(() => {
+    const nextIsDisabled =
+      disabled ||
+      isSubmitting ||
+      isSubmitSuccessful ||
+      !isValid ||
+      isValidating;
+    if (nextIsDisabled && !isDisabled) {
+      setIsDisabled(true);
+    } else if (!nextIsDisabled && isDisabled) {
+      setIsDisabled(false);
     }
-  }, [isStopped]);
-  const handleHoverEnd = useCallback(() => {
-    if (!isStopped) {
-      setIsStopped(true);
-    }
-  }, [isStopped]);
+  }, [
+    disabled,
+    isDisabled,
+    isSubmitSuccessful,
+    isSubmitting,
+    isValid,
+    isValidating,
+  ]);
 
   return (
     <Button
       type={ButtonTypes.SUBMIT}
-      transitionDirection={ButtonTransitionDirections.NONE}
-      onHoverStart={handleHoverStart}
-      onHoverEnd={handleHoverEnd}
       className={clsx({ "cursor-wait": isSubmitting }, className)}
-      hoverText="Submit"
       inverse={inverse}
-      disabled={
-        disabled ||
-        isSubmitting ||
-        isSubmitSuccessful ||
-        isValid ||
-        !isAnyError ||
-        isValidating
-      }
-      {...props}>
+      variant={variant}
+      disabled={isDisabled}
+      {...props}
+      transitionDirection={ButtonTransitionDirections.NONE}>
       <div className="flex flex-row items-center gap-1">
         <div className="flex flex-1">{children}</div>
         <SubmitButtonIcon
           inverse={!!inverse}
-          isStopped={isStopped}
+          isDisabled={isDisabled}
           isSubmitting={isSubmitting}
           isValidating={isValidating}
           isSubmitSuccessful={isSubmitSuccessful}
-          isValid={!isAnyError && !isValid}
+          isError={isError}
+          variant={variant}
         />
       </div>
     </Button>

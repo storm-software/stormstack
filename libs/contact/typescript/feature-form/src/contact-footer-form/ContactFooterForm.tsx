@@ -67,7 +67,6 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
         </div>
         <div className="flex flex-row-reverse">
           <SubmitButton
-            transitionDirection={ButtonTransitionDirections.RIGHT}
             rounding={ButtonCornerRoundingTypes.PARTIAL}>
             Submit
           </SubmitButton>

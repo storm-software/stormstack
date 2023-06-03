@@ -102,7 +102,7 @@ export default function AppTitle() {
         <div className="w-fit">
           <BoxLogo
             className={clsx(
-              { "h-[26rem] w-full": isAppHeaderDisplayed },
+              { "h-[24rem] w-full": isAppHeaderDisplayed },
               { "h-[20rem] w-full": !isAppHeaderDisplayed },
               "animate-flicker transition-all delay-300"
             )}

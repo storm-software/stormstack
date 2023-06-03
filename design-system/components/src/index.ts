@@ -22,3 +22,4 @@ export * from "./select";
 export * from "./success-icon";
 export * from "./textarea";
 export * from "./types";
+export * from "./utilities";

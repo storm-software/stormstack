@@ -128,8 +128,9 @@ export const FieldWrapper = ({
           "absolute bottom-0 left-0 top-0 flex w-[5px] flex-row items-center overflow-y-hidden"
         )}
         initial={false}
-        animate={isBorderDisplayed ? "opened" : "closed"}>
-        <svg viewBox="0 0 2 500">
+        animate={isBorderDisplayed ? "opened" : "closed"}
+        tabIndex={-1}>
+        <svg viewBox="0 0 2 500" tabIndex={-1}>
           <motion.path
             className={clsx(
               "fill-transparent transition-colors",
@@ -166,12 +167,11 @@ export const FieldWrapper = ({
             errors={errors}
             warning={warning}
             focused={focused}
-            handleFocused={handleFocused}
             required={required}
           />
         )}
 
-        <div className="flex h-fit grow flex-col gap-xs self-start">
+        <div className="flex h-fit grow flex-col gap-xxs self-start pt-0.5">
           <div className="flex flex-row">
             <>
               {labelPlacement === FieldLabelPlacementTypes.TOP && (
@@ -183,7 +183,6 @@ export const FieldWrapper = ({
                     errors={errors}
                     warning={warning}
                     focused={focused}
-                    handleFocused={handleFocused}
                     required={required}
                   />
 
@@ -202,7 +201,8 @@ export const FieldWrapper = ({
                       <span className="z-30 inline-flex h-fit">
                         <svg
                           className="inline-flex h-5 w-5"
-                          viewBox="0 0 25 25">
+                          viewBox="0 0 25 25"
+                          tabIndex={-1}>
                           <path
                             fillRule="evenodd"
                             clipRule="evenodd"
@@ -234,7 +234,7 @@ export const FieldWrapper = ({
                   height="20"
                   viewBox="0 0 25 25"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
+                  tabIndex={-1}>
                   <g clipRule="url(#clip0_52_274)">
                     <path
                       d="M22.3214 10.9375H20.9821V7.42188C20.9821 3.33008 17.1763 0 12.5 0C7.82366 0 4.01786 3.33008 4.01786 7.42188V10.9375H2.67857C1.19978 10.9375 0 11.9873 0 13.2812V22.6562C0 23.9502 1.19978 25 2.67857 25H22.3214C23.8002 25 25 23.9502 25 22.6562V13.2812C25 11.9873 23.8002 10.9375 22.3214 10.9375ZM16.5179 10.9375H8.48214V7.42188C8.48214 5.4834 10.2846 3.90625 12.5 3.90625C14.7154 3.90625 16.5179 5.4834 16.5179 7.42188V10.9375Z"
@@ -253,24 +253,28 @@ export const FieldWrapper = ({
           <div className="flex flex-row gap-0.5 pl-xxxs">
             <AnimatePresence>
               {isEmptyObject(errors) ? (
-                <motion.label
-                  role="alert"
-                  className={clsx(
-                    getFieldTextStyle(
-                      !isEmptyObject(errors),
-                      !!warning,
-                      !!info,
-                      focused
-                    ),
-                    "flex h-fit text-message-1 font-message-1 italic antialiased"
+                <>
+                  {(warning || info) && (
+                    <motion.label
+                      role="alert"
+                      className={clsx(
+                        getFieldTextStyle(
+                          !isEmptyObject(errors),
+                          !!warning,
+                          !!info,
+                          focused
+                        ),
+                        "flex h-fit text-message-1 font-message-1 italic antialiased"
+                      )}
+                      htmlFor={name}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}>
+                      {warning ?? info ?? " "}
+                    </motion.label>
                   )}
-                  htmlFor={name}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}>
-                  {warning ?? info ?? " "}
-                </motion.label>
+                </>
               ) : (
                 <>
                   {errors !== null && (
@@ -309,19 +313,13 @@ export const FieldWrapper = ({
               errors={errors}
               warning={warning}
               focused={focused}
-              handleFocused={handleFocused}
               required={required}
             />
 
             {(!isEmptyObject(errors) || warning || info) && (
               <div className="pr-xxxs">
                 <span className="inline-block h-fit animate-bounce">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 25 25"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
+                  <svg width="20" height="20" viewBox="0 0 25 25" fill="none">
                     <path
                       fillRule="evenodd"
                       clipRule="evenodd"

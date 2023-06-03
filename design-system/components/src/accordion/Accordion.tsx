@@ -83,7 +83,12 @@ export const Accordion = ({
             <motion.div
               className="h-6 w-6"
               initial={false}
-              animate={isOpened ? "opened" : "closed"}>
+              animate={isOpened ? "opened" : "closed"}
+              variants={{
+                opened: { rotate: "0deg" },
+                closed: { rotate: "-180deg" },
+              }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}>
               <svg width="24" height="24" viewBox="0 0 8 8">
                 <motion.path
                   className="fill-transparent stroke-primary transition-colors group-hover:stroke-hover-link-2"

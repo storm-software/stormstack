@@ -73,10 +73,10 @@ export type ButtonProps = PropsWithBase<
      */
     hoverText?: string;
 
-       /**
+    /**
      * Is padding applied in the button
      */
-       noPadding?: boolean;
+    noPadding?: boolean;
 
     /**
      * Event handler for button click event
@@ -189,8 +189,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className={clsx(
             getTextColor(disabled, variant),
             getBorderRadius(rounding),
-            {"px-3": noPadding},
-            {"px-12": !noPadding},
+            { "px-3": noPadding },
+            { "px-12": !noPadding },
             "h-full min-w-fit bg-bg-1 py-3 text-btn-label-1 font-btn-label-1"
           )}>
           {inverse
@@ -350,7 +350,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                         )}>
                         {inverse
                           ? children ?? getDefaultText(type)
-                          : hoverText ?? getDefaultText(type)}
+                          : hoverText ?? children ?? getDefaultText(type)}
                       </div>
                     </div>
                   </div>

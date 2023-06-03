@@ -81,6 +81,7 @@ module.exports = {
         "wave3": "wave 20s -1s linear infinite",
         "bubble": "bubble 10s ease-in-out infinite",
         "spin-slow": "spin 5s linear infinite",
+        "arrow": "arrow 1.5s cubic-bezier(0, 0.6, 1, 0.4) infinite",
         "tv-static": "tv-static 1s steps(8,end) infinite both",
         "loading": "loading 2s ease-in-out infinite",
         "spin-n-grow": "spin-n-grow 1.2s 2s ease-out",
@@ -133,6 +134,10 @@ module.exports = {
         "spin-n-grow": {
           "0%": { "transform": "scale(0); rotate(290deg);" },
           "100%": { "transform": "scale(1); rotate(0deg);" },
+        },
+        "arrow": {
+          "0%": { "transform": "translateX(-50px) scaleX(10%)" },
+          "100%": { "transform": "translateX(50px) scaleX(300%)" },
         },
         "tv-static": {
           "0%": {

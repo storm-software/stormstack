@@ -1,3 +1,4 @@
+import { ContactFooterForm } from "@open-system/contact-feature-form";
 import { Link, SocialMediaLinks } from "@open-system/core-components";
 import {
   BoxLogo,
@@ -15,7 +16,6 @@ import {
   satoshi,
 } from "../styles/fonts";
 import "../styles/globals.css";
-// import {ContactFooterForm} from "@open-system/contact-ui-feature-form";
 import RootProvider from "./root-provider";
 
 /*const CookiePolicyBanner = dynamic(
@@ -114,7 +114,7 @@ export default function RootLayout(props: {
         <Footer
           top={
             <div className="flex flex-row gap-16">
-              {/*<ContactFooterForm />*/}
+              <ContactFooterForm />
               <div className="hidden flex-row items-center justify-center lg:flex">
                 <Link className="h-[20rem] w-[28rem]">
                   <BoxLogo className="h-[20rem] w-[28rem]" />
@@ -125,7 +125,7 @@ export default function RootLayout(props: {
           bottom={
             <div className="flex flex-col items-center justify-center gap-16 lg:flex-row lg:items-start">
               <div className="flex flex-col gap-2">
-                <h3 className="whitespace-nowrap font-label-4 text-4xl text-slate-200 underline">
+                <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
                   Navigation
                 </h3>
                 <div className="flex flex-row gap-16">
@@ -141,14 +141,14 @@ export default function RootLayout(props: {
                 </div>
               </div>
               <div className="flex flex-col gap-1">
-                <h3 className="whitespace-nowrap font-label-4 text-4xl text-slate-200 underline">
+                <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
                   Blog
                 </h3>
                 <Link variant="secondary">Articles</Link>
                 <Link variant="secondary">Latest</Link>
               </div>
               <div className="flex flex-col gap-2">
-                <h3 className="whitespace-nowrap font-label-4 text-4xl text-slate-200 underline">
+                <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
                   Docs
                 </h3>
                 <Link variant="secondary">Open System</Link>

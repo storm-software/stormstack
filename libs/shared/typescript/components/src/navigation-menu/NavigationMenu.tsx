@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@open-system/core-components";
 import {
   BaseComponentProps,
   Button,
@@ -8,17 +9,10 @@ import {
   ButtonVariants,
   PropsWithBase,
 } from "@open-system/design-system-components";
-import {
-  Link,
-} from "@open-system/core-components";
-import {
-  BoxLogo,
-} from "../box-logo";
-import {
-  ColorSchemeTypes,
-} from "../types";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactElement, useCallback, useState } from "react";
+import { BoxLogo } from "../box-logo";
+import { ColorSchemeTypes } from "../types";
 import { NavigationMenuButton } from "./navigation-menu-button/NavigationMenuButton";
 import {
   NavigationMenuItem,
@@ -156,17 +150,16 @@ export function NavigationMenu({
       </motion.div>
 
       <div className="absolute z-nav-buttons flex flex-row gap-6 px-8 pt-5">
-        {/*<Link href="/contact">*/}
+        <Link href="/contact">
           <Button
             className="w-8"
             variant={ButtonVariants.GRADIENT}
             glowType={ButtonGlowTypes.ALWAYS}
             rounding={ButtonCornerRoundingTypes.FULL}
-
             hoverText="Let's talk">
             Contact
           </Button>
-        {/*</Link>*/}
+        </Link>
         <NavigationMenuButton opened={opened} onClick={onClick} />
       </div>
     </motion.div>
