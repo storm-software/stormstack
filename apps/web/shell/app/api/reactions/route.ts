@@ -1,8 +1,7 @@
 import { ConsoleLogger, parseInteger } from "@open-system/core-utilities";
 import "@sentry/tracing";
 import { NextRequest, NextResponse } from "next/server";
-import { getConnection } from "../../../integrations/redis";
-import { getRepository } from "../../../state/reaction-repository";
+import { repository } from "../../../state/reaction-repository";
 
 // export const runtime = "edge";
 
@@ -85,9 +84,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const connection = await getConnection();
-  const repository = await getRepository(connection);
-
   const search = repository
     .search()
     .where("contentId")
@@ -100,9 +96,6 @@ export async function GET(req: NextRequest) {
 
   // Wait for the promises to resolve
   const [total, data] = await Promise.all([totalReq, dataReq]);
-
-  connection.quit();
-
   if (!total || !data || data.length === 0) {
     return NextResponse.json(
       {

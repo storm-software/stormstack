@@ -1,6 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { IDateTime, Tokens } from "../types";
-import { getGuid } from "./get-unique-id";
+import { getUniqueId } from "./get-unique-id";
 import { isBigInt, isDate, isFunction } from "./type-checks";
 
 /**
@@ -154,7 +154,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public readonly _id = getGuid();
+  public readonly _id = getUniqueId();
 
   /**
    * The string identifier of this specific class type

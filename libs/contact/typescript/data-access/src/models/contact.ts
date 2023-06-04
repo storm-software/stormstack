@@ -32,12 +32,11 @@ export interface Contact extends Partial<Address> {
   isSubscribed: boolean;
 }
 
-export const INITIAL_CONTACT: Contact = {
-  reason: ContactReasonTypes.BUSINESS,
+export const INITIAL_CONTACT: Partial<Contact> = {
   isSubscribed: true,
-} as const;
+} ;
 
-export const contactAtom = atomWithWebStorage<Contact | undefined>(
+export const contactAtom = atomWithWebStorage<Partial<Contact>>(
   "contact-draft",
   INITIAL_CONTACT
 );

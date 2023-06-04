@@ -1,4 +1,4 @@
-import { getGuid, isDevelopment } from "@open-system/core-utilities";
+import { getUniqueId, isDevelopment } from "@open-system/core-utilities";
 import { WritableAtom } from "jotai";
 import { atomWithReducer } from "jotai/utils";
 import { ScopedObjectState } from "../types";
@@ -28,7 +28,7 @@ export function atomWithList<
           // eslint-disable-next-line no-case-declarations
           const newItem = action.item;
           if (!newItem.id) {
-            newItem.id = getGuid();
+            newItem.id = getUniqueId();
           }
 
           if (

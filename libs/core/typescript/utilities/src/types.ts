@@ -343,3 +343,50 @@ export type QueryOptions = {
   method?: HttpMethods;
   headers?: { [key: string]: any };
 };
+
+/**
+ * Contains a page of results for message or presence history, stats, or REST presence requests. A `PaginatedResult` response from a REST API paginated query is also accompanied by metadata that indicates the relative queries available to the `PaginatedResult` object.
+ */
+export interface HttpPaginatedResult<T = any> {
+  /**
+   * Contains the current page of results; for example, an array of {@link Message} or {@link PresenceMessage} objects for a channel history request.
+   */
+  data: T[];
+
+  /**
+   * Amount of records returned by request
+   */
+  count: number;
+
+  /**
+   * Total amount of records in the view store
+   */
+  total: number;
+
+  /**
+   * Amount of records to offset the search request
+   */
+  offset: number;
+
+  /**
+   * Returns `true` if this page is the last page and returns `false` if there are more pages available by calling next available.
+   *
+   * @returns Whether or not this is the last page of results.
+   */
+  isLast: boolean;
+}
+
+/**
+ * Contains a page of results for message or presence history, stats, or REST presence requests. A `PaginatedResult` response from a REST API paginated query is also accompanied by metadata that indicates the relative queries available to the `PaginatedResult` object.
+ */
+export interface HttpErrorResult {
+  /**
+   * The error code in HTTP header is sent in the response.
+   */
+  errorCode: number;
+
+  /**
+   * The error message sent in the response.
+   */
+  errorMessage: string;
+}

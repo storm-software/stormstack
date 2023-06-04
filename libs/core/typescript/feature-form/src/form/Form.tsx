@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { getGuid } from "@open-system/core-utilities";
+import { getUniqueId } from "@open-system/core-utilities";
 import {
   BaseComponentProps,
   InputAutoCompleteTypes,
@@ -55,7 +55,7 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
 
   const [formName, setFormName] = useState<string | undefined>(name);
   useEffect(() => {
-    setFormName(getGuid());
+    setFormName(getUniqueId());
     trigger(undefined, { shouldFocus: false });
   }, [trigger]);
 

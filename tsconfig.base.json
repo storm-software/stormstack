@@ -65,6 +65,9 @@
       "@open-system/core-utilities": [
         "libs/core/typescript/utilities/src/index.ts"
       ],
+      "@open-system/core-utilities/server": [
+        "libs/core/typescript/utilities/src/server.ts"
+      ],
       "@open-system/design-system-components": [
         "design-system/components/src/index.ts"
       ],

@@ -111,7 +111,7 @@ export const Card = ({
         rotateY: mousePosition.y * -20,
       }}
       className={clsx(
-        "group relative flex flex-row items-center gap-2 rounded-xl border-[1px] border-slate-500 bg-gradient-to-bl from-bg-1/.5 via-bg-1/.5 to-black/.5 backdrop-blur-[2px] transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-indigo-500/50",
+        "group relative flex flex-row items-center gap-2 rounded-xl border-[1px] border-slate-500 backdrop-blur-md backdrop-brightness-110 transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-indigo-500/50",
         className
       )}>
       <div className="h-fit w-fit pl-6">

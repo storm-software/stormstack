@@ -1,4 +1,4 @@
-import { getGuid, isDevelopment } from "@open-system/core-utilities";
+import { getUniqueId, isDevelopment } from "@open-system/core-utilities";
 import { atom } from "jotai";
 import { createScope, molecule } from "jotai-molecules";
 import { Molecule } from "jotai-molecules/dist/molecule";
@@ -17,7 +17,7 @@ export interface Notification extends ScopedObjectState {
 
 export type NotificationMolecule = MoleculeObjectKeys<Notification>;
 
-export const NotificationScope = createScope(getGuid());
+export const NotificationScope = createScope(getUniqueId());
 
 export const NotificationMolecule = molecule((_, getScope) => {
   const id = getScope(NotificationScope);

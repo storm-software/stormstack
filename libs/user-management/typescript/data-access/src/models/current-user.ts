@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { atomWithWebStorage } from "@open-system/core-data-access";
-import { DateTime, getGuid } from "@open-system/core-utilities";
+import { DateTime, getUniqueId } from "@open-system/core-utilities";
 import { Getter, Setter, atom } from "jotai";
 
 export type UserTypes = "internal" | "external" | "guest";
@@ -10,7 +10,7 @@ export const UserTypes = {
   GUEST: "guest" as UserTypes,
 };
 
-export const userIdAtom = atomWithWebStorage<string>("user-id", getGuid());
+export const userIdAtom = atomWithWebStorage<string>("user-id", getUniqueId());
 
 export const userNameAtom = atomWithWebStorage<string>("user-name", "Guest");
 

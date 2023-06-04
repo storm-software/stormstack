@@ -6,7 +6,6 @@ import {
   Footer,
   NavigationMenu,
 } from "@open-system/shared-components";
-import { CookiePolicyBanner } from "@open-system/user-management-components";
 import clsx from "clsx";
 import { ReactNode } from "react";
 import {
@@ -64,6 +63,7 @@ export const metadata = {
 export default function RootLayout(props: {
   children: ReactNode;
   rating: ReactNode;
+  cookie: ReactNode;
 }) {
   return (
     <html
@@ -109,8 +109,7 @@ export default function RootLayout(props: {
           <div className="h-fit min-h-[60vh] w-full">{props.children}</div>
 
           {props.rating}
-
-          <CookiePolicyBanner />
+          {props.cookie}
 
           <Footer
             top={

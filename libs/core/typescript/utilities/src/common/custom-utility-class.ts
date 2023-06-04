@@ -1,5 +1,5 @@
 import { ICustomUtilityClass } from "../types";
-import { getGuid } from "./get-unique-id";
+import { getUniqueId } from "./get-unique-id";
 
 /**
  * A base abstract class to be inherited by all utility classes added.
@@ -14,7 +14,7 @@ export abstract class CustomUtilityClass implements ICustomUtilityClass {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public _id = getGuid();
+  public _id = getUniqueId();
 
   /**
    * The string identifier of this specific class type

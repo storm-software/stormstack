@@ -1,16 +1,11 @@
 import { DateTime } from "@open-system/core-utilities";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback } from "react";
-import { Contact, contactAtom, INITIAL_CONTACT } from "../models/contact";
+import { Contact, INITIAL_CONTACT, contactAtom } from "../models/contact";
 
 export const useContactValue = (): Contact | undefined => {
   const contact = useAtomValue(contactAtom);
-
-  if (contact?.draftSavedDateTime) {
-    contact.draftSavedDateTime = DateTime.create(contact.draftSavedDateTime);
-  }
-
-  return contact;
+  return contact as Contact;
 };
 
 export const useSetContact = (): ((contact: Partial<Contact>) => void) => {
@@ -20,7 +15,7 @@ export const useSetContact = (): ((contact: Partial<Contact>) => void) => {
     (contact: Partial<Contact>) => {
       setContact({
         ...contact,
-        draftSavedDateTime: DateTime.current.toString(),
+        draftSavedDateTime: DateTime.current,
       } as unknown as Contact);
     },
     [setContact]
