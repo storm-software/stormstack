@@ -1,7 +1,7 @@
-import { DateTime, formatDateTime } from "@open-system/core-utilities";
+import { DateTime } from "@open-system/core-utilities";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback } from "react";
-import { Contact, contactAtom, initialContact } from "../models/contact";
+import { Contact, contactAtom, INITIAL_CONTACT } from "../models/contact";
 
 export const useContactValue = (): Contact | undefined => {
   const contact = useAtomValue(contactAtom);
@@ -18,8 +18,10 @@ export const useSetContact = (): ((contact: Partial<Contact>) => void) => {
 
   return useCallback(
     (contact: Partial<Contact>) => {
-      setContact({ ...contact, draftSavedDateTime: formatDateTime(DateTime.current) } as unknown as Contact);
-
+      setContact({
+        ...contact,
+        draftSavedDateTime: DateTime.current.toString(),
+      } as unknown as Contact);
     },
     [setContact]
   );
@@ -28,10 +30,7 @@ export const useSetContact = (): ((contact: Partial<Contact>) => void) => {
 export const useResetContact = (): (() => void) => {
   const setContact = useSetAtom(contactAtom);
 
-  return useCallback(
-    () => {
-      setContact(initialContact);
-    },
-    [setContact]
-  );
+  return useCallback(() => {
+    setContact(INITIAL_CONTACT);
+  }, [setContact]);
 };

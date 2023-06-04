@@ -21,31 +21,29 @@ export default function Page() {
       contact &&
       !isEmpty(contact.draftSavedDateTime) &&
       DateTime.isValid(contact.draftSavedDateTime) &&
+      DateTime.getDuration(DateTime.current, contact.draftSavedDateTime).seconds > 10 &&
       router &&
       contact.reason
     ) {
+      if (contact.email && contact.firstName && contact.lastName) {
+        router.replace(
+          `/contact/${contact.reason}/${ContactFormSegments.DETAILS}` as any
+        );
+      } else {
+        router.replace(
+          `/contact/${contact.reason}/${ContactFormSegments.PERSONAL_INFO}` as any
+        );
+      }
+
       add({
-        id: "234234234242",
         type: MessageTypes.INFO,
-        summary: `Reloaded details previously added on ${contact.draftSavedDateTime
+        summary: `We've reloaded the contact details you previously added on ${contact.draftSavedDateTime
           ?.getPlainDate()
           .toLocaleString()} at ${contact.draftSavedDateTime
           ?.getPlainTime()
           .toLocaleString(undefined, { timeStyle: "short" })}`,
         isExtendable: false,
       });
-
-      if (contact.reason) {
-        if (contact.email && contact.firstName && contact.lastName) {
-          router.replace(
-            `/contact/${contact.reason}/${ContactFormSegments.DETAILS}` as any
-          );
-        } else {
-          router.replace(
-            `/contact/${contact.reason}/${ContactFormSegments.PERSONAL_INFO}` as any
-          );
-        }
-      }
     }
   }, [
     add,

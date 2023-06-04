@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { getGuid } from "@open-system/core-utilities";
-import { atom } from "jotai";
-import { createScope } from "jotai-molecules";
-import {
-  Molecule,
-  MoleculeGetter,
-  ScopeGetter,
-} from "jotai-molecules/dist/molecule";
-import { MessageTypes, MoleculeObjectKeys, ScopedObjectState } from "../types";
-import { moleculeWithWebStorage } from "../utilities/moleculeWithWebStorage";
+import { Getter, Setter, atom } from "jotai";
+import { MessageTypes, ScopedObjectState } from "../types";
+import { ListAction, atomWithList } from "../utilities";
+import { atomWithWebStorage } from "../utilities/atomWithWebStorage";
 
 export interface Alert extends ScopedObjectState {
   type: MessageTypes;
@@ -17,30 +11,24 @@ export interface Alert extends ScopedObjectState {
   isExtendable: boolean;
 }
 
-export type AlertMolecule = MoleculeObjectKeys<Alert>;
+const alertStorageAtom = atomWithWebStorage<Alert[]>("alerts", []);
+const alertListAtom = atomWithList<Alert>([], { allowDuplicates: false });
 
-export const AlertScope = createScope<string>(getGuid());
+export const alertsAtom = atom<Alert[], [ListAction<Alert>], void>(
+  (get: Getter) => get(alertStorageAtom),
+  (get: Getter, set: Setter, action: ListAction<Alert>) => {
+    const prev = get(alertListAtom);
+    if (
+      action.type !== "add" ||
+      !prev.some(
+        (item: Alert) =>
+          action.item.type === item.type && action.item.summary === item.summary
+      )
+    ) {
+      set(alertListAtom, action);
 
-export const AlertMolecule = moleculeWithWebStorage(
-  AlertScope,
-  (
-    id: string,
-    getMolecule: MoleculeGetter,
-    getScope: ScopeGetter
-  ): ScopedObjectState => {
-    const typeAtom = atom<MessageTypes>(MessageTypes.INFO);
-    const summaryAtom = atom<string | undefined>(undefined);
-    const detailsAtom = atom<string | undefined>(undefined);
-    const isExtendableAtom = atom<boolean>(true);
-
-    return {
-      id,
-      typeAtom,
-      summaryAtom,
-      detailsAtom,
-      isExtendableAtom,
-    };
+      const next = get(alertListAtom);
+      set(alertStorageAtom, next);
+    }
   }
 );
-
-export const alertsAtom = atom<Record<string, Molecule<AlertMolecule>>>({});

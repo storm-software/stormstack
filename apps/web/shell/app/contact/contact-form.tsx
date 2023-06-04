@@ -67,7 +67,7 @@ export default function ContactForm({
           nextContact[key] = value;
         });*/
 
-        setContact(formData);
+        setContact({ ...formData, draftSavedDateTime: undefined });
       }
 
       nextPathname && router.push(nextPathname as any);
@@ -277,6 +277,7 @@ export default function ContactForm({
                   type={ButtonTypes.RESET}
                   onClick={handleReset}
                   rounding={ButtonCornerRoundingTypes.NONE}
+                  transitionDirection={ButtonTransitionDirections.RIGHT}
                   inverse={true}
                   hoverText="Confirm">
                   Reset
@@ -285,6 +286,7 @@ export default function ContactForm({
                   variant={ButtonVariants.PRIMARY}
                   onClick={handleResetClose}
                   rounding={ButtonCornerRoundingTypes.NONE}
+                  transitionDirection={ButtonTransitionDirections.LEFT}
                   hoverText="Cancel">
                   Close
                 </Button>

@@ -1,11 +1,12 @@
 "use client";
 
 import { ModalReference } from "@open-system/core-components";
-import { AlertMolecule, useSetAlerts } from "@open-system/core-data-access";
+import { useAlertsValue, useSetAlerts } from "@open-system/core-data-access";
 import {
   MessageBar,
   MessageBarVariants,
   PropsWithBase,
+  MessageTypes,
 } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -19,7 +20,7 @@ import {
   useState,
 } from "react";
 
-export type NotificationBannerProps = PropsWithBase<{
+export type AlertBannerProps = PropsWithBase<{
   /**
    * Identifier of the notification in the store
    */
@@ -29,28 +30,30 @@ export type NotificationBannerProps = PropsWithBase<{
    * The initial value for the `opened` state when the modal is first rendered
    */
   initialOpened?: boolean;
+
+  /**
+   * Message to display
+   */
+  summary: string;
+
+  /**
+   * Type of alert to display
+   */
+  type: MessageTypes;
 }>;
 
 /**
- * The base NotificationBanner component used by the Open System repository
+ * The base AlertBanner component used by the Open System repository
  */
-export const NotificationBanner = forwardRef<
+export const AlertBanner = forwardRef<
   ModalReference,
-  NotificationBannerProps
+  AlertBannerProps
 >(
   (
-    { id, className, initialOpened = true }: NotificationBannerProps,
+    { id, className, summary, type, initialOpened = true }: AlertBannerProps,
     ref: ForwardedRef<ModalReference>
   ) => {
     const [opened, setOpened] = useState(initialOpened);
-
-    const alertAtom = useMolecule(AlertMolecule);
-    const alert = useAtomValue(alertAtom);
-    const type = useAtomValue<string>(alert.typeAtom);
-    const summary = useAtomValue<string>(alert.summaryAtom);
-
-    // const details = useAtomValue(alert.detailsAtom);
-
     const { remove } = useSetAlerts();
 
     const handleOpen = useCallback(() => !opened && setOpened(true), [opened]);

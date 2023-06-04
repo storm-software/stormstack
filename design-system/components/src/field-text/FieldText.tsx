@@ -29,16 +29,16 @@ export const FieldText = ({
   const value = children ?? placeholder;
 
   return (
-    <div className="flex flex-col break-all">
+    <div className="flex flex-col break-all hyphens-auto">
       {name && (
-        <label className="font-label-3 text-xs font-bold text-slate-500">
+        <label className="font-label-3 text-xs font-bold text-slate-500 hyphens-auto">
           {name}
         </label>
       )}
       {typeof value === "string" ? (
         <label
           className={clsx(
-            "text-md font-body-1 text-primary",
+            "text-md font-body-1 text-primary hyphens-auto",
             {
               "h-8": !children && name,
             },

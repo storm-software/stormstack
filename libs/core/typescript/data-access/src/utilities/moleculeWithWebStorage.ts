@@ -6,7 +6,7 @@ import { atomWithWebStorage } from "./atomWithWebStorage";
 
 export function moleculeWithWebStorage<
   TObject extends ScopedObjectState = ScopedObjectState,
-  TScope = unknown
+  TScope = string
 >(
   scope: MoleculeScope<TScope>,
   createMolecule: (
@@ -15,7 +15,7 @@ export function moleculeWithWebStorage<
     getScope: ScopeGetter
   ) => TObject
 ) {
-  return molecule((getMolecule, getScope) => {
+  return molecule((getMolecule: MoleculeGetter, getScope: ScopeGetter) => {
     const id = getScope<TScope>(scope);
 
     return atomWithWebStorage(

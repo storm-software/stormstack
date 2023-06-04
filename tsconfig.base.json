@@ -130,10 +130,10 @@
         "libs/user-management/config/src/index.ts"
       ],
       "@open-system/user-management-data-access": [
-        "libs/user-management/typescript/data-access/user-management-data-access/src/index.ts"
+        "libs/user-management/typescript/data-access/src/index.ts"
       ],
       "@open-system/user-management-data-access/server": [
-        "libs/user-management/typescript/data-access/user-management-data-access/src/server.ts"
+        "libs/user-management/typescript/data-access/src/server.ts"
       ]
     }
   },

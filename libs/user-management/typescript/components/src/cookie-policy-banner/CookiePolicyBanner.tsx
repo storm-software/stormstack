@@ -8,9 +8,13 @@ import {
   ButtonTransitionDirections,
   ButtonVariants,
 } from "@open-system/design-system-components";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import {
+  useAgreeToPrivacyPolicy,
+  useHasAgreedToPrivacyPolicy,
+} from "@open-system/user-management-data-access";
+import { AnimatePresence, Variants, motion } from "framer-motion";
 import { useCallback, useState } from "react";
-import Cookie from "../../../../assets/images/cookie.svg";
+import Cookie from "../../../../../../assets/images/cookie.svg";
 
 const variants: Variants = {
   opened: {
@@ -33,11 +37,12 @@ const variants: Variants = {
   },
 };
 
-export function CookiePolicyBanner({ hasAgreedToPrivacyPolicy = false, onAgreeToPrivacyPolicy, ...props}: { hasAgreedToPrivacyPolicy?: boolean; onAgreeToPrivacyPolicy: () => void; }) {
+export function CookiePolicyBanner() {
   const [isHidden, setIsHidden] = useState(false);
 
+  const agreeToPrivacyPolicy = useAgreeToPrivacyPolicy();
   const handleAgreeToPrivacyPolicy = useCallback(() => {
-    onAgreeToPrivacyPolicy();
+    agreeToPrivacyPolicy();
     setIsHidden(true);
   }, [agreeToPrivacyPolicy]);
 
@@ -45,20 +50,20 @@ export function CookiePolicyBanner({ hasAgreedToPrivacyPolicy = false, onAgreeTo
     setIsHidden(true);
   }, []);
 
-  if (hasAgreedToPrivacyPolicy) {
+  if (useHasAgreedToPrivacyPolicy()) {
     return null;
   }
 
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed bottom-0 left-0 right-0 z-progress w-full border-t-[6px] border-t-stone-700 backdrop-blur-3xl"
+        className="fixed bottom-0 left-0 right-0 z-progress w-full border-t-[6px] border-t-stone-700 bg-bg-2"
         initial="closed"
         variants={variants}
         animate={isHidden ? "closed" : "opened"}>
-        <div className="flex h-full w-full flex-row items-center justify-center gap-6 px-5 py-8 pb-12">
+        <div className="flex h-full w-full flex-row items-center justify-center gap-6 px-5 py-4 bg-gradient-to-b from-bg-1 via-bg-1/70 via-50% to-bg-1/40">
           <div className="relative w-36 lg:w-32">
-            <Cookie className="absolute left-0 bottom-0 h-28 w-28 rotate-[40deg] lg:h-36 lg:w-36" />
+            <Cookie className="absolute bottom-0 left-0 h-28 w-28 rotate-[40deg] lg:h-36 lg:w-36" />
           </div>
           <div className="flex flex-1 flex-col items-center justify-center gap-4 md:flex-row">
             <label className="text-lg font-body-1 text-primary">

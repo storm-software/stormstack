@@ -333,7 +333,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                               ButtonTransitionDirections.BOTTOM,
                         },
                         {
-                          "h-full w-full": inverse,
+                          "w-full":
+                            transitionDirection ===
+                            ButtonTransitionDirections.NONE,
+                        },
+                        {
+                          "h-full": inverse,
                         }
                       )}>
                       <div

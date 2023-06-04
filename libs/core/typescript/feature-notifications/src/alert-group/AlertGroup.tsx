@@ -1,20 +1,16 @@
 "use client";
 
-import { AlertScope, useAlerts } from "@open-system/core-data-access";
+import { Alert, useAlertsValue } from "@open-system/core-data-access";
 import { BaseComponentProps } from "@open-system/design-system-components";
-import { ScopeProvider } from "jotai-molecules";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { NotificationBanner } from "../notification-banner";
+import { AlertBanner } from "../alert-banner";
 
 /**
- * The base NotificationGroup component used by the Open System repository
+ * The base AlertGroup component used by the Open System repository
  */
-export const NotificationGroup = ({
-  children,
-  ...props
-}: BaseComponentProps) => {
-  const alerts = useAlerts();
+export const AlertGroup = () => {
+  const alerts = useAlertsValue();
 
   const portalRef = useRef<Element | null>(null);
 
@@ -27,10 +23,13 @@ export const NotificationGroup = ({
   return mounted && portalRef.current
     ? createPortal(
         <div className="fixed z-notification flex h-0 w-full flex-col gap-2 overflow-visible p-5">
-          {Object.values(alerts).map((alert: any, i) => (
-            <ScopeProvider key={i} scope={AlertScope} value={alert.id}>
-              <NotificationBanner id={alert.id} />
-            </ScopeProvider>
+          {alerts.map((alert: Alert) => (
+            <AlertBanner
+              key={alert.id}
+              id={alert.id}
+              type={alert.type}
+              summary={alert.summary}
+            />
           ))}
         </div>,
         portalRef.current

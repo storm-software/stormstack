@@ -44,11 +44,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    * @returns A function that returns a boolean.
    */
   public static isValid(obj: unknown): obj is IDateTime {
-    return (
-      DateTime.isDateTime(obj) &&
-      DateTime.isJsDate(obj) &&
-      !isNaN(obj.getTime())
-    );
+    return DateTime.isDateTime(obj);
   }
 
   /**
@@ -116,8 +112,12 @@ export class DateTime extends Temporal.Instant implements IDateTime {
     super(
       isBigInt(dateTime)
         ? dateTime
+        : DateTime.isDateTime(dateTime)
+        ? dateTime.epochNanoseconds
         : DateTime.isJsDate(dateTime) && isFunction(dateTime.toISOString)
         ? Temporal.Instant.from(dateTime.toISOString()).epochNanoseconds
+        : typeof dateTime === "string"
+        ? Temporal.Instant.from(dateTime).epochNanoseconds
         : Temporal.Now.instant().epochNanoseconds
     );
 
