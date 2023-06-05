@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { AlertGroup } from "./AlertGroup";
+import { ToastGroup } from "./ToastGroup";
 
-describe("AlertGroup", () => {
+describe("ToastGroup", () => {
   it("should render successfully", () => {
-    const { baseElement } = render(<AlertGroup />);
+    const { baseElement } = render(<ToastGroup />);
     expect(baseElement).toBeTruthy();
   });
 });

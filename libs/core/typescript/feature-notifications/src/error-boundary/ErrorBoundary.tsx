@@ -11,9 +11,9 @@ import {
   Modal,
   ModalVariants,
 } from "@open-system/design-system-components";
-import { ErrorBoundaryProps } from "../types";
 import { useEffect } from "react";
 import AlertIcon from "../../../../../../assets/alert-triangle.svg";
+import { ErrorBoundaryProps } from "../types";
 
 export function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
   useEffect(() => {
@@ -23,7 +23,7 @@ export function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
   return (
     <div className="relative h-full min-h-screen w-full">
       <AlertIcon
-        className="absolute top-0 left-20"
+        className="absolute left-20 top-0"
         height={750}
         width={750}
         fill="#334155"

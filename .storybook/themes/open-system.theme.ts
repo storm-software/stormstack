@@ -1,25 +1,25 @@
 import { create } from "@storybook/theming";
 
 export default create({
-  base: "dark",
+  base: "light",
 
-  colorPrimary: "#FFFFFF",
-  colorSecondary: "#8B949E",
+  colorPrimary: "#6366F1",
+  colorSecondary: "#10B981",
 
   // UI
   appBg: "#18181B",
   appContentBg: "#18181B",
-  appBorderColor: "#FFFFFF",
+  appBorderColor: "#523188",
   appBorderRadius: 2,
 
   // Text colors
-  textColor: "#FFFFFF",
-  textInverseColor: "#0DDACA",
+  textColor: "#6366F1",
+  textInverseColor: "#10B981",
 
   // Toolbar default and active colors
-  barTextColor: "#FFFFFF",
-  barSelectedColor: "#0DDACA",
-  barBg: "#503083",
+  barTextColor: "#6366F1",
+  barSelectedColor: "#10B981",
+  barBg: "#523188",
 
   // Form colors
   inputBg: "#2D3348",

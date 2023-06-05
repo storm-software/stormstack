@@ -8,7 +8,7 @@ export type LinkProps = PropsWithBase<{
   /**
    * The variant style of the link
    */
-  variant?: LinkVariants;
+  variant?: LinkVariants | string;
 }>;
 
 /**

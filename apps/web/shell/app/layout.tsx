@@ -1,6 +1,6 @@
 import { ContactFooterForm } from "@open-system/contact-feature-form";
 import { Link, SocialMediaLinks } from "@open-system/core-components";
-import { AlertGroup } from "@open-system/core-feature-notifications";
+import { ToastGroup } from "@open-system/core-feature-notifications";
 import {
   BoxLogo,
   Footer,
@@ -81,7 +81,7 @@ export default function RootLayout(props: {
       <body className="relative h-fit min-h-screen">
         <RootProvider>
           <nav className="fixed top-0 z-nav h-0 w-full overflow-visible">
-            <AlertGroup />
+            <ToastGroup />
 
             <NavigationMenu
               items={[

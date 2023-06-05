@@ -9,8 +9,11 @@ import {
   MouseEvent,
   MouseEventHandler,
   useCallback,
+  useImperativeHandle,
+  useRef,
 } from "react";
 import { PropsWithBase } from "../types";
+import { useRipple } from "../utilities/use-ripple";
 import {
   ButtonCornerRoundingTypes,
   ButtonGlowTypes,
@@ -25,6 +28,7 @@ import {
   getDefaultText,
   getTextColor,
 } from "./Button.utils";
+import "../../styles/components.css";
 
 export type ButtonProps = PropsWithBase<
   {
@@ -126,6 +130,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }: ButtonProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
+    const innerRef = useRef<HTMLButtonElement>(null);
+
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
       (event: MouseEvent) => {
         if (!disabled) {
@@ -157,9 +163,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       [onHoverEnd]
     );
 
+    useImperativeHandle(ref, () => innerRef.current, []);
+
+    useRipple(
+      innerRef
+    );
+
     return (
       <button
-        ref={ref}
+        ref={innerRef}
         type={type}
         disabled={disabled}
         className={clsx(
@@ -178,7 +190,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               !disabled && glowType === ButtonGlowTypes.ALWAYS,
           },
           "min-w-bnt-m-w group relative h-[58px] w-fit overflow-hidden overflow-y-hidden p-0.5 transition-shadow duration-300 ease-in-out",
-          className
+          className, "btn",
         )}
         {...props}
         onClick={handleClick}

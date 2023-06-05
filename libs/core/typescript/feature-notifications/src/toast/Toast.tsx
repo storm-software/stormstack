@@ -1,17 +1,15 @@
 "use client";
 
 import { ModalReference } from "@open-system/core-components";
-import { useAlertsValue, useSetAlerts } from "@open-system/core-data-access";
+import { useSetAlerts } from "@open-system/core-data-access";
 import {
-  MessageBar,
-  MessageBarVariants,
-  PropsWithBase,
+  Toast as OsToast,
+  ToastVariants,
   MessageTypes,
+  PropsWithBase,
 } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAtomValue } from "jotai";
-import { useMolecule } from "jotai-molecules";
 import {
   ForwardedRef,
   forwardRef,
@@ -20,7 +18,7 @@ import {
   useState,
 } from "react";
 
-export type AlertBannerProps = PropsWithBase<{
+export type ToastProps = PropsWithBase<{
   /**
    * Identifier of the notification in the store
    */
@@ -39,18 +37,15 @@ export type AlertBannerProps = PropsWithBase<{
   /**
    * Type of alert to display
    */
-  type: MessageTypes;
+  type: ToastTypes;
 }>;
 
 /**
- * The base AlertBanner component used by the Open System repository
+ * The base Toast component used by the Open System repository
  */
-export const AlertBanner = forwardRef<
-  ModalReference,
-  AlertBannerProps
->(
+export const Toast = forwardRef<ModalReference, ToastProps>(
   (
-    { id, className, summary, type, initialOpened = true }: AlertBannerProps,
+    { id, className, summary, type, initialOpened = true }: ToastProps,
     ref: ForwardedRef<ModalReference>
   ) => {
     const [opened, setOpened] = useState(initialOpened);
@@ -85,8 +80,8 @@ export const AlertBanner = forwardRef<
               duration: 1.5,
               ease: [0, 0.71, 0.2, 1.01],
             }}>
-            <MessageBar
-              variant={type as MessageBarVariants}
+            <OsToast
+              variant={type as ToastVariants}
               message={summary ?? ""}
               onClose={handleClose}
             />

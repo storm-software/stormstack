@@ -1,3 +1,11 @@
+export type BreadcrumbVariants =
+  | "primary"
+  | "secondary"
+export const BreadcrumbVariants = {
+  PRIMARY: "primary" as BreadcrumbVariants,
+  SECONDARY: "secondary" as BreadcrumbVariants,
+};
+
 export type BreadcrumbItemType = {
   /**
    * The name used to identify the item

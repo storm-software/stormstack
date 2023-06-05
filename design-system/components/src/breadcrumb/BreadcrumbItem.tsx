@@ -4,6 +4,7 @@
 import clsx from "clsx";
 import { useCallback } from "react";
 import { PropsWithBase } from "../types";
+import { BreadcrumbVariants } from "./Breadcrumb.types";
 
 export type BreadcrumbItemProps = PropsWithBase<{
   /**
@@ -25,6 +26,16 @@ export type BreadcrumbItemProps = PropsWithBase<{
    * An indicator specifying if this item is the current/last breadcrumb
    */
   isCurrent?: boolean;
+
+  /**
+   * The variant style of the Breadcrumbs
+   */
+  variant?: BreadcrumbVariants | string;
+
+    /**
+   * Is the color scheme inversed on the component
+   */
+    inverse?: boolean;
 }>;
 
 /**
@@ -32,6 +43,8 @@ export type BreadcrumbItemProps = PropsWithBase<{
  */
 export const BreadcrumbItem = ({
   className,
+  variant,
+  inverse = false,
   name,
   label,
   isCurrent,
@@ -52,8 +65,38 @@ export const BreadcrumbItem = ({
       <label
         className={clsx(
           "font-label-4 text-lg transition",
-          { "text-breadcrumb-fill-1": isCurrent },
-          { "text-breadcrumb-fill-2": !isCurrent },
+          {
+            "text-breadcrumb-primary-1":
+            variant === BreadcrumbVariants.PRIMARY && isCurrent && !inverse,
+          },
+          {
+            "text-breadcrumb-primary-2":
+            variant === BreadcrumbVariants.PRIMARY && isCurrent && inverse,
+          },
+          {
+            "text-breadcrumb-primary-2":
+            variant === BreadcrumbVariants.PRIMARY && !isCurrent && !inverse,
+          },
+          {
+            "text-breadcrumb-primary-1":
+            variant === BreadcrumbVariants.PRIMARY && !isCurrent && inverse,
+          },
+          {
+            "text-breadcrumb-secondary-1":
+            variant === BreadcrumbVariants.SECONDARY && isCurrent && !inverse,
+          },
+          {
+            "text-breadcrumb-secondary-2":
+            variant === BreadcrumbVariants.SECONDARY && isCurrent && inverse,
+          },
+          {
+            "text-breadcrumb-secondary-2":
+            variant === BreadcrumbVariants.SECONDARY && !isCurrent && !inverse,
+          },
+          {
+            "text-breadcrumb-secondary-1":
+            variant === BreadcrumbVariants.SECONDARY && !isCurrent && inverse,
+          },
           {
             "no-underline group-hover:cursor-pointer group-hover:text-hover-link-2 group-hover:underline":
               !isCurrent && onClick,

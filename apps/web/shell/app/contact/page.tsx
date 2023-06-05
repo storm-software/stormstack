@@ -5,7 +5,7 @@ import {
   ContactFormSegments,
   ContactTypeForm,
 } from "@open-system/contact-feature-form";
-import { MessageTypes, useSetAlerts } from "@open-system/core-data-access";
+import { MessageTypes, useSetToastMessages } from "@open-system/core-data-access";
 import { DateTime, isEmpty } from "@open-system/core-utilities";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -13,7 +13,7 @@ import ContactForm from "./contact-form";
 
 export default function Page() {
   const contact = useContactValue();
-  const { add } = useSetAlerts();
+  const { add } = useSetToastMessages();
 
   const router = useRouter();
   useEffect(() => {

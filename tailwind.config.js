@@ -82,6 +82,7 @@ module.exports = {
         "bubble": "bubble 10s ease-in-out infinite",
         "spin-slow": "spin 5s linear infinite",
         "arrow": "arrow 1.5s cubic-bezier(0, 0.6, 1, 0.4) infinite",
+        "ripple": "ripple 600ms linear",
         "tv-static": "tv-static 1s steps(8,end) infinite both",
         "loading": "loading 2s ease-in-out infinite",
         "spin-n-grow": "spin-n-grow 1.2s 2s ease-out",
@@ -138,6 +139,9 @@ module.exports = {
         "arrow": {
           "0%": { "transform": "translateX(-50px) scaleX(10%)" },
           "100%": { "transform": "translateX(50px) scaleX(300%)" },
+        },
+        "ripple": {
+          "to": { "transform": "scale(4)", "opacity": "0" },
         },
         "tv-static": {
           "0%": {
