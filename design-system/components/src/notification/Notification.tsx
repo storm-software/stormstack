@@ -106,7 +106,7 @@ export const Notification = ({
                 className="text-lg font-bold leading-[1.1rem]">
                 {title ?? getDefaultTitle(variant)}
               </Heading>
-              {body && (<>{typeof body === "string" ? <label className="flex-1 font-body-1 text-slate-400 leading-[1.5rem] text-lg font-semibold">
+              {body && (<>{typeof body === "string" ? <label className="flex-1 font-body-1 text-body-1 leading-[1.5rem] text-lg font-semibold">
                 {body}
               </label> : body}</>)}
 

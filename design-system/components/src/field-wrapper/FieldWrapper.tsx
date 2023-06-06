@@ -4,10 +4,12 @@
 import { isEmptyObject } from "@open-system/core-utilities";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { FocusEvent } from "react";
+import { FocusEvent, useRef } from "react";
+import "../../styles/components.css";
 import { PropsWithBase } from "../types";
 import { getFieldTextStyle } from "../utilities/field-style-utils";
 import { getSvgFillStyle } from "../utilities/svg-style-utils";
+import { useRipple } from "../utilities/use-ripple";
 import { FieldLabelPlacementTypes } from "./FieldWrapper.types";
 import {
   getBorderStyle,
@@ -79,6 +81,8 @@ export type FieldWrapperProps = PropsWithBase<{
    */
   heightClassName?: string | null;
 
+  ripple?: boolean;
+
   handleFocused: (event?: FocusEvent<any>) => void;
 }>;
 
@@ -100,6 +104,7 @@ export const FieldWrapper = ({
   disabled = false,
   required = false,
   noBorder = false,
+  ripple = true,
   noDisabledIcon = false,
   heightClassName = "h-fit",
 }: FieldWrapperProps) => {
@@ -110,6 +115,9 @@ export const FieldWrapper = ({
     focused,
     noBorder
   );
+
+  const innerRef = useRef<HTMLElement>(null);
+  useRipple(innerRef);
 
   return (
     <div
@@ -225,7 +233,17 @@ export const FieldWrapper = ({
           </div>
 
           <div className="relative flex flex-1">
-            {children}
+            {ripple ? (
+              <div className="ripple-container-dark relative h-full w-full overflow-hidden rounded-xl">
+                <div
+                  ref={innerRef}
+                  className="ripple-inner relative h-full w-full rounded-xl">
+                  {children}
+                </div>
+              </div>
+            ) : (
+              children
+            )}
 
             {disabled && !noDisabledIcon && (
               <div className="absolute right-3 top-1/4">

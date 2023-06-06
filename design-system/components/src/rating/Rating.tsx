@@ -6,11 +6,11 @@ import clsx from "clsx";
 import { ChangeEvent, FocusEvent, useCallback, useState } from "react";
 import { FieldWrapper } from "../field-wrapper";
 import { BaseFieldProps } from "../types";
-import { RadioContextProvider } from "./Radio.context";
+import { RatingContextProvider } from "./Rating.context";
 
-export type RadioProps = BaseFieldProps & {
+export type RatingProps = BaseFieldProps & {
   /**
-   * An indicator specifying if the radio options should be displayed vertically (default is horizontally)
+   * An indicator specifying if the Rating options should be displayed vertically (default is horizontally)
    */
   isVertical?: boolean;
 };
@@ -18,7 +18,7 @@ export type RadioProps = BaseFieldProps & {
 /**
  * The base Input component used by the Open System repository
  */
-export const Radio = ({
+export const Rating = ({
   className,
   name,
   value,
@@ -39,7 +39,9 @@ export const Radio = ({
   onBlur,
   children,
   ...props
-}: RadioProps) => {
+}: RatingProps) => {
+  const [current, setCurrent] = useState<number>(-1);
+
   const [focused, setFocused] = useState<boolean>(false);
   const handleFocus = useCallback(
     (event?: FocusEvent<any>) => {
@@ -71,25 +73,22 @@ export const Radio = ({
         { "h-fit": isVertical }
       )}
       name={name}
-      label={label}
       ripple={false}
       info={info}
       errors={errors}
       warning={warning}
       focused={focused}
-      handleFocused={handleFocus}
       disabled={disabled}
-      required={required}
-      noBorder={noBorder}
-      noDisabledIcon={true}>
+      noDisabledIcon={true}
+      noBorder={true}>
       <div
         className={clsx(
-          "flex gap-6 pl-[3px]",
+          "flex w-fit gap-3 pl-[3px]",
           { "flex-row": !isVertical },
           { "flex-col": isVertical },
           { "pt-4": label }
         )}>
-        <RadioContextProvider
+        <RatingContextProvider
           value={{
             value,
             onFocus: handleFocus,
@@ -99,9 +98,11 @@ export const Radio = ({
             isVertical,
             focused,
             glow,
+            current,
+            setCurrent,
           }}>
           {children}
-        </RadioContextProvider>
+        </RatingContextProvider>
       </div>
     </FieldWrapper>
   );

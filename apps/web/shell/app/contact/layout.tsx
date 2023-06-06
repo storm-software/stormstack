@@ -1,11 +1,12 @@
-import { Module } from "@open-system/design-system-components";
+import { Module, BreadcrumbVariants } from "@open-system/design-system-components";
 import { ReactNode } from "react";
-import {Breadcrumb} from "@open-system/core-components";
+import { Breadcrumb } from "@open-system/core-components";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-fit flex-col gap-12 px-20 pt-12">
       <Breadcrumb
+        variant="secondary"
         items={[
           { pathname: "/contact", label: "Contact" },
           { pathname: "/contact/business", label: "Business Opportunity" },

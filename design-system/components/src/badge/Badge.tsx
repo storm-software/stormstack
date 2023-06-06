@@ -1,12 +1,12 @@
 "use client";
 
+import { isFunction } from "@open-system/core-utilities";
 import clsx from "clsx";
 import { MouseEventHandler, useRef } from "react";
+import "../../styles/components.css";
 import { PropsWithBase } from "../types";
 import { useRipple } from "../utilities";
-import { isFunction } from "@open-system/core-utilities"
-import { BadgeVariants, BadgeBorderThickness } from "./Badge.types";
-import "../../styles/components.css";
+import { BadgeBorderThickness, BadgeVariants } from "./Badge.types";
 
 export type BadgeProps = PropsWithBase<{
   /**
@@ -20,14 +20,19 @@ export type BadgeProps = PropsWithBase<{
   onClick?: MouseEventHandler;
 
   /**
+   * Should the input glow when focused
+   */
+  glow?: boolean;
+
+  /**
    * The thickness of the border around the badge
    */
   borderThickness?: BadgeBorderThickness | string;
 
-   /**
+  /**
    * The CSS/Tailwind utility class name to override to color the border
    */
-   borderColorClassName?: string;
+  borderColorClassName?: string;
 }>;
 
 /**
@@ -37,6 +42,7 @@ export const Badge = ({
   className,
   children,
   borderColorClassName,
+  glow = false,
   variant = BadgeVariants.SECONDARY,
   borderThickness = BadgeBorderThickness.NORMAL,
   onClick,
@@ -45,94 +51,148 @@ export const Badge = ({
   useRipple(ref);
 
   return (
-    <div className={clsx({"group badge": isFunction(onClick)},
-    "relative overflow-hidden h-fit w-fit rounded-full")}>
     <div
-      ref={ref}
-      onClick={onClick}
-      className={clsx({"badge-inner group-active:scale-95": isFunction(onClick)},
-      {"border-[0px]": borderThickness === BadgeBorderThickness.NONE},
-      {"border-[1px]": borderThickness === BadgeBorderThickness.THIN},
-      {"border-[3px]": borderThickness === BadgeBorderThickness.NORMAL},
-      {"border-[4px]": borderThickness === BadgeBorderThickness.THICK},
-        "h-fit w-fit rounded-full pt-0.5 pb-1 px-5 overflow-hidden duration-100 transition-all",
+      className={clsx(
+        { "group": isFunction(onClick) },
+        { "transition-shadow shadow-[0_0_8px_2px_rgba(0,0,0,0.01)]": glow },
         {
-          "border-primary": variant === BadgeVariants.PRIMARY,
+          "shadow-primary":
+            variant === BadgeVariants.PRIMARY && glow,
         },
         {
-          "border-secondary": variant === BadgeVariants.SECONDARY,
+          "shadow-secondary":
+            variant === BadgeVariants.SECONDARY && glow,
         },
         {
-          "border-tertiary": variant === BadgeVariants.TERTIARY,
+          "shadow-tertiary":
+            variant === BadgeVariants.TERTIARY && glow,
         },
         {
-          "border-secondary": variant === BadgeVariants.QUATERNARY,
+          "shadow-quaternary":
+            variant === BadgeVariants.QUATERNARY && glow,
         },
         {
-          "border-inverse": variant === BadgeVariants.INVERSE,
+          "shadow-inverse":
+            variant === BadgeVariants.INVERSE && glow,
         },
         {
-          "border-warning": variant === BadgeVariants.WARNING,
+          "shadow-warning":
+            variant === BadgeVariants.WARNING && glow,
         },
         {
-          "border-error": variant === BadgeVariants.ERROR,
+          "shadow-error": variant === BadgeVariants.ERROR && glow,
         },
         {
-          "border-info": variant === BadgeVariants.INFO,
+          "shadow-info": variant === BadgeVariants.INFO && glow,
         },
         {
-          "border-success": variant === BadgeVariants.SUCCESS,
+          "shadow-success":
+            variant === BadgeVariants.SUCCESS && glow,
         },
         {
-          "border-gradient": variant === BadgeVariants.GRADIENT,
+          "shadow-gradient":
+            variant === BadgeVariants.GRADIENT && glow,
         },
-        borderColorClassName
+        "relative h-fit w-fit rounded-full overflow-hidden",
+        className
       )}>
-      {children ? (
-        typeof children === "string" ? (
-          <label
-            className={clsx(
-              "font-label-3 text-md font-bold",
-              {
-                "text-primary": variant === BadgeVariants.PRIMARY,
-              },
-              {
-                "text-secondary": variant === BadgeVariants.SECONDARY,
-              },
-              {
-                "text-tertiary": variant === BadgeVariants.TERTIARY,
-              },
-              {
-                "text-secondary": variant === BadgeVariants.QUATERNARY,
-              },
-              {
-                "text-inverse": variant === BadgeVariants.INVERSE,
-              },
-              {
-                "text-warning": variant === BadgeVariants.WARNING,
-              },
-              {
-                "text-error": variant === BadgeVariants.ERROR,
-              },
-              {
-                "text-info": variant === BadgeVariants.INFO,
-              },
-              {
-                "text-success": variant === BadgeVariants.SUCCESS,
-              },
-              {
-                "text-gradient": variant === BadgeVariants.GRADIENT,
-              }
-            )}>
-            {children}
-          </label>
+      <div
+        ref={ref}
+        onClick={onClick}
+        className={clsx(
+          { "ripple-container relative overflow-hidden active:scale-95": isFunction(onClick) },
+          { "border-[0px]": borderThickness === BadgeBorderThickness.NONE },
+          { "border-[1px]": borderThickness === BadgeBorderThickness.THIN },
+          { "border-[3px]": borderThickness === BadgeBorderThickness.NORMAL },
+          { "border-[4px]": borderThickness === BadgeBorderThickness.THICK },
+          "h-fit w-fit rounded-full px-5 pb-1 pt-0.5 transition-all duration-100",
+          {
+            "border-primary":
+              variant === BadgeVariants.PRIMARY,
+          },
+          {
+            "border-secondary":
+              variant === BadgeVariants.SECONDARY,
+          },
+          {
+            "border-tertiary":
+              variant === BadgeVariants.TERTIARY,
+          },
+          {
+            "border-quaternary":
+              variant === BadgeVariants.QUATERNARY,
+          },
+          {
+            "border-inverse":
+              variant === BadgeVariants.INVERSE,
+          },
+          {
+            "border-warning":
+              variant === BadgeVariants.WARNING,
+          },
+          {
+            "border-error": variant === BadgeVariants.ERROR,
+          },
+          {
+            "border-info": variant === BadgeVariants.INFO,
+          },
+          {
+            "border-success":
+              variant === BadgeVariants.SUCCESS,
+          },
+          {
+            "border-gradient":
+              variant === BadgeVariants.GRADIENT,
+          },
+          borderColorClassName
+        )}>
+          <div className="h-fit w-fit overflow-hidden ripple-inner">
+        {children ? (
+          typeof children === "string" ? (
+            <label
+              className={clsx(
+                "text-md font-label-3 font-bold",
+                {
+                  "text-primary": variant === BadgeVariants.PRIMARY,
+                },
+                {
+                  "text-secondary": variant === BadgeVariants.SECONDARY,
+                },
+                {
+                  "text-tertiary": variant === BadgeVariants.TERTIARY,
+                },
+                {
+                  "text-quaternary": variant === BadgeVariants.QUATERNARY,
+                },
+                {
+                  "text-inverse": variant === BadgeVariants.INVERSE,
+                },
+                {
+                  "text-warning": variant === BadgeVariants.WARNING,
+                },
+                {
+                  "text-error": variant === BadgeVariants.ERROR,
+                },
+                {
+                  "text-info": variant === BadgeVariants.INFO,
+                },
+                {
+                  "text-success": variant === BadgeVariants.SUCCESS,
+                },
+                {
+                  "text-gradient": variant === BadgeVariants.GRADIENT,
+                }
+              )}>
+              {children}
+            </label>
+          ) : (
+            children
+          )
         ) : (
-          children
-        )
-      ) : (
-        ""
-      )}
-    </div>
+          ""
+        )}
+        </div>
+      </div>
     </div>
   );
 };

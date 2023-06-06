@@ -25,3 +25,8 @@ Primary.args = { title: "Summary Header" };
 
 export const Details = Template.bind({});
 Details.args = { title: "Summary Header", details: "Detail Text" };
+
+export const Badge = Template.bind({});
+Badge.args = { title: "Summary Header", badge: "New" };
+
+

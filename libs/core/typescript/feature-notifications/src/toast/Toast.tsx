@@ -1,11 +1,10 @@
 "use client";
 
 import { ModalReference } from "@open-system/core-components";
-import { useSetAlerts } from "@open-system/core-data-access";
+import { useSetToastMessages } from "@open-system/core-data-access";
 import {
   Toast as OsToast,
   ToastVariants,
-  MessageTypes,
   PropsWithBase,
 } from "@open-system/design-system-components";
 import clsx from "clsx";
@@ -49,7 +48,7 @@ export const Toast = forwardRef<ModalReference, ToastProps>(
     ref: ForwardedRef<ModalReference>
   ) => {
     const [opened, setOpened] = useState(initialOpened);
-    const { remove } = useSetAlerts();
+    const { remove } = useSetToastMessages();
 
     const handleOpen = useCallback(() => !opened && setOpened(true), [opened]);
     const handleClose = useCallback(() => {
@@ -82,7 +81,7 @@ export const Toast = forwardRef<ModalReference, ToastProps>(
             }}>
             <OsToast
               variant={type as ToastVariants}
-              message={summary ?? ""}
+              summary={summary ?? ""}
               onClose={handleClose}
             />
           </motion.div>

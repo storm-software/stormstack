@@ -72,6 +72,7 @@ export default function Page() {
                 className="h-full min-h-[8rem] hover:cursor-pointer"
                 title="Design"
                 details="Read about my favorite software design philosophies"
+                badge="New"
                 iconType="wrench"
               />
             </div>

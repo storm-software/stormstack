@@ -103,7 +103,6 @@ module.exports = {
         },
         "wave": {
           "0%": { "transform": "translateX(0)" },
-          "100%": { "transform": "translateX(-25%)" },
           "100%": { "transform": "translateX(-50%)" },
         },
         "bubble": {

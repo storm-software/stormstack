@@ -74,3 +74,9 @@ CustomBorderColor.args = {
 
 export const OnClickAnimate = Template.bind({});
 OnClickAnimate.args = { variant: BadgeVariants.SECONDARY, onClick: () => {} };
+
+export const Glow = Template.bind({});
+Glow.args = {
+  variant: BadgeVariants.SECONDARY,
+  glow: true,
+};

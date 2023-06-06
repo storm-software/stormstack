@@ -43,6 +43,7 @@ export const Breadcrumb = ({
 
   return (
     <OsBreadcrumb
+      {...props}
       items={itemsList.map((item: BreadcrumbItemType, i: number) => ({
         onClick: () => {},
         ...item,

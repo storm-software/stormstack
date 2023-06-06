@@ -3,8 +3,11 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { MouseEvent, useCallback, useRef, useState } from "react";
+import { Badge } from "../badge";
+import { BadgeBorderThickness, BadgeVariants } from "../badge/Badge.types";
 import { Icon } from "../icon";
 import { PropsWithBase } from "../types";
+import { useRipple } from "../utilities";
 
 export type CardProps = PropsWithBase<{
   /**
@@ -18,13 +21,18 @@ export type CardProps = PropsWithBase<{
   details?: JSX.Element | string;
 
   /**
+   * The text displayed in the badge in the top right of the title
+   */
+  badge?: JSX.Element | string;
+
+  /**
    * An icon to display on the left side of the card
    */
   iconType?: string;
 
   /**
-     * Event handler for card click event
-     */
+   * Event handler for card click event
+   */
   onClick?: (event: MouseEvent) => void;
 }>;
 
@@ -34,10 +42,11 @@ export type CardProps = PropsWithBase<{
 export const Card = ({
   children,
   title,
+  badge,
   details,
   iconType,
   className,
-  onClick
+  onClick,
 }: CardProps) => {
   const [mousePosition, setMousePosition] = useState<{
     x: number;
@@ -47,6 +56,8 @@ export const Card = ({
   }>({ x: 0, y: 0, width: 0, height: 0 });
 
   const ref = useRef<HTMLDivElement>(null);
+  useRipple(ref);
+
   const handleMouseMove = useCallback((event: MouseEvent<HTMLDivElement>) => {
     if (ref.current) {
       const position = {
@@ -111,53 +122,68 @@ export const Card = ({
         rotateY: mousePosition.y * -20,
       }}
       className={clsx(
-        "group relative flex flex-row items-center gap-2 rounded-xl border-[1px] border-slate-500 backdrop-blur-md backdrop-brightness-110 transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-indigo-500/50",
+        "ripple-container group relative overflow-hidden rounded-xl border-[1px] border-slate-500 backdrop-blur-md backdrop-brightness-110 transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-indigo-500/50 active:scale-95",
         className
       )}>
-      <div className="h-fit w-fit pl-6">
-        {iconType && (
-          <div className="h-20 w-16">
-            <Icon
-              className="group-hover:stroke-hover-link-2"
-              type={iconType}
-              autoplay={!isStopped}
-              loop={!isStopped}
-              isStopped={isStopped}
-            />
+      <div className="ripple-inner flex h-full w-full flex-row items-center gap-2">
+        {badge && (
+          <div className="absolute left-0 right-0 top-0 flex h-fit w-full flex-row-reverse p-3">
+            {typeof badge === "string" ? (
+              <Badge
+                variant={BadgeVariants.TERTIARY}
+                borderThickness={BadgeBorderThickness.THIN}>
+                {badge}
+              </Badge>
+            ) : (
+              badge
+            )}
           </div>
         )}
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="z-20 flex flex-col gap-2 p-4">
-          <div className="flex flex-col gap-0">
-            {typeof title === "string" ? (
-              <h2 className="text-left font-label-4 text-4xl font-bold text-primary transition-colors group-hover:text-hover-link-2">
-                {title}
-              </h2>
-            ) : (
-              <div>{title}</div>
-            )}
+        <div className="h-fit w-fit pl-6">
+          {iconType && (
+            <div className="h-20 w-16">
+              <Icon
+                className="group-hover:stroke-hover-link-2"
+                type={iconType}
+                autoplay={!isStopped}
+                loop={!isStopped}
+                isStopped={isStopped}
+              />
+            </div>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="z-20 flex flex-col gap-2 p-4">
+            <div className="flex flex-col gap-0">
+              {typeof title === "string" ? (
+                <h2 className="text-left font-label-4 text-4xl font-bold text-primary transition-colors group-hover:text-hover-link-2">
+                  {title}
+                </h2>
+              ) : (
+                <div>{title}</div>
+              )}
 
-            {typeof details === "string" ? (
-              <div className="flex flex-row items-end gap-2">
-                <label className="text-left text-md mb-0.5 font-label-3 text-slate-400 transition-colors hover:cursor-pointer group-hover:text-hover-link-2">
-                  {details}
-                </label>
-              </div>
-            ) : (
-              <div>{details}</div>
-            )}
+              {typeof details === "string" ? (
+                <div className="flex flex-row items-end gap-2">
+                  <label className="text-md mb-0.5 text-left font-label-3 text-slate-400 transition-colors hover:cursor-pointer group-hover:text-hover-link-2">
+                    {details}
+                  </label>
+                </div>
+              ) : (
+                <div>{details}</div>
+              )}
 
-            <AnimatePresence>
-              <motion.div
-                className="flex flex-col gap-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}>
-                {children}
-              </motion.div>
-            </AnimatePresence>
+              <AnimatePresence>
+                <motion.div
+                  className="flex flex-col gap-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}>
+                  {children}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>

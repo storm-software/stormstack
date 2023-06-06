@@ -1,15 +1,18 @@
 import { useAtomValue } from "jotai";
-import { Alert, alertsAtom } from "../models/toast-messages";
+import { ToastMessage, toastMessagesAtom } from "../models/toast-messages";
 import { UseAtomListReturn, useAtomList } from "./useAtomList";
 
 export const useToastMessagesValue = (): ToastMessage[] => {
-  return useAtomValue(alertsAtom);
+  return useAtomValue(toastMessagesAtom);
 };
 
 export const useSetToastMessages = (): UseAtomListReturn<ToastMessage> => {
-  return useAtomList(alertsAtom);
+  return useAtomList(toastMessagesAtom);
 };
 
-export const useToastMessages = (): [ToastMessage[], UseAtomListReturn<ToastMessage>] => {
+export const useToastMessages = (): [
+  ToastMessage[],
+  UseAtomListReturn<ToastMessage>
+] => {
   return [useToastMessagesValue(), useSetToastMessages()];
 };

@@ -52,12 +52,12 @@ export const Modal = ({
   return (
     <div
       className={clsx(
-        "relative z-20 h-fit min-h-[30rem] w-fit min-w-[45rem] max-w-[85%] border-4 bg-gradient-to-bl bg-bottom bg-no-repeat p-6 shadow-xl drop-shadow-2xl",
+        "relative z-20 h-fit min-h-[30rem] w-fit min-w-[45rem] max-w-[85%] border-4 shadow-xl drop-shadow-2xl bg-bg-1",
         getTextStyle(variant),
         getBorderStyle(variant),
-        getBackgroundStyle(variant),
         className
       )}>
+        <div className={clsx("relative w-full h-full min-h-[30rem] p-6 z-25", getBackgroundStyle(variant))}>
       {showCloseIcon && onClose && (
         <div
           onClick={onClose}
@@ -110,10 +110,11 @@ export const Modal = ({
           )}
         </div>
         {typeof children === "string" ? (
-          <div className="font-body-1 font-bold text-primary">{children}</div>
+          <div className="font-body-1 text-body-1 font-bold">{children}</div>
         ) : (
           children
         )}
+      </div>
       </div>
     </div>
   );

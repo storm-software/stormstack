@@ -66,6 +66,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       <FieldWrapper
         name={name}
         label={label}
+        ripple={false}
         info={info}
         errors={errors}
         warning={warning}

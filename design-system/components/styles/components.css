@@ -2,7 +2,7 @@
   background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,0.4) 40px);
 }
 
-button, .badge.badge-inner {
+button, .ripple-container.ripple-inner, .ripple-container-dark.ripple-inner {
   position: relative;
   overflow: hidden;
   transition: background 400ms;
@@ -20,8 +20,17 @@ span.ripple {
   border-radius: 50%;
   transform: scale(0);
   animation: ripple 600ms linear;
+}
+
+button span.ripple, .ripple-container span.ripple {
   background-color: rgba(255, 255, 255, 0.7);
 }
+
+.ripple-container-dark span.ripple {
+  background-color: rgba(36, 6, 79, 0.3);
+}
+
+
 
 @keyframes ripple {
   to {
