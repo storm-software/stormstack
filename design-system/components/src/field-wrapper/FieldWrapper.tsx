@@ -4,7 +4,7 @@
 import { isEmptyObject } from "@open-system/core-utilities";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { FocusEvent, useRef } from "react";
+import { useRef } from "react";
 import "../../styles/components.css";
 import { PropsWithBase } from "../types";
 import { getFieldTextStyle } from "../utilities/field-style-utils";
@@ -82,8 +82,6 @@ export type FieldWrapperProps = PropsWithBase<{
   heightClassName?: string | null;
 
   ripple?: boolean;
-
-  handleFocused: (event?: FocusEvent<any>) => void;
 }>;
 
 /**
@@ -100,7 +98,6 @@ export const FieldWrapper = ({
   errors = null,
   warning = null,
   focused = false,
-  handleFocused,
   disabled = false,
   required = false,
   noBorder = false,

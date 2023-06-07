@@ -3,7 +3,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
-import { ChangeEvent, FocusEvent, useCallback, useState } from "react";
+import {
+  ChangeEvent,
+  FocusEvent,
+  MouseEvent,
+  useCallback,
+  useState,
+} from "react";
 import { FieldWrapper } from "../field-wrapper";
 import { BaseFieldProps } from "../types";
 import { RatingContextProvider } from "./Rating.context";
@@ -65,6 +71,17 @@ export const Rating = ({
     [onBlur]
   );
 
+  const handleMouseLeave = useCallback(
+    (event: MouseEvent<any>) => {
+      event.stopPropagation();
+
+      if (current) {
+        setCurrent(-1);
+      }
+    },
+    [current]
+  );
+
   return (
     <FieldWrapper
       className={clsx(
@@ -77,11 +94,13 @@ export const Rating = ({
       info={info}
       errors={errors}
       warning={warning}
+      required={required}
       focused={focused}
       disabled={disabled}
       noDisabledIcon={true}
       noBorder={true}>
       <div
+        onMouseLeave={handleMouseLeave}
         className={clsx(
           "flex w-fit gap-3 pl-[3px]",
           { "flex-row": !isVertical },

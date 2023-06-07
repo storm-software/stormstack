@@ -111,13 +111,15 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
                     !disabled && !context.disabled,
                 },
                 {
-                  "scale-75 fill-slate-600 stroke-slate-400 stroke-[0.8]":
-                    (!context.value || context.value < value) &&
+                  "scale-75 fill-slate-700 stroke-slate-400 stroke-[0.8]":
+                    (!context.value || context.value <= value - 1) &&
                     context.current < value,
                 },
                 {
                   "scale-125 fill-yellow-600 stroke-[0.1]":
-                    context.value >= value && context.current < value,
+                    (context.value >= value ||
+                      (context.value > value - 1 && context.value < value)) &&
+                    context.current < value,
                 },
                 {
                   "scale-[1.40] fill-yellow-500 stroke-primary stroke-[0.5]":
@@ -129,7 +131,49 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
               )}
               viewBox="0 0 20 20">
               <title>{value > 1 ? `${value} stars` : `${value} star`}</title>
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              {context.value > value - 1 &&
+              context.value < value &&
+              context.current < value ? (
+                <>
+                  <defs>
+                    <linearGradient id="rating-option-fill">
+                      <stop stopColor="#ca8a04" stopOpacity="1" offset={0} />
+                      <stop
+                        stopColor="#ca8a04"
+                        stopOpacity="1"
+                        offset={1 + context.value - value}
+                      />
+                      <stop
+                        stopColor="#334155"
+                        stopOpacity="1"
+                        offset={1 + context.value - value + 0.01}
+                      />
+                      <stop stopColor="#334155" stopOpacity="1" offset={1} />
+                    </linearGradient>
+                    <linearGradient id="rating-option-stroke">
+                      <stop stopColor="#ca8a04" stopOpacity="1" offset={0} />
+                      <stop
+                        stopColor="#ca8a04"
+                        stopOpacity="1"
+                        offset={1 + context.value - value}
+                      />
+                      <stop
+                        stopColor="#94a3b8"
+                        stopOpacity="1"
+                        offset={1 + context.value - value + 0.01}
+                      />
+                      <stop stopColor="#94a3b8" stopOpacity="1" offset={1} />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    fill="url(#rating-option-fill)"
+                    stroke="url(#rating-option-stroke)"
+                    strokeWidth="0.4"
+                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </>
+              ) : (
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              )}
             </svg>
           </label>
           <input

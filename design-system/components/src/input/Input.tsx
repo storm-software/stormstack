@@ -17,7 +17,6 @@ import {
   getInputFillColor,
   getInputTextStyle,
   getStrokeStyle,
-  useRipple,
 } from "../utilities";
 import {
   InputAutoCompleteTypes,
@@ -134,8 +133,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
- 
-
     const [focused, setFocused] = useState<boolean>(false);
     const handleFocus = useCallback(
       (event?: FocusEvent<any>) => {
@@ -159,9 +156,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       [onBlur]
     );
 
-
-    
-
     return (
       <FieldWrapper
         name={name}
@@ -170,7 +164,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         errors={errors}
         warning={warning}
         focused={focused}
-        handleFocused={handleFocus}
         disabled={disabled}
         required={required}
         noBorder={noBorder}>

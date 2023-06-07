@@ -1,7 +1,7 @@
 import { ChangeEvent, FocusEvent } from "react";
 
 export interface RatingContextState {
-  value?: string | null;
+  value?: number | null;
 
   /**
    * 	The name of the overall Rating button group

@@ -85,7 +85,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         errors={errors}
         warning={warning}
         focused={focused}
-        handleFocused={handleFocus}
         disabled={disabled}
         required={required}
         noBorder={noBorder}>
