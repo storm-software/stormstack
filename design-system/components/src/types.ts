@@ -63,7 +63,7 @@ export type BaseFieldProps = PropsWithBaseRef<{
   /**
    * Placeholder text when the field value is empty
    */
-  placeholder?: string;
+  placeholder?: string | number | null;
 
   /**
    * Decides if input field required

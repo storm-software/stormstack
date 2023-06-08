@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { ToastVariants } from "@open-system/design-system-components";
 import { Getter, Setter, atom } from "jotai";
-import { MessageTypes, ScopedObjectState } from "../types";
+import { ScopedObjectState } from "../types";
 import { ListAction, atomWithList } from "../utilities";
 import { atomWithWebStorage } from "../utilities/atomWithWebStorage";
 
 export interface ToastMessage extends ScopedObjectState {
-  type: MessageTypes;
+  type: ToastVariants;
   summary: string;
   details?: string;
   isExtendable: boolean;

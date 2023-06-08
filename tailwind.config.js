@@ -36,7 +36,7 @@ module.exports = {
         "label-3": ["var(--font-satoshi)", ...fontFamily.sans],
         "label-4": ["var(--font-antique-olive)", ...fontFamily.sans],
         "btn-label-1": ["var(--font-poppins)", ...fontFamily.sans],
-        "like-label": ["var(--font-permanent-marker)", ...fontFamily.sans],
+        "rating-label": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "footer-name": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "footer-copyright": ["var(--font-anybody)", ...fontFamily.sans],
       },
@@ -63,7 +63,7 @@ module.exports = {
         "content-high": 120,
         "title": 125,
         "footer": 130,
-        "like": 140,
+        "rating": 140,
         "nav": 145,
         "nav-buttons": 150,
         "modal": 170,
@@ -80,6 +80,7 @@ module.exports = {
         "wave2": "wave 22s linear reverse infinite",
         "wave3": "wave 20s -1s linear infinite",
         "bubble": "bubble 10s ease-in-out infinite",
+        "scan": "scan 4s ease-in-out infinite",
         "spin-slow": "spin 5s linear infinite",
         "arrow": "arrow 1.5s cubic-bezier(0, 0.6, 1, 0.4) infinite",
         "ripple": "ripple 600ms linear",
@@ -120,6 +121,20 @@ module.exports = {
           "100%": {
             "transform": "translateY(-120vh)",
             "opacity": 0,
+          },
+        },
+        "scan": {
+          "0%": {
+            "transform": "translateY(0px)",
+            "opacity": 0.4,
+          },
+          "50%": {
+            "transform": "translateY(75px)",
+            "opacity": 1,
+          },
+          "100%": {
+            "transform": "translateY(0px)",
+            "opacity": 0.4,
           },
         },
         "loading": {

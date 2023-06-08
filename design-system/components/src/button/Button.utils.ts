@@ -4,7 +4,7 @@ import {
   ButtonVariants,
 } from "./Button.types";
 
-export function getBackgroundColor(disabled: boolean, variant: ButtonVariants) {
+export function getBackgroundColor(disabled: boolean, variant: ButtonVariants | string) {
   return disabled
     ? "bg-disabled"
     : variant === ButtonVariants.GRADIENT
@@ -18,7 +18,7 @@ export function getBackgroundColor(disabled: boolean, variant: ButtonVariants) {
     : "bg-primary";
 }
 
-export function getTextColor(disabled: boolean, variant: ButtonVariants) {
+export function getTextColor(disabled: boolean, variant: ButtonVariants | string) {
   return disabled
     ? "text-disabled"
     : variant === ButtonVariants.GRADIENT
@@ -39,7 +39,7 @@ export function getCursor(disabled: boolean) {
 }
 
 
-export function getHoverTextColor(variant: ButtonVariants) {
+export function getHoverTextColor(variant: ButtonVariants | string) {
   return variant === ButtonVariants.GRADIENT ? "text-primary" : "text-inverse";
 }
 

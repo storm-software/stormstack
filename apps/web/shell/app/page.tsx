@@ -1,4 +1,4 @@
-import { ScrollArrowIndicator } from "@open-system/core-components";
+import { ScrollArrowIndicator, ScrollProgressBar } from "@open-system/core-components";
 import { Card } from "@open-system/design-system-components";
 import { SideTitle } from "@open-system/shared-components";
 import AppTitle from "../components/app-title";
@@ -9,6 +9,11 @@ import Client from "./client";
 export default function Page() {
   return (
     <div className="h-full w-full relative">
+      
+      <div className="z-progress">
+        <ScrollProgressBar />
+      </div>
+
       <div className="z-scroll">
         <ScrollArrowIndicator />
       </div>

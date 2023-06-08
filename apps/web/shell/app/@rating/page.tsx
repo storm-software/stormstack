@@ -2,12 +2,13 @@ import {
   ApiException,
   EnvConfigurationError,
 } from "@open-system/core-utilities";
-import LikeButtonClient from "../(components)/LikeButtonClient";
+import { ContentRating } from "@open-system/engagement-feature-rating";
 import {
   DOMAIN_NAME,
   HttpErrorResult,
   HttpPaginatedResult,
 } from "../api/reactions/route";
+import { handleSubmit } from "./actions";
 
 // export const revalidate = 60;
 
@@ -21,7 +22,7 @@ export default async function Page() {
       .equals("like")
       .return.all();*/
 
-  if (!process.env.NEXT_PUBLIC_REACTION_QUERY_URL) {
+  /*if (!process.env.NEXT_PUBLIC_REACTION_QUERY_URL) {
     throw new EnvConfigurationError("NEXT_PUBLIC_REACTION_QUERY_URL");
   }
 
@@ -41,17 +42,24 @@ export default async function Page() {
       error,
       response.headers
     );
-  }
 
-  const result = (await response.json()) as HttpPaginatedResult;
+      const result = (await response.json()) as HttpPaginatedResult;
+  }*/
+
+
   return (
-    <div className="fixed right-0 top-3/4 z-like">
-      <LikeButtonClient
+    <div className="fixed right-0 top-0 h-screen w-fit z-rating flex flex-row items-center">
+
+   
+      <ContentRating
+        onSubmit={handleSubmit}
         contentId="home"
+        totalRating={4.5}
         count={
-          result.data.length > 0 ? (result.data[0].count as number) ?? 0 : 0
+          74
         }
       />
+    
     </div>
   );
 }

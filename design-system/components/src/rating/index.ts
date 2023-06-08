@@ -1,5 +1,5 @@
 "use client";
 
-export * from "./Radio";
-export * from "./Radio.types";
-export * from "./RadioOption";
+export * from "./Rating";
+export * from "./Rating.types";
+export * from "./RatingOption";

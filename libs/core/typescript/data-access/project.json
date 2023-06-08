@@ -5,13 +5,23 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:swc",
+      "executor": "@nx/rollup:rollup",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/data-access",
-        "main": "libs/core/typescript/data-access/src/index.ts",
         "tsConfig": "libs/core/typescript/data-access/tsconfig.lib.json",
-        "assets": ["libs/core/typescript/data-access/*.md"]
+        "project": "libs/core/typescript/data-access/package.json",
+        "entryFile": "libs/core/typescript/data-access/src/index.ts",
+        "external": ["react"],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/core/typescript/data-access/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
       }
     },
     "lint": {

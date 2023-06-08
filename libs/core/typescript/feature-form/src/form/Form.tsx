@@ -1,27 +1,54 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { getUniqueId } from "@open-system/core-utilities";
+import { useSetToastError } from "@open-system/core-data-access";
+import { getUniqueId, isFunction } from "@open-system/core-utilities";
 import {
   BaseComponentProps,
   InputAutoCompleteTypes,
 } from "@open-system/design-system-components";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState, useTransition } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import {
+  BaseSyntheticEvent,
+  useCallback,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
+import {
+  FieldErrors,
+  FormProvider,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { DeepPartial } from "../types";
+
+export type AlertSubmitType = "none" | "toast" | "notification";
+export const AlertSubmitType = {
+  NONE: "none" as AlertSubmitType,
+  TOAST: "toast" as AlertSubmitType,
+  NOTIFICATION: "notification" as AlertSubmitType,
+};
 
 export type FormProps<
   TValues extends Record<string, any>,
   TContext = any
 > = BaseComponentProps & {
   defaultValues?: DeepPartial<TValues>;
+  values?: DeepPartial<TValues>;
   onSubmit: (values: TValues) => Promise<void> | void;
   context?: TContext;
   disabled?: boolean;
   name?: string;
   autoComplete?: boolean;
   resetOnSubmit?: boolean;
+  alertSubmitFailureType?: AlertSubmitType;
+  alertSubmitFailureMessage?: string | ((error?: any) => string);
+  alertSubmitSuccessType?: AlertSubmitType;
+  alertSubmitSuccessMessage?:
+    | string
+    | ((values: TValues, result?: any) => string);
 };
 
 export function Form<TValues extends Record<string, any>, TContext = any>({
@@ -34,6 +61,10 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   disabled = false,
   autoComplete = true,
   resetOnSubmit = true,
+  alertSubmitFailureType = AlertSubmitType.TOAST,
+  alertSubmitFailureMessage,
+  alertSubmitSuccessType = AlertSubmitType.NOTIFICATION,
+  alertSubmitSuccessMessage = "Your input was successfully submitted.",
   ...props
 }: FormProps<TValues>) {
   const router = useRouter();
@@ -59,7 +90,7 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
     trigger(undefined, { shouldFocus: false });
   }, [trigger]);
 
-  const handleSubmit = useCallback(
+  const handleSubmit: SubmitHandler<TValues> = useCallback(
     async (values: TValues) => {
       let result!: any;
       try {
@@ -102,6 +133,26 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
     [methods, onSubmit, resetOnSubmit, router]
   );
 
+  const setToastError = useSetToastError();
+  const handleSubmitError: SubmitErrorHandler<TValues> = useCallback(
+    async (errors: FieldErrors<TValues>, event?: BaseSyntheticEvent) => {
+      console.error("There was an error submitting.");
+      console.error(errors, event);
+
+      if (alertSubmitFailureType !== AlertSubmitType.NONE) {
+        const message = isFunction(alertSubmitFailureMessage)
+          ? alertSubmitFailureMessage(errors)
+          : alertSubmitFailureMessage ?? "There was an error submitting.";
+        if (alertSubmitFailureType === AlertSubmitType.TOAST) {
+          setToastError(message);
+        } else if (alertSubmitFailureType === AlertSubmitType.NOTIFICATION) {
+          setToastError(message);
+        }
+      }
+    },
+    [alertSubmitFailureMessage, alertSubmitFailureType, setToastError]
+  );
+
   return (
     <>
       <FormProvider
@@ -116,12 +167,12 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
               ? InputAutoCompleteTypes.ON
               : InputAutoCompleteTypes.OFF
           }
-          onSubmit={methods.handleSubmit(handleSubmit)}>
+          onSubmit={methods.handleSubmit(handleSubmit, handleSubmitError)}>
           <fieldset
             className={className}
             form={formName}
-            disabled={formState?.isSubmitting || disabled}
-            aria-disabled={formState?.isSubmitting || disabled}>
+            disabled={formState?.isSubmitting || isPending || disabled}
+            aria-disabled={formState?.isSubmitting || isPending || disabled}>
             {children}
           </fieldset>
         </form>

@@ -2,6 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { isEmpty } from "@open-system/core-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,
@@ -45,6 +46,8 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const context = useRatingContext();
+    const displayValue: number =
+      (!isEmpty(context.value) ? context.value : context.placeholder) ?? 1;
 
     const innerRef = useRef<HTMLDivElement>(null);
     useRipple(innerRef, false);
@@ -90,10 +93,10 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
     );
 
     return (
-      <div className="relative h-10 w-10">
+      <div className="relative h-10 w-10 cursor-pointer">
         <div
           ref={innerRef}
-          className="ripple-container group h-full w-full"
+          className="ripple-container h-full w-full"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}>
           {context.current >= value && (
@@ -107,18 +110,18 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
               className={clsx(
                 "transition-all",
                 {
-                  "group-hover:rotate-[20deg] group-hover:scale-[1.60] group-hover:stroke-primary group-hover:stroke-[0.8] group-active:scale-[2.0]":
+                  "hover:rotate-[20deg] hover:scale-[1.60] hover:stroke-primary hover:stroke-[0.8] active:scale-[2.0]":
                     !disabled && !context.disabled,
                 },
                 {
                   "scale-75 fill-slate-700 stroke-slate-400 stroke-[0.8]":
-                    (!context.value || context.value <= value - 1) &&
+                    (!displayValue || displayValue <= value - 1) &&
                     context.current < value,
                 },
                 {
                   "scale-125 fill-yellow-600 stroke-[0.1]":
-                    (context.value >= value ||
-                      (context.value > value - 1 && context.value < value)) &&
+                    (displayValue >= value ||
+                      (displayValue > value - 1 && displayValue < value)) &&
                     context.current < value,
                 },
                 {
@@ -131,8 +134,8 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
               )}
               viewBox="0 0 20 20">
               <title>{value > 1 ? `${value} stars` : `${value} star`}</title>
-              {context.value > value - 1 &&
-              context.value < value &&
+              {displayValue > value - 1 &&
+              displayValue < value &&
               context.current < value ? (
                 <>
                   <defs>
@@ -141,12 +144,12 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
                       <stop
                         stopColor="#ca8a04"
                         stopOpacity="1"
-                        offset={1 + context.value - value}
+                        offset={1 + displayValue - value}
                       />
                       <stop
                         stopColor="#334155"
                         stopOpacity="1"
-                        offset={1 + context.value - value + 0.01}
+                        offset={1 + displayValue - value + 0.01}
                       />
                       <stop stopColor="#334155" stopOpacity="1" offset={1} />
                     </linearGradient>
@@ -155,12 +158,12 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
                       <stop
                         stopColor="#ca8a04"
                         stopOpacity="1"
-                        offset={1 + context.value - value}
+                        offset={1 + displayValue - value}
                       />
                       <stop
                         stopColor="#94a3b8"
                         stopOpacity="1"
-                        offset={1 + context.value - value + 0.01}
+                        offset={1 + displayValue - value + 0.01}
                       />
                       <stop stopColor="#94a3b8" stopOpacity="1" offset={1} />
                     </linearGradient>

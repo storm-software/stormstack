@@ -73,6 +73,12 @@
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
+      "@open-system/engagement-feature-rating": [
+        "libs/engagement/typescript/feature-rating/src/index.ts"
+      ],
+      "@open-system/engagement-feature-rating/server": [
+        "libs/engagement/typescript/feature-rating/src/server.ts"
+      ],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
       "@open-system/executors-typescript": [
@@ -87,12 +93,6 @@
       ],
       "@open-system/portfolio-ui-feature-resume/*": [
         "libs/portfolio/ui/feature-resume/src/*"
-      ],
-      "@open-system/reaction-ui-data-access": [
-        "libs/reaction/ui/data-access/src/index.ts"
-      ],
-      "@open-system/reaction-ui-data-access/*": [
-        "libs/reaction/ui/data-access/src/*"
       ],
       "@open-system/reaction-ui-feature-like": [
         "libs/reaction/ui/src/index.ts"

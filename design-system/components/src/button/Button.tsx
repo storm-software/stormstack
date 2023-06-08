@@ -12,6 +12,7 @@ import {
   useImperativeHandle,
   useRef,
 } from "react";
+import "../../styles/components.css";
 import { PropsWithBase } from "../types";
 import { useRipple } from "../utilities/use-ripple";
 import {
@@ -28,7 +29,6 @@ import {
   getDefaultText,
   getTextColor,
 } from "./Button.utils";
-import "../../styles/components.css";
 
 export type ButtonProps = PropsWithBase<
   {
@@ -163,11 +163,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       [onHoverEnd]
     );
 
-    useImperativeHandle(ref, () => innerRef.current, []);
+    useImperativeHandle(ref, () => innerRef.current as HTMLButtonElement, []);
 
-    useRipple(
-      innerRef
-    );
+    useRipple(innerRef);
 
     return (
       <button
@@ -190,7 +188,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               !disabled && glowType === ButtonGlowTypes.ALWAYS,
           },
           "min-w-bnt-m-w group relative h-[58px] w-fit overflow-hidden overflow-y-hidden p-0.5 transition-shadow duration-300 ease-in-out",
-          className, "btn",
+          className,
+          "btn"
         )}
         {...props}
         onClick={handleClick}

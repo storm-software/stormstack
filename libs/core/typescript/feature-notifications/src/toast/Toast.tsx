@@ -4,8 +4,8 @@ import { ModalReference } from "@open-system/core-components";
 import { useSetToastMessages } from "@open-system/core-data-access";
 import {
   Toast as OsToast,
-  ToastVariants,
   PropsWithBase,
+  ToastVariants,
 } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -36,7 +36,7 @@ export type ToastProps = PropsWithBase<{
   /**
    * Type of alert to display
    */
-  type: ToastTypes;
+  type: ToastVariants | string;
 }>;
 
 /**

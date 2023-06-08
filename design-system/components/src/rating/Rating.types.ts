@@ -1,7 +1,15 @@
 import { ChangeEvent, FocusEvent } from "react";
 
 export interface RatingContextState {
+  /**
+   * The value of the input field
+   */
   value?: number | null;
+
+  /**
+   * Placeholder text when the field value is empty
+   */
+  placeholder?: number | null;
 
   /**
    * 	The name of the overall Rating button group

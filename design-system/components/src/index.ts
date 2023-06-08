@@ -1,12 +1,11 @@
 "use client";
 
 export * from "./accordion";
+export * from "./badge";
 export * from "./breadcrumb";
 export * from "./button";
-export * from "./badge";
 export * from "./card";
 export * from "./checkbox";
-export * from "./badge";
 export * from "./divider";
 export * from "./field-text";
 export * from "./heading";
@@ -20,6 +19,7 @@ export * from "./module";
 export * from "./notification";
 export * from "./progress-tracker";
 export * from "./radio";
+export * from "./rating";
 export * from "./section";
 export * from "./select";
 export * from "./success-icon";

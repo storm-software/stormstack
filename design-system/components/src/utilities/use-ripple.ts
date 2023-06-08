@@ -1,6 +1,6 @@
-import { MutableRefObject, useCallback, useEffect } from "react";
+import { RefObject, useCallback, useEffect } from "react";
 
-export function useRipple(ref: MutableRefObject<HTMLElement> | null, addClientPosition = true) {
+export function useRipple(ref: RefObject<HTMLElement | null> | null, addClientPosition = true) {
   const handleClick = useCallback((event: MouseEvent) => {
     const button = ref?.current;
     if (button) {

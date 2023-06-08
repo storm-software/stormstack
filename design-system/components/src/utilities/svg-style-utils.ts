@@ -18,7 +18,8 @@ export function getSvgFillStyle(
 }
 
 export function getButtonSvgFillStyle(
-  disabled: boolean, variant: ButtonVariants
+  disabled: boolean,
+  variant?: ButtonVariants | string
 ) {
   return disabled
     ? "fill-disabled"
@@ -34,7 +35,8 @@ export function getButtonSvgFillStyle(
 }
 
 export function getButtonSvgStrokeStyle(
-  disabled: boolean, variant: ButtonVariants
+  disabled: boolean,
+  variant?: ButtonVariants | string
 ) {
   return disabled
     ? "stroke-disabled"

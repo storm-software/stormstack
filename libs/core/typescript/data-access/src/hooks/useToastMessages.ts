@@ -1,6 +1,8 @@
 import { useAtomValue } from "jotai";
+import { useCallback } from "react";
 import { ToastMessage, toastMessagesAtom } from "../models/toast-messages";
 import { UseAtomListReturn, useAtomList } from "./useAtomList";
+import { ToastVariants } from "@open-system/design-system-components";
 
 export const useToastMessagesValue = (): ToastMessage[] => {
   return useAtomValue(toastMessagesAtom);
@@ -15,4 +17,16 @@ export const useToastMessages = (): [
   UseAtomListReturn<ToastMessage>
 ] => {
   return [useToastMessagesValue(), useSetToastMessages()];
+};
+
+export const useSetToastError = (): ((summary: string, details?: string) => void)  => {
+  const { add } = useSetToastMessages();
+
+  return useCallback((summary: string, details?: string) => {
+    add({
+      type: ToastVariants.ERROR,
+      summary,
+      details
+    })
+  }, [])
 };

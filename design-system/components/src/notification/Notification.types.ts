@@ -4,5 +4,5 @@ export const NotificationVariants = {
   ERROR: "error" as NotificationVariants,
   INFO: "info" as NotificationVariants,
   SUCCESS: "success" as NotificationVariants,
-  GRADIENT: "gradient" as MessageBarVariants,
+  GRADIENT: "gradient" as NotificationVariants,
 };

@@ -16,7 +16,7 @@ export interface SubmitButtonIconProps extends BaseComponentProps {
   isSubmitSuccessful: boolean;
   isError: boolean;
   isDisabled: boolean;
-  variant: ButtonVariants | string;
+  variant?: ButtonVariants | string;
 }
 
 export function SubmitButtonIcon({

@@ -49,7 +49,7 @@ export function CookiePolicyBanner({
   }, []);
 
   return (
-    <form action={onAgreeToPrivacyPolicy}>
+    <form onSubmit={onAgreeToPrivacyPolicy}>
       <AnimatePresence>
         <motion.div
           className="fixed bottom-0 left-0 right-0 z-progress w-full border-t-[6px] border-t-stone-700 bg-bg-2"

@@ -113,7 +113,7 @@ export const FieldWrapper = ({
     noBorder
   );
 
-  const innerRef = useRef<HTMLElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
   useRipple(innerRef);
 
   return (

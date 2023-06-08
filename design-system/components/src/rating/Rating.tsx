@@ -16,6 +16,16 @@ import { RatingContextProvider } from "./Rating.context";
 
 export type RatingProps = BaseFieldProps & {
   /**
+   * The value of the input field
+   */
+  value?: number | null;
+
+  /**
+   * Placeholder text when the field value is empty
+   */
+  placeholder?: number | null;
+
+  /**
    * An indicator specifying if the Rating options should be displayed vertically (default is horizontally)
    */
   isVertical?: boolean;
@@ -36,7 +46,7 @@ export const Rating = ({
   noBorder = false,
   glow = true,
   label,
-  placeholder,
+  placeholder = 1,
   tabIndex,
   autoFocus = false,
   isVertical = false,
@@ -110,6 +120,7 @@ export const Rating = ({
         <RatingContextProvider
           value={{
             value,
+            placeholder,
             onFocus: handleFocus,
             onBlur: handleBlur,
             name,
