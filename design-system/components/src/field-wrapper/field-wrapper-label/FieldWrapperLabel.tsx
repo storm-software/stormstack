@@ -20,6 +20,7 @@ export type FieldWrapperLabelProps = PropsWithBase<
 export const FieldWrapperLabel = ({
   name,
   label = "",
+  className,
   info = null,
   errors = null,
   warning = null,
@@ -27,23 +28,23 @@ export const FieldWrapperLabel = ({
   required = false,
 }: FieldWrapperLabelProps) => {
   return (
-    <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
+  
       <label
         className={clsx(
           getFieldTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),
           "text-label-1 font-label-1 leading-label-1 antialiased",
-          { "font-bold": !isEmptyObject(errors) }
-        )}
+          { "font-bold": !isEmptyObject(errors) }, className
+  )}
         htmlFor={name}>
         {label}
-      </label>
-      {required && (
+      
+      {label && required && (
         <label
-          className="font-extrabold leading-none text-red-500"
+          className="ml-0.5 font-extrabold leading-none text-red-500"
           htmlFor={name}>
           *
         </label>
       )}
-    </div>
+      </label>
   );
 };

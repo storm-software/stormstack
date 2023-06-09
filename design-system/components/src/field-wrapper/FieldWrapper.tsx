@@ -165,6 +165,7 @@ export const FieldWrapper = ({
 
       <div className="flex w-full flex-row items-center gap-3">
         {labelPlacement === FieldLabelPlacementTypes.LEFT && (
+            <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
           <FieldWrapperLabel
             name={name}
             label={label}
@@ -174,6 +175,7 @@ export const FieldWrapper = ({
             focused={focused}
             required={required}
           />
+          </div>
         )}
 
         <div className="flex h-fit grow flex-col gap-xxs self-start pt-0.5">
@@ -181,6 +183,7 @@ export const FieldWrapper = ({
             <>
               {labelPlacement === FieldLabelPlacementTypes.TOP && (
                 <>
+                 <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
                   <FieldWrapperLabel
                     name={name}
                     label={label}
@@ -190,6 +193,7 @@ export const FieldWrapper = ({
                     focused={focused}
                     required={required}
                   />
+                   </div>
 
                   {(!isEmptyObject(errors) || warning || info) && (
                     <div className="relative flex h-5 w-5 pr-xxxs">
@@ -321,6 +325,7 @@ export const FieldWrapper = ({
         </div>
         {labelPlacement === FieldLabelPlacementTypes.RIGHT && (
           <>
+          <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
             <FieldWrapperLabel
               name={name}
               label={label}
@@ -330,6 +335,7 @@ export const FieldWrapper = ({
               focused={focused}
               required={required}
             />
+            </div>
 
             {(!isEmptyObject(errors) || warning || info) && (
               <div className="pr-xxxs">

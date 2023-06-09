@@ -65,7 +65,7 @@ export default function AppTitle() {
           <h1
             id="title-text-1"
             className={clsx(
-              { "text-7xl": isAppHeaderDisplayed },
+              { "text-8xl": isAppHeaderDisplayed },
               { "text-7xl": !isAppHeaderDisplayed },
               "col-start-1 row-start-1 whitespace-pre font-header-1 leading-none text-primary transition-all"
             )}>
@@ -79,7 +79,7 @@ export default function AppTitle() {
             <>
               <h1
                 id="title-text-2"
-                className="col-start-1 row-start-1 whitespace-pre text-7xl font-header-1 leading-none text-primary transition-all">
+                className="col-start-1 row-start-1 whitespace-pre text-8xl font-header-1 leading-none text-primary transition-all">
                 Pat Sullivan
                 <br />
                 <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
@@ -88,7 +88,7 @@ export default function AppTitle() {
               </h1>
               <h1
                 id="title-text-3"
-                className="col-start-1 row-start-1 whitespace-pre text-7xl font-header-1 leading-none text-primary transition-all">
+                className="col-start-1 row-start-1 whitespace-pre text-8xl font-header-1 leading-none text-primary transition-all">
                 Pat Sullivan
                 <br />
                 <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
@@ -102,7 +102,7 @@ export default function AppTitle() {
         <div className="w-fit">
           <BoxLogo
             className={clsx(
-              { "h-[24rem] w-full": isAppHeaderDisplayed },
+              { "h-[29rem] w-full": isAppHeaderDisplayed },
               { "h-[20rem] w-full": !isAppHeaderDisplayed },
               "animate-flicker transition-all delay-300"
             )}
@@ -114,7 +114,7 @@ export default function AppTitle() {
         className={clsx(
           { "flex flex-row opacity-100": isAppHeaderDisplayed },
           { "hidden opacity-0": !isAppHeaderDisplayed },
-          "mt-2 justify-center transition-opacity"
+          "justify-center transition-opacity"
         )}>
         <div className="align-center flex animate-flicker2 flex-col gap-4">
           <Heading

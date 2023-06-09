@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { RefObject } from "react";
+import React, { HTMLAttributes, RefObject } from "react";
 
 export type BaseComponentProps = React.PropsWithChildren<
   Partial<
     Pick<
-      React.HTMLAttributes<any>,
+      HTMLAttributes<any>,
       | "className"
       | "id"
       | "lang"
@@ -117,6 +117,10 @@ export type BaseFieldProps = PropsWithBaseRef<{
    */
   value?: any;
 }>;
+
+export type PropsWithBaseField<
+  P extends Record<string, any> = Record<string, never>
+> = P & BaseFieldProps;
 
 export type FieldReference<TValue = string> = {
   error: string | null;

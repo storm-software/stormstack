@@ -8,6 +8,10 @@ const { createGlobPatternsForDependencies } = require("@nx/react/tailwind");
 module.exports = {
   "content": [
     join(__dirname, "apps/web/shell/app/**/*!(*.stories|*.spec).{ts,tsx,html}"),
+    join(
+      __dirname,
+      "apps/web/shell/components/**/*!(*.stories|*.spec).{ts,tsx,html}"
+    ),
     join(__dirname, "libs/**/typescript/**/*!(*.stories|*.spec).{ts,tsx,html}"),
     join(
       __dirname,
