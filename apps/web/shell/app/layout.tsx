@@ -10,7 +10,8 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 import {
   antiqueOlive,
-  anybody,
+  monaSans,
+  monaSansExtraBold,
   inter,
   melody,
   permanentMarker,
@@ -71,7 +72,8 @@ export default function RootLayout(props: {
       className={clsx(
         melody.variable,
         inter.variable,
-        anybody.variable,
+        monaSans.variable,
+        monaSansExtraBold.variable,
         antiqueOlive.variable,
         permanentMarker.variable,
         satoshi.variable,

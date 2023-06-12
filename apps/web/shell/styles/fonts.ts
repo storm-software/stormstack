@@ -21,12 +21,24 @@ export const permanentMarker = localFont({
   src: "../../../../assets/fonts/PermanentMarker-Regular.ttf",
 });
 
-export const anybody = Anybody({
+
+export const monaSans = localFont({
+  variable: "--font-mona-sans",
+  src: "../../../../assets/fonts/Mona-Sans-Light.woff2",
+});
+
+export const monaSansExtraBold = localFont({
+  variable: "--font-mona-sans-extrabold",
+  src: "../../../../assets/fonts/Mona-Sans-ExtraBold.woff2",
+});
+
+
+/*export const anybody = Anybody({
   variable: "--font-anybody",
   subsets: ["latin"],
   display: "swap",
   fallback: ["arial"],
-});
+});*/
 
 export const inter = Inter({
   variable: "--font-inter",
