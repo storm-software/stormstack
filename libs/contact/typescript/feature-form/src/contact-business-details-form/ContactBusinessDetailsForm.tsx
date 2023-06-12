@@ -1,12 +1,17 @@
 "use client";
 
-import { Input, Textarea, UrlInput } from "@open-system/core-feature-form";
+import { Input, Textarea, UrlInput, FileUpload } from "@open-system/core-feature-form";
 import {
   BaseComponentProps,
   InputAutoCompleteTypes,
   TextareaSizes,
 } from "@open-system/design-system-components";
 import { BaseContactForm } from "../base-contact-form";
+import {
+  MAX_ATTACHMENT_SIZE,
+  MAX_ATTACHMENTS_COUNT,
+} from "@open-system/contact-data-access";
+
 
 export function ContactBusinessDetailsForm({
   className,
@@ -40,6 +45,7 @@ export function ContactBusinessDetailsForm({
         maxLength={2000}
         required={true}
       />
+      <FileUpload className="h-40" name="attachments" label="Attachments" multiple={true} maxSize={MAX_ATTACHMENT_SIZE} maxFiles={MAX_ATTACHMENTS_COUNT} />
     </BaseContactForm>
   );
 }

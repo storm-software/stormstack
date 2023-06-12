@@ -2,6 +2,7 @@
 
 import { isEmptyObject } from "@open-system/core-utilities";
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { FileState } from "@open-system/core-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,
@@ -10,17 +11,24 @@ import {
   forwardRef,
   useCallback,
   useImperativeHandle,
+  useRef,
   useState,
 } from "react";
 import { FieldWrapper, FieldWrapperLabel } from "../field-wrapper";
 import { InputTypes } from "../input/Input.types";
 import { Link } from "../link";
 import { BaseFieldProps } from "../types";
-import { UseDropzoneParams } from "./FileUpload.types";
+import { FileRejection, UseDropzoneParams } from "./FileUpload.types";
+import { FileUploadItem } from "./file-upload-item";
 import { useDropzone } from "./useDropzone";
 
 export type FileUploadProps = BaseFieldProps &
   UseDropzoneParams & {
+    files?: FileState[];
+    onInclude: (files: Array<File>) => void;
+    onExclude: (fileId: string) => void;
+    onReset: () => void;
+
     /**
      * Event handler for button click event
      */
@@ -34,20 +42,34 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
   (
     {
       className,
+      children,
       name,
       value,
       disabled = false,
       required = false,
       glow = false,
       label,
-      placeholder,
       info,
       warning,
       errors,
       tabIndex,
-      multiple = false,
+      multiple = true,
       autoFocus = false,
       noBorder = false,
+      maxSize = Infinity,
+      minSize = 0,
+      maxFiles = 0,
+      preventDropOnDocument = true,
+      noClick = true,
+      noKeyboard = false,
+      noDrag = false,
+      noDragEventsBubbling = false,
+      validator = null,
+      useFsAccessApi = true,
+      files = [],
+      onInclude,
+      onExclude,
+      onReset,
       onClick,
       onChange,
       onFocus,
@@ -80,11 +102,26 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
     );
 
     const inputRef = useRef(null);
-    const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
+    const { getRootProps, getInputProps } = useDropzone({
+      files,
       inputRef,
+      disabled,
+      autoFocus,
+      maxSize,
+      minSize,
       multiple,
-      noClick: false,
-      noKeyboard: false,
+      maxFiles,
+      preventDropOnDocument,
+      noClick,
+      noKeyboard,
+      noDrag,
+      noDragEventsBubbling,
+      validator,
+      useFsAccessApi,
+      onInclude,
+      onExclude,
+      onReset,
+      ...props,
     });
     useImperativeHandle(ref, () => inputRef.current, []);
 
@@ -92,14 +129,15 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       (event: MouseEvent) => {
         event && event?.stopPropagation?.();
 
-        open(event);
+        // open(event);
         onClick?.(event);
       },
-      [onClick, open]
+      [onClick]
     );
 
     return (
       <FieldWrapper
+        heightClassName="min-h-fit"
         name={name}
         label={label}
         info={info}
@@ -110,15 +148,13 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         required={required}
         noBorder={noBorder}>
         <div
-          {...getRootProps({
-            className: clsx(
-              "rounded-md border-[3px] border-dashed border-primary cursor-pointer flex flex-col gap-10",
-              className
-            ),
-          })}
-          onClick={handleClick}>
+          {...getRootProps({})}
+          className={clsx(
+            "flex h-full flex-col rounded-xl border-[3px] border-dashed border-primary",
+            className
+          )}>
           <FieldWrapperLabel
-            className="flex h-full w-full grow cursor-pointer flex-row items-center justify-center align-middle"
+            className="flex h-full w-full grow cursor-pointer flex-row items-center justify-center py-5 align-middle"
             name={name}
             label={
               <>
@@ -150,17 +186,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
             required={!label && required}
           />
 
-          {acceptedFiles && acceptedFiles.length && (
-            <ul className="grid-cols-2 gap-4 p-10 lg:grid-cols-3">
-              {acceptedFiles.map((file: File) => (
-                <li
-                  key={file.name}
-                  className="border-1 rounded-lg border-primary bg-slate-200/60 font-label-1 text-primary">
-                  {file.name} - {file.size} bytes
-                </li>
-              ))}
-            </ul>
-          )}
+          {children}
 
           <input
             id={name}
@@ -182,7 +208,24 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
             onChange={onChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            {...getInputProps({ onChange, handleClick })}></input>
+            {...getInputProps({
+              name,
+              onChange,
+              onClick: handleClick,
+              disabled,
+              maxSize,
+              minSize,
+              multiple,
+              maxFiles,
+              preventDropOnDocument,
+              noClick,
+              noKeyboard,
+              noDrag,
+              noDragEventsBubbling,
+              validator,
+              useFsAccessApi,
+              autoFocus,
+            })}></input>
         </div>
       </FieldWrapper>
     );

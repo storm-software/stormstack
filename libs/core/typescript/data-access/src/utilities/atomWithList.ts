@@ -3,12 +3,27 @@ import { WritableAtom } from "jotai";
 import { atomWithReducer } from "jotai/utils";
 import { ScopedObjectState } from "../types";
 
+export type ListAddAction<TValue extends ScopedObjectState = ScopedObjectState> = 
+{ type: "add"; item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">> };
+
+export type ListRemoveAction<TValue extends ScopedObjectState = ScopedObjectState> = 
+{ type: "remove"; id: string };
+
+export type ListResetAction<TValue extends ScopedObjectState = ScopedObjectState> = 
+{ type: "reset"; initialValue?: TValue[] };
+
+export type ListProcessAction<TValue extends ScopedObjectState = ScopedObjectState> = 
+{ type: "process"; funct: (prev: TValue[]) => TValue[] };
+
+export type ListMapAction<TValue extends ScopedObjectState = ScopedObjectState> = 
+{ type: "map"; funct: (prev: TValue) => TValue };
+
 export type ListAction<TValue extends ScopedObjectState = ScopedObjectState> =
-  | { type: "add"; item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">> }
-  | { type: "remove"; id: string }
-  | { type: "reset"; initialValue?: TValue[] }
-  | { type: "process"; funct: (prev: TValue[]) => TValue[] }
-  | { type: "map"; funct: (prev: TValue) => TValue };
+  | ListAddAction<TValue>
+  | ListRemoveAction<TValue>
+  | ListResetAction<TValue>
+  | ListProcessAction<TValue>
+  | ListMapAction<TValue>;
 
 export interface Options {
   allowDuplicates?: boolean;

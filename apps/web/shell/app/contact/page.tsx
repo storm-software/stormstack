@@ -37,11 +37,11 @@ export default function Page() {
 
       add({
         type: MessageTypes.INFO,
-        summary: `We've reloaded the contact details you previously added on ${contact.draftSavedDateTime
+        summary: `The contact details you previously added on ${contact.draftSavedDateTime
           ?.getPlainDate()
           .toLocaleString()} at ${contact.draftSavedDateTime
           ?.getPlainTime()
-          .toLocaleString(undefined, { timeStyle: "short" })}`,
+          .toLocaleString(undefined, { timeStyle: "short" })} were reloaded`,
         isExtendable: false,
       });
     }

@@ -269,7 +269,7 @@ export const FieldWrapper = ({
               </div>
             )}
           </div>
-          <div className="flex flex-row gap-0.5 pl-xxxs">
+          <div className="flex flex-row gap-0.5 pl-xxxs pb-xxs">
             <AnimatePresence>
               {isEmptyObject(errors) ? (
                 <>

@@ -1,4 +1,6 @@
+import { FileState } from "@open-system/core-utilities";
 import { FileWithPath } from "file-selector";
+import { RefObject } from "react";
 import { PropsWithBaseField, PropsWithBaseRef } from "../types";
 
 export interface FileError {
@@ -7,11 +9,13 @@ export interface FileError {
 }
 
 export interface FileRejection {
-  file: File;
+  file: FileState;
   errors: FileError[];
 }
 
 export interface UseDropzoneParams {
+  files: FileState[];
+  inputRef: RefObject<HTMLInputElement>;
   disabled: boolean;
   getFilesFromEvent: (
     evt: Event | any
@@ -45,6 +49,9 @@ export interface UseDropzoneParams {
   onFileDialogCancel: (event: any) => void;
   onFileDialogOpen: (event: any) => void;
   onError: (error: Error) => void;
+  onInclude: (files: Array<File>) => void;
+  onExclude: (fileId: string) => void;
+  onReset: () => void;
 }
 
 export type DropzoneRootProps = PropsWithBaseRef<{

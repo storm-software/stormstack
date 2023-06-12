@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useSetToastError } from "@open-system/core-data-access";
+import { FormIdScope, useSetToastError } from "@open-system/core-data-access";
 import { getUniqueId, isFunction } from "@open-system/core-utilities";
 import {
   BaseComponentProps,
   InputAutoCompleteTypes,
 } from "@open-system/design-system-components";
+import { ScopeProvider } from "jotai-molecules";
 import { useRouter } from "next/navigation";
 import {
   BaseSyntheticEvent,
@@ -23,6 +24,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { DeepPartial } from "../types";
+// import { DevTool } from "@hookform/devtools";
 
 export type AlertSubmitType = "none" | "toast" | "notification";
 export const AlertSubmitType = {
@@ -84,9 +86,9 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
     shouldUseNativeValidation: true,
   });
 
-  const [formName, setFormName] = useState<string | undefined>(name);
+  const [formId, setFormId] = useState<string | undefined>(name);
   useEffect(() => {
-    setFormName(getUniqueId());
+    setFormId(getUniqueId());
     trigger(undefined, { shouldFocus: false });
   }, [trigger]);
 
@@ -154,14 +156,14 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   );
 
   return (
-    <>
+    <ScopeProvider scope={FormIdScope} value={formId}>
       <FormProvider
         trigger={trigger}
         control={control}
         formState={formState}
         {...methods}>
         <form
-          name={formName}
+          name={formId}
           autoComplete={
             autoComplete
               ? InputAutoCompleteTypes.ON
@@ -170,7 +172,7 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
           onSubmit={methods.handleSubmit(handleSubmit, handleSubmitError)}>
           <fieldset
             className={className}
-            form={formName}
+            form={formId}
             disabled={formState?.isSubmitting || isPending || disabled}
             aria-disabled={formState?.isSubmitting || isPending || disabled}>
             {children}
@@ -178,6 +180,6 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
         </form>
       </FormProvider>
       {/*<DevTool control={control} />*/}
-    </>
+    </ScopeProvider>
   );
 }

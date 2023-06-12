@@ -390,3 +390,11 @@ export interface HttpErrorResult {
    */
   errorMessage: string;
 }
+
+
+export interface FileState extends File {
+  fileId: string;
+  type: string;
+  dataUrl?: string;
+  data?: string;
+}

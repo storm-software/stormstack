@@ -8,6 +8,7 @@ export * from "./card";
 export * from "./checkbox";
 export * from "./divider";
 export * from "./field-text";
+export * from "./file-upload";
 export * from "./heading";
 export * from "./icon";
 export * from "./info-message";

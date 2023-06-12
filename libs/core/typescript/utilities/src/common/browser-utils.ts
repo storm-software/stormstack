@@ -1,3 +1,70 @@
+import { FileLoadingError } from "../errors";
+import { isEmpty } from "./type-checks";
+
+export function readAsTextAsync(file: File) {
+  const fr = new FileReader();
+
+  return new Promise((resolve, reject) => {
+    fr.onerror = () => {
+      fr.abort();
+      reject(new FileLoadingError(file.name, fr.error?.message));
+    };
+    fr.onload = () => {
+      resolve(fr.result);
+    };
+
+    fr.readAsText(file);
+  });
+}
+
+export function readAsDataURLAsync(file: File) {
+  const fr = new FileReader();
+
+  return new Promise((resolve, reject) => {
+    fr.onerror = () => {
+      fr.abort();
+      reject(new FileLoadingError(file.name, fr.error?.message));
+    };
+    fr.onload = () => {
+      resolve(fr.result);
+    };
+
+    fr.readAsDataURL(file);
+  });
+}
+
+export function openFileInNewTab(
+  file: FileState,
+  title = "File Content - View"
+) {
+  !isEmpty(window) &&
+    window.open(title)?.document.write(
+      `<html>
+          <head><title>${title}</title></head>
+          <body style="height: 100%; width: 98%; background: #e2e8f0;">
+            ${
+              isImageMIMEType(file.type) && !file.type?.includes("svg")
+                ? `<img style="height: 30%;" src="${file.dataUrl}"" alt="${file.fileId}"></img>`
+                : isApplicationMIMEType(file.type) && !file.type?.includes("json")
+                ? `<iframe style="height: 100%; width: 100%;" src="${file.dataUrl}"" alt="${file.fileId}"></iframe>`
+                : isVideoMIMEType(file.type)
+                ? `<video style="width: 100%;" controls muted>
+            <source src="${file.data}" type="${
+              file.type ? file.type : "video/mp4"
+                  }">Your browser does not support the video tag.</video>`
+                : isAudioMIMEType(file.type)
+                ? `<audio  controls muted>
+            <source src="${file.data}" type="${
+              file.type ? file.type : "audio/mp3"
+                  }">Your browser does not support the audio element.</audio>`
+                : `<div style="height: 100%; width: 100%;">${file.data}"></div>`
+            }
+          </body>
+        </html>`
+    );
+}
+
+
 export function isPropagationStopped(event: any) {
   if (typeof event?.isPropagationStopped === "function") {
     return event.isPropagationStopped();
@@ -56,14 +123,59 @@ export function isExt(v: string) {
  *
  * @param {string} v
  */
-export function isMIMEType(v: string) {
+export function isMIMEType(v?: string) {
   return (
-    v === "audio/*" ||
-    v === "video/*" ||
-    v === "image/*" ||
-    v === "text/*" ||
-    /\w+\/[-+.\w]+/g.test(v)
+    !isEmpty(v) &&
+    (v === "audio/*" ||
+      v === "video/*" ||
+      v === "image/*" ||
+      v === "text/*" ||
+      (v && /\w+\/[-+.\w]+/g.test(v)))
   );
+}
+
+/**
+ * Check if v is an image MIME type string.
+ *
+ * See accepted format: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers.
+ *
+ * @param {string} v
+ */
+export function isImageMIMEType(v?: string) {
+  return isMIMEType(v) && v?.startsWith("image/");
+}
+
+/**
+ * Check if v is an application MIME type string.
+ *
+ * See accepted format: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers.
+ *
+ * @param {string} v
+ */
+export function isApplicationMIMEType(v?: string) {
+  return isMIMEType(v) && v?.startsWith("application/");
+}
+
+/**
+ * Check if v is an video MIME type string.
+ *
+ * See accepted format: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers.
+ *
+ * @param {string} v
+ */
+export function isVideoMIMEType(v?: string) {
+  return isMIMEType(v) && v?.startsWith("video/");
+}
+
+/**
+ * Check if v is an audio MIME type string.
+ *
+ * See accepted format: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers.
+ *
+ * @param {string} v
+ */
+export function isAudioMIMEType(v?: string) {
+  return isMIMEType(v) && v?.startsWith("audio/");
 }
 
 /**

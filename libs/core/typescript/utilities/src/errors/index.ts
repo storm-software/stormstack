@@ -4,3 +4,4 @@ export * from "./missing-context-error";
 export * from "./required-error";
 export * from "./configuration-error";
 export * from "./env-configuration-error";
+export * from "./file-loading-error";

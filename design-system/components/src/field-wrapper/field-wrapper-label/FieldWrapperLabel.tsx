@@ -28,16 +28,16 @@ export const FieldWrapperLabel = ({
   required = false,
 }: FieldWrapperLabelProps) => {
   return (
-  
-      <label
-        className={clsx(
-          getFieldTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),
-          "text-label-1 font-label-1 leading-label-1 antialiased",
-          { "font-bold": !isEmptyObject(errors) }, className
-  )}
-        htmlFor={name}>
-        {label}
-      
+    <label
+      className={clsx(
+        getFieldTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),
+        "text-label-1 font-label-1 leading-label-1 antialiased",
+        { "font-bold": !isEmptyObject(errors) },
+        className
+      )}
+      htmlFor={name}>
+      {label}
+
       {label && required && (
         <label
           className="ml-0.5 font-extrabold leading-none text-red-500"
@@ -45,6 +45,6 @@ export const FieldWrapperLabel = ({
           *
         </label>
       )}
-      </label>
+    </label>
   );
 };

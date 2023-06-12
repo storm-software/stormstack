@@ -36,7 +36,7 @@ export function HorizontalSeparator({ className }: BaseComponentProps) {
                   <motion.stop
                     stopColor="#14b8a6"
                     animate={{
-                      stopColor: ["#8b5cf6", "#0284c7", "#14b8a6"],
+                      stopColor: ["#7330DB", "#6366F1", "#10B981"],
                     }}
                     transition={{
                       yoyo: Infinity,
@@ -51,7 +51,7 @@ export function HorizontalSeparator({ className }: BaseComponentProps) {
                   <motion.stop
                     stopColor="#8b5cf6"
                     animate={{
-                      stopColor: ["#14b8a6", "#0284c7", "#8b5cf6"],
+                      stopColor: ["#10B981", "#6366F1", "#7330DB"],
                     }}
                     transition={{
                       yoyo: Infinity,

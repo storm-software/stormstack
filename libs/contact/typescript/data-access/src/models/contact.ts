@@ -24,6 +24,7 @@ export interface Contact extends Partial<Address> {
   title?: string;
   companyName?: string;
   details?: string;
+  attachments?: File | File[];
   url?: string;
   emailAddress?: string;
   firstName?: string;
