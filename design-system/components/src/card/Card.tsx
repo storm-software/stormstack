@@ -122,7 +122,7 @@ export const Card = ({
         rotateY: mousePosition.y * -20,
       }}
       className={clsx(
-        "ripple-container group relative overflow-hidden rounded-xl border-[1px] border-slate-500 backdrop-blur-md backdrop-brightness-110 transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-indigo-500/50 active:scale-95",
+        "ripple-container group relative overflow-hidden rounded-xl border-[1px] border-slate-500 backdrop-blur-md backdrop-brightness-150 transition-shadow hover:border-hover-link-2 hover:shadow-[0_0_25px_5px_rgba(0,0,0,0.01)] hover:shadow-teal-400/50 active:scale-95",
         className
       )}>
       <div className="ripple-inner flex h-full w-full flex-row items-center gap-2">
@@ -130,7 +130,7 @@ export const Card = ({
           <div className="absolute left-0 right-0 top-0 flex h-fit w-full flex-row-reverse p-3">
             {typeof badge === "string" ? (
               <Badge
-                variant={BadgeVariants.TERTIARY}
+                variant={BadgeVariants.SECONDARY}
                 borderThickness={BadgeBorderThickness.THIN}>
                 {badge}
               </Badge>

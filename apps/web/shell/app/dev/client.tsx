@@ -79,7 +79,7 @@ export default function Client() {
 
       <HorizontalSeparator />
 
-      <div ref={stackRef} className="snap-center snap-always scroll-py-9">
+      <div ref={stackRef} className="mt-10 snap-center snap-always scroll-py-9">
         {isIntroductionInView && <Stack />}
       </div>
 

@@ -55,7 +55,7 @@ export default function Barcode({ className, ...props }: BaseComponentProps) {
         <div className="h-full w-1 bg-black" />
       </div>
 
-      <div className="absolute left-0 right-0 top-6 animate-scan z-content h-1 w-full bg-red-500 transition-all" />
+      <div className="group-hover:flex hidden absolute left-0 right-0 top-6 animate-scan z-content h-1 w-full bg-red-500 transition-all" />
     </div>
   );
 }

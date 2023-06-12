@@ -53,7 +53,7 @@ export const MessageBar = ({
     <div className="h-fit w-full min-w-fit max-w-[65rem] bg-black/80">
       <div
         className={clsx(
-          "relative h-fit w-full min-w-fit border-4 backdrop-blur-xl backdrop-brightness-0",
+          "relative h-fit w-full min-w-fit border-4",
           getTextStyle(variant),
           getBorderStyle(variant),
           getBackgroundStyle(variant),

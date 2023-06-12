@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 ::selection {
-  background: #a36de9; /* WebKit/Blink Browsers */
-  color: #fff; /* WebKit/Blink Browsers */
+  background: #3730a3; /* WebKit/Blink Browsers */
+  color: #FAF9F6; /* WebKit/Blink Browsers */
 }
+
 ::-moz-selection {
-  background: #a36de9; /* Gecko Browsers */
-  color: #fff; /* Gecko Browsers */
+  background: #3730a3; /* Gecko Browsers */
+  color: #FAF9F6; /* Gecko Browsers */
 }
 
 :host {
@@ -59,8 +60,22 @@ select:-webkit-autofill:focus:disabled {
 @media (min-width: 400px) {
   .background-gradient::before {
     background: radial-gradient(
-      35% 40% at 54% 55%,
-      rgba(79, 70, 229, 0.376) 0%,
+      35% 40% at 44% 50%,
+      rgba(99, 102, 241, 0.476) 0%,
+      rgba(37, 38, 44, 0) 100%
+    );
+    z-index: 10;
+    content: "";
+    position: absolute;
+    inset: 0px;
+    transform: scale(1);
+    pointer-events: none;
+  }
+
+  .background-gradient::after {
+    background: radial-gradient(
+      30% 35% at 64% 60%,
+      rgba(16, 185, 129, 0.376) 0%,
       rgba(37, 38, 44, 0) 100%
     );
     z-index: 10;

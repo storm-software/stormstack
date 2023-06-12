@@ -1,7 +1,7 @@
 "use client";
 
-import { Heading } from "@open-system/design-system-components";
 import { Link } from "@open-system/core-components";
+import { Heading } from "@open-system/design-system-components";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import StackLayer from "./stack-layer";
@@ -17,7 +17,12 @@ export default function Page() {
       ref={ref}
       className="z-content flex w-full snap-center snap-always flex-col items-center justify-center gap-20 overflow-hidden">
       <div className="flex h-[75rem] w-fit flex-col gap-20 px-10">
-        <div className="flex w-fit max-w-[65rem] flex-col gap-20">
+        <motion.div
+          className="flex w-fit max-w-[65rem] flex-col gap-20"
+          initial={{ opacity: 0, x: 300 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.75, duration: 1.5 }}>
           <div className="flex flex-col gap-5">
             <Heading level={2}>Full Stack Development</Heading>
 
@@ -36,7 +41,7 @@ export default function Page() {
               applications.
             </p>
           </div>
-        </div>
+        </motion.div>
         <div ref={ref}>
           {isInView && (
             <motion.ul
