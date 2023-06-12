@@ -85,7 +85,10 @@ module.exports = {
         "wave3": "wave 20s -1s linear infinite",
         "bubble": "bubble 10s ease-in-out infinite",
         "scan": "scan 4s ease-in-out infinite",
-        "spin-slow": "spin 5s linear infinite",
+        "spin-fast": "spin 0.8s linear infinite",
+        "spin-half": "spin 1.5s linear infinite",
+        "spin-slow": "spin 2s linear infinite",
+        "spin-ease": "spin 1s ease-in-out infinite",
         "arrow": "arrow 1.5s cubic-bezier(0, 0.6, 1, 0.4) infinite",
         "ripple": "ripple 600ms linear",
         "tv-static": "tv-static 1s steps(8,end) infinite both",
@@ -112,18 +115,17 @@ module.exports = {
         },
         "bubble": {
           "0%": {
-            "transform": "translateY(0%)",
+            "transform": "translateY(5%)",
             "opacity": 0.1,
-            "marginLeft": 0,
           },
           "70%": {
-            "marginLeft": "20px",
+            "transform": "translateX(2.5%)",
           },
           "80%": {
             "opacity": 0,
           },
           "100%": {
-            "transform": "translateY(-120vh)",
+            "transform": "translateY(-160vh)",
             "opacity": 0,
           },
         },

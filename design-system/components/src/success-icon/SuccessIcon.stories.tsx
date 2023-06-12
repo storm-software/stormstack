@@ -7,7 +7,7 @@ export default {
 };
 
 const Template: ComponentStory<typeof SuccessIcon> = args => (
-  <SuccessIcon {...args}></SuccessIcon>
+  <SuccessIcon {...args} className="h-60 w-60"></SuccessIcon>
 );
 
 export const Primary = Template.bind({});

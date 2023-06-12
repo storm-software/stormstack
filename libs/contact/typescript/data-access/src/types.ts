@@ -1,0 +1,3 @@
+export const MAX_ATTACHMENT_SIZE = 50000000;
+
+export const MAX_ATTACHMENTS_COUNT = 10;

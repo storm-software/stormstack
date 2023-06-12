@@ -23,6 +23,8 @@ export * from "./radio";
 export * from "./rating";
 export * from "./section";
 export * from "./select";
+export * from "./skeleton";
+export * from "./spinner";
 export * from "./success-icon";
 export * from "./textarea";
 export * from "./toast";
