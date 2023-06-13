@@ -220,5 +220,17 @@
   ******************************/
   "commitizen.capitalizeWindowsDriveLetter": true,
   "commitizen.autoSync": false,
-  "commitizen.showOutputChannel": "always"
+  "commitizen.showOutputChannel": "always",
+  "cSpell.words": [
+    "asyncapi",
+    "bundlewatch",
+    "clsx",
+    "commitlint",
+    "heroicons",
+    "nrwl",
+    "opentelemetry",
+    "radash",
+    "redocusaurus",
+    "tailwindcss"
+  ]
 }
