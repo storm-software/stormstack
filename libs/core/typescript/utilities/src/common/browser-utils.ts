@@ -1,5 +1,9 @@
 import { FileLoadingError } from "../errors";
+import { ConsoleLogger } from "../logging";
 import { isEmpty } from "./type-checks";
+
+
+export const IsServer = typeof window === 'undefined' || 'Deno' in window
 
 export function readAsTextAsync(file: File) {
   const fr = new FileReader();
@@ -33,31 +37,65 @@ export function readAsDataURLAsync(file: File) {
   });
 }
 
-export function openFileInNewTab(
-  file: FileState,
+export const openFileInNewTab = async (
+  file: File,
+  title = "File Content - View"
+) => {
+  let dataUrl, data, error, type;
+  try {
+    const dataUrlPromise = readAsDataURLAsync(file);
+    const dataPromise = readAsTextAsync(file);
+
+    const resolved = await Promise.all([
+      dataUrlPromise,
+      dataPromise,
+    ]);
+    if (Array.isArray(resolved) && resolved.length > 1) {
+    dataUrl = resolved[0];
+    data = resolved[1];
+    type = file.type;
+    }
+  } catch (e) {
+    error = e as FileLoadingError;
+    type = "error/FileLoadingError";
+    ConsoleLogger.error(error?.message);
+  }
+
+  openDataInNewTab(file.name,
+    { dataUrl: typeof dataUrl === "string" ? dataUrl : undefined, data: typeof data === "string" ? data : undefined,
+    error,
+    type } ,
+    title);
+}
+
+export function openDataInNewTab(
+  name: string,
+  content: { dataUrl?: string; data?: string; error?: string; type?: string; },
   title = "File Content - View"
 ) {
-  !isEmpty(window) &&
+  const { data, dataUrl, error, type } = content;
+
+  !isEmpty(window) && (error || dataUrl || data) &&
     window.open(title)?.document.write(
       `<html>
           <head><title>${title}</title></head>
           <body style="height: 100%; width: 98%; background: #e2e8f0;">
             ${
-              isImageMIMEType(file.type) && !file.type?.includes("svg")
-                ? `<img style="height: 30%;" src="${file.dataUrl}"" alt="${file.fileId}"></img>`
-                : isApplicationMIMEType(file.type) && !file.type?.includes("json")
-                ? `<iframe style="height: 100%; width: 100%;" src="${file.dataUrl}"" alt="${file.fileId}"></iframe>`
-                : isVideoMIMEType(file.type)
+              isImageMIMEType(type) && !type?.includes("svg")
+                ? `<img style="height: 30%;" src="${dataUrl}"" alt="${name}"></img>`
+                : isApplicationMIMEType(type) && !type?.includes("json")
+                ? `<iframe style="height: 100%; width: 100%;" src="${dataUrl}"" alt="${name}"></iframe>`
+                : isVideoMIMEType(type)
                 ? `<video style="width: 100%;" controls muted>
-            <source src="${file.data}" type="${
-              file.type ? file.type : "video/mp4"
+            <source src="${data}" type="${
+              type ? type : "video/mp4"
                   }">Your browser does not support the video tag.</video>`
-                : isAudioMIMEType(file.type)
+                : isAudioMIMEType(type)
                 ? `<audio  controls muted>
-            <source src="${file.data}" type="${
-              file.type ? file.type : "audio/mp3"
+            <source src="${data}" type="${
+              type ? type : "audio/mp3"
                   }">Your browser does not support the audio element.</audio>`
-                : `<div style="height: 100%; width: 100%;">${file.data}"></div>`
+                : `<div style="height: 100%; width: 100%;">${error ? error : data}"></div>`
             }
           </body>
         </html>`

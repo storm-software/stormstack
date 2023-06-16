@@ -10,11 +10,12 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 import {
   antiqueOlive,
-  monaSans,
-  monaSansExtraBold,
   inter,
   melody,
+  monaSans,
+  monaSansExtraBold,
   permanentMarker,
+  robotoMono,
   satoshi,
 } from "../styles/fonts";
 import "../styles/globals.css";
@@ -72,6 +73,7 @@ export default function RootLayout(props: {
       className={clsx(
         melody.variable,
         inter.variable,
+        robotoMono.variable,
         monaSans.variable,
         monaSansExtraBold.variable,
         antiqueOlive.variable,
@@ -132,13 +134,13 @@ export default function RootLayout(props: {
                   </h3>
                   <div className="flex flex-row gap-16">
                     <div className="flex flex-col gap-1">
-                      <Link variant="secondary">Home</Link>
-                      <Link variant="secondary">About</Link>
-                      <Link variant="secondary">Contact</Link>
+                      <Link variant="primary">Home</Link>
+                      <Link variant="primary">About</Link>
+                      <Link variant="primary">Contact</Link>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <Link variant="secondary">Projects</Link>
-                      <Link variant="secondary">Privacy</Link>
+                      <Link variant="primary">Projects</Link>
+                      <Link variant="primary">Privacy</Link>
                     </div>
                   </div>
                 </div>
@@ -146,16 +148,16 @@ export default function RootLayout(props: {
                   <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
                     Blog
                   </h3>
-                  <Link variant="secondary">Articles</Link>
-                  <Link variant="secondary">Latest</Link>
+                  <Link variant="primary">Articles</Link>
+                  <Link variant="primary">Latest</Link>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                   <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
                     Docs
                   </h3>
-                  <Link variant="secondary">Open System</Link>
-                  <Link variant="secondary">Design System</Link>
-                  <Link variant="secondary">Storybook</Link>
+                  <Link variant="primary">Open System</Link>
+                  <Link variant="primary">Design System</Link>
+                  <Link variant="primary">Storybook</Link>
                 </div>
                 <div className="flex h-full flex-col items-center">
                   {/*<PdfResumeDownloadLink />*/}

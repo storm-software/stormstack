@@ -47,12 +47,12 @@ export default function AppTitle() {
 
   return (
     <motion.div
-      className="absolute left-0 right-0 flex w-full flex-col gap-3"
+      className="absolute left-0 right-0 flex w-full flex-col"
       variants={container}
       initial={false}
       animate={isAppHeaderDisplayed ? "closed" : "opened"}>
       <motion.div
-        className="relative flex w-full flex-row items-center justify-center gap-3"
+        className="relative flex w-full flex-row items-center justify-center"
         variants={wrapper}
         initial={false}
         animate={isAppHeaderDisplayed ? "closed" : "opened"}>
@@ -116,7 +116,7 @@ export default function AppTitle() {
           { "hidden opacity-0": !isAppHeaderDisplayed },
           "justify-center transition-opacity"
         )}>
-        <div className="align-center flex animate-flicker2 flex-col gap-4">
+        <div className="align-center animate-flicker-2">
           <Heading
             level={4}
             className="text-glow text-center text-5xl leading-none text-white">
@@ -126,7 +126,7 @@ export default function AppTitle() {
             </span>{" "}
             brands
           </Heading>
-          <div className="flex flex-row justify-center">
+          {/*<div className="flex flex-row justify-center">
             <svg
               aria-hidden="true"
               viewBox="0 0 418 42"
@@ -139,7 +139,7 @@ export default function AppTitle() {
                 strokeWidth={4}
               />
             </svg>
-          </div>
+        </div>*/}
         </div>
       </div>
     </motion.div>

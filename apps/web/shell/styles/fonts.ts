@@ -1,4 +1,4 @@
-import { Anybody, Inter } from "@next/font/google";
+import { Anybody, Inter, Roboto_Mono } from "@next/font/google";
 import localFont from "@next/font/local";
 
 export const melody = localFont({
@@ -46,3 +46,14 @@ export const inter = Inter({
   display: "swap",
   fallback: ["arial"],
 });
+
+export const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
+  subsets: ["latin"],
+  style: ["normal"],
+  display: "swap",
+  fallback: ["arial"],
+});
+
+
+

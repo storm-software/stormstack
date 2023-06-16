@@ -19,8 +19,8 @@ export default function Page() {
       <div className="flex h-[75rem] w-fit flex-col gap-20 px-10">
         <motion.div
           className="flex w-fit max-w-[65rem] flex-col gap-20"
-          initial={{ opacity: 0, x: 300 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.75, duration: 1.5 }}>
           <div className="flex flex-col gap-5">
