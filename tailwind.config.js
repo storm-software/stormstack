@@ -43,6 +43,7 @@ module.exports = {
         "rating-label": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "footer-name": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "footer-copyright": ["var(--font-mona-sans)", ...fontFamily.sans],
+        "vhs": ["var(--font-roboto-mono)", ...fontFamily.mono],
       },
       "textShadow": {
         ...extend.textShadow,
@@ -52,6 +53,9 @@ module.exports = {
       },
       "backgroundImage": {
         ...extend.backgroundImage,
+        "bg-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "bg-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "bg-footer": "url(../../../../assets/backgrounds/bg-footer.jpg)",
         "bg-windows": "url(../../../../assets/backgrounds/bg-windows.jpg)",
       },
@@ -88,16 +92,14 @@ module.exports = {
         "spin-fast": "spin 0.8s linear infinite",
         "spin-half": "spin 1.5s linear infinite",
         "spin-slow": "spin 2s linear infinite",
-        "spin-ease": "spin 1s ease-in-out infinite",
-        "arrow": "arrow 1.5s cubic-bezier(0, 0.6, 1, 0.4) infinite",
+        "flash": "flash 2s linear infinite",
+        "arrow": "arrow 1.5s linear infinite",
         "ripple": "ripple 600ms linear",
         "tv-static": "tv-static 1s steps(8,end) infinite both",
         "loading": "loading 2s ease-in-out infinite",
         "spin-n-grow": "spin-n-grow 1.2s 2s ease-out",
         "flicker": "flicker 2s ease-out 0.15s both",
-        "flicker2": "flicker 1.5s ease-out 0.15s both",
-        "comet1": "comet1 15s linear 3s infinite",
-        "comet2": "comet2 10s linear 8s infinite",
+        "flicker-2": "flicker 1.5s ease-out 0.15s both",
       },
       "keyframes": {
         ...extend.keyframes,
@@ -157,11 +159,23 @@ module.exports = {
           "100%": { "transform": "scale(1); rotate(0deg);" },
         },
         "arrow": {
-          "0%": { "transform": "translateX(-50px) scaleX(10%)" },
-          "100%": { "transform": "translateX(50px) scaleX(300%)" },
+          "0%": { "transform": "translateX(0px)" },
+          "50%": { "transform": "translateX(110%)" },
+          "50.01%": { "transform": "translateX(-110%)" },
+          "100%": { "transform": "translateX(0px)" },
         },
         "ripple": {
           "to": { "transform": "scale(4)", "opacity": "0" },
+        },
+        "flash": {
+          "0%": { "opacity": "100%" },
+          "24%": { "opacity": "100%" },
+          "25%": { "opacity": "0%" },
+          "26%": { "opacity": "0%" },
+          "74%": { "opacity": "0%" },
+          "75%": { "opacity": "100%" },
+          "76%": { "opacity": "100%" },
+          "100%": { "opacity": "100%" },
         },
         "tv-static": {
           "0%": {
@@ -259,16 +273,6 @@ module.exports = {
           "100%": {
             "opacity": 1,
           },
-        },
-        "comet1": {
-          "0%": { "left": "-100%", "top": "0%", "opacity": 1 },
-          "10%": { "left": "200%", "top": "20%", "opacity": 1 },
-          "100%": { "left": "200%", "top": "20%", "opacity": 0 },
-        },
-        "comet2": {
-          "0%": { "left": "200%", "top": "30%", "opacity": 1 },
-          "10%": { "left": "-150%", "top": "50%", "opacity": 1 },
-          "100%": { "left": "-150%", "top": "50%", "opacity": 0 },
         },
       },
     },
