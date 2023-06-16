@@ -1,7 +1,7 @@
 import { DateTime } from "@open-system/core-utilities";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback } from "react";
-import { Contact, INITIAL_CONTACT, contactAtom } from "../models/contact";
+import { Contact, INITIAL_CONTACT, contactAtom } from "../state/contact";
 
 export const useContactValue = (): Contact | undefined => {
   const contact = useAtomValue(contactAtom);

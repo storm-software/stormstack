@@ -6,12 +6,11 @@ import {
 } from "@open-system/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { useFieldValue } from "../hooks/useFieldValue";
-import { useIsSubmitting } from "../hooks/useIsSubmitting";
-import { useFieldErrors } from "../hooks/useFieldErrors";
+import { useFieldErrors, useFieldValue, useIsSubmitting, useFieldRegistration } from "@open-system/core-data-access";
 
 export function Select({ name, required, disabled, ...props }: SelectProps) {
-  const { register, unregister, trigger } = useFormContext();
+  const { unregister, trigger } = useFormContext();
+  const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
 
@@ -23,12 +22,13 @@ export function Select({ name, required, disabled, ...props }: SelectProps) {
   return (
     <OsSelect
       {...props}
-      {...register(name, {
+      {...register({
         required: required ? "This field is required." : undefined,
         disabled: useIsSubmitting() || disabled,
       })}
       value={value}
       errors={errors as Record<string, string>}
+      required={required}
     />
   );
 }

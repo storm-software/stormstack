@@ -6,9 +6,7 @@ import {
 } from "@open-system/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { useFieldErrors } from "../hooks/useFieldErrors";
-import { useFieldValue } from "../hooks/useFieldValue";
-import { useIsSubmitting } from "../hooks/useIsSubmitting";
+import { useFieldErrors, useFieldValue, useIsSubmitting, useFieldRegistration } from "@open-system/core-data-access";
 import { ValidationPropType } from "../types";
 
 export type TextareaProps = Omit<OsTextareaProps, "minLength" | "maxLength"> & {
@@ -25,7 +23,8 @@ export function Textarea({
   disabled,
   ...props
 }: TextareaProps) {
-  const { register, unregister, trigger } = useFormContext();
+  const { unregister, trigger } = useFormContext();
+  const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
 
@@ -37,7 +36,7 @@ export function Textarea({
   return (
     <OsTextarea
       {...props}
-      {...register(name, {
+      {...register({
         required: required ? "This field is required." : undefined,
         minLength: minLength
           ? typeof minLength === "number"
@@ -62,6 +61,7 @@ export function Textarea({
         disabled: useIsSubmitting() || disabled,
       })}
       label={label}
+      required={required}
       value={value}
       errors={errors as Record<string, string>}
     />

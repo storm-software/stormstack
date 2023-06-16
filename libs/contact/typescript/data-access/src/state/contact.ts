@@ -35,7 +35,7 @@ export interface Contact extends Partial<Address> {
 
 export const INITIAL_CONTACT: Partial<Contact> = {
   isSubscribed: true,
-} ;
+};
 
 export const contactAtom = atomWithWebStorage<Partial<Contact>>(
   "contact-draft",

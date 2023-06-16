@@ -1,5 +1,6 @@
 import { Getter, PrimitiveAtom, Setter } from "jotai";
 import { RESET } from "jotai/utils";
+import { RegisterOptions } from "react-hook-form";
 
 export type Unsubscribe = () => void;
 
@@ -9,6 +10,22 @@ export type SetStateActionWithReset<TValue> =
   | TValue
   | typeof RESET
   | ((prev: TValue) => TValue | typeof RESET);
+
+export type SplitAtomAction<TValue> =
+  | {
+      type: "remove";
+      atom: PrimitiveAtom<TValue>;
+    }
+  | {
+      type: "insert";
+      value: TValue;
+      before?: PrimitiveAtom<TValue>;
+    }
+  | {
+      type: "move";
+      atom: PrimitiveAtom<TValue>;
+      before?: PrimitiveAtom<TValue>;
+    };
 
 export type Callback<TValue> = (
   get: Getter,
@@ -47,3 +64,39 @@ export const MessageTypes = {
   INFO: "info" as MessageTypes,
   SUCCESS: "success" as MessageTypes,
 };
+
+export const MAX_ATTACHMENT_SIZE = 50000000;
+
+export const MAX_ATTACHMENTS_COUNT = 10;
+
+export type WithFormFieldConfig<TConfig = any> = {
+  type: string;
+  field: string;
+  formId: string;
+} & TConfig;
+
+export type FileFormFieldConfig = WithFormFieldConfig<{
+  type: "file";
+  multiple: boolean;
+  minFiles: number;
+  maxFiles: number;
+  minSizeInBytes: number;
+  maxSizeInBytes: number;
+  allowedFiles: string[];
+  validator?: (file: File) => string[];
+}>;
+
+export type InputFormFieldConfig = WithFormFieldConfig<{
+  type: "input";
+  valueType: string;
+}>;
+
+export type FormFieldConfig = Omit<
+  RegisterOptions<any, string>,
+  "pattern" | "valueAsNumber" | "valueAsDate"
+> &
+  (FileFormFieldConfig | InputFormFieldConfig) & {
+    pattern?: any;
+    valueAsNumber?: boolean;
+    valueAsDate?: boolean;
+  };

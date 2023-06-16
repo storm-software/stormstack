@@ -7,12 +7,10 @@ import {
   hasAgreedToPrivacyPolicyAtom,
   lastActiveOnAtom,
   storeVisitAtom,
-  userIdAtom,
   userNameAtom,
-  userTypeAtom,
-} from "../models/current-user";
+  userTypeAtom
+} from "../state/current-user";
 
-export const useCurrentUserId = (): string => useAtomValue<string>(userIdAtom);
 
 export const useCurrentUserName = (): string =>
   useAtomValue<string>(userNameAtom);

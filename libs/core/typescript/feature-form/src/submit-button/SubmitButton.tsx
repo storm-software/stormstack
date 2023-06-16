@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsValid } from "@open-system/core-data-access";
 import {
   Button,
   ButtonProps,
@@ -9,7 +10,6 @@ import {
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-hook-form";
-import { useIsValid } from "../hooks/useIsValid";
 import { SubmitButtonIcon } from "./SubmitButtonIcon";
 
 export type SubmitButtonProps = Omit<ButtonProps, "type">;

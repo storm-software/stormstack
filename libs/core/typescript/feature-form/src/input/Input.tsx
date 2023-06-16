@@ -6,9 +6,7 @@ import {
 } from "@open-system/design-system-components";
 import { useEffect } from "react";
 import { UseFormRegisterReturn, useFormContext } from "react-hook-form";
-import { useFieldErrors } from "../hooks/useFieldErrors";
-import { useFieldValue } from "../hooks/useFieldValue";
-import { useIsSubmitting } from "../hooks/useIsSubmitting";
+import { useFieldErrors, useFieldValue, useIsSubmitting, useFieldRegistration } from "@open-system/core-data-access";
 import { ValidationPropType } from "../types";
 
 export type InputProps = Omit<
@@ -34,11 +32,12 @@ export function Input({
   disabled,
   ...props
 }: InputProps) {
-  const { register, unregister, trigger } = useFormContext();
+  const { unregister, trigger } = useFormContext();
+  const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
 
-  const field = (register?.(name, {
+  const field = (register?.({
     required: required ? "This field is required." : undefined,
     min,
     max,
@@ -80,6 +79,7 @@ export function Input({
       min={field.min as number}
       max={field.max as number}
       disabled={useIsSubmitting() || disabled}
+      required={required}
     />
   );
 }

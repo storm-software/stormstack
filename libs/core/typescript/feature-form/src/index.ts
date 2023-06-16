@@ -3,7 +3,6 @@
 export * from "./checkbox";
 export * from "./email-input";
 export * from "./form";
-export * from "./hooks";
 export * from "./file-upload";
 export * from "./input";
 export * from "./phone-number-input";

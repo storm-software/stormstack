@@ -45,8 +45,8 @@ export function ContentRating({
           {totalRating}
         </label>
         <span className="mx-1 hidden h-1.5 w-1.5 rounded-full bg-primary opacity-0 transition-opacity group-hover:block group-hover:opacity-100" />
-        <Link className="text-md hidden font-body-1 text-primary underline opacity-0 transition-opacity hover:text-hover-link-2 group-hover:block group-hover:opacity-100">
-          {count} users
+        <Link variant="primary" className="text-md hidden font-body-1 text-primary opacity-0 transition-opacity group-hover:block group-hover:opacity-100">
+          {`${count} users`}
         </Link>
       </div>
     </div>

@@ -5,3 +5,4 @@ export * from "./types";
 export * from "./logo-loading";
 export * from "./box-logo";
 export * from "./footer";
+export * from "./barcode";

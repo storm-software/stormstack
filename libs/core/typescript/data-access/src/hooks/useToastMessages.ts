@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { useCallback } from "react";
-import { ToastMessage, toastMessagesAtom } from "../models/toast-messages";
+import { ToastMessage, toastMessagesAtom } from "../state/toast-messages";
 import { UseAtomListReturn, useAtomList } from "./useAtomList";
 import { ToastVariants } from "@open-system/design-system-components";
 

@@ -20,25 +20,28 @@ export const useAtomList = <
 ): UseAtomListReturn<TValue> => {
   const setAtomList = useSetAtom(atomList);
 
-  const add = useCallback((item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">>) => {
-    setAtomList({ type: "add", item });
-  }, []);
+  const add = useCallback(
+    (item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">>) => {
+      setAtomList({ type: "add", item });
+    },
+    [setAtomList]
+  );
 
   const remove = useCallback((id: string) => {
     setAtomList({ type: "remove", id });
-  }, []);
+  }, [setAtomList]);
 
   const reset = useCallback((initialValue?: TValue[]) => {
     setAtomList({ type: "reset", initialValue });
-  }, []);
+  }, [setAtomList]);
 
   const process = useCallback((funct: (prev: TValue[]) => TValue[]) => {
     setAtomList({ type: "process", funct });
-  }, []);
+  }, [setAtomList]);
 
   const map = useCallback((funct: (prev: TValue) => TValue) => {
     setAtomList({ type: "map", funct });
-  }, []);
+  }, [setAtomList]);
 
   return { add, remove, reset, process, map };
 };

@@ -10,4 +10,5 @@ export * from "./integer-fns";
 export * from "./noop";
 export * from "./observable-wrappers";
 export * from "./result";
+export * from "./subscribable";
 export * from "./type-checks";

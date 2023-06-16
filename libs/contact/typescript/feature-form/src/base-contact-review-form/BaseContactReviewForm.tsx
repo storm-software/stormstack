@@ -2,7 +2,6 @@
 
 import { Contact } from "@open-system/contact-data-access";
 import { PhoneNumberText } from "@open-system/core-components";
-import { useFormValues } from "@open-system/core-feature-form";
 import { DateTime } from "@open-system/core-utilities";
 import { Accordion, FieldText } from "@open-system/design-system-components";
 import { AddressText } from "@open-system/shared-feature-address";
@@ -10,6 +9,9 @@ import Envelope from "../../../../../../assets/images/envelope.svg";
 import { BaseContactForm, BaseContactFormProps } from "../base-contact-form";
 import { ContactFormStepReview } from "../contact-form-step-review";
 import { ContactFormSegments } from "../types";
+import {
+  useFormValues
+} from "@open-system/core-data-access";
 
 export type BaseContactReviewFormProps = Omit<
   BaseContactFormProps,

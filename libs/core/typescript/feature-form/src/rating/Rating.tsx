@@ -7,9 +7,7 @@ import {
 } from "@open-system/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { useFieldErrors } from "../hooks/useFieldErrors";
-import { useFieldValue } from "../hooks/useFieldValue";
-import { useIsSubmitting } from "../hooks/useIsSubmitting";
+import { useFieldErrors, useFieldValue, useIsSubmitting, useFieldRegistration } from "@open-system/core-data-access";
 
 export type RatingProps = OsRatingProps & {
   /**
@@ -26,7 +24,8 @@ export function Rating({
   isVertical,
   ...props
 }: RatingProps) {
-  const { register, unregister, trigger } = useFormContext();
+  const { unregister, trigger } = useFormContext();
+  const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
 
@@ -48,7 +47,7 @@ export function Rating({
         return (
           <OsRatingOption
             key={optionValue}
-            {...register(name, {
+            {...register({
               required: required ? "This field is required." : undefined,
               disabled: isSubmitting,
             })}

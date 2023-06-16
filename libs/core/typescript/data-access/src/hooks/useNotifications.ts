@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai/react";
 import {
   NotificationMolecule,
   notificationsAtom,
-} from "../models/notifications";
+} from "../state/notifications";
 
 export const useNotifications = (): Record<
   string,

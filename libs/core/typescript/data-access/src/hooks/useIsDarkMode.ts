@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai/react";
-import { isDarkModeAtom } from "../models/theme";
+import { isDarkModeAtom } from "../state/theme";
 
 export const useIsDarkMode = () => useAtom(isDarkModeAtom);
 

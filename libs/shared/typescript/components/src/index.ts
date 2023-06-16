@@ -6,4 +6,4 @@ export * from "./logo-loading";
 export * from "./navigation-menu";
 export * from "./side-title";
 export * from "./types";
-
+export * from "./barcode";

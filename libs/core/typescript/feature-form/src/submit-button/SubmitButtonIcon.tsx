@@ -51,7 +51,7 @@ export function SubmitButtonIcon({
     );
   } else {
     return (
-      <div className="relative h-5 w-[1.9rem] overflow-hidden pt-[0.08rem]">
+      <div className="relative h-5 w-[1.9rem] overflow-hidden pt-[0rem]">
         <svg className="h-5 w-10 group-hover:animate-arrow" viewBox="0 0 25 25">
           <path
             className={clsx(

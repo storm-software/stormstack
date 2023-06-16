@@ -1,22 +1,27 @@
 import { getUniqueId, isDevelopment } from "@open-system/core-utilities";
-import { WritableAtom } from "jotai";
-import { atomWithReducer } from "jotai/utils";
+import { Atom, WritableAtom } from "jotai";
+import { atomWithReducer, splitAtom } from "jotai/utils";
 import { ScopedObjectState } from "../types";
 
-export type ListAddAction<TValue extends ScopedObjectState = ScopedObjectState> = 
-{ type: "add"; item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">> };
+export type ListAddAction<
+  TValue extends ScopedObjectState = ScopedObjectState
+> = { type: "add"; item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">> };
 
-export type ListRemoveAction<TValue extends ScopedObjectState = ScopedObjectState> = 
-{ type: "remove"; id: string };
+export type ListRemoveAction<
+  TValue extends ScopedObjectState = ScopedObjectState
+> = { type: "remove"; id: string };
 
-export type ListResetAction<TValue extends ScopedObjectState = ScopedObjectState> = 
-{ type: "reset"; initialValue?: TValue[] };
+export type ListResetAction<
+  TValue extends ScopedObjectState = ScopedObjectState
+> = { type: "reset"; initialValue?: TValue[] };
 
-export type ListProcessAction<TValue extends ScopedObjectState = ScopedObjectState> = 
-{ type: "process"; funct: (prev: TValue[]) => TValue[] };
+export type ListProcessAction<
+  TValue extends ScopedObjectState = ScopedObjectState
+> = { type: "process"; funct: (prev: TValue[]) => TValue[] };
 
-export type ListMapAction<TValue extends ScopedObjectState = ScopedObjectState> = 
-{ type: "map"; funct: (prev: TValue) => TValue };
+export type ListMapAction<
+  TValue extends ScopedObjectState = ScopedObjectState
+> = { type: "map"; funct: (prev: TValue) => TValue };
 
 export type ListAction<TValue extends ScopedObjectState = ScopedObjectState> =
   | ListAddAction<TValue>
@@ -37,7 +42,7 @@ export function atomWithList<
 ): WritableAtom<TValue[], [ListAction<TValue>], void> {
   const returnedAtom = atomWithReducer<TValue[], ListAction<TValue>>(
     initialValue,
-    (prev: TValue[], action: ListAction<TValue>) => {
+    (prev: TValue[] = [], action: ListAction<TValue>) => {
       switch (action.type) {
         case "add":
           // eslint-disable-next-line no-case-declarations
@@ -73,6 +78,19 @@ export function atomWithList<
       }
     }
   );
+  if (isDevelopment()) {
+    returnedAtom.debugPrivate = true;
+  }
+
+  return returnedAtom;
+}
+
+export function splitAtomWithList<
+  TValue extends ScopedObjectState = ScopedObjectState
+>(
+  listAtom: WritableAtom<TValue[], [ListAction<TValue>], void>
+): Atom<Atom<TValue>[]> {
+  const returnedAtom = splitAtom(listAtom);
   if (isDevelopment()) {
     returnedAtom.debugPrivate = true;
   }

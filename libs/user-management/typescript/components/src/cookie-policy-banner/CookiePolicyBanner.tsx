@@ -61,11 +61,18 @@ export function CookiePolicyBanner({
               <Cookie className="absolute bottom-0 left-0 h-28 w-28 rotate-[15deg] lg:h-36 lg:w-36" />
             </div>
             <div className="flex flex-1 flex-col items-center justify-center gap-4 md:flex-row">
-              <label className="text-lg font-body-1 text-primary">
+              <p className="text-lg font-body-1 text-primary">
                 This website uses cookies to improve user experience.{" "}
                 <b>Your data will never be shared with a third party</b>. Do you
-                accept the <Link>cookie policy</Link>?
-              </label>
+                accept the{" "}
+                  <Link
+                    variant="secondary"
+                    className="text-lg font-body-1"
+                    inNewTab={true}>
+                    cookie policy
+                  </Link>
+                ?
+              </p>
 
               <div className="md:mx-4">
                 <Button

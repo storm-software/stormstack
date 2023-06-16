@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai/react";
-import { themeAtom } from "../models/theme";
+import { themeAtom } from "../state/theme";
 
 export const useTheme = () => useAtom(themeAtom);
 

@@ -6,6 +6,7 @@ import {
 } from "@open-system/design-system-components";
 import { Link } from "@open-system/core-components";
 import { BoxLogo } from "../box-logo";
+import { Barcode } from "../barcode";
 import { ReactElement } from "react";
 
 export type FooterProps = BaseComponentProps & {
@@ -35,9 +36,12 @@ export function Footer({ className, top, bottom, ...props }: FooterProps) {
           </Link>
         </div>
         <div className="flex w-full flex-row justify-center pt-2 pb-3">
+          <div className="grid grid-cols-1 gap-1 justify-items-center">
+          <Barcode />
           <p className="font-footer-copyright text-sm text-gray-400">
             Copyright © 2023. Pat Sullivan Development. All rights reserved.
           </p>
+          </div>
         </div>
       </div>
     </div>

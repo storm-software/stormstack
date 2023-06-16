@@ -4,7 +4,6 @@ import { Link } from "@open-system/core-components";
 import {
   EmailInput,
   PhoneNumberInput,
-  useFormValues,
 } from "@open-system/core-feature-form";
 import {
   Accordion,
@@ -17,6 +16,9 @@ import {
 } from "@open-system/shared-feature-address";
 import { BaseContactForm } from "../base-contact-form";
 import { SubscriptionCheckbox } from "../subscription-checkbox";
+import {
+  useFormValues
+} from "@open-system/core-data-access";
 
 export function ContactBusinessPersonalInfoForm({
   className,

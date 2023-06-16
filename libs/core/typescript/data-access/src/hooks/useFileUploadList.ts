@@ -1,21 +1,26 @@
-import { useAtomValue, useSetAtom } from "jotai";
+import { Atom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback } from "react";
-import { FileUploadState, fileUploadFamily } from "../models/form";
+import { FileUploadState, fileUploadFamily } from "../state/form";
 import { useFormId } from "./useFormId";
 
 export type UseFileUploadListReturn = {
   include: (files: Array<File>) => void;
-  exclude: (fileId: string) => void;
+  exclude: (name: string) => void;
   reset: () => void;
 };
 
 export const useFileUploadListValue = (params: {
   field: string;
   formId?: string;
-}): FileUploadState[] => {
+}): Atom<Promise<FileUploadState>>[] => {
   const formId = useFormId();
   return useAtomValue(
-    fileUploadFamily({ field: params.field, formId: params.formId ?? formId })
+    useAtomValue(
+      fileUploadFamily({
+        field: params.field,
+        formId: params.formId ?? formId,
+      })
+    )
   );
 };
 
@@ -29,15 +34,15 @@ export const useSetFileUploadList = (params: {
     fileUploadFamily({ field: params.field, formId: params.formId ?? formId })
   );
   const include = useCallback(
-    async (files: Array<File>) => {
-      await setFileUploadList({ type: "include", files });
+    (files: Array<File>) => {
+      setFileUploadList({ type: "include", files });
     },
     [setFileUploadList]
   );
 
   const exclude = useCallback(
-    (fileId: string) => {
-      setFileUploadList({ type: "exclude", fileId });
+    (name: string) => {
+      setFileUploadList({ type: "exclude", name });
     },
     [setFileUploadList]
   );
@@ -52,6 +57,33 @@ export const useSetFileUploadList = (params: {
 export const useFileUploadList = (params: {
   field: string;
   formId?: string;
-}): [FileUploadState[], UseFileUploadListReturn] => {
+}): [Atom<Promise<FileUploadState>>[], UseFileUploadListReturn] => {
   return [useFileUploadListValue(params), useSetFileUploadList(params)];
+};
+
+export const useFileUploadErrors = (params: {
+  field: string;
+  formId?: string;
+}) => {
+  /*const formId = useFormId();
+
+  const { setError, clearErrors, trigger } = useFormContext();
+  const error = useFieldErrors(params.field);
+  const nextError = useAtomValue(
+        useMemo(() => fileUploadErrorMessageFamily({
+          field: params.field,
+          formId: params.formId ?? formId,
+        }), [params, formId])
+  );
+
+  useEffect(() => {
+    if (nextError !== error?.[params.field]) {
+      if (nextError) {
+        setError(params.field, { type: "file", message: nextError });
+      } else if (!isEmpty(error?.[params.field])) {
+        clearErrors(params.field);
+      }
+      trigger();
+    }
+  }, [error, nextError]);*/
 };
