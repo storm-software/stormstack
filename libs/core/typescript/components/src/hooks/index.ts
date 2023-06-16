@@ -1,3 +1,4 @@
 "use client";
 
-export * from "./use-click-outside";
+export * from "./useClickOutside";
+export * from "./useWindowSize";

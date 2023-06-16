@@ -2,6 +2,26 @@
   background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,0.4) 40px);
 }
 
+.border-dashed-lg {
+  background: white;
+  text-align: center;
+  line-height: 100%;
+
+  background: linear-gradient(to right, white 50%, transparent 0%) top repeat-x,
+    linear-gradient(white 50%, transparent 0%) right repeat-y,
+    linear-gradient(to right, white 50%, transparent 0%) bottom repeat-x,
+    linear-gradient(white 50%, transparent 0%) left repeat-y;
+  background-size: 20px 2px, 2px 20px;
+}
+
+.border-dashed-lg:hover {
+  background: linear-gradient(to right, #10B981 50%, transparent 0%) top repeat-x,
+    linear-gradient(#10B981 50%, transparent 0%) right repeat-y,
+    linear-gradient(to right, #10B981 50%, transparent 0%) bottom repeat-x,
+    linear-gradient(#10B981 50%, transparent 0%) left repeat-y;
+    background-size: 20px 2px, 2px 20px;
+}
+
 button, .ripple-container.ripple-inner, .ripple-container-dark.ripple-inner {
   position: relative;
   overflow: hidden;
@@ -30,11 +50,37 @@ button span.ripple, .ripple-container span.ripple {
   background-color: rgba(16, 185, 129, 0.3);
 }
 
-
-
 @keyframes ripple {
   to {
     transform: scale(4);
     opacity: 0;
   }
+}
+
+.link::before {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0px;
+  width: 100%;
+  height: 3px;
+  background: #10B981;
+  display: block;
+  -webkit-transform-origin: left top;
+  -ms-transform-origin: left top;
+  transform-origin: left top;
+  -webkit-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1, 1);
+  -webkit-transition: transform 0.5s cubic-bezier(1, 0, 0, 1);
+  transition: transform 0.5s cubic-bezier(1, 0, 0, 1);
+}
+
+.link:hover::before {
+  -webkit-transform-origin: right top;
+  -ms-transform-origin: right top;
+  transform-origin: right top;
+  -webkit-transform: scale(0, 2);
+  -ms-transform: scale(0, 2);
+  transform: scale(0, 2);
 }

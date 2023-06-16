@@ -98,7 +98,7 @@ export const BreadcrumbItem = ({
             variant === BreadcrumbVariants.SECONDARY && !isCurrent && inverse,
           },
           {
-            "no-underline group-hover:cursor-pointer group-hover:text-hover-link-2 group-hover:underline":
+            "group-hover:cursor-pointer group-hover:text-hover-link-2":
               !isCurrent && onClick,
           }
         )}>

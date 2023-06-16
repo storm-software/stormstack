@@ -100,7 +100,7 @@ export type BaseFieldProps = PropsWithBaseRef<{
   /**
    * Event handler for input value changed event
    */
-  onChange?: ChangeHandler;
+  onChange?: (event: any) => any;
 
   /**
    * Event handler for input focused event
@@ -110,7 +110,7 @@ export type BaseFieldProps = PropsWithBaseRef<{
   /**
    * Event handler for input blur event
    */
-  onBlur?: ChangeHandler;
+  onBlur?: (event: any) => any;
 
   /**
    * The value of the input field

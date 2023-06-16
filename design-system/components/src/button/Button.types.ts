@@ -17,12 +17,14 @@ export type ButtonTransitionDirections =
   | "right"
   | "top"
   | "bottom"
+  | "fade"
   | "none";
 export const ButtonTransitionDirections = {
   LEFT: "left" as ButtonTransitionDirections,
   RIGHT: "right" as ButtonTransitionDirections,
   TOP: "top" as ButtonTransitionDirections,
   BOTTOM: "bottom" as ButtonTransitionDirections,
+  FADE: "fade" as ButtonTransitionDirections,
   NONE: "none" as ButtonTransitionDirections,
 };
 

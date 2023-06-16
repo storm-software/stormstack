@@ -1,6 +1,6 @@
 import { FileState } from "@open-system/core-utilities";
 import { FileWithPath } from "file-selector";
-import { RefObject } from "react";
+import { DragEvent, DragEventHandler, RefObject, SyntheticEvent } from "react";
 import { PropsWithBaseField, PropsWithBaseRef } from "../types";
 
 export interface FileError {
@@ -13,6 +13,11 @@ export interface FileRejection {
   errors: FileError[];
 }
 
+export interface FileEnvelop {
+  file: File;
+  errors: FileError[];
+}
+
 export interface UseDropzoneParams {
   files: FileState[];
   inputRef: RefObject<HTMLInputElement>;
@@ -20,38 +25,44 @@ export interface UseDropzoneParams {
   getFilesFromEvent: (
     evt: Event | any
   ) => Promise<(FileWithPath | DataTransferItem)[]>;
-  maxSize: number;
-  minSize: number;
-  multiple: boolean;
-  maxFiles: number;
+  maxSizeInBytes?: number;
+  minSizeInBytes?: number;
+  multiple?: boolean;
+  maxFiles?: number;
+  minFiles?: number;
+  allowedFiles?: string[];
+  validator?: (file: File) => string[];
   preventDropOnDocument: boolean;
   noClick: boolean;
   noKeyboard: boolean;
   noDrag: boolean;
   noDragEventsBubbling: boolean;
-  validator: (file: File, event?: DragEvent | Event) => boolean;
   useFsAccessApi: boolean;
   autoFocus: boolean;
-  accept: string | string[];
-  onDragEnter: (event: DragEvent) => void;
-  onDragLeave: (event: DragEvent) => void;
-  onDragOver: (event: DragEvent) => void;
-  onDrop: (
-    acceptedFiles: File[],
-    fileRejections: FileRejection[],
-    event: DragEvent | Event
+  onDragEnter: DragEventHandler<HTMLInputElement>;
+  onDragLeave: DragEventHandler<HTMLInputElement>;
+  onDragOver: DragEventHandler<HTMLInputElement>;
+  onDrop: DragEventHandler<HTMLInputElement>;
+  onDropAccepted: (
+    files: File[],
+    event: DragEvent<HTMLInputElement> | Event
   ) => void;
-  onDropAccepted: (files: File[], event: DragEvent | Event) => void;
   onDropRejected: (
     fileRejections: FileRejection[],
-    event: DragEvent | Event
+    event: DragEvent<HTMLInputElement> | Event
   ) => void;
   onFileDialogCancel: (event: any) => void;
   onFileDialogOpen: (event: any) => void;
-  onError: (error: Error) => void;
-  onInclude: (files: Array<File>) => void;
-  onExclude: (fileId: string) => void;
-  onReset: () => void;
+  onError: (error: SyntheticEvent<HTMLInputElement, Event>) => void;
+  /**
+   * Event handler for file included event
+   */
+  onAddFiles: (files: Array<File>) => void;
+
+  /**
+   * Event handler for reset included files event
+   */
+  onResetFiles: () => void;
 }
 
 export type DropzoneRootProps = PropsWithBaseRef<{

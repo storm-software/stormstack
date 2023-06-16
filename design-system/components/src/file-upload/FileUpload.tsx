@@ -2,7 +2,6 @@
 
 import { isEmptyObject } from "@open-system/core-utilities";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FileState } from "@open-system/core-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,
@@ -18,16 +17,28 @@ import { FieldWrapper, FieldWrapperLabel } from "../field-wrapper";
 import { InputTypes } from "../input/Input.types";
 import { Link } from "../link";
 import { BaseFieldProps } from "../types";
-import { FileRejection, UseDropzoneParams } from "./FileUpload.types";
-import { FileUploadItem } from "./file-upload-item";
+import { UseDropzoneParams } from "./FileUpload.types";
 import { useDropzone } from "./useDropzone";
 
-export type FileUploadProps = BaseFieldProps &
+export type FileUploadProps = Omit<BaseFieldProps, "placeholder"> &
   UseDropzoneParams & {
-    files?: FileState[];
-    onInclude: (files: Array<File>) => void;
-    onExclude: (fileId: string) => void;
-    onReset: () => void;
+    maxSizeInBytes?: number;
+    minSizeInBytes?: number;
+    multiple?: boolean;
+    maxFiles?: number;
+    minFiles?: number;
+    allowedFiles?: string[];
+    validator?: (file: File) => void;
+
+    /**
+     * Event handler for file included event
+     */
+    onAddFiles: (files: Array<File>) => void;
+
+    /**
+     * Event handler for reset included files event
+     */
+    onResetFiles: () => void;
 
     /**
      * Event handler for button click event
@@ -45,6 +56,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       children,
       name,
       value,
+      files,
       disabled = false,
       required = false,
       glow = false,
@@ -56,20 +68,18 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       multiple = true,
       autoFocus = false,
       noBorder = false,
-      maxSize = Infinity,
-      minSize = 0,
-      maxFiles = 0,
+      maxSizeInBytes = Infinity,
+      minSizeInBytes = 0,
+      maxFiles = 15,
+      allowedFiles = [],
       preventDropOnDocument = true,
       noClick = true,
       noKeyboard = false,
       noDrag = false,
       noDragEventsBubbling = false,
-      validator = null,
       useFsAccessApi = true,
-      files = [],
-      onInclude,
-      onExclude,
-      onReset,
+      onAddFiles,
+      onResetFiles,
       onClick,
       onChange,
       onFocus,
@@ -103,24 +113,23 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
 
     const inputRef = useRef(null);
     const { getRootProps, getInputProps } = useDropzone({
-      files,
       inputRef,
+      files,
       disabled,
       autoFocus,
-      maxSize,
-      minSize,
+      maxSizeInBytes,
+      minSizeInBytes,
       multiple,
       maxFiles,
+      allowedFiles,
       preventDropOnDocument,
       noClick,
       noKeyboard,
       noDrag,
       noDragEventsBubbling,
-      validator,
       useFsAccessApi,
-      onInclude,
-      onExclude,
-      onReset,
+      onAddFiles,
+      onResetFiles,
       ...props,
     });
     useImperativeHandle(ref, () => inputRef.current, []);
@@ -150,7 +159,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         <div
           {...getRootProps({})}
           className={clsx(
-            "flex h-full flex-col rounded-xl border-[3px] border-dashed border-primary",
+            "border-dashed-lg flex h-full flex-col rounded-xl",
             className
           )}>
           <FieldWrapperLabel
@@ -209,12 +218,13 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
             onFocus={handleFocus}
             onBlur={handleBlur}
             {...getInputProps({
+              files,
               name,
               onChange,
               onClick: handleClick,
               disabled,
-              maxSize,
-              minSize,
+              maxSize: maxSizeInBytes,
+              minSize: minSizeInBytes,
               multiple,
               maxFiles,
               preventDropOnDocument,
@@ -222,7 +232,6 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
               noKeyboard,
               noDrag,
               noDragEventsBubbling,
-              validator,
               useFsAccessApi,
               autoFocus,
             })}></input>

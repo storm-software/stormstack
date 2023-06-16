@@ -65,7 +65,9 @@ export const Notification = ({
   variant = NotificationVariants.INFO,
 }: NotificationProps) => {
   return (
-    <div className="h-30 relative min-h-fit w-96 rounded-md bg-bg-1">
+    <div
+      role="alert"
+      className="h-30 relative min-h-fit w-96 rounded-md bg-bg-1">
       <div
         className={clsx(
           "relative h-full w-full rounded-md border-b-[1px] border-l-[10px] border-r-[1px] border-t-[1px] border-b-slate-600 border-r-slate-600 border-t-slate-600",

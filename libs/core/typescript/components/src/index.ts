@@ -7,6 +7,7 @@ export * from "./keybase-link";
 export * from "./medium-link";
 export * from "./linkedin-link";
 export * from "./hooks";
+export * from "./confetti";
 export * from "./breadcrumb";
 export * from "./link";
 export * from "./phone-number-text";

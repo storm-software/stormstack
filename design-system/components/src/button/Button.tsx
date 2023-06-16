@@ -164,7 +164,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     useImperativeHandle(ref, () => innerRef.current as HTMLButtonElement, []);
-
     useRipple(innerRef);
 
     return (
@@ -298,7 +297,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                           ButtonTransitionDirections.TOP &&
                           inverse)),
                   },
-                  "absolute left-0 top-0 bg-transparent transition duration-300 ease-in-out"
+                  "absolute left-0 top-0 bg-transparent transition duration-700 ease-in-out"
                 )}>
                 {(transitionDirection !== ButtonTransitionDirections.NONE ||
                   inverse) && (

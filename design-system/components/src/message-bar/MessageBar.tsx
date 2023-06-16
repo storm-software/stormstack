@@ -50,7 +50,9 @@ export const MessageBar = ({
   variant = MessageBarVariants.INFO,
 }: MessageBarProps) => {
   return (
-    <div className="h-fit w-full min-w-fit max-w-[65rem] bg-black/80">
+    <div
+      role="alert"
+      className="h-fit w-full min-w-fit max-w-[65rem] bg-black/80">
       <div
         className={clsx(
           "relative h-fit w-full min-w-fit border-4",

@@ -12,7 +12,6 @@ import {
   isSet,
   noop,
 } from "@open-system/core-utilities";
-import accepts from "attr-accept";
 import { fromEvent } from "file-selector";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -23,199 +22,12 @@ import {
 } from "./FileUpload.types";
 
 /**
- * A function that is invoked for the `dragenter`,
- * `dragover` and `dragleave` events.
- * It is not invoked if the items are not files (such as link, text, etc.).
- *
- * @callback dragCb
- * @param {DragEvent} event
- */
-
-/**
- * A function that is invoked for the `drop` or input change event.
- * It is not invoked if the items are not files (such as link, text, etc.).
- *
- * @callback dropCb
- * @param {File[]} acceptedFiles List of accepted files
- * @param {FileRejection[]} fileRejections List of rejected files and why they were rejected
- * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
- */
-
-/**
- * A function that is invoked for the `drop` or input change event.
- * It is not invoked if the items are files (such as link, text, etc.).
- *
- * @callback dropAcceptedCb
- * @param {File[]} files List of accepted files that meet the given criteria
- * (`accept`, `multiple`, `minSize`, `maxSize`)
- * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
- */
-
-/**
- * A function that is invoked for the `drop` or input change event.
- *
- * @callback dropRejectedCb
- * @param {File[]} files List of rejected files that do not meet the given criteria
- * (`accept`, `multiple`, `minSize`, `maxSize`)
- * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
- */
-
-/**
- * A function that is used aggregate files,
- * in a asynchronous fashion, from drag or input change events.
- *
- * @callback getFilesFromEvent
- * @param {(DragEvent|Event)} event A drag event or input change event (if files were selected via the file dialog)
- * @returns {(File[]|Promise<File[]>)}
- */
-
-/**
- * An object with the current dropzone state.
- *
- * @typedef {object} DropzoneState
- * @property {boolean} isFocused Dropzone area is in focus
- * @property {boolean} isFileDialogActive File dialog is opened
- * @property {boolean} isDragActive Active drag is in progress
- * @property {boolean} isDragAccept Dragged files are accepted
- * @property {boolean} isDragReject Some dragged files are rejected
- * @property {File[]} acceptedFiles Accepted files
- * @property {FileRejection[]} fileRejections Rejected files and why they were rejected
- */
-
-/**
- * An object with the dropzone methods.
- *
- * @typedef {object} DropzoneMethods
- * @property {Function} getRootProps Returns the props you should apply to the root drop container you render
- * @property {Function} getInputProps Returns the props you should apply to hidden file input you render
- * @property {Function} open Open the native file selection dialog
- */
-
-const TOO_MANY_FILES_REJECTION = {
-  code: "too-many-files",
-  message: "Too many files",
-};
-
-// Error codes
-export const FILE_INVALID_TYPE = "file-invalid-type";
-export const FILE_TOO_LARGE = "file-too-large";
-export const FILE_TOO_SMALL = "file-too-small";
-export const TOO_MANY_FILES = "too-many-files";
-export const DUPLICATE_FILE = "duplicate-file";
-
-export const ErrorCode = {
-  FileInvalidType: FILE_INVALID_TYPE,
-  FileTooLarge: FILE_TOO_LARGE,
-  FileTooSmall: FILE_TOO_SMALL,
-  TooManyFiles: TOO_MANY_FILES,
-  DuplicateFile: DUPLICATE_FILE,
-};
-
-const getDuplicateFileRejectionErr = name => {
-  return {
-    code: DUPLICATE_FILE,
-    message: `File ${name} has already been added to the list`,
-  };
-};
-
-const getTooLargeRejectionErr = maxSize => {
-  return {
-    code: FILE_TOO_LARGE,
-    message: `File is larger than ${maxSize} ${
-      maxSize === 1 ? "byte" : "bytes"
-    }`,
-  };
-};
-
-const getTooSmallRejectionErr = minSize => {
-  return {
-    code: FILE_TOO_SMALL,
-    message: `File is smaller than ${minSize} ${
-      minSize === 1 ? "byte" : "bytes"
-    }`,
-  };
-};
-
-const getInvalidTypeRejectionErr = accept => {
-  accept = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept;
-  const messageSuffix = Array.isArray(accept)
-    ? `one of ${accept.join(", ")}`
-    : accept;
-  return {
-    code: FILE_INVALID_TYPE,
-    message: `File type must be ${messageSuffix}`,
-  };
-};
-
-function fileMatchSize(file, minSize, maxSize) {
-  if (isSet(file.size)) {
-    if (isSet(minSize) && isSet(maxSize)) {
-      if (file.size > maxSize) return [false, getTooLargeRejectionErr(maxSize)];
-      if (file.size < minSize) return [false, getTooSmallRejectionErr(minSize)];
-    } else if (isSet(minSize) && file.size < minSize)
-      return [false, getTooSmallRejectionErr(minSize)];
-    else if (isSet(maxSize) && file.size > maxSize)
-      return [false, getTooLargeRejectionErr(maxSize)];
-  }
-  return [true, null];
-}
-
-/**
- * Firefox versions prior to 53 return a bogus MIME type for every file drag, so dragovers with
- * that MIME type will always be accepted
- */
-function fileAccepted(file, accept) {
-  const isAcceptable =
-    file.type === "application/x-moz-file" || accepts(file, accept);
-  return [
-    isAcceptable,
-    isAcceptable ? null : getInvalidTypeRejectionErr(accept),
-  ];
-}
-
-/**
  * canUseFileSystemAccessAPI checks if the [File System Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API)
  * is supported by the browser.
  * @returns {boolean}
  */
 function canUseFileSystemAccessAPI() {
   return "showOpenFilePicker" in window;
-}
-
-/**
- *
- * @param {object} options
- * @param {File[]} options.files
- * @param {string|string[]} [options.accept]
- * @param {number} [options.minSize]
- * @param {number} [options.maxSize]
- * @param {boolean} [options.multiple]
- * @param {number} [options.maxFiles]
- * @param {(f: File) => FileError|FileError[]|null} [options.validator]
- * @returns
- */
-function allFilesAccepted({
-  files,
-  accept,
-  minSize,
-  maxSize,
-  multiple,
-  maxFiles,
-  validator,
-}) {
-  if (
-    (!multiple && files.length > 1) ||
-    (multiple && maxFiles >= 1 && files.length > maxFiles)
-  ) {
-    return false;
-  }
-
-  return files.every(file => {
-    const [accepted] = fileAccepted(file, accept);
-    const [sizeMatch] = fileMatchSize(file, minSize, maxSize);
-    const customErrors = validator ? validator(file) : null;
-    return accepted && sizeMatch && !customErrors;
-  });
 }
 
 /**
@@ -326,11 +138,11 @@ const initialState = {
  *
  * **Note** that this callback is invoked after the `getFilesFromEvent` callback is done.
  *
- * Files are accepted or rejected based on the `accept`, `multiple`, `minSize` and `maxSize` props.
+ * Files are accepted or rejected based on the `accept`, `multiple`, `minSizeInBytes` and `maxSizeInBytes` props.
  * `accept` must be an object with keys as a valid [MIME type](http://www.iana.org/assignments/media-types/media-types.xhtml) according to [input element specification](https://www.w3.org/wiki/HTML/Elements/input/file) and the value an array of file extensions (optional).
  * If `multiple` is set to false and additional files are dropped,
  * all files besides the first will be rejected.
- * Any file which does not have a size in the [`minSize`, `maxSize`] range, will be rejected as well.
+ * Any file which does not have a size in the [`minSizeInBytes`, `maxSizeInBytes`] range, will be rejected as well.
  *
  * Note that the `onDrop` callback will always be invoked regardless if the dropped files were accepted or rejected.
  * If you'd like to react to a specific scenario, use the `onDropAccepted`/`onDropRejected` props.
@@ -357,19 +169,18 @@ export function useDropzone({
   inputRef,
   disabled = false,
   getFilesFromEvent = fromEvent,
-  maxSize = Infinity,
-  minSize = 0,
+  maxSizeInBytes = Infinity,
+  minSizeInBytes = 0,
   multiple = true,
   maxFiles = 0,
   preventDropOnDocument = true,
+  allowedFiles,
   noClick = false,
   noKeyboard = false,
   noDrag = false,
   noDragEventsBubbling = false,
-  validator = null,
   useFsAccessApi = true,
   autoFocus = false,
-  accept,
   onDragEnter,
   onDragLeave,
   onDragOver,
@@ -379,12 +190,18 @@ export function useDropzone({
   onFileDialogCancel,
   onFileDialogOpen,
   onError,
-  onInclude,
-  onReset,
+  onAddFiles,
+  onResetFiles,
   ...params
 }: UseDropzoneParams) {
-  const acceptAttr = useMemo(() => acceptPropAsAcceptAttr(accept), [accept]);
-  const pickerTypes = useMemo(() => pickerOptionsFromAccept(accept), [accept]);
+  const acceptAttr = useMemo(
+    () => acceptPropAsAcceptAttr(allowedFiles),
+    [allowedFiles]
+  );
+  const pickerTypes = useMemo(
+    () => pickerOptionsFromAccept(allowedFiles),
+    [allowedFiles]
+  );
 
   const onFileDialogOpenCb = useMemo(
     () => (isFunction(onFileDialogOpen) ? onFileDialogOpen : noop),
@@ -437,24 +254,23 @@ export function useDropzone({
     []
   );
   const handleSetFiles = useCallback(
-    async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-      await onInclude(acceptedFiles);
-
+    (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      onAddFiles(acceptedFiles);
       setInputState((state: any) => ({
         ...state,
         acceptedFiles,
         fileRejections,
       }));
     },
-    [onInclude]
+    [onAddFiles]
   );
   const handleReset = useCallback(() => {
-    onReset();
+    onResetFiles();
 
     setInputState({
       ...initialState,
     });
-  }, [onReset]);
+  }, [onResetFiles]);
 
   const fsAccessApiWorksRef = useRef(
     typeof window !== "undefined" &&
@@ -564,17 +380,7 @@ export function useDropzone({
             }
 
             const fileCount = files.length;
-            const isDragAccept =
-              fileCount > 0 &&
-              allFilesAccepted({
-                files,
-                accept: acceptAttr,
-                minSize,
-                maxSize,
-                multiple,
-                maxFiles,
-                validator,
-              });
+            const isDragAccept = fileCount > 0;
             const isDragReject = fileCount > 0 && !isDragAccept;
 
             handleSetDraggedFiles(true, isDragAccept, isDragReject);
@@ -590,12 +396,6 @@ export function useDropzone({
       stopPropagation,
       getFilesFromEvent,
       noDragEventsBubbling,
-      acceptAttr,
-      minSize,
-      maxSize,
-      multiple,
-      maxFiles,
-      validator,
       handleSetDraggedFiles,
       onDragEnter,
       onErrCb,
@@ -655,65 +455,42 @@ export function useDropzone({
   );
 
   const setFiles = useCallback(
-    async (files, event) => {
-      const acceptedFiles = [];
+    (files, event) => {
       const fileRejections = [];
 
-      for (const file of files) {
-        const [accepted, acceptError] = fileAccepted(file, acceptAttr);
-        const [sizeMatch, sizeError] = fileMatchSize(file, minSize, maxSize);
-        const customErrors = validator ? validator(file) : null;
-
-        if (accepted && sizeMatch && !customErrors) {
-          acceptedFiles.push(file);
-        } else {
-          let errors = [acceptError, sizeError];
-
-          if (customErrors) {
-            errors = errors.concat(customErrors);
-          }
-
-          fileRejections.push({ file, errors: errors.filter(e => e) });
-        }
-      }
-
       if (
-        (!multiple && acceptedFiles.length > 1) ||
-        (multiple && maxFiles >= 1 && acceptedFiles.length > maxFiles)
+        (!multiple && files.length > 1) ||
+        (multiple && maxFiles >= 1 && files.length > maxFiles)
       ) {
         // Reject everything and empty accepted files
-        acceptedFiles.forEach(file => {
-          fileRejections.push({ file, errors: [TOO_MANY_FILES_REJECTION] });
+        files.forEach(file => {
+          fileRejections.push({
+            file,
+            errors: [
+              {
+                code: "too-many-files",
+                message: "Exceeded the number of allowed file uploads",
+              },
+            ],
+          });
         });
-        acceptedFiles.splice(0);
+        files.splice(0);
       }
 
-      await handleSetFiles(acceptedFiles, fileRejections);
-
+      handleSetFiles(files, fileRejections);
       if (onDrop) {
-        onDrop(acceptedFiles, fileRejections, event);
+        onDrop(event);
       }
 
       if (fileRejections.length > 0 && onDropRejected) {
         onDropRejected(fileRejections, event);
       }
 
-      if (acceptedFiles.length > 0 && onDropAccepted) {
-        onDropAccepted(acceptedFiles, event);
+      if (files.length > 0 && onDropAccepted) {
+        onDropAccepted(files, event);
       }
     },
-    [
-      multiple,
-      acceptAttr,
-      minSize,
-      maxSize,
-      maxFiles,
-      onDrop,
-      onDropAccepted,
-      onDropRejected,
-      validator,
-      handleSetFiles,
-    ]
+    [multiple, maxFiles, onDrop, onDropAccepted, onDropRejected, handleSetFiles]
   );
 
   const onDropCb = useCallback(
@@ -731,7 +508,7 @@ export function useDropzone({
           if (isPropagationStopped(event) && !noDragEventsBubbling) {
             return;
           }
-          await setFiles(files, event);
+          setFiles(files, event);
         }
       } catch (e) {
         onErrCb(e);
@@ -763,7 +540,8 @@ export function useDropzone({
           .showOpenFilePicker(opts)
           .then(handles => getFilesFromEvent(handles))
           .then(files => {
-            setFiles(files, null).then(() => handleCloseDialog());
+            setFiles(files, null);
+            handleCloseDialog();
           })
           .catch(e => {
             // AbortError means the user canceled
@@ -931,31 +709,51 @@ export function useDropzone({
 
   const getInputProps = useMemo(
     () =>
-      ({ refKey = "ref", onChange, onClick, ...rest }: DropzoneInputProps) => {
-        const inputProps = {
+      ({
+        refKey = "ref",
+        onChange,
+        onClick,
+        files,
+        ...rest
+      }: DropzoneInputProps) => {
+        return {
+          files,
+          disabled,
           accept: acceptAttr,
           multiple,
           type: "file",
+          maxsize: maxSizeInBytes,
+          minsize: minSizeInBytes,
           style: { display: "none" },
           onChange: composeHandler(composeEventHandlers(onChange, onDropCb)),
           onClick: composeHandler(
             composeEventHandlers(onClick, onInputElementClick)
           ),
+          autoFocus,
+          onDragEnter,
+          onDragLeave,
+          onDragOver,
+          onDrop,
+          onError,
           tabIndex: -1,
           [refKey]: inputRef,
         };
-
-        return {
-          ...inputProps,
-          ...rest,
-        };
       },
     [
+      disabled,
       acceptAttr,
       multiple,
+      maxSizeInBytes,
+      minSizeInBytes,
       composeHandler,
       onDropCb,
       onInputElementClick,
+      autoFocus,
+      onDragEnter,
+      onDragLeave,
+      onDragOver,
+      onDrop,
+      onError,
       inputRef,
     ]
   );

@@ -114,7 +114,7 @@ export const FieldWrapper = ({
   );
 
   const innerRef = useRef<HTMLDivElement>(null);
-  useRipple(innerRef);
+  useRipple(innerRef, false);
 
   return (
     <div
@@ -165,16 +165,16 @@ export const FieldWrapper = ({
 
       <div className="flex w-full flex-row items-center gap-3">
         {labelPlacement === FieldLabelPlacementTypes.LEFT && (
-            <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
-          <FieldWrapperLabel
-            name={name}
-            label={label}
-            info={info}
-            errors={errors}
-            warning={warning}
-            focused={focused}
-            required={required}
-          />
+          <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
+            <FieldWrapperLabel
+              name={name}
+              label={label}
+              info={info}
+              errors={errors}
+              warning={warning}
+              focused={focused}
+              required={required}
+            />
           </div>
         )}
 
@@ -183,17 +183,17 @@ export const FieldWrapper = ({
             <>
               {labelPlacement === FieldLabelPlacementTypes.TOP && (
                 <>
-                 <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
-                  <FieldWrapperLabel
-                    name={name}
-                    label={label}
-                    info={info}
-                    errors={errors}
-                    warning={warning}
-                    focused={focused}
-                    required={required}
-                  />
-                   </div>
+                  <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
+                    <FieldWrapperLabel
+                      name={name}
+                      label={label}
+                      info={info}
+                      errors={errors}
+                      warning={warning}
+                      focused={focused}
+                      required={required}
+                    />
+                  </div>
 
                   {(!isEmptyObject(errors) || warning || info) && (
                     <div className="relative flex h-5 w-5 pr-xxxs">
@@ -269,7 +269,7 @@ export const FieldWrapper = ({
               </div>
             )}
           </div>
-          <div className="flex flex-row gap-0.5 pl-xxxs pb-xxs">
+          <div className="flex flex-row gap-0.5 pb-xxs pl-xxxs">
             <AnimatePresence>
               {isEmptyObject(errors) ? (
                 <>
@@ -325,16 +325,16 @@ export const FieldWrapper = ({
         </div>
         {labelPlacement === FieldLabelPlacementTypes.RIGHT && (
           <>
-          <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
-            <FieldWrapperLabel
-              name={name}
-              label={label}
-              info={info}
-              errors={errors}
-              warning={warning}
-              focused={focused}
-              required={required}
-            />
+            <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
+              <FieldWrapperLabel
+                name={name}
+                label={label}
+                info={info}
+                errors={errors}
+                warning={warning}
+                focused={focused}
+                required={required}
+              />
             </div>
 
             {(!isEmptyObject(errors) || warning || info) && (

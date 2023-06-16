@@ -62,7 +62,9 @@ export const Toast = ({
   variant = ToastVariants.INFO,
 }: ToastProps) => {
   return (
-    <div className="h-fit w-full min-w-fit max-w-[65rem] rounded-md bg-bg-1">
+    <div
+      role="alert"
+      className="h-fit w-full min-w-fit max-w-[65rem] rounded-md bg-bg-1">
       <div
         className={clsx(
           "relative h-fit w-full min-w-fit rounded-md border-2",
