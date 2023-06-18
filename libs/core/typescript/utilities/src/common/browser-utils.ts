@@ -2,8 +2,7 @@ import { FileLoadingError } from "../errors";
 import { ConsoleLogger } from "../logging";
 import { isEmpty } from "./type-checks";
 
-
-export const IsServer = typeof window === 'undefined' || 'Deno' in window
+export const IsServer = typeof window === "undefined" || "Deno" in window;
 
 export function readAsTextAsync(file: File) {
   const fr = new FileReader();
@@ -46,36 +45,39 @@ export const openFileInNewTab = async (
     const dataUrlPromise = readAsDataURLAsync(file);
     const dataPromise = readAsTextAsync(file);
 
-    const resolved = await Promise.all([
-      dataUrlPromise,
-      dataPromise,
-    ]);
+    const resolved = await Promise.all([dataUrlPromise, dataPromise]);
     if (Array.isArray(resolved) && resolved.length > 1) {
-    dataUrl = resolved[0];
-    data = resolved[1];
-    type = file.type;
+      dataUrl = resolved[0];
+      data = resolved[1];
+      type = file.type;
     }
   } catch (e) {
-    error = e as FileLoadingError;
+    error = (e as FileLoadingError)?.message ?? "An error occured reading the file";
     type = "error/FileLoadingError";
-    ConsoleLogger.error(error?.message);
+    ConsoleLogger.error(error);
   }
 
-  openDataInNewTab(file.name,
-    { dataUrl: typeof dataUrl === "string" ? dataUrl : undefined, data: typeof data === "string" ? data : undefined,
-    error,
-    type } ,
-    title);
-}
+  openDataInNewTab(
+    file.name,
+    {
+      dataUrl: typeof dataUrl === "string" ? dataUrl : undefined,
+      data: typeof data === "string" ? data : undefined,
+      error,
+      type,
+    },
+    title
+  );
+};
 
 export function openDataInNewTab(
   name: string,
-  content: { dataUrl?: string; data?: string; error?: string; type?: string; },
+  content: { dataUrl?: string; data?: string; error?: string; type?: string },
   title = "File Content - View"
 ) {
   const { data, dataUrl, error, type } = content;
 
-  !isEmpty(window) && (error || dataUrl || data) &&
+  !isEmpty(window) &&
+    (error || dataUrl || data) &&
     window.open(title)?.document.write(
       `<html>
           <head><title>${title}</title></head>
@@ -88,20 +90,21 @@ export function openDataInNewTab(
                 : isVideoMIMEType(type)
                 ? `<video style="width: 100%;" controls muted>
             <source src="${data}" type="${
-              type ? type : "video/mp4"
+                    type ? type : "video/mp4"
                   }">Your browser does not support the video tag.</video>`
                 : isAudioMIMEType(type)
                 ? `<audio  controls muted>
             <source src="${data}" type="${
-              type ? type : "audio/mp3"
+                    type ? type : "audio/mp3"
                   }">Your browser does not support the audio element.</audio>`
-                : `<div style="height: 100%; width: 100%;">${error ? error : data}"></div>`
+                : `<div style="height: 100%; width: 100%;">${
+                    error ? error : data
+                  }"></div>`
             }
           </body>
         </html>`
     );
 }
-
 
 export function isPropagationStopped(event: any) {
   if (typeof event?.isPropagationStopped === "function") {

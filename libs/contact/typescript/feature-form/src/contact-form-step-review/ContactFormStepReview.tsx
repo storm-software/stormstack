@@ -6,6 +6,7 @@ import {
   Divider,
   DividerDirections,
   DividerSizes,
+  LinkVariants,
 } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
@@ -33,6 +34,7 @@ export function ContactFormStepReview({
         </h3>
         {pathname && (
           <Link
+            variant={LinkVariants.SECONDARY}
             href={
               name === ContactFormSegments.REASON
                 ? "/contact"

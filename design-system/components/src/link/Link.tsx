@@ -26,11 +26,12 @@ export const Link = ({
       <label
         onClick={onClick}
         className={clsx(
-          "transition-colors relative link w-fit h-fit",
+          "transition-colors relative w-fit h-fit hover:cursor-pointer",
           {
-            "font-body-1 underline hover:cursor-pointer":
+            "font-body-1 underline":
               variant !== LinkVariants.PLAIN &&
-              variant !== LinkVariants.PRIMARY,
+              variant !== LinkVariants.PRIMARY &&
+              variant !== LinkVariants.TERTIARY,
           },
           {
             "text-link-2 hover:text-hover-link-2 w-fit link":
@@ -41,8 +42,12 @@ export const Link = ({
               variant === LinkVariants.SECONDARY,
           },
           {
-            "text-link-3 underline hover:text-hover-link-3":
+            "text-link-3 hover:text-hover-link-3 link":
               variant === LinkVariants.TERTIARY,
+          },
+          {
+            "text-link-1 hover:text-hover-link-1":
+              variant === LinkVariants.QUATERNARY,
           },
           className
         )}>

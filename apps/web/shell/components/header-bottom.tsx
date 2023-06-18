@@ -41,9 +41,9 @@ export default function HeaderBottom({
       initial={false}
       animate={isAppHeaderDisplayed ? "closed" : "opened"}>
       <div className="relative flex h-0 w-full">
-        <Wave className="absolute -bottom-12 left-0 right-0 h-96 min-w-full fill-bg-1 stroke-gray-700 stroke-2" />
+        <Wave className="absolute -bottom-12 left-0 right-0 h-96 min-w-full fill-bg-primary stroke-gray-700 stroke-2" />
       </div>
-      <div className="relative flex h-full min-h-fit w-full flex-row items-end justify-center bg-bg-1 px-20">
+      <div className="relative flex h-full min-h-fit w-full flex-row items-end justify-center bg-bg-primary px-20">
         {children}
       </div>
     </motion.div>

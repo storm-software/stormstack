@@ -81,7 +81,7 @@ export const Breadcrumb = ({
                   "fill-breadcrumb-secondary-1":
                   variant === BreadcrumbVariants.SECONDARY && inverse,
                 },
-                "transition-colors hover:cursor-pointer hover:fill-hover-link-2"
+                "transition-colors hover:cursor-pointer hover:fill-hover-link-3"
               )}
               height={35}
               onClick={onNavigateHome}

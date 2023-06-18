@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable react/jsx-no-useless-fragment */
 import clsx from "clsx";
 import { PropsWithBase } from "../types";
 
@@ -15,6 +16,8 @@ export type FieldTextProps = PropsWithBase<{
    * @example "N/A"
    */
   placeholder?: string;
+
+  hideWhenEmpty?: boolean;
 }>;
 
 /**
@@ -25,30 +28,37 @@ export const FieldText = ({
   children,
   name,
   placeholder = " ",
+  hideWhenEmpty = false,
 }: FieldTextProps) => {
   const value = children ?? placeholder;
 
   return (
-    <div className="flex flex-col break-all hyphens-auto">
-      {name && (
-        <label className="font-label-3 text-xs font-bold text-slate-500 hyphens-auto">
-          {name}
-        </label>
+    <>
+      {(!hideWhenEmpty ||
+        !value ||
+        (typeof value === "string" && !value.trim().length)) && (
+        <div className="flex flex-col hyphens-auto break-all">
+          {name && (
+            <label className="hyphens-auto font-label-3 text-xs font-bold text-slate-500">
+              {name}
+            </label>
+          )}
+          {typeof value === "string" ? (
+            <label
+              className={clsx(
+                "text-md hyphens-auto font-body-1 text-primary",
+                {
+                  "h-8": !children && name,
+                },
+                className
+              )}>
+              {value}
+            </label>
+          ) : (
+            value
+          )}
+        </div>
       )}
-      {typeof value === "string" ? (
-        <label
-          className={clsx(
-            "text-md font-body-1 text-primary hyphens-auto",
-            {
-              "h-8": !children && name,
-            },
-            className
-          )}>
-          {value}
-        </label>
-      ) : (
-        value
-      )}
-    </div>
+    </>
   );
 };

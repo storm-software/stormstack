@@ -119,7 +119,7 @@ export default function AppTitle() {
         <div className="align-center animate-flicker-2">
           <Heading
             level={4}
-            className="text-glow text-center text-5xl leading-none text-white">
+            className="text-border text-center text-5xl leading-none text-white">
             Software designed for{" "}
             <span className="text-glow-purple bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
               tomorrow&apos;s

@@ -61,18 +61,17 @@ export const ProgressTrackerItem = ({
       displayed: {
         color:
           status === ProgressTrackerItemStatus.COMPLETE
-            ? "#00DC82"
+            ? "#00897B"
             : status === ProgressTrackerItemStatus.ACTIVE
             ? "#FAF9F6"
-            : "#989899",
+            : "#6B7280",
         transition: { duration: 1, delay: 1, ease: "easeInOut" },
       },
       hover:
         status === ProgressTrackerItemStatus.COMPLETE && onClick
           ? {
-              color: "#A36DE9",
-              textDecoration: "underline",
-              transition: { duration: 0.5, delay: 0, ease: "linear" },
+              color: "#6366F1",
+              transition: { duration: 0.5 },
             }
           : {},
     }),
@@ -83,17 +82,17 @@ export const ProgressTrackerItem = ({
       displayed: {
         fill:
           status === ProgressTrackerItemStatus.COMPLETE
-            ? "#00DC82"
+            ? "#00897B"
             : status === ProgressTrackerItemStatus.ACTIVE
             ? "#FAF9F6"
-            : "#989899",
+            : "#6B7280",
         transition: { duration: 1, delay: 1, ease: "easeInOut" },
       },
       hover:
         status === ProgressTrackerItemStatus.COMPLETE && onClick
           ? {
-              fill: "#A36DE9",
-              transition: { duration: 0.5, delay: 0, ease: "linear" },
+              fill: "#6366F1",
+              transition: { duration: 0.5 },
             }
           : {},
     }),
@@ -118,13 +117,13 @@ export const ProgressTrackerItem = ({
             color:
               status === ProgressTrackerItemStatus.COMPLETE &&
               !animateBackground
-                ? "#00DC82"
+                ? "#00897B"
                 : (status === ProgressTrackerItemStatus.COMPLETE &&
                     animateBackground) ||
                   (status === ProgressTrackerItemStatus.ACTIVE &&
                     !animateBackground)
                 ? "#FAF9F6"
-                : "#989899",
+                : "#6B7280",
           }}
           variants={labelVariants}
           className={clsx("text-center font-label-4 transition", {
@@ -135,20 +134,20 @@ export const ProgressTrackerItem = ({
         </motion.label>
       </div>
       <div className="relative flex h-[70px] w-[70px] shrink items-center justify-center">
-        <div className="absolute top-0 left-0 right-0 z-10 h-[70px] w-[70px]">
+        <div className="absolute left-0 right-0 top-0 z-10 h-[70px] w-[70px]">
           <svg viewBox="0 0 1024 1024" height="70" width="70" x="0px" y="0px">
             <motion.path
               initial={{
                 fill:
                   status === ProgressTrackerItemStatus.COMPLETE &&
                   !animateBackground
-                    ? "#00DC82"
+                    ? "#00897B"
                     : (status === ProgressTrackerItemStatus.COMPLETE &&
                         animateBackground) ||
                       (status === ProgressTrackerItemStatus.ACTIVE &&
                         !animateBackground)
                     ? "#FAF9F6"
-                    : "#989899",
+                    : "#6B7280",
               }}
               variants={pathVariants}
               d="M896 704C896 720.213333 887.04 734.293333 873.386667 741.546667L536.32 930.986667C529.493333 936.106667 520.96 938.666667 512 938.666667 503.04 938.666667 494.506667 936.106667 487.68 930.986667L150.613333 741.546667C136.96 734.293333 128 720.213333 128 704L128 320C128 303.786667 136.96 289.706667 150.613333 282.453333L487.68 93.013333C494.506667 87.893333 503.04 85.333333 512 85.333333 520.96 85.333333 529.493333 87.893333 536.32 93.013333L873.386667 282.453333C887.04 289.706667 896 303.786667 896 320L896 704Z"
@@ -156,7 +155,7 @@ export const ProgressTrackerItem = ({
           </svg>
         </div>
         <div className="relative z-20 flex h-[60px] w-[60px] items-center justify-center">
-          <div className="absolute top-0 left-0 right-0 h-[60px] w-[60px]">
+          <div className="absolute left-0 right-0 top-0 h-[60px] w-[60px]">
             <svg
               viewBox="0 0 1024 1024"
               height="60"
@@ -171,7 +170,7 @@ export const ProgressTrackerItem = ({
           <div className="relative z-30 flex h-[50px] w-[50px] items-center justify-center">
             <div
               className={clsx(
-                "absolute top-0 left-0 right-0 h-[50px] w-[50px] rounded-full transition",
+                "absolute left-0 right-0 top-0 h-[50px] w-[50px] rounded-full transition",
                 {
                   "shadow-active-glow":
                     status === ProgressTrackerItemStatus.ACTIVE,
@@ -189,13 +188,13 @@ export const ProgressTrackerItem = ({
                     fill:
                       status === ProgressTrackerItemStatus.COMPLETE &&
                       !animateBackground
-                        ? "#00DC82"
+                        ? "#00897B"
                         : (status === ProgressTrackerItemStatus.COMPLETE &&
                             animateBackground) ||
                           (status === ProgressTrackerItemStatus.ACTIVE &&
                             !animateBackground)
                         ? "#FAF9F6"
-                        : "#989899",
+                        : "#6B7280",
                   }}
                   variants={pathVariants}
                   d="M896 704C896 720.213333 887.04 734.293333 873.386667 741.546667L536.32 930.986667C529.493333 936.106667 520.96 938.666667 512 938.666667 503.04 938.666667 494.506667 936.106667 487.68 930.986667L150.613333 741.546667C136.96 734.293333 128 720.213333 128 704L128 320C128 303.786667 136.96 289.706667 150.613333 282.453333L487.68 93.013333C494.506667 87.893333 503.04 85.333333 512 85.333333 520.96 85.333333 529.493333 87.893333 536.32 93.013333L873.386667 282.453333C887.04 289.706667 896 303.786667 896 320L896 704Z"

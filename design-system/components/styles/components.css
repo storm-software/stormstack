@@ -25,6 +25,7 @@
 button, .ripple-container.ripple-inner, .ripple-container-dark.ripple-inner {
   position: relative;
   overflow: hidden;
+  z-index: 9999;
   transition: background 400ms;
   background-color: #6200EE;
   padding: 1rem 2rem;

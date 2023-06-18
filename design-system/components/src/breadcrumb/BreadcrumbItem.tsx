@@ -98,7 +98,7 @@ export const BreadcrumbItem = ({
             variant === BreadcrumbVariants.SECONDARY && !isCurrent && inverse,
           },
           {
-            "group-hover:cursor-pointer group-hover:text-hover-link-2":
+            "group-hover:cursor-pointer group-hover:text-hover-link-3":
               !isCurrent && onClick,
           }
         )}>

@@ -2,12 +2,12 @@ import { ToastVariants } from "./Toast.types";
 
 export function getBorderStyle(variant: ToastVariants) {
   return variant === ToastVariants.ERROR
-    ? "border-error"
+    ? "border-bg-error"
     : variant === ToastVariants.WARNING
-    ? "border-warning"
+    ? "border-bg-warning"
     : variant === ToastVariants.SUCCESS
-    ? "border-success"
-    : "border-info";
+    ? "border-bg-success"
+    : "border-bg-info";
 }
 
 export function getBackgroundStyle(variant: ToastVariants) {
@@ -23,12 +23,12 @@ export function getBackgroundStyle(variant: ToastVariants) {
 
 export function getTextStyle(variant: ToastVariants) {
   return variant === ToastVariants.ERROR
-    ? "text-error"
+    ? "text-bg-error"
     : variant === ToastVariants.WARNING
-    ? "text-warning"
+    ? "text-bg-warning"
     : variant === ToastVariants.SUCCESS
-    ? "text-success"
-    : "text-info";
+    ? "text-bg-success"
+    : "text-bg-info";
 }
 
 export function getDefaultTitle(variant: ToastVariants) {
@@ -43,10 +43,10 @@ export function getDefaultTitle(variant: ToastVariants) {
 
 export function getCloseButtonStyle(variant: ToastVariants) {
   return variant === ToastVariants.ERROR
-    ? "border-error text-error hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-error text-bg-error hover:border-primary hover:text-primary font-extrabold"
     : variant === ToastVariants.WARNING
-    ? "border-warning text-warning hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-warning text-bg-warning hover:border-primary hover:text-primary font-extrabold"
     : variant === ToastVariants.SUCCESS
-    ? "border-success text-success hover:border-primary hover:text-primary font-extrabold"
-    : "border-info text-info hover:border-primary hover:text-primary font-extrabold";
+    ? "border-bg-success text-bg-success hover:border-primary hover:text-primary font-extrabold"
+    : "border-bg-info text-bg-info hover:border-primary hover:text-primary font-extrabold";
 }

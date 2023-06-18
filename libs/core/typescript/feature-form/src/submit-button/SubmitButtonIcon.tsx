@@ -3,10 +3,10 @@
 import {
   BaseComponentProps,
   ButtonVariants,
+  Spinner,
   SuccessIcon,
   getButtonSvgFillStyle,
   getButtonSvgStrokeStyle,
-  Spinner
 } from "@open-system/design-system-components";
 import clsx from "clsx";
 
@@ -31,16 +31,16 @@ export function SubmitButtonIcon({
 }: SubmitButtonIconProps) {
   if (isSubmitting || isValidating) {
     return (
-    
-
-        <Spinner className={getButtonSvgFillStyle(isDisabled, variant)} srText={`${isValidating ? "Validating" : "Submitting"}...`} />
- 
+      <Spinner
+        className={getButtonSvgFillStyle(isDisabled, variant)}
+        srText={`${isValidating ? "Validating" : "Submitting"}...`}
+      />
     );
   } else if (isSubmitSuccessful) {
     return <SuccessIcon />;
   } else if (isError) {
     return (
-      <svg className="ml-1 mt-[0.1rem] h-5" viewBox="0 0 25 25" fill="none">
+      <svg className="mb-[0.28rem] ml-1.5 h-6" viewBox="0 0 25 25" fill="none">
         <path
           className="fill-error"
           fillRule="evenodd"

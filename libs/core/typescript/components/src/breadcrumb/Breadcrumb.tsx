@@ -55,7 +55,7 @@ export const Breadcrumb = ({
               href={item.pathname}
               inNewTab={false}
               replace={true}
-              variant={LinkVariants.PLAIN}>
+              variant={LinkVariants.TERTIARY}>
               {item.label}
             </Link>
           ) : (

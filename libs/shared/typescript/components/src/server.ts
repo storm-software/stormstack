@@ -6,3 +6,4 @@ export * from "./logo-loading";
 export * from "./box-logo";
 export * from "./footer";
 export * from "./barcode";
+export * from "./background-sphere";

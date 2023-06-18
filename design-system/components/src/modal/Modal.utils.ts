@@ -2,13 +2,13 @@ import { ModalVariants } from "./Modal.types";
 
 export function getBorderStyle(variant: ModalVariants) {
   return variant === ModalVariants.ERROR
-    ? "border-error"
+    ? "border-bg-error"
     : variant === ModalVariants.WARNING
-    ? "border-warning"
+    ? "border-bg-warning"
     : variant === ModalVariants.INFO
-    ? "border-info"
+    ? "border-bg-info"
     : variant === ModalVariants.SUCCESS
-    ? "border-success"
+    ? "border-bg-success"
     : "border-primary";
 }
 
@@ -23,13 +23,13 @@ export function getBackgroundStyle(variant: ModalVariants) {
 
 export function getTextStyle(variant: ModalVariants) {
   return variant === ModalVariants.ERROR
-    ? "text-error font-bold"
+    ? "text-bg-error font-bold"
     : variant === ModalVariants.WARNING
-    ? "text-warning font-bold"
+    ? "text-bg-warning font-bold"
     : variant === ModalVariants.INFO
-    ? "text-info font-bold"
+    ? "text-bg-info font-bold"
     : variant === ModalVariants.SUCCESS
-    ? "text-success font-bold"
+    ? "text-bg-success font-bold"
     : "text-primary";
 }
 
@@ -45,12 +45,12 @@ export function getDefaultTitle(variant: ModalVariants) {
 
 export function getCloseButtonStyle(variant: ModalVariants) {
   return variant === ModalVariants.ERROR
-    ? "border-error text-error hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-error text-bg-error hover:border-primary hover:text-primary font-extrabold"
     : variant === ModalVariants.WARNING
-    ? "border-warning text-warning hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-warning text-bg-warning hover:border-primary hover:text-primary font-extrabold"
     : variant === ModalVariants.INFO
-    ? "border-info text-info hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-info text-bg-info hover:border-primary hover:text-primary font-extrabold"
     : variant === ModalVariants.SUCCESS
-    ? "border-success text-success hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-success text-bg-success hover:border-primary hover:text-primary font-extrabold"
     : "border-primary bg-slate-800/70 text-primary hover:border-slate-400 hover:text-slate-400";
 }

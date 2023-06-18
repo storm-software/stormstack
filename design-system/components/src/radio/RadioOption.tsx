@@ -83,7 +83,8 @@ export const RadioOption = forwardRef<HTMLInputElement, BaseFieldProps>(
               context.focused && (!context.value || value === context.value),
               disabled || context.disabled,
               value === context.value ? context.value : null
-            )
+            ),
+            "text-label-1 font-label-1 leading-label-1 antialiased transition-all"
           )}
           htmlFor={value}>
           {name}

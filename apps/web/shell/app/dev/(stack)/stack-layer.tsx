@@ -163,12 +163,12 @@ export default function StackLayer({
         )}>
         <div
           onClick={handleClose}
-          className="absolute top-1 right-1 z-modal m-1 cursor-pointer rounded-full bg-slate-300/80 p-2 font-semibold text-slate-500 transition-colors hover:bg-slate-300 hover:text-slate-900">
+          className="absolute right-1 top-1 z-modal m-1 cursor-pointer border-[1px] border-slate-900 hover:border-slate-500 rounded-full p-1 font-semibold text-slate-900 transition-colors hover:text-slate-500">
           <XMarkIcon className="h-3 w-3 cursor-pointer" />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <Heading level={3}>{header}</Heading>
-          <p className="text-sm font-body-1 text-body-2">
+          <p className="text-sm font-body-1 text-slate-800">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut

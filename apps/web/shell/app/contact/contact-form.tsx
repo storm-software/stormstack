@@ -59,7 +59,8 @@ export default function ContactForm({
     async (formData: Contact) => {
       if (segment === ContactFormSegments.REVIEW) {
         startTransition(() => {
-          handleSubmit(formData);
+          //props.handleSubmit(formData);
+          resetContact();
         });
       } else {
         /*const nextContact: Contact = {} as Contact;
@@ -72,7 +73,13 @@ export default function ContactForm({
 
       nextPathname && router.push(nextPathname as any);
     },
-    [nextPathname, router, segment, setContact]
+    [
+      nextPathname,
+      router,
+      segment,
+      setContact,
+      resetContact
+    ]
   );
 
   const modalRef = useRef<ModalReference>(null);
@@ -256,41 +263,44 @@ export default function ContactForm({
             )}
         </div>
         <Modal
-          className="h-fit min-h-fit w-[50rem]"
+          className="h-fit min-h-fit w-[45rem]"
           ref={modalRef}
           initialOpened={false}
           variant={ModalVariants.WARNING}
           title="Reset Contact Information"
           onClose={handleResetClose}>
           <div className="flex flex-col gap-10">
-            <div className="flex flex-1">
+            <div className="flex flex-1 grow">
+            <div className="flex flex-col gap-2">
               <label className="whitespace-pre-wrap text-xl font-label-1 text-primary">
                 Are you sure you want to remove all of your previously entered
-                data? Selecting &quot;Reset&quot; below will start the contact
+                data?
+              </label>
+              <label className="whitespace-pre-wrap text-lg font-body-1 text-body-1">
+                Selecting &quot;Reset&quot; below will start the contact
                 process from the beginning.
               </label>
-            </div>
-            <div className="h-fit flex-none">
-              <div className="flex flex-row-reverse gap-8">
-                <Button
-                  variant={ButtonVariants.PRIMARY}
-                  type={ButtonTypes.RESET}
-                  onClick={handleReset}
-                  rounding={ButtonCornerRoundingTypes.NONE}
-                  transitionDirection={ButtonTransitionDirections.RIGHT}
-                  inverse={true}
-                  hoverText="Confirm">
-                  Reset
-                </Button>
-                <Button
-                  variant={ButtonVariants.PRIMARY}
-                  onClick={handleResetClose}
-                  rounding={ButtonCornerRoundingTypes.NONE}
-                  transitionDirection={ButtonTransitionDirections.LEFT}
-                  hoverText="Cancel">
-                  Close
-                </Button>
               </div>
+            </div>
+            <div className="shink flex flex-row-reverse gap-8">
+              <Button
+                variant={ButtonVariants.PRIMARY}
+                type={ButtonTypes.RESET}
+                onClick={handleReset}
+                rounding={ButtonCornerRoundingTypes.NONE}
+                transitionDirection={ButtonTransitionDirections.NONE}
+                inverse={true}
+                hoverText="Confirm">
+                Reset
+              </Button>
+              <Button
+                variant={ButtonVariants.PRIMARY}
+                onClick={handleResetClose}
+                rounding={ButtonCornerRoundingTypes.NONE}
+                transitionDirection={ButtonTransitionDirections.NONE}
+                hoverText="Cancel">
+                Close
+              </Button>
             </div>
           </div>
         </Modal>

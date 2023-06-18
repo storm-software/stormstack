@@ -2,6 +2,7 @@
 
 import { Contact } from "@open-system/contact-data-access";
 import { PhoneNumberText } from "@open-system/core-components";
+import { useFormValues } from "@open-system/core-data-access";
 import { DateTime } from "@open-system/core-utilities";
 import { Accordion, FieldText } from "@open-system/design-system-components";
 import { AddressText } from "@open-system/shared-feature-address";
@@ -9,9 +10,6 @@ import Envelope from "../../../../../../assets/images/envelope.svg";
 import { BaseContactForm, BaseContactFormProps } from "../base-contact-form";
 import { ContactFormStepReview } from "../contact-form-step-review";
 import { ContactFormSegments } from "../types";
-import {
-  useFormValues
-} from "@open-system/core-data-access";
 
 export type BaseContactReviewFormProps = Omit<
   BaseContactFormProps,
@@ -54,7 +52,7 @@ export function BaseContactReviewForm({
         </Accordion>
       }>
       <div className="relative flex pb-32">
-        <output className="text-md flex h-fit min-h-[34rem] flex-col gap-2 border-4 border-black bg-slate-100 px-6 py-8 font-body-1 text-slate-800">
+        <output className="text-md flex h-fit min-h-[34rem] flex-col gap-2 hyphens-auto border-4 border-black bg-slate-100 px-6 py-8 font-body-1 text-slate-800">
           <div className="flex grow flex-col gap-1 break-all">
             <div className="flex flex-row justify-between gap-2">
               <p>Hey Pat,</p>
@@ -83,7 +81,11 @@ export function BaseContactReviewForm({
                   phoneNumber={values.phoneNumber}
                 />
               )}
-              <AddressText className="text-slate-800" address={values} />
+              <AddressText
+                className="text-slate-800"
+                address={values}
+                hideWhenEmpty={true}
+              />
             </div>
           </div>
         </output>

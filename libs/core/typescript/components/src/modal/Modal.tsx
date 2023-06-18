@@ -81,7 +81,7 @@ export const Modal = forwardRef<ModalReference, ModalProps>(
                 className="fixed z-modal flex h-full w-full items-center bg-black/50 backdrop-blur-sm">
                 <motion.div
                   ref={modalRef}
-                  className="relative inset-0 z-20 mx-auto h-fit w-fit"
+                  className="m-auto relative z-20 h-fit w-fit flex justify-center"
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}

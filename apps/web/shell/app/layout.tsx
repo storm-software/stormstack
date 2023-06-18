@@ -79,7 +79,7 @@ export default function RootLayout(props: {
         antiqueOlive.variable,
         permanentMarker.variable,
         satoshi.variable,
-        "bg-bg-1 antialiased"
+        "bg-bg-primary antialiased"
       )}>
       <head />
       <body className="relative h-fit min-h-screen">
@@ -134,13 +134,13 @@ export default function RootLayout(props: {
                   </h3>
                   <div className="flex flex-row gap-16">
                     <div className="flex flex-col gap-1">
-                      <Link variant="primary">Home</Link>
-                      <Link variant="primary">About</Link>
-                      <Link variant="primary">Contact</Link>
+                      <Link variant="secondary">Home</Link>
+                      <Link variant="secondary">About</Link>
+                      <Link variant="secondary">Contact</Link>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <Link variant="primary">Projects</Link>
-                      <Link variant="primary">Privacy</Link>
+                      <Link variant="secondary">Projects</Link>
+                      <Link variant="secondary">Privacy</Link>
                     </div>
                   </div>
                 </div>
@@ -148,16 +148,16 @@ export default function RootLayout(props: {
                   <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
                     Blog
                   </h3>
-                  <Link variant="primary">Articles</Link>
-                  <Link variant="primary">Latest</Link>
+                  <Link variant="secondary">Articles</Link>
+                  <Link variant="secondary">Latest</Link>
                 </div>
                 <div className="flex flex-col gap-1">
                   <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
                     Docs
                   </h3>
-                  <Link variant="primary">Open System</Link>
-                  <Link variant="primary">Design System</Link>
-                  <Link variant="primary">Storybook</Link>
+                  <Link variant="secondary">Open System</Link>
+                  <Link variant="secondary">Design System</Link>
+                  <Link variant="secondary">Storybook</Link>
                 </div>
                 <div className="flex h-full flex-col items-center">
                   {/*<PdfResumeDownloadLink />*/}

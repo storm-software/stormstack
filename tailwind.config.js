@@ -62,6 +62,7 @@ module.exports = {
       "zIndex": {
         ...extend.zIndex,
         "bg": 2,
+        "bg-sphere": 3,
         "content-bg": 80,
         "scroll": 90,
         "content-low": 100,
@@ -89,6 +90,7 @@ module.exports = {
         "wave3": "wave 20s -1s linear infinite",
         "bubble": "bubble 10s ease-in-out infinite",
         "scan": "scan 4s ease-in-out infinite",
+        "float": "float 12s ease-in-out infinite",
         "spin-fast": "spin 0.8s linear infinite",
         "spin-half": "spin 1.5s linear infinite",
         "spin-slow": "spin 2s linear infinite",
@@ -144,6 +146,11 @@ module.exports = {
             "transform": "translateY(0px)",
             "opacity": 0.4,
           },
+        },
+        "float": {
+          "0%": { "transform": "translateY(0)" },
+          "50%": { "transform": "translateY(-15px)" },
+          "100%": { "transform": "translateY(0)" },
         },
         "loading": {
           "0%": { "transform": "translateX(0)" },

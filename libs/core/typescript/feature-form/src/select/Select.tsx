@@ -15,8 +15,8 @@ export function Select({ name, required, disabled, ...props }: SelectProps) {
   const value = useFieldValue(name);
 
   useEffect(() => {
-    trigger();
-    return () => unregister(name, { keepIsValid: false });
+    trigger(name, { shouldFocus: false });
+    return () => unregister?.(name, { keepIsValid: false });
   }, [name, trigger, unregister]);
 
   return (

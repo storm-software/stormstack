@@ -1,17 +1,18 @@
-import { Module, BreadcrumbVariants } from "@open-system/design-system-components";
-import { ReactNode } from "react";
 import { Breadcrumb } from "@open-system/core-components";
+import { Module } from "@open-system/design-system-components";
+import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-fit flex-col gap-12 px-20 pt-12">
+    <div className="background-gradient relative z-20 flex min-h-screen w-full flex-col gap-12 px-20 pt-12">
       <Breadcrumb
-        variant="secondary"
+        variant="primary"
         items={[
           { pathname: "/contact", label: "Contact" },
           { pathname: "/contact/business", label: "Business Opportunity" },
         ]}
       />
+
       <Module
         className="h-fit min-h-[40rem]"
         header={

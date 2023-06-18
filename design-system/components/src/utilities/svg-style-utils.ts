@@ -7,13 +7,13 @@ export function getSvgFillStyle(
   success?: string | boolean | null
 ) {
   return error
-    ? "fill-error"
+    ? "fill-bg-error"
     : warning
-    ? "fill-warning"
+    ? "fill-bg-warning"
     : info
-    ? "fill-info"
+    ? "fill-bg-info"
     : success
-    ? "fill-success"
+    ? "fill-bg-success"
     : "fill-primary";
 }
 

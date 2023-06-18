@@ -4,17 +4,18 @@
 
 ::selection {
   background: #3730a3; /* WebKit/Blink Browsers */
-  color: #FAF9F6; /* WebKit/Blink Browsers */
+  color: #faf9f6; /* WebKit/Blink Browsers */
 }
 
 ::-moz-selection {
   background: #3730a3; /* Gecko Browsers */
-  color: #FAF9F6; /* Gecko Browsers */
+  color: #faf9f6; /* Gecko Browsers */
 }
 
 :host {
   --title-texts: 3;
-  --sub-nav-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 3px 2px rgba(0, 0, 0, 0.2), 0 7px 7px rgba(0, 0, 0, 0.15);
+  --sub-nav-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 3px 2px rgba(0, 0, 0, 0.2),
+    0 7px 7px rgba(0, 0, 0, 0.15);
 }
 
 input:-webkit-autofill:not(:read-only),
@@ -54,7 +55,12 @@ select:-webkit-autofill:focus:disabled {
 }
 
 .text-glow-purple {
-  text-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+  text-shadow: 0 0 2px rgba(99, 102, 241, 0.6);
+}
+
+.text-border {
+  text-shadow: 6px 0 #27272a, -6px 0 #27272a, 0 6px #27272a, 0 -6px #27272a,
+    3px 3px #27272a, -3px -3px #27272a, 3px -3px #27272a, -3px 3px #27272a;
 }
 
 @media (min-width: 400px) {
@@ -64,7 +70,7 @@ select:-webkit-autofill:focus:disabled {
       rgba(99, 102, 241, 0.476) 0%,
       rgba(37, 38, 44, 0) 100%
     );
-    z-index: 10;
+    z-index: 1;
     content: "";
     position: absolute;
     inset: 0px;
@@ -78,7 +84,7 @@ select:-webkit-autofill:focus:disabled {
       rgba(16, 185, 129, 0.376) 0%,
       rgba(37, 38, 44, 0) 100%
     );
-    z-index: 10;
+    z-index: 1;
     content: "";
     position: absolute;
     inset: 0px;
@@ -86,8 +92,6 @@ select:-webkit-autofill:focus:disabled {
     pointer-events: none;
   }
 }
-
-
 
 .title-text h1 {
   animation-delay: 0s;

@@ -1,5 +1,3 @@
-"use client";
-
 import { SuccessContactForm } from "@open-system/contact-feature-form";
 import ContactForm from "../../contact-form";
 

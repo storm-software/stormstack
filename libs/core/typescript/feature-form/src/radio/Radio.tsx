@@ -31,8 +31,8 @@ export function Radio({
 
   const isSubmitting = useIsSubmitting();
   useEffect(() => {
-    trigger();
-    return () => unregister(name, { keepIsValid: false });
+    trigger(name, { shouldFocus: false });
+    return () => unregister?.(name, { keepIsValid: false });
   }, [name, trigger, unregister]);
 
   return (

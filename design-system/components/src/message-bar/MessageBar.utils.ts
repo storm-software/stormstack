@@ -2,32 +2,32 @@ import { MessageBarVariants } from "./MessageBar.types";
 
 export function getBorderStyle(variant: MessageBarVariants) {
   return variant === MessageBarVariants.ERROR
-    ? "border-error"
+    ? "border-bg-error"
     : variant === MessageBarVariants.WARNING
-    ? "border-warning"
+    ? "border-bg-warning"
     : variant === MessageBarVariants.SUCCESS
-    ? "border-success"
-    : "border-info";
+    ? "border-bg-success"
+    : "border-bg-info";
 }
 
 export function getBackgroundStyle(variant: MessageBarVariants) {
   return variant === MessageBarVariants.ERROR
-    ? "bg-error/60"
+    ? "bg-bg-error/60"
     : variant === MessageBarVariants.WARNING
-    ? "bg-warning/60"
+    ? "bg-bg-warning/60"
     : variant === MessageBarVariants.SUCCESS
-    ? "bg-success/60"
-    : "bg-info/60";
+    ? "bg-bg-success/60"
+    : "bg-bg-info/60";
 }
 
 export function getTextStyle(variant: MessageBarVariants) {
   return variant === MessageBarVariants.ERROR
-    ? "text-error font-bold"
+    ? "text-bg-error font-bold"
     : variant === MessageBarVariants.WARNING
-    ? "text-warning font-bold"
+    ? "text-bg-warning font-bold"
     : variant === MessageBarVariants.SUCCESS
-    ? "text-success font-bold"
-    : "text-info font-bold";
+    ? "text-bg-success font-bold"
+    : "text-bg-info font-bold";
 }
 
 export function getDefaultTitle(variant: MessageBarVariants) {
@@ -42,10 +42,10 @@ export function getDefaultTitle(variant: MessageBarVariants) {
 
 export function getCloseButtonStyle(variant: MessageBarVariants) {
   return variant === MessageBarVariants.ERROR
-    ? "border-error text-error hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-error text-bg-error hover:border-primary hover:text-primary font-extrabold"
     : variant === MessageBarVariants.WARNING
-    ? "border-warning text-warning hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-warning text-bg-warning hover:border-primary hover:text-primary font-extrabold"
     : variant === MessageBarVariants.SUCCESS
-    ? "border-success text-success hover:border-primary hover:text-primary font-extrabold"
-    : "border-info text-info hover:border-primary hover:text-primary font-extrabold";
+    ? "border-bg-success text-bg-success hover:border-primary hover:text-primary font-extrabold"
+    : "border-bg-info text-bg-info hover:border-primary hover:text-primary font-extrabold";
 }

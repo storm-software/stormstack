@@ -1,4 +1,7 @@
-import { ScopedObjectState, MoleculeObjectKeys } from "@open-system/core-data-access";
+import {
+  MoleculeObjectKeys,
+  ScopedObjectState,
+} from "@open-system/core-data-access";
 import { atom } from "jotai";
 import { createScope, molecule } from "jotai-molecules";
 import { AddressConstants } from "../types";
@@ -41,7 +44,7 @@ export const AddressMolecule = molecule((_, getScope) => {
     addressLine1 && addressLines.push(addressLine1);
     addressLine2 && addressLines.push(addressLine2);
 
-    if (city || state || postalCode || countryCode) {
+    if (city || state || postalCode) {
       let addressLine = city ?? "";
 
       if (state) {

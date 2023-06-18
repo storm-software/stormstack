@@ -11,7 +11,7 @@ export function KeybaseLink({ className, ...props }: BaseComponentProps) {
       inNewTab={true}
       href="https://keybase.io/sullivanp">
       <svg
-        className="h-[5rem] w-[5rem] fill-primary opacity-100 transition-all hover:translate-y-0.5 hover:scale-110 hover:fill-highlight-1"
+        className="h-[5rem] w-[5rem] fill-primary opacity-100 transition-all hover:translate-y-0.5 hover:scale-110 hover:fill-secondary"
         viewBox="0 0 100 100"
         width="100px"
         height="100px">

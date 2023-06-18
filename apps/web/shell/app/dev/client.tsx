@@ -5,6 +5,7 @@ import { useInView } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
 import Introduction from "./(introduction)/introduction";
+import { BackgroundSphere, VariantTypes } from "@open-system/shared-components";
 
 const Stack = dynamic(() => import("./(stack)/stack"), {
   loading: () => (
@@ -70,28 +71,28 @@ export default function Client() {
   const isTechnologiesInView = useInView(technologiesRef, { once: true });
 
   return (
-    <main className="flex snap-y snap-mandatory flex-col gap-16">
+    <main className="relative flex snap-y snap-mandatory flex-col gap-16 overflow-x-hidden">
       <div
         ref={introductionRef}
-        className="snap-center snap-always scroll-py-9">
+        className="snap-center scroll-py-9">
         <Introduction />
       </div>
 
       <HorizontalSeparator />
 
-      <div ref={stackRef} className="mt-10 snap-center snap-always scroll-py-9">
+      <div ref={stackRef} className="mt-10 snap-center scroll-py-9">
         {isIntroductionInView && <Stack />}
       </div>
 
       <div
         ref={technologiesRef}
-        className="snap-center snap-always scroll-py-9">
+        className="snap-center scroll-py-9">
         {isStackInView && <Technologies />}
       </div>
 
       <HorizontalSeparator />
 
-      <div className="mt-20 snap-center snap-always scroll-py-9">
+      <div className="mt-20 snap-center scroll-py-9">
         {isTechnologiesInView && <Architecture />}
       </div>
     </main>

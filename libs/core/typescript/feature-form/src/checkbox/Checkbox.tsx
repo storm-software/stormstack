@@ -1,13 +1,17 @@
 "use client";
 
 import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting,
+} from "@open-system/core-data-access";
+import {
   CheckboxProps,
   Checkbox as OsCheckbox,
 } from "@open-system/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { useFieldValue, useIsSubmitting, useFieldErrors, useFieldRegistration } from "@open-system/core-data-access";
-
 
 export function Checkbox({
   name,
@@ -22,8 +26,8 @@ export function Checkbox({
   const value = useFieldValue(name);
 
   useEffect(() => {
-    trigger();
-    return () => unregister(name, { keepIsValid: false });
+    trigger(name, { shouldFocus: false });
+    return () => unregister?.(name, { keepIsValid: false });
   }, [name, trigger, unregister]);
 
   return (

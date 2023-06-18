@@ -71,7 +71,7 @@ export function FileUpload({
   ]);
 
   useEffect(() => {
-    trigger();
+    trigger(name, { shouldFocus: false });
     return () => unregister?.(name, { keepIsValid: false });
   }, [name, trigger, unregister]);
 

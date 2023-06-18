@@ -22,20 +22,23 @@ export const Module = ({ className, children, ...props }: ModuleProps) => {
     <motion.div
       layout
       className={clsx(
-        "flex flex-col gap-8 rounded-2xl border-[1px] border-slate-500 bg-gradient-to-bl from-slate-900 via-slate-900 to-black p-8",
+        "relative flex flex-col gap-8 rounded-2xl border-[1px] border-slate-600",
         className
       )}>
-      {props.header && (
-        <header className="w-full px-4">
-          <h1 className="text-7xl font-header-1 text-primary">
-            {props.header}
-          </h1>
-        </header>
-      )}
-      <main>{children}</main>
-      {props.footer && (
-        <div className="flex w-full flex-row">{props.footer}</div>
-      )}
+      <div className="absolute z-10 h-full w-full rounded-2xl backdrop-blur-md backdrop-brightness-110" />
+      <div className="z-20 h-full w-full rounded-2xl p-8">
+        {props.header && (
+          <header className="w-full px-4">
+            <h1 className="text-7xl font-header-1 text-primary">
+              {props.header}
+            </h1>
+          </header>
+        )}
+        <main>{children}</main>
+        {props.footer && (
+          <div className="flex w-full flex-row">{props.footer}</div>
+        )}
+      </div>
     </motion.div>
   );
 };

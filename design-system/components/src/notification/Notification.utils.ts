@@ -2,13 +2,13 @@ import { NotificationVariants } from "./Notification.types";
 
 export function getBorderStyle(variant: NotificationVariants) {
   return variant === NotificationVariants.ERROR
-    ? "border-l-error"
+    ? "border-l-bg-error"
     : variant === NotificationVariants.WARNING
-    ? "border-l-warning"
+    ? "border-l-bg-warning"
     : variant === NotificationVariants.SUCCESS
-    ? "border-l-success"
+    ? "border-l-bg-success"
     : variant === NotificationVariants.INFO
-    ? "border-l-info"
+    ? "border-l-bg-info"
     : "border-l-primary";
 }
 
@@ -26,12 +26,12 @@ export function getBackgroundStyle(variant: NotificationVariants) {
 
 export function getTextStyle(variant: NotificationVariants) {
   return variant === NotificationVariants.ERROR
-    ? "text-error"
+    ? "text-bg-error"
     : variant === NotificationVariants.WARNING
-    ? "text-warning"
+    ? "text-bg-warning"
     : variant === NotificationVariants.SUCCESS
-    ? "text-success"
-    : "text-info";
+    ? "text-bg-success"
+    : "text-bg-info";
 }
 
 export function getDefaultTitle(variant: NotificationVariants) {
@@ -46,10 +46,10 @@ export function getDefaultTitle(variant: NotificationVariants) {
 
 export function getCloseButtonStyle(variant: NotificationVariants) {
   return variant === NotificationVariants.ERROR
-    ? "border-error text-error hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-error text-bg-error hover:border-primary hover:text-primary font-extrabold"
     : variant === NotificationVariants.WARNING
-    ? "border-warning text-warning hover:border-primary hover:text-primary font-extrabold"
+    ? "border-bg-warning text-bg-warning hover:border-primary hover:text-primary font-extrabold"
     : variant === NotificationVariants.SUCCESS
-    ? "border-success text-success hover:border-primary hover:text-primary font-extrabold"
-    : "border-info text-info hover:border-primary hover:text-primary font-extrabold";
+    ? "border-bg-success text-bg-success hover:border-primary hover:text-primary font-extrabold"
+    : "border-bg-info text-bg-info hover:border-primary hover:text-primary font-extrabold";
 }

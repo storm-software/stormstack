@@ -58,19 +58,19 @@ export const ProgressTracker = ({
                     backgroundColor:
                       item.status === ProgressTrackerItemStatus.COMPLETE &&
                       (active < 0 || i < active - 1)
-                        ? "#00DC82"
+                        ? "#00897B"
                         : item.status === ProgressTrackerItemStatus.COMPLETE &&
                           (active < 0 || i === active - 1)
                         ? "#FAF9F6"
-                        : "#989899",
+                        : "#6B7280",
                   }}
                   animate={{
                     backgroundColor:
                       item.status === ProgressTrackerItemStatus.COMPLETE
-                        ? "#00DC82"
+                        ? "#00897B"
                         : item.status === ProgressTrackerItemStatus.ACTIVE
                         ? "#FAF9F6"
-                        : "#989899",
+                        : "#6B7280",
                   }}
                   transition={{ duration: 1, delay: 1, ease: "easeInOut" }}
                   className={clsx("flex h-full w-3 justify-center")}>
