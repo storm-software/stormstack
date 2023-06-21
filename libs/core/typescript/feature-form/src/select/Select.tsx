@@ -9,15 +9,15 @@ import { useFormContext } from "react-hook-form";
 import { useFieldErrors, useFieldValue, useIsSubmitting, useFieldRegistration } from "@open-system/core-data-access";
 
 export function Select({ name, required, disabled, ...props }: SelectProps) {
-  const { unregister, trigger } = useFormContext();
+  const { trigger } = useFormContext();
   const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
 
   useEffect(() => {
     trigger(name, { shouldFocus: false });
-    return () => unregister?.(name, { keepIsValid: false });
-  }, [name, trigger, unregister]);
+    // return () => unregister?.(name, { keepIsValid: false });
+  }, [name, trigger]);
 
   return (
     <OsSelect

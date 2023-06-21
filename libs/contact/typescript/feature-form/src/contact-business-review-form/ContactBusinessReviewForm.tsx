@@ -1,6 +1,6 @@
 "use client";
 
-import { Contact } from "@open-system/contact-data-access";
+import { Contact, ContactFormSegments } from "@open-system/contact-data-access";
 import { Link, PhoneNumberText } from "@open-system/core-components";
 import { useFormValues } from "@open-system/core-data-access";
 import { formatBoolean } from "@open-system/core-utilities";
@@ -12,7 +12,6 @@ import {
 import { AddressText } from "@open-system/shared-feature-address";
 import { BaseContactReviewForm } from "../base-contact-review-form";
 import { ContactFormStepReview } from "../contact-form-step-review";
-import { ContactFormSegments } from "../types";
 
 export function ContactBusinessReviewForm({
   className,

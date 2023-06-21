@@ -24,7 +24,7 @@ export function Radio({
   options = [],
   ...props
 }: RadioProps) {
-  const { unregister, trigger } = useFormContext();
+  const { trigger } = useFormContext();
   const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
@@ -32,8 +32,8 @@ export function Radio({
   const isSubmitting = useIsSubmitting();
   useEffect(() => {
     trigger(name, { shouldFocus: false });
-    return () => unregister?.(name, { keepIsValid: false });
-  }, [name, trigger, unregister]);
+    // return () => unregister?.(name, { keepIsValid: false });
+  }, [name, trigger]);
 
   return (
     <OsRadio

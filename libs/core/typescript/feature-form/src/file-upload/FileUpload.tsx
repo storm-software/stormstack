@@ -34,7 +34,7 @@ export function FileUpload({
   validator,
   ...props
 }: FileUploadProps) {
-  const { unregister, trigger } = useFormContext();
+  const { trigger } = useFormContext();
   const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
@@ -72,8 +72,8 @@ export function FileUpload({
 
   useEffect(() => {
     trigger(name, { shouldFocus: false });
-    return () => unregister?.(name, { keepIsValid: false });
-  }, [name, trigger, unregister]);
+    // return () => unregister?.(name, { keepIsValid: false });
+  }, [name, trigger]);
 
   const [fileAtoms, { include, exclude, reset }] = useFileUploadList({
     field: name,

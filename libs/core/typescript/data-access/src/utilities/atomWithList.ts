@@ -13,7 +13,10 @@ export type ListRemoveAction<
 
 export type ListResetAction<
   TValue extends ScopedObjectState = ScopedObjectState
-> = { type: "reset"; initialValue?: TValue[] };
+> = {
+  type: "reset";
+  initialValue?: Array<Omit<TValue, "id"> & Partial<Pick<TValue, "id">>>;
+};
 
 export type ListProcessAction<
   TValue extends ScopedObjectState = ScopedObjectState
@@ -21,7 +24,7 @@ export type ListProcessAction<
 
 export type ListMapAction<
   TValue extends ScopedObjectState = ScopedObjectState
-> = { type: "map"; funct: (prev: TValue) => TValue };
+> = { type: "map"; funct: (prev: TValue, index: number) => TValue };
 
 export type ListAction<TValue extends ScopedObjectState = ScopedObjectState> =
   | ListAddAction<TValue>
@@ -37,11 +40,14 @@ export interface Options {
 export function atomWithList<
   TValue extends ScopedObjectState = ScopedObjectState
 >(
-  initialValue: TValue[] = [],
+  initialValue: Array<Omit<TValue, "id"> & Partial<Pick<TValue, "id">>> = [],
   options: Options = { allowDuplicates: true }
 ): WritableAtom<TValue[], [ListAction<TValue>], void> {
   const returnedAtom = atomWithReducer<TValue[], ListAction<TValue>>(
-    initialValue,
+    initialValue.map(
+      (item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">>) =>
+        ({ id: getUniqueId(), ...item } as TValue)
+    ),
     (prev: TValue[] = [], action: ListAction<TValue>) => {
       switch (action.type) {
         case "add":
@@ -65,7 +71,10 @@ export function atomWithList<
           return prev.filter((item: TValue) => action.id !== item.id);
 
         case "reset":
-          return action.initialValue ?? initialValue;
+          return (action.initialValue ?? initialValue).map(
+            (item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">>) =>
+              ({ id: getUniqueId(), ...item } as TValue)
+          );
 
         case "process":
           return action.funct(prev);

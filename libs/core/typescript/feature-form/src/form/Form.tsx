@@ -38,7 +38,7 @@ export type FormProps<
   TContext = any
 > = BaseComponentProps & {
   defaultValues?: DeepPartial<TValues>;
-  values?: DeepPartial<TValues>;
+  initialValues?: DeepPartial<TValues>;
   onSubmit: (values: TValues) => Promise<void> | void;
   context?: TContext;
   disabled?: boolean;
@@ -57,6 +57,7 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   className,
   name,
   defaultValues,
+  initialValues,
   context,
   onSubmit,
   children,
@@ -81,10 +82,26 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
     reValidateMode: "onChange",
     context,
     defaultValues: defaultValues as any,
+    values: initialValues as any,
     shouldFocusError: false,
     shouldUnregister: false,
     shouldUseNativeValidation: true,
   });
+
+  /*useEffect(() => {
+    methods.reset(defaultValues as TValues, {
+      keepDirtyValues: true,
+      keepErrors: true,
+      keepDirty: true,
+      keepValues: true,
+      keepDefaultValues: true,
+      keepIsSubmitted: true,
+      keepTouched: true,
+      keepIsValid: true,
+      keepSubmitCount: true,
+    });
+    trigger(undefined, { shouldFocus: false });
+  }, [defaultValues]);*/
 
   const [formId, setFormId] = useState<string | undefined>(name);
   useEffect(() => {
@@ -93,10 +110,10 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   }, [trigger]);
 
   const handleSubmit: SubmitHandler<TValues> = useCallback(
-    async (values: TValues) => {
+    async (formValues: TValues) => {
       let result!: any;
       try {
-        result = await Promise.resolve(onSubmit?.(values));
+        result = await Promise.resolve(onSubmit?.(formValues));
       } catch (e) {
         methods.reset(undefined, {
           keepDirtyValues: true,

@@ -24,7 +24,7 @@ export function Rating({
   isVertical,
   ...props
 }: RatingProps) {
-  const { unregister, trigger } = useFormContext();
+  const { trigger } = useFormContext();
   const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
@@ -32,8 +32,8 @@ export function Rating({
   const isSubmitting = useIsSubmitting();
   useEffect(() => {
     trigger();
-    return () => unregister(name, { keepIsValid: false });
-  }, [name, trigger, unregister]);
+    // return () => unregister(name, { keepIsValid: false });
+  }, [name, trigger]);
 
   return (
     <OsRating

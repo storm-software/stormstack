@@ -1,19 +1,23 @@
 "use client";
 
-import { useContactValue } from "@open-system/contact-data-access";
 import {
+  useContactValue,
+  useSetContactFormProgress,
   ContactFormSegments,
-  ContactTypeForm,
-} from "@open-system/contact-feature-form";
-import { MessageTypes, useSetToastMessages } from "@open-system/core-data-access";
+} from "@open-system/contact-data-access";
+import { ContactTypeForm } from "@open-system/contact-feature-form";
+import {
+  MessageTypes,
+  useSetToastMessages,
+} from "@open-system/core-data-access";
 import { DateTime, isEmpty } from "@open-system/core-utilities";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import ContactForm from "./contact-form";
 
 export default function Page() {
-  const contact = useContactValue();
+  const { reset, goToStep } = useSetContactFormProgress();
   const { add } = useSetToastMessages();
+  const contact = useContactValue();
 
   const router = useRouter();
   useEffect(() => {
@@ -21,18 +25,18 @@ export default function Page() {
       contact &&
       !isEmpty(contact.draftSavedDateTime) &&
       DateTime.isValid(contact.draftSavedDateTime) &&
-      DateTime.getDuration(DateTime.current, contact.draftSavedDateTime).seconds > 10 &&
+      DateTime.getDuration(DateTime.current, contact.draftSavedDateTime)
+        .seconds > 10 &&
       router &&
       contact.reason
     ) {
+      reset(contact.reason);
       if (contact.email && contact.firstName && contact.lastName) {
-        router.replace(
-          `/contact/${contact.reason}/${ContactFormSegments.DETAILS}` as any
-        );
+        goToStep(2, false);
+        router.replace(`/contact/${contact.reason}/${ContactFormSegments.DETAILS}`);
       } else {
-        router.replace(
-          `/contact/${contact.reason}/${ContactFormSegments.PERSONAL_INFO}` as any
-        );
+        goToStep(1, false);
+        router.replace(`/contact/${contact.reason}/${ContactFormSegments.PERSONAL_INFO}`);
       }
 
       add({
@@ -46,22 +50,13 @@ export default function Page() {
       });
     }
   }, [
-    add,
     contact,
     contact.draftSavedDateTime,
     contact.email,
     contact.firstName,
     contact.lastName,
     contact.reason,
-    router,
   ]);
 
-  return (
-    <ContactForm
-      nextPathname={`/contact/${contact.reason ?? "business"}/${
-        ContactFormSegments.PERSONAL_INFO
-      }`}>
-      <ContactTypeForm />
-    </ContactForm>
-  );
+  return <ContactTypeForm />;
 }

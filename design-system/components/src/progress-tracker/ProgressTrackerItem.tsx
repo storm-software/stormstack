@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-useless-fragment */
 "use client";
 
+/* eslint-disable react/jsx-no-useless-fragment */
 import {
-  CheckCircleIcon,
+  CheckIcon,
   LockClosedIcon,
   PencilIcon,
 } from "@heroicons/react/24/solid";
@@ -61,17 +61,24 @@ export const ProgressTrackerItem = ({
       displayed: {
         color:
           status === ProgressTrackerItemStatus.COMPLETE
-            ? "#00897B"
+            ? "#22c55e"
             : status === ProgressTrackerItemStatus.ACTIVE
             ? "#FAF9F6"
-            : "#6B7280",
-        transition: { duration: 1, delay: 1, ease: "easeInOut" },
+            : "#6b7280",
+        textShadow:
+          status === ProgressTrackerItemStatus.COMPLETE
+            ? "0 0 15px rgba(75,188,100,0.5)"
+            : status === ProgressTrackerItemStatus.ACTIVE
+            ? "0 0 15px rgba(256,256,256,0.5)"
+            : "none",
+        transition: { duration: 1, delay: 1.5, ease: "easeInOut" },
       },
       hover:
         status === ProgressTrackerItemStatus.COMPLETE && onClick
           ? {
               color: "#6366F1",
-              transition: { duration: 0.5 },
+              textShadow: "0 0 15px rgba(107, 114, 128,0.5)",
+              transition: { duration: 0.2, delay: 0, ease: "easeInOut" },
             }
           : {},
     }),
@@ -80,19 +87,26 @@ export const ProgressTrackerItem = ({
   const pathVariants = useMemo(
     () => ({
       displayed: {
-        fill:
+        backgroundColor:
           status === ProgressTrackerItemStatus.COMPLETE
-            ? "#00897B"
+            ? "#22c55e"
             : status === ProgressTrackerItemStatus.ACTIVE
             ? "#FAF9F6"
-            : "#6B7280",
-        transition: { duration: 1, delay: 1, ease: "easeInOut" },
+            : "#6b7280",
+        boxShadow:
+          status === ProgressTrackerItemStatus.COMPLETE
+            ? "0 0 10px 4px rgba(75,188,100,0.4)"
+            : status === ProgressTrackerItemStatus.ACTIVE
+            ? "0 0 10px 4px rgba(256,256,256,0.4)"
+            : "none",
+        transition: { duration: 1, delay: 1.5, ease: "easeInOut" },
       },
       hover:
         status === ProgressTrackerItemStatus.COMPLETE && onClick
           ? {
-              fill: "#6366F1",
-              transition: { duration: 0.5 },
+            backgroundColor: "#6366F1",
+            boxShadow: "0 0 10px 4px rgba(107, 114, 128,0.4)",
+              transition: { duration: 0.2, delay: 0, ease: "easeInOut" },
             }
           : {},
     }),
@@ -117,112 +131,67 @@ export const ProgressTrackerItem = ({
             color:
               status === ProgressTrackerItemStatus.COMPLETE &&
               !animateBackground
-                ? "#00897B"
+                ? "#22c55e"
                 : (status === ProgressTrackerItemStatus.COMPLETE &&
                     animateBackground) ||
                   (status === ProgressTrackerItemStatus.ACTIVE &&
                     !animateBackground)
                 ? "#FAF9F6"
-                : "#6B7280",
+                : "#6b7280",
+            textShadow:
+              status === ProgressTrackerItemStatus.COMPLETE &&
+              !animateBackground
+                ? "0 0 15px rgba(75,188,100,0.5)"
+                : (status === ProgressTrackerItemStatus.COMPLETE &&
+                    animateBackground) ||
+                  (status === ProgressTrackerItemStatus.ACTIVE &&
+                    !animateBackground)
+                ? "0 0 15px rgba(256,256,256,0.5)"
+                : "none",
           }}
           variants={labelVariants}
           className={clsx("text-center font-label-4 transition", {
-            "hover:cursor-pointer hover:underline":
+            "cursor-pointer hover:underline":
               status === ProgressTrackerItemStatus.COMPLETE && onClick,
           })}>
           {label}
         </motion.label>
       </div>
-      <div className="relative flex h-[70px] w-[70px] shrink items-center justify-center">
-        <div className="absolute left-0 right-0 top-0 z-10 h-[70px] w-[70px]">
-          <svg viewBox="0 0 1024 1024" height="70" width="70" x="0px" y="0px">
-            <motion.path
-              initial={{
-                fill:
-                  status === ProgressTrackerItemStatus.COMPLETE &&
-                  !animateBackground
-                    ? "#00897B"
-                    : (status === ProgressTrackerItemStatus.COMPLETE &&
-                        animateBackground) ||
-                      (status === ProgressTrackerItemStatus.ACTIVE &&
-                        !animateBackground)
-                    ? "#FAF9F6"
-                    : "#6B7280",
-              }}
-              variants={pathVariants}
-              d="M896 704C896 720.213333 887.04 734.293333 873.386667 741.546667L536.32 930.986667C529.493333 936.106667 520.96 938.666667 512 938.666667 503.04 938.666667 494.506667 936.106667 487.68 930.986667L150.613333 741.546667C136.96 734.293333 128 720.213333 128 704L128 320C128 303.786667 136.96 289.706667 150.613333 282.453333L487.68 93.013333C494.506667 87.893333 503.04 85.333333 512 85.333333 520.96 85.333333 529.493333 87.893333 536.32 93.013333L873.386667 282.453333C887.04 289.706667 896 303.786667 896 320L896 704Z"
-            />
-          </svg>
-        </div>
-        <div className="relative z-20 flex h-[60px] w-[60px] items-center justify-center">
-          <div className="absolute left-0 right-0 top-0 h-[60px] w-[60px]">
-            <svg
-              viewBox="0 0 1024 1024"
-              height="60"
-              width="60"
-              x="0px"
-              y="0px"
-              className="fill-inverse"
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M896 704C896 720.213333 887.04 734.293333 873.386667 741.546667L536.32 930.986667C529.493333 936.106667 520.96 938.666667 512 938.666667 503.04 938.666667 494.506667 936.106667 487.68 930.986667L150.613333 741.546667C136.96 734.293333 128 720.213333 128 704L128 320C128 303.786667 136.96 289.706667 150.613333 282.453333L487.68 93.013333C494.506667 87.893333 503.04 85.333333 512 85.333333 520.96 85.333333 529.493333 87.893333 536.32 93.013333L873.386667 282.453333C887.04 289.706667 896 303.786667 896 320L896 704Z" />
-            </svg>
-          </div>
-          <div className="relative z-30 flex h-[50px] w-[50px] items-center justify-center">
-            <div
-              className={clsx(
-                "absolute left-0 right-0 top-0 h-[50px] w-[50px] rounded-full transition",
-                {
-                  "shadow-active-glow":
-                    status === ProgressTrackerItemStatus.ACTIVE,
-                }
-              )}>
-              <svg
-                viewBox="0 0 1024 1024"
-                height="50"
-                width="50"
-                x="0px"
-                y="0px"
-                xmlns="http://www.w3.org/2000/svg">
-                <motion.path
-                  initial={{
-                    fill:
-                      status === ProgressTrackerItemStatus.COMPLETE &&
-                      !animateBackground
-                        ? "#00897B"
-                        : (status === ProgressTrackerItemStatus.COMPLETE &&
-                            animateBackground) ||
-                          (status === ProgressTrackerItemStatus.ACTIVE &&
-                            !animateBackground)
-                        ? "#FAF9F6"
-                        : "#6B7280",
-                  }}
-                  variants={pathVariants}
-                  d="M896 704C896 720.213333 887.04 734.293333 873.386667 741.546667L536.32 930.986667C529.493333 936.106667 520.96 938.666667 512 938.666667 503.04 938.666667 494.506667 936.106667 487.68 930.986667L150.613333 741.546667C136.96 734.293333 128 720.213333 128 704L128 320C128 303.786667 136.96 289.706667 150.613333 282.453333L487.68 93.013333C494.506667 87.893333 503.04 85.333333 512 85.333333 520.96 85.333333 529.493333 87.893333 536.32 93.013333L873.386667 282.453333C887.04 289.706667 896 303.786667 896 320L896 704Z"
-                />
-              </svg>
-            </div>
-            {status === ProgressTrackerItemStatus.COMPLETE ? (
-              <CheckCircleIcon className="z-40 h-6 w-6 fill-inverse" />
+      <motion.div
+        initial={{
+          backgroundColor:
+            status === ProgressTrackerItemStatus.COMPLETE && !animateBackground
+              ? "#22c55e"
+              : (status === ProgressTrackerItemStatus.COMPLETE &&
+                  animateBackground) ||
+                (status === ProgressTrackerItemStatus.ACTIVE &&
+                  !animateBackground)
+              ? "#FAF9F6"
+              : "#6b7280",
+        }}
+        className={clsx("relative flex h-[40px] w-[40px] shrink items-center justify-center rounded-full border-[1px] border-slate-900",
+        {"cursor-pointer group-hover:bg-[#6b7280]": status === ProgressTrackerItemStatus.COMPLETE})}
+        variants={pathVariants}>
+        {status === ProgressTrackerItemStatus.COMPLETE ? (
+          <CheckIcon className="z-40 h-6 w-6 fill-inverse stroke-inverse stroke-[3]" />
+        ) : (
+          <>
+            {status === ProgressTrackerItemStatus.ACTIVE ? (
+              <PencilIcon
+                height={20}
+                width={20}
+                className="z-40 fill-inverse"
+              />
             ) : (
-              <>
-                {status === ProgressTrackerItemStatus.ACTIVE ? (
-                  <PencilIcon
-                    height={20}
-                    width={20}
-                    className="z-40 fill-inverse"
-                  />
-                ) : (
-                  <LockClosedIcon
-                    height={20}
-                    width={20}
-                    className="z-40 fill-inverse"
-                  />
-                )}
-              </>
+              <LockClosedIcon
+                height={20}
+                width={22}
+                className="z-40 mb-0.5 fill-inverse stroke-inverse"
+              />
             )}
-          </div>
-        </div>
-      </div>
+          </>
+        )}
+      </motion.div>
     </motion.div>
   );
 };

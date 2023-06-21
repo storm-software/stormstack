@@ -3,7 +3,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback } from "react";
 import { Contact, INITIAL_CONTACT, contactAtom } from "../state/contact";
 
-export const useContactValue = (): Contact | undefined => {
+export const useContactValue = (): Partial<Contact> => {
   const contact = useAtomValue(contactAtom);
   return contact as Contact;
 };

@@ -23,15 +23,15 @@ export function Textarea({
   disabled,
   ...props
 }: TextareaProps) {
-  const { unregister, trigger } = useFormContext();
+  const { trigger } = useFormContext();
   const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
   const value = useFieldValue(name);
 
   useEffect(() => {
     trigger(name, { shouldFocus: false });
-    return () => unregister?.(name, { keepIsValid: false });
-  }, [name, trigger, unregister]);
+    // return () => unregister?.(name, { keepIsValid: false });
+  }, [name, trigger]);
 
   return (
     <OsTextarea

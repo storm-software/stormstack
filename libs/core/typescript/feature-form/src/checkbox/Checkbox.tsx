@@ -19,7 +19,7 @@ export function Checkbox({
   disabled,
   ...props
 }: CheckboxProps) {
-  const { unregister, trigger } = useFormContext();
+  const { trigger } = useFormContext();
 
   const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);
@@ -27,8 +27,8 @@ export function Checkbox({
 
   useEffect(() => {
     trigger(name, { shouldFocus: false });
-    return () => unregister?.(name, { keepIsValid: false });
-  }, [name, trigger, unregister]);
+    // return () => unregister?.(name, { keepIsValid: false });
+  }, [name, trigger]);
 
   return (
     <OsCheckbox

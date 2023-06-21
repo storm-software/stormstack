@@ -4,6 +4,7 @@ import {
   BaseComponentProps,
   ButtonVariants,
   Spinner,
+  ArrowIcon,
   SuccessIcon,
   getButtonSvgFillStyle,
   getButtonSvgStrokeStyle,
@@ -51,17 +52,12 @@ export function SubmitButtonIcon({
     );
   } else {
     return (
-      <div className="relative h-5 w-[1.9rem] overflow-hidden pt-[0rem]">
-        <svg className="h-5 w-10 group-hover:animate-arrow" viewBox="0 0 25 25">
-          <path
+      <ArrowIcon
             className={clsx(
               "stroke-[2.5]",
               getButtonSvgStrokeStyle(isDisabled, variant)
             )}
-            d="m17.5 5.999-.707.707 5.293 5.293H1v1h21.086l-5.294 5.295.707.707L24 12.499l-6.5-6.5z"
           />
-        </svg>
-      </div>
     );
   }
 }

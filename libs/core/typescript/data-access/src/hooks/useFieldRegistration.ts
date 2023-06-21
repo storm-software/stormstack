@@ -15,7 +15,7 @@ export const useFieldRegistration = (field: string) => {
 
   return useCallback(
     (config: Partial<FormFieldConfig>) => {
-      const props = register(field, config as any);
+      const props = register(field, { shouldUnregister: false, ...config } as any);
       setFormFieldConfig(config);
 
       return { ...props, name: field, config };

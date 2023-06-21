@@ -1,6 +1,6 @@
 "use client";
 
-import { Contact } from "@open-system/contact-data-access";
+import { Contact, ContactFormSegments } from "@open-system/contact-data-access";
 import { PhoneNumberText } from "@open-system/core-components";
 import { useFormValues } from "@open-system/core-data-access";
 import { DateTime } from "@open-system/core-utilities";
@@ -9,7 +9,6 @@ import { AddressText } from "@open-system/shared-feature-address";
 import Envelope from "../../../../../../assets/images/envelope.svg";
 import { BaseContactForm, BaseContactFormProps } from "../base-contact-form";
 import { ContactFormStepReview } from "../contact-form-step-review";
-import { ContactFormSegments } from "../types";
 
 export type BaseContactReviewFormProps = Omit<
   BaseContactFormProps,

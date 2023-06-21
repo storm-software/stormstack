@@ -1,5 +1,6 @@
 "use client";
 
+import { ContactFormSegments } from "@open-system/contact-data-access";
 import { Link } from "@open-system/core-components";
 import {
   BaseComponentProps,
@@ -10,7 +11,6 @@ import {
 } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { ContactFormSegments } from "../types";
 
 export type ContactFormStepReviewProps = BaseComponentProps & {
   name: string;
