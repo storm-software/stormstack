@@ -27,6 +27,11 @@ export type MessageBarProps = PropsWithBase<{
   message: string;
 
   /**
+   * The text message displayed in an expandable section of the message bar
+   */
+  details?: string;
+
+  /**
    * An indicator specifying if the "close icon" is displayed (allowing the user to manually close the message bar)
    */
   showCloseIcon?: boolean;
@@ -46,6 +51,7 @@ export const MessageBar = ({
   className,
   onClose,
   message,
+  details,
   showCloseIcon = true,
   variant = MessageBarVariants.INFO,
 }: MessageBarProps) => {
@@ -95,6 +101,7 @@ export const MessageBar = ({
               <label className="flex-1 font-header-6 text-lg font-bold text-primary">
                 {message}
               </label>
+              {details && <p className="font-body-1 text-body-1">{details}</p>}
             </div>
           </div>
           {showCloseIcon && onClose && (

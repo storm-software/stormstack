@@ -20,17 +20,17 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
+
       - name: Setup Node
         uses: actions/setup-node@v3
-          with:
-            node-version: "18.x"
-            registry-url: https://registry.npmjs.org/
-            cache: 'npm'
-      
+        with:
+          node-version: "18.x"
+          registry-url: https://registry.npmjs.org/
+          cache: 'npm'
+
       - name: Install dependencies
         run: npm install --no-frozen-lockfile --legacy-peer-deps
-      
+
       - name: Get appropriate base and head commits for `nx affected` commands
         uses: nrwl/nx-set-shas@v3
         with:
@@ -38,16 +38,16 @@ jobs:
       - run: |
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"
-      
+
       - name: Start CI Orchestrator
         run: npx nx-cloud start-ci-run
 
       - name: Build Design Token tools
         run: npx nx run tools-executors-typescript:build:design-tokens-build
-      
+
       - name: Build Design Tokens
         run: npx nx run design-system-tokens:build:open-system
-      
+
       - name: Run Tests
         uses: nick-fields/retry@v2.8.3
         with:
@@ -62,10 +62,10 @@ jobs:
           BRANCH: gh-pages
           FOLDER: docs/dist
           CLEAN: true
-      
+
       - name: Stop Agents
         run: npx nx-cloud stop-all-agents
-      
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
 
@@ -83,13 +83,13 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
-          with:
-            node-version: 18.15.0
-            registry-url: https://registry.npmjs.org/
-            cache: 'npm'
-        
-        - name: Install dependencies
-          run: npm install --no-frozen-lockfile --legacy-peer-deps
+        with:
+          node-version: 18.15.0
+          registry-url: https://registry.npmjs.org/
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --no-frozen-lockfile --legacy-peer-deps
 
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
@@ -104,14 +104,14 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
-          with:
-            node-version: 18.15.0
-            registry-url: https://registry.npmjs.org/
-            cache: 'npm'
-          
+        with:
+          node-version: 18.15.0
+          registry-url: https://registry.npmjs.org/
+          cache: 'npm'
+
       - name: Install dependencies
         run: npm install --no-frozen-lockfile --legacy-peer-deps
 
       - name: Run prettier
         run: npm run format
-        
+

@@ -8,12 +8,10 @@ import {
   Modal,
   ModalVariants,
 } from "@open-system/design-system-components";
-import { useEffect } from "react";
 import AlertIcon from "../../../../../../assets/alert-triangle.svg";
 import { ErrorReportProps } from "../types";
 
-
-export function ErrorReport({ error, reset }: ErrorReportProps) {
+export function ErrorReport({ error, errorInfo, reset }: ErrorReportProps) {
   return (
     <div className="relative h-full min-h-screen w-full">
       <AlertIcon
@@ -28,7 +26,8 @@ export function ErrorReport({ error, reset }: ErrorReportProps) {
             <MessageBar
               className="w-full min-w-fit flex-1"
               variant={MessageBarVariants.ERROR}
-              message={error?.message}
+              message={error?.message ?? "An error occured during processing."}
+              details={errorInfo?.componentStack}
             />
             <div className="flex flex-1">
               <p className="text-lg font-body-1 text-primary">

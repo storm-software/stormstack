@@ -5,7 +5,7 @@
     "defaultBase": "main"
   },
   "cli": {
-    "defaultCollection": "@nrwl/next"
+    "defaultCollection": "@nx/next"
   },
   "tasksRunnerOptions": {
     "default": {
@@ -22,7 +22,7 @@
       }
     },
     "cloud": {
-      "runner": "@nrwl/nx-cloud",
+      "runner": "nx-cloud",
       "options": {
         "cacheableOperations": [
           "build",
@@ -31,7 +31,7 @@
           "e2e",
           "build-storybook"
         ],
-        "accessToken": "NzA2NzYxNjgtNmU3My00NGY0LThkOGItMDcxMDc0YzMzZDYzfHJlYWQtd3JpdGU="
+        "accessToken": "YzE2MTRhZTItYjEzMS00OGE3LWE4ZTMtNWYzNjc4ZGY0NzA2fHJlYWQtb25seQ=="
       }
     }
   },

@@ -1,57 +1,66 @@
 "use client";
 
 import { ConsoleLogger } from "@open-system/core-utilities";
-import { Component } from "react";
+import { BaseComponentProps } from "@open-system/design-system-components";
+import { Component, ErrorInfo } from "react";
+import { ErrorReport } from "../error-report/ErrorReport";
 
 export interface ErrorBoundaryProps extends BaseComponentProps {
-  onRetry?: () => void;
-  onError?: (error: Error) => void;
+  onReset?: () => void;
+  onError?: (error: Error, errorInfo?: ErrorInfo) => void;
 }
 
 export interface ErrorBoundaryState {
   hasError: boolean;
-  error?: Error | null;
+  error?: Error;
+  errorInfo?: ErrorInfo;
 }
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>  {
+export class ErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   public constructor(props: ErrorBoundaryProps) {
-    super(props)
+    super(props);
 
     // Define a state variable to track whether is an error or not
-    this.state = { hasError: false, error: null }
+    this.state = { hasError: false, error: undefined, errorInfo: undefined };
   }
 
   public static getDerivedStateFromError(error: Error) {
     // Update state so the next render will show the fallback UI
 
-    return { hasError: true, error }
+    return { hasError: true, error };
   }
 
-  public  componentDidCatch(error: Error, errorInfo: Error) {
-      const { onError } = this.props;
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    const { onError } = this.props;
 
-      onError && onError(error);
+    onError && onError(error, errorInfo);
 
-    ConsoleLogger.error({ error, errorInfo })
+    ConsoleLogger.error({ error, errorInfo });
+    if (errorInfo) {
+      this.setState({ errorInfo });
+    }
   }
 
   public render() {
-    const { hasError, error } = this.state;
+    const { hasError, error, errorInfo } = this.state;
     const { children } = this.props;
 
     if (hasError) {
       return (
-        <ErrorReport error={error} retry={this.retry} />
-      )
+        <ErrorReport error={error} errorInfo={errorInfo} reset={this.reset} />
+      );
     }
 
-    return children
+    return children;
   }
 
-  private retry = () => {
-    const { onRetry } = this.props;
+  private reset = () => {
+    const { onReset } = this.props;
 
-    onRetry && onRetry();
-    this.setState({ hasError: false, error: null })
-  }
+    onReset && onReset();
+    this.setState({ hasError: false, error: undefined, errorInfo: undefined });
+  };
 }
