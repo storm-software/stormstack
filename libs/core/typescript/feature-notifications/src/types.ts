@@ -1,5 +1,4 @@
-export interface ErrorBoundaryProps {
-    error: Error;
-    reset: () => void;
-  }
-  
+export interface ErrorReportProps {
+  error: Error;
+  reset: () => void;
+}

@@ -1,7 +1,10 @@
 "use client";
 
-import { ErrorBoundaryProps, GlobalErrorBoundary } from "@open-system/core-feature-notifications";
+import {
+  ErrorReportProps,
+  GlobalErrorReport,
+} from "@open-system/core-feature-notifications";
 
-export default function GlobalError(props: ErrorBoundaryProps) {
-  return <GlobalErrorBoundary {...props} />;
+export default function GlobalError(props: ErrorReportProps) {
+  return <GlobalErrorReport {...props} />;
 }

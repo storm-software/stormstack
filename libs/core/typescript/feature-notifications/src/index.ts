@@ -3,7 +3,8 @@
 "use client";
 
 export * from "./error-boundary";
-export * from "./global-error-boundary";
+export * from "./error-report";
+export * from "./global-error-report";
 export * from "./notification-group";
 export * from "./toast";
 export * from "./toast-group";

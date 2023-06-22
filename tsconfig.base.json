@@ -1,4 +1,6 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Open System",
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
@@ -14,7 +16,7 @@
     "importHelpers": true,
     "target": "es2017",
     "module": "esnext",
-    "lib": ["esnext", "dom"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "paths": {

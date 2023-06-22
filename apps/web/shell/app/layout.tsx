@@ -9,6 +9,7 @@ import {
   Footer,
   NavigationMenu,
 } from "@open-system/shared-components";
+import { Analytics } from "@vercel/analytics/react";
 import clsx from "clsx";
 import { ReactNode } from "react";
 import {
@@ -21,7 +22,8 @@ import {
   robotoMono,
   satoshi,
 } from "../styles/fonts";
-import "../styles/globals.css";
+import "../styles/global.css";
+import "../styles/tailwind.css";
 import RootProvider from "./root-provider";
 
 /*const CookiePolicyBanner = dynamic(
@@ -119,6 +121,7 @@ export default function RootLayout(props: {
           {props.rating}
           {props.cookie}
 
+          <Analytics />
           <Footer
             top={
               <div className="flex flex-row gap-16">

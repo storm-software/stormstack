@@ -1,9 +1,22 @@
 const { composePlugins, withNx } = require("@nx/next");
+const { get } = require("@vercel/edge-config");
+
 // const flowRight = require("lodash/flowRight");
 // const withI18n = require("./config/withI18n");
 //const withSentry = require("./config/withSentry");
 // const { withSentryConfig } = require("@sentry/nextjs");
 // const { CONTACT_URL, ABLY_API_KEY } = process.env;
+
+// https://nextjs.org/docs/advanced-features/security-headers
+const CONTENT_SECURITY_POLICY = `
+      default-src 'self' vercel.live;
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
+      style-src 'self' 'unsafe-inline';
+      img-src * blob: data:;
+      media-src 'none';
+      connect-src *;
+      font-src 'self';
+  `;
 
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
@@ -25,6 +38,7 @@ const nextConfig = {
   experimental: {
     serverActions: true,
     serverComponentsExternalPackages: ["redis", "redis-om"],
+    instrumentationHook: true,
 
     /*swcPlugins: [
       [
@@ -117,6 +131,68 @@ const nextConfig = {
         ],
       },
     };
+  },
+
+  rewrites() {
+    return [
+      { source: "/healthz", destination: "/api/health" },
+      { source: "/api/healthz", destination: "/api/health" },
+      { source: "/health", destination: "/api/health" },
+      { source: "/ping", destination: "/api/health" },
+    ];
+  },
+
+  redirects() {
+    try {
+      return get("redirects");
+    } catch {
+      return [];
+    }
+  },
+
+  headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+          {
+            key: "Content-Security-Policy",
+            value: CONTENT_SECURITY_POLICY.replace(/\n/g, ""),
+          },
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+          {
+            key: "Referrer-Policy",
+            value: "origin-when-cross-origin",
+          },
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
+          {
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
+          },
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
+          },
+          // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+    ];
   },
 
   /*sentry: {

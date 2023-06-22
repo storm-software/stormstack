@@ -1,7 +1,8 @@
 name: ci
 concurrency:
-  group: publish-${{ github.github.base_ref }}
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
+
 on:
   workflow_dispatch:
     inputs:
@@ -13,46 +14,64 @@ on:
       - 'main'
       - 'alpha'
       - 'beta'
+
 env:
   NX_DAEMON: false
   NX_VERBOSE_LOGGING: true
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_CLOUD_AUTH_TOKEN: ${{ secrets.NX_CLOUD_AUTH_TOKEN }}
+
 jobs:
-  test-and-publish:
+  build-and-release:
     if: github.repository == 'sullivanpj/open-system' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/beta')
-    name: 'Test & Publish'
+    name: 'Build & Release'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
-      - uses: npm/action-setup@v2.2.4
-        with:
-          version: 7
+          fetch-depth: 0
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.14.2
+          node-version: "18.x"
           registry-url: https://registry.npmjs.org/
           cache: 'npm'
-      - name: Install dependencies
-        run: npm install --no-frozen-lockfile
+
+      - uses: nrwl/nx-set-shas@v3
+      - run: npm install --no-frozen-lockfile --legacy-peer-deps
+
+      - run: npx nx run tools-executors-typescript:build:design-tokens-build
+      - run: npx nx run design-system-tokens:build:open-system
+
+      - run: npx nx format
+      - run: npx nx affected -t lint --parallel=3
+      - run: npx nx affected -t test --parallel=3 --configuration=ci --base=${{ github.event.before }}
+      - run: npx nx affected -t build --parallel=3 --base=${{ github.event.before }}
+
       - name: Run Tests
         uses: nick-fields/retry@v2.8.3
         with:
-          command: npm run test:ci --base=${{ github.event.before }}
+          command: npm run test:ci
           timeout_minutes: 10
           max_attempts: 3
-      - name: Publish
-        run: |
-          git config --global user.name 'Pat Sullivan'
-          git config --global user.email 'sullivanpj@users.noreply.github.com'
-          npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-          npm run cipublish
+
+      # - name: Publish
+      #  run: |
+      #    git config --global user.name 'Pat Sullivan'
+      #    git config --global user.email 'sullivanpj@users.noreply.github.com'
+      #    npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+      #    npm run cipublish
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      #    GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      #    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #    TAG: ${{ inputs.tag }}
+      
+      - name: Release Version Updates
+        run: npx nx affected -t semantic-release --parallel=3 --base=${{ github.event.before }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          TAG: ${{ inputs.tag }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
