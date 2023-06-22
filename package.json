@@ -132,7 +132,6 @@
     "@nrwl/nx-cloud": "16.0.5",
     "@nx-dotnet/core": "^1.22.0",
     "@nx-dotnet/dotnet": "^1.22.0",
-    "@nx-extend/vercel": "^1.8.3",
     "@nx-plus/docusaurus": "^14.1.0",
     "@nx-tools/nx-container": "^4.0.3",
     "@nx/cypress": "16.2.2",
