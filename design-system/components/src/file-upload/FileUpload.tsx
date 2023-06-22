@@ -14,14 +14,13 @@ import {
   useState,
 } from "react";
 import { FieldWrapper, FieldWrapperLabel } from "../field-wrapper";
-import { InputTypes } from "../input/Input.types";
 import { Link } from "../link";
 import { BaseFieldProps } from "../types";
 import { UseDropzoneParams } from "./FileUpload.types";
 import { useDropzone } from "./useDropzone";
 
 export type FileUploadProps = Omit<BaseFieldProps, "placeholder"> &
-  UseDropzoneParams & {
+  Omit<UseDropzoneParams, "inputRef"> & {
     maxSizeInBytes?: number;
     minSizeInBytes?: number;
     multiple?: boolean;
@@ -132,7 +131,11 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       onResetFiles,
       ...props,
     });
-    useImperativeHandle(ref, () => inputRef.current, []);
+    useImperativeHandle(
+      ref,
+      () => inputRef.current as unknown as HTMLInputElement,
+      []
+    );
 
     const handleClick = useCallback(
       (event: MouseEvent) => {
@@ -201,20 +204,15 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
             id={name}
             name={name}
             className="hidden"
-            type={InputTypes.FILE}
             // disabled={disabled}
             readOnly={disabled}
             // required={required}
             // minLength={minLength}
             // pattern={pattern}
-            multiple={multiple}
-            tabIndex={tabIndex}
-            autoFocus={autoFocus}
             aria-invalid={!isEmptyObject(errors)}
             aria-required={required}
             aria-disabled={disabled}
             onInput={onChange}
-            onChange={onChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
             {...getInputProps({

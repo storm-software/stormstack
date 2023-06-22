@@ -12,7 +12,9 @@
         "tsConfig": "libs/shared/typescript/data-access/tsconfig.lib.json",
         "project": "libs/shared/typescript/data-access/package.json",
         "entryFile": "libs/shared/typescript/data-access/src/index.ts",
-        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "external": ["react", "react-dom", "react/jsx-runtime"],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "swc",
         "assets": [
           {
             "glob": "libs/shared/typescript/data-access/README.md",
@@ -35,6 +37,12 @@
       "options": {
         "jestConfig": "libs/shared/typescript/data-access/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     },
     "semantic-release": {

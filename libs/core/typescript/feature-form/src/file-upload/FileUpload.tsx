@@ -33,7 +33,7 @@ export function FileUpload({
   allowedFiles,
   validator,
   ...props
-}: FileUploadProps) {
+}: Partial<FileUploadProps> & Pick<FileUploadProps, "name" | "label">) {
   const { trigger } = useFormContext();
   const register = useFieldRegistration(name);
   const errors = useFieldErrors(name);

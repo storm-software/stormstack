@@ -19,10 +19,7 @@ export function ContentRating({
 }: ContentRatingProps) {
   return (
     <div className="group flex flex-col items-center justify-center gap-1 p-5 text-center">
-      <Form
-        onSubmit={onSubmit}
-        defaultValues={{ contentId, rating }}
-        values={{ contentId, rating }}>
+      <Form onSubmit={onSubmit} initialValues={{ contentId, rating }}>
         <Rating
           name="rating"
           max={5}
@@ -45,7 +42,9 @@ export function ContentRating({
           {totalRating}
         </label>
         <span className="mx-1 hidden h-1.5 w-1.5 rounded-full bg-primary opacity-0 transition-opacity group-hover:block group-hover:opacity-100" />
-        <Link variant="primary" className="text-md hidden font-body-1 text-primary opacity-0 transition-opacity group-hover:block group-hover:opacity-100">
+        <Link
+          variant="primary"
+          className="text-md hidden font-body-1 text-primary opacity-0 transition-opacity group-hover:block group-hover:opacity-100">
           {`${count} users`}
         </Link>
       </div>

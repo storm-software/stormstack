@@ -37,7 +37,9 @@ export const useAtomList = <
   );
 
   const reset = useCallback(
-    (initialValue?: TValue[]) => {
+    (
+      initialValue?: Array<Omit<TValue, "id"> & Partial<Pick<TValue, "id">>>
+    ) => {
       setAtomList({ type: "reset", initialValue });
     },
     [setAtomList]
@@ -51,7 +53,7 @@ export const useAtomList = <
   );
 
   const map = useCallback(
-    (funct: (prev: TValue) => TValue) => {
+    (funct: (prev: TValue, index: number) => TValue) => {
       setAtomList({ type: "map", funct });
     },
     [setAtomList]

@@ -8,7 +8,7 @@ import { Link } from "../../link";
 import { PropsWithBase } from "../../types";
 import { getSvgFillStyle } from "../../utilities/svg-style-utils";
 
-export type FileUploadProps = PropsWithBase<{
+export type FileUploadItemProps = PropsWithBase<{
   name: string;
   size: number;
   dataUrl?: string;
@@ -28,7 +28,7 @@ export const FileUploadItem = ({
   onOpenFile,
   onRemoveFile,
   ...props
-}: FileUploadProps) => {
+}: FileUploadItemProps) => {
   return (
     <li
       className={clsx(

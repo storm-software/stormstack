@@ -19,10 +19,10 @@ export interface FileEnvelop {
 }
 
 export interface UseDropzoneParams {
-  files: FileState[];
+  files?: FileState[];
   inputRef: RefObject<HTMLInputElement>;
-  disabled: boolean;
-  getFilesFromEvent: (
+  disabled?: boolean;
+  getFilesFromEvent?: (
     evt: Event | any
   ) => Promise<(FileWithPath | DataTransferItem)[]>;
   maxSizeInBytes?: number;
@@ -32,28 +32,29 @@ export interface UseDropzoneParams {
   minFiles?: number;
   allowedFiles?: string[];
   validator?: (file: File) => string[];
-  preventDropOnDocument: boolean;
-  noClick: boolean;
-  noKeyboard: boolean;
-  noDrag: boolean;
-  noDragEventsBubbling: boolean;
-  useFsAccessApi: boolean;
-  autoFocus: boolean;
-  onDragEnter: DragEventHandler<HTMLInputElement>;
-  onDragLeave: DragEventHandler<HTMLInputElement>;
-  onDragOver: DragEventHandler<HTMLInputElement>;
-  onDrop: DragEventHandler<HTMLInputElement>;
-  onDropAccepted: (
+  preventDropOnDocument?: boolean;
+  noClick?: boolean;
+  noKeyboard?: boolean;
+  noDrag?: boolean;
+  noDragEventsBubbling?: boolean;
+  useFsAccessApi?: boolean;
+  autoFocus?: boolean;
+  tabIndex?: number;
+  onDragEnter?: DragEventHandler<HTMLInputElement>;
+  onDragLeave?: DragEventHandler<HTMLInputElement>;
+  onDragOver?: DragEventHandler<HTMLInputElement>;
+  onDrop?: DragEventHandler<HTMLInputElement>;
+  onDropAccepted?: (
     files: File[],
     event: DragEvent<HTMLInputElement> | Event
   ) => void;
-  onDropRejected: (
+  onDropRejected?: (
     fileRejections: FileRejection[],
     event: DragEvent<HTMLInputElement> | Event
   ) => void;
-  onFileDialogCancel: (event: any) => void;
-  onFileDialogOpen: (event: any) => void;
-  onError: (error: SyntheticEvent<HTMLInputElement, Event>) => void;
+  onFileDialogCancel?: (event: any) => void;
+  onFileDialogOpen?: (event: any) => void;
+  onError?: (error: SyntheticEvent<HTMLInputElement, Event>) => void;
   /**
    * Event handler for file included event
    */

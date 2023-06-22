@@ -11,7 +11,6 @@ export interface BackgroundSphereProps extends BaseComponentProps {
  */
 export function BackgroundSphere({
   className,
-  containerRef,
   variant = VariantTypes.PRIMARY,
 }: BackgroundSphereProps) {
   return (

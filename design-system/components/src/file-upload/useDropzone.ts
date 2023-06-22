@@ -12,8 +12,9 @@ import {
   isSet,
   noop,
 } from "@open-system/core-utilities";
-import { fromEvent } from "file-selector";
+import { FileWithPath, fromEvent } from "file-selector";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { InputTypes } from "../input/Input.types";
 import {
   DropzoneInputProps,
   DropzoneRootProps,
@@ -38,7 +39,7 @@ function acceptPropAsAcceptAttr(accept: any): string {
     return (
       Object.entries(accept)
         .reduce(
-          (a, [mimeType, ext]: [mimeType: any, ext: any]) => [
+          (a: any, [mimeType, ext]: [mimeType: any, ext: any]) => [
             ...a,
             mimeType,
             ...ext,
@@ -46,19 +47,19 @@ function acceptPropAsAcceptAttr(accept: any): string {
           []
         )
         // Silently discard invalid entries as pickerOptionsFromAccept warns about these
-        .filter(v => isMIMEType(v) || isExt(v))
+        .filter((v: any) => isMIMEType(v) || isExt(v))
         .join(",")
     );
   }
 
-  return undefined;
+  return undefined as unknown as string;
 }
 
-function onDocumentDragOver(event) {
+function onDocumentDragOver(event: any) {
   event.preventDefault();
 }
 
-function pickerOptionsFromAccept(accept) {
+function pickerOptionsFromAccept(accept: any) {
   if (isSet(accept)) {
     const acceptForPicker = Object.entries(accept)
       .filter(([mimeType, ext]) => {
@@ -181,6 +182,7 @@ export function useDropzone({
   noDragEventsBubbling = false,
   useFsAccessApi = true,
   autoFocus = false,
+  tabIndex,
   onDragEnter,
   onDragLeave,
   onDragOver,
@@ -288,7 +290,7 @@ export function useDropzone({
           if (inputRef.current) {
             const { files } = inputRef.current;
 
-            if (!files.length) {
+            if (!files?.length) {
               handleCloseDialog();
               onFileDialogCancelCb();
             }
@@ -310,8 +312,8 @@ export function useDropzone({
   ]);
 
   const dragTargetsRef = useRef([]);
-  const onDocumentDrop = event => {
-    if (rootRef.current && rootRef.current.contains(event.target)) {
+  const onDocumentDrop = (event: any) => {
+    if (rootRef.current && (rootRef.current as any).contains(event.target)) {
       // If we intercepted an event for our instance, let it propagate down to the instance's onDrop handler
       return;
     }
@@ -336,14 +338,14 @@ export function useDropzone({
   // Auto focus the root when autoFocus is true
   useEffect(() => {
     if (!disabled && autoFocus && rootRef.current) {
-      rootRef.current.focus();
+      (rootRef.current as any).focus();
     }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     return () => {};
   }, [rootRef, autoFocus, disabled]);
 
   const onErrCb = useCallback(
-    e => {
+    (e: any) => {
       if (onError) {
         onError(e);
       } else {
@@ -364,13 +366,13 @@ export function useDropzone({
   );
 
   const onDragEnterCb = useCallback(
-    event => {
+    (event: any) => {
       event.preventDefault();
       // Persist here because we need the event later after getFilesFromEvent() is done
       event.persist();
       stopPropagation(event);
 
-      dragTargetsRef.current = [...dragTargetsRef.current, event.target];
+      dragTargetsRef.current = [...dragTargetsRef.current, event.target] as any;
 
       if (isEvtWithFiles(event)) {
         Promise.resolve(getFilesFromEvent(event))
@@ -403,7 +405,7 @@ export function useDropzone({
   );
 
   const onDragOverCb = useCallback(
-    event => {
+    (event: any) => {
       event.preventDefault();
       event.persist();
       stopPropagation(event);
@@ -425,18 +427,19 @@ export function useDropzone({
   );
 
   const onDragLeaveCb = useCallback(
-    event => {
+    (event: any) => {
       event.preventDefault();
       event.persist();
       stopPropagation(event);
 
       // Only deactivate once the dropzone and all children have been left
       const targets = dragTargetsRef.current.filter(
-        target => rootRef.current && rootRef.current.contains(target)
+        (target: any) =>
+          rootRef.current && (rootRef.current as any).contains(target)
       );
       // Make sure to remove a target present multiple times only once
       // (Firefox may fire dragenter/dragleave multiple times on the same element)
-      const targetIdx = targets.indexOf(event.target);
+      const targetIdx = targets.indexOf(event?.target as never);
       if (targetIdx !== -1) {
         targets.splice(targetIdx, 1);
       }
@@ -455,15 +458,15 @@ export function useDropzone({
   );
 
   const setFiles = useCallback(
-    (files, event) => {
-      const fileRejections = [];
+    (files: Array<FileWithPath | DataTransferItem>, event: any) => {
+      const fileRejections: FileRejection[] = [];
 
       if (
         (!multiple && files.length > 1) ||
         (multiple && maxFiles >= 1 && files.length > maxFiles)
       ) {
         // Reject everything and empty accepted files
-        files.forEach(file => {
+        files.forEach((file: any) => {
           fileRejections.push({
             file,
             errors: [
@@ -477,7 +480,7 @@ export function useDropzone({
         files.splice(0);
       }
 
-      handleSetFiles(files, fileRejections);
+      handleSetFiles(files as File[], fileRejections);
       if (onDrop) {
         onDrop(event);
       }
@@ -487,14 +490,14 @@ export function useDropzone({
       }
 
       if (files.length > 0 && onDropAccepted) {
-        onDropAccepted(files, event);
+        onDropAccepted(files as File[], event);
       }
     },
     [multiple, maxFiles, onDrop, onDropAccepted, onDropRejected, handleSetFiles]
   );
 
   const onDropCb = useCallback(
-    async event => {
+    async (event: any) => {
       event.preventDefault();
       // Persist here because we need the event later after getFilesFromEvent() is done
       event.persist();
@@ -538,12 +541,12 @@ export function useDropzone({
       isFunction((window as any).showOpenFilePicker) &&
         (window as any)
           .showOpenFilePicker(opts)
-          .then(handles => getFilesFromEvent(handles))
-          .then(files => {
+          .then((handles: any) => getFilesFromEvent(handles))
+          .then((files: any) => {
             setFiles(files, null);
             handleCloseDialog();
           })
-          .catch(e => {
+          .catch((e: any) => {
             // AbortError means the user canceled
             if (isAbort(e)) {
               onFileDialogCancelCb(e);
@@ -553,7 +556,7 @@ export function useDropzone({
               // CORS, so cannot use this API
               // Try using the input
               if (inputRef.current) {
-                inputRef.current.value = null;
+                inputRef.current.value = null as any;
                 inputRef.current.click();
               } else {
                 onErrCb(
@@ -572,7 +575,7 @@ export function useDropzone({
     if (inputRef.current) {
       handleOpenDialog();
       onFileDialogOpenCb();
-      inputRef.current.value = null;
+      inputRef.current.value = null as any;
       inputRef.current.click();
     }
   }, [
@@ -590,9 +593,12 @@ export function useDropzone({
 
   // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
   const onKeyDownCb = useCallback(
-    event => {
+    (event: any) => {
       // Ignore keyboard events bubbling up the DOM tree
-      if (!rootRef.current || !rootRef.current.isEqualNode(event.target)) {
+      if (
+        !rootRef.current ||
+        !(rootRef.current as any)?.isEqualNode(event.target)
+      ) {
         return;
       }
 
@@ -703,7 +709,7 @@ export function useDropzone({
     ]
   );
 
-  const onInputElementClick = useCallback(event => {
+  const onInputElementClick = useCallback((event: any) => {
     event.stopPropagation();
   }, []);
 
@@ -721,7 +727,7 @@ export function useDropzone({
           disabled,
           accept: acceptAttr,
           multiple,
-          type: "file",
+          type: InputTypes.FILE,
           maxsize: maxSizeInBytes,
           minsize: minSizeInBytes,
           style: { display: "none" },
@@ -735,7 +741,7 @@ export function useDropzone({
           onDragOver,
           onDrop,
           onError,
-          tabIndex: -1,
+          tabIndex,
           [refKey]: inputRef,
         };
       },
@@ -755,6 +761,7 @@ export function useDropzone({
       onDrop,
       onError,
       inputRef,
+      tabIndex,
     ]
   );
 

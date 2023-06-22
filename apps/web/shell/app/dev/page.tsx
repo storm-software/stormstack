@@ -1,4 +1,3 @@
-import { SideTitle } from "@open-system/shared-components/server";
 import Client from "./client";
 
 export default async function Page() {
