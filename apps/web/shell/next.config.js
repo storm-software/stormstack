@@ -46,13 +46,20 @@ const nextConfig = {
   transpilePackages: [
     "jotai",
     "framer-motion",
-    "react-lottie",
+    "lottie-web",
     "react-hook-form",
     "@open-system/design-system-components",
     "@open-system/core-components",
+    "@open-system/core-data-access",
     "@open-system/core-feature-form",
+    "@open-system/core-feature-notifications",
     "@open-system/shared-components",
+    "@open-system/shared-data-access",
+    "@open-system/shared-feature-address",
+    "@open-system/user-management-components",
+    "@open-system/user-management-data-access",
     "@open-system/contact-feature-form",
+    "@open-system/contact-data-access",
   ],
 
   // Disable linting during build => the linter may have optional dev dependencies
