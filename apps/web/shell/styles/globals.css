@@ -59,8 +59,8 @@ select:-webkit-autofill:focus:disabled {
 }
 
 .text-border {
-  text-shadow: 6px 0 #27272a, -6px 0 #27272a, 0 6px #27272a, 0 -6px #27272a,
-    3px 3px #27272a, -3px -3px #27272a, 3px -3px #27272a, -3px 3px #27272a;
+  text-shadow: 8px 0 #27272a, -8px 0 #27272a, 0 8px #27272a, 0 -8px #27272a,
+    4px 4px #27272a, -4px -4px #27272a, 4px -4px #27272a, -4px 4px #27272a;
 }
 
 @media (min-width: 400px) {

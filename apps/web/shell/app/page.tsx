@@ -1,4 +1,5 @@
 import {
+  Link,
   ScrollArrowIndicator,
   ScrollProgressBar,
 } from "@open-system/core-components";
@@ -6,11 +7,11 @@ import { Card } from "@open-system/design-system-components";
 import { SideTitle } from "@open-system/shared-components";
 import AppTitle from "../components/app-title";
 import HeaderBottom from "../components/header-bottom";
+import SubscriptionCard from "../components/subscription-card";
 import VhsTitleBar from "../components/vhs-title-bar";
 import Client from "./client";
 
 export default function Page() {
-  
   return (
     <div className="relative h-full w-full">
       <div className="z-progress">
@@ -75,12 +76,7 @@ export default function Page() {
         <HeaderBottom>
           <div className="background-gradient flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
             <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-              <Card
-                className="h-full min-h-[8rem] cursor-pointer"
-                title="Subscribe"
-                details="Receive email notifications on future updates"
-                iconType="bell"
-              />
+              <SubscriptionCard />
               <Card
                 className="h-full min-h-[8rem] cursor-pointer"
                 title="Resume"
@@ -93,12 +89,14 @@ export default function Page() {
                 details="Read some recent articles I've written"
                 iconType="pencil"
               />
-              <Card
-                className="h-full min-h-[8rem] cursor-pointer"
-                title="Contact"
-                details="Reach out to me for anything and everything"
-                iconType="post-box"
-              />
+              <Link href="/contact">
+                <Card
+                  className="h-full min-h-[8rem] cursor-pointer"
+                  title="Contact"
+                  details="Reach out to me for anything and everything"
+                  iconType="post-box"
+                />
+              </Link>
               <Card
                 className="h-full min-h-[8rem] cursor-pointer"
                 title="Projects"

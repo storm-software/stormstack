@@ -41,11 +41,11 @@ export function NavigationMenuButton({
             }}
           />
           <motion.path
+            className="stroke-secondary"
             fill="transparent"
-            stroke="white"
             strokeWidth="3"
             strokeLinecap="round"
-            d="M 2 9.423 L 20 9.423"
+            d="M 10 9.423 L 20 9.423"
             variants={{
               closed: { opacity: 1 },
               opened: { opacity: 0 },

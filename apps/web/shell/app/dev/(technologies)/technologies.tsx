@@ -1,7 +1,7 @@
 "use client";
 
-import { Heading } from "@open-system/design-system-components";
 import { Link } from "@open-system/core-components";
+import { Heading } from "@open-system/design-system-components";
 import {
   AnimatePresence,
   motion,
@@ -116,7 +116,7 @@ export default function Technologies() {
       <AnimatePresence>
         {currentGroup?.name && (
           <motion.div
-            className="fixed left-40 top-20 z-like flex flex-col gap-6"
+            className="fixed left-40 top-20 z-rating flex flex-col gap-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -138,7 +138,7 @@ export default function Technologies() {
       </AnimatePresence>
 
       <div className="sticky left-0 right-0 top-10 overflow-hidden">
-        <Heading level={2} className="absolute bottom-16 left-32">
+        <Heading level={2} className="absolute bottom-20 left-44">
           Technologies
         </Heading>
         <motion.section
@@ -154,13 +154,13 @@ export default function Technologies() {
                 <Link
                   href="https://designsystem.digital.gov/design-tokens/"
                   inNewTab={true}>
-                  design systems/tokens
+                  design systems
                 </Link>
-                , or{" "}
+                , or software architecture{" "}
                 <Link
                   href="https://www.educative.io/blog/software-architecture-diagramming-and-patterns"
                   inNewTab={true}>
-                  software architecture diagrams/models
+                  diagrams
                 </Link>
                 .
               </>
@@ -169,7 +169,9 @@ export default function Technologies() {
             <Technology
               name="Figma"
               description="Figma is an extremely helpful tool for designing wire-frames and specifying design tokens."
-              url="https://www.figma.com/">
+              experience="I've used Figma on many projects to design the general look and feel of design components, layout of application screens, and generate design tokens."
+              url="https://www.figma.com/"
+              tags={["design system", "ux", "planning"]}>
               <FigmaLogo alt="Figma" height={200} width={200} />
             </Technology>
             <Technology

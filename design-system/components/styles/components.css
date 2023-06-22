@@ -58,13 +58,14 @@ button span.ripple, .ripple-container span.ripple {
   }
 }
 
-.link::before {
+.link::after {
   content: '';
   position: absolute;
-  bottom: -3px;
+  bottom: 2px;
   left: 0px;
   width: 100%;
   height: 3px;
+  z-index: 1;
   background: #10B981;
   display: block;
   -webkit-transform-origin: left top;
@@ -77,7 +78,7 @@ button span.ripple, .ripple-container span.ripple {
   transition: transform 0.5s cubic-bezier(1, 0, 0, 1);
 }
 
-.link:hover::before {
+.link:hover::after {
   -webkit-transform-origin: right top;
   -ms-transform-origin: right top;
   transform-origin: right top;
@@ -86,3 +87,10 @@ button span.ripple, .ripple-container span.ripple {
   transform: scale(0, 2);
 }
 
+.purple-shadow {
+  box-shadow: "0 0 10px 4px rgba(107, 114, 128, 0.4)";
+}
+
+.text-purple-shadow {
+  text-shadow: "0 0 15px rgba(107, 114, 128, 0.4)";
+}

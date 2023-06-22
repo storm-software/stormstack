@@ -1,19 +1,26 @@
 "use client";
 
+import { Contact } from "@open-system/contact-data-access";
 import {
-  Button,
-  ButtonCornerRoundingTypes,
-  ButtonTransitionDirections,
-} from "@open-system/design-system-components";
-import { Link, ModalReference, Modal, ModalProps } from "@open-system/core-components";
-import { notificationsAtom } from "@open-system/core-data-access";
+  Link,
+  Modal,
+  ModalProps,
+  ModalReference,
+} from "@open-system/core-components";
 import {
+  AlertSubmitType,
   EmailInput,
   Form,
   SubmitButton,
 } from "@open-system/core-feature-form";
+import {
+  Button,
+  ButtonCornerRoundingTypes,
+  ButtonTransitionDirections,
+  ButtonVariants,
+} from "@open-system/design-system-components";
 import clsx from "clsx";
-import { ForwardedRef, forwardRef, MutableRefObject, useCallback } from "react";
+import { ForwardedRef, MutableRefObject, forwardRef, useCallback } from "react";
 
 export type SubscriptionModalFormProps = Omit<ModalProps, "title">;
 
@@ -33,22 +40,14 @@ export const SubscriptionModalForm = forwardRef<
       [ref]
     );
 
-    //const [subscribe] = useSubscribeMutation();
-
     const handleSubmit = useCallback(
-      async (values: any) => {
+      async (values: Contact) => {
         console.log(values);
-
-        /*await subscribe({
-          email: values.email,
-        }).unwrap();*/
 
         (ref as MutableRefObject<ModalReference>)?.current &&
           (ref as MutableRefObject<ModalReference>).current.close();
 
-        /*dispatch(
-          addSuccessNotification("You're now subscribed to email notifications")
-        );*/
+        handleClose();
       },
       [ref]
     );
@@ -59,16 +58,21 @@ export const SubscriptionModalForm = forwardRef<
         ref={ref}
         title="Notification Sign-Up"
         className={clsx("h-fit min-h-fit w-[50rem]", className)}>
-        <Form<any>
+        <Form<Contact>
           className="flex flex-col gap-3"
           onSubmit={handleSubmit}
+          alertSubmitSuccessType={AlertSubmitType.NOTIFICATION}
+          alertSubmitSuccessMessage={{
+            message: "You've successfully subscribed to email notifications!",
+            link: { text: "Details", href: "/about" },
+          }}
           defaultValues={{
             email: "",
             isSubscribed: true,
             reason: "subscription",
           }}>
           <div className="flex flex-col gap-6">
-            <p className="font-body-1 text-primary">
+            <p className="font-body-1 text-body-1">
               Once subscribed, you will receive email notifications outlining
               exciting future updates, interesting projects, and general
               announcements from this developer.{" "}
@@ -79,18 +83,19 @@ export const SubscriptionModalForm = forwardRef<
               </Link>
               .
             </p>
-            <EmailInput name="email" required={true} />
+            <div className="w-full pr-8">
+              <EmailInput name="email" required={true} />
+            </div>
 
             <div className="flex flex-row-reverse gap-6">
               <SubmitButton
-                inverse={true}
-                transitionDirection={ButtonTransitionDirections.RIGHT}
+                variant={ButtonVariants.SECONDARY}
                 rounding={ButtonCornerRoundingTypes.PARTIAL}>
                 Subscribe
               </SubmitButton>
               <Button
                 onClick={handleClose}
-                transitionDirection={ButtonTransitionDirections.LEFT}
+                transitionDirection={ButtonTransitionDirections.NONE}
                 rounding={ButtonCornerRoundingTypes.PARTIAL}
                 hoverText="Close">
                 Close

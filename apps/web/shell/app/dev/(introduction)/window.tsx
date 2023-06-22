@@ -1,3 +1,5 @@
+"use client";
+
 import {
   MinusIcon,
   Square2StackIcon,
@@ -13,7 +15,7 @@ interface WindowProps {
 
 export default function Window({ setMinimized, setClosed }: WindowProps) {
   return (
-    <div className="absolute top-0 left-0 z-10 flex h-full w-full flex-col bg-white">
+    <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col bg-white">
       <div className="flex h-fit w-full flex-row items-center justify-between border-2 border-b-slate-300">
         <div className="flex flex-row items-center gap-2 px-2 py-1 text-sm">
           <Image src={notepadIcon} alt="Notepad Icon" width={20} height={18} />
@@ -36,7 +38,7 @@ export default function Window({ setMinimized, setClosed }: WindowProps) {
         </div>
       </div>
       <div className="cursor-text p-2">
-        <p className="after:border-r-1 text-black after:h-full after:animate-blink after:border-r-black after:bg-black after:pl-[1px] after:content-['']">
+        <p className="after:border-r-1 after:animate-blink text-black after:h-full after:border-r-black after:bg-black after:pl-[1px] after:content-['']">
           I am a financial technology developer based in the New York
           metropolitan area with a passion for learning new things, solving
           complicated problems, and giving back to the open source community.

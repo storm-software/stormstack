@@ -2,23 +2,23 @@ import { ModalVariants } from "./Modal.types";
 
 export function getBorderStyle(variant: ModalVariants) {
   return variant === ModalVariants.ERROR
-    ? "border-bg-error"
+    ? "border-bg-error border-4"
     : variant === ModalVariants.WARNING
-    ? "border-bg-warning"
+    ? "border-bg-warning border-4"
     : variant === ModalVariants.INFO
-    ? "border-bg-info"
+    ? "border-bg-info border-4"
     : variant === ModalVariants.SUCCESS
-    ? "border-bg-success"
-    : "border-primary";
+    ? "border-bg-success border-4"
+    : "border-primary border-2";
 }
 
 export function getBackgroundStyle(variant: ModalVariants) {
   return variant === ModalVariants.ERROR ||
-  variant === ModalVariants.WARNING ||
-  variant === ModalVariants.INFO ||
-  variant === ModalVariants.SUCCESS
+    variant === ModalVariants.WARNING ||
+    variant === ModalVariants.INFO ||
+    variant === ModalVariants.SUCCESS
     ? "background-caution"
-    : "bg-slate-800";
+    : "bg-bg-primary";
 }
 
 export function getTextStyle(variant: ModalVariants) {
@@ -52,5 +52,5 @@ export function getCloseButtonStyle(variant: ModalVariants) {
     ? "border-bg-info text-bg-info hover:border-primary hover:text-primary font-extrabold"
     : variant === ModalVariants.SUCCESS
     ? "border-bg-success text-bg-success hover:border-primary hover:text-primary font-extrabold"
-    : "border-primary bg-slate-800/70 text-primary hover:border-slate-400 hover:text-slate-400";
+    : "border-primary bg-bg-primary text-primary hover:border-slate-400 hover:text-slate-400";
 }

@@ -78,7 +78,7 @@ export const ProgressTrackerItem = ({
           ? {
               color: "#6366F1",
               textShadow: "0 0 15px rgba(107, 114, 128,0.5)",
-              transition: { duration: 0.2, delay: 0, ease: "easeInOut" },
+              transition: { duration: 0.05, delay: 0, ease: "linear" },
             }
           : {},
     }),
@@ -104,9 +104,9 @@ export const ProgressTrackerItem = ({
       hover:
         status === ProgressTrackerItemStatus.COMPLETE && onClick
           ? {
-            backgroundColor: "#6366F1",
-            boxShadow: "0 0 10px 4px rgba(107, 114, 128,0.4)",
-              transition: { duration: 0.2, delay: 0, ease: "easeInOut" },
+              backgroundColor: "#6366F1",
+              boxShadow: "0 0 10px 4px rgba(107, 114, 128,0.4)",
+              transition: { duration: 0.05, delay: 0, ease: "linear" },
             }
           : {},
     }),
@@ -151,7 +151,7 @@ export const ProgressTrackerItem = ({
           }}
           variants={labelVariants}
           className={clsx("text-center font-label-4 transition", {
-            "cursor-pointer hover:underline":
+            "cursor-pointer group-hover:underline":
               status === ProgressTrackerItemStatus.COMPLETE && onClick,
           })}>
           {label}
@@ -169,8 +169,12 @@ export const ProgressTrackerItem = ({
               ? "#FAF9F6"
               : "#6b7280",
         }}
-        className={clsx("relative flex h-[40px] w-[40px] shrink items-center justify-center rounded-full border-[1px] border-slate-900",
-        {"cursor-pointer group-hover:bg-[#6b7280]": status === ProgressTrackerItemStatus.COMPLETE})}
+        className={clsx(
+          "relative flex h-[40px] w-[40px] shrink items-center justify-center rounded-full border-[2px] border-slate-800",
+          {
+            "cursor-pointer": status === ProgressTrackerItemStatus.COMPLETE,
+          }
+        )}
         variants={pathVariants}>
         {status === ProgressTrackerItemStatus.COMPLETE ? (
           <CheckIcon className="z-40 h-6 w-6 fill-inverse stroke-inverse stroke-[3]" />

@@ -52,14 +52,14 @@ export const Modal = ({
   return (
     <div
       className={clsx(
-        "relative z-20 h-fit min-h-[20rem] min-w-fit max-w-[85%] border-4 bg-bg-primary shadow-xl drop-shadow-2xl",
+        "relative z-20 flex h-fit min-h-[20rem] min-w-fit max-w-[85%] bg-bg-primary shadow-xl drop-shadow-2xl",
         getTextStyle(variant),
         getBorderStyle(variant),
         className
       )}>
       <div
         className={clsx(
-          "relative z-30 h-full min-h-[20rem] w-full p-6",
+          "relative z-30 flex h-full w-full p-6",
           getBackgroundStyle(variant)
         )}>
         {showCloseIcon && onClose && (

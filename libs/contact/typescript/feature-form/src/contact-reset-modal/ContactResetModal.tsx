@@ -41,7 +41,8 @@ export const ContactResetModal = forwardRef<
 
     const handleReset = useCallback(() => {
       reset();
-      ref.current.close();
+      (ref as MutableRefObject<ModalReference>)?.current &&
+        (ref as MutableRefObject<ModalReference>).current.close();
     }, [reset, router]);
 
     return (
@@ -58,7 +59,7 @@ export const ContactResetModal = forwardRef<
             <div className="flex flex-col gap-2">
               <label className="whitespace-pre-wrap text-xl font-label-1 text-primary">
                 Are you sure you want to remove all of your previously entered
-                data?
+                input?
               </label>
               <label className="whitespace-pre-wrap text-lg font-body-1 text-body-1">
                 Selecting &quot;Reset&quot; below will start the contact process

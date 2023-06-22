@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { FormIdScope, useSetToastError } from "@open-system/core-data-access";
+import {
+  FormIdScope,
+  MessageTypes,
+  NotificationMessage,
+  useSetNotifications,
+  useSetToastMessages,
+} from "@open-system/core-data-access";
 import { getUniqueId, isFunction } from "@open-system/core-utilities";
 import {
   BaseComponentProps,
@@ -50,7 +56,11 @@ export type FormProps<
   alertSubmitSuccessType?: AlertSubmitType;
   alertSubmitSuccessMessage?:
     | string
-    | ((values: TValues, result?: any) => string);
+    | ((values: TValues, result?: any) => string)
+    | (
+        | Partial<Pick<NotificationMessage, "id" | "type">>
+        | Omit<NotificationMessage, "id" | "type">
+      );
 };
 
 export function Form<TValues extends Record<string, any>, TContext = any>({
@@ -66,7 +76,7 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   resetOnSubmit = true,
   alertSubmitFailureType = AlertSubmitType.TOAST,
   alertSubmitFailureMessage,
-  alertSubmitSuccessType = AlertSubmitType.NOTIFICATION,
+  alertSubmitSuccessType = AlertSubmitType.NONE,
   alertSubmitSuccessMessage = "Your input was successfully submitted.",
   ...props
 }: FormProps<TValues>) {
@@ -109,6 +119,8 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
     trigger(undefined, { shouldFocus: false });
   }, [trigger]);
 
+  const { add: addNotification } = useSetNotifications();
+  const { add: addToast } = useSetToastMessages();
   const handleSubmit: SubmitHandler<TValues> = useCallback(
     async (formValues: TValues) => {
       let result!: any;
@@ -147,12 +159,40 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
         router.refresh();
       });
 
+      if (alertSubmitSuccessType !== AlertSubmitType.NONE) {
+        const message = isFunction(alertSubmitSuccessMessage)
+          ? alertSubmitSuccessMessage(formValues)
+          : alertSubmitSuccessMessage ?? "There was an error submitting.";
+        if (alertSubmitSuccessType === AlertSubmitType.TOAST) {
+          addToast({ message, type: MessageTypes.SUCCESS });
+        } else if (alertSubmitSuccessType === AlertSubmitType.NOTIFICATION) {
+          addNotification(
+            typeof message === "string"
+              ? { message, type: MessageTypes.SUCCESS }
+              : {
+                  type: MessageTypes.SUCCESS,
+                  ...(message as
+                    | Partial<Pick<NotificationMessage, "id" | "type">>
+                    | Omit<NotificationMessage, "id" | "type">),
+                }
+          );
+        }
+      }
+
       return result;
     },
-    [methods, onSubmit, resetOnSubmit, router]
+    [
+      addNotification,
+      addToast,
+      alertSubmitSuccessMessage,
+      alertSubmitSuccessType,
+      methods,
+      onSubmit,
+      resetOnSubmit,
+      router,
+    ]
   );
 
-  const setToastError = useSetToastError();
   const handleSubmitError: SubmitErrorHandler<TValues> = useCallback(
     async (errors: FieldErrors<TValues>, event?: BaseSyntheticEvent) => {
       console.error("There was an error submitting.");
@@ -163,13 +203,18 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
           ? alertSubmitFailureMessage(errors)
           : alertSubmitFailureMessage ?? "There was an error submitting.";
         if (alertSubmitFailureType === AlertSubmitType.TOAST) {
-          setToastError(message);
+          addToast({ message, type: MessageTypes.ERROR });
         } else if (alertSubmitFailureType === AlertSubmitType.NOTIFICATION) {
-          setToastError(message);
+          addNotification({ message, type: MessageTypes.ERROR });
         }
       }
     },
-    [alertSubmitFailureMessage, alertSubmitFailureType, setToastError]
+    [
+      addNotification,
+      addToast,
+      alertSubmitFailureMessage,
+      alertSubmitFailureType,
+    ]
   );
 
   return (

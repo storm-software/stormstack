@@ -23,35 +23,35 @@ export const Link = ({
   variant = LinkVariants.PRIMARY,
 }: LinkProps) => {
   return (
-      <label
-        onClick={onClick}
-        className={clsx(
-          "transition-colors relative w-fit h-fit hover:cursor-pointer",
-          {
-            "font-body-1 underline":
-              variant !== LinkVariants.PLAIN &&
-              variant !== LinkVariants.PRIMARY &&
-              variant !== LinkVariants.TERTIARY,
-          },
-          {
-            "text-link-2 hover:text-hover-link-2 w-fit link":
-              variant === LinkVariants.PRIMARY,
-          },
-          {
-            "text-link-2 underline hover:text-hover-link-2":
-              variant === LinkVariants.SECONDARY,
-          },
-          {
-            "text-link-3 hover:text-hover-link-3 link":
-              variant === LinkVariants.TERTIARY,
-          },
-          {
-            "text-link-1 hover:text-hover-link-1":
-              variant === LinkVariants.QUATERNARY,
-          },
-          className
-        )}>
-        {children}
-      </label>
+    <label
+      onClick={onClick}
+      className={clsx(
+        "relative h-fit w-fit transition-colors hover:cursor-pointer",
+        {
+          "font-body-1 underline":
+            variant !== LinkVariants.PLAIN &&
+            variant !== LinkVariants.PRIMARY &&
+            variant !== LinkVariants.TERTIARY,
+        },
+        {
+          "link z-[20] inline-block w-fit text-link-2 hover:text-hover-link-2":
+            variant === LinkVariants.PRIMARY,
+        },
+        {
+          "text-link-2 underline hover:text-hover-link-2":
+            variant === LinkVariants.SECONDARY,
+        },
+        {
+          "link z-[20] inline-block w-fit text-link-3 hover:text-hover-link-3":
+            variant === LinkVariants.TERTIARY,
+        },
+        {
+          "text-link-1 hover:text-hover-link-1":
+            variant === LinkVariants.QUATERNARY,
+        },
+        className
+      )}>
+      {children}
+    </label>
   );
 };

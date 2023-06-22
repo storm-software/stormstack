@@ -66,7 +66,7 @@ export function CookiePolicyBanner({
                 <b>Your data will never be shared with a third party</b>. Do you
                 accept the{" "}
                   <Link
-                    variant="secondary"
+                    variant="primary"
                     className="text-lg font-body-1"
                     inNewTab={true}>
                     cookie policy

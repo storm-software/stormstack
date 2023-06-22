@@ -38,7 +38,7 @@ export const ProgressTracker = ({
             key={`${item.label}-${item.status}`}
             className="flex w-full flex-1 flex-col gap-2.5">
             {i > 0 && (
-              <div className="flex w-full flex-1 grow flex-row-reverse pr-[1.08rem]">
+              <div className="flex w-full flex-1 grow flex-row-reverse pr-[1.05rem]">
                 <motion.div
                   initial={{
                     backgroundColor:
@@ -75,10 +75,10 @@ export const ProgressTracker = ({
                         : "#6b7280",
                     width:
                       item.status === ProgressTrackerItemStatus.COMPLETE
-                        ? "6px"
+                        ? "8px"
                         : item.status === ProgressTrackerItemStatus.ACTIVE
-                        ? "6px"
-                        : "6px",
+                        ? "8px"
+                        : "7px",
                     boxShadow:
                       item.status === ProgressTrackerItemStatus.COMPLETE
                         ? "0 0 25px 5px rgba(75,188,100,0.5)"
@@ -87,7 +87,7 @@ export const ProgressTracker = ({
                         : "none",
                   }}
                   transition={{ duration: 1, delay: 1.5, ease: "easeInOut" }}
-                  className="h-12 rounded-full border-[1px] border-slate-900"></motion.div>
+                  className="h-12 rounded-full border-[2px] border-slate-800"></motion.div>
               </div>
             )}
             <ProgressTrackerItem

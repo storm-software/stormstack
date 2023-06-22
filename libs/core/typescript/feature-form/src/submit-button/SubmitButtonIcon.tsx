@@ -1,10 +1,10 @@
 "use client";
 
 import {
+  ArrowIcon,
   BaseComponentProps,
   ButtonVariants,
   Spinner,
-  ArrowIcon,
   SuccessIcon,
   getButtonSvgFillStyle,
   getButtonSvgStrokeStyle,
@@ -52,12 +52,14 @@ export function SubmitButtonIcon({
     );
   } else {
     return (
-      <ArrowIcon
-            className={clsx(
-              "stroke-[2.5]",
-              getButtonSvgStrokeStyle(isDisabled, variant)
-            )}
-          />
+      <div className="mb-0.5">
+        <ArrowIcon
+          className={clsx(
+            "stroke-[2.5]",
+            getButtonSvgStrokeStyle(isDisabled, variant)
+          )}
+        />
+      </div>
     );
   }
 }
