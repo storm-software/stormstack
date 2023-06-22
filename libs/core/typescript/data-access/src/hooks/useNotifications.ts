@@ -1,37 +1,13 @@
-import { useMolecule } from "jotai-molecules";
-import { Molecule } from "jotai-molecules/dist/molecule";
 import { useAtomValue } from "jotai/react";
-import {
-  NotificationMolecule,
-  notificationsAtom,
-} from "../state/notifications";
+import { NotificationMessage, notificationsAtom } from "../state/notifications";
+import { UseAtomListReturn, useAtomList } from "./useAtomList";
 
-export const useNotifications = (): Record<
-  string,
-  Molecule<NotificationMolecule>
-> => {
+export const useSetNotifications =
+  (): UseAtomListReturn<NotificationMessage> => {
+    return useAtomList(notificationsAtom);
+  };
+
+export const useNotificationsValue = (): NotificationMessage[] => {
   const notifications = useAtomValue(notificationsAtom);
   return notifications;
-};
-
-export const useNotificationList = (): Molecule<NotificationMolecule>[] => {
-  const notifications = useNotifications();
-
-  return Object.values(notifications).reduce(
-    (
-      ret: Molecule<NotificationMolecule>[],
-      notification: Molecule<NotificationMolecule>
-    ) => {
-      ret.push(notification);
-      return ret;
-    },
-    []
-  );
-};
-
-export const useNotification = (
-  id: string
-): NotificationMolecule | undefined => {
-  const notifications = useNotifications();
-  return useMolecule(notifications[id]);
 };

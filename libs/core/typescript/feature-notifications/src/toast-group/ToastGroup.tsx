@@ -1,6 +1,9 @@
 "use client";
 
-import { ToastMessage, useToastMessagesValue } from "@open-system/core-data-access";
+import {
+  ToastMessage,
+  useToastMessagesValue,
+} from "@open-system/core-data-access";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Toast } from "../toast";
@@ -21,8 +24,11 @@ export const ToastGroup = () => {
 
   return mounted && portalRef.current
     ? createPortal(
-        <div className={clsx("fixed z-notification flex h-0 w-full flex-col gap-2 overflow-visible", 
-        {"pt-6": messages && messages.length } )}>
+        <div
+          className={clsx(
+            "fixed z-toast flex h-0 w-full flex-col gap-2 overflow-visible",
+            { "pt-6": messages && messages.length }
+          )}>
           {messages.map((message: ToastMessage) => (
             <Toast
               key={message.id}

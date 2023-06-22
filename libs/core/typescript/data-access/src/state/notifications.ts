@@ -1,41 +1,21 @@
-import { getUniqueId, isDevelopment } from "@open-system/core-utilities";
-import { atom } from "jotai";
-import { createScope, molecule } from "jotai-molecules";
-import { Molecule } from "jotai-molecules/dist/molecule";
-import { MessageTypes, MoleculeObjectKeys, ScopedObjectState } from "../types";
+import { isDevelopment } from "@open-system/core-utilities";
+import { MessageTypes, ScopedObjectState } from "../types";
+import { atomWithList } from "../utilities/atomWithList";
 
 export interface LinkDetails {
   href: string;
   text: string;
 }
 
-export interface Notification extends ScopedObjectState {
+export interface NotificationMessage extends ScopedObjectState {
   type: MessageTypes;
   message: string;
   link?: LinkDetails;
 }
 
-export type NotificationMolecule = MoleculeObjectKeys<Notification>;
-
-export const NotificationScope = createScope(getUniqueId());
-
-export const NotificationMolecule = molecule((_, getScope) => {
-  const id = getScope(NotificationScope);
-  const typeAtom = atom<MessageTypes>(MessageTypes.INFO);
-  const messageAtom = atom<string | undefined>(undefined);
-  const linkAtom = atom<LinkDetails | undefined>(undefined);
-
-  return {
-    id,
-    typeAtom,
-    messageAtom,
-    linkAtom,
-  };
+export const notificationsAtom = atomWithList<NotificationMessage>([], {
+  allowDuplicates: false,
 });
-
-export const notificationsAtom = atom<
-  Record<string, Molecule<NotificationMolecule>>
->({});
 if (isDevelopment()) {
   notificationsAtom.debugPrivate = true;
 }

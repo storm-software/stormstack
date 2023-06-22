@@ -4,6 +4,7 @@
 
 export * from "./error-boundary";
 export * from "./global-error-boundary";
+export * from "./notification-group";
 export * from "./toast";
 export * from "./toast-group";
 export * from "./types";
