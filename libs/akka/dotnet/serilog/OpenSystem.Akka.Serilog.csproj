@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka.Logger.Serilog" Version="1.5.0.1" />
+    <PackageReference Include="Akka.Logger.Serilog" Version="1.5.7" />
   </ItemGroup>
 
 </Project>

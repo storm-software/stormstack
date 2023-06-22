@@ -15,15 +15,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka.Hosting" Version="1.5.4" />
-    <PackageReference Include="Akka.Persistence.Hosting" Version="1.5.4" />
-    <PackageReference Include="Akka.Persistence" Version="1.5.4" />
+    <PackageReference Include="Akka.Hosting" Version="1.5.8" />
+    <PackageReference Include="Akka.Persistence.Hosting" Version="1.5.8" />
+    <PackageReference Include="Akka.Persistence" Version="1.5.8" />
     <PackageReference Include="Akka.Persistence.PostgreSql" Version="1.5.4.1" />
-    <PackageReference Include="Akka.Persistence.Query" Version="1.5.4" />
-    <PackageReference Include="Akka.Persistence.PostgreSql.Hosting" Version="1.5.4" />
-    <PackageReference Include="Akka.Persistence.Query.Sql" Version="1.5.4" />
+    <PackageReference Include="Akka.Persistence.Query" Version="1.5.8" />
+    <PackageReference Include="Akka.Persistence.PostgreSql.Hosting" Version="1.5.4.1" />
+    <PackageReference Include="Akka.Persistence.Query.Sql" Version="1.5.8" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
-    <PackageReference Include="Akka.Persistence.Sql.Hosting" Version="1.5.2-beta3" />
+    <PackageReference Include="Akka.Persistence.Sql.Hosting" Version="1.5.4-beta1" />
   </ItemGroup>
 
   <ItemGroup>
