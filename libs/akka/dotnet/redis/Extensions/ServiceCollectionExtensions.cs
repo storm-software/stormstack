@@ -1,15 +1,14 @@
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using StackExchange.Redis;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace OpenSystem.Akka.Redis.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static ServiceProvider AddRedisReadStore(
-            this ServiceProvider serviceProvider,
-            IConfiguration configuration
-        )
+        public static IServiceProvider AddRedisReadStore(this IServiceProvider serviceProvider)
         {
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
@@ -33,16 +32,16 @@ namespace OpenSystem.Akka.Redis.Extensions
                 nameof(readSettings.ConnectionString) + " != null"
             );
 
-            serviceProvider.AddStackExchangeRedisCache(options =>
+            /*serviceProvider.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = readSettings.ConnectionString;
                 options.InstanceName = readSettings.InstanceName;
             });
 
-            serviceProvider.AddSingleton<RedisReadStore>();
+            serviceProvider.AddScoped<RedisReadStore>();*/
 
-            var redisService = serviceProvider.GetService<RedisReadStore>();
-            redisService.Connect();
+            /*var redisService = serviceProvider.GetService<RedisReadStore>();
+            redisService.Connect();*/
 
             return serviceProvider;
         }

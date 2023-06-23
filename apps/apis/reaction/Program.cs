@@ -1,5 +1,4 @@
 using Serilog;
-using Serilog.Events;
 using OpenSystem.Core.Application;
 using System.Reflection;
 using OpenSystem.Core.Api.Extensions;
@@ -9,13 +8,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using OpenSystem.Akka.Api;
-using OpenSystem.Akka.Api.Extensions;
 using OpenSystem.Akka.PostgreSql.Extensions;
 using OpenSystem.Akka.Configuration;
 using OpenSystem.Akka.Kafka.Extensions;
 using OpenSystem.Reaction.Infrastructure.Actors;
-using Akka.Persistence.Hosting;
 using OpenSystem.Reaction.Infrastructure.Persistence;
 using OpenSystem.Reaction.Infrastructure.Extensions;
 

@@ -1,4 +1,4 @@
-name: Code Review
+name: "Code Review"
 permissions:
   contents: read
   pull-requests: write

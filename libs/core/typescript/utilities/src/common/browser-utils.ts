@@ -52,7 +52,8 @@ export const openFileInNewTab = async (
       type = file.type;
     }
   } catch (e) {
-    error = (e as FileLoadingError)?.message ?? "An error occured reading the file";
+    error =
+      (e as FileLoadingError)?.message ?? "An error occured reading the file";
     type = "error/FileLoadingError";
     ConsoleLogger.error(error);
   }
@@ -76,34 +77,32 @@ export function openDataInNewTab(
 ) {
   const { data, dataUrl, error, type } = content;
 
-  !isEmpty(window) &&
-    (error || dataUrl || data) &&
-    window.open(title)?.document.write(
-      `<html>
-          <head><title>${title}</title></head>
-          <body style="height: 100%; width: 98%; background: #e2e8f0;">
-            ${
-              isImageMIMEType(type) && !type?.includes("svg")
-                ? `<img style="height: 30%;" src="${dataUrl}"" alt="${name}"></img>`
-                : isApplicationMIMEType(type) && !type?.includes("json")
-                ? `<iframe style="height: 100%; width: 100%;" src="${dataUrl}"" alt="${name}"></iframe>`
-                : isVideoMIMEType(type)
-                ? `<video style="width: 100%;" controls muted>
-            <source src="${data}" type="${
-                    type ? type : "video/mp4"
-                  }">Your browser does not support the video tag.</video>`
-                : isAudioMIMEType(type)
-                ? `<audio  controls muted>
-            <source src="${data}" type="${
-                    type ? type : "audio/mp3"
-                  }">Your browser does not support the audio element.</audio>`
-                : `<div style="height: 100%; width: 100%;">${
-                    error ? error : data
-                  }"></div>`
-            }
-          </body>
-        </html>`
-    );
+  if (!isEmpty(window) && (error || dataUrl || data)) {
+    const html = window.open(title)?.document.createElement("html");
+    html &&
+      (html.innerText = `<head><title>${title}</title></head>
+      <body style="height: 100%; width: 98%; background: #e2e8f0;">
+        ${
+          isImageMIMEType(type) && !type?.includes("svg")
+            ? `<img style="height: 30%;" src="${dataUrl}"" alt="${name}"></img>`
+            : isApplicationMIMEType(type) && !type?.includes("json")
+            ? `<iframe style="height: 100%; width: 100%;" src="${dataUrl}"" alt="${name}"></iframe>`
+            : isVideoMIMEType(type)
+            ? `<video style="width: 100%;" controls muted>
+        <source src="${data}" type="${
+                type ? type : "video/mp4"
+              }">Your browser does not support the video tag.</video>`
+            : isAudioMIMEType(type)
+            ? `<audio  controls muted>
+        <source src="${data}" type="${
+                type ? type : "audio/mp3"
+              }">Your browser does not support the audio element.</audio>`
+            : `<div style="height: 100%; width: 100%;">${
+                error ? error : data
+              }"></div>`
+        }
+      </body>`);
+  }
 }
 
 export function isPropagationStopped(event: any) {

@@ -1,4 +1,4 @@
-name: "Next.js Bundle Analysis"
+name: "Web App Bundle Analysis"
 
 on:
   push:
