@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: "web-shell",
-  preset: "../../../jest.preset.js",
+  preset: "../../../testing/jest.preset.js",
   transform: {
     "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nrwl/react/plugins/jest",
     "^.+\\.[tj]sx?$": "babel-jest",

@@ -7,7 +7,7 @@
     "strict": true
   },
   "files": [],
-  "include": [],
+  "include": ["./rollup.config.js"],
   "references": [
     {
       "path": "./tsconfig.lib.json"

@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: "reaction-ui-feature-like",
-  preset: "../../../jest.preset.js",
+  preset: "../../../testing/jest.preset.js",
   transform: {
     "^.+\\.[tj]sx?$": [
       "@swc/jest",

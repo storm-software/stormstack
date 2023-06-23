@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: "shared-feature-address",
-  preset: "../../../../jest.preset.js",
+  preset: "../../../../testing/jest.preset.js",
   transform: {
     "^.+\\.[tj]sx?$": [
       "@swc/jest",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7CyUz1zTwcNqEdcW6ATMQnic+I9rDlzlty6G2R2fxFVMnatKDZ0PojWLqJOpeaawqORyLjKA83YcMnxVh87e5A==",
+  "dgSpecHash": "WW3n+xUAmyr3IxWMaHFpZprGh8Q1orYehnj8zVGbphAPS5aXk2buhWtyZV9Iq7pqJPGcyt3EFspgxHwDktRLWg==",
   "success": true,
-  "projectFilePath": "C:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj",
+  "projectFilePath": "c:\\Development\\open-system\\libs\\core\\dotnet\\domain\\OpenSystem.Core.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\patjo\\.nuget\\packages\\ben.demystifier\\0.4.1\\ben.demystifier.0.4.1.nupkg.sha512",
     "C:\\Users\\patjo\\.nuget\\packages\\fluentvalidation\\11.5.2\\fluentvalidation.11.5.2.nupkg.sha512",

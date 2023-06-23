@@ -15,7 +15,7 @@ if (swcJestConfig.swcrc === undefined) {
 
 export default {
   displayName: "core-feature-kafka",
-  preset: "../../../../jest.preset.js",
+  preset: "../../../../testing/jest.preset.js",
   transform: {
     "^.+\\.[tj]s$": ["@swc/jest", swcJestConfig],
   },

@@ -47,11 +47,19 @@ export default {
    * The test environment that will be used for testing. The default environment in Jest is a Node.js environment.
    * If you are building a web app, you can use a browser-like environment through jsdom instead.
    */
-  testEnvironment: "jsdom",
+  testEnvironment: "jest-environment-jsdom",
 
   /**
    * A list of reporter names that Jest uses when writing coverage reports. Any istanbul reporter can be used.
    * Default: ["json", "lcov", "text"]
    */
   coverageReporters: ["lcov"],
+
+  setupFiles: ["<rootDir>/testing/__mocks__/jest.setup.js"],
+
+  moduleNameMapper: {
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+      "<rootDir>/testing/__mocks__/file.mock.js",
+    "\\.(css|less)$": "<rootDir>/testing/__mocks__/style.mock.js",
+  },
 };

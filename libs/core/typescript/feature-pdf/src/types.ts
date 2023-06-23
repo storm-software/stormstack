@@ -1,3 +1,5 @@
+import { Style } from "util";
+
 export type PDFVersion = "1.3" | "1.4" | "1.5" | "1.6" | "1.7" | "1.7ext3";
 
 export type Orientation = "portrait" | "landscape";
@@ -198,4 +200,43 @@ export interface UsePdfInstance {
   blob: Blob | null;
   url: string | null;
   error: string | null;
+}
+
+interface DocumentStyles {
+  [key: string]: Style;
+}
+
+export type PageLayout =
+  | "singlePage"
+  | "oneColumn"
+  | "twoColumnLeft"
+  | "twoColumnRight"
+  | "twoPageLeft"
+  | "twoPageRight";
+
+export type PageMode =
+  | "useNone"
+  | "useOutlines"
+  | "useThumbs"
+  | "fullScreen"
+  | "useOC"
+  | "useAttachments";
+
+export interface OnRenderProps {
+  blob?: Blob;
+}
+
+export interface DocumentProps {
+  style?: any;
+  title?: string;
+  author?: string;
+  subject?: string;
+  creator?: string;
+  keywords?: string;
+  producer?: string;
+  language?: string;
+  pdfVersion?: PDFVersion;
+  pageMode?: PageMode;
+  pageLayout?: PageLayout;
+  onRender?: (props: OnRenderProps) => any;
 }

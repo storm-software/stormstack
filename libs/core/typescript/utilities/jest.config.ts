@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: "core-utilities",
-  preset: "../../../../jest.preset.js",
+  preset: "../../../../testing/jest.preset.js",
   globals: {
     "ts-jest": {
       tsconfig: "<rootDir>/tsconfig.spec.json",
