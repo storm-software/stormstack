@@ -48,12 +48,15 @@ jobs:
       # - run: npx nx affected -t test --parallel=3 --configuration=ci --base=${{ github.event.before }}
       - run: npx nx affected -t build --parallel=3 --base=${{ github.event.before }}
 
-      - name: Run Tests
-        uses: nick-fields/retry@v2.8.3
-        with:
-          command: npm run test:ci
-          timeout_minutes: 10
-          max_attempts: 3
+      #- name: Run Tests
+      #  uses: nick-fields/retry@v2.8.3
+      #  with:
+      #    command: npx nx affected -t test --parallel=3 --configuration=ci --base=${{ github.event.before }}
+      #    timeout_minutes: 10
+      #    max_attempts: 3
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
 
       # - name: Publish
       #  run: |
@@ -73,5 +76,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+      - name: Deploy Documentation Updates
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/dist
+          CLEAN: true
+

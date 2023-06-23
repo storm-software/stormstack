@@ -55,14 +55,6 @@ jobs:
           max_attempts: 3
           command: npx nx affected -t test --configuration=ci
 
-      - name: Deploy Documentation Updates
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: docs/dist
-          CLEAN: true
-
       - name: Stop Agents
         run: npx nx-cloud stop-all-agents
 
