@@ -63,7 +63,7 @@
     "build:tools-ci": "cross-env FORCE_COLOR=1 npx nx run tools-executors-typescript:build:design-tokens-build && npx nx run tools-executors-dotnet:build:build",
     "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
     "build:wundergraph": "cross-env FORCE_COLOR=1 wunderctl generate",
-    "build": "cross-env FORCE_COLOR=1 nx run-many --target build --all --parallel 8 --exclude docs",
+    "build": "cross-env FORCE_COLOR=1 nx run-many -t build --all --parallel 4",
     "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell --no-progress --relative --dot --gitignore",
     "lint:language": "cross-env FORCE_COLOR=1 alex .",
     "lint:js": "cross-env FORCE_COLOR=1 eslint --cache --report-unused-disable-directives \"**/*.{js,jsx,ts,tsx}\"",

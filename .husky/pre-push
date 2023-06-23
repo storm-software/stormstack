@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-
-node ./.husky/scripts/check-lock-file.js &&
-npm run lint &&
+node ./.husky/scripts/check-lock-file.js
+npm run lint
 npm pretty-quick --check
