@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopen_system=self.webpackChunkopen_system||[]).push([[3671],{7995:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-redoc","id":"Shared-APIs"}')}}]);

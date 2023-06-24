@@ -1,0 +1,358 @@
+openapi: 3.0.0
+x-stoplight:
+  id: 86is8v6rhxwwh
+info:
+  title: Shared
+  version: '1.0'
+  description: A collection of shared API models used by the Open System repository
+  contact:
+    name: Patrick Sullivan
+    email: Patrick.Joseph.Sullivan@protonmail.com
+    url: https://sullivanpj.github.io/open-system/services/base
+  termsOfService: https://sullivanpj.github.io/open-system/services/base
+  license:
+    name: BSD 2-Clause License
+    url: https://opensource.org/licenses/BSD-2-Clause
+servers:
+  - url: http://localhost:3000
+    description: Local Development
+paths: {}
+components:
+  schemas:
+    Guid:
+      type: string
+      title: Guid
+      x-stoplight:
+        id: rxw5bcg38wwhi
+      format: uuid
+      x-examples:
+        Sample Guid: 123e4567-e89b-12d3-a456-426614174000
+      description: The `guid` associated with the record
+      example: 123e4567-e89b-12d3-a456-426614174000
+    CommandSuccessResponse:
+      title: CommandSuccessResponse
+      x-stoplight:
+        id: 37ef029e57dd1
+      type: object
+      description: A response returned from the server when data is successfully updated
+      x-examples:
+        Sample Response:
+          guid: 123e4567-e89b-12d3-a456-426614174000
+      properties:
+        id:
+          $ref: '#/components/schemas/Guid'
+      required:
+        - id
+    RecordBase:
+      title: RecordBase
+      x-stoplight:
+        id: 426vq5mn5uary
+      type: object
+      description: The minimum model fields shared by all data stored in the database
+      x-examples:
+        Sample Record:
+          guid: 123e4567-e89b-12d3-a456-426614174000
+          createdOn: '2022-03-19 04:24:02.190'
+          createdBy: PSUL
+          updatedOn: '2022-10-12 14:01:13.000'
+          updatedBy: PSUL
+      properties:
+        id:
+          $ref: '#/components/schemas/Guid'
+        createdOn:
+          type: string
+          format: date-time
+          example: '2022-03-19 04:24:02.190'
+        createdBy:
+          type: string
+          example: PSUL
+        updatedOn:
+          type: string
+          format: date-time
+          example: '2022-10-12 14:01:13.000'
+        updatedBy:
+          type: string
+          example: PSUL
+      required:
+        - id
+        - createdOn
+        - createdBy
+    Indexed:
+      title: Indexed
+      type: object
+      description: The minimum model fields shared by all data stored in the database
+      x-examples:
+        Sample Record:
+          guid: 123e4567-e89b-12d3-a456-426614174000
+          createdOn: '2022-03-19 04:24:02.190'
+          createdBy: PSUL
+          updatedOn: '2022-10-12 14:01:13.000'
+          updatedBy: PSUL
+      x-stoplight:
+        id: 0emrw8tf5s5ms
+      properties:
+        id:
+          $ref: '#/components/schemas/Guid'
+      required:
+        - id
+    BaseProblemDetailsResponse:
+      title: BaseProblemDetailsResponse
+      type: object
+      description: >-
+        A base model for API errors inline with the [RFC
+        7807](https://www.rfc-editor.org/rfc/rfc7807) specification.
+      x-examples:
+        Sample Response:
+          type: about:blank
+          title: An error occurred processing your request.
+          detail: Your current balance is 30, but that costs 50.
+          instance: /account/12345/msgs/abc
+          severity: critical
+          resultCode: 1
+          resultType: application
+      x-stoplight:
+        id: c44347addddcc
+      properties:
+        title:
+          type: string
+          example: You do not have enough credit.
+          default: An error occurred processing your request.
+          description: >-
+            A short, human-readable summary of the problem type. It **SHOULD
+            NOT** change from occurrence to occurrence of the pro**blem, except
+            for purposes of localization (e.g., using proactive content
+            negotiation; see [RFC7231, Section
+            3.4](https://www.rfc-editor.org/rfc/rfc7231#section-3.4)).
+        detail:
+          type: string
+          example: Your current balance is 30, but that costs 50.
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem.
+          default: An error occurred processing the request.
+        extendedDetail:
+          type: string
+          example: Your current balance is 30, but that costs 50.
+        instance:
+          type: string
+          example: /account/12345/msgs/abc
+          description: >-
+            A URI reference that identifies the specific occurrence of the
+            problem. It may or may not yield further information if
+            dereferenced.
+        severity:
+          type: string
+          example: error
+          description: >-
+            A URI reference that identifies the specific occurrence of the
+            problem. It may or may not yield further information if
+            dereferenced.
+          enum:
+            - fatal
+            - error
+            - warning
+            - info
+            - debug
+            - none
+          default: error
+        resultCode:
+          type: integer
+          example: 11
+          description: The numeric message code related to this specific problem
+        resultType:
+          type: string
+          description: The type of result code related to this specific problem
+      required:
+        - title
+        - detail
+        - instance
+        - severity
+        - resultCode
+        - resultType
+    ProblemDetailsFieldResponse:
+      title: ProblemDetailsFieldResponse
+      type: object
+      x-stoplight:
+        id: 82f7df9bdf44b
+      description: 'Model containing validation details for a specific request field '
+      properties:
+        name:
+          type: string
+        attemptedValue:
+          type: string
+      required:
+        - name
+    ProblemDetailsResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseProblemDetailsResponse'
+        - type: object
+          properties:
+            type:
+              type: string
+              default: about:blank
+              example: https://example.com/probs/out-of-credit
+              description: >-
+                A URI reference
+                [RFC3986](https://www.rfc-editor.org/rfc/rfc3986) that
+                identifies the problem type. This specification encourages that,
+                when dereferenced, it provide human-readable documentation for
+                the problem type (e.g., using HTML
+                [W3C.REC-html5-20141028](https://www.rfc-editor.org/rfc/rfc7807#ref-W3C.REC-html5-20141028)).
+                When this member is not present, its value is assumed to be
+                `about:blank`.
+            status:
+              type: integer
+              default: 500
+              description: >-
+                A short, human-readable summary of the problem type. It **SHOULD
+                NOT** change from occurrence to occurrence of the pro**blem,
+                except for purposes of localization (e.g., using proactive
+                content negotiation; see [RFC7231, Section
+                3.4](https://www.rfc-editor.org/rfc/rfc7231#section-3.4)).
+              minimum: 100
+              example: 422
+              maximum: 505
+            traceId:
+              type: string
+              example: 0e1892bf-03b0-404c-b6f9-c4e5e3d86816
+              description: A unique Id representing the specific server request
+              format: uuid
+            stackTrace:
+              type: string
+              description: The stack trade of the error
+            errors:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProblemDetailsFieldResponse'
+          required:
+            - type
+            - status
+            - traceId
+    Address:
+      title: Address
+      x-stoplight:
+        id: 7l05pozs4dbii
+      type: object
+      description: Data used to specify a location
+      properties:
+        addressLine1:
+          type: string
+          maxLength: 50
+        addressLine2:
+          type: string
+          maxLength: 50
+        city:
+          type: string
+          maxLength: 50
+        state:
+          type: string
+          maxLength: 50
+        countryCode:
+          type: string
+          maxLength: 50
+        postalCode:
+          type: string
+          minLength: 5
+          maxLength: 9
+    PagedResponse:
+      title: PagedResponse
+      x-stoplight:
+        id: 4d3d1eda56560
+      type: object
+      description: A base response containing page data for a request
+      properties:
+        pageNumber:
+          type: integer
+          description: The current page number of the selected data
+          minimum: 1
+          exclusiveMinimum: false
+        pageSize:
+          type: integer
+          description: The size of the current page
+          exclusiveMinimum: false
+          minimum: 0
+        recordsTotal:
+          type: integer
+          minimum: 0
+          description: The total number of records in the data set
+        recordsFiltered:
+          type: integer
+          minimum: 0
+          description: The number of records filtered from the data set
+      required:
+        - pageNumber
+        - pageSize
+        - recordsTotal
+        - recordsFiltered
+  requestBodies: {}
+  responses:
+    UpdateResponse:
+      description: A response returned from the server when data is successfully updated
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/Guid'
+            required:
+              - id
+          examples:
+            Sample Response:
+              value:
+                id: 123e4567-e89b-12d3-a456-426614174000
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      description: The records guid
+    pageNumber:
+      name: pageNumber
+      in: query
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: The current page number of the selected data
+    pageSize:
+      name: pageSize
+      in: query
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+        default: 200
+      description: The maximum amount of data to return in one request
+    orderBy:
+      name: orderBy
+      in: query
+      required: true
+      schema:
+        type: string
+        default: id
+      description: The field to order the request by
+    userId:
+      name: userId
+      in: cookie
+      required: true
+      schema:
+        type: string
+      description: 'The identifier of the current processing user '
+  securitySchemes:
+    bearer-token:
+      type: http
+      scheme: bearer
+      description: >-
+        A request header containing the JSON web token (JWT) provided by the IDM
+        service in a cookie when the user signed into the application. This JWT
+        contains the current user's encoded `SiteMinder` entitlements.
+security:
+  - Authorization: []
+x-one-of-name: DTO_OneOf
+x-all-of-name: DTO_AllOf
