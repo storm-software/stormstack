@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/docs",
-        "verbose": true
+        "verbose": false
       }
     },
     "serve": {

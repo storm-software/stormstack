@@ -287,7 +287,7 @@
                 "schema": {
                   "allOf": [
                     {
-                      "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/PagedQueryResponse"
+                      "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/PagedResponse"
                     },
                     {
                       "type": "object",

@@ -1,4 +1,4 @@
-<p style="text-align: center;"><img src="./assets/logo-default.svg" width="100%" altText="open-system"></p>
+<p style="text-align: center;"><img src="./assets/logo-default.svg" width="100%" altText="open-system" /></p>
 
 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries.
 
@@ -39,16 +39,16 @@ If you run into any issues while trying to run any of the above steps, please re
 
 This repository uses the below plug-ins:
 
-- [@nrwl/react](https://reactjs.org)
-- [@nrwl/lint](https://nx.dev/linter/overview)
-- [@nrwl/js](https://nx.dev/js/overview)
-- [@nrwl/node](https://nodejs.org)
-- [@nrwl/web](https://nx.dev/web/overview)
-- [@nrwl/storybook](https://nx.dev/storybook/overview-react)
+- [@nx/react](https://reactjs.org)
+- [@nx/lint](https://nx.dev/linter/overview)
+- [@nx/js](https://nx.dev/js/overview)
+- [@nx/node](https://nodejs.org)
+- [@nx/web](https://nx.dev/web/overview)
+- [@nx/storybook](https://nx.dev/storybook/overview-react)
 
 ## Generate an application
 
-Run `nx g @nrwl/react:app open-system` to generate an application.
+Run `nx g @nx/react:app open-system` to generate an application.
 
 > You can use any of the plugins above to generate applications as well.
 
@@ -56,7 +56,7 @@ When using Nx, you can create multiple applications and libraries in the same wo
 
 ## Generate a library
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+Run `nx g @nx/react:lib my-lib` to generate a library.
 
 > You can also use any of the plugins above to generate libraries as well.
 
@@ -64,7 +64,7 @@ Libraries are shareable across libraries and applications. They can be imported 
 
 ## Code scaffolding
 
-Run `nx g @nrwl/react:component my-component --project=open-system` to generate a new component.
+Run `nx g @nx/react:component my-component --project=open-system` to generate a new component.
 
 ## Running unit tests
 
@@ -86,7 +86,7 @@ Run `nx graph` to see a diagram of the dependencies of your projects.
 
 ### Distributed Computation Caching & Distributed Task Execution
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nx/nx/master/images/nx-cloud-card.png" /></p>
 
 Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
 
