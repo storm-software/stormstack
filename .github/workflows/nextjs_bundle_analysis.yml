@@ -39,11 +39,16 @@ jobs:
           path: .next/cache
           # change this if you prefer a more strict cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}
-
+      
+      - name: Prepare for build
+      - run: npx nx run design-system-tokens:build:open-system
+      - run: npx nx run web-shell:build
+      
       - name: Build next.js app
         env:
           SKIP_BUILD_PRODUCT_REDIRECTS: 1
-        run: npx nx run tools-executors-typescript:build:design-tokens-build && npx nx run design-system-tokens:build:open-system && npx nx run web-shell:build
+        run: npx nx run tools-executors-typescript:build:design-tokens-build
+        
 
       # Here's the first place where next-bundle-analysis' own script is used
       # This step pulls the raw bundle stats for the current bundle
