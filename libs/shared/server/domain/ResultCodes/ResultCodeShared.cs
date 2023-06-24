@@ -2,36 +2,33 @@ using OpenSystem.Core.Domain.ResultCodes;
 
 namespace OpenSystem.Shared.Domain.ResultCodes
 {
-	/// <summary>
-	/// Summary description for ResultCodeShared.
-	/// </summary>
-	[Serializable]
-	public class ResultCodeShared : ResultCode
-	{
-		#region Public
+    /// <summary>
+    /// Summary description for ResultCodeShared.
+    /// </summary>
+    [Serializable]
+    public class ResultCodeShared : ResultCode
+    {
+        #region Public
 
-		#region Constants
+        #region Constants
 
-		public const int InvalidEmailFormat = 1;
+        public const int InvalidEmailFormat = 1;
 
-		#endregion Constants
+        #endregion Constants
 
-		#endregion Public
+        #endregion Public
 
-		#region Protected
+        #region Protected
 
-		#region Properties
+        #region Properties
 
-		protected override string MessageType
-		{
-			get { return "Shared"; }
-		}
+        protected override string MessageType
+        {
+            get { return "Shared"; }
+        }
 
-		#endregion Properties
+        #endregion Properties
 
-		#endregion Protected
-	}
+        #endregion Protected
+    }
 }
-
-
-
