@@ -3,7 +3,8 @@
 
 // const lightCodeTheme = require("prism-react-renderer/themes/github");
 // const darkCodeTheme = require("prism-react-renderer/themes/dracula");
-// const path = require("path");
+
+// const draculaTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -18,6 +19,15 @@ const config = {
   projectName: "open-system",
   trailingSlash: false,
   titleDelimiter: "🧪",
+
+  // Even if you don't use internalization, you can use this field to set useful
+  // metadata like html lang. For example, if your site is Chinese, you may want
+  // to replace "en" with "zh-Hans".
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en"],
+  },
+
   plugins: [
     [
       "docusaurus-plugin-typedoc",
@@ -70,41 +80,6 @@ const config = {
         },
       },
     ],
-
-    /* [
-      "docusaurus-plugin-typedoc-api",
-      {
-        projectRoot: path.join(__dirname, ".."),
-        changelogName: "CHANGELOG.md",
-        changelogs: true,
-        readmeName: "README.md",
-        readmes: true,
-        tsconfigName: "tsconfig.base.json",
-        packages: [
-          {
-            path: "libs/core/typescript/utilities",
-            entry: {
-              file: "src/index.ts",
-              label: "Core TypeScript Utilities",
-            },
-          },
-          {
-            path: "design-system/components",
-            entry: {
-              file: "src/index.ts",
-              label: "Design-System Components",
-            },
-          },
-          {
-            path: "libs/shared/ui/components",
-            entry: {
-              file: "src/index.ts",
-              label: "Shared UI-Components",
-            },
-          },
-        ],
-      },
-    ],*/
   ],
   presets: [
     [
@@ -126,6 +101,11 @@ const config = {
       {
         // Plugin Options for loading OpenAPI files
         specs: [
+          {
+            id: "Shared-APIs",
+            spec: "libs/shared/config/src/shared.api-spec.json",
+            route: "/end-points/shared/",
+          },
           {
             id: "Reaction-APIs",
             spec: "libs/reaction/config/src/reaction.api-spec.json",
@@ -149,13 +129,17 @@ const config = {
     ],
   ],
 
-  themes: [
-    "docusaurus-theme-redoc" /*, "docusaurus-theme-search-typesense"*/,
-
-  ],
+  themes: ["docusaurus-theme-redoc"],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        {
+          name: "keywords",
+          content:
+            "pat sullivan development, pat sullivan, pat, sullivan, development, open system, open, system, storybook",
+        },
+      ],
       colorMode: {
         defaultMode: "dark",
         disableSwitch: false,
@@ -173,26 +157,6 @@ const config = {
         minHeadingLevel: 2,
         maxHeadingLevel: 5,
       },
-      /*typesense: {
-        typesenseCollectionName: "docusaurus-2", // Replace with your own doc site's name. Should match the collection name in the scraper settings.
-
-        typesenseServerConfig: {
-          nodes: [
-            {
-              host: "host.docker.internal",
-              port: 443,
-              protocol: "https",
-            },
-          ],
-          apiKey: "xyz",
-        },
-
-        // Optional: Typesense search parameters: https://typesense.org/docs/0.21.0/api/search.md#search-parameters
-        typesenseSearchParameters: {},
-
-        // Optional
-        contextualSearch: true,
-      },*/
       navbar: {
         title: "Open System",
         items: [
@@ -216,11 +180,11 @@ const config = {
               },
             ],
           },
-          /*{
+          {
             to: "api",
             label: "API Reference",
             position: "left",
-          },*/
+          },
           {
             type: "doc",
             docId: "getting-started/installation",
@@ -303,7 +267,7 @@ const config = {
           width: 105,
           height: 150,
         },
-        copyright: `Copyright © ${new Date().getFullYear()} Open System Solutions, Inc.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Pat Sullivan Development.`,
       },
     }),
 };

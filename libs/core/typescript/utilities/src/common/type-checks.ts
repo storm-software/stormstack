@@ -156,13 +156,39 @@ export const isObject = (obj: unknown): obj is object => {
 };
 
 /**
+ * Check if the provided value's type is `undefined`
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the value provided is of type `undefined`
+ */
+export const isUndefined = (obj: unknown) => {
+  try {
+    return obj === undefined;
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * Check if the provided value's type is `null`
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the value provided is of type `null`
+ */
+export const isNull = (obj: unknown) => {
+  try {
+    return obj === null;
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
  * Check if the provided value's type is `null` or `undefined`
  * @param obj - The value to type check
  * @returns An indicator specifying if the value provided is of type `null` or `undefined`
  */
 export const isEmpty = (obj: unknown) => {
   try {
-    return obj === undefined || obj === null;
+    return isUndefined(obj) || isNull(obj);
   } catch (e) {
     return false;
   }

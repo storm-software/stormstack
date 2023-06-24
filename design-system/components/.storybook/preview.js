@@ -1,9 +1,7 @@
-/* eslint-disable no-import-assign */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-//import * as NextImage from "next/image";
-import "./tailwind-imports.css";
+import * as NextImage from "next/image";
+import "../../../.storybook/tailwind.css";
 
-/*const OriginalNextImage = NextImage.default;
+const OriginalNextImage = NextImage.default;
 
 Object.defineProperty(NextImage, "default", {
   configurable: true,
@@ -22,4 +20,4 @@ export const parameters = {
     "storybook/docs/panel": { index: -1 },
   },
 };
-*/
+

@@ -140,7 +140,10 @@
             "type": "about:blank",
             "title": "An error occurred processing your request.",
             "detail": "Your current balance is 30, but that costs 50.",
-            "instance": "/account/12345/msgs/abc"
+            "instance": "/account/12345/msgs/abc",
+            "severity": "critical",
+            "resultCode": 1,
+            "resultType": "application"
           }
         },
         "x-stoplight": {

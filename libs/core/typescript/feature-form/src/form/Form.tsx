@@ -3,32 +3,23 @@
 
 import {
   FormIdScope,
-  MessageTypes,
   NotificationMessage,
-  useSetNotifications,
-  useSetToastMessages,
 } from "@open-system/core-data-access";
-import { getUniqueId, isFunction } from "@open-system/core-utilities";
+import { ConsoleLogger, getField } from "@open-system/core-utilities";
 import {
   BaseComponentProps,
   InputAutoCompleteTypes,
 } from "@open-system/design-system-components";
 import { ScopeProvider } from "jotai-molecules";
-import { useRouter } from "next/navigation";
 import {
   BaseSyntheticEvent,
-  useCallback,
   useEffect,
+  experimental_useEffectEvent as useEffectEvent,
+  useId,
   useState,
   useTransition,
 } from "react";
-import {
-  FieldErrors,
-  FormProvider,
-  SubmitErrorHandler,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { FieldErrors, FormProvider, useForm } from "react-hook-form";
 import { DeepPartial } from "../types";
 // import { DevTool } from "@hookform/devtools";
 
@@ -39,18 +30,53 @@ export const AlertSubmitType = {
   NOTIFICATION: "notification" as AlertSubmitType,
 };
 
+export type FormSubmitHandler<TValues extends Record<string, any>> = (payload: {
+  data: TValues;
+  event?: BaseSyntheticEvent;
+  formData: FormData;
+  formDataJson: string;
+  method?: "post" | "put" | "delete";
+}) => unknown | Promise<unknown>;
+
+export type SubmitErrorHandler<TValues extends Record<string, any>> = (
+  errors: FieldErrors<TValues>,
+  event?: BaseSyntheticEvent
+) => unknown | Promise<unknown>;
+
 export type FormProps<
   TValues extends Record<string, any>,
   TContext = any
 > = BaseComponentProps & {
   defaultValues?: DeepPartial<TValues>;
   initialValues?: DeepPartial<TValues>;
-  onSubmit: (values: TValues) => Promise<void> | void;
   context?: TContext;
   disabled?: boolean;
   name?: string;
   autoComplete?: boolean;
   resetOnSubmit?: boolean;
+  headers?: Record<string, string>;
+  encType?:
+    | "application/x-www-form-urlencoded"
+    | "multipart/form-data"
+    | "text/plain"
+    | "application/json";
+  method?: "post" | "put" | "delete";
+  validateStatus?: (status: number) => boolean;
+  action?: string | ((data: FormData) => void | Promise<void>);
+  onSubmit?: FormSubmitHandler<TValues>;
+  onError?: ({
+    response,
+    error,
+  }:
+    | {
+        response: Response;
+        error?: undefined;
+      }
+    | {
+        response?: undefined;
+        error: unknown;
+      }) => void;
+  onSuccess?: ({ response }: { response: Response }) => void;
   alertSubmitFailureType?: AlertSubmitType;
   alertSubmitFailureMessage?: string | ((error?: any) => string);
   alertSubmitSuccessType?: AlertSubmitType;
@@ -69,19 +95,27 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
   defaultValues,
   initialValues,
   context,
-  onSubmit,
   children,
   disabled = false,
   autoComplete = true,
   resetOnSubmit = true,
+  onSubmit,
+  action,
+  method = "post",
+  headers = {},
+  encType,
+  onError,
+  onSuccess,
+  validateStatus,
   alertSubmitFailureType = AlertSubmitType.TOAST,
   alertSubmitFailureMessage,
   alertSubmitSuccessType = AlertSubmitType.NONE,
   alertSubmitSuccessMessage = "Your input was successfully submitted.",
   ...props
 }: FormProps<TValues>) {
-  const router = useRouter();
+  // const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [mounted, setMounted] = useState(false);
 
   const { trigger, control, formState, ...methods } = useForm<
     TValues,
@@ -96,7 +130,88 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
     shouldFocusError: false,
     shouldUnregister: false,
     shouldUseNativeValidation: true,
+    progressive: true,
   });
+
+  const [formId] = useState<string | undefined>(useId());
+
+  const submit = useEffectEvent(async (event?: BaseSyntheticEvent) => {
+    let hasError = false;
+    let type = "";
+
+    await control.handleSubmit(async data => {
+      const formData = new FormData();
+      let formDataJson = "";
+
+      try {
+        formDataJson = JSON.stringify(data);
+      } catch {
+        ConsoleLogger.error("Failed to stringify form data.");
+      }
+
+      for (const name of control._names.mount) {
+        formData.append(name, getField(data, name));
+      }
+
+      if (onSubmit) {
+        onSubmit({
+          data,
+          event,
+          method,
+          formData,
+          formDataJson,
+        });
+      }
+
+      if (action && typeof action === "string") {
+        try {
+          const shouldStringifySubmissionData = [
+            headers && headers["Content-Type"],
+            encType,
+          ].some(value => value && value.includes("json"));
+
+          const response = await fetch(action, {
+            method,
+            headers: {
+              ...headers,
+              ...(encType ? { "Content-Type": encType } : {}),
+            },
+            body: shouldStringifySubmissionData ? formDataJson : formData,
+          });
+
+          if (
+            response &&
+            (validateStatus
+              ? !validateStatus(response.status)
+              : response.status < 200 || response.status >= 300)
+          ) {
+            hasError = true;
+            onError && onError({ response });
+            type = String(response.status);
+          } else {
+            onSuccess && onSuccess({ response });
+          }
+        } catch (error: unknown) {
+          hasError = true;
+          onError && onError({ error });
+        }
+      }
+    })(event);
+
+    if (hasError && control) {
+      control._subjects.state.next({
+        isSubmitSuccessful: false,
+      });
+      control.setError("root.server", {
+        type,
+      });
+    }
+  });
+
+  useEffect(() => {
+    trigger(undefined, { shouldFocus: false });
+    setMounted(true);
+  }, [trigger]);
 
   /*useEffect(() => {
     methods.reset(defaultValues as TValues, {
@@ -111,17 +226,11 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
       keepSubmitCount: true,
     });
     trigger(undefined, { shouldFocus: false });
-  }, [defaultValues]);*/
-
-  const [formId, setFormId] = useState<string | undefined>(name);
-  useEffect(() => {
-    setFormId(getUniqueId());
-    trigger(undefined, { shouldFocus: false });
-  }, [trigger]);
+  }, [defaultValues]);
 
   const { add: addNotification } = useSetNotifications();
-  const { add: addToast } = useSetToastMessages();
-  const handleSubmit: SubmitHandler<TValues> = useCallback(
+  const { add: addToast } = useSetToastMessages();*/
+  /* const handleSubmit: SubmitHandler<TValues> = useCallback(
     async (formValues: TValues) => {
       let result!: any;
       try {
@@ -215,7 +324,7 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
       alertSubmitFailureMessage,
       alertSubmitFailureType,
     ]
-  );
+  );*/
 
   return (
     <ScopeProvider scope={FormIdScope} value={formId}>
@@ -225,13 +334,19 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
         formState={formState}
         {...methods}>
         <form
+          id={formId}
           name={formId}
+          noValidate={mounted}
+          action={action}
+          method={method}
+          encType={encType}
+          onSubmit={submit}
           autoComplete={
             autoComplete
               ? InputAutoCompleteTypes.ON
               : InputAutoCompleteTypes.OFF
           }
-          onSubmit={methods.handleSubmit(handleSubmit, handleSubmitError)}>
+          {...props}>
           <fieldset
             className={className}
             form={formId}

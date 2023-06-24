@@ -26,7 +26,8 @@
     "apps/*",
     "libs/*",
     "design-system/*",
-    "tools/*"
+    "tools/*",
+    "docs/*"
   ],
   "config": {
     "commitizen": {
@@ -85,7 +86,6 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@js-temporal/polyfill": "^0.4.4",
-    "@mdx-js/react": "^2.3.0",
     "@next/bundle-analyzer": "^13.4.7",
     "@next/font": "^13.4.4",
     "@vercel/analytics": "^1.0.1",
@@ -101,10 +101,9 @@
     "jotai-molecules": "^1.1.1",
     "lottie-web": "^5.12.0",
     "next": "^13.4.4",
-    "prism-react-renderer": "^2.0.3",
     "radash": "^10.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^0.0.0-experimental-c8deb5db6-20230622",
+    "react-dom": "^0.0.0-experimental-c8deb5db6-20230622",
     "react-hook-form": "^7.44.3",
     "react-router": "^6.4.2",
     "react-router-dom": "^6.10.0",
@@ -128,11 +127,13 @@
     "@docusaurus/core": "^2.4.1",
     "@docusaurus/module-type-aliases": "2.4.1",
     "@docusaurus/preset-classic": "^2.4.1",
+    "@docusaurus/theme-live-codeblock": "^2.4.1",
     "@hookform/devtools": "^4.3.1",
+    "@mdx-js/react": "^2.3.0",
     "@microsoft/api-extractor": "^7.34.5",
     "@nx-dotnet/core": "^1.22.0",
     "@nx-dotnet/dotnet": "^1.22.0",
-    "@nx-plus/docusaurus": "^14.1.0",
+    "@nx-plus/docusaurus": "^15.0.0-rc.0",
     "@nx-tools/nx-container": "^4.0.3",
     "@nx/cypress": "16.2.2",
     "@nx/devkit": "16.2.2",
@@ -179,8 +180,10 @@
     "@testing-library/react": "14.0.0",
     "@theunderscorer/nx-semantic-release": "^2.3.0",
     "@total-typescript/ts-reset": "^0.4.2",
+    "@tsconfig/docusaurus": "^1.0.7",
     "@types/jest": "29.5.2",
     "@types/node": "18.16.18",
+    "@types/prismjs": "^1.26.0",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
     "@types/react-router-dom": "5.3.3",
@@ -231,6 +234,7 @@
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.7",
     "pretty-quick": "^3.1.3",
+    "prism-react-renderer": "^2.0.5",
     "react-docgen-typescript": "^2.2.2",
     "react-pdf-tailwind": "^2.1.0",
     "react-refresh": "^0.14.0",
@@ -274,7 +278,7 @@
     }
   },
   "engines": {
-    "node": ">=18.14.0"
+    "node": ">=18.15.0"
   },
   "packageManager": "npm@9.0.0"
 }

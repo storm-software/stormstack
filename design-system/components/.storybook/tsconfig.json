@@ -3,7 +3,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "outDir": "",
-    "types": ["node", "reflect-metadata"]
+    "types": ["node"]
   },
   "files": [
     "../../../node_modules/@nrwl/react/typings/styled-jsx.d.ts",

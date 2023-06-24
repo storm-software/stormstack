@@ -67,12 +67,25 @@
                   "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
-                  "Error Response": {
+                  "Sample Error": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -89,10 +102,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -109,10 +135,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -129,10 +168,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -216,10 +268,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -236,10 +301,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -256,10 +334,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -276,10 +367,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -342,10 +446,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -362,10 +479,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -382,10 +512,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -402,10 +545,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -443,10 +599,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -463,10 +632,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -483,10 +665,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -503,10 +698,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -579,10 +787,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -599,10 +820,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -619,10 +853,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -639,10 +886,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -712,10 +972,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -732,10 +1005,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -752,10 +1038,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -772,10 +1071,23 @@
                 "examples": {
                   "Error Response": {
                     "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "title": "An error occurred processing your request.",
+                      "detail": "An error occurred processing the request.",
+                      "extendedDetail": "Your current balance is 30, but that costs 50.",
+                      "instance": "/account/12345/msgs/abc",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string",
+                      "type": "about:blank",
+                      "status": 500,
+                      "traceId": "0e1892bf-03b0-404c-b6f9-c4e5e3d86816",
+                      "stackTrace": "string",
+                      "errors": [
+                        {
+                          "name": "string",
+                          "attemptedValue": "string"
+                        }
+                      ]
                     }
                   }
                 }
@@ -837,7 +1149,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -857,7 +1174,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -877,7 +1199,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -897,7 +1224,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -972,7 +1304,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -992,7 +1329,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1012,7 +1354,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1032,7 +1379,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1080,7 +1432,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1100,7 +1457,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1120,7 +1482,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1140,7 +1507,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1188,7 +1560,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1208,7 +1585,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1228,7 +1610,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -1248,7 +1635,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }

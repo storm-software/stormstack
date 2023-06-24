@@ -9,3 +9,7 @@ export * from "./type-checks";
 export * from "./web-storage";
 export * from "./serialization";
 export * from "./form-utils";
+export * from "./subscribable";
+export * from "./connection-manager";
+export * from "./focus-manager";
+

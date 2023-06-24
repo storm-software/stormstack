@@ -86,7 +86,7 @@ Run `nx graph` to see a diagram of the dependencies of your projects.
 
 ### Distributed Computation Caching & Distributed Task Execution
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nx/nx/master/images/nx-cloud-card.png"></p>
+<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nx/nx/master/images/nx-cloud-card.png" /></p>
 
 Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
 

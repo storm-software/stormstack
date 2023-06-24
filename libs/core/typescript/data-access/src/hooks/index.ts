@@ -12,3 +12,5 @@ export * from "./useIsSubmitting";
 export * from "./useIsValid";
 export * from "./useFieldErrors";
 export * from "./useFieldRegistration";
+export * from "./useIsConnected";
+export * from "./useIsFocused";
