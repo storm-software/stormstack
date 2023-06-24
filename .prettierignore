@@ -3,3 +3,5 @@
 dist/**
 **/dotnet/**
 node_modules/
+
+tailwind.config.js
