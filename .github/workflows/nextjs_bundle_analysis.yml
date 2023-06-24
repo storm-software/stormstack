@@ -40,16 +40,17 @@ jobs:
           # change this if you prefer a more strict cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
-      - name: Prepare for build
-        run: npx nx run design-system-tokens:build:open-system
+      - name: Prepare for Design Token build
+        run: npx nx run tools-executors-typescript:build:design-tokens-build
 
-      - name: Prepare for build
-        run: npx nx run web-shell:build
+      - name: Design Token build
+        run: npx nx run design-system-tokens:build:open-system
 
       - name: Build next.js app
         env:
           SKIP_BUILD_PRODUCT_REDIRECTS: 1
-        run: npx nx run tools-executors-typescript:build:design-tokens-build
+        run: npx nx run web-shell:build
+
 
 
       # Here's the first place where next-bundle-analysis' own script is used
