@@ -1666,17 +1666,17 @@
             "$ref": "#/components/schemas/ContactHeaderRecord"
           },
           {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ContactDetailRecord"
+            "type": "object",
+            "properties": {
+              "details": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ContactDetailRecord"
+                }
+              }
             }
           }
-        ],
-        "title": "ContactRecord",
-        "description": "A full contact model including all of it's previously submitted details",
-        "x-stoplight": {
-          "id": "9ee78c1890acc"
-        }
+        ]
       },
       "ContactHeaderRecord": {
         "allOf": [

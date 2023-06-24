@@ -39,7 +39,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -47,7 +47,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -59,7 +64,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -67,7 +72,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -79,7 +89,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -87,7 +97,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -99,7 +114,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -107,7 +122,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -124,7 +144,9 @@
           }
         ],
         "description": "An end point that returns the list of users in the system",
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       }
     },
     "/users/{userId}": {
@@ -145,7 +167,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -153,7 +175,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -165,7 +192,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -173,7 +200,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -185,7 +217,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -193,7 +225,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -205,7 +242,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -213,7 +250,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -227,7 +269,9 @@
           }
         ],
         "description": "An end point that returns data for a specific user",
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       },
       "delete": {
         "summary": "Remove User",
@@ -255,7 +299,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -263,7 +307,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -275,7 +324,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -283,7 +332,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -295,7 +349,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -303,7 +357,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -315,7 +374,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -323,7 +382,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -337,119 +401,29 @@
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": ["Users"]
+        "tags": [
+          "Users"
+        ]
       },
       "post": {
         "summary": "Add User",
         "operationId": "add-user",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
-                },
-                "examples": {
-                  "Sample Response": {
-                    "value": {
-                      "guid": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
-                },
-                "examples": {
-                  "Error Response": {
-                    "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
-                },
-                "examples": {
-                  "Error Response": {
-                    "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
-                },
-                "examples": {
-                  "Error Response": {
-                    "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Service Unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
-                },
-                "examples": {
-                  "Error Response": {
-                    "value": {
-                      "type": "https://example.com/probs/out-of-credit",
-                      "title": "You do not have enough credit.",
-                      "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
         "description": "Add a new user",
         "parameters": [
           {
-            "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
+            "in": "cookie"
           }
         ],
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "requestBody": {
           "$ref": "#/components/requestBodies/UpdateUserRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
       },
       "put": {
@@ -461,7 +435,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/UpdateSuccessResponse"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/responses/UpdateResponse"
                 },
                 "examples": {
                   "Sample Response": {
@@ -478,7 +452,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -486,7 +460,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -498,7 +477,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -506,7 +485,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -518,7 +502,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -526,7 +510,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -538,7 +527,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetails"
+                  "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/ProblemDetailsResponse"
                 },
                 "examples": {
                   "Error Response": {
@@ -546,7 +535,12 @@
                       "type": "https://example.com/probs/out-of-credit",
                       "title": "You do not have enough credit.",
                       "detail": "Your current balance is 30, but that costs 50.",
-                      "instance": "/account/12345/msgs/abc"
+                      "instance": "/account/12345/msgs/abc",
+                      "status": 400,
+                      "traceId": "df737238-1184-4a43-9132-dc2a229f23f6",
+                      "severity": "error",
+                      "resultCode": 11,
+                      "resultType": "string"
                     }
                   }
                 }
@@ -554,7 +548,9 @@
             }
           }
         },
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "requestBody": {
           "$ref": "#/components/requestBodies/UpdateUserRequest"
         },
@@ -596,7 +592,12 @@
                 "minimum": 1
               }
             },
-            "required": ["userId", "name", "type", "visitCount"]
+            "required": [
+              "userId",
+              "name",
+              "type",
+              "visitCount"
+            ]
           }
         ],
         "type": "object",
@@ -616,12 +617,19 @@
                 },
                 "type": {
                   "type": "string",
-                  "enum": ["guest", "internal", "external"],
+                  "enum": [
+                    "guest",
+                    "internal",
+                    "external"
+                  ],
                   "default": "guest",
                   "example": "guest"
                 }
               },
-              "required": ["name", "type"]
+              "required": [
+                "name",
+                "type"
+              ]
             },
             "examples": {
               "Sample Request": {
@@ -678,7 +686,11 @@
         "required": false,
         "schema": {
           "type": "string",
-          "enum": ["guest", "internal", "external"],
+          "enum": [
+            "guest",
+            "internal",
+            "external"
+          ],
           "example": "guest"
         },
         "description": "The type of the user"

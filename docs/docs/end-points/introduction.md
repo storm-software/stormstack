@@ -21,4 +21,4 @@ These .yaml documents can either be updating manually or using a [GUI editor](ht
 
 |           API Hives            |     Domain     | API App      |
 | :----------------------------: | :------------: | :----------- |
-| [Message](/end-points/message) | Static/Message | apis-message |
+| [Shared](/end-points/shared) | Shared | N/A |

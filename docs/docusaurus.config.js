@@ -181,7 +181,7 @@ const config = {
             ],
           },
           {
-            to: "api",
+            to: "docs/end-points/introduction",
             label: "API Reference",
             position: "left",
           },

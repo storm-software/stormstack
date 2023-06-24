@@ -1,28 +1,21 @@
 {
   "extends": "../tsconfig.base.json",
-  "display": "Open System - Documentation",
-  "docs": "https://v2.docusaurus.io/docs/typescript-support",
   "compilerOptions": {
-    "jsx": "preserve",
     "allowJs": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": false,
-    "noPropertyAccessFromIndexSignature": false,
+    "jsx": "react",
+    "lib": ["DOM"],
     "noEmit": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "incremental": true,
+    "noImplicitAny": false,
+    "strict": false,
     "types": [
-      "jest",
       "node",
       "@docusaurus/module-type-aliases",
       "@docusaurus/theme-classic"
     ],
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "baseUrl": ".",
+    "paths": {
+      "@site/*": ["./*"]
+    }
   }
 }

@@ -1,4 +1,4 @@
-<p style="text-align: center;"><img src="./assets/logo-default.svg" width="100%" altText="open-system" /></p>
+<p align="center"><img src="./assets/logo-default.svg" width="100%" altText="open-system" /></p>
 
 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries.
 
@@ -86,7 +86,7 @@ Run `nx graph` to see a diagram of the dependencies of your projects.
 
 ### Distributed Computation Caching & Distributed Task Execution
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nx/nx/master/images/nx-cloud-card.png" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nx/nx/master/images/nx-cloud-card.png" /></p>
 
 Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
 
@@ -111,10 +111,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tfoot>
     <tr>
       <td align="center" size="13px" colspan="7">
-        <img src="https://raw.githubusercontent.com/all-contributors/all-contributors-cli/1b8533af435da9854653492b1327a23a4dbd0a10/assets/logo-small.svg">
-          <a href="https://all-contributors.js.org/docs/en/bot/usage">Add your contributions</a>
-        </img>
-      </td>
+        <a href="https://all-contributors.js.org/docs/en/bot/usage">
+            <img src="https://raw.githubusercontent.com/all-contributors/all-contributors-cli/1b8533af435da9854653492b1327a23a4dbd0a10/assets/logo-small.svg" />
+            Add your contributions</a>
+        </td>
     </tr>
   </tfoot>
 </table>
