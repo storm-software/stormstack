@@ -1,0 +1,3 @@
+apps/apis/**
+libs/**/server/**
+libs/**/dotnet/**
