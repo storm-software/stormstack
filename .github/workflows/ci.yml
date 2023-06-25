@@ -76,14 +76,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Latest Documentation
-        run: npx nx run docs:build
-
-      - name: Deploy Documentation Updates
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist/docs
-          CLEAN: true
-
+      # - name: Build Latest Documentation
+      #  run: npx nx run docs:build
