@@ -12,7 +12,7 @@
         "tsConfig": "libs/core/typescript/data-access/tsconfig.lib.json",
         "project": "libs/core/typescript/data-access/package.json",
         "entryFile": "libs/core/typescript/data-access/src/index.ts",
-        "external": ["react"],
+        "external": ["react", "react-dom"],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [

@@ -1,9 +1,11 @@
-import ReactDOM from "react-dom";
+"use client";
+
+import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 export function useIsSubmitting() {
   // const { control } = useFormContext();
   // const { isSubmitting } = useFormState({ control });
-  const status = ReactDOM.experimental_useFormStatus();
+  const status = useFormStatus();
 
   return !!status?.pending;
 }
