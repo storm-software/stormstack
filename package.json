@@ -29,20 +29,6 @@
     "tools/*",
     "docs/*"
   ],
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-git",
-      "config": "./commitlint.config.js"
-    },
-    "cz-git": {
-      "config": "./commitlint.config.js"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
-    }
-  },
   "scripts": {
     "nx": "nx",
     "prepare:restore": "is-ci || nx g @nx-dotnet/core:restore",
@@ -64,7 +50,6 @@
     "build:tools-ci": "cross-env FORCE_COLOR=1 npx nx run tools-executors-typescript:build:design-tokens-build && npx nx run design-system-tokens:build:open-system",
     "build:web-deploy": "cross-env FORCE_COLOR=1 npm run build:tools-ci && npx nx run web-shell:build:production",
     "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
-    "build:wundergraph": "cross-env FORCE_COLOR=1 wunderctl generate",
     "build": "cross-env FORCE_COLOR=1 nx run-many -t build --all --parallel 4",
     "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell --no-progress --relative --dot --gitignore",
     "lint:language": "cross-env FORCE_COLOR=1 alex .",
@@ -75,13 +60,12 @@
     "test": "nx test",
     "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
     "start": "nx serve",
-    "wundergraph": "wunderctl up --debug",
     "format": "nx format",
-    "commit": "git-cz",
     "add:contributors": "all-contributors add",
     "generate:contributors": "all-contributors generate",
     "add:decisions": "npx log4brains adr new",
-    "preview:decisions": "npx log4brains preview"
+    "preview:decisions": "npx log4brains preview",
+    "semantic-release": "semantic-release --branches main"
   },
   "private": true,
   "dependencies": {
@@ -103,8 +87,8 @@
     "lottie-web": "^5.12.0",
     "next": "^13.4.4",
     "radash": "^10.8.1",
-    "react": "^0.0.0-experimental-8ec962d82-20230623",
-    "react-dom": "^0.0.0-experimental-8ec962d82-20230623",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -181,7 +165,6 @@
     "@testing-library/react": "14.0.0",
     "@theunderscorer/nx-semantic-release": "^2.3.0",
     "@total-typescript/ts-reset": "^0.4.2",
-    "@tsconfig/docusaurus": "^1.0.7",
     "@types/jest": "29.5.2",
     "@types/node": "18.16.18",
     "@types/react": "18.2.14",
@@ -199,12 +182,11 @@
     "babel-plugin-transform-jsbi-to-bigint": "^1.4.0",
     "bundlewatch": "^0.3.3",
     "change-case": "^4.1.2",
-    "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
     "cspell": "^6.31.1",
     "css-loader": "^6.4.0",
     "cypress": "^12.11.0",
-    "cz-git": "^1.6.1",
+    "cz-conventional-changelog": "^3.3.0",
     "docusaurus-plugin-react-docgen-typescript": "^1.1.0",
     "docusaurus-plugin-typedoc": "^0.19.2",
     "docusaurus-theme-search-typesense": "^0.12.0",
@@ -240,6 +222,7 @@
     "redocusaurus": "^1.6.2",
     "reflect-metadata": "^0.1.13",
     "rollup-plugin-url": "^3.0.1",
+    "semantic-release": "^21.0.5",
     "server-only": "^0.0.1",
     "storybook": "^7.0.7",
     "storybook-addon-swc": "^1.2.0",
@@ -260,6 +243,82 @@
     "webpack": "^5.81.0",
     "webpack-merge": "^5.8.0"
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    }
+  },
+  "release": {
+    "branches": [
+      "main",
+      "alpha",
+      "beta"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "angular",
+          "releaseRules": [
+            {
+              "breaking": true,
+              "release": "major"
+            },
+            {
+              "revert": true,
+              "release": "patch"
+            },
+            {
+              "type": "feat",
+              "release": "minor"
+            },
+            {
+              "type": "chore",
+              "release": "patch"
+            },
+            {
+              "type": "fix",
+              "release": "patch"
+            },
+            {
+              "type": "perf",
+              "release": "patch"
+            },
+            {
+              "type": "build",
+              "release": "patch"
+            },
+            {
+              "type": "docs",
+              "scope": "readme",
+              "release": "patch"
+            },
+            {
+              "type": "refactor",
+              "release": "patch"
+            },
+            {
+              "scope": "no-release",
+              "release": false
+            }
+          ]
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "./dist"
+        }
+      ],
+      "@semantic-release/github"
+    ]
+  },
   "bundlewatch": {
     "files": [
       {
@@ -269,10 +328,9 @@
     ],
     "ci": {
       "trackBranches": [
-        "master",
+        "main",
         "alpha",
-        "beta",
-        "main"
+        "beta"
       ]
     }
   },
