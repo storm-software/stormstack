@@ -18,38 +18,25 @@ jobs:
   analyze:
     env:
       SKIP_ENV_VALIDATION: true
+      SKIP_BUILD_PRODUCT_REDIRECTS: 1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Set up node
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: "18.x"
+          registry-url: https://registry.npmjs.org/
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install --frozen-lockfile --legacy-peer-deps
+      - uses: nrwl/nx-set-shas@v3
+      - run: npm install --no-frozen-lockfile --legacy-peer-deps
 
-      #- name: Restore next build
-      #  uses: actions/cache@v3
-      #  id: restore-build-cache
-      #  env:
-      #    cache-name: cache-next-build
-      #  with:
-      #    path: .next/cache
-      #    # change this if you prefer a more strict cache
-      #    key: ${{ runner.os }}-build-${{ env.cache-name }}
-
-      - name: Prepare for Design Token build
-        run: npx nx run tools-executors-typescript:build:design-tokens-build
-
-      - name: Design Token build
-        run: npx nx run design-system-tokens:build:open-system
-
-      - name: Build next.js app
-        env:
-          SKIP_BUILD_PRODUCT_REDIRECTS: 1
-        run: npx nx run web-shell:build
+      - run: npx nx run tools-executors-typescript:build:design-tokens-build
+      - run: npx nx run design-system-tokens:build:open-system
+      - run: npx nx run web-shell:build
 
       # Here's the first place where next-bundle-analysis' own script is used
       # This step pulls the raw bundle stats for the current bundle
