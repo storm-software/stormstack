@@ -31,7 +31,7 @@ const nextConfig = {
   },
 
   swcMinify: true,
-  reactStrictMode: true,
+  reactStrictMode: false,
 
   /*pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],*/
 
