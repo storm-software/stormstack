@@ -1,3 +1,5 @@
 apps/apis/**
 libs/**/server/**
 libs/**/dotnet/**
+
+libs/core/typescript/feature-kafka
