@@ -14,7 +14,9 @@
     "incremental": true,
     "types": [
       "jest",
-      "node"
+      "node",
+      "react/experimental",
+      "react-dom/experimental"
     ],
     "plugins": [
       {
