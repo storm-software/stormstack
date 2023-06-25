@@ -2,11 +2,13 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "types": ["node"]
+    "types": ["node", "react/experimental", "react-dom/experimental"]
   },
   "files": [
     "../../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../../node_modules/@nx/next/typings/image.d.ts"
+    "../../../../node_modules/@nx/next/typings/image.d.ts",
+    "../../../../node_modules/@types/react/experimental.d.ts",
+    "../../../../node_modules/@types/react-dom/experimental.d.ts"
   ],
   "exclude": [
     "jest.config.ts",

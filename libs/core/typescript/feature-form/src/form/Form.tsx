@@ -163,37 +163,39 @@ export function Form<TValues extends Record<string, any>, TContext = any>({
         });
       }
 
-      if (action && typeof action === "string") {
-        try {
-          const shouldStringifySubmissionData = [
-            headers && headers["Content-Type"],
-            encType,
-          ].some(value => value && value.includes("json"));
+      if (action) {
+        if (typeof action === "string") {
+          try {
+            const shouldStringifySubmissionData = [
+              headers && headers["Content-Type"],
+              encType,
+            ].some(value => value && value.includes("json"));
 
-          const response = await fetch(action, {
-            method,
-            headers: {
-              ...headers,
-              ...(encType ? { "Content-Type": encType } : {}),
-            },
-            body: shouldStringifySubmissionData ? formDataJson : formData,
-          });
+            const response = await fetch(action, {
+              method,
+              headers: {
+                ...headers,
+                ...(encType ? { "Content-Type": encType } : {}),
+              },
+              body: shouldStringifySubmissionData ? formDataJson : formData,
+            });
 
-          if (
-            response &&
-            (validateStatus
-              ? !validateStatus(response.status)
-              : response.status < 200 || response.status >= 300)
-          ) {
+            if (
+              response &&
+              (validateStatus
+                ? !validateStatus(response.status)
+                : response.status < 200 || response.status >= 300)
+            ) {
+              hasError = true;
+              onError && onError({ response });
+              type = String(response.status);
+            } else {
+              onSuccess && onSuccess({ response });
+            }
+          } catch (error: unknown) {
             hasError = true;
-            onError && onError({ response });
-            type = String(response.status);
-          } else {
-            onSuccess && onSuccess({ response });
+            onError && onError({ error });
           }
-        } catch (error: unknown) {
-          hasError = true;
-          onError && onError({ error });
         }
       }
     })(event);

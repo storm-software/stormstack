@@ -30,7 +30,7 @@ const nextConfig = {
     svgr: false,
   },
 
-  swcMinify: true,
+  swcMinify: false,
   reactStrictMode: false,
 
   /*pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],*/
