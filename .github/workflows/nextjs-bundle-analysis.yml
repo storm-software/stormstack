@@ -40,11 +40,8 @@ jobs:
           # change this if you prefer a more strict cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
-      - name: Prepare for Design Token build
-        run: npx nx run tools-executors-typescript:build:design-tokens-build
-
-      - name: Design Token build
-        run: npx nx run design-system-tokens:build:open-system
+      - name: Prepare for build
+        run: npm run build:tools-ci
 
       - name: Build next.js app
         env:

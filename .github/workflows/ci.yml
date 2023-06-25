@@ -43,9 +43,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       - run: npm install --no-frozen-lockfile --legacy-peer-deps
 
-      - run: npx nx run tools-executors-typescript:build:design-tokens-build
-      - run: npx nx run design-system-tokens:build:open-system
-
+      - run: npm run build:tools-ci
       - run: npx nx format
       # - run: npx nx affected -t lint --parallel=3
       # - run: npx nx affected -t test --parallel=3 --configuration=ci --base=${{ github.event.before }}

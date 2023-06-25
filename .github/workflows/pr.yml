@@ -42,8 +42,8 @@ jobs:
       - name: Start CI Orchestrator
         run: npx nx-cloud start-ci-run
 
-      - name: Build Design Token tools
-        run: npx nx run tools-executors-typescript:build:design-tokens-build
+      - name: Prepare for build
+        run: npm run build:tools-ci
 
       - name: Build Design Tokens
         run: npx nx run design-system-tokens:build:open-system

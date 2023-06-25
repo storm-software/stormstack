@@ -51,11 +51,8 @@ jobs:
         uses: nrwl/nx-set-shas@v3
       - run: npm install --no-frozen-lockfile --legacy-peer-deps
 
-      - name: Prepare for Design Token build
-        run: npx nx run tools-executors-typescript:build:design-tokens-build
-
-      - name: Design Token build
-        run: npx nx run design-system-tokens:build:open-system
+      - name: Prepare for build
+        run: npm run build:tools-ci
 
       - name: Build website
         run: npx nx run docs:build
