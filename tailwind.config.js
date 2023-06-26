@@ -2,7 +2,7 @@ const { fontFamily } = require("tailwindcss/defaultTheme");
 const extend = require("./dist/design-system/tokens/js/theme");
 const plugin = require("tailwindcss/plugin");
 const { join } = require("path");
-const { createGlobPatternsForDependencies } = require("@nx/react/tailwind");
+// const { createGlobPatternsForDependencies } = require("@nx/react/tailwind");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
