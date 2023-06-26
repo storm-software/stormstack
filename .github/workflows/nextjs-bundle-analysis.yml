@@ -28,7 +28,7 @@ jobs:
           node-version: "18.x"
 
       - name: Install dependencies
-        run: npm install --frozen-lockfile --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Restore next build
         uses: actions/cache@v3

@@ -49,7 +49,7 @@ jobs:
 
       - name: Install Dependencies
         uses: nrwl/nx-set-shas@v3
-      - run: npm install --no-frozen-lockfile --legacy-peer-deps
+      - run: npm install --legacy-peer-deps
 
       - name: Prepare for build
         run: npm run build:tools-ci

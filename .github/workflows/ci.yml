@@ -41,7 +41,7 @@ jobs:
           cache: 'npm'
 
       - uses: nrwl/nx-set-shas@v3
-      - run: npm install --no-frozen-lockfile --legacy-peer-deps
+      - run: npm install --legacy-peer-deps
 
       - run: npm run build:tools-ci
       - run: npx nx format
