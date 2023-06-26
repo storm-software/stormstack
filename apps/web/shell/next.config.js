@@ -1,5 +1,5 @@
-const { composePlugins, withNx } = require('@nx/next');
-const { get } = require('@vercel/edge-config');
+const { composePlugins, withNx } = require("@nx/next");
+const { get } = require("@vercel/edge-config");
 
 // const flowRight = require("lodash/flowRight");
 // const withI18n = require("./config/withI18n");
@@ -22,7 +22,7 @@ const CONTENT_SECURITY_POLICY = `
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
-  basePath: '',
+  basePath: "",
 
   nx: {
     // Set this to true if you would like to to use SVGR
@@ -37,7 +37,7 @@ const nextConfig = {
 
   experimental: {
     serverActions: true,
-    serverComponentsExternalPackages: ['redis', 'redis-om'],
+    serverComponentsExternalPackages: ["redis", "redis-om"],
     instrumentationHook: true,
 
     /*swcPlugins: [
@@ -54,26 +54,26 @@ const nextConfig = {
   },
 
   devIndicators: {
-    buildActivityPosition: 'bottom-right',
+    buildActivityPosition: "bottom-right",
   },
 
   transpilePackages: [
-    'jotai',
-    'framer-motion',
-    'lottie-web',
-    'react-hook-form',
-    '@open-system/design-system-components',
-    '@open-system/core-components',
-    '@open-system/core-data-access',
-    '@open-system/core-feature-form',
-    '@open-system/core-feature-notifications',
-    '@open-system/shared-components',
-    '@open-system/shared-data-access',
-    '@open-system/shared-feature-address',
-    '@open-system/user-management-components',
-    '@open-system/user-management-data-access',
-    '@open-system/contact-feature-form',
-    '@open-system/contact-data-access',
+    "jotai",
+    "framer-motion",
+    "lottie-web",
+    "react-hook-form",
+    "@open-system/design-system-components",
+    "@open-system/core-components",
+    "@open-system/core-data-access",
+    "@open-system/core-feature-form",
+    "@open-system/core-feature-notifications",
+    "@open-system/shared-components",
+    "@open-system/shared-data-access",
+    "@open-system/shared-feature-address",
+    "@open-system/user-management-components",
+    "@open-system/user-management-data-access",
+    "@open-system/contact-feature-form",
+    "@open-system/contact-data-access",
   ],
 
   // Disable linting during build => the linter may have optional dev dependencies
@@ -89,6 +89,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
+  images: {
+    disableStaticImages: true,
+  },
+
   webpack(config) {
     config.experiments.topLevelAwait = true;
 
@@ -99,14 +103,14 @@ const nextConfig = {
         rules: [
           ...(config?.module?.rules ?? []),
           {
-            loader: '@svgr/webpack',
+            loader: "@svgr/webpack",
             options: {
               prettier: false,
               svgo: true,
               svgoConfig: {
                 plugins: [
                   {
-                    name: 'preset-default',
+                    name: "preset-default",
                     params: {
                       overrides: { removeViewBox: false },
                     },
@@ -120,11 +124,11 @@ const nextConfig = {
           {
             test: /\.(eot|ttf|woff|woff2)$/,
             use: {
-              loader: 'file-loader',
+              loader: "file-loader",
               options: {
-                name: '[name].[ext]',
-                publicPath: 'fonts',
-                outputPath: 'fonts',
+                name: "[name].[ext]",
+                publicPath: "fonts",
+                outputPath: "fonts",
               },
             },
           },
@@ -135,16 +139,16 @@ const nextConfig = {
 
   rewrites() {
     return [
-      { source: '/healthz', destination: '/api/health' },
-      { source: '/api/healthz', destination: '/api/health' },
-      { source: '/health', destination: '/api/health' },
-      { source: '/ping', destination: '/api/health' },
+      { source: "/healthz", destination: "/api/health" },
+      { source: "/api/healthz", destination: "/api/health" },
+      { source: "/health", destination: "/api/health" },
+      { source: "/ping", destination: "/api/health" },
     ];
   },
 
   redirects() {
     try {
-      return get('redirects');
+      return get("redirects");
     } catch {
       return [];
     }
@@ -153,42 +157,42 @@ const nextConfig = {
   headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
           {
-            key: 'Content-Security-Policy',
-            value: CONTENT_SECURITY_POLICY.replace(/\n/g, ''),
+            key: "Content-Security-Policy",
+            value: CONTENT_SECURITY_POLICY.replace(/\n/g, ""),
           },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
           {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "origin-when-cross-origin",
           },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
           },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload',
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
           },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
           {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
           },
         ],
       },
@@ -231,10 +235,10 @@ const plugins = [
 
   withNx,
 
-  (config) => {
+  config => {
     // Enable Webpack analyzer
     if (process.env.ANALYZE) {
-      const withBundleAnalyzer = require('@next/bundle-analyzer')({
+      const withBundleAnalyzer = require("@next/bundle-analyzer")({
         enabled: !!process.env.ANALYZE,
       });
       return withBundleAnalyzer(config);
@@ -243,18 +247,18 @@ const plugins = [
     return config;
   },
 
-  (config) => {
+  config => {
     if (process.env.MAINTENANCE_MODE) {
       config.redirects = async () => {
         return [
           {
-            source: '/',
-            destination: '/maintenance',
+            source: "/",
+            destination: "/maintenance",
             permanent: false,
           },
           {
-            source: '/((?!maintenance|_next|api).*)',
-            destination: '/maintenance',
+            source: "/((?!maintenance|_next|api).*)",
+            destination: "/maintenance",
             permanent: false,
           },
           ...config.redirects,
