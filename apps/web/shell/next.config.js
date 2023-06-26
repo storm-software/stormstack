@@ -89,10 +89,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
-  images: {
-    disableStaticImages: true,
-  },
-
   webpack(config) {
     config.experiments.topLevelAwait = true;
 

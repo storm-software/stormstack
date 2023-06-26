@@ -25,34 +25,17 @@ import FigmaLogo from "../../../public/static/images/external-logos/figma-logo.s
 import GraphQLLogo from "../../../public/static/images/external-logos/graphql-logo.svg";
 import InvisionLogo from "../../../public/static/images/external-logos/invision-logo.svg";
 import JavaLogo from "../../../public/static/images/external-logos/java-logo.svg";
-import jenkinsLogo from "../../../public/static/images/external-logos/jenkins-logo.png";
-import jestLogo from "../../../public/static/images/external-logos/jest-logo.png";
 import KafkaLogo from "../../../public/static/images/external-logos/kafka-logo.svg";
-import kubernetesLogo from "../../../public/static/images/external-logos/kubernetes-logo.png";
-import log4brainsLogo from "../../../public/static/images/external-logos/log4brains-logo.png";
-import mavenLogo from "../../../public/static/images/external-logos/maven-logo.png";
 import MintlifyLogo from "../../../public/static/images/external-logos/mintlify-logo.svg";
 import NextLogo from "../../../public/static/images/external-logos/nextjs-logo.svg";
-import nodeLogo from "../../../public/static/images/external-logos/node-logo.png";
-import nunitLogo from "../../../public/static/images/external-logos/nunit-logo.png";
-import nxLogo from "../../../public/static/images/external-logos/nx-logo.png";
 import OpenApiLogo from "../../../public/static/images/external-logos/openapi-logo.svg";
 import PlantUMLLogo from "../../../public/static/images/external-logos/plantuml-logo.svg";
 import PostgreSqlLogo from "../../../public/static/images/external-logos/postgresql-logo.svg";
-import pythonLogo from "../../../public/static/images/external-logos/python-logo.png";
 import RabbitMQLogo from "../../../public/static/images/external-logos/rabbitmq-logo.svg";
 import ReactLogo from "../../../public/static/images/external-logos/react-logo.svg";
-import redoclyLogo from "../../../public/static/images/external-logos/redocly-logo.png";
-import sqlServerLogo from "../../../public/static/images/external-logos/sql-server-logo.png";
-import stencilLogo from "../../../public/static/images/external-logos/stenciljs-logo.png";
 import StoplightLogo from "../../../public/static/images/external-logos/stoplight-logo.svg";
 import StorybookLogo from "../../../public/static/images/external-logos/storybook-logo.svg";
-import structurizrLogo from "../../../public/static/images/external-logos/structurizr-logo.png";
-import styleDictionaryLogo from "../../../public/static/images/external-logos/style-dictionary-logo.png";
-import styledComponentsLogo from "../../../public/static/images/external-logos/styled-components-logo.png";
 import TailwindCssLogo from "../../../public/static/images/external-logos/tailwindcss-logo.svg";
-import testCompleteLogo from "../../../public/static/images/external-logos/test-complete-logo.png";
-import webSphereLogo from "../../../public/static/images/external-logos/websphere-logo.webp";
 import Technology from "./technology";
 import TechnologyGroup from "./technology-group";
 
@@ -205,7 +188,7 @@ export default function Technologies() {
               url="https://amzn.github.io/style-dictionary/#/">
               <div className="h-44 w-44">
                 <Image
-                  src={styleDictionaryLogo}
+                  src="/static/images/external-logos/style-dictionary-logo.png"
                   alt="Style Dictionary"
                   height={175}
                   width={175}
@@ -218,7 +201,7 @@ export default function Technologies() {
               url="https://structurizr.com/">
               <div className="h-44 w-52">
                 <Image
-                  src={structurizrLogo}
+                  src="/static/images/external-logos/structurizr-logo.png"
                   alt="Structurizr"
                   height={150}
                   width={200}
@@ -265,7 +248,7 @@ export default function Technologies() {
               url="https://stenciljs.com/">
               <div className="h-52 w-52">
                 <Image
-                  src={stencilLogo}
+                  src="/static/images/external-logos/stenciljs-logo.png"
                   alt="Stencil"
                   height={200}
                   width={200}
@@ -289,7 +272,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://styled-components.com/">
               <Image
-                src={styledComponentsLogo}
+                src="/static/images/external-logos/styled-components-logo.png"
                 alt="Styled Components"
                 height={200}
                 width={200}
@@ -328,7 +311,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://nodejs.org/">
               <div className="h-44 w-40">
-                <Image src={nodeLogo} alt="Node" height={150} width={150} />
+                <Image src="/static/images/external-logos/node-logo.png" alt="Node" height={150} width={150} />
               </div>
             </Technology>
             <Technology
@@ -342,7 +325,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://www.python.org/community/logos/">
               <div className="h-52 w-52">
-                <Image src={pythonLogo} alt="Python" height={200} width={200} />
+                <Image src="/static/images/external-logos/python-logo.png" alt="Python" height={200} width={200} />
               </div>
             </Technology>
           </TechnologyGroup>
@@ -385,7 +368,7 @@ export default function Technologies() {
               url="https://learn.microsoft.com/en-us/sql/sql-server/?view=sql-server-ver16">
               <div className="h-52 w-52">
                 <Image
-                  src={sqlServerLogo}
+                  src="/static/images/external-logos/sql-server-logo.png"
                   alt="SQL Server"
                   height={200}
                   width={200}
@@ -398,7 +381,7 @@ export default function Technologies() {
               url="https://www.ibm.com/products/mq">
               <div className="h-52 w-52">
                 <Image
-                  src={webSphereLogo}
+                  src="/static/images/external-logos/websphere-logo.webp"
                   alt="WebSphere"
                   height={200}
                   width={200}
@@ -439,7 +422,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://nx.dev/">
               <div className="h-fit w-52">
-                <Image src={nxLogo} alt="Nx" height={200} width={200} />
+                <Image src="/static/images/external-logos/nx-logo.png" alt="Nx" height={200} width={200} />
               </div>
             </Technology>
             <Technology
@@ -459,7 +442,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://maven.apache.org/">
               <div className="w-24">
-                <Image src={mavenLogo} alt="Maven" height={150} width={120} />
+                <Image src="/static/images/external-logos/maven-logo.png" alt="Maven" height={150} width={120} />
               </div>
             </Technology>
             <Technology
@@ -468,7 +451,7 @@ export default function Technologies() {
               url="https://kubernetes.io/">
               <div className="h-52 w-52">
                 <Image
-                  src={kubernetesLogo}
+                  src="/static/images/external-logos/kubernetes-logo.png"
                   alt="Kubernetes"
                   height={200}
                   width={200}
@@ -487,7 +470,7 @@ export default function Technologies() {
               url="https://www.jenkins.io/">
               <div className="h-52 w-52">
                 <Image
-                  src={jenkinsLogo}
+                  src="/static/images/external-logos/jenkins-logo.png"
                   alt="Jenkins"
                   height={150}
                   width={150}
@@ -518,7 +501,7 @@ export default function Technologies() {
               url="https://github.com/thomvaill/log4brains">
               <div className="h-52 w-52">
                 <Image
-                  src={log4brainsLogo}
+                  src="/static/images/external-logos/log4brains-logo.png"
                   alt="Log4brains"
                   height={200}
                   width={200}
@@ -543,7 +526,7 @@ export default function Technologies() {
               url="https://redocly.com/">
               <div className="h-40 w-40">
                 <Image
-                  src={redoclyLogo}
+                  src="/static/images/external-logos/redocly-logo.png"
                   alt="Redocly"
                   height={150}
                   width={150}
@@ -571,7 +554,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://jestjs.io/">
               <div className="h-52 w-52">
-                <Image src={jestLogo} alt="Jest" height={200} width={200} />
+                <Image src="/static/images/external-logos/jest-logo.png" alt="Jest" height={200} width={200} />
               </div>
             </Technology>
             <Technology
@@ -579,7 +562,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://nunit.org/">
               <div className="h-52 w-52">
-                <Image src={nunitLogo} alt="NUnit" height={200} width={200} />
+                <Image src="/static/images/external-logos/nunit-logo.png" alt="NUnit" height={200} width={200} />
               </div>
             </Technology>
             <Technology
@@ -596,7 +579,7 @@ export default function Technologies() {
               url="https://smartbear.com/product/testcomplete/">
               <div className="h-52 w-52">
                 <Image
-                  src={testCompleteLogo}
+                  src="/static/images/external-logos/test-complete-logo.png"
                   alt="Test Complete"
                   height={200}
                   width={200}
