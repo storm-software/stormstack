@@ -1,18 +1,17 @@
 "use client";
 
-import { Heading } from "@open-system/design-system-components";
 import { Link } from "@open-system/core-components";
+import { Heading } from "@open-system/design-system-components";
 import { motion, useInView } from "framer-motion";
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import asyncapiLogo from "../../../public/static/images/external-logos/asyncapi-logo.png";
+import AsyncapiLogo from "../../../public/static/images/external-logos/asyncapi-logo.svg";
 import DotnetLogo from "../../../public/static/images/external-logos/dotnet-logo.svg";
 import GraphQLLogo from "../../../public/static/images/external-logos/graphql-logo.svg";
 import KafkaLogo from "../../../public/static/images/external-logos/kafka-logo.svg";
 import OpenApiLogo from "../../../public/static/images/external-logos/openapi-logo.svg";
 import RabbitMQLogo from "../../../public/static/images/external-logos/rabbitmq-logo.svg";
 import ReduxLogo from "../../../public/static/images/external-logos/redux-logo.svg";
-import arrow from "../../../public/static/images/arrow-doodle.png";
+// import arrow from "../../../public/static/images/arrow-doodle.png";
 import Gear from "../../../public/static/images/gear.svg";
 
 const Types = {
@@ -194,7 +193,7 @@ export default function ApiGeneration() {
             onHoverEnd={toggleAsyncApi}
             variants={asyncapiLogoVariants}
             animate={type}>
-            <Image src={asyncapiLogo} alt="Async-API" height={110} />
+            <AsyncapiLogo alt="Async-Api Logo" height={110} />
           </motion.li>
           <motion.li
             className="cursor-pointer"
@@ -209,7 +208,7 @@ export default function ApiGeneration() {
         <div className="flex flex-col items-center gap-3">
           <div className="relative h-48 w-48">
             <Gear
-              className="absolute top-0 right-0 animate-spin-slow fill-primary"
+              className="absolute right-0 top-0 animate-spin-slow fill-primary"
               height={100}
               width={100}
             />
@@ -219,7 +218,7 @@ export default function ApiGeneration() {
               width={115}
             />
           </div>
-          <Image src={arrow} alt="Arrow" className="rotate-180" width={300} />
+          {/*<Image src={arrow} alt="Arrow" className="rotate-180" width={300} />*/}
         </div>
         <div className="relative flex h-80 w-80 flex-col rounded-lg border-4 border-primary">
           <div className="flex flex-row-reverse items-center gap-2 border-b-4 border-primary p-2">
@@ -228,7 +227,7 @@ export default function ApiGeneration() {
             <div className="h-3 w-3 rounded-full bg-teal-500"></div>
           </div>
           <motion.div
-            className="absolute top-10 left-8 z-20"
+            className="absolute left-8 top-10 z-20"
             initial={false}
             variants={techLogoVariants}
             animate={
@@ -241,7 +240,7 @@ export default function ApiGeneration() {
             <DotnetLogo className="h-32 w-32" />
           </motion.div>
           <motion.div
-            className="absolute top-20 right-5 z-20"
+            className="absolute right-5 top-20 z-20"
             initial={false}
             variants={techLogoVariants}
             animate={type === Types.ASYNC_API ? "opened" : "closed"}>

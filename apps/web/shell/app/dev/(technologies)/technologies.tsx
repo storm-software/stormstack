@@ -12,10 +12,10 @@ import {
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ApiExtractorLogo from "../../../public/static/images/external-logos/api-extractor-logo.svg";
-import asyncapiLogo from "../../../public/static/images/external-logos/asyncapi-logo.png";
+import AsyncapiLogo from "../../../public/static/images/external-logos/asyncapi-logo.svg";
 import CommitlintLogo from "../../../public/static/images/external-logos/commitlint-logo.svg";
-import contextMapperLogo from "../../../public/static/images/external-logos/context-mapper-logo.png";
-import cypressLogo from "../../../public/static/images/external-logos/cypress-logo.png";
+// import contextMapperLogo from "../../../public/static/images/external-logos/context-mapper-logo.png";
+import CypressLogo from "../../../public/static/images/external-logos/cypress-logo.svg";
 import DockerLogo from "../../../public/static/images/external-logos/docker-logo.svg";
 import DocusaurusLogo from "../../../public/static/images/external-logos/docusaurus-logo.svg";
 import DotnetLogo from "../../../public/static/images/external-logos/dotnet-logo.svg";
@@ -24,7 +24,7 @@ import ESLintLogo from "../../../public/static/images/external-logos/eslint-logo
 import FigmaLogo from "../../../public/static/images/external-logos/figma-logo.svg";
 import GraphQLLogo from "../../../public/static/images/external-logos/graphql-logo.svg";
 import InvisionLogo from "../../../public/static/images/external-logos/invision-logo.svg";
-import javaLogo from "../../../public/static/images/external-logos/java-logo.png";
+import JavaLogo from "../../../public/static/images/external-logos/java-logo.svg";
 import jenkinsLogo from "../../../public/static/images/external-logos/jenkins-logo.png";
 import jestLogo from "../../../public/static/images/external-logos/jest-logo.png";
 import KafkaLogo from "../../../public/static/images/external-logos/kafka-logo.svg";
@@ -174,7 +174,7 @@ export default function Technologies() {
               tags={["design system", "ux", "planning"]}>
               <FigmaLogo alt="Figma" height={200} width={200} />
             </Technology>
-            <Technology
+            {/*<Technology
               name="Context Mapper"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://contextmapper.org/">
@@ -186,7 +186,7 @@ export default function Technologies() {
                   width={200}
                 />
               </div>
-            </Technology>
+          </Technology>*/}
             <Technology
               name="Stoplight"
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
@@ -312,12 +312,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://www.asyncapi.com/">
               <div className="h-52 w-52">
-                <Image
-                  src={asyncapiLogo}
-                  alt="Async-API"
-                  height={200}
-                  width={200}
-                />
+                <AsyncapiLogo alt="Async-API" height={200} width={200} />
               </div>
             </Technology>
             <Technology
@@ -325,7 +320,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://www.java.com/">
               <div className="h-52 w-36">
-                <Image src={javaLogo} alt="Java" height={150} width={150} />
+                <JavaLogo alt="Java" height={150} width={150} />
               </div>
             </Technology>
             <Technology
@@ -592,12 +587,7 @@ export default function Technologies() {
               description="Style Dictionary is a build system that allows you to define styles once, in a way for any platform or language to consume."
               url="https://www.cypress.io/">
               <div className="h-52 w-52">
-                <Image
-                  src={cypressLogo}
-                  alt="Cypress"
-                  height={200}
-                  width={200}
-                />
+                <CypressLogo alt="Cypress" height={200} width={200} />
               </div>
             </Technology>
             <Technology
