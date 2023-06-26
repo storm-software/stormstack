@@ -9,12 +9,7 @@
     "declaration": true,
     "declarationMap": true,
     "moduleResolution": "node",
-    "types": [
-      "node",
-      "reflect-metadata",
-      "react/experimental",
-      "react-dom/experimental"
-    ],
+    "types": ["node", "reflect-metadata"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
