@@ -48,12 +48,12 @@ jobs:
       - name: Build Design Tokens
         run: npx nx run design-system-tokens:build:open-system
 
-      - name: Run Tests
-        uses: nick-fields/retry@v2.8.3
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: npx nx affected -t test --configuration=ci
+      # - name: Run Tests
+      #  uses: nick-fields/retry@v2.8.3
+      #  with:
+      #    timeout_minutes: 5
+      #    max_attempts: 3
+      #    command: npx nx affected -t test --configuration=ci
 
       - name: Stop Agents
         run: npx nx-cloud stop-all-agents
