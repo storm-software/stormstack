@@ -3,7 +3,7 @@
 import { MinusIcon, PlusIcon, PowerIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import DellLogo from "../../../public/static/images/dell-logo.svg";
 
 const Screen = dynamic(() => import("./screen"), {
@@ -29,15 +29,6 @@ export default function Monitor() {
   const handleToggleIsPowered = useCallback(() => {
     setIsPowered(!isPowered);
   }, [isPowered]);
-
-  const [isFlashing, setIsFlashing] = useState(false);
-  useEffect(() => {
-    const flashInterval = setInterval(() => {
-      !isPowered && setIsFlashing(!isFlashing);
-    }, 1000);
-
-    return () => clearInterval(flashInterval);
-  }, [isFlashing, isPowered]);
 
   return (
     <div className="grid-col-1 grid justify-items-center">
@@ -72,8 +63,7 @@ export default function Monitor() {
             height={20}
             className={clsx(
               { "stroke-lime-400 hover:stroke-slate-300": isPowered },
-              { "stroke-slate-800 hover:stroke-lime-500": !isPowered },
-              { "stroke-lime-400": isFlashing },
+              { "animate-flash hover:stroke-lime-500": !isPowered },
               "hover:cursor-pointer"
             )}
           />

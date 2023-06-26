@@ -3,32 +3,32 @@ import localFont from "@next/font/local";
 
 export const melody = localFont({
   variable: "--font-melody",
-  src: "/static/fonts/BLMelody-Bold.woff2",
+  src: "../public/static/fonts/BLMelody-Bold.woff2",
 });
 
 export const satoshi = localFont({
   variable: "--font-satoshi",
-  src: "/static/fonts/Satoshi-Bold.otf",
+  src: "../public/static/fonts/Satoshi-Bold.otf",
 });
 
 export const antiqueOlive = localFont({
   variable: "--font-antique-olive",
-  src: "/static/fonts/Antique-Olive-Black.ttf",
+  src: "../public/static/fonts/Antique-Olive-Black.ttf",
 });
 
 export const permanentMarker = localFont({
   variable: "--font-permanent-marker",
-  src: "/static/fonts/PermanentMarker-Regular.ttf",
+  src: "../public/static/fonts/PermanentMarker-Regular.ttf",
 });
 
 export const monaSans = localFont({
   variable: "--font-mona-sans",
-  src: "/static/fonts/Mona-Sans-Light.woff2",
+  src: "../public/static/fonts/Mona-Sans-Light.woff2",
 });
 
 export const monaSansExtraBold = localFont({
   variable: "--font-mona-sans-extrabold",
-  src: "/static/fonts/Mona-Sans-ExtraBold.woff2",
+  src: "../public/static/fonts/Mona-Sans-ExtraBold.woff2",
 });
 
 /*export const anybody = Anybody({
