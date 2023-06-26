@@ -1,8 +1,6 @@
 import { BaseComponentProps } from "@open-system/design-system-components";
 import clsx from "clsx";
-import development from "../../../../../../assets/images/development-primary.png";
-import initials from "../../../../../../assets/images/initials-primary.png";
-import Image from "next/image";
+import LogoTextPrimary from "../../assets/logo-text-primary.svg";
 
 export function LogoLoading({ className, ...props }: BaseComponentProps) {
   return (
@@ -18,8 +16,7 @@ export function LogoLoading({ className, ...props }: BaseComponentProps) {
         <div className="absolute z-20 h-full w-full">
           <div className="flex h-full w-full items-center">
             <div className="h-fit w-full">
-              <Image priority src={initials} alt="PS" className="mx-auto w-2/3" />
-              <Image priority src={development} alt="Development" className="w-full" />
+              <LogoTextPrimary alt="PS Development" className="mx-auto w-full" />
             </div>
           </div>
         </div>
