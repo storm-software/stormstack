@@ -4,7 +4,7 @@ import { Heading } from "@open-system/design-system-components";
 import { Link } from "@open-system/core-components";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import PuzzlePiece from "../../../public/puzzle-piece.svg";
+import PuzzlePiece from "../../../public/static/images/puzzle-piece.svg";
 import ApiGeneration from "./api-generation";
 import LayeredDesign from "./layered-design";
 

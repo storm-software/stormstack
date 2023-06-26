@@ -1,4 +1,4 @@
-import { Anybody, Inter, Roboto_Mono } from "@next/font/google";
+import { Inter, Roboto_Mono } from "@next/font/google";
 import localFont from "@next/font/local";
 
 export const melody = localFont({
@@ -21,7 +21,6 @@ export const permanentMarker = localFont({
   src: "../../../../assets/fonts/PermanentMarker-Regular.ttf",
 });
 
-
 export const monaSans = localFont({
   variable: "--font-mona-sans",
   src: "../../../../assets/fonts/Mona-Sans-Light.woff2",
@@ -31,7 +30,6 @@ export const monaSansExtraBold = localFont({
   variable: "--font-mona-sans-extrabold",
   src: "../../../../assets/fonts/Mona-Sans-ExtraBold.woff2",
 });
-
 
 /*export const anybody = Anybody({
   variable: "--font-anybody",
@@ -54,6 +52,3 @@ export const robotoMono = Roboto_Mono({
   display: "swap",
   fallback: ["arial"],
 });
-
-
-
