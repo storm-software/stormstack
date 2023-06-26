@@ -1,4 +1,3 @@
-import { ContactFooterForm } from "@open-system/contact-feature-form";
 import { Link, SocialMediaLinks } from "@open-system/core-components";
 import {
   NotificationGroup,
@@ -12,6 +11,7 @@ import {
 import { Analytics } from "@vercel/analytics/react";
 import clsx from "clsx";
 import { ReactNode } from "react";
+import { ContactFooterForm } from "../components/contact-footer-form";
 import {
   antiqueOlive,
   inter,

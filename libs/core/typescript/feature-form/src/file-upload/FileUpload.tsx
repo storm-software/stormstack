@@ -16,7 +16,7 @@ import {
   Skeleton,
 } from "@open-system/design-system-components";
 import { Atom } from "jotai";
-import { Suspense, SuspenseList, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { FileUploadItem } from "./file-upload-item";
 
@@ -100,17 +100,15 @@ export function FileUpload({
       disabled={useIsSubmitting() || disabled}>
       {fileAtoms && fileAtoms.length > 0 && (
         <ul className="flex h-fit flex-col gap-1 p-4 pt-0">
-          <SuspenseList revealOrder="forwards">
-            {fileAtoms.map((fileAtom: Atom<Promise<FileUploadState>>) => (
-              <Suspense
-                key={`${fileAtom}`}
-                fallback={
-                  <Skeleton className="h-12 w-full rounded-lg border-2 border-primary" />
-                }>
-                <FileUploadItem fileAtom={fileAtom} onRemoveFile={exclude} />
-              </Suspense>
-            ))}
-          </SuspenseList>
+          {fileAtoms.map((fileAtom: Atom<Promise<FileUploadState>>) => (
+            <Suspense
+              key={`${fileAtom}`}
+              fallback={
+                <Skeleton className="h-12 w-full rounded-lg border-2 border-primary" />
+              }>
+              <FileUploadItem fileAtom={fileAtom} onRemoveFile={exclude} />
+            </Suspense>
+          ))}
         </ul>
       )}
     </OsFileUpload>

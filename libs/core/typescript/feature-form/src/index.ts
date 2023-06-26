@@ -2,7 +2,7 @@
 
 export * from "./checkbox";
 export * from "./email-input";
-export * from "./form";
+export * from "./form-provider";
 export * from "./file-upload";
 export * from "./input";
 export * from "./phone-number-input";

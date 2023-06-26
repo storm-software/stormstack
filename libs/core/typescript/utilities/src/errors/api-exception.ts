@@ -15,8 +15,8 @@ export class ApiException<T> extends BaseError {
   public constructor(
     public code: number,
     message: string,
-    public body: T,
-    public headers: Headers
+    public body?: T,
+    public headers?: Headers
   ) {
     super(
       message,
@@ -25,9 +25,9 @@ export class ApiException<T> extends BaseError {
         "\nMessage: " +
         message +
         "\nBody: " +
-        JSON.stringify(body) +
+        (body ? JSON.stringify(body) : "N/A") +
         "\nHeaders: " +
-        JSON.stringify(headers)
+        (headers ? JSON.stringify(headers) : "N/A")
     );
   }
 }

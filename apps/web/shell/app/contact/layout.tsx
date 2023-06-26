@@ -2,7 +2,6 @@ import { ContactFormProgressTracker } from "@open-system/contact-feature-form";
 import { Breadcrumb } from "@open-system/core-components";
 import { Module } from "@open-system/design-system-components";
 import { ReactNode } from "react";
-import { handleSubmit } from "./actions";
 import ContactForm from "./contact-form";
 import ContactFooter from "./contact-footer";
 
@@ -17,7 +16,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         ]}
       />
 
-      <ContactForm onSubmit={handleSubmit}>
+      <ContactForm>
         <Module
           className="h-fit w-full"
           header={

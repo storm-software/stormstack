@@ -80,6 +80,12 @@
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
+      "@open-system/engagement-data-access": [
+        "libs/engagement/typescript/data-access/src/index.ts"
+      ],
+      "@open-system/engagement-data-access/server": [
+        "libs/engagement/typescript/data-access/src/server.ts"
+      ],
       "@open-system/engagement-feature-rating": [
         "libs/engagement/typescript/feature-rating/src/index.ts"
       ],

@@ -1,6 +1,14 @@
+import { DeepPartial, ServerResult } from "@open-system/core-utilities";
+import { BaseComponentProps } from "@open-system/design-system-components";
 import { Getter, PrimitiveAtom, Setter } from "jotai";
 import { RESET } from "jotai/utils";
-import { RegisterOptions } from "react-hook-form";
+import { FormHTMLAttributes } from "react";
+import {
+  Control,
+  FormState,
+  RegisterOptions,
+  UseFormReturn,
+} from "react-hook-form";
 
 export type Unsubscribe = () => void;
 
@@ -149,3 +157,64 @@ export const SecurityHeaders = [
     value: "camera=(), microphone=(), geolocation=()",
   },
 ];
+
+export type AlertSubmitType = "none" | "toast" | "notification";
+export const AlertSubmitType = {
+  NONE: "none" as AlertSubmitType,
+  TOAST: "toast" as AlertSubmitType,
+  NOTIFICATION: "notification" as AlertSubmitType,
+};
+
+export type FormSubmitHandlerParams<TValues extends Record<string, any>> = {
+  data: TValues;
+  formData: FormData;
+  formDataJson: string;
+};
+
+export type FormSubmitHandler<
+  TValues extends Record<string, any>,
+  TData = Record<string, any>,
+  TServerResult extends ServerResult<TData> = ServerResult<TData>
+> = (payload: {
+  data: TValues;
+  formData: FormData;
+  formDataJson: string;
+}) => Promise<TServerResult>;
+
+export type FormProps<TValues extends Record<string, any>> =
+  BaseComponentProps &
+    FormHTMLAttributes<HTMLFormElement> & {
+      defaultValues?: DeepPartial<TValues>;
+      initialValues?: DeepPartial<TValues>;
+      disabled?: boolean;
+      action?: (formData: FormData) => Promise<void>;
+    };
+
+export type FormTranslateTypes = "yes" | "no";
+export const FormTranslateTypes = {
+  YES: "yes" as FormTranslateTypes,
+  NO: "no" as FormTranslateTypes,
+};
+
+export type FormContext<TValues extends Record<string, any> = Record<string, any>> = {
+  formId: string;
+  control: Control<TValues, any>;
+  props: FormProps<TValues>;
+  state: FormState<TValues>;
+  methods: Pick<
+    UseFormReturn<TValues>,
+    | "watch"
+    | "getValues"
+    | "getFieldState"
+    | "setError"
+    | "clearErrors"
+    | "setValue"
+    | "trigger"
+    | "resetField"
+    | "reset"
+    | "unregister"
+    | "register"
+    | "setFocus"
+    | "handleSubmit"
+  >;
+};

@@ -283,6 +283,12 @@ export type EmptyObject = {
 
 export type NonUndefined<T> = T extends undefined ? never : T;
 
+export type DeepPartial<T> = T extends BrowserNativeObject | NestedValue
+  ? T
+  : {
+      [K in keyof T]?: DeepPartial<T[K]>;
+    };
+
 /**
  *
  * @export
@@ -391,10 +397,96 @@ export interface HttpErrorResult {
   errorMessage: string;
 }
 
-
 export interface FileState extends File {
   fileId: string;
   type: string;
   dataUrl?: string;
   data?: string;
+}
+
+export type ServerFieldErrorStatus = "error" | "warning" | "info";
+export const ServerFieldErrorStatus = {
+  ERROR: "error" as ServerFieldErrorStatus,
+  WARNING: "warning" as ServerFieldErrorStatus,
+  INFO: "info" as ServerFieldErrorStatus,
+};
+
+export interface ServerFieldError {
+  /**
+   * Status code of the server action
+   */
+  status: ServerFieldErrorStatus;
+
+  /**
+   * Result code of the server action
+   */
+  code?: string;
+
+  /**
+   * Result message of a server action
+   */
+  message: string;
+}
+
+export type ServerFieldErrors<
+  TData = Record<string, any>,
+  TKey extends keyof TData = keyof TData
+> = Record<TKey, ServerFieldError>;
+
+/**
+ * Contains results for message or presence history, stats, or REST presence requests. A `ServerResult` response from a REST API paginated query is also accompanied by metadata that indicates the relative queries available to the `ServerResult` object.
+ */
+export interface ServerResult<TData = Record<string, any>> {
+  /**
+   * Contains the current page of results; for example, an array of {@link Message} or {@link PresenceMessage} objects for a channel history request.
+   */
+  data: TData;
+
+  /**
+   * Status code of the server action
+   */
+  status: number;
+
+  /**
+   * Result code of the server action
+   */
+  code?: string;
+
+  /**
+   * Result message of a server action
+   */
+  message?: string;
+
+  /**
+   * Field errors/warning/info returned as a result of the server call
+   */
+  fields?: ServerFieldErrors<TData>;
+}
+
+/**
+ * Contains a page of results for message or presence history, stats, or REST presence requests. A `PaginatedServerResult` response from a REST API paginated query is also accompanied by metadata that indicates the relative queries available to the `PaginatedServerResult` object.
+ */
+export interface PaginatedServerResult<TData = Record<string, any>>
+  extends ServerResult<TData[]> {
+  /**
+   * Amount of records returned by request
+   */
+  count: number;
+
+  /**
+   * Total amount of records in the view store
+   */
+  total: number;
+
+  /**
+   * Amount of records to offset the search request
+   */
+  offset: number;
+
+  /**
+   * Returns `true` if this page is the last page and returns `false` if there are more pages available by calling next available.
+   *
+   * @returns Whether or not this is the last page of results.
+   */
+  isLast: boolean;
 }

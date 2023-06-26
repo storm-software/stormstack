@@ -1,6 +1,6 @@
 "use client";
 
-import { SubscriptionModalForm } from "@open-system/contact-feature-form";
+import { SubscriptionModalForm } from "./subscription-modal-form";
 import { ModalReference } from "@open-system/core-components";
 import {
   BaseComponentProps,
