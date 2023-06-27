@@ -11,7 +11,7 @@
   "dependencies": {
     "@asyncapi/generator-filters": "^2.1.0",
     "@asyncapi/generator-react-sdk": "^0.2.23",
-    "@asyncapi/parser": "^1.17.1",
+    "@asyncapi/parser": "^2.0.0",
     "yaml": "^1.10.2"
   },
   "generator": {

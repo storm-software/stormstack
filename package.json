@@ -103,7 +103,7 @@
     "@asyncapi/generator-filters": "^2.1.0",
     "@asyncapi/generator-react-sdk": "^0.2.25",
     "@asyncapi/modelina": "^1.4.0",
-    "@asyncapi/parser": "^1.18.1",
+    "@asyncapi/parser": "^2.0.0",
     "@babel/core": "7.22.5",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-react": "^7.14.5",
