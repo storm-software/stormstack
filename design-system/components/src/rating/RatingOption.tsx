@@ -13,7 +13,6 @@ import {
   useCallback,
   useRef,
 } from "react";
-import "../../styles/components.css";
 import { BaseFieldProps } from "../types";
 import { useRipple } from "../utilities";
 import { useRatingContext } from "./use-rating-context";

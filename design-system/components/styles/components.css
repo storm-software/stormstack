@@ -2,7 +2,7 @@
   background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,0.4) 40px);
 }
 
-.border-dashed-lg {
+.dashed-lg {
   background: white;
   text-align: center;
   line-height: 100%;
@@ -14,7 +14,7 @@
   background-size: 20px 2px, 2px 20px;
 }
 
-.border-dashed-lg:hover {
+.dashed-lg:hover {
   background: linear-gradient(to right, #10B981 50%, transparent 0%) top repeat-x,
     linear-gradient(#10B981 50%, transparent 0%) right repeat-y,
     linear-gradient(to right, #10B981 50%, transparent 0%) bottom repeat-x,
@@ -33,7 +33,7 @@ button, .ripple-container.ripple-inner, .ripple-container-dark.ripple-inner {
   outline: 0;
   border: 0;
   border-radius: 0.25rem;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3); /* black with 30% opacity */
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
 }
 
 span.ripple {
@@ -91,6 +91,4 @@ button span.ripple, .ripple-container span.ripple {
   box-shadow: "0 0 10px 4px rgba(107, 114, 128, 0.4)";
 }
 
-.text-purple-shadow {
-  text-shadow: "0 0 15px rgba(107, 114, 128, 0.4)";
-}
+

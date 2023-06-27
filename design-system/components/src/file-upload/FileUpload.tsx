@@ -162,7 +162,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         <div
           {...getRootProps({})}
           className={clsx(
-            "border-dashed-lg flex h-full flex-col rounded-xl transition-colors",
+            "dashed-lg flex h-full flex-col rounded-xl transition-colors",
             className
           )}>
           <FieldWrapperLabel

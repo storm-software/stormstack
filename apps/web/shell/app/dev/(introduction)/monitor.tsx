@@ -63,7 +63,7 @@ export default function Monitor() {
             height={20}
             className={clsx(
               { "stroke-lime-400 hover:stroke-slate-300": isPowered },
-              { "animate-flash hover:stroke-lime-500": !isPowered },
+              { "hover:stroke-lime-500": !isPowered },
               "hover:cursor-pointer"
             )}
           />

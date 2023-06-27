@@ -117,6 +117,17 @@ const nextConfig = {
             },
             test: /\.svg$/,
           },
+          {
+            test: /\.(eot|ttf|woff|woff2)$/,
+            use: {
+              loader: "file-loader",
+              options: {
+                name: "[name].[ext]",
+                publicPath: "fonts",
+                outputPath: "fonts",
+              },
+            },
+          },
         ],
       },
     };

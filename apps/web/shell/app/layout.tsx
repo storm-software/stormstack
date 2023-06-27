@@ -12,6 +12,7 @@ import { Analytics } from "@vercel/analytics/react";
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { ContactFooterForm } from "../components/contact-footer-form";
+import "../styles/entry.css";
 import {
   antiqueOlive,
   inter,
@@ -22,8 +23,6 @@ import {
   robotoMono,
   satoshi,
 } from "../styles/fonts";
-import "../styles/global.css";
-// import "../styles/tailwind.css";
 import RootProvider from "./root-provider";
 
 /*const CookiePolicyBanner = dynamic(

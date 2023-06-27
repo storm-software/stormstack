@@ -12,7 +12,6 @@ import {
   useImperativeHandle,
   useRef,
 } from "react";
-import "../../styles/components.css";
 import { PropsWithBase } from "../types";
 import { useRipple } from "../utilities/use-ripple";
 import {

@@ -3,6 +3,7 @@ import "../../../.storybook/tailwind.css";
 
 const OriginalNextImage = NextImage.default;
 
+// eslint-disable-next-line no-import-assign
 Object.defineProperty(NextImage, "default", {
   configurable: true,
   value: props => <OriginalNextImage {...props} unoptimized />,
@@ -20,4 +21,3 @@ export const parameters = {
     "storybook/docs/panel": { index: -1 },
   },
 };
-

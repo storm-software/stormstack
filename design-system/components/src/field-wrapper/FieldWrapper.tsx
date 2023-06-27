@@ -5,7 +5,6 @@ import { isEmptyObject } from "@open-system/core-utilities";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef } from "react";
-import "../../styles/components.css";
 import { PropsWithBase } from "../types";
 import { getFieldTextStyle } from "../utilities/field-style-utils";
 import { useRipple } from "../utilities/use-ripple";

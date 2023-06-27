@@ -2,7 +2,6 @@
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import "../../styles/components.css";
 import { Heading } from "../heading";
 import { SuccessIcon } from "../success-icon";
 import { PropsWithBase } from "../types";

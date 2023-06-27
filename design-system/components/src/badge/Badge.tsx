@@ -3,7 +3,6 @@
 import { isFunction } from "@open-system/core-utilities";
 import clsx from "clsx";
 import { MouseEventHandler, useRef } from "react";
-import "../../styles/components.css";
 import { PropsWithBase } from "../types";
 import { useRipple } from "../utilities";
 import { BadgeBorderThickness, BadgeVariants } from "./Badge.types";
@@ -89,10 +88,6 @@ export const Badge = ({
           "shadow-success":
             variant === BadgeVariants.SUCCESS && glow,
         },
-        {
-          "shadow-gradient":
-            variant === BadgeVariants.GRADIENT && glow,
-        },
         "relative h-fit w-fit rounded-full overflow-hidden",
         className
       )}>
@@ -140,10 +135,6 @@ export const Badge = ({
             "border-success":
               variant === BadgeVariants.SUCCESS,
           },
-          {
-            "border-gradient":
-              variant === BadgeVariants.GRADIENT,
-          },
           borderColorClassName
         )}>
           <div className="h-fit w-fit overflow-hidden ripple-inner">
@@ -179,9 +170,6 @@ export const Badge = ({
                 {
                   "text-success": variant === BadgeVariants.SUCCESS,
                 },
-                {
-                  "text-gradient": variant === BadgeVariants.GRADIENT,
-                }
               )}>
               {children}
             </label>
