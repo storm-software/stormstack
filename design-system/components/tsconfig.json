@@ -2,11 +2,18 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "allowJs": false,
-    "esModuleInterop": false,
+    "allowJs": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": false,
+    "strict": false,
     "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+
   },
   "files": [],
   "include": [],
