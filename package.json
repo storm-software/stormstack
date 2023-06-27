@@ -138,6 +138,7 @@
     "@opentelemetry/semantic-conventions": "^1.14.0",
     "@react-pdf/renderer": "^3.1.9",
     "@rollup/plugin-url": "^8.0.1",
+    "@semantic-release/commit-analyzer": "^10.0.1",
     "@sentry/nextjs": "^7.50.0",
     "@sentry/tracing": "^7.50.0",
     "@storybook/addon-a11y": "7.0.24",
