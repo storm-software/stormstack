@@ -91,7 +91,7 @@
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
   "generators": {
-    "@nrwl/react": {
+    "@nx/react": {
       "application": {
         "style": "css",
         "unitTestRunner": "jest",
@@ -107,7 +107,7 @@
         "linter": "eslint"
       }
     },
-    "@nrwl/next": {
+    "@nx/next": {
       "application": {
         "style": "css",
         "linter": "eslint"
@@ -118,14 +118,6 @@
     },
     "@nx-dotnet/core:library": {
       "solutionFile": "OpenSystem.sln"
-    },
-    "@nx/react": {
-      "application": {
-        "babel": true
-      },
-      "library": {
-        "unitTestRunner": "none"
-      }
     }
   },
   "defaultProject": "web-shell",
