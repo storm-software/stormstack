@@ -40,7 +40,7 @@ export default function Monitor() {
         ) : (
           <div className="h-full w-full border-r-4 border-t-4 border-slate-700 bg-black" />
         )}
-        <div className="absolute -bottom-[5rem] left-2 z-50 flex h-24 w-28 -rotate-[4deg] flex-col justify-center gap-0.5 bg-yellow-200 text-center before:absolute before:-bottom-[9px] before:right-[11px] before:z-40 before:w-0 before:translate-x-1/2 before:translate-y-1/2 before:border-r-[20px] before:border-t-[20px] before:border-r-transparent before:border-t-yellow-100 before:bg-transparent before:shadow-[-2px_-2px_2px_0px_rgba(0,0,0,0.3)] before:content-[''] after:absolute after:-bottom-[9px] after:right-1/2 after:z-30 after:w-full after:translate-x-1/2 after:translate-y-1/2 after:border-r-[20px] after:border-t-[20px] after:border-r-transparent after:border-t-yellow-200 after:bg-transparent after:content-[''] sm:w-32 md:left-10">
+        <div className="absolute -bottom-[5rem] left-2 z-50 flex h-24 w-28 -rotate-[4deg] flex-col justify-center gap-0.5 bg-yellow-200 text-center before:absolute before:bottom-[9px] before:right-[11px] before:z-40 before:w-0 before:translate-x-1/2 before:translate-y-1/2 before:border-r-[20px] before:border-t-[20px] before:border-r-transparent before:border-t-yellow-100 before:bg-transparent before:shadow-[-2px_-2px_2px_0px_rgba(0,0,0,0.3)] before:content-[''] after:absolute after:bottom-[9px] after:right-1/2 after:z-30 after:w-full after:translate-x-1/2 after:translate-y-1/2 after:border-r-[20px] after:border-t-[20px] after:border-r-transparent after:border-t-yellow-200 after:bg-transparent after:content-[''] sm:w-32 md:left-10">
           <label className="text-xl font-label-2 text-slate-900">
             Who is Pat Sullivan?
           </label>

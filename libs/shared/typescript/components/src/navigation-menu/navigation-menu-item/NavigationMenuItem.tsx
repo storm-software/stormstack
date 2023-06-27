@@ -1,7 +1,7 @@
 "use client";
 
-import { PropsWithBase } from "@open-system/design-system-components";
 import { Link, LinkProps } from "@open-system/core-components";
+import { PropsWithBase } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { useSelectedLayoutSegment } from "next/navigation";
 
@@ -33,7 +33,7 @@ export function NavigationMenuItem({
               className={clsx(
                 { "text-primary": !isSelected },
                 { "text-tertiary": isSelected },
-                "absolute left-[40%] top-0 block h-[75%] overflow-hidden ease-[cubic-bezier(.16,1.08,.38,.98)] group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:skew-x-12 group-hover:text-secondary group-hover:transition-transform group-hover:duration-300"
+                "absolute left-[40%] top-0 block h-[75%] overflow-hidden ease-[cubic-bezier(.16,1.08,.38,.98)] group-hover:translate-x-2 group-hover:translate-y-2 group-hover:skew-x-12 group-hover:text-secondary group-hover:transition-transform group-hover:duration-300"
               )}>
               <div className="block antialiased">{label}</div>
             </div>
@@ -41,7 +41,7 @@ export function NavigationMenuItem({
               className={clsx(
                 { "text-primary": !isSelected },
                 { "text-tertiary": isSelected },
-                "absolute left-[40%] top-[62%] block h-[50%] overflow-hidden text-primary ease-[cubic-bezier(.16,1.08,.38,.98)] group-hover:-translate-x-2 group-hover:skew-x-12 group-hover:text-secondary group-hover:transition-transform group-hover:duration-700"
+                "absolute left-[40%] top-[62%] block h-[50%] overflow-hidden text-primary ease-[cubic-bezier(.16,1.08,.38,.98)] group-hover:translate-x-2 group-hover:skew-x-12 group-hover:text-secondary group-hover:transition-transform group-hover:duration-700"
               )}>
               <div className="block -translate-y-[50%] antialiased">
                 {label}
