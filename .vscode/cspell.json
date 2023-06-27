@@ -11,6 +11,7 @@
     "Benning",
     "Bootstrapper",
     "Buildable",
+    "cacheable",
     "Cloneable",
     "clsx",
     "codecov",

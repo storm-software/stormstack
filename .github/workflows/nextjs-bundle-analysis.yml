@@ -59,13 +59,13 @@ jobs:
           name: bundle
           path: dist/apps/web/shell/.next/analyze/__bundle_analysis.json
 
-      - name: Download base branch bundle stats
-        uses: dawidd6/action-download-artifact@v2
-        if: success() && github.event.number
-        with:
-          workflow: nextjs_bundle_analysis.yml
-          branch: ${{ github.event.pull_request.base.ref }}
-          path: dist/apps/web/shell/.next/analyze/base
+      #- name: Download base branch bundle stats
+      #  uses: dawidd6/action-download-artifact@v2
+      #  if: success() && github.event.number
+      #  with:
+      #    workflow: nextjs_bundle_analysis.yml
+      #    branch: ${{ github.event.pull_request.base.ref }}
+      #    path: dist/apps/web/shell/.next/analyze/base
 
       # And here's the second place - this runs after we have both the current and
       # base branch bundle stats, and will compare them to determine what changed.
@@ -80,41 +80,41 @@ jobs:
       #
       # Either of these arguments can be changed or removed by editing the `nextBundleAnalysis`
       # entry in your package.json file.
-      - name: Compare with base branch bundle
-        if: success() && github.event.number
-        run: ls -laR dist/apps/web/shell/.next/analyze/base && npx -p nextjs-bundle-analysis compare
+      #- name: Compare with base branch bundle
+      #  if: success() && github.event.number
+      #  run: ls -laR dist/apps/web/shell/.next/analyze/base && npx -p nextjs-bundle-analysis compare
 
-      - name: Get comment body
-        id: get-comment-body
-        if: success() && github.event.number
-        uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            const fs = require('fs')
-            const comment = fs.readFileSync('dist/apps/web/shell/.next/analyze/__bundle_analysis_comment.txt', 'utf8')
-            core.setOutput('body', comment)
+      #- name: Get comment body
+      #  id: get-comment-body
+      #  if: success() && github.event.number
+      #  uses: actions/github-script@v6
+      #  with:
+      #    result-encoding: string
+      #    script: |
+      #      const fs = require('fs')
+      #      const comment = fs.readFileSync('dist/apps/web/shell/.next/analyze/__bundle_analysis_comment.txt', 'utf8')
+      #      core.setOutput('body', comment)
 
-      - name: Find Comment
-        uses: peter-evans/find-comment@v2
-        if: success() && github.event.number
-        id: fc
-        with:
-          issue-number: ${{ github.event.number }}
-          body-includes: "<!-- __NEXTJS_BUNDLE -->"
+      #- name: Find Comment
+      #  uses: peter-evans/find-comment@v2
+      #  if: success() && github.event.number
+      #  id: fc
+      #  with:
+      #    issue-number: ${{ github.event.number }}
+      #    body-includes: "<!-- __NEXTJS_BUNDLE -->"
 
-      - name: Create Comment
-        uses: peter-evans/create-or-update-comment@v3
-        if: success() && github.event.number && steps.fc.outputs.comment-id == 0
-        with:
-          issue-number: ${{ github.event.number }}
-          body: ${{ steps.get-comment-body.outputs.body }}
+      #- name: Create Comment
+      #  uses: peter-evans/create-or-update-comment@v3
+      #  if: success() && github.event.number && steps.fc.outputs.comment-id == 0
+      #  with:
+      #    issue-number: ${{ github.event.number }}
+      #    body: ${{ steps.get-comment-body.outputs.body }}
 
-      - name: Update Comment
-        uses: peter-evans/create-or-update-comment@v3
-        if: success() && github.event.number && steps.fc.outputs.comment-id != 0
-        with:
-          issue-number: ${{ github.event.number }}
-          body: ${{ steps.get-comment-body.outputs.body }}
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          edit-mode: replace
+      #- name: Update Comment
+      #  uses: peter-evans/create-or-update-comment@v3
+      #  if: success() && github.event.number && steps.fc.outputs.comment-id != 0
+      #  with:
+      #    issue-number: ${{ github.event.number }}
+      #    body: ${{ steps.get-comment-body.outputs.body }}
+      #    comment-id: ${{ steps.fc.outputs.comment-id }}
+      #    edit-mode: replace
