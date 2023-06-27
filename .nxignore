@@ -3,3 +3,8 @@ libs/**/server/**
 libs/**/dotnet/**
 
 libs/core/typescript/feature-kafka
+
+tools/asyncapi/**
+tools/executors/docs/**
+tools/executors/dotnet/**
+tools/generators/dotnet/**
