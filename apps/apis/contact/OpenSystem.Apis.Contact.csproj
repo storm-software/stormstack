@@ -33,7 +33,7 @@
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="JsonSubTypes" Version="1.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
