@@ -3,7 +3,7 @@ import localFont from "@next/font/local";
 
 export const melody = localFont({
   variable: "--font-melody",
-  src: "../public/static/fonts/BLMelody-Bold.woff2",
+  src: "../public/static/fonts/Satoshi-Bold.otf",
 });
 
 export const satoshi = localFont({
@@ -23,12 +23,12 @@ export const permanentMarker = localFont({
 
 export const monaSans = localFont({
   variable: "--font-mona-sans",
-  src: "../public/static/fonts/Mona-Sans-Light.woff2",
+  src: "../public/static/fonts/Satoshi-Bold.otf",
 });
 
 export const monaSansExtraBold = localFont({
   variable: "--font-mona-sans-extrabold",
-  src: "../public/static/fonts/Mona-Sans-ExtraBold.woff2",
+  src: "../public/static/fonts/Satoshi-Bold.otf",
 });
 
 /*export const anybody = Anybody({
