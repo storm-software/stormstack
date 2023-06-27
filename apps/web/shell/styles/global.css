@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 ::selection {
   background: #3730a3; /* WebKit/Blink Browsers */
   color: #faf9f6; /* WebKit/Blink Browsers */

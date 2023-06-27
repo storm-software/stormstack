@@ -23,7 +23,7 @@ import {
   satoshi,
 } from "../styles/fonts";
 import "../styles/global.css";
-import "../styles/tailwind.css";
+// import "../styles/tailwind.css";
 import RootProvider from "./root-provider";
 
 /*const CookiePolicyBanner = dynamic(
