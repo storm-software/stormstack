@@ -21,6 +21,7 @@ module.exports = {
   "future": {
     "hoverOnlyWhenSupported": true,
   },
+  "blocklist": [],
   "theme": {
     "extend": {
       ...extend,
