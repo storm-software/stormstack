@@ -54,7 +54,11 @@
       "inputs": ["production", "^production"]
     },
     "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/testing/jest.preset.js"]
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/testing/jest.preset.js"
+      ]
     },
     "e2e": {
       "inputs": ["default", "^production"]
