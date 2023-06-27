@@ -185,6 +185,7 @@
     "cypress": "^12.11.0",
     "cz-conventional-changelog": "^3.3.0",
     "docusaurus-plugin-react-docgen-typescript": "^1.1.0",
+    "docusaurus-plugin-typedoc": "^0.19.2",
     "eslint": "^8.43.0",
     "eslint-config-next": "^13.4.7",
     "eslint-config-prettier": "8.8.0",
