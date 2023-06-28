@@ -11,6 +11,7 @@ import {
 import { Analytics } from "@vercel/analytics/react";
 import clsx from "clsx";
 import { ReactNode } from "react";
+import { ContactPoint, Occupation, Person, WithContext } from "schema-dts";
 import { ContactFooterForm } from "../components/contact-footer-form";
 import "../styles/entry.css";
 import {
@@ -29,6 +30,47 @@ import RootProvider from "./root-provider";
   () => import("./(components)/cookie-policy-banner.client")
 );*/
 
+const contactJsonLd: WithContext<ContactPoint> = {
+  "@context": "https://schema.org",
+  "@type": "ContactPoint",
+  email: "contact@patsullivan.org",
+  availableLanguage: "en",
+  areaServed: "Worldwide",
+  contactOption: "TollFree",
+  contactType: "customer support",
+};
+
+const architectJsonLd: WithContext<Occupation> = {
+  "@context": "https://schema.org",
+  "@type": "Occupation",
+  estimatedSalary: 150000,
+  experienceRequirements: "Minimum of 5+ years in a related field",
+  educationRequirements:
+    "Minimum of four-year bachelor's degree in Computer Science",
+  occupationalCategory: "15-1299.08",
+  qualifications:
+    "A considerable amount of work-related skill, knowledge, or experience is needed.",
+  responsibilities:
+    "Design and develop solutions to complex applications problems, system administration issues, or network concerns. Perform systems management and integration functions.",
+  skills:
+    "Data base management system software, Development environment software, Operating system software, Project management software, and Web platform development software.",
+};
+
+const personJsonLd: WithContext<Person> = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Pat Sullivan",
+  givenName: "Pat",
+  familyName: "Sullivan",
+  email: "pat@patsullivan.org",
+  url: "https://patsullivan.org",
+  hasOccupation: architectJsonLd,
+  jobTitle: "Software Architect",
+  knowsLanguage: "en",
+  description: "Software designed for tomorrow's brands",
+  contactPoint: contactJsonLd,
+};
+
 export const metadata = {
   colorScheme: "dark",
   themeColor: "#18181B",
@@ -36,13 +78,13 @@ export const metadata = {
     template: "%s - Pat Sullivan Development",
     default: "Pat Sullivan Development",
   },
-  authors: [{ name: "Pat Sullivan", url: "https://pat-sullivan.com" }],
-  metadataBase: new URL("https://pat-sullivan.com"),
-  description:
-    'Pat Sullivan is a New York based "FinTech" developer with experience in all areas of modern programming.',
+  authors: [{ name: "Pat Sullivan", url: "https://patsullivan.org" }],
+  metadataBase: new URL("https://patsullivan.org"),
+  description: "Software designed for tomorrow's brands",
+  manifest: "https://patsullivan.org/site.webmanifest.json",
   noindex: false,
   nofollow: false,
-  canonical: "https://pat-sullivan.com",
+  canonical: "https://patsullivan.org",
   generator: "Pat Sullivan",
   applicationName: "Pat Sullivan Development",
   referrer: "origin-when-cross-origin",
@@ -57,6 +99,20 @@ export const metadata = {
     "programming",
     "coding",
   ],
+  openGraph: {
+    type: "website",
+    locale: "en_IE",
+    url: new URL("https://patsullivan.org"),
+    title: "Pat Sullivan Development",
+    description: "Software designed for tomorrow's brands",
+    profile: {
+      firstName: "Pat",
+      lastName: "Sullivan",
+      username: "sullivanpj",
+      gender: "male",
+    },
+    siteName: "Pat Sullivan Development",
+  },
   creator: "Pat Sullivan",
   publisher: "Pat Sullivan",
   formatDetection: {
@@ -186,6 +242,10 @@ export default function RootLayout(props: {
           />
         </RootProvider>
       </body>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
     </html>
   );
 }

@@ -94,6 +94,7 @@
     "redis-om": "^0.4.0-beta.3",
     "regenerator-runtime": "0.13.11",
     "rimraf": "^5.0.0",
+    "schema-dts": "^1.1.2",
     "tslib": "^2.5.2"
   },
   "devDependencies": {

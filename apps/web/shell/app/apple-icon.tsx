@@ -51,16 +51,12 @@ export default function Icon({
           background: "transparent",
         }}>
         <Image
-          src={`/static/${id}`}
+          src={`/${id}`}
           alt="Pat Sullivan Development"
           height={height}
           width={width}
         />
       </div>
-    ),
-    {
-      height,
-      width,
-    }
+    )
   );
 }
