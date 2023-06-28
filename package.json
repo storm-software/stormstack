@@ -64,8 +64,7 @@
     "add:contributors": "all-contributors add",
     "generate:contributors": "all-contributors generate",
     "add:decisions": "npx log4brains adr new",
-    "preview:decisions": "npx log4brains preview",
-    "semantic-release": "semantic-release --branches main"
+    "preview:decisions": "npx log4brains preview"
   },
   "private": true,
   "dependencies": {
@@ -138,7 +137,6 @@
     "@opentelemetry/semantic-conventions": "^1.14.0",
     "@react-pdf/renderer": "^3.1.9",
     "@rollup/plugin-url": "^8.0.1",
-    "@semantic-release/commit-analyzer": "^10.0.1",
     "@sentry/nextjs": "^7.50.0",
     "@sentry/tracing": "^7.50.0",
     "@storybook/addon-a11y": "7.0.24",
@@ -221,7 +219,6 @@
     "redocusaurus": "^1.6.2",
     "reflect-metadata": "^0.1.13",
     "rollup-plugin-url": "^3.0.1",
-    "semantic-release": "^21.0.5",
     "server-only": "^0.0.1",
     "storybook": "^7.0.7",
     "storybook-addon-swc": "^1.2.0",
@@ -253,72 +250,6 @@
     "hooks": {
       "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
     }
-  },
-  "release": {
-    "branches": [
-      "main",
-      "alpha",
-      "beta"
-    ],
-    "plugins": [
-      [
-        "@semantic-release/commit-analyzer",
-        {
-          "preset": "angular",
-          "releaseRules": [
-            {
-              "breaking": true,
-              "release": "major"
-            },
-            {
-              "revert": true,
-              "release": "patch"
-            },
-            {
-              "type": "feat",
-              "release": "minor"
-            },
-            {
-              "type": "chore",
-              "release": "patch"
-            },
-            {
-              "type": "fix",
-              "release": "patch"
-            },
-            {
-              "type": "perf",
-              "release": "patch"
-            },
-            {
-              "type": "build",
-              "release": "patch"
-            },
-            {
-              "type": "docs",
-              "scope": "readme",
-              "release": "patch"
-            },
-            {
-              "type": "refactor",
-              "release": "patch"
-            },
-            {
-              "scope": "no-release",
-              "release": false
-            }
-          ]
-        }
-      ],
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/npm",
-        {
-          "pkgRoot": "./dist"
-        }
-      ],
-      "@semantic-release/github"
-    ]
   },
   "bundlewatch": {
     "files": [
