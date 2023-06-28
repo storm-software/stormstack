@@ -1,8 +1,7 @@
-import tinycolor from 'tinycolor2';
 import * as _ from 'lodash';
-import toTailwind from './to-tailwind.parser';
+import { camelCase } from 'lodash';
+import tinycolor from 'tinycolor2';
 import seeds from '../../tests/seeds';
-import libs from '../global-libs';
 import {
   BorderToken,
   ColorToken,
@@ -15,8 +14,9 @@ import {
   ShadowToken,
   TextStyleToken,
 } from '../../types';
+import libs from '../global-libs';
+import toTailwind from './to-tailwind.parser';
 import { getNameFormatterFunction } from './utils/getNameFormatterFunction';
-import { camelCase } from 'lodash';
 
 describe('To tailwind', () => {
   it('Should generate the colors object', async () => {
