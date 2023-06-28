@@ -29,7 +29,7 @@ export default async function Image() {
     (
       // ImageResponse JSX element
       <div className="flex flex-col items-center justify-center gap-5 bg-bg-primary">
-        <BoxLogo className="max-h-[26]rem h-1/2 min-h-[15rem]" />
+        <BoxLogo className="h-1/2 max-h-[26rem] min-h-[10rem]" />
         <h1 className="whitespace-pre text-5xl font-header-1 leading-none text-primary">
           Pat Sullivan
           <br />
