@@ -6,7 +6,7 @@ export function generateImageMetadata() {
     {
       id: "favicon.ico",
       alt: "Pat Sullivan Development",
-      contentType: "image/ico",
+      contentType: "image/x-icon",
       size: { width: 12, height: 12 },
     },
     {
