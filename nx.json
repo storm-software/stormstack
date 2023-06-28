@@ -20,21 +20,8 @@
         "accessToken": "YzE2MTRhZTItYjEzMS00OGE3LWE4ZTMtNWYzNjc4ZGY0NzA2fHJlYWQtb25seQ=="
       }
     },
-    "local": {
-      "runner": "nx/tasks-runners/default",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e",
-          "build-storybook",
-          "build-custom-server"
-        ]
-      }
-    },
     "default": {
-      "runner": "@vercel/remote-nx",
+      "runner": "nx/tasks-runners/default",
       "options": {
         "cacheableOperations": [
           "build",
