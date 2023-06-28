@@ -4,6 +4,12 @@ import AppIcon from "../components/app-icon";
 export function generateImageMetadata() {
   return [
     {
+      id: "favicon.ico",
+      alt: "Pat Sullivan Development",
+      contentType: "image/ico",
+      size: { width: 12, height: 12 },
+    },
+    {
       id: "favicon-16x16.png",
       alt: "Pat Sullivan Development",
       contentType: "image/png",
