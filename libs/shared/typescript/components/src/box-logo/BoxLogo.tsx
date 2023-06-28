@@ -19,8 +19,7 @@ export function BoxLogo({
         width="603"
         height="496"
         viewBox="0 0 603 496"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+        fill="none">
         <rect
           x="79.342"
           y="48.9014"

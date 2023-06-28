@@ -180,14 +180,14 @@ export default function AppleIcon({
     (
       <div
         style={{
-          width: "100%",
-          height: "100%",
+          width,
+          height,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           background: "transparent",
         }}>
-        <svg width={width} height={height} viewBox="0 0 1348 901" fill="none">
+        <svg width={width} viewBox="0 0 1348 901" fill="none">
           <title>Pat Sullivan Development</title>
           <rect width="1348" height="901" fill="url(#pattern0)" />
           <defs>

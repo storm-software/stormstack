@@ -1,15 +1,26 @@
 "use server";
 
 import { FormSubmitHandlerParams } from "@open-system/core-data-access";
-import { ServerResult } from "@open-system/core-utilities";
-import { Rate } from "@open-system/engagement-data-access";
+import { Rate } from "@open-system/engagement-data-access/server";
 import { revalidateTag } from "next/cache";
 
-export async function giveRating(
-  request: FormSubmitHandlerParams<Rate>
-): Promise<ServerResult> {
+export async function giveRating(request: FormSubmitHandlerParams<Rate>) {
+  console.log(request);
   console.log("Submit Rate");
-  revalidateTag("/");
+
+  const result = await fetch(
+    `${process.env.VERCEL_URL}/api/rating/${request.data.contentId}`,
+    {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request.data),
+    }
+  );
+
+  revalidateTag("rating");
 
   return {
     data: {},

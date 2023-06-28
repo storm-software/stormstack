@@ -3,7 +3,7 @@ import { ContentRatingForm } from "../../components/content-rating-form";
 
 // export const revalidate = 60;
 
-export default async function Page() {
+export default function Page() {
   /*const repository = await getRepository(connection);
     const result = await repository
       .search()

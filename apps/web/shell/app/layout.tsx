@@ -81,7 +81,7 @@ export const metadata = {
   authors: [{ name: "Pat Sullivan", url: "https://patsullivan.org" }],
   metadataBase: new URL("https://patsullivan.org"),
   description: "Software designed for tomorrow's brands",
-  manifest: "https://patsullivan.org/site.webmanifest.json",
+  manifest: "https://patsullivan.org/manifest.json",
   noindex: false,
   nofollow: false,
   canonical: "https://patsullivan.org",
@@ -112,6 +112,19 @@ export const metadata = {
       gender: "male",
     },
     siteName: "Pat Sullivan Development",
+    images: [
+      {
+        url: "https://patsullivan.org/og.png",
+        width: 1200,
+        height: 630,
+      },
+      {
+        url: "https://patsullivan.org/og-alt.png",
+        width: 1200,
+        height: 630,
+        alt: "My custom alt",
+      },
+    ],
   },
   creator: "Pat Sullivan",
   publisher: "Pat Sullivan",
