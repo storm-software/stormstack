@@ -1,5 +1,5 @@
-import { Inter, Roboto_Mono } from "@next/font/google";
-import localFont from "@next/font/local";
+import { Inter, Roboto_Mono } from "next/font/google";
+import localFont from "next/font/local";
 
 export const melody = localFont({
   variable: "--font-melody",

@@ -1,7 +1,7 @@
 import { ConsoleLogger, parseInteger } from "@open-system/core-utilities";
 import "@sentry/tracing";
 import { NextRequest, NextResponse } from "next/server";
-import { repository } from "../../../state/reaction-repository";
+// import { repository } from "../../../state/reaction-repository";
 
 // export const runtime = "edge";
 
@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const search = repository
+  /*const search = repository
     .search()
     .where("contentId")
     .equals(contentId)
@@ -95,7 +95,10 @@ export async function GET(req: NextRequest) {
   const dataReq = search.return.page(offset, limit);
 
   // Wait for the promises to resolve
-  const [total, data] = await Promise.all([totalReq, dataReq]);
+  const [total, data] = await Promise.all([totalReq, dataReq]);*/
+
+  const total = 0;
+  const data = [];
   if (!total || !data || data.length === 0) {
     return NextResponse.json(
       {

@@ -1,11 +1,9 @@
-import { RedisConnection, Repository } from "redis-om";
+/*import { RedisConnection, Repository } from "redis-om";
 import { redis } from "../integrations/redis";
 import { schema } from "./reaction-schema";
 
 export const repository = new Repository(schema, redis);
-repository.createIndex();
-
-
+repository.createIndex();*/
 
 /*let repository!: Repository;
 

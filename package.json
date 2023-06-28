@@ -71,7 +71,6 @@
     "@heroicons/react": "^2.0.18",
     "@js-temporal/polyfill": "^0.4.4",
     "@next/bundle-analyzer": "^13.4.7",
-    "@next/font": "^13.4.4",
     "@vercel/analytics": "^1.0.1",
     "@vercel/edge-config": "^0.2.1",
     "@vercel/otel": "^0.3.0",

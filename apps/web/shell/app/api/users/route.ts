@@ -1,78 +1,19 @@
-import { ConsoleLogger, parseInteger } from "@open-system/core-utilities";
+import { ConsoleLogger } from "@open-system/core-utilities";
 import "@sentry/tracing";
 import { NextRequest, NextResponse } from "next/server";
-import { repository } from "../../../state/reaction-repository";
+// import { repository } from "../../../state/reaction-repository";
 
 // export const runtime = "edge";
-
-const { HTTP_PAGE_LIMIT } = process.env;
-
-
 
 export const DOMAIN_NAME = "reactions";
 
 export async function GET(req: NextRequest) {
   ConsoleLogger.info(`Starting GET request to ${DOMAIN_NAME} view store.`);
 
-  const { searchParams } = req.nextUrl;
-  const limit = parseInteger(
-    searchParams.get("limit"),
-    parseInteger(HTTP_PAGE_LIMIT, 100)
-  );
-  const offset = parseInteger(searchParams.get("offset"), 0);
-
-  const contentId = searchParams.get("contentId");
-  const type = searchParams.get("type");
-  if (!contentId || !type) {
-    return NextResponse.json(
-      {
-        errorCode: 400,
-        errorMessage: `Required search parameters were not provided in request: ${
-          !contentId && !type
-            ? "contentId and type"
-            : !contentId
-            ? "contentId"
-            : "type"
-        }.`,
-      },
-      { status: 400 }
-    );
-  }
-
-  const search = repository
-    .search()
-    .where("contentId")
-    .equals(contentId)
-    .and("type")
-    .equals(type);
-
-  const totalReq = search.return.count();
-  const dataReq = search.return.page(offset, limit);
-
-  // Wait for the promises to resolve
-  const [total, data] = await Promise.all([totalReq, dataReq]);
-  if (!total || !data || data.length === 0) {
-    return NextResponse.json(
-      {
-        errorCode: 404,
-        errorMessage: "No results found",
-      },
-      { status: 404 }
-    );
-  }
-
-  const count = data.length;
-  ConsoleLogger.success(`${total} total items in ${DOMAIN_NAME} read store`);
-  ConsoleLogger.success(
-    `${count} item(s) returned from ${DOMAIN_NAME} read store`
-  );
-
   return NextResponse.json({
-    data,
-    count,
-    total,
-    offset: offset + count,
-    isLast: offset + count >= total,
+    data: {
+      userId: "1234122",
+    },
   });
 }
 
