@@ -4,7 +4,7 @@ import { MinusIcon, PlusIcon, PowerIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { useCallback, useState } from "react";
-import DellLogo from "../../../public/static/images/dell-logo.svg";
+import DellLogo from "../../static/images/dell-logo.svg";
 
 const Screen = dynamic(() => import("./screen"), {
   loading: () => (

@@ -4,7 +4,7 @@ import { Heading } from "@open-system/design-system-components";
 import { Link } from "@open-system/core-components";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import PuzzlePiece from "../../../public/static/images/puzzle-piece.svg";
+import PuzzlePiece from "../../static/images/puzzle-piece.svg";
 import ApiGeneration from "./api-generation";
 import LayeredDesign from "./layered-design";
 
@@ -22,7 +22,7 @@ export default function Page() {
         <AnimatePresence>
           {isInView && (
             <motion.div
-              className="sticky top-36 right-40 z-like flex flex-row justify-end"
+              className="z-like sticky right-40 top-36 flex flex-row justify-end"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -44,7 +44,7 @@ export default function Page() {
                 variants={list}
                 transition={{ duration: 1, delay: 1 }}>
                 <motion.div
-                  className="absolute top-0 left-0 z-like"
+                  className="z-like absolute left-0 top-0"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{
@@ -54,13 +54,13 @@ export default function Page() {
                   }}>
                   <PuzzlePiece
                     alt="Puzzle Piece"
-                    className="translate-y-4 translate-x-16 fill-highlight-1"
+                    className="translate-x-16 translate-y-4 fill-highlight-1"
                     height={200}
                     width={200}
                   />
                 </motion.div>
                 <motion.div
-                  className="absolute top-0 right-0 z-like"
+                  className="z-like absolute right-0 top-0"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{
@@ -70,13 +70,13 @@ export default function Page() {
                   }}>
                   <PuzzlePiece
                     alt="Puzzle Piece"
-                    className="translate-y-14 translate-x-10 rotate-90 fill-quaternary"
+                    className="translate-x-10 translate-y-14 rotate-90 fill-quaternary"
                     height={200}
                     width={200}
                   />
                 </motion.div>
                 <motion.div
-                  className="absolute bottom-0 right-0 z-like"
+                  className="z-like absolute bottom-0 right-0"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{
@@ -92,7 +92,7 @@ export default function Page() {
                   />
                 </motion.div>
                 <motion.div
-                  className="absolute bottom-0 left-0 z-like"
+                  className="z-like absolute bottom-0 left-0"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{
@@ -102,7 +102,7 @@ export default function Page() {
                   }}>
                   <PuzzlePiece
                     alt="Puzzle Piece"
-                    className="translate-x-6 -translate-y-2 -rotate-90 fill-secondary"
+                    className="-translate-y-2 translate-x-6 -rotate-90 fill-secondary"
                     height={200}
                     width={200}
                   />

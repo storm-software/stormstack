@@ -4,15 +4,15 @@ import { Link } from "@open-system/core-components";
 import { Heading } from "@open-system/design-system-components";
 import { motion, useInView } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
-import AsyncapiLogo from "../../../public/static/images/external-logos/asyncapi-logo.svg";
-import DotnetLogo from "../../../public/static/images/external-logos/dotnet-logo.svg";
-import GraphQLLogo from "../../../public/static/images/external-logos/graphql-logo.svg";
-import KafkaLogo from "../../../public/static/images/external-logos/kafka-logo.svg";
-import OpenApiLogo from "../../../public/static/images/external-logos/openapi-logo.svg";
-import RabbitMQLogo from "../../../public/static/images/external-logos/rabbitmq-logo.svg";
-import ReduxLogo from "../../../public/static/images/external-logos/redux-logo.svg";
-// import arrow from "../../../public/static/images/arrow-doodle.png";
-import Gear from "../../../public/static/images/gear.svg";
+import AsyncapiLogo from "../../static/images/external-logos/asyncapi-logo.svg";
+import DotnetLogo from "../../static/images/external-logos/dotnet-logo.svg";
+import GraphQLLogo from "../../static/images/external-logos/graphql-logo.svg";
+import KafkaLogo from "../../static/images/external-logos/kafka-logo.svg";
+import OpenApiLogo from "../../static/images/external-logos/openapi-logo.svg";
+import RabbitMQLogo from "../../static/images/external-logos/rabbitmq-logo.svg";
+import ReduxLogo from "../../static/images/external-logos/redux-logo.svg";
+// import arrow from "../../static/images/arrow-doodle.png";
+import Gear from "../../static/images/gear.svg";
 
 const Types = {
   INITIAL: "initial",
