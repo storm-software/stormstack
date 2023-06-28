@@ -72,10 +72,10 @@ jobs:
       #    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       #    TAG: ${{ inputs.tag }}
 
-      - name: Release Library Version Updates
-        run: npx nx affected -t semantic-release --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #- name: Release Library Version Updates
+      #  run: npx nx affected -t semantic-release --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       #- name: Release Repository Version Updates
       #  run: npm run semantic-release
