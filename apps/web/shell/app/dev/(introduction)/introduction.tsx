@@ -20,10 +20,16 @@ export default function Introduction() {
           <Image
             src="/static/images/keyboard.png"
             alt="Keyboard"
-            height={400}
+            height={350}
+            width={800}
             className="-rotate-6"
           />
-          <Image src="/static/images/coffee.png" alt="Coffee" width={200} />
+          <Image
+            src="/static/images/coffee.png"
+            alt="Coffee"
+            height={550}
+            width={200}
+          />
         </div>
       </motion.div>
     </section>

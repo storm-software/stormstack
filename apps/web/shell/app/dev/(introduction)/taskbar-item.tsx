@@ -35,7 +35,12 @@ export default function TaskbarItem({
         }
       )}
       onClick={handleClick}>
-      <Image src="/static/images/notepad-icon.png" alt="Notepad Icon" width={24} height={20} />
+      <Image
+        src="/static/images/notepad-icon.png"
+        alt="Notepad Icon"
+        width={24}
+        height={20}
+      />
       <label className="cursor-pointer">Read Me.txt - Notepad</label>
     </div>
   );

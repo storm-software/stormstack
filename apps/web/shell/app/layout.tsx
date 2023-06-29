@@ -99,33 +99,6 @@ export const metadata = {
     "programming",
     "coding",
   ],
-  openGraph: {
-    type: "website",
-    locale: "en_IE",
-    url: new URL("https://patsullivan.org"),
-    title: "Pat Sullivan Development",
-    description: "Software designed for tomorrow's brands",
-    profile: {
-      firstName: "Pat",
-      lastName: "Sullivan",
-      username: "sullivanpj",
-      gender: "male",
-    },
-    siteName: "Pat Sullivan Development",
-    images: [
-      {
-        url: "https://patsullivan.org/og.png",
-        width: 1200,
-        height: 630,
-      },
-      {
-        url: "https://patsullivan.org/og-alt.png",
-        width: 1200,
-        height: 630,
-        alt: "My custom alt",
-      },
-    ],
-  },
   creator: "Pat Sullivan",
   publisher: "Pat Sullivan",
   formatDetection: {

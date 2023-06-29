@@ -151,7 +151,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         event && event?.stopPropagation?.();
 
         setFocused(false);
-        onBlur?.(event);
+        onBlur && onBlur(event);
       },
       [onBlur]
     );

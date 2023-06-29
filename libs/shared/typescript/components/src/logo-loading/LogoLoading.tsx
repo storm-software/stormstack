@@ -6,7 +6,7 @@ export function LogoLoading({ className, ...props }: BaseComponentProps) {
   return (
     <div className={clsx({ "h-full w-full": !className }, className)}>
       <div className="relative h-full w-full">
-        <div className="absolute z-10 h-full w-full">
+        <div className="absolute z-10 h-full w-full px-2">
           <div className="mx-auto h-full w-[90%] border-[30px] border-primary p-[5%]">
             <div className="relative h-full w-full overflow-hidden">
               <div className="absolute h-full w-full origin-right animate-loading bg-primary"></div>

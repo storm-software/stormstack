@@ -17,9 +17,6 @@ export const useFieldRegistration = (field: string) => {
     (config: Partial<FormFieldConfig>) => {
       const props = register(field, {
         shouldUnregister: false,
-        validate: {
-          file: "One or more files cannot be uploaded. Please remove these uploads before continuing.",
-        },
         ...config,
       } as any);
       setFormFieldConfig(config);

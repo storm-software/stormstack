@@ -51,7 +51,12 @@ export default function Taskbar({
         <div
           className="flex h-full w-fit cursor-pointer items-center px-5 hover:bg-gray-700"
           onClick={toggleStartMenuOpened}>
-          <Image src="/static/images/start-button.png" alt="Start Icon" width={35} height={20} />
+          <Image
+            src="/static/images/start-button.png"
+            alt="Start Icon"
+            width={35}
+            height={20}
+          />
         </div>
         {windowState !== WindowStateTypes.CLOSED && (
           <TaskbarItem

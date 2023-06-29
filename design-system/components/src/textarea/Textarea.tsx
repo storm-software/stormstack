@@ -72,7 +72,7 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
     const handleBlur = useCallback(
       (event: ChangeEvent<HTMLTextAreaElement>) => {
         setFocused(false);
-        onBlur?.(event);
+        onBlur && onBlur(event);
       },
       [onBlur]
     );
