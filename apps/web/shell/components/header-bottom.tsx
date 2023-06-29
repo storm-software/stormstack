@@ -3,7 +3,7 @@
 import { BaseComponentProps } from "@open-system/design-system-components";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
-import Wave from "../app/static/images/header-wave.svg";
+import Wave from "../../public/static/images/header-wave.svg";
 import { useIsHeaderDisplayedValue } from "../hooks/useHeaderState";
 
 const container: Variants = {
