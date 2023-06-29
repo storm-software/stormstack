@@ -5,14 +5,17 @@ const { get } = require("@vercel/edge-config");
 // const withI18n = require("./config/withI18n");
 //const withSentry = require("./config/withSentry");
 // const { withSentryConfig } = require("@sentry/nextjs");
-// const { CONTACT_URL, ABLY_API_KEY } = process.env;
+
+const { VERCEL_URL } = process.env;
+
+const baseUrl = VERCEL_URL ? `${VERCEL_URL}` : "localhost:3000";
 
 // https://nextjs.org/docs/advanced-features/security-headers
 const CONTENT_SECURITY_POLICY = `
-      default-src 'self' vercel.live;
+      default-src 'self' ${baseUrl};
       script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
-      style-src 'self' 'unsafe-inline';
-      img-src * blob: data:;
+      child-src 'self' ${baseUrl};
+      style-src 'self' ${baseUrl} 'unsafe-inline';
       media-src 'none';
       connect-src *;
       font-src 'self';
