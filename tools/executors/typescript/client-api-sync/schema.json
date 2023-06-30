@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
+  "id": "client-api-sync",
   "title": "Open System - Client API Application Sync",
   "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec",
   "type": "object",

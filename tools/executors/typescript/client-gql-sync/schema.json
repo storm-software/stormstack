@@ -1,7 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "title": "Open System - Client Redux Application Sync",
+  "id": "client-gql-sync",
+  "title": "Open System - Client GraphQL Application Sync",
   "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec",
   "type": "object",
   "properties": {

@@ -1,11 +1,11 @@
-import _ from 'lodash';
-import tinycolor from 'tinycolor2';
-import SVGO from 'svgo';
-import Mustache from 'mustache';
-import { AllowedFormat, PartialRecord } from '../types';
-import { MustacheStatic } from '../types/libs/mustache';
+import _ from "lodash";
+import Mustache from "mustache";
+import SVGO from "svgo";
+import tinycolor from "tinycolor2";
+import { AllowedFormat, PartialRecord } from "../types";
+import { MustacheStatic } from "../types/libs/mustache";
 
-declare module 'lodash' {
+declare module "lodash" {
   export interface LoDashStatic {
     pascalCase(string?: string): string;
     none(string?: string): string;
@@ -32,7 +32,10 @@ export type SpServicesType = {
     }) => Promise<PartialRecord<AllowedFormat, string>>;
   };
   assets: {
-    getSource: <T>(payload: string, responseType: 'text' | 'buffer' | 'json') => Promise<T>;
+    getSource: <T>(
+      payload: string,
+      responseType: "text" | "buffer" | "json"
+    ) => Promise<T>;
   };
 };
 

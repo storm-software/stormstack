@@ -5,10 +5,20 @@
       "schema": "../../../dist/tools/executors/typescript/client-api-sync/schema.json",
       "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec."
     },
-    "client-redux-sync": {
-      "implementation": "../../../dist/tools/executors/typescript/client-redux-sync/impl",
-      "schema": "../../../dist/tools/executors/typescript/client-redux-sync/schema.json",
-      "description": "Sync up TypeScript client-side API SDK project code and types based on an OpenApi spec."
+    "cloudflare-worker-serve": {
+      "implementation": "../../../dist/tools/executors/typescript/cloudflare-worker-serve/impl",
+      "schema": "../../../dist/tools/executors/typescript/cloudflare-worker-serve/schema.json",
+      "description": "Serve a Cloudflare Worker"
+    },
+    "cloudflare-worker-deploy": {
+      "implementation": "../../../dist/tools/executors/typescript/cloudflare-worker-deploy/impl",
+      "schema": "../../../dist/tools/executors/typescript/cloudflare-worker-deploy/schema.json",
+      "description": "Deploy a Cloudflare Worker"
+    },
+    "cloudflare-worker-build": {
+      "implementation": "../../../dist/tools/executors/typescript/cloudflare-worker-build/impl",
+      "schema": "../../../dist/tools/executors/typescript/cloudflare-worker-build/schema.json",
+      "description": "Build a Cloudflare Worker"
     },
     "client-gql-sync": {
       "implementation": "../../../dist/tools/executors/typescript/client-gql-sync/impl",
@@ -24,21 +34,6 @@
       "implementation": "../../../dist/tools/executors/typescript/design-tokens-build/impl",
       "schema": "../../../dist/tools/executors/typescript/design-tokens-build/schema.json",
       "description": "Build the latest design tokens code from the extracted figma JSON."
-    },
-    "design-tokens-clean": {
-      "implementation": "../../../dist/tools/executors/typescript/design-tokens-clean/impl",
-      "schema": "../../../dist/tools/executors/typescript/design-tokens-clean/schema.json",
-      "description": "Clean the previous design token code."
     }
-    /*"design-components-build": {
-      "implementation": "../../../dist/tools/executors/typescript/design-components-build/impl",
-      "schema": "../../../dist/tools/executors/typescript/design-components-build/schema.json",
-      "description": "Build the latest design components code from the extracted figma JSON."
-    },
-    "design-components-clean": {
-      "implementation": "../../../dist/tools/executors/typescript/design-components-clean/impl",
-      "schema": "../../../dist/tools/executors/typescript/design-components-clean/schema.json",
-      "description": "Cleans the output folder for the Stencil design components library."
-    }*/
   }
 }

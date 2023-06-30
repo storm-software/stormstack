@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "cloudflare-worker-deploy",
+  "title": "Open System - Cloudflare Worker Deploy",
+  "description": "Deploy a Cloudflare Worker",
+  "type": "object",
+  "properties": {
+  },
+  "required": []
+}

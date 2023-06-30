@@ -65,9 +65,9 @@
         ]
       },
       "configurations": {
-        "design-tokens-clean": {
-          "outputPath": "dist/tools/executors/typescript/design-tokens-clean",
-          "rollupConfig": "tools/executors/typescript/design-tokens-clean/rollup.config.js",
+        "cloudflare-worker-build": {
+          "outputPath": "dist/tools/executors/typescript/cloudflare-worker-build",
+          "rollupConfig": "tools/executors/typescript/cloudflare-worker-build/rollup.config.js",
           "assets": [
             {
               "input": "./tools/executors/typescript",
@@ -85,7 +85,59 @@
               "output": "/"
             },
             {
-              "input": "tools/executors/typescript/design-tokens-clean",
+              "input": "tools/executors/typescript/cloudflare-worker-build",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
+        },
+        "cloudflare-worker-deploy": {
+          "outputPath": "dist/tools/executors/typescript/cloudflare-worker-deploy",
+          "rollupConfig": "tools/executors/typescript/cloudflare-worker-deploy/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/typescript",
+              "glob": "**/*!(design-token-parsers)/**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/typescript/cloudflare-worker-deploy",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
+        },
+        "cloudflare-worker-serve": {
+          "outputPath": "dist/tools/executors/typescript/cloudflare-worker-serve",
+          "rollupConfig": "tools/executors/typescript/cloudflare-worker-serve/rollup.config.js",
+          "assets": [
+            {
+              "input": "./tools/executors/typescript",
+              "glob": "**/*!(design-token-parsers)/**/*.md",
+              "output": "."
+            },
+            {
+              "input": "",
+              "glob": "CHANGELOG.md",
+              "output": "/"
+            },
+            {
+              "input": "",
+              "glob": "LICENSE",
+              "output": "/"
+            },
+            {
+              "input": "tools/executors/typescript/cloudflare-worker-serve",
               "glob": "schema.json",
               "output": "."
             }
@@ -138,32 +190,6 @@
             },
             {
               "input": "tools/executors/typescript/client-api-sync",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "client-redux-sync": {
-          "outputPath": "dist/tools/executors/typescript/client-redux-sync",
-          "rollupConfig": "tools/executors/typescript/client-redux-sync/rollup.config.js",
-          "assets": [
-            {
-              "input": "./tools/executors/typescript",
-              "glob": "**/*!(design-token-parsers)/**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
-            {
-              "input": "tools/executors/typescript/client-redux-sync",
               "glob": "schema.json",
               "output": "."
             }
