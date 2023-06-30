@@ -1,11 +1,4 @@
 import { SuccessContactForm } from "@open-system/contact-feature-form";
-import { Link } from "@open-system/core-components";
-import {
-  Button,
-  ButtonCornerRoundingTypes,
-  ButtonTransitionDirections,
-  ButtonVariants,
-} from "@open-system/design-system-components";
 
 export default function Page() {
   return (
