@@ -21,7 +21,7 @@ const CONTENT_SECURITY_POLICY = `
       script-src 'self' ${baseUrl} ${wwwBaseUrl} 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
       child-src 'self' ${baseUrl} ${wwwBaseUrl};
       style-src 'self' ${baseUrl} ${wwwBaseUrl} 'unsafe-inline';
-      img-src * 'self' ${baseUrl} ${wwwBaseUrl};
+      img-src data: * 'self' ${baseUrl} ${wwwBaseUrl} mediastream: * 'self' ${baseUrl} ${wwwBaseUrl} blob: * 'self' ${baseUrl} ${wwwBaseUrl} filesystem: * 'self' ${baseUrl} ${wwwBaseUrl} https: * 'self' ${baseUrl} ${wwwBaseUrl};
       media-src 'self' ${baseUrl} ${wwwBaseUrl};
       manifest-src *;
       connect-src 'self' ${baseUrl} ${wwwBaseUrl} vitals.vercel-insights.com vercel.live;
