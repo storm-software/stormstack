@@ -11,6 +11,7 @@ import { DateTime } from "@open-system/core-utilities";
 import { BoxLogo } from "@open-system/shared-components";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import notepadIcon from "../../../public/static/images/notepad-icon.png";
 
 interface StartMenuProps {
   setClosed: () => void;
@@ -58,7 +59,7 @@ export default function StartMenu({
             className="flex w-full cursor-pointer flex-row items-center gap-2 px-2 py-5 text-gray-400 hover:bg-gray-700 hover:text-white"
             onClick={handleClick}>
             <Image
-              src="/static/images/notepad-icon.png"
+              src={notepadIcon}
               alt="Notepad Icon"
               width={28}
               height={24}
