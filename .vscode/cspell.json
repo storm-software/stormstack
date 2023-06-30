@@ -12,6 +12,7 @@
     "Bootstrapper",
     "Buildable",
     "cacheable",
+    "checkmark",
     "Cloneable",
     "clsx",
     "codecov",

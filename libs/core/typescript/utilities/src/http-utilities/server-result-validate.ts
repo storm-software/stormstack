@@ -1,6 +1,6 @@
 import { ApiException } from "../errors/api-exception";
-import { isCodeInRange } from "../http-utilities/http-fns";
 import { ServerResult } from "../types";
+import { isCodeInRange } from "./http-fns";
 
 export const validateServerResult = (
   response: ServerResult<unknown>

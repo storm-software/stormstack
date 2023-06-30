@@ -1,12 +1,8 @@
 import chalk from "chalk";
-import {
-  DateTime,
-  formatDateTime,
-  isEmpty,
-  isObject,
-  isPrimitive,
-  isProduction,
-} from "../common";
+import { formatDateTime } from "../common/date-fns";
+import { DateTime } from "../common/date-time";
+import { isProduction } from "../common/env-fns";
+import { isEmpty, isError, isObject, isPrimitive } from "../common/type-checks";
 
 /**
  * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
@@ -18,13 +14,13 @@ import {
  * @param {string} [prefix] - The prefix to use for the message.
  */
 const print = (
-  message: any | any[],
+  message: unknown | unknown[],
   newLine = true,
   newLineAfter = true,
   prefix?: string,
   postfix?: string,
   stackTrace?: string
-): any => {
+): string => {
   return `${newLine ? "\n" : ""}${prefix ? `${prefix} ` : ""}${
     Array.isArray(message)
       ? message.reduce((ret, m, i) => {
@@ -43,7 +39,11 @@ const print = (
         ) +
         "\n" +
         chalk.bold("Stack Trace: ") +
-        (stackTrace ? stackTrace : new Error().stack?.substring(6) ?? "")
+        (stackTrace
+          ? stackTrace
+          : (message as Error)?.stack
+          ? (message as Error)?.stack
+          : new Error().stack?.substring(6) ?? "")
       : ""
   }${newLineAfter ? "\n" : ""}`;
 };
@@ -57,14 +57,22 @@ const print = (
  * @param [newLineAfter=true] - boolean
  * @param {string} [prefix] - The prefix to use for the message.
  */
-const format = (message: any): string =>
+const format = (message: unknown): string =>
   isEmpty(message)
     ? "<Empty>"
-    : !isPrimitive(message) && !isObject(message)
+    : !isPrimitive(message) && !isObject(message) && !isError(message)
     ? "<Object>"
+    : isError(message)
+    ? (message as Error)?.name && (message as Error)?.message
+      ? `${(message as Error)?.name}: ${(message as Error)?.message}`
+      : (message as Error)?.name
+      ? (message as Error)?.name
+      : (message as Error)?.message
+      ? (message as Error)?.message
+      : "<Error>"
     : isObject(message)
     ? JSON.stringify(message)
-    : message;
+    : (message as string);
 
 /**
  * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
@@ -75,7 +83,7 @@ const format = (message: any): string =>
  * @param [newLineAfter=true] - boolean
  * @param {string} [prefix] - The prefix to use for the message.
  */
-const formatLine = (message: any): string =>
+const formatLine = (message: unknown): string =>
   Array.isArray(message)
     ? message.reduce((ret, m, i) => {
         ret += formatLine(m) + (i < message.length - 1 ? ", " : "");
@@ -92,7 +100,7 @@ const formatLine = (message: any): string =>
  * @param [newLineAfter=true] - If true, a new line will be printed after the message.
  */
 export const printInfo = (
-  message: any[],
+  message: unknown[],
   newLine = true,
   newLineAfter = true
 ) => {
@@ -126,7 +134,7 @@ export const printInfo = (
  * @param [newLineAfter=true] - boolean
  */
 export const printSuccess = (
-  message: any[],
+  message: unknown[],
   newLine = true,
   newLineAfter = true
 ) => {
@@ -147,7 +155,7 @@ export const printSuccess = (
  * @param [newLineAfter=true] - boolean
  */
 export const printWarning = (
-  message: any[],
+  message: unknown[],
   newLine = true,
   newLineAfter = true
 ) => {
@@ -169,7 +177,7 @@ export const printWarning = (
  * @param [newLineAfter=true] - boolean
  */
 export const printError = (
-  message: any[] | Error,
+  message: unknown[] | Error,
   newLine = true,
   newLineAfter = true
 ) => {
@@ -181,9 +189,9 @@ export const printError = (
       newLine,
       newLineAfter,
       chalk.bold.red(
-        ` > ${chalk.bgRed.whiteBright(" ! ")} ERROR ${
-          chalk.italic(error?.name ? `(${error.name}) ` : "")
-        }-`
+        ` > ${chalk.bgRed.whiteBright(" ! ")} ERROR ${chalk.italic(
+          error?.name ? `(${error.name}) ` : ""
+        )}-`
       ),
       undefined,
       error.stack

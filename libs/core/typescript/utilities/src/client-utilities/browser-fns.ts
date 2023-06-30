@@ -1,6 +1,6 @@
-import { FileLoadingError } from "../errors";
-import { ConsoleLogger } from "../logging";
-import { isEmpty } from "./type-checks";
+import { isEmpty } from "../common/type-checks";
+import { FileLoadingError } from "../errors/file-loading-error";
+import { ConsoleLogger } from "../logging/console-logger";
 
 export const IsServer = typeof window === "undefined" || "Deno" in window;
 

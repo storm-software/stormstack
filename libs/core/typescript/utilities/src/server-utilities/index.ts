@@ -1,1 +1,1 @@
-export * from "./server-result-validate";
+export * from "./command-prompt-fns";
