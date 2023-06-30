@@ -196,6 +196,10 @@ const nextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          {
+            key: "Access-Control-Allow-Origin",
+            value: NEXT_PUBLIC_BASE_URL,
+          },
         ],
       },
     ];
