@@ -6,7 +6,7 @@ const { get } = require("@vercel/edge-config");
 //const withSentry = require("./config/withSentry");
 // const { withSentryConfig } = require("@sentry/nextjs");
 
-const { NEXT_PUBLIC_BASE_URL } = process.env;
+const { NEXT_PUBLIC_CORS_URL } = process.env;
 
 /*const baseUrl = NEXT_PUBLIC_BASE_URL
   ? `${NEXT_PUBLIC_BASE_URL}`
@@ -16,15 +16,15 @@ const { NEXT_PUBLIC_BASE_URL } = process.env;
 
 // https://nextjs.org/docs/advanced-features/security-headers
 const CONTENT_SECURITY_POLICY = `
-      default-src 'self' patsullivan.org;
-      script-src 'self' patsullivan.org 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
-      child-src 'self' patsullivan.org;
-      style-src 'self' patsullivan.org 'unsafe-inline';
-      img-src 'self' patsullivan.org mediastream:* data:* blob:* filesystem:*;
-      media-src 'self' patsullivan.org;
-      manifest-src 'self' patsullivan.org;
-      connect-src 'self' patsullivan.org vitals.vercel-insights.com vercel.live;
-      font-src 'self' patsullivan.org;
+      default-src 'self' patsullivan.org www.patsullivan.org;
+      script-src 'self' patsullivan.org www.patsullivan.org 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
+      child-src 'self' patsullivan.org www.patsullivan.org;
+      style-src 'self' patsullivan.org www.patsullivan.org 'unsafe-inline';
+      img-src 'self' patsullivan.org www.patsullivan.org mediastream:* data:* blob:* filesystem:*;
+      media-src 'self' patsullivan.org www.patsullivan.org;
+      manifest-src 'self' patsullivan.org www.patsullivan.org;
+      connect-src 'self' patsullivan.org www.patsullivan.org vitals.vercel-insights.com vercel.live;
+      font-src 'self' patsullivan.org www.patsullivan.org;
   `;
 
 /*
@@ -223,6 +223,10 @@ const nextConfig = {
           {
             key: "Permissions-Policy",
             value: "geolocation=(), browsing-topics=()",
+          },
+          {
+            key: "Access-Control-Allow-Origin",
+            value: NEXT_PUBLIC_CORS_URL,
           },
         ],
       },
