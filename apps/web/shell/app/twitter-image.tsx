@@ -12,8 +12,9 @@ export const size = {
   height: 630,
 };
 
-/*const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+/*
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  ? `${process.env.NEXT_PUBLIC_BASE_URL}`
   : "http://localhost:3000";
 
 const melody = fetch(new URL("/static/fonts/BLMelody-Bold.otf", baseUrl)).then(
@@ -21,7 +22,8 @@ const melody = fetch(new URL("/static/fonts/BLMelody-Bold.otf", baseUrl)).then(
 );
 const permanentMarker = fetch(
   new URL("/static/fonts/PermanentMarker-Regular.ttf", baseUrl)
-).then(res => res.arrayBuffer());*/
+).then(res => res.arrayBuffer());
+*/
 
 // Image generation
 export default function Image() {

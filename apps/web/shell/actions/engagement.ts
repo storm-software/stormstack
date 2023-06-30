@@ -9,7 +9,7 @@ export async function giveRating(request: FormSubmitHandlerParams<Rate>) {
   console.log("Submit Rate");
 
   const result = await fetch(
-    `${process.env.VERCEL_URL}/api/rating/${request.data.contentId}`,
+    `${process.env.BASE_URL}/api/rating/${request.data.contentId}`,
     {
       method: "post",
       headers: {

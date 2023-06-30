@@ -6,19 +6,22 @@ const { get } = require("@vercel/edge-config");
 //const withSentry = require("./config/withSentry");
 // const { withSentryConfig } = require("@sentry/nextjs");
 
-const { VERCEL_URL } = process.env;
+const { NEXT_PUBLIC_BASE_URL } = process.env;
 
-const baseUrl = VERCEL_URL ? `${VERCEL_URL}` : "localhost:3000";
+const baseUrl = NEXT_PUBLIC_BASE_URL
+  ? `${NEXT_PUBLIC_BASE_URL}`
+  : "localhost:3000";
 
 // https://nextjs.org/docs/advanced-features/security-headers
 const CONTENT_SECURITY_POLICY = `
       default-src 'self' ${baseUrl};
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
+      script-src 'self' ${baseUrl} 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
       child-src 'self' ${baseUrl};
       style-src 'self' ${baseUrl} 'unsafe-inline';
+      img-src * 'self' ${baseUrl} blob: data: https:;
       media-src 'none';
       connect-src *;
-      font-src 'self';
+      font-src 'self' ${baseUrl};
   `;
 
 /**
