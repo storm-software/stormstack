@@ -35,7 +35,7 @@ import MintlifyLogo from "../../../public/static/images/external-logos/mintlify-
 import NextLogo from "../../../public/static/images/external-logos/nextjs-logo.svg";
 import node from "../../../public/static/images/external-logos/node-logo.png";
 import nunit from "../../../public/static/images/external-logos/nunit-logo.png";
-import nx from "../../../public/static/images/external-logos/nx-logo.webp";
+import nx from "../../../public/static/images/external-logos/nx-logo.png";
 import OpenApiLogo from "../../../public/static/images/external-logos/openapi-logo.svg";
 import PlantUMLLogo from "../../../public/static/images/external-logos/plantuml-logo.svg";
 import PostgreSqlLogo from "../../../public/static/images/external-logos/postgresql-logo.svg";
