@@ -6,29 +6,37 @@ const { get } = require("@vercel/edge-config");
 //const withSentry = require("./config/withSentry");
 // const { withSentryConfig } = require("@sentry/nextjs");
 
-const { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_WWW_BASE_URL, NEXT_PUBLIC_CORS_URL } =
-  process.env;
+const { NEXT_PUBLIC_BASE_URL } = process.env;
 
 const baseUrl = NEXT_PUBLIC_BASE_URL
   ? `${NEXT_PUBLIC_BASE_URL}`
   : "localhost:3000";
-const wwwBaseUrl = NEXT_PUBLIC_WWW_BASE_URL
-  ? `${NEXT_PUBLIC_WWW_BASE_URL}`
-  : "www.localhost:3000";
-const corsUrl = NEXT_PUBLIC_CORS_URL ? `${NEXT_PUBLIC_CORS_URL}` : baseUrl;
+
+// const corsUrl = NEXT_PUBLIC_CORS_URL ? `${NEXT_PUBLIC_CORS_URL}` : baseUrl;
 
 // https://nextjs.org/docs/advanced-features/security-headers
 const CONTENT_SECURITY_POLICY = `
-      default-src 'self' ${baseUrl} ${wwwBaseUrl};
-      script-src 'self' ${baseUrl} ${wwwBaseUrl} 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
-      child-src 'self' ${baseUrl} ${wwwBaseUrl};
-      style-src 'self' ${baseUrl} ${wwwBaseUrl} 'unsafe-inline';
-      img-src data: * 'self' ${baseUrl} ${wwwBaseUrl} mediastream: * 'self' ${baseUrl} ${wwwBaseUrl} blob: * 'self' ${baseUrl} ${wwwBaseUrl} filesystem: * 'self' ${baseUrl} ${wwwBaseUrl} https: * 'self' ${baseUrl} ${wwwBaseUrl};
-      media-src 'self' ${baseUrl} ${wwwBaseUrl};
-      manifest-src *;
-      connect-src 'self' ${baseUrl} ${wwwBaseUrl} vitals.vercel-insights.com vercel.live;
-      font-src 'self' ${baseUrl} ${wwwBaseUrl};
+      default-src 'self';
+      script-src 'self' ${baseUrl} 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
+      child-src ${baseUrl};
+      style-src 'self' ${baseUrl};
+      font-src 'self';
+      connect-src 'self' ${baseUrl} vitals.vercel-insights.com vercel.live;
   `;
+
+/*
+      default-src 'self' ${baseUrl};
+      script-src 'self' ${baseUrl} 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
+      child-src 'self' ${baseUrl};
+      style-src 'self' ${baseUrl} 'unsafe-inline';
+      img-src data: * 'self' ${baseUrl} mediastream: * 'self' ${baseUrl} blob: * 'self' ${baseUrl} filesystem: * 'self' ${baseUrl} https: * 'self' ${baseUrl};
+      media-src 'self' ${baseUrl};
+      manifest-src *;
+      connect-src 'self' ${baseUrl} vitals.vercel-insights.com vercel.live;
+      font-src 'self' ${baseUrl};
+
+
+  */
 
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
@@ -165,7 +173,7 @@ const nextConfig = {
   headers() {
     return [
       {
-        source: "/(.*)",
+        source: "/:path*",
         headers: [
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
           {
@@ -180,7 +188,7 @@ const nextConfig = {
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
           {
             key: "X-Frame-Options",
-            value: "DENY",
+            value: "SAMEORIGIN",
           },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
           {
@@ -192,19 +200,20 @@ const nextConfig = {
             key: "X-DNS-Prefetch-Control",
             value: "on",
           },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
           {
             key: "Strict-Transport-Security",
-            value: "max-age=31536000; includeSubDomains; preload",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
-          {
-            key: "Access-Control-Allow-Origin",
-            value: corsUrl,
+            value:
+              "camera=(), microphone=(), geolocation=(), browsing-topics=()",
           },
         ],
       },
