@@ -1,0 +1,150 @@
+import {
+  Tree,
+  formatFiles,
+  generateFiles,
+  installPackagesTask,
+  joinPathFragments,
+  names,
+  readProjectConfiguration,
+  updateProjectConfiguration,
+} from "@nx/devkit";
+import { applicationGenerator } from "@nx/node";
+import { ConsoleLogger } from "@open-system/core-utilities";
+import { CloudflareWorkerGeneratorSchema } from "./schema";
+
+export default async function (
+  host: Tree,
+  options?: CloudflareWorkerGeneratorSchema
+) {
+  try {
+    ConsoleLogger.info("Executing Cloudflare Worker generator...");
+
+    await applicationGenerator(host, options);
+
+    const appName =
+      (options.directory ? `${options.directory}-` : "") + options.name;
+    const projectConfiguration = readProjectConfiguration(host, appName);
+    const projectRoot = projectConfiguration.root;
+
+    const templatePath = joinPathFragments(__dirname, "./files");
+    const substitutions = {
+      tmpl: "", // remove __tmpl__ from filenames
+      zone_id: options.zoneId ?? "",
+      account_id: options.accountId ?? "",
+      route: options.route ?? "",
+      workers_dev: options.workersDev ?? true,
+      compatibility_date: new Date().toISOString().split("T")[0],
+      ...names(options.name),
+    };
+
+    // remove all files that were created except for the config files
+    host
+      .listChanges()
+      .filter(
+        fileChange =>
+          fileChange.type === "CREATE" &&
+          !fileChange.path.endsWith("/project.json") &&
+          !fileChange.path.endsWith(".eslintrc.json") &&
+          fileChange.path !== "workspace.json"
+      )
+      .forEach(fileChange => {
+        host.delete(fileChange.path);
+      });
+
+    generateFiles(host, templatePath, projectRoot, substitutions);
+
+    await formatFiles(host);
+    // updateGitIgnore(host);
+    addTargets(host, options.name);
+
+    return () => {
+      installPackagesTask(host);
+
+      ConsoleLogger.success(
+        `Cloudflare Worker successfully generated for ${options.name}.`
+      );
+    };
+  } catch (e) {
+    ConsoleLogger.error(e);
+
+    return { success: false };
+  }
+}
+
+const addTargets = (host: Tree, appName: string) => {
+  try {
+    const projectConfiguration = readProjectConfiguration(host, appName);
+    const packageRoot = projectConfiguration.root;
+    const packageSourceRoot = projectConfiguration.sourceRoot;
+
+    projectConfiguration.targets = {
+      ...(projectConfiguration.targets ?? {}),
+      build: {
+        executor: "@open-system/typescript-executors:cloudflare-worker-build",
+        options: {
+          outputPath: `../../../dist/${packageRoot}`,
+          tsConfig: `${packageRoot}/tsconfig.json`,
+          packageJson: `${packageRoot}/package.json`,
+          main: `${packageSourceRoot}/index.ts`,
+        },
+      },
+      serve: {
+        executor: "@open-system/typescript-executors:cloudflare-worker-serve",
+      },
+      test: {
+        executor: "@nx/jest:jest",
+        outputs: ["{workspaceRoot}/coverage/{projectRoot}"],
+        options: {
+          jestConfig: `${packageRoot}/jest.config.ts`,
+          passWithNoTests: true,
+        },
+        configurations: {
+          ci: {
+            ci: true,
+            codeCoverage: true,
+          },
+        },
+      },
+      lint: {
+        executor: "@nx/linter:eslint",
+        outputs: ["{options.outputFile}"],
+        options: {
+          lintFilePatterns: [`${packageRoot}/**/*.{ts,tsx,js,jsx}`],
+        },
+      },
+      deploy: {
+        executor: "@open-system/typescript-executors:cloudflare-worker-deploy",
+      },
+      "semantic-release": {
+        executor: "@theunderscorer/nx-semantic-release:semantic-release",
+        options: {
+          github: true,
+          npm: false,
+          changelog: true,
+          tagFormat: "workers-" + appName + "-v${VERSION}",
+        },
+      },
+    };
+
+    updateProjectConfiguration(host, appName, projectConfiguration);
+  } catch (e) {
+    ConsoleLogger.error(e);
+  }
+};
+
+/*const updateGitIgnore = (host: Tree) => {
+  const requiredIgnores = [".dist"];
+
+  try {
+    const content = host.exists(".gitignore")
+      ? host.read(".gitignore").toString()
+      : ``;
+    const ignores = content.split(`\n`);
+    const ignoresToAdd = requiredIgnores.filter(
+      newIgnore => !ignores.find(i => i.trim() === newIgnore.trim())
+    );
+    host.write(".gitignore", content + `\n` + ignoresToAdd.join(`\n`));
+  } catch (e) {
+    ConsoleLogger.error(e);
+  }
+};*/

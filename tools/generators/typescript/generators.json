@@ -4,6 +4,11 @@
       "implementation": "../../../dist/tools/generators/typescript/client-api/impl",
       "schema": "../../../dist/tools/generators/typescript/client-api/schema.json",
       "description": "Generate TypeScript client-side API SDK project code and types based on an OpenApi spec"
+    },
+    "cloudflare-worker": {
+      "implementation": "../../../dist/tools/generators/typescript/cloudflare-worker/impl",
+      "schema": "../../../dist/tools/generators/typescript/cloudflare-worker/schema.json",
+      "description": "Generate Cloudflare worker"
     }
   }
 }

@@ -1,0 +1,8 @@
+{
+  "name": "<%= name %>",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "esbuild --bundle --out ../../../dist/<%= packageRoot %>.js ./src/index.ts"
+  }
+}

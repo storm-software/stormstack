@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../node_modules/@nx/node/src/generators/application/schema.json",
+  "cli": "nx",
+  "id": "cloudflare-worker",
+  "title": "Open System - Cloudflare Worker Generator",
+  "description": "Generate a Cloudflare Worker",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Identifier for the worker",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What is the name of the worker?"
+    },
+    "zoneId": {
+      "type": "string",
+      "description": "Zone Id"
+    },
+    "accountId": {
+      "type": "string",
+      "description": "Account Id"
+    },
+    "route": {
+      "type": "string",
+      "description": "Route"
+    },
+    "workersDev": {
+      "type": "boolean",
+      "description": "Workers Dev"
+    }
+  },
+  "required": ["name"]
+}
