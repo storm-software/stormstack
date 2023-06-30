@@ -20,7 +20,7 @@ const CONTENT_SECURITY_POLICY = `
       style-src 'self' ${baseUrl} 'unsafe-inline';
       img-src * 'self' ${baseUrl} blob: data: https:;
       media-src 'none';
-      connect-src *;
+      connect-src 'self' ${baseUrl} vitals.vercel-insights.com vercel.live;
       font-src 'self' ${baseUrl};
   `;
 
@@ -36,8 +36,8 @@ const nextConfig = {
     svgr: false,
   },
 
-  swcMinify: false,
-  reactStrictMode: false,
+  swcMinify: true,
+  reactStrictMode: true,
 
   /*pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],*/
 
