@@ -34,13 +34,13 @@ export function SuccessContactForm({
       </div>
       {note && (
         <div className="mt-2 flex justify-center">
-          <motion.label
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 3, ease: "easeInOut" }}
             className="w-2/3 text-center text-lg font-body-1 text-slate-400">
             {note}
-          </motion.label>
+          </motion.p>
         </div>
       )}
     </div>

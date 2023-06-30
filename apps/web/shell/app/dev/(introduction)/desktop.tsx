@@ -35,7 +35,7 @@ export default function Desktop({
           width={50}
           height={60}
         />
-        <label className="cursor-pointer text-center">Read Me.txt</label>
+        <p className="cursor-pointer text-center">Read Me.txt</p>
       </div>
       {windowState === WindowStateTypes.OPENED && (
         <Window setMinimized={setMinimized} setClosed={setClosed} />

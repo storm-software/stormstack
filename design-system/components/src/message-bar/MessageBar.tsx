@@ -98,9 +98,9 @@ export const MessageBar = ({
                 className={clsx(getTextStyle(variant), "text-2xl")}>
                 {`${getDefaultTitle(variant)}:`}
               </Heading>
-              <label className="flex-1 font-header-6 text-lg font-bold text-primary">
+              <p className="flex-1 font-header-6 text-lg font-bold text-primary">
                 {message}
-              </label>
+              </p>
               {details && <p className="font-body-1 text-body-1">{details}</p>}
             </div>
           </div>

@@ -41,9 +41,9 @@ export default function StartMenu({
         className="group flex cursor-pointer flex-row items-center gap-3 p-6"
         onClick={handleClick}>
         <BoxLogo className="h-14 w-16" />
-        <label className="cursor-pointer text-lg font-semibold text-gray-400 group-hover:text-white">
+        <p className="cursor-pointer text-lg font-semibold text-gray-400 group-hover:text-white">
           Patrick Sullivan
-        </label>
+        </p>
       </div>
       <div className="flex flex-1 flex-row gap-3 px-1 pb-3">
         <div className="flex flex-col-reverse text-white">
@@ -63,13 +63,13 @@ export default function StartMenu({
               width={28}
               height={24}
             />
-            <label className="cursor-pointer font-semibold">
+            <p className="cursor-pointer font-semibold">
               Read Me.txt - Notepad
-            </label>
-            <label className="cursor-pointer text-sm">
+            </p>
+            <p className="cursor-pointer text-sm">
               - Last saved on{" "}
               {current?.getPlainDate().toLocaleString() ?? "12/14/2022"}
-            </label>
+            </p>
           </div>
         </div>
       </div>

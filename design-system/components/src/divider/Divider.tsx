@@ -13,17 +13,17 @@ export type DividerProps = PropsWithBase<{
   /**
    * The variant style of the divider
    */
-  variant?: DividerVariants;
+  variant?: DividerVariants | string;
 
   /**
    * The direction of the divider
    */
-  direction?: DividerDirections;
+  direction?: DividerDirections | string;
 
   /**
    * The size of the divider (width of the divider line)
    */
-  size?: DividerSizes;
+  size?: DividerSizes | string;
 }>;
 
 /**

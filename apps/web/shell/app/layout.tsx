@@ -3,11 +3,8 @@ import {
   NotificationGroup,
   ToastGroup,
 } from "@open-system/core-feature-notifications";
-import {
-  BoxLogo,
-  Footer,
-  NavigationMenu,
-} from "@open-system/shared-components";
+import { NavigationMenu } from "@open-system/shared-components";
+import { BoxLogo, Footer } from "@open-system/shared-components/server";
 import { Analytics } from "@vercel/analytics/react";
 import clsx from "clsx";
 import { ReactNode } from "react";
@@ -214,12 +211,12 @@ export default function RootLayout(props: {
                   <div className="flex w-fit flex-col gap-0.5">
                     <SocialMediaLinks />
                     <div className="flex flex-col text-center">
-                      <label className="font-footer-name text-lg text-primary">
+                      <p className="font-footer-name text-lg text-primary">
                         Patrick J. Sullivan
-                      </label>
-                      <label className="text-md font-footer-name text-primary">
+                      </p>
+                      <p className="text-md font-footer-name text-primary">
                         New York Metropolitan Area
-                      </label>
+                      </p>
                     </div>
                   </div>
                 </div>

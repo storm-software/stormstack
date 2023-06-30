@@ -41,7 +41,7 @@ export default function TaskbarItem({
         width={24}
         height={20}
       />
-      <label className="cursor-pointer">Read Me.txt - Notepad</label>
+      <p className="cursor-pointer">Read Me.txt - Notepad</p>
     </div>
   );
 }

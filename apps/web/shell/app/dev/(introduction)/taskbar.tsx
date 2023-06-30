@@ -70,14 +70,12 @@ export default function Taskbar({
         <WifiIcon className="hidden h-1/2 w-fit md:block" />
         <SpeakerWaveIcon className="hidden h-1/2 w-fit md:block" />
         <div className="grid h-full w-fit grid-cols-1 content-center whitespace-nowrap py-2 text-center text-xs leading-normal">
-          <label>
+          <time>
             {current
               ?.getPlainTime()
               .toLocaleString(undefined, { timeStyle: "short" }) ?? "12:40 AM"}
-          </label>
-          <label>
-            {current?.getPlainDate().toLocaleString() ?? "1/20/2023"}
-          </label>
+          </time>
+          <p>{current?.getPlainDate().toLocaleString() ?? "1/20/2023"}</p>
         </div>
       </div>
     </div>

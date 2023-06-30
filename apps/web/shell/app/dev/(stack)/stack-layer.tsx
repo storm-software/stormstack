@@ -149,7 +149,7 @@ export default function StackLayer({
           <div
             onClick={handleOpen}
             className="flex h-16 cursor-pointer items-center justify-end bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 text-3xl font-label-2 text-primary transition-all hover:scale-x-150 hover:text-4xl hover:text-active-yellow">
-            <label className="cursor-pointer">{header}</label>
+            <p className="cursor-pointer">{header}</p>
           </div>
         </div>
       </div>

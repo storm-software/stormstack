@@ -126,7 +126,7 @@ export const ProgressTrackerItem = ({
       animate="displayed"
       onClick={handleClick}>
       <div className="flex flex-1 grow flex-row justify-center">
-        <motion.label
+        <motion.p
           initial={{
             color:
               status === ProgressTrackerItemStatus.COMPLETE &&
@@ -155,7 +155,7 @@ export const ProgressTrackerItem = ({
               status === ProgressTrackerItemStatus.COMPLETE && onClick,
           })}>
           {label}
-        </motion.label>
+        </motion.p>
       </div>
       <motion.div
         initial={{

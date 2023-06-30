@@ -34,14 +34,14 @@ export function BaseContactForm({
               { "basis-3/5": !isWide },
               { "basis-1/2": isWide }
             )}>
-            <motion.label
+            <motion.p
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, delay: 0 }}
               className="font-header-4 text-2xl text-violet-500">
               {title}
-            </motion.label>
+            </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -55,7 +55,7 @@ export function BaseContactForm({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, delay: 0.25 }}>
-            {sideContent}
+              {sideContent}
             </motion.div>
           </div>
           <motion.div

@@ -30,11 +30,11 @@ export default function VhsTitleBar() {
 
   return (
     <div className="m-auto bg-black/40 px-12 py-2">
-      <label className="font-vhs text-3xl slashed-zero tabular-nums text-primary/70">
+      <p className="font-vhs text-3xl slashed-zero tabular-nums text-primary/70">
         TCR 11-10 {hours === null ? 19 : hours < 10 ? `0${hours}` : hours}:
         {minutes === null ? 37 : minutes < 10 ? `0${minutes}` : minutes}:
         {seconds === null ? 11 : seconds < 10 ? `0${seconds}` : seconds}
-      </label>
+      </p>
     </div>
   );
 }

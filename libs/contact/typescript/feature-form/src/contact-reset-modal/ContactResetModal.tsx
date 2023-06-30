@@ -57,14 +57,14 @@ export const ContactResetModal = forwardRef<
         <div className="flex flex-col gap-10">
           <div className="flex flex-1 grow">
             <div className="flex flex-col gap-2">
-              <label className="whitespace-pre-wrap text-xl font-label-1 text-primary">
+              <p className="whitespace-pre-wrap text-xl font-label-1 text-primary">
                 Are you sure you want to remove all of your previously entered
                 input?
-              </label>
-              <label className="whitespace-pre-wrap text-lg font-body-1 text-body-1">
+              </p>
+              <p className="whitespace-pre-wrap text-lg font-body-1 text-body-1">
                 Selecting &quot;Reset&quot; below will start the contact process
                 from the beginning.
-              </label>
+              </p>
             </div>
           </div>
           <div className="shink flex flex-row-reverse gap-8">

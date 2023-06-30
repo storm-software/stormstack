@@ -29,9 +29,9 @@ export default function Page() {
               <div className="absolute left-10 top-10 z-30 h-48 w-64 border-l-[10px] border-t-[10px] border-l-gray-500/40 border-t-gray-500/40">
                 <div className="relative m-5 flex flex-row items-center gap-3">
                   <div className="h-8 w-8 animate-flash rounded-full bg-red-800/40" />
-                  <label className="font-vhs text-6xl font-black text-red-800/40">
+                  <p className="font-vhs text-6xl font-black text-red-800/40">
                     REC
-                  </label>
+                  </p>
                 </div>
               </div>
               <div className="absolute right-10 top-10 z-30 h-48 w-64 border-r-[10px] border-t-[10px] border-r-gray-500/40 border-t-gray-500/40">

@@ -14,10 +14,10 @@ export function ContactTypeForm({
       title="Contact Reason"
       description="What do you want to talk about?"
       sideContent={
-        <label className="text-lg font-body-1 text-slate-400">
+        <p className="text-lg font-body-1 text-slate-400">
           I generally try to respond back to all requests within 1 or 2 business
           days.
-        </label>
+        </p>
       }>
       <Radio
         name="reason"

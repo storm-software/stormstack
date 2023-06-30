@@ -23,7 +23,7 @@ export const Link = ({
   variant = LinkVariants.PRIMARY,
 }: LinkProps) => {
   return (
-    <label
+    <p
       onClick={onClick}
       className={clsx(
         "relative h-fit w-fit transition-colors hover:cursor-pointer",
@@ -52,6 +52,6 @@ export const Link = ({
         className
       )}>
       {children}
-    </label>
+    </p>
   );
 };

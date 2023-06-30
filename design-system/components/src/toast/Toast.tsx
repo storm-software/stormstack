@@ -104,9 +104,9 @@ export const Toast = ({
                 colorClassName={getTextStyle(variant)}>
                 {title ?? getDefaultTitle(variant)}
               </Heading>
-              <label className="flex-1 font-header-6 text-lg font-bold leading-[1.75rem] text-primary">
+              <p className="flex-1 font-header-6 text-lg font-bold leading-[1.75rem] text-primary">
                 {summary && summary}
-              </label>
+              </p>
             </div>
           </div>
           {showCloseIcon && onClose && (

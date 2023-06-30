@@ -1,10 +1,8 @@
 "use client";
 
 import { Link } from "@open-system/core-components";
-import {
-  EmailInput,
-  PhoneNumberInput,
-} from "@open-system/core-feature-form";
+import { useFormValues } from "@open-system/core-data-access";
+import { EmailInput, PhoneNumberInput } from "@open-system/core-feature-form";
 import {
   Accordion,
   BaseComponentProps,
@@ -16,9 +14,6 @@ import {
 } from "@open-system/shared-feature-address";
 import { BaseContactForm } from "../base-contact-form";
 import { SubscriptionCheckbox } from "../subscription-checkbox";
-import {
-  useFormValues
-} from "@open-system/core-data-access";
 
 export function ContactBusinessPersonalInfoForm({
   className,
@@ -39,7 +34,7 @@ export function ContactBusinessPersonalInfoForm({
         name="phoneNumber"
         info={
           values.phoneNumber ? (
-            <label>
+            <p>
               By providing a phone number, you are giving permission to contact
               you via text/call.{" "}
               <b>
@@ -51,7 +46,7 @@ export function ContactBusinessPersonalInfoForm({
                 privacy policy
               </Link>
               .
-            </label>
+            </p>
           ) : null
         }
       />

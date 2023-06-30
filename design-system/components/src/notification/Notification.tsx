@@ -112,9 +112,9 @@ export const Notification = ({
               {body && (
                 <>
                   {typeof body === "string" ? (
-                    <label className="flex-1 text-lg font-body-1 font-semibold leading-[1.5rem] text-body-1">
+                    <p className="flex-1 text-lg font-body-1 font-semibold leading-[1.5rem] text-body-1">
                       {body}
-                    </label>
+                    </p>
                   ) : (
                     body
                   )}

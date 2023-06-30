@@ -23,7 +23,7 @@ export default function Window({ setMinimized, setClosed }: WindowProps) {
             width={20}
             height={18}
           />
-          <label className="text-black">Read Me.txt - Notepad</label>
+          <p className="text-black">Read Me.txt - Notepad</p>
         </div>
         <div className="flex flex-row items-center">
           <div

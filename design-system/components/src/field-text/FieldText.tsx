@@ -39,12 +39,12 @@ export const FieldText = ({
         (typeof value === "string" && !value.trim().length)) && (
         <div className="flex flex-col hyphens-auto break-all">
           {name && (
-            <label className="hyphens-auto font-label-3 text-xs font-bold text-slate-500">
+            <p className="hyphens-auto font-label-3 text-xs font-bold text-slate-500">
               {name}
-            </label>
+            </p>
           )}
           {typeof value === "string" ? (
-            <label
+            <p
               className={clsx(
                 "text-md hyphens-auto font-body-1 text-primary",
                 {
@@ -53,7 +53,7 @@ export const FieldText = ({
                 className
               )}>
               {value}
-            </label>
+            </p>
           ) : (
             value
           )}

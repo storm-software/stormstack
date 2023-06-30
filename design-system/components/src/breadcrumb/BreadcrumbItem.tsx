@@ -32,10 +32,10 @@ export type BreadcrumbItemProps = PropsWithBase<{
    */
   variant?: BreadcrumbVariants | string;
 
-    /**
+  /**
    * Is the color scheme inversed on the component
    */
-    inverse?: boolean;
+  inverse?: boolean;
 }>;
 
 /**
@@ -62,40 +62,42 @@ export const BreadcrumbItem = ({
         "hover:cursor-pointer": !isCurrent && onClick,
       })}
       onClick={handleClick}>
-      <label
+      <p
         className={clsx(
           "font-label-4 text-lg transition",
           {
             "text-breadcrumb-primary-1":
-            variant === BreadcrumbVariants.PRIMARY && isCurrent && !inverse,
+              variant === BreadcrumbVariants.PRIMARY && isCurrent && !inverse,
           },
           {
             "text-breadcrumb-primary-2":
-            variant === BreadcrumbVariants.PRIMARY && isCurrent && inverse,
+              variant === BreadcrumbVariants.PRIMARY && isCurrent && inverse,
           },
           {
             "text-breadcrumb-primary-2":
-            variant === BreadcrumbVariants.PRIMARY && !isCurrent && !inverse,
+              variant === BreadcrumbVariants.PRIMARY && !isCurrent && !inverse,
           },
           {
             "text-breadcrumb-primary-1":
-            variant === BreadcrumbVariants.PRIMARY && !isCurrent && inverse,
+              variant === BreadcrumbVariants.PRIMARY && !isCurrent && inverse,
           },
           {
             "text-breadcrumb-secondary-1":
-            variant === BreadcrumbVariants.SECONDARY && isCurrent && !inverse,
+              variant === BreadcrumbVariants.SECONDARY && isCurrent && !inverse,
           },
           {
             "text-breadcrumb-secondary-2":
-            variant === BreadcrumbVariants.SECONDARY && isCurrent && inverse,
+              variant === BreadcrumbVariants.SECONDARY && isCurrent && inverse,
           },
           {
             "text-breadcrumb-secondary-2":
-            variant === BreadcrumbVariants.SECONDARY && !isCurrent && !inverse,
+              variant === BreadcrumbVariants.SECONDARY &&
+              !isCurrent &&
+              !inverse,
           },
           {
             "text-breadcrumb-secondary-1":
-            variant === BreadcrumbVariants.SECONDARY && !isCurrent && inverse,
+              variant === BreadcrumbVariants.SECONDARY && !isCurrent && inverse,
           },
           {
             "group-hover:cursor-pointer group-hover:text-hover-link-3":
@@ -103,7 +105,7 @@ export const BreadcrumbItem = ({
           }
         )}>
         {label}
-      </label>
+      </p>
     </div>
   );
 };

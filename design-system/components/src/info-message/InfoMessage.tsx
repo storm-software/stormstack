@@ -93,7 +93,7 @@ export const InfoMessage = ({
             exit={{ width: 0 }}
             transition={{ duration: 1 }}>
             {typeof children === "string" ? (
-              <label
+              <p
                 className={clsx(
                   "text-md font-body-1",
                   getTextStyle(
@@ -104,7 +104,7 @@ export const InfoMessage = ({
                   )
                 )}>
                 {children}
-              </label>
+              </p>
             ) : (
               children
             )}

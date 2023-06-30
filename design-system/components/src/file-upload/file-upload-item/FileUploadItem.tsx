@@ -40,13 +40,13 @@ export const FileUploadItem = ({
         {!error ? (
           <>
             <div className="justify-left flex flex-1 grow">
-              <label className="text-md w-full cursor-pointer truncate text-left font-label-3 text-primary">
+              <p className="text-md w-full cursor-pointer truncate text-left font-label-3 text-primary">
                 {name}
-              </label>
+              </p>
             </div>
-            <label className="font-body-2 text-sm text-body-1">
+            <p className="font-body-2 text-sm text-body-1">
               {size && size > 1000 ? size / 1000 : "> 1"} KB
-            </label>
+            </p>
           </>
         ) : (
           <div className="flex w-full flex-row items-center gap-6">
@@ -64,12 +64,12 @@ export const FileUploadItem = ({
               </svg>
             </span>
             <div className="flex flex-col gap-1 text-left">
-              <label className="text-md font-label-3 font-black text-primary">
+              <p className="text-md font-label-3 font-black text-primary">
                 {name}
-              </label>
-              <label className="whitespace-pre-line font-label-3 text-sm text-error">
+              </p>
+              <p className="whitespace-pre-line font-label-3 text-sm text-error">
                 {error}
-              </label>
+              </p>
             </div>
           </div>
         )}
