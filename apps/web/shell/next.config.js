@@ -6,7 +6,8 @@ const { get } = require("@vercel/edge-config");
 //const withSentry = require("./config/withSentry");
 // const { withSentryConfig } = require("@sentry/nextjs");
 
-const { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_WWW_BASE_URL } = process.env;
+const { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_WWW_BASE_URL, NEXT_PUBLIC_CORS_URL } =
+  process.env;
 
 const baseUrl = NEXT_PUBLIC_BASE_URL
   ? `${NEXT_PUBLIC_BASE_URL}`
@@ -14,6 +15,7 @@ const baseUrl = NEXT_PUBLIC_BASE_URL
 const wwwBaseUrl = NEXT_PUBLIC_WWW_BASE_URL
   ? `${NEXT_PUBLIC_WWW_BASE_URL}`
   : "www.localhost:3000";
+const corsUrl = NEXT_PUBLIC_CORS_URL ? `${NEXT_PUBLIC_CORS_URL}` : baseUrl;
 
 // https://nextjs.org/docs/advanced-features/security-headers
 const CONTENT_SECURITY_POLICY = `
@@ -202,7 +204,7 @@ const nextConfig = {
           },
           {
             key: "Access-Control-Allow-Origin",
-            value: NEXT_PUBLIC_BASE_URL,
+            value: corsUrl,
           },
         ],
       },
