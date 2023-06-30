@@ -8,20 +8,23 @@ const { get } = require("@vercel/edge-config");
 
 const { NEXT_PUBLIC_BASE_URL } = process.env;
 
-const baseUrl = NEXT_PUBLIC_BASE_URL
+/*const baseUrl = NEXT_PUBLIC_BASE_URL
   ? `${NEXT_PUBLIC_BASE_URL}`
-  : "localhost:3000";
+  : "localhost:3000";*/
 
 // const corsUrl = NEXT_PUBLIC_CORS_URL ? `${NEXT_PUBLIC_CORS_URL}` : baseUrl;
 
 // https://nextjs.org/docs/advanced-features/security-headers
 const CONTENT_SECURITY_POLICY = `
-      default-src 'self';
-      script-src 'self' ${baseUrl} 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
-      child-src ${baseUrl};
-      style-src 'self' ${baseUrl};
-      font-src 'self';
-      connect-src 'self' ${baseUrl} vitals.vercel-insights.com vercel.live;
+      default-src 'self' patsullivan.org;
+      script-src 'self' patsullivan.org 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
+      child-src 'self' patsullivan.org;
+      style-src 'self' patsullivan.org 'unsafe-inline';
+      img-src 'self' patsullivan.org mediastream:* data:* blob:* filesystem:*;
+      media-src 'self' patsullivan.org;
+      manifest-src 'self' patsullivan.org;
+      connect-src 'self' patsullivan.org vitals.vercel-insights.com vercel.live;
+      font-src 'self' patsullivan.org;
   `;
 
 /*
@@ -60,6 +63,8 @@ const nextConfig = {
     serverComponentsExternalPackages: ["redis", "redis-om"],
     instrumentationHook: true,
 
+    // urlImports: ["https://patsullivan.org/static/"],
+
     /*swcPlugins: [
       [
         "next-superjson-plugin",
@@ -83,6 +88,7 @@ const nextConfig = {
     "lottie-web",
     "react-hook-form",
     "@open-system/design-system-components",
+    "@open-system/core-utilities",
     "@open-system/core-components",
     "@open-system/core-data-access",
     "@open-system/core-feature-form",
@@ -105,9 +111,13 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // https://nextjs.org/docs/app/api-reference/next-config-js/typescript
   typescript: {
     ignoreBuildErrors: true,
   },
+
+  // https://nextjs.org/docs/app/api-reference/next-config-js/poweredByHeader
+  poweredByHeader: false,
 
   webpack(config) {
     config.experiments.topLevelAwait = true;
@@ -212,8 +222,7 @@ const nextConfig = {
           // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
           {
             key: "Permissions-Policy",
-            value:
-              "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+            value: "geolocation=(), browsing-topics=()",
           },
         ],
       },
