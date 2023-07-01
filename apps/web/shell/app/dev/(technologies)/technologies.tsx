@@ -15,7 +15,6 @@ import ApiExtractorLogo from "../../../public/static/images/external-logos/api-e
 import AsyncapiLogo from "../../../public/static/images/external-logos/asyncapi-logo.svg";
 import CommitlintLogo from "../../../public/static/images/external-logos/commitlint-logo.svg";
 // import contextMapperLogo from "../../../public/static/images/external-logos/context-mapper-logo.png";
-import websphereLogo from ".websphere-logo.webp";
 import CypressLogo from "../../../public/static/images/external-logos/cypress-logo.svg";
 import DockerLogo from "../../../public/static/images/external-logos/docker-logo.svg";
 import DocusaurusLogo from "../../../public/static/images/external-logos/docusaurus-logo.svg";
@@ -55,6 +54,7 @@ import styledComponentsLogo from "./styled-components-logo.png";
 import Technology from "./technology";
 import TechnologyGroup from "./technology-group";
 import testCompleteLogo from "./test-complete-logo.png";
+import websphereLogo from "./websphere-logo.webp";
 
 export interface TechnologyGroupDetails {
   name: string;
