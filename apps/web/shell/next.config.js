@@ -64,8 +64,6 @@ const nextConfig = {
     serverComponentsExternalPackages: ["redis", "redis-om"],
     instrumentationHook: true,
 
-    // urlImports: ["https://patsullivan.org/static/"],
-
     /*swcPlugins: [
       [
         "next-superjson-plugin",

@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import coffee from "./coffee.png";
+import keyboard from "./keyboard.png";
 import Monitor from "./monitor";
 
 export default function Introduction() {
@@ -18,18 +20,13 @@ export default function Introduction() {
         </div>
         <div className="flex flex-row items-start justify-center gap-10">
           <Image
-            src="/static/images/keyboard.png"
+            src={keyboard}
             alt="Keyboard"
             height={350}
             width={800}
             className="-rotate-6"
           />
-          <Image
-            src="/static/images/coffee.png"
-            alt="Coffee"
-            height={550}
-            width={200}
-          />
+          <Image src={coffee} alt="Coffee" height={550} width={200} />
         </div>
       </motion.div>
     </section>
