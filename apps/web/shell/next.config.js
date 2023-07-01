@@ -16,16 +16,16 @@ const { NEXT_PUBLIC_CORS_URL } = process.env;
 
 // https://nextjs.org/docs/advanced-features/security-headers
 const CONTENT_SECURITY_POLICY = `
-      default-src 'self' *.patsullivan.org;
-      script-src 'self' *.patsullivan.org 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
-      child-src 'self' *.patsullivan.org;
-      style-src 'self' *.patsullivan.org 'unsafe-inline';
+      default-src 'self' patsullivan.org *.patsullivan.org;
+      script-src 'self' patsullivan.org *.patsullivan.org 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
+      child-src 'self' patsullivan.org *.patsullivan.org;
+      style-src 'self' patsullivan.org *.patsullivan.org 'unsafe-inline';
       img-src 'self' data: https:;
-      media-src 'self' *.patsullivan.org;
-      manifest-src 'self' *.patsullivan.org;
-      connect-src 'self' *.patsullivan.org vitals.vercel-insights.com vercel.live;
-      font-src 'self' *.patsullivan.org;
-      frame-ancestors 'self' *.patsullivan.org;
+      media-src 'self' patsullivan.org *.patsullivan.org;
+      manifest-src 'self' patsullivan.org *.patsullivan.org;
+      connect-src 'self' patsullivan.org *.patsullivan.org vitals.vercel-insights.com vercel.live;
+      font-src 'self' patsullivan.org *.patsullivan.org;
+      frame-ancestors 'self' patsullivan.org *.patsullivan.org;
   `;
 
 /*
