@@ -189,10 +189,10 @@ export default function AppleIcon({
         }}>
         <svg width={width} viewBox="0 0 1348 901" fill="none">
           <title>Pat Sullivan Development</title>
-          <rect width="1348" height="901" fill="url(#pattern0)" />
+          <rect width="1348" height="901" fill="url(#apple-icon-image)" />
           <defs>
             <pattern
-              id="pattern0"
+              id="apple-icon-image"
               patternContentUnits="objectBoundingBox"
               width="1"
               height="1">
