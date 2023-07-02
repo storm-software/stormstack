@@ -1,4 +1,5 @@
-import { LibsType } from '../global-libs';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { LibsType } from "../global-libs";
 
 export type InputDataType = Array<Record<string, any>>;
 export type OutputDataType = InputDataType;
@@ -10,11 +11,11 @@ export type OptionsType =
 
 export default async function (
   tokens: InputDataType,
-  options: OptionsType = { keys: ['name'] },
-  { _ }: Pick<LibsType, '_'>,
+  options: OptionsType = { keys: ["name"] },
+  { _ }: Pick<LibsType, "_">
 ): Promise<OutputDataType> {
-  return tokens.map(token => {
-    options.keys.forEach(key => {
+  return tokens.map((token: any) => {
+    options.keys.forEach((key: string) => {
       if (_.has(token, key)) {
         return _.set(token, key, _.kebabCase(_.get(token, key)));
       }

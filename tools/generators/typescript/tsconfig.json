@@ -1,22 +1,7 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../tsconfig.tools.json",
   "compilerOptions": {
-    "outDir": "../../../dist/tools/generators/typescript",
-    "target": "es2017",
-    "module": "commonjs",
-    "declaration": true,
-    "types": ["node"],
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitOverride": false,
-    "strict": false,
-    "noPropertyAccessFromIndexSignature": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true
+    "outDir": "../../../dist/tools/generators/typescript"
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.js", "**/*.json"]

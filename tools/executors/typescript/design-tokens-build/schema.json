@@ -1,7 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "title": "Design Tokens Build",
+  "title": "Open System - Design Tokens Build",
+  "id": "design-tokens-build",
   "description": "Build the latest design tokens code from the extracted figma JSON.",
   "type": "object",
   "properties": {

@@ -1,9 +1,9 @@
-import { TextStyleToken } from '../../../types';
-import convertMeasurement from '../../../libs/size-manipulation';
-import tinycolor from 'tinycolor2';
-import { BaseStyleDictionaryTokensFormat } from '../to-style-dictionary.type';
-import { OptionsType, FormatTokenType } from '../to-style-dictionary.parser';
-import * as _ from 'lodash';
+import * as _ from "lodash";
+import tinycolor from "tinycolor2";
+import convertMeasurement from "../../../libs/size-manipulation";
+import { TextStyleToken } from "../../../types";
+import { FormatTokenType, OptionsType } from "../to-style-dictionary.parser";
+import { BaseStyleDictionaryTokensFormat } from "../to-style-dictionary.type";
 
 export class TextStyle extends TextStyleToken {
   keys: Array<string>;
@@ -15,6 +15,7 @@ export class TextStyle extends TextStyleToken {
   private getLetterSpacing() {
     const ls = this.value.letterSpacing;
     if (ls) return `${ls.value.measure}${ls.value.unit}`;
+    return undefined;
   }
   private getLineHeight() {
     const lh = this.value.lineHeight;
@@ -23,45 +24,54 @@ export class TextStyle extends TextStyleToken {
   private getTextIndent() {
     const ti = this.value.textIndent;
     if (ti) return `${ti.value.measure}${ti.value.unit}`;
+    return undefined;
   }
-  private getColor(format: NonNullable<FormatTokenType['colorFormat']>['format']) {
+  private getColor(
+    format: NonNullable<FormatTokenType["colorFormat"]>["format"]
+  ) {
     if (this.value.color?.value) {
       return tinycolor(this.value.color?.value).toString(format);
     }
+    return undefined;
   }
 
-  private getFontSize(fontFormat: FormatTokenType['fontSizeFormat']) {
+  private getFontSize(fontFormat: FormatTokenType["fontSizeFormat"]) {
     const fontSize = this.value.fontSize;
-    if (fontFormat?.unit && this.value.fontSize.value.unit !== fontFormat?.unit) {
+    if (
+      fontFormat?.unit &&
+      this.value.fontSize.value.unit !== fontFormat?.unit
+    ) {
       this.value.fontSize.value =
-        fontFormat?.unit === 'none' || !fontFormat.unit
+        fontFormat?.unit === "none" || !fontFormat.unit
           ? this.value.fontSize.value
           : convertMeasurement(this.value.fontSize.value, fontFormat?.unit);
     }
     return `${fontSize.value.measure}${fontSize.value.unit}`;
   }
 
-  generate(options: OptionsType): Pick<BaseStyleDictionaryTokensFormat, 'color' | 'size'> {
-    let result: Pick<BaseStyleDictionaryTokensFormat, 'color' | 'size'> = {};
+  generate(
+    options: OptionsType
+  ): Pick<BaseStyleDictionaryTokensFormat, "color" | "size"> {
+    let result: Pick<BaseStyleDictionaryTokensFormat, "color" | "size"> = {};
 
     result = _.setWith(
       result,
-      ['size', 'font', ...this.keys],
+      ["size", "font", ...this.keys],
       {
         value: this.getFontSize(options?.formatTokens?.fontSizeFormat),
       },
-      Object,
+      Object
     );
 
     const letterSpacing = this.getLetterSpacing();
     if (letterSpacing) {
       _.setWith(
         result,
-        ['size', 'letterSpacing', ...this.keys],
+        ["size", "letterSpacing", ...this.keys],
         {
           value: letterSpacing,
         },
-        Object,
+        Object
       );
     }
 
@@ -69,23 +79,25 @@ export class TextStyle extends TextStyleToken {
     if (lineHeight) {
       _.setWith(
         result,
-        ['size', 'lineHeight', ...this.keys],
+        ["size", "lineHeight", ...this.keys],
         {
           value: lineHeight,
         },
-        Object,
+        Object
       );
     }
 
-    const textColor = this.getColor(options?.formatTokens?.colorFormat?.format || 'hex');
+    const textColor = this.getColor(
+      options?.formatTokens?.colorFormat?.format || "hex"
+    );
     if (textColor) {
       _.setWith(
         result,
-        ['color', 'font', ...this.keys],
+        ["color", "font", ...this.keys],
         {
           value: textColor,
         },
-        Object,
+        Object
       );
     }
 
@@ -93,11 +105,11 @@ export class TextStyle extends TextStyleToken {
     if (textIndent) {
       _.setWith(
         result,
-        ['size', 'textIndent', ...this.keys],
+        ["size", "textIndent", ...this.keys],
         {
           value: textIndent,
         },
-        Object,
+        Object
       );
     }
 

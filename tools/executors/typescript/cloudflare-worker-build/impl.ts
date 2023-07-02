@@ -1,6 +1,6 @@
 import { ExecutorContext, joinPathFragments, workspaceRoot } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
-import { executeAsync } from "@open-system/core-utilities/server";
+import { executeAsync } from "@open-system/core-utilities/server-utilities/command-prompt-fns";
 import { CloudflareWorkerBuildExecutorSchema } from "./schema";
 
 export default async function (

@@ -1,6 +1,6 @@
 import { ExecutorContext } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
-import { executeAsync } from "@open-system/core-utilities/server";
+import { executeAsync } from "@open-system/core-utilities/server-utilities/command-prompt-fns";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import Path from "path";
 import { toCssFontImportParser, toTailwindParser } from "../utilities";

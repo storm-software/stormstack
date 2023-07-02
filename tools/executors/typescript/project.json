@@ -24,8 +24,8 @@
         "project": "tools/executors/typescript/package.json",
         "main": "tools/executors/typescript/index.ts",
         "rollupConfig": "tools/executors/typescript/rollup.config.js",
-        "deleteOutputPath": false,
         "external": "all",
+        "deleteOutputPath": false,
         "assets": [
           {
             "input": "./tools/executors/typescript",
@@ -108,6 +108,18 @@
           "assets": [
             {
               "input": "tools/executors/typescript/design-tokens-build",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
+        },
+        "design-components-clean": {
+          "outputPath": "dist/tools/executors/typescript/design-components-clean",
+          "main": "tools/executors/typescript/design-components-clean/impl.ts",
+          "deleteOutputPath": true,
+          "assets": [
+            {
+              "input": "tools/executors/typescript/design-components-clean",
               "glob": "schema.json",
               "output": "."
             }

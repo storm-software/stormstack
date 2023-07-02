@@ -1,7 +1,6 @@
 {
   "extends": "../../../../node_modules/@nx/node/src/generators/application/schema.json",
   "cli": "nx",
-  "id": "cloudflare-worker",
   "title": "Open System - Cloudflare Worker Generator",
   "description": "Generate a Cloudflare Worker",
   "type": "object",

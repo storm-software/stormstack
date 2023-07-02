@@ -18,11 +18,13 @@ export const executeAsync = async (
       return result.stderr;
     }
 
-    return;
-  } catch (e: any) {
+    return undefined;
+  } catch (e) {
     ConsoleLogger.error(`An error occurred executing command: "${command}"`);
     ConsoleLogger.error(e);
 
-    return e?.message ?? "Exception occurred while processing request ";
+    return (
+      (e as any)?.message ?? "Exception occurred while processing request "
+    );
   }
 };

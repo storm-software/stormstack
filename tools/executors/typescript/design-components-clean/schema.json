@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "extends": "../../../node_modules/@nxext/stencil/src/executors/build/schema.json",
   "cli": "nx",
-  "title": "Design Components Clean",
-  "type": "object",
+  "title": "Open System - Design Components Clean",
+  "id": "design-components-clean",
   "description": "Cleans the output folder for the Stencil design components library.",
+  "type": "object",
   "properties": {
     "verbose": {
       "type": "boolean",

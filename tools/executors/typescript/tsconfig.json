@@ -1,11 +1,8 @@
 {
   "extends": "../../tsconfig.tools.json",
   "compilerOptions": {
-    "outDir": "../../../dist/tools/executors/typescript",
-    "declaration": true,
-    "types": ["node"],
-    "downlevelIteration": true
+    "outDir": "../../../dist/tools/executors/typescript"
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "**/*.js", "**/*.json"]
 }

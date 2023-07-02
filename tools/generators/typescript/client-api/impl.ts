@@ -1,9 +1,37 @@
 import { Tree } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
-import { executeAsync } from "@open-system/core-utilities/server";
+import { executeAsync } from "@open-system/core-utilities/server-utilities/command-prompt-fns";
+// import { ExecOptions, exec } from "child_process";
 import { existsSync } from "fs";
 import Path from "path";
+// import { promisify } from "util";
 import { ClientApiGeneratorSchema } from "./schema";
+
+/*export const executeAsync = async (
+  command: string,
+  options?: ExecOptions
+): Promise<string | Buffer | undefined> => {
+  try {
+    ConsoleLogger.info(`Executing command: "${command}"`);
+
+    const result = await promisify(exec)(command, options);
+    if (result?.stderr) {
+      ConsoleLogger.error(`An error occurred executing command: "${command}"`);
+      ConsoleLogger.error(result.stderr);
+
+      return result.stderr;
+    }
+
+    return undefined;
+  } catch (e) {
+    ConsoleLogger.error(`An error occurred executing command: "${command}"`);
+    ConsoleLogger.error(e);
+
+    return (
+      (e as any)?.message ?? "Exception occurred while processing request "
+    );
+  }
+};*/
 
 export default async function (host: Tree, options?: ClientApiGeneratorSchema) {
   try {

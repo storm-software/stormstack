@@ -1,9 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "extends": "../../../node_modules/@nxext/stencil/src/executors/build/schema.json",
   "cli": "nx",
-  "id": "Build",
-  "title": "Design Components build",
+  "id": "design-components-build",
+  "title": "Open System - Design Components Build",
   "type": "object",
   "description": "Cleans the output folder and builds a Stencil design components library.",
   "properties": {

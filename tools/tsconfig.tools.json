@@ -1,15 +1,33 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../dist/out-tsc",
+    "outDir": "../dist/tools",
+    "target": "es2017",
+    "module": "commonjs",
+    "declaration": true,
+    "types": ["node"],
     "allowJs": true,
-    "strict": false,
-    "noImplicitOverride": false,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false,
-    "noPropertyAccessFromIndexSignature": false,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": false,
+    "strict": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "paths": {
+      "@open-system/core-utilities": [
+        "libs/core/typescript/utilities/src/index.ts"
+      ],
+      "@open-system/core-utilities/server": [
+        "libs/core/typescript/utilities/src/server.ts"
+      ],
+      "@open-system/core-utilities/*": [
+        "libs/core/typescript/utilities/src/*"
+      ],
+    }
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }

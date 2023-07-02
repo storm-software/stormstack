@@ -1,6 +1,6 @@
-import { StencilBuildOptions } from "@nxext/stencil";
+// import { StencilBuildOptions } from "@nxext/stencil";
 
-export type DesignComponentsBuildExecutorSchema = StencilBuildOptions & {
-  baseBuildTarget: true;
+export type DesignComponentsBuildExecutorSchema = {
+  baseBuildTarget: string;
   clean?: boolean;
 };
