@@ -1,5 +1,6 @@
-import { Tree } from "@nrwl/devkit";
-import { ConsoleLogger, executeAsync } from "@open-system/core-utilities";
+import { Tree } from "@nx/devkit";
+import { ConsoleLogger } from "@open-system/core-utilities";
+import { executeAsync } from "@open-system/core-utilities/server";
 import { existsSync } from "fs";
 import Path from "path";
 import { ClientApiGeneratorSchema } from "./schema";
