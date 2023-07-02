@@ -23,7 +23,7 @@
         "tsConfig": "tools/executors/typescript/tsconfig.json",
         "project": "tools/executors/typescript/package.json",
         "main": "tools/executors/typescript/index.ts",
-        "rollupConfig": "tools/generators/typescript/rollup.config.js",
+        "rollupConfig": "tools/executors/typescript/rollup.config.js",
         "deleteOutputPath": false,
         "external": "all",
         "assets": [
