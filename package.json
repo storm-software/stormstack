@@ -192,7 +192,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "docusaurus-plugin-react-docgen-typescript": "^1.1.0",
     "docusaurus-plugin-typedoc": "^0.19.2",
-    "esbuild": "^0.17.17",
+    "esbuild": "^0.18.0",
     "eslint": "^8.43.0",
     "eslint-config-next": "^13.4.7",
     "eslint-config-prettier": "8.8.0",
