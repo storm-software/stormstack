@@ -5,8 +5,8 @@ import {
   workspaceRoot,
 } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
-import { executeAsync } from "@open-system/core-utilities/server-utilities/command-prompt-fns";
 import { FsTree } from "nx/src/generators/tree";
+import { executeAsync } from "../utilities/command-prompt-fns";
 
 export async function runWranglerCommand(
   _: unknown,
