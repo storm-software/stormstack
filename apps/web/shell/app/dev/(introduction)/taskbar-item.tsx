@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { useCallback } from "react";
-import NotepadIcon from "../../../public/static/images/notepad-icon.svg";
+import NotepadIcon from "./notepad-icon.svg";
 import { WindowStateTypes } from "./use-window-state";
 
 interface TaskbarItemProps {
@@ -35,7 +35,7 @@ export default function TaskbarItem({
         }
       )}
       onClick={handleClick}>
-      <NotepadIcon alt="Notepad Icon" width={24} height={20} />
+      <NotepadIcon width={24} height={20} />
       <p className="cursor-pointer">Read Me.txt - Notepad</p>
     </div>
   );
