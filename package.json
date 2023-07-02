@@ -97,7 +97,6 @@
     "regenerator-runtime": "0.13.11",
     "rimraf": "^5.0.0",
     "schema-dts": "^1.1.2",
-    "sharp": "^0.32.1",
     "tslib": "^2.5.2"
   },
   "devDependencies": {
@@ -110,7 +109,6 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "7.22.5",
-    "@cloudflare/workers-types": "^4.20230518.0",
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
     "@docusaurus/core": "^2.4.1",
