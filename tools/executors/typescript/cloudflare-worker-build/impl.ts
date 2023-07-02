@@ -1,6 +1,5 @@
 import { ExecutorContext, joinPathFragments, workspaceRoot } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
-import { execute } from "../utilities";
+import { ConsoleLogger, executeAsync } from "@open-system/core-utilities";
 import { CloudflareWorkerBuildExecutorSchema } from "./schema";
 
 export default async function (
@@ -21,19 +20,19 @@ export default async function (
       buildTarget.options.main
     );
 
-    let result = await execute(`rm -rf ${outputPath} || true`);
+    let result = await executeAsync(`rm -rf ${outputPath} || true`);
     if (result) {
       ConsoleLogger.error(result);
       return { success: false };
     }
 
-    result = await execute(`mkdir -p ${outputPath}`);
+    result = await executeAsync(`mkdir -p ${outputPath}`);
     if (result) {
       ConsoleLogger.error(result);
       return { success: false };
     }
 
-    result = await execute(
+    result = await executeAsync(
       `esbuild --bundle --outdir=${outputPath} ${entryFile} `
     );
     if (result) {

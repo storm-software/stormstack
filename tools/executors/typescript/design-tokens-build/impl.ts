@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { ExecutorContext } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { ExecutorContext } from "@nx/devkit";
+import { ConsoleLogger, executeAsync } from "@open-system/core-utilities";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import Path from "path";
-import { execute, toCssFontImportParser, toTailwindParser } from "../utilities";
+import { toCssFontImportParser, toTailwindParser } from "../utilities";
 import { InputDataType as ToCssFontImportParserInputDataType } from "../utilities/design-token-parsers/parsers/to-css-font-import";
 import { InputDataType as ToTailwindInputDataType } from "../utilities/design-token-parsers/parsers/to-tailwind";
 import { IToken } from "../utilities/design-token-parsers/types";
@@ -50,7 +49,7 @@ export default async function (
     if (clean) {
       ConsoleLogger.info("Cleaning previous design tokens build...");
 
-      result = await execute(
+      result = await executeAsync(
         `rimraf ./dist/design-system/tokens -v !("package.json")`
       );
       if (result) {

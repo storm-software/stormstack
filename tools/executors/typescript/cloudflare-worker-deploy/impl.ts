@@ -10,7 +10,7 @@ export default async function (
   try {
     ConsoleLogger.info("Executing Cloudflare Worker Deploy executor...");
 
-    const result = await runWranglerCommand(options, context, "dev");
+    const result = await runWranglerCommand(options, context, "publish");
     if (result) {
       ConsoleLogger.error(result);
       return { success: false };

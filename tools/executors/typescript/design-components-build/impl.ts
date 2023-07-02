@@ -1,6 +1,5 @@
-import { ExecutorContext, runExecutor } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
-import { execute } from "../utilities";
+import { ExecutorContext, runExecutor } from "@nx/devkit";
+import { ConsoleLogger, executeAsync } from "@open-system/core-utilities";
 import { DesignComponentsBuildExecutorSchema } from "./schema";
 
 export default async function (
@@ -18,7 +17,7 @@ export default async function (
     if (clean) {
       ConsoleLogger.info("Cleaning previous design components build...");
 
-      result = await execute(
+      result = await executeAsync(
         `rimraf dist/design-system/components/stencil/dist/collection`
       );
       if (result) {

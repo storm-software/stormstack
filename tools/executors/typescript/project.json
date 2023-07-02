@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "tools/executors/typescript/**/*.ts",
@@ -23,9 +23,9 @@
         "tsConfig": "tools/executors/typescript/tsconfig.json",
         "project": "tools/executors/typescript/package.json",
         "main": "tools/executors/typescript/index.ts",
+        "rollupConfig": "tools/generators/typescript/rollup.config.js",
         "deleteOutputPath": false,
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "external": "all",
         "assets": [
           {
             "input": "./tools/executors/typescript",
@@ -67,23 +67,9 @@
       "configurations": {
         "cloudflare-worker-build": {
           "outputPath": "dist/tools/executors/typescript/cloudflare-worker-build",
-          "rollupConfig": "tools/executors/typescript/cloudflare-worker-build/rollup.config.js",
+          "main": "tools/executors/typescript/cloudflare-worker-build/impl.ts",
+          "deleteOutputPath": true,
           "assets": [
-            {
-              "input": "./tools/executors/typescript",
-              "glob": "**/*!(design-token-parsers)/**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
             {
               "input": "tools/executors/typescript/cloudflare-worker-build",
               "glob": "schema.json",
@@ -93,23 +79,9 @@
         },
         "cloudflare-worker-deploy": {
           "outputPath": "dist/tools/executors/typescript/cloudflare-worker-deploy",
-          "rollupConfig": "tools/executors/typescript/cloudflare-worker-deploy/rollup.config.js",
+          "main": "tools/executors/typescript/cloudflare-worker-deploy/impl.ts",
+          "deleteOutputPath": true,
           "assets": [
-            {
-              "input": "./tools/executors/typescript",
-              "glob": "**/*!(design-token-parsers)/**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
             {
               "input": "tools/executors/typescript/cloudflare-worker-deploy",
               "glob": "schema.json",
@@ -119,23 +91,9 @@
         },
         "cloudflare-worker-serve": {
           "outputPath": "dist/tools/executors/typescript/cloudflare-worker-serve",
-          "rollupConfig": "tools/executors/typescript/cloudflare-worker-serve/rollup.config.js",
+          "main": "tools/executors/typescript/cloudflare-worker-serve/impl.ts",
+          "deleteOutputPath": true,
           "assets": [
-            {
-              "input": "./tools/executors/typescript",
-              "glob": "**/*!(design-token-parsers)/**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
             {
               "input": "tools/executors/typescript/cloudflare-worker-serve",
               "glob": "schema.json",
@@ -145,23 +103,9 @@
         },
         "design-tokens-build": {
           "outputPath": "dist/tools/executors/typescript/design-tokens-build",
-          "rollupConfig": "tools/executors/typescript/design-tokens-build/rollup.config.js",
+          "main": "tools/executors/typescript/design-tokens-build/impl.ts",
+          "deleteOutputPath": true,
           "assets": [
-            {
-              "input": "./tools/executors/typescript",
-              "glob": "**/*!(design-token-parsers)/**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
             {
               "input": "tools/executors/typescript/design-tokens-build",
               "glob": "schema.json",
@@ -171,23 +115,9 @@
         },
         "client-api-sync": {
           "outputPath": "dist/tools/executors/typescript/client-api-sync",
-          "rollupConfig": "tools/executors/typescript/client-api-sync/rollup.config.js",
+          "main": "tools/executors/typescript/client-api-sync/impl.ts",
+          "deleteOutputPath": true,
           "assets": [
-            {
-              "input": "./tools/executors/typescript",
-              "glob": "**/*!(design-token-parsers)/**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
             {
               "input": "tools/executors/typescript/client-api-sync",
               "glob": "schema.json",
@@ -197,23 +127,9 @@
         },
         "client-gql-sync": {
           "outputPath": "dist/tools/executors/typescript/client-gql-sync",
-          "rollupConfig": "tools/executors/typescript/client-gql-sync/rollup.config.js",
+          "main": "tools/executors/typescript/client-gql-sync/impl.ts",
+          "deleteOutputPath": true,
           "assets": [
-            {
-              "input": "./tools/executors/typescript",
-              "glob": "**/*!(design-gql-sync)/**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
             {
               "input": "tools/executors/typescript/client-gql-sync",
               "glob": "schema.json",

@@ -4,14 +4,13 @@ import {
   readProjectConfiguration,
   workspaceRoot,
 } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { ConsoleLogger, executeAsync } from "@open-system/core-utilities";
 import { FsTree } from "nx/src/generators/tree";
-import { execute } from "./helper-utilities";
 
 export async function runWranglerCommand(
   _: unknown,
   context: ExecutorContext,
-  command: "dev" | "publish" | "pages publish" | "pages dev"
+  command: "dev" | "publish"
 ) {
   try {
     const { projectName } = context;
@@ -38,11 +37,20 @@ export async function runWranglerCommand(
       );
     }
 
-    ConsoleLogger.debug(`npx wrangler ${command} ${wranglerOptions.join(" ")}`);
-    await execute(`npx wrangler ${command} ${wranglerOptions.join(" ")}`, {
+    const nextCommand = `npx wrangler ${command} ${wranglerOptions.join(" ")}`;
+
+    ConsoleLogger.debug(nextCommand);
+    const result = await executeAsync(nextCommand, {
       cwd: projectConfiguration.root,
     });
+    if (result) {
+      ConsoleLogger.error(
+        `An error occured executing the command '${nextCommand}'. Halting execution early.`
+      );
+      return result;
+    }
   } catch (e) {
+    ConsoleLogger.error(e);
     return e;
   }
 }
