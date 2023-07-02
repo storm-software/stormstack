@@ -125,7 +125,7 @@ select:-webkit-autofill:focus:disabled {
 }
 
 .tv-static {
-  background: transparent url("./tv-static.png") 0 0;
+  background: transparent url("/static/images/tv-static.svg") 0 0;
 }
 
 @keyframes title-text {

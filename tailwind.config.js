@@ -57,8 +57,8 @@ module.exports = {
         "bg-radial": "radial-gradient(var(--tw-gradient-stops))",
         "bg-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "bg-footer": "url(./apps/web/shell/public/static/images/bg-footer.jpg)",
-        "bg-windows": "url(./apps/web/shell/public/static/images/bg-windows.jpg)",
+        "bg-footer": "url(/static/images/bg-footer.svg)",
+        "bg-windows": "url(/static/images/bg-windows.svg)",
       },
       "zIndex": {
         ...extend.zIndex,

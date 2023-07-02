@@ -1,8 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import Image from "next/image";
-import notepadIcon from "./notepad-icon.png";
+import NotepadIcon from "../../../public/static/images/notepad-icon.svg";
 import { WindowStateTypes } from "./use-window-state";
 import Window from "./window";
 
@@ -30,7 +29,7 @@ export default function Desktop({
           }
         )}
         onClick={setOpened}>
-        <Image src={notepadIcon} alt="Notepad Icon" width={50} height={60} />
+        <NotepadIcon alt="Notepad Icon" width={50} height={60} />
         <p className="cursor-pointer text-center">Read Me.txt</p>
       </div>
       {windowState === WindowStateTypes.OPENED && (

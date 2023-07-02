@@ -2,9 +2,8 @@
 
 import { SpeakerWaveIcon, WifiIcon } from "@heroicons/react/24/outline";
 import { DateTime } from "@open-system/core-utilities";
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import startButton from "./start-button.png";
+import StartButton from "../../../public/static/images/start-button.svg";
 import StartMenu from "./start-menu";
 import TaskbarItem from "./taskbar-item";
 import { StartMenuStateTypes } from "./use-start-menu-state";
@@ -52,7 +51,7 @@ export default function Taskbar({
         <div
           className="flex h-full w-fit cursor-pointer items-center px-5 hover:bg-gray-700"
           onClick={toggleStartMenuOpened}>
-          <Image src={startButton} alt="Start Icon" width={35} height={20} />
+          <StartButton alt="Start Icon" width={35} height={20} />
         </div>
         {windowState !== WindowStateTypes.CLOSED && (
           <TaskbarItem
