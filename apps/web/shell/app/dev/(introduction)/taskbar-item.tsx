@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { useCallback } from "react";
-import NotepadIcon from "./notepad-icon.svg";
+import NotepadIcon from "./notepad-icon";
 import { WindowStateTypes } from "./use-window-state";
 
 interface TaskbarItemProps {
