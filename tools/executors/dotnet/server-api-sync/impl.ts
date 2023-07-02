@@ -1,4 +1,4 @@
-import { ExecutorContext } from "@nrwl/devkit";
+import { ExecutorContext } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
 import { execute } from "../utilities";
 import { ServerApiSyncExecutorSchema } from "./schema";

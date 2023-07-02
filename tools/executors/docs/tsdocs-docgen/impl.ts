@@ -1,9 +1,9 @@
-import {
+/*import {
   Extractor,
   ExtractorConfig,
   ExtractorResult,
-} from "@microsoft/api-extractor";
-import { ExecutorContext } from "@nrwl/devkit";
+} from "@microsoft/api-extractor";*/
+import { ExecutorContext } from "@nx/devkit";
 import { exec } from "child_process";
 import { createReadStream, readdir } from "fs";
 import { existsSync, writeFile } from "fs-extra";
@@ -124,7 +124,7 @@ const documentExecutor = async (
         console.info("Directory successfully created.");
 
         // Invoke API Extractor
-        const extractorResult: ExtractorResult = Extractor.invoke(
+        /*const extractorResult: ExtractorResult = Extractor.invoke(
           ExtractorConfig.prepare({
             configObject: ExtractorConfig.loadFile("./api-extractor.json"),
             configObjectFullPath: "./api-extractor.json",
@@ -146,7 +146,7 @@ const documentExecutor = async (
           );
 
           return { success: false };
-        }
+        }*/
 
         console.info("Navigate to dist directory.");
         result = await execute(` cd "${distPath}" `);

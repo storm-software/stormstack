@@ -1,9 +1,9 @@
-import { NxPlugin } from "@nrwl/devkit";
 import {
-  processProjectGraph,
-  projectFilePatterns,
-  registerProjectTargets,
+    processProjectGraph,
+    projectFilePatterns,
+    registerProjectTargets,
 } from "@nx-dotnet/core";
+import { NxPlugin } from "@nx/devkit";
 
 export const nxPlugin: NxPlugin = {
   name: "@open-system/generators-dotnet",

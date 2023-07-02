@@ -1,5 +1,5 @@
 import Generator from "@asyncapi/generator";
-import { ExecutorContext } from "@nrwl/devkit";
+import { ExecutorContext } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
 import { AsyncApiSyncExecutorSchema } from "./schema";
 

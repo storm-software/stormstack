@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "tools/executors/docs/**/*.ts",
@@ -23,9 +23,9 @@
         "tsConfig": "tools/executors/docs/tsconfig.json",
         "project": "tools/executors/docs/package.json",
         "main": "tools/executors/docs/index.ts",
+        "rollupConfig": "tools/executors/docs/rollup.config.js",
+        "external": "all",
         "deleteOutputPath": false,
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           {
             "input": "./tools/executors/docs",
@@ -67,23 +67,9 @@
       "configurations": {
         "design-tokens-docgen": {
           "outputPath": "dist/tools/executors/docs/design-tokens-docgen",
-          "rollupConfig": "tools/executors/docs/design-tokens-docgen/rollup.config.js",
+          "main": "tools/executors/docs/design-tokens-docgen/impl.ts",
+          "deleteOutputPath": true,
           "assets": [
-            {
-              "input": "./tools/executors/docs",
-              "glob": "**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
             {
               "input": "tools/executors/docs/design-tokens-docgen",
               "glob": "schema.json",
@@ -93,23 +79,9 @@
         },
         "tsdocs-docgen": {
           "outputPath": "dist/tools/executors/docs/tsdocs-docgen",
-          "rollupConfig": "tools/executors/docs/tsdocs-docgen/rollup.config.js",
+          "main": "tools/executors/docs/tsdocs-docgen/impl.ts",
+          "deleteOutputPath": true,
           "assets": [
-            {
-              "input": "./tools/executors/docs",
-              "glob": "**/*.md",
-              "output": "."
-            },
-            {
-              "input": "",
-              "glob": "CHANGELOG.md",
-              "output": "/"
-            },
-            {
-              "input": "",
-              "glob": "LICENSE",
-              "output": "/"
-            },
             {
               "input": "tools/executors/docs/tsdocs-docgen",
               "glob": "schema.json",

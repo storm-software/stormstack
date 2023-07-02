@@ -1,4 +1,4 @@
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
 import { execute } from "../utilities";
 import { ServerApiGeneratorSchema } from "./schema";

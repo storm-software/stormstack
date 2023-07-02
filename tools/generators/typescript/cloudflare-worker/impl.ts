@@ -62,7 +62,7 @@ export default async function (
 
     await formatFiles(host);
     // updateGitIgnore(host);
-    addTargets(host, options.name);
+    // addTargets(host, options.name);
 
     return () => {
       installPackagesTask(host);

@@ -1,6 +1,6 @@
 import Generator from "@asyncapi/generator";
 //import { parse } from "@asyncapi/parser";
-import { Tree } from "@nrwl/devkit";
+import { Tree } from "@nx/devkit";
 //import { readFileSync } from "fs";
 // import { ConsoleLogger } from "@open-system/core-utilities";
 import { AsyncApiGeneratorSchema } from "./schema";
