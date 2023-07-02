@@ -23,6 +23,17 @@
     "**/*.stories.jsx",
     "**/*.stories.tsx"
   ],
+  "paths": {
+    "@open-system/core-utilities": [
+      "libs/core/typescript/utilities/src/index.ts"
+    ],
+    "@open-system/core-utilities/server": [
+      "libs/core/typescript/utilities/src/server.ts"
+    ],
+    "@open-system/core-utilities/*": [
+      "libs/core/typescript/utilities/src/*"
+    ],
+  },
   "references": [
     {
       "path": "./tsconfig.lib.json"
