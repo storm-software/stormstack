@@ -1,0 +1,96 @@
+{
+  "name": "<%= name %>",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/workers/<%= name %>/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@open-system/executors-typescript:cloudflare-worker-build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/workers/<%= name %>",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/workers/<%= name %>/src/index.ts",
+        "tsConfig": "apps/workers/<%= name %>/tsconfig.json",
+        "assets": ["apps/workers/<%= name %>/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@open-system/executors-typescript:cloudflare-worker-serve",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "worker-<%= name %>:serve"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "worker-<%= name %>:serve:development"
+        },
+        "production": {
+          "buildTarget": "worker-<%= name %>:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/workers/<%= name %>/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/workers/<%= name %>/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "deploy": {
+      "executor": "@open-system/executors-typescript:cloudflare-worker-deploy",
+      "defaultConfiguration": "production",
+      "options": {
+        "buildTarget": "worker-<%= name %>:deploy"
+      },
+      "production": {
+        "buildTarget": "worker-<%= name %>:build:production"
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "workers-<%= name %>-v${VERSION}"
+      }
+    }
+  },
+  "tags": []
+}

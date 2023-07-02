@@ -19,7 +19,14 @@ export default async function (
   try {
     ConsoleLogger.info("Executing Cloudflare Worker generator...");
 
-    await applicationGenerator(host, options);
+    await applicationGenerator(host, {
+      ...options,
+      bundler: "esbuild",
+      framework: "none",
+      standaloneConfig: true,
+      port: null,
+      rootProject: null,
+    });
 
     const appName =
       (options.directory ? `${options.directory}-` : "") + options.name;
@@ -65,6 +72,7 @@ export default async function (
       );
     };
   } catch (e) {
+    console.error(e);
     ConsoleLogger.error(e);
 
     return { success: false };
@@ -80,7 +88,7 @@ const addTargets = (host: Tree, appName: string) => {
     projectConfiguration.targets = {
       ...(projectConfiguration.targets ?? {}),
       build: {
-        executor: "@open-system/typescript-executors:cloudflare-worker-build",
+        executor: "@open-system/executors-typescript:cloudflare-worker-build",
         options: {
           outputPath: `../../../dist/${packageRoot}`,
           tsConfig: `${packageRoot}/tsconfig.json`,
@@ -89,31 +97,10 @@ const addTargets = (host: Tree, appName: string) => {
         },
       },
       serve: {
-        executor: "@open-system/typescript-executors:cloudflare-worker-serve",
-      },
-      test: {
-        executor: "@nx/jest:jest",
-        outputs: ["{workspaceRoot}/coverage/{projectRoot}"],
-        options: {
-          jestConfig: `${packageRoot}/jest.config.ts`,
-          passWithNoTests: true,
-        },
-        configurations: {
-          ci: {
-            ci: true,
-            codeCoverage: true,
-          },
-        },
-      },
-      lint: {
-        executor: "@nx/linter:eslint",
-        outputs: ["{options.outputFile}"],
-        options: {
-          lintFilePatterns: [`${packageRoot}/**/*.{ts,tsx,js,jsx}`],
-        },
+        executor: "@open-system/executors-typescript:cloudflare-worker-serve",
       },
       deploy: {
-        executor: "@open-system/typescript-executors:cloudflare-worker-deploy",
+        executor: "@open-system/executors-typescript:cloudflare-worker-deploy",
       },
       "semantic-release": {
         executor: "@theunderscorer/nx-semantic-release:semantic-release",
