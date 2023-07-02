@@ -5,7 +5,7 @@ import {
   Square2StackIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import NotepadIcon from "../../../public/static/images/notepad-icon.svg";
+import NotepadIcon from "./notepad-icon";
 
 interface WindowProps {
   setMinimized: () => void;
@@ -17,7 +17,7 @@ export default function Window({ setMinimized, setClosed }: WindowProps) {
     <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col bg-white">
       <div className="flex h-fit w-full flex-row items-center justify-between border-2 border-b-slate-300">
         <div className="flex flex-row items-center gap-2 px-2 py-1 text-sm">
-          <NotepadIcon alt="Notepad Icon" width={20} height={18} />
+          <NotepadIcon width={20} height={18} />
           <p className="text-black">Read Me.txt - Notepad</p>
         </div>
         <div className="flex flex-row items-center">

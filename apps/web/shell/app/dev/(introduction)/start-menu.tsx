@@ -10,7 +10,7 @@ import { useClickOutside } from "@open-system/core-components";
 import { DateTime } from "@open-system/core-utilities";
 import { BoxLogo } from "@open-system/shared-components";
 import { useCallback, useEffect, useState } from "react";
-import NotepadIcon from "../../../public/static/images/notepad-icon.svg";
+import NotepadIcon from "./notepad-icon";
 
 interface StartMenuProps {
   setClosed: () => void;
@@ -57,7 +57,7 @@ export default function StartMenu({
           <div
             className="flex w-full cursor-pointer flex-row items-center gap-2 px-2 py-5 text-gray-400 hover:bg-gray-700 hover:text-white"
             onClick={handleClick}>
-            <NotepadIcon alt="Notepad Icon" width={28} height={24} />
+            <NotepadIcon width={28} height={24} />
             <p className="cursor-pointer font-semibold">
               Read Me.txt - Notepad
             </p>

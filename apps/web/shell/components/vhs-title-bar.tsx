@@ -29,8 +29,8 @@ export default function VhsTitleBar() {
   }, [hours, minutes, seconds, setSeconds, setMinutes, setHours]);
 
   return (
-    <div className="m-auto bg-black/40 px-12 py-2">
-      <p className="font-vhs text-3xl slashed-zero tabular-nums text-primary/70">
+    <div className="m-auto flex items-center bg-black/40 px-12 py-3">
+      <p className="vhs-text text-3xl slashed-zero leading-none text-primary/70">
         TCR 11-10 {hours === null ? 19 : hours < 10 ? `0${hours}` : hours}:
         {minutes === null ? 37 : minutes < 10 ? `0${minutes}` : minutes}:
         {seconds === null ? 11 : seconds < 10 ? `0${seconds}` : seconds}

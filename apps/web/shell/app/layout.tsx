@@ -124,7 +124,12 @@ export default function RootLayout(props: {
         satoshi.variable,
         "bg-bg-primary antialiased"
       )}>
-      <head />
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      </head>
       <body className="relative h-fit min-h-screen">
         <RootProvider>
           <nav className="fixed top-0 z-nav h-0 w-full overflow-visible">
@@ -225,10 +230,6 @@ export default function RootLayout(props: {
           />
         </RootProvider>
       </body>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-      />
     </html>
   );
 }

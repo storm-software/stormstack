@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Coffee from "../../../public/static/images/coffee.svg";
-import Keyboard from "../../../public/static/images/keyboard.svg";
+import Coffee from "./coffee";
+import Keyboard from "./keyboard";
 import Monitor from "./monitor";
 
 export default function Introduction() {
@@ -18,13 +18,8 @@ export default function Introduction() {
           <Monitor />
         </div>
         <div className="flex flex-row items-start justify-center gap-10">
-          <Keyboard
-            alt="Keyboard"
-            height={350}
-            width={800}
-            className="-rotate-6"
-          />
-          <Coffee alt="Coffee" height={550} width={200} />
+          <Keyboard />
+          <Coffee />
         </div>
       </motion.div>
     </section>

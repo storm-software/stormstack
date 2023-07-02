@@ -26,18 +26,18 @@ export default function Page() {
         <div className="relative h-[150vh] min-h-screen w-full">
           <div className="absolute top-0 z-10 h-full w-full overflow-hidden bg-fixed pb-10">
             <div className="relative h-full w-full">
-              <div className="absolute left-10 top-10 z-30 h-48 w-64 border-l-[10px] border-t-[10px] border-l-gray-500/40 border-t-gray-500/40">
+              <div className="absolute left-10 top-10 z-30 h-48 w-64 border-l-[10px] border-t-[10px] border-l-gray-500/30 border-t-gray-500/30">
                 <div className="relative m-5 flex flex-row items-center gap-3">
-                  <div className="h-8 w-8 animate-flash rounded-full bg-red-800/40" />
-                  <p className="font-vhs text-6xl font-black text-red-800/40">
+                  <div className="vhs-text h-8 w-8 animate-flash rounded-full bg-red-800/40" />
+                  <p className="vhs-text text-6xl font-black text-red-800/40">
                     REC
                   </p>
                 </div>
               </div>
-              <div className="absolute right-10 top-10 z-30 h-48 w-64 border-r-[10px] border-t-[10px] border-r-gray-500/40 border-t-gray-500/40">
+              <div className="absolute right-10 top-10 z-30 h-48 w-64 border-r-[10px] border-t-[10px] border-r-gray-500/30 border-t-gray-500/30">
                 <div className="relative flex w-full flex-row-reverse items-start pr-10">
                   <svg
-                    className="h-20 origin-center -rotate-90 fill-gray-500/40"
+                    className="vhs-text h-20 origin-center -rotate-90 fill-gray-500/30"
                     viewBox="0 0 471.829 471.829">
                     <g>
                       <path
@@ -53,11 +53,17 @@ export default function Page() {
                 </div>
               </div>
 
-              <div className="absolute bottom-[50vh] left-10 z-30 h-48 w-64 border-b-[10px] border-l-[10px] border-b-gray-500/40 border-l-gray-500/40" />
-              <div className="absolute bottom-[50vh] right-10 z-30 h-48 w-64 border-b-[10px] border-r-[10px] border-b-gray-500/40 border-r-gray-500/40" />
+              <div className="absolute bottom-[50vh] left-10 z-30 h-48 w-64 border-b-[10px] border-l-[10px] border-b-gray-500/30 border-l-gray-500/30" />
+              <div className="absolute bottom-[50vh] right-10 z-30 h-48 w-64 border-b-[10px] border-r-[10px] border-b-gray-500/30 border-r-gray-500/30" />
 
               <div className="absolute bottom-[47vh] left-64 right-64 z-30 flex flex-row items-center">
                 <VhsTitleBar />
+              </div>
+
+              <div className="line">
+                <div className="red" />
+                <div className="white" />
+                <div className="green" />
               </div>
 
               <div className="absolute left-0 top-0 z-20 h-full w-full overflow-hidden after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.75)_100%)] after:content-['']">

@@ -3,11 +3,11 @@
 import { SpeakerWaveIcon, WifiIcon } from "@heroicons/react/24/outline";
 import { DateTime } from "@open-system/core-utilities";
 import { useCallback, useEffect, useState } from "react";
-import StartButton from "../../../public/static/images/start-button.svg";
 import StartMenu from "./start-menu";
 import TaskbarItem from "./taskbar-item";
 import { StartMenuStateTypes } from "./use-start-menu-state";
 import { WindowStateTypes } from "./use-window-state";
+import WindowsStartIcon from "./windows-start-icon";
 
 interface TaskbarProps {
   setWindowOpened: () => void;
@@ -51,7 +51,7 @@ export default function Taskbar({
         <div
           className="flex h-full w-fit cursor-pointer items-center px-5 hover:bg-gray-700"
           onClick={toggleStartMenuOpened}>
-          <StartButton alt="Start Icon" width={35} height={20} />
+          <WindowsStartIcon />
         </div>
         {windowState !== WindowStateTypes.CLOSED && (
           <TaskbarItem
