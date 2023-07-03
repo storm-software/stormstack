@@ -1,0 +1,108 @@
+{
+  "name": "worker-contact-attachments-upload",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/workers/contact-attachments-upload/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@open-system/executors-typescript:cloudflare-worker-build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/workers/contact-attachments-upload",
+        "format": ["cjs"],
+        "main": "apps/workers/contact-attachments-upload/src/index.ts",
+        "tsConfig": "apps/workers/contact-attachments-upload/tsconfig.json",
+        "generatePackageJson": true,
+        "assets": [
+          {
+            "glob": "apps/workers/contact-attachments-upload/src/assets",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      },
+      "configurations": {
+        "development": {
+          "esbuildOptions": {
+            "sourcemap": true,
+            "bundle": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        },
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "bundle": true,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@open-system/executors-typescript:cloudflare-worker-serve",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "worker-contact-attachments-upload:serve"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "worker-contact-attachments-upload:serve:development"
+        },
+        "production": {
+          "buildTarget": "worker-contact-attachments-upload:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/workers/contact-attachments-upload/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/workers/contact-attachments-upload/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "deploy": {
+      "executor": "@open-system/executors-typescript:cloudflare-worker-deploy",
+      "defaultConfiguration": "production",
+      "name": "worker-contact-attachments-upload",
+      "tsconfig": "apps/workers/contact-attachments-upload/tsconfig.json",
+      "minify": true,
+      "no-bundle": false,
+      "options": {
+        "buildTarget": "worker-contact-attachments-upload:deploy"
+      },
+      "production": {
+        "buildTarget": "worker-contact-attachments-upload:deploy:production"
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "worker-contact-attachments-upload-v${VERSION}"
+      }
+    }
+  },
+  "tags": []
+}
