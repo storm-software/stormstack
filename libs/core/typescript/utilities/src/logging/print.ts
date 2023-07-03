@@ -138,12 +138,14 @@ export const printSuccess = (
   newLine = true,
   newLineAfter = true
 ) => {
-  console.log(
+  console.info(
     print(
       message,
       newLine,
       newLineAfter,
-      chalk.bold.green(" > " + chalk.bgGreen.whiteBright(" ✓ ") + " SUCCESS -")
+      chalk.bold.green(
+        " > " + chalk.bold.bgGreen.whiteBright(" ✓ ") + " SUCCESS -"
+      )
     )
   );
 };
@@ -164,7 +166,7 @@ export const printWarning = (
       message,
       newLine,
       newLineAfter,
-      chalk.bold.yellow(" > " + chalk.bgYellow.blackBright(" ! ") + " WARN -")
+      chalk.bold.yellow(" > " + chalk.bgYellow.blackBright(" ▲ ") + " WARN -")
     )
   );
 };
@@ -182,7 +184,7 @@ export const printError = (
   newLineAfter = true
 ) => {
   const error = message as Error;
-
+  console.error(message);
   console.error(
     print(
       error?.message ? error.message : message,

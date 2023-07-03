@@ -28,6 +28,16 @@ export type Indexable = {
   [index: IndexType]: any;
 };
 
+export type AnyCase<T extends IndexType> = string extends T
+  ? string
+  : T extends `${infer F1}${infer F2}${infer R}`
+  ? `${Uppercase<F1> | Lowercase<F1>}${
+      | Uppercase<F2>
+      | Lowercase<F2>}${AnyCase<R>}`
+  : T extends `${infer F}${infer R}`
+  ? `${Uppercase<F> | Lowercase<F>}${AnyCase<R>}`
+  : "";
+
 export interface ILogger {
   /**
    * Log success message
@@ -339,6 +349,17 @@ export const HttpMethods = {
 
 export type CredentialOption = "include" | "same-origin" | "omit";
 
+export type HttpHeaderTypes = "x-apikey" | "accept" | "content-type";
+export const HttpHeaderTypes = {
+  X_APIKEY: "x-apikey",
+  ACCEPT: "accept",
+  CONTENT_TYPE: "content-type",
+};
+
+export type Headers<
+  TKey extends keyof (HttpHeaderTypes & any) = keyof (HttpHeaderTypes & any)
+> = Record<AnyCase<TKey>, any>;
+
 export type Rollback = Record<
   string,
   (initialValue: any, currentValue: any) => any
@@ -347,7 +368,7 @@ export type Rollback = Record<
 export type QueryOptions = {
   credentials?: CredentialOption;
   method?: HttpMethods;
-  headers?: { [key: string]: any };
+  headers?: Headers;
 };
 
 /**
