@@ -1,5 +1,7 @@
-import { ExecutorContext, joinPathFragments, workspaceRoot } from "@nx/devkit";
+import { ExecutorContext, workspaceRoot } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
+import { existsSync } from "fs";
+import Path from "path";
 import { executeAsync } from "../utilities/command-prompt-fns";
 import { CloudflareWorkerBuildExecutorSchema } from "./schema";
 
@@ -7,39 +9,32 @@ export default async function (
   options: CloudflareWorkerBuildExecutorSchema,
   context: ExecutorContext
 ) {
+  let result!: unknown;
   try {
     ConsoleLogger.info("Executing Cloudflare Worker Build executor...");
 
     const buildTarget =
       context.workspace.projects[context.projectName].targets.build;
-    const outputPath = joinPathFragments(
-      workspaceRoot,
-      buildTarget.options.outputPath
-    );
-    const entryFile = joinPathFragments(
-      workspaceRoot,
-      buildTarget.options.main
-    );
 
-    let result = await executeAsync(`rm -rf ${outputPath} || true`);
-    if (result) {
-      ConsoleLogger.error(result);
-      return { success: false };
+    const outputPath = Path.join(workspaceRoot, buildTarget.options.outputPath);
+    const mainPath = Path.join(workspaceRoot, buildTarget.options.main);
+    if (existsSync(outputPath)) {
+      result = await executeAsync(`rmdir /S /Q "${outputPath}" `);
+      if (result) {
+        ConsoleLogger.error(result);
+        return { success: false };
+      }
     }
 
-    result = await executeAsync(`mkdir -p ${outputPath}`);
-    if (result) {
-      ConsoleLogger.error(result);
-      return { success: false };
-    }
+    /*if (!existsSync(outputPath)) {
+      result = await executeAsync(`mkdir -p ${outputPath}`);
+      if (result) {
+        ConsoleLogger.error(result);
+        return { success: false };
+      }
+    }*/
 
-    result = await executeAsync(
-      `esbuild --bundle --outdir=${outputPath} ${entryFile} `
-    );
-    if (result) {
-      ConsoleLogger.error(result);
-      return { success: false };
-    }
+    await executeAsync(`esbuild --bundle --outdir=${outputPath} ${mainPath} `);
 
     ConsoleLogger.success(
       `Cloudflare Worker build successfully ran for ${context.projectName}.`

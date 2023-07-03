@@ -6,12 +6,12 @@ import {
 } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-utilities";
 import { FsTree } from "nx/src/generators/tree";
-import { executeAsync } from "../utilities/command-prompt-fns";
+import { executeAsync } from "./command-prompt-fns";
 
 export async function runWranglerCommand(
   _: unknown,
   context: ExecutorContext,
-  command: "dev" | "publish"
+  command: "dev" | "deploy"
 ) {
   try {
     const { projectName } = context;
@@ -21,7 +21,7 @@ export async function runWranglerCommand(
 
     const wranglerOptions = [];
 
-    if (command === "publish") {
+    if (command === "deploy") {
       wranglerOptions.push(
         joinPathFragments(
           workspaceRoot,
