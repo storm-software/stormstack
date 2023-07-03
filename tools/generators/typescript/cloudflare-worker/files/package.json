@@ -1,8 +1,7 @@
 {
-  "name": "<%= name %>",
+  "name": "@open-system/worker-<%= name %>",
   "version": "0.0.1",
-  "private": true,
   "scripts": {
-    "build": "esbuild --bundle --out ../../../dist/workers/<%= name %>/<%= name %>.js ./src/index.ts"
+    "build": "esbuild --bundle --out ../../../dist/workers/<%= name %>/worker-<%= name %>.js ./src/index.ts"
   }
 }

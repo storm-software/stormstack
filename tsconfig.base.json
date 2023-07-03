@@ -43,6 +43,12 @@
       "@open-system/core-data-access": [
         "libs/core/typescript/data-access/src/index.ts"
       ],
+      "@open-system/core-data-access/server": [
+        "libs/core/typescript/data-access/src/server.ts"
+      ],
+      "@open-system/core-feature-cloudflare": [
+        "libs/core/typescript/feature-cloudflare/src/index.ts"
+      ],
       "@open-system/core-feature-form": [
         "libs/core/typescript/feature-form/src/index.ts"
       ],

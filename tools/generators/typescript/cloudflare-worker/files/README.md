@@ -1,4 +1,4 @@
-# <%= name %>
+# worker-<%= name %>
 
 A Cloudflare Worker to be developed in the Open System monorepo.
 
@@ -7,7 +7,7 @@ A Cloudflare Worker to be developed in the Open System monorepo.
 Run to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ```
-npx nx workers-<%= name %>:build
+npx nx worker-<%= name %>:build
 ```
 
 ## Development server
@@ -15,7 +15,7 @@ npx nx workers-<%= name %>:build
 Run for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
 ```
-npx nx workers-<%= name %>:serve
+npx nx worker-<%= name %>:serve
 ```
 
 # Environment Configuration Help
@@ -27,7 +27,7 @@ If you run into any issues while trying to run any of the above steps, please re
 Run to push worker changes out to Cloudflare.
 
 ```
-npx nx workers-<%= name %>:deploy
+npx nx worker-<%= name %>:deploy
 ```
 
 ## Running unit tests
@@ -35,7 +35,7 @@ npx nx workers-<%= name %>:deploy
 Run to execute the unit tests via [Jest](https://jestjs.io).
 
 ```
-npx nx workers-<%= name %>:test
+npx nx worker-<%= name %>:test
 ```
 
 ## Understand your workspace

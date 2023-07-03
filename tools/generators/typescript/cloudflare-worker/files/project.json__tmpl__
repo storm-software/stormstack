@@ -1,5 +1,5 @@
 {
-  "name": "<%= name %>",
+  "name": "worker-<%= name %>",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/workers/<%= name %>/src",
   "projectType": "application",
@@ -75,11 +75,15 @@
     "deploy": {
       "executor": "@open-system/executors-typescript:cloudflare-worker-deploy",
       "defaultConfiguration": "production",
+      "name": "worker-<%= name %>",
+      "tsconfig": "apps/workers/<%= name %>/tsconfig.json",
+      "minify": true,
+      "no-bundle": false,
       "options": {
         "buildTarget": "worker-<%= name %>:deploy"
       },
       "production": {
-        "buildTarget": "worker-<%= name %>:build:production"
+        "buildTarget": "worker-<%= name %>:deploy:production"
       }
     },
     "semantic-release": {
@@ -88,7 +92,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "workers-<%= name %>-v${VERSION}"
+        "tagFormat": "worker-<%= name %>-v${VERSION}"
       }
     }
   },

@@ -7,7 +7,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "Identifier for the worker",
+      "description": "Identifier for the worker (do not include `worker-` prefix).",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -30,7 +30,15 @@
     },
     "route": {
       "type": "string",
-      "description": "Route"
+      "description": "Route for the worker (including leading slash)."
+    },
+    "minify": {
+      "type": "boolean",
+      "description": "Minify the bundled script before deploying."
+    },
+    "nodeCompat": {
+      "type": "boolean",
+      "description": "Enable node.js compatibility."
     },
     "workersDev": {
       "type": "boolean",

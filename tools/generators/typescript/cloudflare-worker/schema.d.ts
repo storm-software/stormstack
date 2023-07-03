@@ -5,4 +5,5 @@ export interface CloudflareWorkerGeneratorSchema extends Schema {
   accountId?: string;
   route?: string;
   workersDev?: boolean;
+  nodeCompat?: boolean;
 }

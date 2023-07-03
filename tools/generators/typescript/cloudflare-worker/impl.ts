@@ -108,7 +108,7 @@ const addTargets = (host: Tree, appName: string) => {
           github: true,
           npm: false,
           changelog: true,
-          tagFormat: "workers-" + appName + "-v${VERSION}",
+          tagFormat: "worker-" + appName + "-v${VERSION}",
         },
       },
     };
