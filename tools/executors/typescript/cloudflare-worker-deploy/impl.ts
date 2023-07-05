@@ -1,5 +1,5 @@
 import { ExecutorContext } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { ConsoleLogger, formatDate } from "@open-system/core-utilities";
 import { runWranglerCommand } from "../utilities/wrangler";
 import { CloudflareWorkerDeployExecutorSchema } from "./schema";
 
@@ -9,16 +9,21 @@ export default async function (
 ) {
   try {
     ConsoleLogger.info("Executing Cloudflare Worker Deploy executor...");
+    ConsoleLogger.info(formatDate());
 
-    const result = await runWranglerCommand(options, context, "deploy");
+    await runWranglerCommand(
+      { "compatibility-date": formatDate() },
+      context,
+      "deploy"
+    );
 
     ConsoleLogger.success(
       `Cloudflare Worker server successfully ran for ${context.projectName}.`
     );
 
-    return { success: !result };
+    return { success: true };
   } catch (e) {
-    console.error(
+    ConsoleLogger.error(
       `An error occurred syncing client API for ${context.projectName}`
     );
     console.error(e);

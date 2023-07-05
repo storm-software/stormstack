@@ -40,6 +40,26 @@ export const formatDateTimeISO = (
 ): string =>
   dateTime
     ? `${dateTime
-        .toZonedDateTimeISO(timeZone /*?? process.env.DEFAULT_TIMEZONE*/ ?? "UTC")
+        .toZonedDateTimeISO(
+          timeZone /*?? process.env.DEFAULT_TIMEZONE*/ ?? "UTC"
+        )
         .toString(options)}`
     : "";
+
+/**
+ * Format a date field
+ * @param dateTime
+ * @param options
+ * @param timeZone
+ * @returns
+ */
+export const formatDate = (dateTime: DateTime = DateTime.current): string =>
+  DateTime.from(dateTime)
+    .toZonedDateTimeISO(
+      dateTime.toZonedDateTime({
+        timeZone: "America/New_York",
+        calendar: "gregory",
+      })
+    )
+    .toPlainDate()
+    .toString();

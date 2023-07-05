@@ -1,18 +1,14 @@
-name = "contact-attachments-upload"
-main = "src/index.ts"
-assets="../../../dist/apps/workers/contact-attachments-upload"
+name="contact-attachments-upload"
+main="src/index.ts"
 
+route="https://my-worker.open-system.workers.dev/api/contact/attachments/upload"
 
-route = "open-system.io/api/contact/attachments/upload"
-
-compatibility_date = "2023-07-03"
-
-account_id = "03700f13b61493bbc558dc93ea4980bc"
-workers_dev = true
+account_id="03700f13b61493bbc558dc93ea4980bc"
+workers_dev=true
 
 [build]
-command = "nx run worker-contact-attachments-upload:build:production"
+command="nx run worker-contact-attachments-upload:build:production"
 
 [[r2_buckets]]
-binding = "CONTACT_ATTACHMENTS_BUCKET"
-bucket_name = "contact-attachments"
+binding="CONTACT_ATTACHMENTS_BUCKET"
+bucket_name="contact-attachments"

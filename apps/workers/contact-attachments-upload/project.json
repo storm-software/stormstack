@@ -12,6 +12,12 @@
         "platform": "node",
         "outputPath": "dist/apps/workers/contact-attachments-upload",
         "format": ["cjs"],
+        "external": [
+          "@cloudflare/workers-types",
+          "@open-system/core-utilities",
+          "@open-system/core-data-access",
+          "@open-system/core-feature-cloudflare"
+        ],
         "main": "apps/workers/contact-attachments-upload/src/index.ts",
         "tsConfig": "apps/workers/contact-attachments-upload/tsconfig.json",
         "generatePackageJson": true,
@@ -83,14 +89,8 @@
     "deploy": {
       "executor": "@open-system/executors-typescript:cloudflare-worker-deploy",
       "defaultConfiguration": "production",
-      "name": "worker-contact-attachments-upload",
       "tsconfig": "apps/workers/contact-attachments-upload/tsconfig.json",
-      "minify": true,
-      "no-bundle": false,
       "options": {
-        "buildTarget": "worker-contact-attachments-upload:deploy"
-      },
-      "production": {
         "buildTarget": "worker-contact-attachments-upload:deploy:production"
       }
     },
