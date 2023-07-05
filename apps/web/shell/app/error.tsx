@@ -7,7 +7,7 @@ import {
 
 export default function Error(props: ErrorReportProps) {
   return (
-    <div className="px-20 py-32">
+    <div className="px-20 py-32 bg-bg-primary">
       <ErrorReport {...props} />
     </div>
   );

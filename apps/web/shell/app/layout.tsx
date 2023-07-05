@@ -129,15 +129,6 @@ export default function RootLayout(props: {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer />
-        <script>
-          window.OneSignal = window.OneSignal || []; window.OneSignal &&
-          window.OneSignal.push(function()
-          {(window as any).OneSignal.init({
-            appId: "482398bf-cb74-44a7-9f20-79818a0f2b51",
-          })}
-          );
-        </script>
       </head>
       <body className="relative h-fit min-h-screen">
         <RootProvider>
