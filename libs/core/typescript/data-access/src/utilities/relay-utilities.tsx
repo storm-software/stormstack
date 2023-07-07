@@ -57,7 +57,7 @@ export const createRelayUtilities = ({
   ) => {
     const { id, operationKind } = params;
     const response =
-      operationKind === "query"
+      operationKind === "query" || operationKind === "PreloadedQuery"
         ? await client.query({
             operationName: `relay/${id}`,
             input: variables,

@@ -13,7 +13,6 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "resolveJsonModule": true
-
   },
   "files": [],
   "include": [],
@@ -30,9 +29,7 @@
     "@open-system/core-utilities/server": [
       "libs/core/typescript/utilities/src/server.ts"
     ],
-    "@open-system/core-utilities/*": [
-      "libs/core/typescript/utilities/src/*"
-    ],
+    "@open-system/core-utilities/*": ["libs/core/typescript/utilities/src/*"]
   },
   "references": [
     {
@@ -42,7 +39,7 @@
       "path": "./tsconfig.spec.json"
     },
     {
-      "path": "./.storybook/tsconfig.json"
+      "path": "./tsconfig.storybook.json"
     }
   ]
 }
