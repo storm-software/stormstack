@@ -3,33 +3,35 @@ import {
   cors,
   EnvironmentVariable,
   introspect,
+  templates,
 } from "@wundergraph/sdk";
 import operations from "./wundergraph.operations";
 import server from "./wundergraph.server";
 
-const countries = introspect.graphql({
-  apiNamespace: "countries",
-  url: "https://countries.trevorblades.com/",
-});
-
-const spaceX = introspect.graphql({
-  apiNamespace: "spacex",
-  url: "https://spacex-api.fly.dev/graphql/",
+const ratings = introspect.graphql({
+  apiNamespace: "ratings",
+  url: "https://patsullivan.org/api/ratings",
+  subscriptionsUseSSE: true,
 });
 
 // configureWunderGraph emits the configuration
 configureWunderGraphApplication({
-  apis: [countries, spaceX],
+  apis: [ratings],
   server,
   operations,
   generate: {
-    codeGenerators: [],
+    codeGenerators: [
+      {
+        templates: [...templates.typescript.all],
+        path: "./generated",
+      },
+    ],
   },
   cors: {
     ...cors.allowAll,
     allowedOrigins:
       process.env.NODE_ENV === "production"
-        ? ["http://localhost:3000"]
+        ? ["https://patsullivan.org"]
         : [
             "http://localhost:3000",
             new EnvironmentVariable("WG_ALLOWED_ORIGIN"),

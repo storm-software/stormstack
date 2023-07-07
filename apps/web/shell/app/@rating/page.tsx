@@ -1,9 +1,25 @@
-import { ContentRating } from "@open-system/engagement-feature-rating";
-import { ContentRatingForm } from "../../components/content-rating-form";
+/*import { loadSerializableQuery } from "@open-system/core-data-access/server";*/
+// import { graphql } from "react-relay";
+import { graphql } from "relay-runtime";
+import PagesRatingQueryNode, {
+  pagesRatingQuery as PagesRatingQueryType,
+} from "../../__generated__/relay/pagesRatingQuery.graphql";
+import ContentRatingForm from "../../components/ContentRatingForm";
+import PageProvider from "../../components/PageProvider";
+import { loadSerializableQuery } from "../../relay/utilities";
 
-// export const revalidate = 60;
+export const PAGE_ID = "home";
+export const revalidate = 0;
 
-export default function Page() {
+export const PagesRatingQuery = graphql`
+  query pagesRatingQuery($contentId: String) {
+    ratings_rating(contentId: $contentId) {
+      ...ContentRatingForm_rating
+    }
+  }
+`;
+
+export default async function Page() {
   /*const repository = await getRepository(connection);
     const result = await repository
       .search()
@@ -37,11 +53,28 @@ export default function Page() {
       const result = (await response.json()) as HttpPaginatedResult;
   }*/
 
+  const preloadedQuery = await loadSerializableQuery<
+    typeof PagesRatingQueryNode,
+    PagesRatingQueryType
+  >(PagesRatingQuery, {
+    contentId: PAGE_ID,
+  });
+
+  /*const response = await fetchSSRQuery<PagesRatingQueryType>(
+    PagesRatingQuery,
+    {
+      contentId: PAGE_ID,
+    }
+  );*/
+
   return (
     <div className="fixed right-0 top-0 z-rating flex h-screen w-fit flex-row items-center">
-      <ContentRatingForm contentId="home">
-        <ContentRating contentId="home" totalRate={4.5} count={74} />
-      </ContentRatingForm>
+      <PageProvider>
+        <ContentRatingForm
+          contentId={PAGE_ID}
+          preloadedQuery={preloadedQuery}
+        />
+      </PageProvider>
     </div>
   );
 }

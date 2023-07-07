@@ -23,6 +23,16 @@
         "production": {}
       }
     },
+    "build-wundergraph": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm run build:wundergraph",
+          "concurrently \"npm run wundergraph\" \"npx nx run web-shell:build-next\""
+        ],
+        "parallel": false
+      }
+    },
     "serve": {
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
@@ -39,6 +49,16 @@
           "buildTarget": "web-shell:build:production",
           "dev": false
         }
+      }
+    },
+    "serve-wundergraph": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm run build:wundergraph",
+          "concurrently \"npm run wundergraph\" \"npx nx run web-shell:serve-next\""
+        ],
+        "parallel": false
       }
     },
     "export": {

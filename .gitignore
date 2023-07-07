@@ -57,6 +57,8 @@ tools/**/*.properties
 .docusaurus/
 .cache-loader/
 
+**/__generated__/**
+
 .next
 .stoplight
 

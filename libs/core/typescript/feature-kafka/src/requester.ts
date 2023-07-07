@@ -3,7 +3,7 @@ import {
   ConsoleLogger,
 } from "@open-system/core-utilities";
 import { RequestOptions } from "http";
-import { KsqlDBRest } from "./type/types";
+import { KsqlDBRest } from "./types";
 
 export const runCommand = async (
   ksqlCommand: string,

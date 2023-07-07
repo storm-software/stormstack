@@ -9,6 +9,12 @@ import {
   RegisterOptions,
   UseFormReturn,
 } from "react-hook-form";
+import {
+  ConcreteRequest,
+  GraphQLResponse,
+  OperationType,
+  VariablesOf,
+} from "relay-runtime";
 
 export type Unsubscribe = () => void;
 
@@ -196,7 +202,9 @@ export const FormTranslateTypes = {
   NO: "no" as FormTranslateTypes,
 };
 
-export type FormContext<TValues extends Record<string, any> = Record<string, any>> = {
+export type FormContext<
+  TValues extends Record<string, any> = Record<string, any>
+> = {
   formId: string;
   control: Control<TValues, any>;
   props: FormProps<TValues>;
@@ -218,3 +226,14 @@ export type FormContext<TValues extends Record<string, any> = Record<string, any
     | "handleSubmit"
   >;
 };
+
+export interface SerializablePreloadedQuery<
+  TRequest extends ConcreteRequest,
+  TQuery extends OperationType
+> {
+  params: TRequest["params"];
+  variables: VariablesOf<TQuery>;
+  response: GraphQLResponse;
+}
+
+export const CACHE_TTL = 5 * 1000; // 5 seconds, to resolve preloaded results

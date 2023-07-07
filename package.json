@@ -74,7 +74,7 @@
   },
   "relay": {
     "src": "./",
-    "artifactDirectory": "./libs/data-catalog/graphql/src/__generated__",
+    "artifactDirectory": "./apps/web/shell/__generated__/relay",
     "language": "typescript",
     "schema": "./.wundergraph/generated/wundergraph.schema.graphql",
     "exclude": [
@@ -102,6 +102,10 @@
     "core-js": "^3.30.1",
     "dotenv": "^16.0.3",
     "file-selector": "^0.6.0",
+    "graphql": "^16.7.1",
+    "graphql-scalars": "^1.22.2",
+    "graphql-sse": "^2.2.0",
+    "graphql-yoga": "^4.0.3",
     "helios-opentelemetry-sdk": "^1.0.75",
     "jotai": "^2.1.0",
     "jotai-molecules": "^1.1.1",

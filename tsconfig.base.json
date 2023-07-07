@@ -46,6 +46,9 @@
       "@open-system/core-data-access/server": [
         "libs/core/typescript/data-access/src/server.ts"
       ],
+      "@open-system/core-data-access/*": [
+        "libs/core/typescript/data-access/src/*"
+      ],
       "@open-system/core-feature-cloudflare": [
         "libs/core/typescript/feature-cloudflare/src/index.ts"
       ],

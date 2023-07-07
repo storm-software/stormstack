@@ -77,6 +77,14 @@ const nextConfig = {
     forceSwcTransforms: true,*/
   },
 
+  compiler: {
+    relay: {
+      src: "./",
+      language: "typescript",
+      artifactDirectory: "./__generated__/relay",
+    },
+  },
+
   devIndicators: {
     buildActivityPosition: "bottom-right",
   },
@@ -86,6 +94,8 @@ const nextConfig = {
     "framer-motion",
     "lottie-web",
     "react-hook-form",
+    "react-relay",
+    "relay-runtime",
     "@open-system/design-system-components",
     "@open-system/core-utilities",
     "@open-system/core-components",
