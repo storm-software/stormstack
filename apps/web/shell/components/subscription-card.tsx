@@ -1,7 +1,7 @@
 "use client";
 
 import { SubscriptionModalForm } from "./subscription-modal-form";
-import { ModalReference } from "@open-system/core-components";
+import { ModalReference } from "@open-system/core-client-components";
 import {
   BaseComponentProps,
   Card,

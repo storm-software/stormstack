@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import * as _ from "lodash";
 import os from "os";
 import path from "path";

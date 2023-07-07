@@ -4,14 +4,12 @@ import {
   isAbort,
   isEvtWithFiles,
   isExt,
-  isFunction,
   isIeOrEdge,
   isMIMEType,
   isPropagationStopped,
   isSecurityError,
-  isSet,
-  noop,
-} from "@open-system/core-utilities";
+} from "@open-system/core-client-utilities";
+import { isFunction, isSet, noop } from "@open-system/core-shared-utilities";
 import { FileWithPath, fromEvent } from "file-selector";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { InputTypes } from "../input/Input.types";

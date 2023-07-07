@@ -1,4 +1,4 @@
-import { FileState } from "@open-system/core-utilities";
+import { FileState } from "@open-system/core-shared-utilities";
 import { FileWithPath } from "file-selector";
 import { DragEvent, DragEventHandler, RefObject, SyntheticEvent } from "react";
 import { PropsWithBaseField, PropsWithBaseRef } from "../types";

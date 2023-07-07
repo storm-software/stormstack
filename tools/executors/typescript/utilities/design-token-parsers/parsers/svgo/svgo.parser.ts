@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { readFileSync } from "fs";
 import type { Config, Output } from "svgo";
 import { DownloadableFile } from "../../types";
 import { LibsType } from "../global-libs";
 import {
   DefaultPresetOverride,
-  defaultPresetPlugins,
   DefaultPresetPluginsName,
   DefaultPresetPluginsParams,
-  Plugins,
   PluginV1,
-  PluginV2
+  PluginV2,
+  Plugins,
+  defaultPresetPlugins
 } from "./svgo.type";
 
 export type InputDataType = Array<

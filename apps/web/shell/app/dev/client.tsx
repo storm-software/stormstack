@@ -1,6 +1,6 @@
 "use client";
 
-import { HorizontalSeparator } from "@open-system/core-components";
+import { HorizontalSeparator } from "@open-system/core-client-components";
 import { Spinner } from "@open-system/design-system-components";
 import { useInView } from "framer-motion";
 import dynamic from "next/dynamic";

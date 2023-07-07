@@ -1,7 +1,7 @@
 "use client";
 
 import { BaseComponentProps } from "@open-system/design-system-components";
-import { useStoreVisit } from "@open-system/user-management-data-access";
+import { useStoreVisit } from "@open-system/user-management-client-data-access";
 import {
   useIsHeaderDisplayedValue,
   useSetIsHeaderDisplayed,

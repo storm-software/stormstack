@@ -147,7 +147,8 @@
   },
   "tags": [],
   "implicitDependencies": [
-    "core-utilities",
+    "core-shared-utilities",
+    "core-server-utilities",
     "tools-asyncapi-rabbitmq"
   ]
 }

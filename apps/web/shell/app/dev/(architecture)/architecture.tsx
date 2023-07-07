@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@open-system/core-components";
+import { Link } from "@open-system/core-client-components";
 import { Heading } from "@open-system/design-system-components";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useRef } from "react";

@@ -21,86 +21,150 @@
     "skipDefaultLibCheck": true,
     "paths": {
       "@open-system/asyncapi-rabbitmq": ["tools/asyncapi/rabbitmq/index.ts"],
-      "@open-system/contact-data-access": [
-        "libs/contact/typescript/data-access/src/index.ts"
+      "@open-system/common-client-address": [
+        "libs/common/typescript/client/address/src/index.ts"
       ],
-      "@open-system/contact-data-access/server": [
-        "libs/contact/typescript/data-access/src/server.ts"
+      "@open-system/common-client-address/*": [
+        "libs/common/typescript/client/address/src/*"
       ],
-      "@open-system/contact-feature-form": [
-        "libs/contact/typescript/feature-form/src/index.ts"
+      "@open-system/common-client-components": [
+        "libs/common/typescript/client/components/src/index.ts"
       ],
-      "@open-system/contact-feature-form/server": [
-        "libs/contact/typescript/feature-form/src/server.ts"
+      "@open-system/common-client-components/*": [
+        "libs/common/typescript/client/components/src/*"
       ],
-      "@open-system/contacts/config": ["libs/contacts/config/src/index.ts"],
-      "@open-system/core-components": [
-        "libs/core/typescript/components/src/index.ts"
+      "@open-system/common-client-data-access": [
+        "libs/common/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/core-components/server": [
-        "libs/core/typescript/components/src/server.ts"
+      "@open-system/common-client-data-access/*": [
+        "libs/common/typescript/client/data-access/src/*"
       ],
-      "@open-system/core-data-access": [
-        "libs/core/typescript/data-access/src/index.ts"
+      "@open-system/common-config": ["libs/common/config/src/index.ts"],
+      "@open-system/common-shared-data-access": [
+        "libs/common/typescript/shared/data-access/src/index.ts"
       ],
-      "@open-system/core-data-access/*": [
-        "libs/core/typescript/data-access/src/*"
+      "@open-system/common-shared-data-access/*": [
+        "libs/common/typescript/shared/data-access/src/*"
       ],
-      "@open-system/core-data-access/server": [
-        "libs/core/typescript/data-access/src/server.ts"
+      "@open-system/contact-client-components": [
+        "libs/contact/typescript/client/components/src/index.ts"
       ],
-      "@open-system/core-feature-cloudflare": [
-        "libs/core/typescript/feature-cloudflare/src/index.ts"
+      "@open-system/contact-client-components/*": [
+        "libs/contact/typescript/client/components/src/*"
       ],
-      "@open-system/core-feature-form": [
-        "libs/core/typescript/feature-form/src/index.ts"
+      "@open-system/contact-client-data-access": [
+        "libs/contact/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/core-feature-form/server": [
-        "libs/core/typescript/feature-form/src/server.ts"
+      "@open-system/contact-client-data-access/*": [
+        "libs/contact/typescript/client/data-access/src/*"
       ],
-      "@open-system/core-feature-kafka": [
-        "libs/core/typescript/feature-kafka/src/index.ts"
+      "@open-system/contact-server-data-access": [
+        "libs/contact/typescript/server/data-access/src/index.ts"
       ],
-      "@open-system/core-feature-notifications": [
-        "libs/core/typescript/feature-notifications/src/index.ts"
+      "@open-system/contact-server-data-access/*": [
+        "libs/contact/typescript/server/data-access/src/*"
       ],
-      "@open-system/core-feature-notifications/server": [
-        "libs/core/typescript/feature-notifications/src/server.ts"
+      "@open-system/contact-shared-data-access": [
+        "libs/contact/typescript/shared/data-access/src/index.ts"
       ],
-      "@open-system/core-feature-pdf": [
-        "libs/core/typescript/feature-pdf/src/index.ts"
+      "@open-system/contact-shared-data-access/*": [
+        "libs/contact/typescript/shared/data-access/src/*"
       ],
-      "@open-system/core-feature-pdf/server": [
-        "libs/core/typescript/feature-pdf/src/server.ts"
+      "@open-system/contact/config": ["libs/contact/config/src/index.ts"],
+      "@open-system/core-client-components": [
+        "libs/core/typescript/client/components/src/index.ts"
       ],
-      "@open-system/core-utilities": [
-        "libs/core/typescript/utilities/src/index.ts"
+      "@open-system/core-client-components/*": [
+        "libs/core/typescript/client/components/src/*"
       ],
-      "@open-system/core-utilities/server": [
-        "libs/core/typescript/utilities/src/server.ts"
+      "@open-system/core-client-data-access": [
+        "libs/core/typescript/client/data-access/src/index.ts"
+      ],
+      "@open-system/core-client-data-access/*": [
+        "libs/core/typescript/client/data-access/src/*"
+      ],
+      "@open-system/core-client-form": [
+        "libs/core/typescript/client/form/src/index.ts"
+      ],
+      "@open-system/core-client-form/*": [
+        "libs/core/typescript/client/form/src/*"
+      ],
+      "@open-system/core-client-pdf": [
+        "libs/core/typescript/client/pdf/src/index.ts"
+      ],
+      "@open-system/core-client-pdf/*": [
+        "libs/core/typescript/client/pdf/src/*"
+      ],
+      "@open-system/core-client-utilities": [
+        "libs/core/typescript/client/utilities/src/index.ts"
+      ],
+      "@open-system/core-client-utilities/*": [
+        "libs/core/typescript/client/utilities/src/*"
+      ],
+      "@open-system/core-server-cloudflare": [
+        "libs/core/typescript/server/cloudflare/src/index.ts"
+      ],
+      "@open-system/core-server-cloudflare/*": [
+        "libs/core/typescript/server/cloudflare/src/*"
+      ],
+      "@open-system/core-server-kafka": [
+        "libs/core/typescript/server/kafka/src/index.ts"
+      ],
+      "@open-system/core-server-kafka/*": [
+        "libs/core/typescript/server/kafka/src/*"
+      ],
+      "@open-system/core-server-notifications": [
+        "libs/core/typescript/server/notifications/src/index.ts"
+      ],
+      "@open-system/core-server-notifications/*": [
+        "libs/core/typescript/server/notifications/src/*"
+      ],
+      "@open-system/core-server-utilities": [
+        "libs/core/typescript/server/utilities/src/index.ts"
+      ],
+      "@open-system/core-server-utilities/*": [
+        "libs/core/typescript/server/utilities/src/*"
+      ],
+      "@open-system/core-shared-data-access": [
+        "libs/core/typescript/shared/data-access/src/index.ts"
+      ],
+      "@open-system/core-shared-data-access/*": [
+        "libs/core/typescript/shared/data-access/src/*"
+      ],
+      "@open-system/core-shared-utilities": [
+        "libs/core/typescript/shared/utilities/src/index.ts"
+      ],
+      "@open-system/core-shared-utilities/*": [
+        "libs/core/typescript/shared/utilities/src/*"
       ],
       "@open-system/design-system-components": [
         "design-system/components/src/index.ts"
       ],
       "@open-system/design-system-tokens": ["dist/design-system/tokens"],
       "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
-      "@open-system/engagement-data-access": [
-        "libs/engagement/typescript/data-access/src/index.ts"
+      "@open-system/engagement-client-data-access": [
+        "libs/engagement/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/engagement-data-access/server": [
-        "libs/engagement/typescript/data-access/src/server.ts"
+      "@open-system/engagement-client-data-access/*": [
+        "libs/engagement/typescript/client/data-access/src/*"
       ],
-      "@open-system/engagement-feature-rating": [
-        "libs/engagement/typescript/feature-rating/src/index.ts"
+      "@open-system/engagement-client-rating": [
+        "libs/engagement/typescript/client/rating/src/index.ts"
       ],
-      "@open-system/engagement-feature-rating/server": [
-        "libs/engagement/typescript/feature-rating/src/server.ts"
+      "@open-system/engagement-client-rating/*": [
+        "libs/engagement/typescript/client/rating/src/*"
       ],
-      "@open-system/engagement-feature-like": [
-        "libs/reaction/typescript/src/index.ts"
+      "@open-system/engagement-client-reaction": [
+        "libs/engagement/typescript/client/reaction/src/index.ts"
       ],
-      "@open-system/engagement-feature-like/*": [
-        "libs/reaction/typescript/feature-like/src/*"
+      "@open-system/engagement-client-reaction/*": [
+        "libs/engagement/typescript/client/reaction/src/*"
+      ],
+      "@open-system/engagement-shared-data-access": [
+        "libs/engagement/typescript/shared/data-access/src/index.ts"
+      ],
+      "@open-system/engagement-shared-data-access/*": [
+        "libs/engagement/typescript/shared/data-access/src/*"
       ],
       "@open-system/engagement/config": ["libs/engagement/config/src/index.ts"],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
@@ -112,45 +176,32 @@
       "@open-system/generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
-      "@open-system/portfolio-feature-resume": [
-        "libs/portfolio/typescript/feature-resume/src/index.ts"
+      "@open-system/portfolio-client-resume": [
+        "libs/portfolio/typescript/client/resume/src/index.ts"
       ],
-      "@open-system/portfolio-feature-resume/*": [
-        "libs/portfolio/typescript/feature-resume/src/*"
+      "@open-system/portfolio-client-resume/*": [
+        "libs/portfolio/typescript/client/resume/src/*"
       ],
-      "@open-system/shared-components": [
-        "libs/shared/typescript/components/src/index.ts"
+      "@open-system/user-management-client-components": [
+        "libs/user-management/typescript/client/components/src/index.ts"
       ],
-      "@open-system/shared-components/server": [
-        "libs/shared/typescript/components/src/server.ts"
+      "@open-system/user-management-client-components/*": [
+        "libs/user-management/typescript/client/components/src/*"
       ],
-      "@open-system/shared-config": ["libs/shared/config/src/index.ts"],
-      "@open-system/shared-data-access": [
-        "libs/shared/typescript/data-access/src/index.ts"
+      "@open-system/user-management-client-data-access": [
+        "libs/user-management/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/shared-data-access/server": [
-        "libs/shared/typescript/data-access/src/server.ts"
-      ],
-      "@open-system/shared-feature-address": [
-        "libs/shared/typescript/feature-address/src/index.ts"
-      ],
-      "@open-system/shared-feature-address/server": [
-        "libs/shared/typescript/feature-address/src/server.ts"
-      ],
-      "@open-system/user-management-components": [
-        "libs/user-management/typescript/components/src/index.ts"
-      ],
-      "@open-system/user-management-components/server": [
-        "libs/user-management/typescript/components/src/server.ts"
+      "@open-system/user-management-client-data-access/*": [
+        "libs/user-management/typescript/client/data-access/src/*"
       ],
       "@open-system/user-management-config": [
         "libs/user-management/config/src/index.ts"
       ],
-      "@open-system/user-management-data-access": [
-        "libs/user-management/typescript/data-access/src/index.ts"
+      "@open-system/user-management-server-data-access": [
+        "libs/user-management/typescript/server/data-access/src/index.ts"
       ],
-      "@open-system/user-management-data-access/server": [
-        "libs/user-management/typescript/data-access/src/server.ts"
+      "@open-system/user-management-server-data-access/*": [
+        "libs/user-management/typescript/server/data-access/src/*"
       ]
     }
   },

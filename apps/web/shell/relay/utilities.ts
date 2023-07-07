@@ -1,4 +1,4 @@
-import { createRelayUtilities } from "@open-system/core-data-access/utilities/relay-utilities";
+import { createRelayUtilities } from "@open-system/core-shared-data-access";
 import { Client } from "./client";
 
 export const {

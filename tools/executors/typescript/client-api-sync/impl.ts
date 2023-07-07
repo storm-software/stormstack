@@ -1,8 +1,8 @@
 import { ExecutorContext } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { executeAsync } from "@open-system/core-server-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { existsSync } from "fs";
 import Path from "path";
-import { executeAsync } from "../utilities/command-prompt-fns";
 import { ClientApiSyncExecutorSchema } from "./schema";
 
 export default async function (

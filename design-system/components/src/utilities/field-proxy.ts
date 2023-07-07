@@ -1,4 +1,4 @@
-import { CustomUtilityClass } from "@open-system/core-utilities";
+import { CustomUtilityClass } from "@open-system/core-shared-utilities";
 import { RefObject } from "react";
 import { FieldProxyConfig } from "../types";
 

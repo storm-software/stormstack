@@ -1,7 +1,7 @@
 import {
   ApiException,
   EnvConfigurationError,
-} from "@open-system/core-utilities";
+} from "@open-system/core-shared-utilities";
 import { PropsWithBase } from "@open-system/design-system-components";
 import {
   DOMAIN_NAME,
@@ -35,7 +35,7 @@ export default async function LikeButton({
   }
 
   const url = new URL(process.env.NEXT_PUBLIC_REACTION_QUERY_URL);
-  url.pathname = "/api/reactions"
+  url.pathname = "/api/reactions";
   url.searchParams.set("contentId", contentId);
   url.searchParams.set("type", "like");
 
@@ -54,7 +54,7 @@ export default async function LikeButton({
 
   const result = (await response.json()) as HttpPaginatedResult;
   return (
-    <div className="fixed right-0 top-3/4 z-like">
+    <div className="z-like fixed right-0 top-3/4">
       <LikeButtonClient
         {...props}
         contentId={contentId}

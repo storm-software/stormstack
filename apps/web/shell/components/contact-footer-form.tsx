@@ -1,7 +1,7 @@
 "use client";
 
-import { Contact } from "@open-system/contact-data-access";
-import { SubscriptionCheckbox } from "@open-system/contact-feature-form";
+import { Contact } from "@open-system/contact-client-data-access";
+import { SubscriptionCheckbox } from "@open-system/contact-client-components";
 import {
   MessageTypes,
   useForm,

@@ -1,6 +1,6 @@
 import { Tree } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
-import { execute } from "../utilities";
+import { executeAsync } from "@open-system/core-server-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { ServerApiGeneratorSchema } from "./schema";
 
 export default async function (host: Tree, options?: ServerApiGeneratorSchema) {
@@ -26,7 +26,7 @@ export default async function (host: Tree, options?: ServerApiGeneratorSchema) {
       ? options.sourceRoot
       : `apps/apis/${domainName ? domainName : serviceName}`;
 
-    const result = await execute(
+    const result = await executeAsync(
       `java -cp tools/openapi/dotnet-server/target/open-system-dotnet-server-openapi-generator-1.0.0.jar;tools/openapi/openapi-generator-cli-6.2.1.jar org.openapitools.codegen.OpenAPIGenerator generate --input-spec=${specJsonFile} -g ${
         generator ?? "open-system-dotnet-server"
       } -o ${sourceRoot} --enable-post-process-file --global-property="apiDocs=true" --additional-properties="aspnetCoreVersion=7.0,buildTarget=program,licenseName=BSD 2-Clause License Simplified,licenseUrl=https://spdx.org/licenses/BSD-2-Clause.html,packageAuthors=Patrick Sullivan,packageCopyright=Copyright (c) 2022 Patrick Sullivan,packageDescription=A collection of ${

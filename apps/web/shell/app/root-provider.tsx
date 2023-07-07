@@ -1,6 +1,6 @@
 "use client";
 
-import { store } from "@open-system/core-data-access";
+import { store } from "@open-system/core-client-data-access";
 // import { WunderGraphRelayProvider } from "@open-system/data-catalog-graphql";
 import { Provider } from "jotai";
 import { ReactNode } from "react";

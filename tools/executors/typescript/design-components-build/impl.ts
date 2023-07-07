@@ -1,6 +1,6 @@
 import { ExecutorContext, runExecutor } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
-import { executeAsync } from "../utilities/command-prompt-fns";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { executeAsync } from "@open-system/core-server-utilities";
 import { DesignComponentsBuildExecutorSchema } from "./schema";
 
 export default async function (

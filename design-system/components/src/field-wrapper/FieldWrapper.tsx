@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 "use client";
 
-import { isEmptyObject } from "@open-system/core-utilities";
+import { isEmptyObject } from "@open-system/core-shared-utilities";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef } from "react";

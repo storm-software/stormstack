@@ -1,7 +1,7 @@
 "use client";
 
 import { SpeakerWaveIcon, WifiIcon } from "@heroicons/react/24/outline";
-import { DateTime } from "@open-system/core-utilities";
+import { DateTime } from "@open-system/core-shared-utilities";
 import { useCallback, useEffect, useState } from "react";
 import StartMenu from "./start-menu";
 import TaskbarItem from "./taskbar-item";

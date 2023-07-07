@@ -1,7 +1,7 @@
 "use client";
 
 import { Heading } from "@open-system/design-system-components";
-import { BoxLogo } from "@open-system/shared-components";
+import { BoxLogo } from "@open-system/common-client-components";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
 import { useIsHeaderDisplayedValue } from "../hooks/useHeaderState";

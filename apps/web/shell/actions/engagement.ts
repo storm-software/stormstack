@@ -1,7 +1,7 @@
 "use server";
 
-import { FormSubmitHandlerParams } from "@open-system/core-data-access";
-import { Rate } from "@open-system/engagement-data-access/server";
+import { FormSubmitHandlerParams } from "@open-system/core-shared-data-access";
+import { Rate } from "@open-system/engagement-shared-data-access/server";
 import { revalidateTag } from "next/cache";
 
 export async function giveRating(request: FormSubmitHandlerParams<Rate>) {

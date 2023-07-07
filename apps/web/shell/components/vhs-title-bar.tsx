@@ -1,6 +1,9 @@
 "use client";
 
-import { getRandomInt, getRandomIntRange } from "@open-system/core-utilities";
+import {
+  getRandomInt,
+  getRandomIntRange,
+} from "@open-system/core-client-utilities";
 import { useEffect, useState } from "react";
 
 export default function VhsTitleBar() {

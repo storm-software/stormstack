@@ -14,9 +14,9 @@
         "format": ["cjs"],
         "external": [
           "@cloudflare/workers-types",
-          "@open-system/core-utilities",
-          "@open-system/core-data-access",
-          "@open-system/core-feature-cloudflare"
+          "@open-system/core-shared-utilities",
+          "@open-system/core-client-data-access",
+          "@open-system/core-server-cloudflare"
         ],
         "main": "apps/workers/contact-attachments-upload/src/index.ts",
         "tsConfig": "apps/workers/contact-attachments-upload/tsconfig.json",

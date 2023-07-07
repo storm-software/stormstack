@@ -1,6 +1,6 @@
 import { Tree } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
-import { executeAsync } from "@open-system/core-utilities/server-utilities/command-prompt-fns";
+import { executeAsync } from "@open-system/core-server-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 // import { ExecOptions, exec } from "child_process";
 import { existsSync } from "fs";
 import Path from "path";

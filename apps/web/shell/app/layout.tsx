@@ -1,10 +1,10 @@
-import { Link, SocialMediaLinks } from "@open-system/core-components";
+import { NavigationMenu } from "@open-system/common-client-components";
+import { BoxLogo, Footer } from "@open-system/common-client-components/server";
+import { Link, SocialMediaLinks } from "@open-system/core-client-components";
 import {
   NotificationGroup,
   ToastGroup,
-} from "@open-system/core-feature-notifications";
-import { NavigationMenu } from "@open-system/shared-components";
-import { BoxLogo, Footer } from "@open-system/shared-components/server";
+} from "@open-system/core-client-notifications";
 import { Analytics } from "@vercel/analytics/react";
 import clsx from "clsx";
 import { ReactNode } from "react";

@@ -1,16 +1,16 @@
 "use client";
 
+import { ContactTypeForm } from "@open-system/contact-client-components";
 import {
+  ContactFormSegments,
   useContactValue,
   useSetContactFormProgress,
-  ContactFormSegments,
-} from "@open-system/contact-data-access";
-import { ContactTypeForm } from "@open-system/contact-feature-form";
+} from "@open-system/contact-client-data-access";
 import {
   MessageTypes,
   useSetToastMessages,
-} from "@open-system/core-data-access";
-import { DateTime, isEmpty } from "@open-system/core-utilities";
+} from "@open-system/core-client-data-access";
+import { DateTime, isEmpty } from "@open-system/core-shared-utilities";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -33,10 +33,14 @@ export default function Page() {
       reset(contact.reason);
       if (contact.email && contact.firstName && contact.lastName) {
         goToStep(2, false);
-        router.replace(`/contact/${contact.reason}/${ContactFormSegments.DETAILS}`);
+        router.replace(
+          `/contact/${contact.reason}/${ContactFormSegments.DETAILS}`
+        );
       } else {
         goToStep(1, false);
-        router.replace(`/contact/${contact.reason}/${ContactFormSegments.PERSONAL_INFO}`);
+        router.replace(
+          `/contact/${contact.reason}/${ContactFormSegments.PERSONAL_INFO}`
+        );
       }
 
       add({

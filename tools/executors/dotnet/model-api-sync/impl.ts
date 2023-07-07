@@ -1,6 +1,6 @@
 import { ExecutorContext } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
-import { execute } from "../utilities";
+import { executeAsync } from "@open-system/core-server-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { ModelApiSyncExecutorSchema } from "./schema";
 
 export default async function (
@@ -52,7 +52,7 @@ export default async function (
         : domainName.charAt(0).toUpperCase() + domainName.slice(1)
     }Service.Api`;
 
-    const result = await execute(
+    const result = await executeAsync(
       `java -cp tools/openapi/dotnet-model/target/open-system-dotnet-model-openapi-generator-1.0.0.jar;tools/openapi/openapi-generator-cli-6.2.1.jar org.openapitools.codegen.OpenAPIGenerator generate --input-spec=${specJsonFile} -g ${
         generator ?? "open-system-dotnet-model"
       } -o ${sourceRoot} --enable-post-process-file --global-property="apiDocs=true" --additional-properties="aspnetCoreVersion=7.0,buildTarget=program,licenseName=BSD 2-Clause License Simplified,licenseUrl=https://spdx.org/licenses/BSD-2-Clause.html,packageAuthors=Patrick Sullivan,packageCopyright=Copyright (c) 2022 Patrick Sullivan,packageDescription=A collection of ${

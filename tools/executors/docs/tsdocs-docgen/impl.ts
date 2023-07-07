@@ -4,30 +4,13 @@
   ExtractorResult,
 } from "@microsoft/api-extractor";*/
 import { ExecutorContext } from "@nx/devkit";
-import { exec } from "child_process";
+import { executeAsync } from "@open-system/core-server-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { createReadStream, readdir } from "fs";
 import { existsSync, writeFile } from "fs-extra";
 import Path from "path";
 import { parse } from "qs";
 import { createInterface } from "readline";
-import { promisify } from "util";
-
-const execute = async (command: string): Promise<string | undefined> => {
-  try {
-    const result = await promisify(exec)(command);
-    if (result?.stderr) {
-      console.error(result.stderr);
-
-      return result.stderr;
-    }
-
-    return undefined;
-  } catch (e) {
-    console.error(e);
-
-    return e?.message ?? "Exception occurred while processing request. ";
-  }
-};
 
 const LIB_GENERATED_DIR = "__docs__";
 
@@ -36,15 +19,15 @@ const documentExecutor = async (
   context: ExecutorContext
 ) => {
   try {
-    console.info(`Executing "document" executor...`);
-    console.info(`Options: ${JSON.stringify(options, null, 2)}`);
-    console.info(`Current Directory: ${__dirname}`);
-    console.info(`context: ${JSON.stringify(context)}`);
+    ConsoleLogger.info(`Executing "document" executor...`);
+    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
+    ConsoleLogger.info(`Current Directory: ${__dirname}`);
+    ConsoleLogger.info(`context: ${JSON.stringify(context)}`);
 
     let result;
     for (const [key, project] of Object.entries(context.workspace.projects)) {
       if (!key.endsWith("docs")) {
-        console.log(`Begin documenting ${key}`);
+        ConsoleLogger.log(`Begin documenting ${key}`);
 
         const rootPath = context.root;
         const docsPath = Path.join(rootPath, "docs", "ts-docs");
@@ -52,20 +35,20 @@ const documentExecutor = async (
         const packagePath = Path.join(rootPath, project.root);
         const distPath = Path.join(rootPath, "dist", project.root);
 
-        console.info(`Processing project at path ${packagePath}`);
+        ConsoleLogger.info(`Processing project at path ${packagePath}`);
 
-        console.info("Navigate to root directory.");
-        result = await execute(` cd "${rootPath}" `);
+        ConsoleLogger.info("Navigate to root directory.");
+        result = await executeAsync(` cd "${rootPath}" `);
 
-        console.info(`Building project "${key}"...`);
-        result = await execute(` npx nx run ${key}:build `);
+        ConsoleLogger.info(`Building project "${key}"...`);
+        result = await executeAsync(` npx nx run ${key}:build `);
         if (result) {
-          console.info(`Error building project "${key}"...`);
+          ConsoleLogger.info(`Error building project "${key}"...`);
 
-          console.error(result);
+          ConsoleLogger.error(result);
           return { success: false };
         }
-        console.info("Build succeeded.");
+        ConsoleLogger.info("Build succeeded.");
 
         if (existsSync(Path.join(packagePath, "tsconfig.json"))) {
           const input = createReadStream(
@@ -92,36 +75,36 @@ const documentExecutor = async (
           );
         }
 
-        console.info(
+        ConsoleLogger.info(
           `Creating generated directory - "${Path.join(
             distPath,
             LIB_GENERATED_DIR
           )}".`
         );
-        result = await execute(
+        result = await executeAsync(
           ` mkdir "${Path.join(distPath, LIB_GENERATED_DIR)}" `
         );
         if (result) {
-          console.error(result);
+          ConsoleLogger.error(result);
           return { success: false };
         }
-        console.info("Directory successfully created.");
+        ConsoleLogger.info("Directory successfully created.");
 
-        console.info(
+        ConsoleLogger.info(
           `Creating generated directory - "${Path.join(
             distPath,
             LIB_GENERATED_DIR,
             "reports"
           )}".`
         );
-        result = await execute(
+        result = await executeAsync(
           ` mkdir "${Path.join(distPath, LIB_GENERATED_DIR, "reports")}" `
         );
         if (result) {
-          console.error(result);
+          ConsoleLogger.error(result);
           return { success: false };
         }
-        console.info("Directory successfully created.");
+        ConsoleLogger.info("Directory successfully created.");
 
         // Invoke API Extractor
         /*const extractorResult: ExtractorResult = Extractor.invoke(
@@ -140,7 +123,7 @@ const documentExecutor = async (
           }
         );
         if (!extractorResult.succeeded) {
-          console.error(
+          ConsoleLogger.error(
             `API Extractor completed with ${extractorResult.errorCount} errors` +
               ` and ${extractorResult.warningCount} warnings`
           );
@@ -148,27 +131,27 @@ const documentExecutor = async (
           return { success: false };
         }*/
 
-        console.info("Navigate to dist directory.");
-        result = await execute(` cd "${distPath}" `);
+        ConsoleLogger.info("Navigate to dist directory.");
+        result = await executeAsync(` cd "${distPath}" `);
 
-        result = await execute(
+        result = await executeAsync(
           ` npx api-documenter markdown -i "${Path.join(
             distPath,
             LIB_GENERATED_DIR
           )}" -o "${Path.join(distPath, LIB_GENERATED_DIR, "api")}" `
         );
         if (result) {
-          console.error(result);
+          ConsoleLogger.error(result);
           return { success: false };
         }
 
-        console.info("Generated markdown.");
+        ConsoleLogger.info("Generated markdown.");
         readdir(
           Path.join(distPath, LIB_GENERATED_DIR, "api"),
           async (err: NodeJS.ErrnoException, files: string[]) => {
             !files || !Array.isArray(files) || files.length === 0
-              ? console.info("No markdown doc files read")
-              : console.info("Formatting markdown doc files");
+              ? ConsoleLogger.info("No markdown doc files read")
+              : ConsoleLogger.info("Formatting markdown doc files");
             for (const docFile of files) {
               try {
                 const { name: id, ext } = parse(docFile);
@@ -237,16 +220,16 @@ const documentExecutor = async (
                   }
                 );
               } catch (err) {
-                console.error(`Could not process ${docFile}: ${err}`);
+                ConsoleLogger.error(`Could not process ${docFile}: ${err}`);
               }
             }
           }
         );
 
-        /* console.info(` xcopy "${fromPath}" "${toPath}" `);
+        /* ConsoleLogger.info(` xcopy "${fromPath}" "${toPath}" `);
           result = await execute(` xcopy "${fromPath}" "${toPath}" `);
           if (result) {
-            console.error(result);
+            ConsoleLogger.error(result);
 
             return { success: false };
           }
@@ -260,18 +243,18 @@ const documentExecutor = async (
           )}" "${docsPath}" /O /X /E /H /K `
         );
         if (result) {
-          console.error(result);
+          ConsoleLogger.error(result);
 
           return { success: false };
         }*/
 
-        console.info(`Documents successfully generated for ${key}!`);
+        ConsoleLogger.info(`Documents successfully generated for ${key}!`);
       }
     }
 
     return { success: !result };
   } catch (e) {
-    console.error(e);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }

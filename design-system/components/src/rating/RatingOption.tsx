@@ -2,7 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { isEmpty } from "@open-system/core-utilities";
+import { isEmpty } from "@open-system/core-shared-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,

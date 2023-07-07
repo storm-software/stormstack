@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-utilities";
+import { isEmptyObject } from "@open-system/core-shared-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,

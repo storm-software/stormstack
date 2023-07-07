@@ -1,6 +1,6 @@
 import { ExecutorContext } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
-import { runWranglerCommand } from "../utilities/wrangler";
+import { runWranglerCommand } from "@open-system/core-server-cloudflare";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { CloudflareWorkerServeExecutorSchema } from "./schema";
 
 export default async function (

@@ -1,23 +1,23 @@
 /* eslint-disable react/display-name */
 "use client";
 
-import { Contact } from "@open-system/contact-data-access";
+import { Contact } from "@open-system/contact-client-data-access";
 import {
   Link,
   Modal,
   ModalProps,
   ModalReference,
-} from "@open-system/core-components";
+} from "@open-system/core-client-components";
 import {
   MessageTypes,
   useForm,
   useSetNotifications,
-} from "@open-system/core-data-access";
+} from "@open-system/core-client-data-access";
 import {
   EmailInput,
   FormProvider,
   SubmitButton,
-} from "@open-system/core-feature-form";
+} from "@open-system/core-client-form";
 import {
   Button,
   ButtonCornerRoundingTypes,

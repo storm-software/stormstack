@@ -1,15 +1,18 @@
 "use client";
 
+import { ContactResetModal } from "@open-system/contact-client-components";
 import {
   ContactFormProgressStep,
   ContactFormSegments,
   contactFormProgressAtom,
   useSetContactFormProgress,
-} from "@open-system/contact-data-access";
-import { ContactResetModal } from "@open-system/contact-feature-form";
-import { Link, ModalReference } from "@open-system/core-components";
-import { useFieldValue, useIsValid } from "@open-system/core-data-access";
-import { SubmitButton } from "@open-system/core-feature-form";
+} from "@open-system/contact-client-data-access";
+import { Link, ModalReference } from "@open-system/core-client-components";
+import {
+  useFieldValue,
+  useIsValid,
+} from "@open-system/core-client-data-access";
+import { SubmitButton } from "@open-system/core-client-feature-form";
 import {
   ArrowIcon,
   BaseComponentProps,

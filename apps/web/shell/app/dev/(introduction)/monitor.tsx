@@ -1,8 +1,8 @@
 "use client";
 
 import { MinusIcon, PlusIcon, PowerIcon } from "@heroicons/react/24/outline";
+import { Spinner } from "@open-system/design-system-components";
 import clsx from "clsx";
-import { Spinner } from "design-system/components/src/spinner/Spinner";
 import dynamic from "next/dynamic";
 import { useCallback, useState } from "react";
 import DellLogo from "../../../public/static/images/dell-logo.svg";

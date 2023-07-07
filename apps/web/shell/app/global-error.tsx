@@ -3,7 +3,7 @@
 import {
   ErrorReportProps,
   GlobalErrorReport,
-} from "@open-system/core-feature-notifications";
+} from "@open-system/core-client-notifications";
 
 export default function GlobalError(props: ErrorReportProps) {
   return (

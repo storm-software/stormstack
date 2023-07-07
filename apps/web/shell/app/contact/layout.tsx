@@ -1,9 +1,9 @@
-import { ContactFormProgressTracker } from "@open-system/contact-feature-form";
-import { Breadcrumb } from "@open-system/core-components";
+import { ContactFormProgressTracker } from "@open-system/contact-client-components";
+import { Breadcrumb } from "@open-system/core-client-components";
 import { Module } from "@open-system/design-system-components";
 import { ReactNode } from "react";
-import ContactForm from "./contact-form";
 import ContactFooter from "./contact-footer";
+import ContactForm from "./contact-form";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </>
           }
           footer={<ContactFooter />}>
-          <div className="relative flex flex-row items-center gap-10 pt-10 min-h-[20rem]">
+          <div className="relative flex min-h-[20rem] flex-row items-center gap-10 pt-10">
             {children}
             <ContactFormProgressTracker />
           </div>

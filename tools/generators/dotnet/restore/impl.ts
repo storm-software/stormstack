@@ -1,10 +1,10 @@
 import { dotnetFactory } from "@nx-dotnet/dotnet";
 import {
-    getNxDotnetProjects,
-    getProjectFilesForProject,
+  getNxDotnetProjects,
+  getProjectFilesForProject,
 } from "@nx-dotnet/utils";
 import { Tree } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { spawnSync } from "child_process";
 import { DotNetRestoreSchema } from "./schema";
 

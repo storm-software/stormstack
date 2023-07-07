@@ -4,7 +4,8 @@ module.exports = (currentConfig, _) => ({
   external: [
     "@asyncapi/generator",
     "@asyncapi/parser",
-    "@open-system/core-utilities",
+    "@open-system/core-shared-utilities",
+    "@open-system/core-server-utilities",
   ],
   output: {
     file: "dist/tools/generators/dotnet/async-api/impl.js",

@@ -1,10 +1,10 @@
+import { SideTitle } from "@open-system/common-client-components";
 import {
   Link,
   ScrollArrowIndicator,
   ScrollProgressBar,
-} from "@open-system/core-components";
+} from "@open-system/core-client-components";
 import { Card } from "@open-system/design-system-components";
-import { SideTitle } from "@open-system/shared-components";
 import AppTitle from "../components/app-title";
 import HeaderBottom from "../components/header-bottom";
 import SubscriptionCard from "../components/subscription-card";

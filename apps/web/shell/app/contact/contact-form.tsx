@@ -1,8 +1,11 @@
 "use client";
 
-import { Contact, useContactValue } from "@open-system/contact-data-access";
-import { FormProps, useForm } from "@open-system/core-data-access";
-import { FormProvider } from "@open-system/core-feature-form";
+import {
+  Contact,
+  useContactValue,
+} from "@open-system/contact-client-data-access";
+import { FormProps, useForm } from "@open-system/core-client-data-access";
+import { FormProvider } from "@open-system/core-client-feature-form";
 import { useRouter } from "next/navigation";
 import {
   experimental_useEffectEvent as useEffectEvent,

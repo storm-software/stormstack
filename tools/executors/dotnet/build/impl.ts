@@ -1,6 +1,6 @@
-import { ExecutorContext, runExecutor } from "@nrwl/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
-import { execute } from "../utilities";
+import { ExecutorContext, runExecutor } from "@nx/devkit";
+import { executeAsync } from "@open-system/core-server-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { DotNetBuildSchema } from "./schema";
 
 export default async function (
@@ -16,7 +16,7 @@ export default async function (
     ));*/
 
     if (process.env.NUGET_REPO_URL) {
-      await execute("dotnet nuget remove source Artifactory ");
+      await executeAsync("dotnet nuget remove source Artifactory ");
 
       let params = ` add source ${process.env.NUGET_REPO_URL} --name Artifactory `;
 
@@ -24,7 +24,7 @@ export default async function (
         process.env.NUGET_REPO_PASSWORD &&
         (params += ` --username ${process.env.NUGET_REPO_USERNAME} --password 24Server! --store-password-in-clear-text `);
       configFile && (params += ` --configfile ${configFile} `);
-      await execute(`dotnet nuget ${params}`);
+      await executeAsync(`dotnet nuget ${params}`);
     }
 
     let extraParameters = options.extraParameters ?? "";

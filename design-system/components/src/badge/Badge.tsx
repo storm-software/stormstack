@@ -1,6 +1,6 @@
 "use client";
 
-import { isFunction } from "@open-system/core-utilities";
+import { isFunction } from "@open-system/core-shared-utilities";
 import clsx from "clsx";
 import { MouseEventHandler, useRef } from "react";
 import { PropsWithBase } from "../types";

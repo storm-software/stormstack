@@ -6,9 +6,9 @@ import {
   PowerIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
-import { useClickOutside } from "@open-system/core-components";
-import { DateTime } from "@open-system/core-utilities";
-import { BoxLogo } from "@open-system/shared-components";
+import { BoxLogo } from "@open-system/common-client-components";
+import { useClickOutside } from "@open-system/core-client-components";
+import { DateTime } from "@open-system/core-shared-utilities";
 import { useCallback, useEffect, useState } from "react";
 import NotepadIcon from "./notepad-icon";
 

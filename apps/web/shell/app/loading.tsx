@@ -1,4 +1,4 @@
-import { LogoLoading } from "@open-system/shared-components";
+import { LogoLoading } from "@open-system/common-client-components";
 
 export default function Loading() {
   return (

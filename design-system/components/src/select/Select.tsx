@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-utilities";
+import { isEmptyObject } from "@open-system/core-shared-utilities";
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
@@ -62,12 +62,15 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ref: ForwardedRef<HTMLSelectElement>
   ) => {
     const [focused, setFocused] = useState<boolean>(false);
-    const handleFocus = useCallback((event?: FocusEvent<any>) => {
-      if (!disabled) {
-        setFocused(true);
-        onFocus?.();
-      }
-    }, [disabled, onFocus]);
+    const handleFocus = useCallback(
+      (event?: FocusEvent<any>) => {
+        if (!disabled) {
+          setFocused(true);
+          onFocus?.();
+        }
+      },
+      [disabled, onFocus]
+    );
 
     const handleBlur = useCallback(
       (event: ChangeEvent<HTMLSelectElement>) => {

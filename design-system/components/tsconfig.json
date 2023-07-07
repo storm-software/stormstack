@@ -23,13 +23,10 @@
     "**/*.stories.tsx"
   ],
   "paths": {
-    "@open-system/core-utilities": [
+    "@open-system/core-shared-utilities": [
       "libs/core/typescript/utilities/src/index.ts"
     ],
-    "@open-system/core-utilities/server": [
-      "libs/core/typescript/utilities/src/server.ts"
-    ],
-    "@open-system/core-utilities/*": ["libs/core/typescript/utilities/src/*"]
+    "@open-system/core-shared-utilities/*": ["libs/core/typescript/shared/utilities/src/*"]
   },
   "references": [
     {

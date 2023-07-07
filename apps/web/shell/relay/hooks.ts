@@ -1,4 +1,4 @@
-import { createRelayHooks } from "@open-system/core-data-access/hooks/relay-hooks";
+import { createRelayHooks } from "@open-system/core-client-data-access";
 import { Client } from "./client";
 
 export const {

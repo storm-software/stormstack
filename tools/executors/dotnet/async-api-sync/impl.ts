@@ -1,6 +1,6 @@
 import Generator from "@asyncapi/generator";
 import { ExecutorContext } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { AsyncApiSyncExecutorSchema } from "./schema";
 
 export default async function (

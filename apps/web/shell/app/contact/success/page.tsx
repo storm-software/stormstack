@@ -1,4 +1,4 @@
-import { SuccessContactForm } from "@open-system/contact-feature-form";
+import { SuccessContactForm } from "@open-system/contact-client-components";
 
 export default function Page() {
   return (

@@ -1,8 +1,8 @@
 "use server";
 
-import { Contact } from "@open-system/contact-data-access";
-import { FormSubmitHandlerParams } from "@open-system/core-data-access";
-import { ServerResult } from "@open-system/core-utilities";
+import { Contact } from "@open-system/contact-shared-data-access";
+import { FormSubmitHandlerParams } from "@open-system/core-shared-data-access";
+import { ServerResult } from "@open-system/core-shared-utilities";
 import { revalidateTag } from "next/cache";
 
 export async function subscribe(

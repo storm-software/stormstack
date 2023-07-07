@@ -1,10 +1,10 @@
-export { Headers } from "@open-system/core-data-access";
+export { Headers } from "@open-system/core-client-data-access";
 export {
   BaseCloudflareEnv,
   R2Bucket,
   R2ListOptions,
-} from "@open-system/core-feature-cloudflare";
-export { ConsoleLogger } from "@open-system/core-utilities";
+} from "@open-system/core-shared-cloudflare";
+export { ConsoleLogger } from "@open-system/core-shared-utilities";
 
 interface Env extends BaseCloudflareEnv {
   CONTACT_ATTACHMENTS_BUCKET: R2Bucket;

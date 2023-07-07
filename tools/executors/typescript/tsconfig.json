@@ -4,5 +4,5 @@
     "outDir": "../../../dist/tools/executors/typescript"
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
-  "include": ["**/*.ts", "**/*.js", "**/*.json"]
+  "include": ["**/*.ts", "**/*.js", "**/*.json", "../../../libs/core/typescript/server/cloudflare/src/utilities/wrangler.ts"]
 }

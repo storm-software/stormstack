@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-utilities";
+import { isEmptyObject } from "@open-system/core-shared-utilities";
 import clsx from "clsx";
 import { PropsWithBase } from "../../types";
 import { getFieldTextStyle } from "../../utilities/field-style-utils";
@@ -34,7 +34,7 @@ export const FieldWrapperLabel = ({
           getFieldTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),
           "text-label-1 font-label-1 leading-label-1 antialiased transition-all",
           { "font-bold": !isEmptyObject(errors) },
-          {"text-lg": focused},
+          { "text-lg": focused },
           className
         )}
         htmlFor={name}>

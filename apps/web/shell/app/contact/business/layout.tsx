@@ -3,7 +3,7 @@
 import {
   contactFormProgressAtom,
   useSetContactFormProgress,
-} from "@open-system/contact-data-access";
+} from "@open-system/contact-client-data-access";
 import { useAtomValue } from "jotai";
 import { ReactNode, useEffect } from "react";
 

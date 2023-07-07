@@ -1,6 +1,10 @@
 "use client";
 
-import { Link, Modal, ModalReference } from "@open-system/core-components";
+import {
+  Link,
+  Modal,
+  ModalReference,
+} from "@open-system/core-client-components";
 import {
   Badge,
   Button,

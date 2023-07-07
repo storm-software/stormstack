@@ -1,9 +1,9 @@
 import { ExecutorContext } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-utilities";
+import { executeAsync } from "@open-system/core-server-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import Path from "path";
 import { toCssFontImportParser, toTailwindParser } from "../utilities";
-import { executeAsync } from "../utilities/command-prompt-fns";
 import { InputDataType as ToCssFontImportParserInputDataType } from "../utilities/design-token-parsers/parsers/to-css-font-import";
 import { InputDataType as ToTailwindInputDataType } from "../utilities/design-token-parsers/parsers/to-tailwind";
 import { IToken } from "../utilities/design-token-parsers/types";

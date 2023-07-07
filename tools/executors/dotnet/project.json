@@ -172,5 +172,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["core-utilities"]
+  "implicitDependencies": ["core-shared-utilities", "core-server-utilities"]
 }

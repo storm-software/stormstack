@@ -33,7 +33,7 @@
   "scripts": {
     "nx": "nx",
     "prepare:husky": "is-ci || husky install",
-    "prepare": "npm run prepare:restore && npm run prepare:husky && npx patch-package -y",
+    "prepare": "npm run prepare:husky && npx patch-package -y",
     "clean:apps": "rimraf dist/apps",
     "clean:libs": "rimraf dist/libs",
     "clean:tools": "rimraf dist/tools",
@@ -87,6 +87,7 @@
     "eagerEsModules": true
   },
   "dependencies": {
+    "@envelop/live-query": "^6.0.0",
     "@heroicons/react": "^2.0.18",
     "@js-temporal/polyfill": "^0.4.4",
     "@next/bundle-analyzer": "^13.4.7",
@@ -216,7 +217,7 @@
     "cross-env": "^7.0.3",
     "cspell": "^6.31.1",
     "css-loader": "^6.4.0",
-    "cypress": "^12.11.0",
+    "cypress": "^12.16.0",
     "cz-conventional-changelog": "^3.3.0",
     "docusaurus-plugin-react-docgen-typescript": "^1.1.0",
     "docusaurus-plugin-typedoc": "^0.19.2",
@@ -309,4 +310,3 @@
   },
   "packageManager": "npm@9.7.2"
 }
-

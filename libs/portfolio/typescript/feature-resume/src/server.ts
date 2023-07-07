@@ -1,3 +1,0 @@
-// Use this file to export React server components
-
-export * from "./pdf-resume-title";

@@ -1,4 +1,7 @@
-import { ConsoleLogger, parseInteger } from "@open-system/core-utilities";
+import {
+  ConsoleLogger,
+  parseInteger,
+} from "@open-system/core-shared-utilities";
 import "@sentry/tracing";
 import { NextRequest, NextResponse } from "next/server";
 // import { repository } from "../../../state/reaction-repository";
