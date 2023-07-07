@@ -1,0 +1,16 @@
+name = "contact-submit"
+main = "src/index.ts"
+assets="../../../dist/apps/workers/contact-submit"
+
+latest = true
+route = "open-system.io/api"
+
+compatibility_date = "2023-07-05"
+
+account_id = "03700f13b61493bbc558dc93ea4980bc"
+workers_dev = true
+
+[build]
+command = "nx run worker-contact-submit:build"
+
+

@@ -122,14 +122,8 @@
         "style": "css",
         "linter": "eslint"
       }
-    },
-    "@nx-dotnet/core:application": {
-      "solutionFile": true
-    },
-    "@nx-dotnet/core:library": {
-      "solutionFile": "OpenSystem.sln"
     }
   },
   "defaultProject": "web-shell",
-  "plugins": ["@nx-dotnet/core"]
+  "plugins": ["@nx/next"]
 }

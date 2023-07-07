@@ -1,9 +1,0 @@
-{
-  "name": "reaction-config",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/reaction/config/src",
-  "projectType": "library",
-  "targets": {
-  },
-  "tags": []
-}

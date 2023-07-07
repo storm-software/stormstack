@@ -79,12 +79,6 @@
       "@open-system/core-utilities/server": [
         "libs/core/typescript/utilities/src/server.ts"
       ],
-      "@open-system/data-catalog-graphql": [
-        "libs/data-catalog/graphql/src/index.ts"
-      ],
-      "@open-system/data-catalog-graphql/*": [
-        "libs/data-catalog/graphql/src/*"
-      ],
       "@open-system/design-system-components": [
         "design-system/components/src/index.ts"
       ],
@@ -102,6 +96,13 @@
       "@open-system/engagement-feature-rating/server": [
         "libs/engagement/typescript/feature-rating/src/server.ts"
       ],
+      "@open-system/engagement-feature-like": [
+        "libs/reaction/typescript/src/index.ts"
+      ],
+      "@open-system/engagement-feature-like/*": [
+        "libs/reaction/typescript/feature-like/src/*"
+      ],
+      "@open-system/engagement/config": ["libs/engagement/config/src/index.ts"],
       "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
       "@open-system/executors-typescript": [
@@ -117,13 +118,6 @@
       "@open-system/portfolio-feature-resume/*": [
         "libs/portfolio/typescript/feature-resume/src/*"
       ],
-      "@open-system/reaction-ui-feature-like": [
-        "libs/reaction/ui/src/index.ts"
-      ],
-      "@open-system/reaction-ui-feature-like/*": [
-        "libs/reaction/ui/feature-like/src/*"
-      ],
-      "@open-system/reaction/config": ["libs/reaction/config/src/index.ts"],
       "@open-system/shared-components": [
         "libs/shared/typescript/components/src/index.ts"
       ],
@@ -142,9 +136,6 @@
       ],
       "@open-system/shared-feature-address/server": [
         "libs/shared/typescript/feature-address/src/server.ts"
-      ],
-      "@open-system/static-message-config": [
-        "libs/static/message/config/src/index.ts"
       ],
       "@open-system/user-management-components": [
         "libs/user-management/typescript/components/src/index.ts"

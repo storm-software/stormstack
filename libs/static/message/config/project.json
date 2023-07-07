@@ -1,9 +1,0 @@
-{
-  "name": "static-message-config",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/static/message/config/src",
-  "projectType": "library",
-  "targets": {
-  },
-  "tags": []
-}
