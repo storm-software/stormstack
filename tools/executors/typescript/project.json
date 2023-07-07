@@ -162,6 +162,9 @@
     }
   },
   "tags": [],
-  "implicitDependencies": [ "core-shared-utilities",
-  "core-server-utilities",]
+  "implicitDependencies": [
+    "core-shared-utilities",
+    "core-server-utilities",
+    "core-server-cloudflare"
+  ]
 }
