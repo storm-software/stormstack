@@ -1,0 +1,45 @@
+{
+  "name": "core-client-pdf",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/typescript/client/pdf/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/core/typescript/client/pdf/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/core/typescript/client/pdf",
+        "tsConfig": "libs/core/typescript/client/pdf/tsconfig.lib.json",
+        "project": "libs/core/typescript/client/pdf/package.json",
+        "entryFile": "libs/core/typescript/client/pdf/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "libs/core/typescript/client/pdf/rollup.config.js",
+        "compiler": "swc",
+        "assets": [
+          {
+            "glob": "libs/core/typescript/client/pdf/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "core-client-pdf-v${VERSION}"
+      }
+    }
+  }
+}
