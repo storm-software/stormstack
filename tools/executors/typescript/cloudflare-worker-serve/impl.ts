@@ -10,17 +10,13 @@ export default async function (
   try {
     ConsoleLogger.info("Executing Cloudflare Worker Serve executor...");
 
-    const result = await runWranglerCommand(options, context, "dev");
-    if (result) {
-      ConsoleLogger.error(result);
-      return { success: false };
-    }
+    await runWranglerCommand(options, context, "dev");
 
     ConsoleLogger.success(
       `Cloudflare Worker server successfully ran for ${context.projectName}.`
     );
 
-    return { success: !result };
+    return { success: true };
   } catch (e) {
     console.error(
       `An error occurred syncing client API for ${context.projectName}`
