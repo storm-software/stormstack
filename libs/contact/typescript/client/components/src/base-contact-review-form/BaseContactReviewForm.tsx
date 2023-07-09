@@ -1,12 +1,13 @@
 "use client";
 
-import { Contact, ContactFormSegments } from "@open-system/contact-client-data-access";
+import { AddressText } from "@open-system/common-client-address";
+import { ContactFormSegments } from "@open-system/contact-client-data-access";
+import { Contact } from "@open-system/contact-shared-data-access";
 import { PhoneNumberText } from "@open-system/core-client-components";
 import { useFormValues } from "@open-system/core-client-data-access";
 import { DateTime } from "@open-system/core-shared-utilities";
 import { Accordion, FieldText } from "@open-system/design-system-components";
-import { AddressText } from "@open-system/common-client-address";
-import Envelope from "../../../../../../assets/images/envelope.svg";
+import Envelope from "../../assets/envelope.svg";
 import { BaseContactForm, BaseContactFormProps } from "../base-contact-form";
 import { ContactFormStepReview } from "../contact-form-step-review";
 

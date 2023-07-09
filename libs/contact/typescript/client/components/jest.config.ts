@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: "contact-client-components",
-  preset: "../../../../testing/jest.preset.js",
+  preset: "../../../../../testing/jest.preset.js",
   transform: {
     "^.+\\.[tj]sx?$": [
       "@swc/jest",
@@ -10,5 +10,5 @@ export default {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   coverageDirectory:
-    "../../../../coverage/libs/contact/typescript/client/components",
+    "../../../../../coverage/libs/contact/typescript/client/components",
 };

@@ -1,6 +1,6 @@
 {
   "name": "contact-client-components",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/contact/typescript/client/components/src",
   "projectType": "library",
   "tags": [],

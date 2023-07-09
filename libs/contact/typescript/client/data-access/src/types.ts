@@ -1,8 +1,5 @@
 import { ProgressTrackerItemStatus } from "@open-system/design-system-components";
 
-export const MAX_ATTACHMENT_SIZE = 90000000;
-
-export const MAX_ATTACHMENTS_COUNT = 10;
 
 export const ContactFormSegments = {
   REASON: "reason",

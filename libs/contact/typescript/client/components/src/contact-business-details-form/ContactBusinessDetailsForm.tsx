@@ -3,7 +3,7 @@
 import {
   MAX_ATTACHMENTS_COUNT,
   MAX_ATTACHMENT_SIZE,
-} from "@open-system/contact-shred-data-access";
+} from "@open-system/contact-shared-data-access";
 import {
   FileUpload,
   Input,

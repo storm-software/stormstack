@@ -1,6 +1,8 @@
 "use client";
 
-import { Contact, ContactFormSegments } from "@open-system/contact-client-data-access";
+import { AddressText } from "@open-system/common-client-address";
+import { ContactFormSegments } from "@open-system/contact-client-data-access";
+import { Contact } from "@open-system/contact-shared-data-access";
 import { Link, PhoneNumberText } from "@open-system/core-client-components";
 import { useFormValues } from "@open-system/core-client-data-access";
 import { formatBoolean } from "@open-system/core-shared-utilities";
@@ -9,7 +11,6 @@ import {
   FieldText,
   LinkVariants,
 } from "@open-system/design-system-components";
-import { AddressText } from "@open-system/common-client-address";
 import { BaseContactReviewForm } from "../base-contact-review-form";
 import { ContactFormStepReview } from "../contact-form-step-review";
 
