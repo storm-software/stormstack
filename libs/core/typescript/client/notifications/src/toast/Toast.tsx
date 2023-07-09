@@ -1,7 +1,7 @@
 "use client";
 
-import { ModalReference } from "@open-system/core-components";
-import { useSetToastMessages } from "@open-system/core-data-access";
+import { ModalReference } from "@open-system/core-client-components";
+import { useSetToastMessages } from "@open-system/core-client-data-access";
 import {
   Toast as OsToast,
   PropsWithBase,

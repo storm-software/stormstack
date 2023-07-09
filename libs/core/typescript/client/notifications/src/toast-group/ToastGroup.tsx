@@ -3,11 +3,11 @@
 import {
   ToastMessage,
   useToastMessagesValue,
-} from "@open-system/core-data-access";
+} from "@open-system/core-client-data-access";
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Toast } from "../toast";
-import clsx from "clsx";
 
 /**
  * The base ToastGroup component used by the Open System repository

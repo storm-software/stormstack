@@ -1,11 +1,11 @@
 "use client";
 
-import { Link } from "@open-system/core-components";
+import { Link } from "@open-system/core-client-components";
 import {
   NotificationMessage,
   useNotificationsValue,
   useSetNotifications,
-} from "@open-system/core-data-access";
+} from "@open-system/core-client-data-access";
 import {
   LinkVariants,
   Notification,

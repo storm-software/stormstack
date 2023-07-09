@@ -8,8 +8,8 @@ import {
 } from "@open-system/core-client-data-access";
 import { FormProvider } from "@open-system/core-client-form";
 import { BaseComponentProps } from "@open-system/design-system-components";
-import { Rate } from "@open-system/engagement-client-data-access";
 import { ContentRating } from "@open-system/engagement-client-rating";
+import { Rate } from "@open-system/engagement-shared-data-access";
 import { useCallback } from "react";
 import { graphql } from "react-relay";
 import { ConcreteRequest } from "relay-runtime";

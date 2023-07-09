@@ -11,7 +11,7 @@ import {
 } from "@open-system/design-system-components";
 import { AnimatePresence, Variants, motion } from "framer-motion";
 import { useCallback, useState } from "react";
-import Cookie from "../../../../../../assets/images/cookie.svg";
+import Cookie from "../../assets/cookie.svg";
 
 const variants: Variants = {
   opened: {
@@ -65,12 +65,12 @@ export function CookiePolicyBanner({
                 This website uses cookies to improve user experience.{" "}
                 <b>Your data will never be shared with a third party</b>. Do you
                 accept the{" "}
-                  <Link
-                    variant="primary"
-                    className="text-lg font-body-1"
-                    inNewTab={true}>
-                    cookie policy
-                  </Link>
+                <Link
+                  variant="primary"
+                  className="text-lg font-body-1"
+                  inNewTab={true}>
+                  cookie policy
+                </Link>
                 ?
               </p>
 

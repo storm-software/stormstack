@@ -8,7 +8,7 @@ import {
   Modal,
   ModalVariants,
 } from "@open-system/design-system-components";
-import AlertIcon from "../../../../../../assets/alert-triangle.svg";
+import AlertIcon from "../../assets/alert-triangle.svg";
 import { ErrorReportProps } from "../types";
 
 export function ErrorReport({ error, errorInfo, reset }: ErrorReportProps) {

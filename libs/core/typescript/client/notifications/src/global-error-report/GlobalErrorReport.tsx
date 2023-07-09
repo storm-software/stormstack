@@ -8,7 +8,7 @@ import {
   Modal,
   ModalVariants,
 } from "@open-system/design-system-components";
-import AlertIcon from "../../../../../../assets/alert-triangle.svg";
+import AlertIcon from "../../assets/alert-triangle.svg";
 import { ErrorReportProps } from "../types";
 
 export function GlobalErrorReport({
@@ -32,7 +32,9 @@ export function GlobalErrorReport({
                 <MessageBar
                   className="w-full min-w-fit flex-1"
                   variant={MessageBarVariants.ERROR}
-                  message={error?.message ?? "An error occured during processing."}
+                  message={
+                    error?.message ?? "An error occured during processing."
+                  }
                   details={errorInfo?.componentStack}
                 />
                 <div className="flex flex-1">

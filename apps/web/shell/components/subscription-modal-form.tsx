@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 "use client";
 
-import { Contact } from "@open-system/contact-client-data-access";
+import { Contact } from "@open-system/contact-shared-data-access";
 import {
   Link,
   Modal,

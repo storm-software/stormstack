@@ -113,11 +113,11 @@
       "@open-system/core-server-kafka/*": [
         "libs/core/typescript/server/kafka/src/*"
       ],
-      "@open-system/core-server-notifications": [
-        "libs/core/typescript/server/notifications/src/index.ts"
+      "@open-system/core-client-notifications": [
+        "libs/core/typescript/client/notifications/src/index.ts"
       ],
-      "@open-system/core-server-notifications/*": [
-        "libs/core/typescript/server/notifications/src/*"
+      "@open-system/core-client-notifications/*": [
+        "libs/core/typescript/client/notifications/src/*"
       ],
       "@open-system/core-server-utilities": [
         "libs/core/typescript/server/utilities/src/index.ts"

@@ -1,11 +1,11 @@
-import { CookiePolicyBanner } from "@open-system/user-management-components";
-import { useUserCookie } from "@open-system/user-management-data-access/server";
+import { CookiePolicyBanner } from "@open-system/user-management-client-components";
+import { getUserCookie } from "@open-system/user-management-server-data-access";
 import { agreeToPrivacyPolicy } from "./actions";
 
 // export const revalidate = 60;
 
 export default async function Default() {
-  const { userId, hasAgreedToPrivacyPolicy } = useUserCookie();
+  const { userId, hasAgreedToPrivacyPolicy } = getUserCookie();
 
   if (!userId) {
     console.log("No user id in cookie");
@@ -15,7 +15,5 @@ export default async function Default() {
     return null;
   }
 
-  return (
-    <CookiePolicyBanner onAgreeToPrivacyPolicy={agreeToPrivacyPolicy} />
-  );
+  return <CookiePolicyBanner onAgreeToPrivacyPolicy={agreeToPrivacyPolicy} />;
 }

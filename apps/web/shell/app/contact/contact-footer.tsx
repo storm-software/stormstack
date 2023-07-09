@@ -12,7 +12,7 @@ import {
   useFieldValue,
   useIsValid,
 } from "@open-system/core-client-data-access";
-import { SubmitButton } from "@open-system/core-client-feature-form";
+import { SubmitButton } from "@open-system/core-client-form";
 import {
   ArrowIcon,
   BaseComponentProps,

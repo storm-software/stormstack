@@ -1,18 +1,18 @@
 "use client";
 
-import { Contact } from "@open-system/contact-client-data-access";
 import { SubscriptionCheckbox } from "@open-system/contact-client-components";
+import { Contact } from "@open-system/contact-shared-data-access";
 import {
   MessageTypes,
   useForm,
   useSetNotifications,
-} from "@open-system/core-data-access";
+} from "@open-system/core-client-data-access";
 import {
   EmailInput,
   FormProvider,
   SubmitButton,
   Textarea,
-} from "@open-system/core-feature-form";
+} from "@open-system/core-client-form";
 import {
   BaseComponentProps,
   ButtonCornerRoundingTypes,

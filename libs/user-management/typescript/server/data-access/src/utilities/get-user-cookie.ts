@@ -7,7 +7,7 @@ export type UseUserCookieReturn = {
   hasAgreedToPrivacyPolicy: boolean;
 };
 
-export const useUserCookie = () => {
+export const getUserCookie = () => {
   const cookieStore = cookies();
 
   const userId = cookieStore.get("user-id")?.value;

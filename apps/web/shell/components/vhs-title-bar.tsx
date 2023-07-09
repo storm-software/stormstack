@@ -3,7 +3,7 @@
 import {
   getRandomInt,
   getRandomIntRange,
-} from "@open-system/core-client-utilities";
+} from "@open-system/core-shared-utilities";
 import { useEffect, useState } from "react";
 
 export default function VhsTitleBar() {

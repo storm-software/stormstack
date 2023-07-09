@@ -1,6 +1,6 @@
 "use server";
 
-import { getUniqueId } from "@open-system/core-shared-utilities/server";
+import { getUniqueId } from "@open-system/core-shared-utilities";
 import { cookies } from "next/headers";
 
 export async function addUser() {
