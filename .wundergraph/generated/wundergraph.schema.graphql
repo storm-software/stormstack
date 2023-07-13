@@ -2,6 +2,7 @@
 
 schema {
   query: Query
+  mutation: Mutation
 }
 
 """
@@ -271,18 +272,6 @@ Without authentication, the operation will return an Unauthorized error with sta
 """
 directive @requireAuthentication on QUERY | MUTATION | SUBSCRIPTION
 
-type contact_Attachment {
-  contact: contact_Contact
-  createdAt: String!
-  emailAddress: contact_EmailAddress
-  id: ID!
-  name: String!
-  path: String!
-  status: String!
-  updatedAt: String
-  _join: Query!
-}
-
 type contact_Contact implements contact_Node {
   addressLine1: String
   addressLine2: String
@@ -291,6 +280,7 @@ type contact_Contact implements contact_Node {
   companyName: String
   countryCode: String
   createdAt: String!
+  details: String
   emailId: ID!
   firstName: String
   id: ID!
@@ -305,6 +295,18 @@ type contact_Contact implements contact_Node {
   _join: Query!
 }
 
+type contact_ContactAttachment {
+  contact: contact_Contact
+  contactEmail: contact_ContactEmail
+  createdAt: String!
+  id: ID!
+  name: String!
+  path: String!
+  status: String!
+  updatedAt: String
+  _join: Query!
+}
+
 type contact_ContactAttachmentsConnection {
   edges: [contact_ContactAttachmentsConnectionEdge]!
   pageCursors: contact_PageCursors!
@@ -314,39 +316,80 @@ type contact_ContactAttachmentsConnection {
 
 type contact_ContactAttachmentsConnectionEdge {
   cursor: String!
-  node: contact_Attachment!
+  node: contact_ContactAttachment!
+  _join: Query!
+}
+
+type contact_ContactEmail implements contact_Node {
+  contacts(after: String, before: String, first: Int, last: Int): contact_ContactEmailContactsConnection!
+  createdAt: String!
+  email: String!
+  id: ID!
+  updatedAt: String
+  _join: Query!
+}
+
+type contact_ContactEmailContactsConnection {
+  edges: [contact_ContactEmailContactsConnectionEdge]!
+  pageCursors: contact_PageCursors!
+  pageInfo: contact_PageInfo!
+  _join: Query!
+}
+
+type contact_ContactEmailContactsConnectionEdge {
+  cursor: String!
+  node: contact_Contact!
   _join: Query!
 }
 
 """A country code as defined by ISO 3166-1 alpha-2"""
 scalar contact_CountryCode
 
+input contact_CreateContactAttachment {
+  name: String!
+  path: String!
+  status: String
+}
+
+input contact_CreateContactInput {
+  addressLine1: String
+  addressLine2: String
+  attachments: [contact_CreateContactAttachment!]
+  city: String
+  clientMutationId: ID!
+  companyName: String
+  countryCode: contact_CountryCode
+  details: String
+  email: contact_EmailAddress!
+  firstName: String
+  lastName: String
+  phoneNumber: contact_PhoneNumber
+  postalCode: contact_PostalCode
+  reason: String!
+  state: String
+  subscribed: Boolean!
+  title: String
+  url: contact_URL
+}
+
+type contact_CreateContactPayload {
+  clientMutationId: ID!
+  success: Boolean!
+  _join: Query!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
-type contact_EmailAddress implements contact_Node {
-  contacts(after: String, before: String, first: Int, last: Int): contact_EmailAddressContactsConnection!
-  createdAt: String!
-  email: String!
-  id: ID!
-  subscribed: Int!
-  updatedAt: String
-  _join: Query!
-}
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar contact_EmailAddress
 
-type contact_EmailAddressContactsConnection {
-  edges: [contact_EmailAddressContactsConnectionEdge]!
-  pageCursors: contact_PageCursors!
-  pageInfo: contact_PageInfo!
-  _join: Query!
-}
-
-type contact_EmailAddressContactsConnectionEdge {
-  cursor: String!
-  node: contact_Contact!
-  _join: Query!
+type Mutation {
+  contact_createContact(input: contact_CreateContactInput!): contact_CreateContactPayload!
 }
 
 interface contact_Node {
@@ -387,8 +430,8 @@ scalar contact_PostalCode
 
 type Query {
   contact_contact(id: ID!): contact_Contact
-  contact_emailAddress(id: ID!): contact_EmailAddress
-  contact_emailAddresses(after: String, before: String, first: Int, last: Int): contact_QueryEmailAddressesConnection!
+  contact_contactEmail(id: ID!): contact_ContactEmail
+  contact_emailAddresses(after: String, before: String, first: Int, ids: [ID!]!, last: Int): contact_QueryEmailAddressesConnection!
   contact_node(id: ID!): contact_Node
   contact_nodes(ids: [ID!]!): [contact_Node]!
 }
@@ -402,7 +445,7 @@ type contact_QueryEmailAddressesConnection {
 
 type contact_QueryEmailAddressesConnectionEdge {
   cursor: String!
-  node: contact_EmailAddress!
+  node: contact_ContactEmail!
   _join: Query!
 }
 

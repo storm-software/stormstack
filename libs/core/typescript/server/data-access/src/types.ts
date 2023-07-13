@@ -5,12 +5,19 @@ import { AllSelection } from "kysely/dist/cjs/parser/select-parser";
 export type ServerContext<TContext = {}> = Record<string, any> & TContext;
 export type ApiServerContext<
   TDatabase = {},
-  TContext = {}
+  TContext = {},
+  TUserContext = {}
 > = ServerContext<TContext> & {
   database: TDatabase;
+  user: UserContext<TUserContext>;
 };
 
-export type UserContext<TContext = {}> = Record<string, any> & TContext;
+export type UserContext<TContext = {}> = Record<string, any> &
+  TContext & {
+    id: number;
+    name?: string;
+    email?: string;
+  };
 
 export type ApiServerConnection = {
   pageCursors: PageCursors;

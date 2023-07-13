@@ -14,15 +14,15 @@ const contact = introspect.graphql({
   subscriptionsUseSSE: true,
 });
 
-const ratings = introspect.graphql({
+/*const ratings = introspect.graphql({
   apiNamespace: "ratings",
   url: "https://patsullivan.org/api/ratings",
   subscriptionsUseSSE: true,
-});
+});*/
 
 // configureWunderGraph emits the configuration
 configureWunderGraphApplication({
-  apis: [contact, ratings],
+  apis: [contact],
   server,
   operations,
   generate: {

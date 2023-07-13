@@ -14,8 +14,8 @@ model Contact {
   id                      Int                      @default(autoincrement()) @id
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime?                @updatedAt
-  createdBy               String
-  updatedBy               String?
+  createdBy               Int
+  updatedBy               Int?
   reason                  String
   details                 String?
   email                   ContactEmail             @relation(fields: [emailId], references: [id])
@@ -39,10 +39,9 @@ model ContactEmail {
   id                      Int                      @default(autoincrement()) @id
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime?                @updatedAt
-  createdBy               String
-  updatedBy               String?
+  createdBy               Int
+  updatedBy               Int?
   email                   String                   @unique
-  subscribed              Boolean                  @default(true)
   contacts                Contact[]
 }
 
@@ -50,11 +49,13 @@ model ContactAttachment {
   id                      Int                      @default(autoincrement()) @id
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime?                @updatedAt
-  createdBy               String
-  updatedBy               String?
+  createdBy               Int
+  updatedBy               Int?
   name                    String
   path                    String
   status                  String
   contact                 Contact                  @relation(fields: [contactId], references: [id])
   contactId               Int
+
+  @@unique([name, path])
 }

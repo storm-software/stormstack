@@ -179,5 +179,6 @@ export type R2Objects = {
 
 export type CloudflareApiServerContext<
   TSchema = {},
-  TContext = {}
-> = ApiServerContext<Kysely<TSchema>, TContext>;
+  TContext = {},
+  TUserContext = {}
+> = ApiServerContext<Kysely<TSchema>, TContext, TUserContext>;

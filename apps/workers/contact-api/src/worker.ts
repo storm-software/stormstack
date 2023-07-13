@@ -3,8 +3,12 @@ import {
   DB,
   builder,
 } from "@open-system/contact-server-data-access";
-import { UserContext } from "@open-system/core-server-data-access";
-import { YogaServerInstance, createYoga } from "graphql-yoga";
+import { initContextCache } from "@pothos/core";
+import {
+  YogaInitialContext,
+  YogaServerInstance,
+  createYoga,
+} from "graphql-yoga";
 import { Kysely } from "kysely";
 import { D1Dialect } from "kysely-d1";
 
@@ -13,19 +17,31 @@ interface Env {
 }
 
 // Create a Yoga instance with a GraphQL schema.
-const yoga: YogaServerInstance<ContactApiServerContext, UserContext> =
+const yoga: YogaServerInstance<ContactApiServerContext, {}> =
   createYoga<ContactApiServerContext>({
     graphqlEndpoint: "graphql",
     schema: builder.toSchema(),
+    context: () => ({
+      user: {
+        id: 1,
+      },
+
+      // Adding this will prevent any issues if you server implementation
+      // copies or extends the context object before passing it to your resolvers
+      ...initContextCache(),
+    }),
   });
 
 const handler = {
-  async fetch(request: any, env: Env, ctx: any) {
+  async fetch(request: any, env: Env, ctx: YogaInitialContext) {
     try {
       // Create Kysely instance with kysely-d1
       const context = {
+        user: {
+          id: 1,
+        },
+        ...ctx,
         env,
-        ctx,
         database: new Kysely<DB>({
           dialect: new D1Dialect({ database: env.DB }),
         }),

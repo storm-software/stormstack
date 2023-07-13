@@ -4,22 +4,15 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-export type Attachment = {
-  id: string;
-  createdAt: Generated<string>;
-  updatedAt: string | null;
-  name: string;
-  path: string;
-  status: string;
-  contactId: string;
-};
 export type Contact = {
-  id: string;
+  id: Generated<number>;
   createdAt: Generated<string>;
   updatedAt: string | null;
+  createdBy: number;
+  updatedBy: number | null;
   reason: string;
   details: string | null;
-  emailId: string;
+  emailId: number;
   phoneNumber: string | null;
   firstName: string | null;
   lastName: string | null;
@@ -33,15 +26,27 @@ export type Contact = {
   companyName: string | null;
   url: string | null;
 };
-export type EmailAddress = {
-  id: string;
+export type ContactAttachment = {
+  id: Generated<number>;
   createdAt: Generated<string>;
   updatedAt: string | null;
+  createdBy: number;
+  updatedBy: number | null;
+  name: string;
+  path: string;
+  status: string;
+  contactId: number;
+};
+export type ContactEmail = {
+  id: Generated<number>;
+  createdAt: Generated<string>;
+  updatedAt: string | null;
+  createdBy: number;
+  updatedBy: number | null;
   email: string;
-  subscribed: Generated<number>;
 };
 export type DB = {
-  Attachment: Attachment;
   Contact: Contact;
-  EmailAddress: EmailAddress;
+  ContactAttachment: ContactAttachment;
+  ContactEmail: ContactEmail;
 };

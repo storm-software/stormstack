@@ -31,6 +31,10 @@ export type ContactApiBuilderOptions = {
       Input: string;
       Output: string;
     };
+    EmailAddress: {
+      Input: string;
+      Output: string;
+    };
   };
   Connection: ApiServerConnection;
 };

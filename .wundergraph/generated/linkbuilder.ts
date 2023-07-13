@@ -73,16 +73,6 @@ const targetStep = <T, F extends keyof T, R>(field: F) => ({
 });
 
 interface TargetTypes {
-	contact_Attachment:
-		| "contact"
-		| "createdAt"
-		| "emailAddress"
-		| "id"
-		| "name"
-		| "path"
-		| "status"
-		| "updatedAt"
-		| "_join";
 	contact_Contact:
 		| "addressLine1"
 		| "addressLine2"
@@ -91,6 +81,7 @@ interface TargetTypes {
 		| "companyName"
 		| "countryCode"
 		| "createdAt"
+		| "details"
 		| "emailId"
 		| "firstName"
 		| "id"
@@ -103,11 +94,22 @@ interface TargetTypes {
 		| "updatedAt"
 		| "url"
 		| "_join";
+	contact_ContactAttachment:
+		| "contact"
+		| "contactEmail"
+		| "createdAt"
+		| "id"
+		| "name"
+		| "path"
+		| "status"
+		| "updatedAt"
+		| "_join";
 	contact_ContactAttachmentsConnection: "edges" | "pageCursors" | "pageInfo" | "_join";
 	contact_ContactAttachmentsConnectionEdge: "cursor" | "node" | "_join";
-	contact_EmailAddress: "contacts" | "createdAt" | "email" | "id" | "subscribed" | "updatedAt" | "_join";
-	contact_EmailAddressContactsConnection: "edges" | "pageCursors" | "pageInfo" | "_join";
-	contact_EmailAddressContactsConnectionEdge: "cursor" | "node" | "_join";
+	contact_ContactEmail: "contacts" | "createdAt" | "email" | "id" | "updatedAt" | "_join";
+	contact_ContactEmailContactsConnection: "edges" | "pageCursors" | "pageInfo" | "_join";
+	contact_ContactEmailContactsConnectionEdge: "cursor" | "node" | "_join";
+	contact_CreateContactPayload: "clientMutationId" | "success" | "_join";
 	contact_Node: "id";
 	contact_PageCursor: "cursor" | "isCurrent" | "pageNumber" | "_join";
 	contact_PageCursors: "around" | "first" | "last" | "_join";
@@ -120,13 +122,14 @@ interface SourceFields {
 	contact_contact: {
 		id: null;
 	};
-	contact_emailAddress: {
+	contact_contactEmail: {
 		id: null;
 	};
 	contact_emailAddresses: {
 		after: null;
 		before: null;
 		first: null;
+		ids: null;
 		last: null;
 	};
 	contact_node: {

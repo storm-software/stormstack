@@ -5,12 +5,12 @@ import {
   TableModel,
   resolveWindowedConnection,
 } from "@open-system/core-server-data-access";
-import { getUniqueNumericId } from "@open-system/core-shared-utilities";
 import SchemaBuilder from "@pothos/core";
-import RelayPlugin, { encodeGlobalID } from "@pothos/plugin-relay";
+import RelayPlugin from "@pothos/plugin-relay";
 import {
   CountryCodeResolver,
   DateTimeResolver,
+  EmailAddressResolver,
   PhoneNumberResolver,
   PostalCodeResolver,
   URLResolver,
@@ -30,7 +30,7 @@ export const builder = new SchemaBuilder<ContactApiBuilderOptions>({
 
 builder.addScalarType("DateTime", DateTimeResolver, {});
 builder.addScalarType("CountryCode", CountryCodeResolver, {});
-// builder.addScalarType("EmailAddress", EmailAddressResolver, {});
+builder.addScalarType("EmailAddress", EmailAddressResolver, {});
 builder.addScalarType("PhoneNumber", PhoneNumberResolver, {});
 builder.addScalarType("PostalCode", PostalCodeResolver, {});
 builder.addScalarType("URL", URLResolver, {});
@@ -83,10 +83,10 @@ builder.globalConnectionField("pageCursors", t =>
 
 export const ContactTableModel =
   builder.objectRef<TableModel<DB, "Contact">>("Contact");
-export const AttachmentTableModel =
-  builder.objectRef<TableModel<DB, "Attachment">>("Attachment");
-export const EmailAddressTableModel =
-  builder.objectRef<TableModel<DB, "EmailAddress">>("EmailAddress");
+export const ContactAttachmentTableModel =
+  builder.objectRef<TableModel<DB, "ContactAttachment">>("ContactAttachment");
+export const ContactEmailTableModel =
+  builder.objectRef<TableModel<DB, "ContactEmail">>("ContactEmail");
 
 builder.node(ContactTableModel, {
   name: "Contact",
@@ -96,7 +96,7 @@ builder.node(ContactTableModel, {
   loadOne: async (id, context: ContactApiServerContext) => {
     const contact = await context.database
       .selectFrom("Contact")
-      .where("id", "=", id)
+      .where("id", "=", Number(id))
       .selectAll()
       .executeTakeFirstOrThrow();
 
@@ -106,7 +106,11 @@ builder.node(ContactTableModel, {
     return (
       await context.database
         .selectFrom("Contact")
-        .where("id", "in", ids)
+        .where(
+          "id",
+          "in",
+          ids.map(id => Number(id))
+        )
         .selectAll()
         .execute()
     ).map(contact => ({ ...contact, __typename: "Contact" }));
@@ -130,54 +134,60 @@ builder.node(ContactTableModel, {
     companyName: t.exposeString("companyName", { nullable: true }),
     url: t.exposeString("url", { nullable: true }),
     attachments: t.connection({
-      type: AttachmentTableModel,
+      type: ContactAttachmentTableModel,
       resolve: (contact, args, context: ContactApiServerContext) =>
         resolveWindowedConnection({ args }, async ({ limit, offset }) => {
-          const attachments = (
+          const contactAttachments = (
             await context.database
-              .selectFrom("Attachment")
+              .selectFrom("ContactAttachment")
               .selectAll()
-              .where("Attachment.contactId", "=", contact.id)
+              .where("ContactAttachment.contactId", "=", contact.id)
               .execute()
-          ).map(attachment => ({ ...attachment, __typename: "Attachment" }));
+          ).map(contactAttachment => ({
+            ...contactAttachment,
+            __typename: "ContactAttachment",
+          }));
 
           return {
-            items: attachments.slice(offset, offset + limit),
-            totalCount: attachments.length,
+            items: contactAttachments.slice(offset, offset + limit),
+            totalCount: contactAttachments.length,
           };
         }),
     }),
   }),
 });
 
-builder.node(EmailAddressTableModel, {
-  name: "EmailAddress",
+builder.node(ContactEmailTableModel, {
+  name: "ContactEmail",
   id: {
-    resolve: emailAddress => emailAddress.id,
+    resolve: contactEmail => contactEmail.id,
   },
   loadOne: async (id, context: ContactApiServerContext) => {
-    const emailAddress = await context.database
-      .selectFrom("EmailAddress")
-      .where("id", "=", id)
+    const contactEmail = await context.database
+      .selectFrom("ContactEmail")
+      .where("id", "=", Number(id))
       .selectAll()
       .executeTakeFirstOrThrow();
 
-    return { ...emailAddress, __typename: "EmailAddress" };
+    return { ...contactEmail, __typename: "ContactEmail" };
   },
   loadMany: async (ids, context: ContactApiServerContext) => {
     return (
       await context.database
-        .selectFrom("EmailAddress")
-        .where("id", "in", ids)
+        .selectFrom("ContactEmail")
+        .where(
+          "id",
+          "in",
+          ids.map(id => Number(id))
+        )
         .selectAll()
         .execute()
-    ).map(emailAddress => ({ ...emailAddress, __typename: "EmailAddress" }));
+    ).map(contactEmail => ({ ...contactEmail, __typename: "ContactEmail" }));
   },
   fields: t => ({
     createdAt: t.exposeString("createdAt", { nullable: false }),
     updatedAt: t.exposeString("updatedAt", { nullable: true }),
     email: t.exposeString("email", { nullable: false }),
-    subscribed: t.exposeInt("subscribed", { nullable: false }),
     contacts: t.connection({
       type: ContactTableModel,
       resolve: (contact, args, context: ContactApiServerContext) =>
@@ -199,7 +209,7 @@ builder.node(EmailAddressTableModel, {
   }),
 });
 
-AttachmentTableModel.implement({
+ContactAttachmentTableModel.implement({
   fields: t => ({
     id: t.exposeID("id", { nullable: false }),
     createdAt: t.exposeString("createdAt", { nullable: false }),
@@ -221,18 +231,22 @@ AttachmentTableModel.implement({
         return { ...contact, __typename: "Contact" };
       },
     }),
-    emailAddress: t.field({
-      type: EmailAddressTableModel,
+    contactEmail: t.field({
+      type: ContactEmailTableModel,
       nullable: true,
-      resolve: async (attachment, args, context: ContactApiServerContext) => {
-        const emailAddress = await context.database
-          .selectFrom("EmailAddress")
+      resolve: async (
+        contactAttachment,
+        args,
+        context: ContactApiServerContext
+      ) => {
+        const contactEmail = await context.database
+          .selectFrom("ContactEmail")
           .selectAll()
-          .leftJoin("Contact", "Contact.emailId", "EmailAddress.id")
-          .where("Contact.id", "=", attachment.contactId)
+          .leftJoin("Contact", "Contact.emailId", "ContactEmail.id")
+          .where("Contact.id", "=", contactAttachment.contactId)
           .executeTakeFirstOrThrow();
 
-        return { ...emailAddress, __typename: "EmailAddress" };
+        return { ...contactEmail, __typename: "ContactEmail" };
       },
     }),
   }),
@@ -240,8 +254,8 @@ AttachmentTableModel.implement({
 
 builder.queryType({
   fields: t => ({
-    emailAddress: t.field({
-      type: EmailAddressTableModel,
+    contactEmail: t.field({
+      type: ContactEmailTableModel,
       nullable: true,
       args: {
         id: t.arg.globalID({
@@ -249,17 +263,17 @@ builder.queryType({
         }),
       },
       resolve: async (root, args, context: ContactApiServerContext) => {
-        const emailAddress = await context.database
-          .selectFrom("EmailAddress")
-          .where("id", "=", encodeGlobalID(args.id.typename, args.id.id))
+        const contactEmail = await context.database
+          .selectFrom("ContactEmail")
+          .where("id", "=", Number(args.id.id))
           .selectAll()
           .executeTakeFirstOrThrow();
 
-        return { ...emailAddress, __typename: "EmailAddress" };
+        return { ...contactEmail, __typename: "ContactEmail" };
       },
     }),
     emailAddresses: t.connection({
-      type: EmailAddressTableModel,
+      type: ContactEmailTableModel,
       args: {
         ids: t.arg.globalIDList({
           required: true,
@@ -267,24 +281,24 @@ builder.queryType({
       },
       resolve: async (root, args, context: ContactApiServerContext) =>
         resolveWindowedConnection({ args }, async ({ limit, offset }) => {
-          const emailAddresses = (
+          const contactEmails = (
             await context.database
-              .selectFrom("EmailAddress")
+              .selectFrom("ContactEmail")
               .selectAll()
               .where(
-                "EmailAddress.id",
+                "ContactEmail.id",
                 "in",
-                args.ids.map(id => encodeGlobalID(id.typename, id.id))
+                args.ids.map(id => Number(id.id))
               )
               .execute()
-          ).map(emailAddress => ({
-            ...emailAddress,
-            __typename: "EmailAddress",
+          ).map(contactEmail => ({
+            ...contactEmail,
+            __typename: "ContactEmail",
           }));
 
           return {
-            items: emailAddresses.slice(offset, offset + limit),
-            totalCount: emailAddresses.length,
+            items: contactEmails.slice(offset, offset + limit),
+            totalCount: contactEmails.length,
           };
         }),
     }),
@@ -300,11 +314,7 @@ builder.queryType({
         const contact = await context.database
           .selectFrom("Contact")
           .selectAll()
-          .where(
-            "Contact.id",
-            "=",
-            encodeGlobalID(args.id.typename, args.id.id)
-          )
+          .where("Contact.id", "=", Number(args.id.id))
           .executeTakeFirstOrThrow();
 
         return { ...contact, __typename: "Contact" };
@@ -332,7 +342,7 @@ builder.relayMutationField(
       details: t.string({ required: false }),
       firstName: t.string({ required: false }),
       lastName: t.string({ required: false }),
-      email: t.string({ required: true }),
+      email: t.field({ type: "EmailAddress", required: true }),
       subscribed: t.boolean({ required: true }),
       phoneNumber: t.field({ type: "PhoneNumber", required: false }),
       addressLine1: t.string({ required: false }),
@@ -357,29 +367,29 @@ builder.relayMutationField(
           return { success: false };
         }
 
-        const emailAddress = {
-          id: encodeGlobalID("EmailAddress", getUniqueNumericId(4)),
+        const contactEmail = {
           createdAt: new Date().toISOString(),
+          createdBy: context.user.id,
           email: args.input.email,
-          subscribed: args.input.subscribed !== false ? 1 : 0,
         };
-        await context.database
-          .insertInto("EmailAddress")
-          .values(emailAddress)
+        const returnedEmail = await context.database
+          .insertInto("ContactEmail")
+          .values(contactEmail)
           .onConflict(oc =>
             oc.column("email").doUpdateSet({
               updatedAt: new Date().toISOString(),
-              subscribed: eb => eb.ref("excluded.subscribed"),
+              updatedBy: context.user.id,
             })
           )
-          .execute();
+          .returningAll()
+          .executeTakeFirstOrThrow();
 
         const contact = {
-          id: encodeGlobalID("Contact", getUniqueNumericId(4)),
           createdAt: new Date().toISOString(),
+          createdBy: context.user.id,
           reason: args.input.reason,
           details: args.input.details,
-          emailId: emailAddress.id,
+          emailId: returnedEmail.id,
           firstName: args.input.firstName,
           lastName: args.input.lastName,
           phoneNumber: args.input.phoneNumber,
@@ -392,12 +402,13 @@ builder.relayMutationField(
           companyName: args.input.companyName,
           url: args.input.url,
         };
-        await context.database
+        const returnedContact = await context.database
           .insertInto("Contact")
           .values(contact)
           .onConflict(oc =>
             oc.column("id").doUpdateSet({
               updatedAt: new Date().toISOString(),
+              updatedBy: context.user.id,
               reason: eb => eb.ref("excluded.reason"),
               firstName: eb => eb.ref("excluded.firstName"),
               lastName: eb => eb.ref("excluded.lastName"),
@@ -412,25 +423,28 @@ builder.relayMutationField(
               url: eb => eb.ref("excluded.url"),
             })
           )
-          .execute();
+          .returningAll()
+          .executeTakeFirstOrThrow();
 
         if (args.input.attachments && args.input.attachments.length > 0) {
           const promises = args.input.attachments.map(
             (attachmentInput: any) => {
-              const attachment = {
-                id: encodeGlobalID("Attachment", getUniqueNumericId(4)),
+              const contactAttachment = {
+                createdAt: new Date().toISOString(),
+                createdBy: context.user.id,
                 name: attachmentInput.name,
                 path: attachmentInput.path,
-                status: attachmentInput.status ?? "PENDING",
-                contactId: contact.id,
+                status: attachmentInput.status ?? "pending",
+                contactId: returnedContact.id,
               };
 
               return context.database
-                .insertInto("Attachment")
-                .values(attachment)
+                .insertInto("ContactAttachment")
+                .values(contactAttachment)
                 .onConflict(oc =>
                   oc.column("id").doUpdateSet({
                     updatedAt: new Date().toISOString(),
+                    updatedBy: context.user.id,
                     name: eb => eb.ref("excluded.name"),
                     path: eb => eb.ref("excluded.path"),
                     status: eb => eb.ref("excluded.status"),
@@ -458,7 +472,7 @@ builder.relayMutationField(
   }
 );
 
-builder.relayMutationField(
+/*builder.relayMutationField(
   "subscribeEmail",
   {
     inputFields: t => ({
@@ -523,4 +537,4 @@ builder.relayMutationField(
       }),
     }),
   }
-);
+);*/

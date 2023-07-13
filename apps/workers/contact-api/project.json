@@ -80,6 +80,16 @@
         }
       }
     },
+    "deploy-schema": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "wrangler d1 execute contact --file=./db/schema.sql"
+        ],
+        "cwd": "apps/workers/contact-api",
+        "parallel": false
+      }
+    },
     "deploy": {
       "executor": "@open-system/executors-typescript:cloudflare-worker-deploy",
       "defaultConfiguration": "production",
