@@ -1,25 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  PageCursor,
-  PageCursors,
   TableModel,
+  createSchemaBuilder,
   resolveWindowedConnection,
 } from "@open-system/core-server-data-access";
-import SchemaBuilder from "@pothos/core";
-import RelayPlugin from "@pothos/plugin-relay";
-import {
-  CountryCodeResolver,
-  DateTimeResolver,
-  EmailAddressResolver,
-  PhoneNumberResolver,
-  PostalCodeResolver,
-  URLResolver,
-  UUIDResolver,
-} from "graphql-scalars";
+import { InsertObjectOrList } from "kysely/dist/cjs/parser/insert-values-parser";
 import { DB } from "../db/types";
-import { ContactApiBuilderOptions, ContactApiServerContext } from "../types";
+import { ContactApiServerContext } from "../types";
 
-export const builder = new SchemaBuilder<ContactApiBuilderOptions>({
+/*export const builder = new SchemaBuilder<
+  ApiSchemaType<ContactApiServerContext>
+>({
   plugins: [RelayPlugin],
   relayOptions: {
     // These will become the defaults in the next major version
@@ -28,14 +19,6 @@ export const builder = new SchemaBuilder<ContactApiBuilderOptions>({
   },
 });
 
-builder.addScalarType("DateTime", DateTimeResolver, {});
-builder.addScalarType("CountryCode", CountryCodeResolver, {});
-builder.addScalarType("EmailAddress", EmailAddressResolver, {});
-builder.addScalarType("PhoneNumber", PhoneNumberResolver, {});
-builder.addScalarType("PostalCode", PostalCodeResolver, {});
-builder.addScalarType("URL", URLResolver, {});
-builder.addScalarType("UUID", UUIDResolver, {});
-
 /*builder.scalarType("DateTime", {
   serialize: (n: string) =>
     DateTime.create(n as string | bigint | Date | null | undefined).toString(),
@@ -43,7 +26,7 @@ builder.addScalarType("UUID", UUIDResolver, {});
     DateTime.create(n as string | bigint | Date | null | undefined).toString(),
 });*/
 
-builder.mutationType({});
+/*builder.mutationType({});
 
 const PageCursorRef = builder.objectRef<PageCursor>("PageCursor");
 
@@ -79,7 +62,9 @@ builder.globalConnectionField("pageCursors", t =>
     type: PageCursorsRef,
     resolve: ({ pageCursors }: any) => pageCursors,
   })
-);
+);*/
+
+export const builder = createSchemaBuilder<ContactApiServerContext>();
 
 export const ContactTableModel =
   builder.objectRef<TableModel<DB, "Contact">>("Contact");
@@ -374,7 +359,7 @@ builder.relayMutationField(
         };
         const returnedEmail = await context.database
           .insertInto("ContactEmail")
-          .values(contactEmail)
+          .values(contactEmail as InsertObjectOrList<DB, "ContactEmail">)
           .onConflict(oc =>
             oc.column("email").doUpdateSet({
               updatedAt: new Date().toISOString(),
@@ -404,7 +389,7 @@ builder.relayMutationField(
         };
         const returnedContact = await context.database
           .insertInto("Contact")
-          .values(contact)
+          .values(contact as InsertObjectOrList<DB, "Contact">)
           .onConflict(oc =>
             oc.column("id").doUpdateSet({
               updatedAt: new Date().toISOString(),

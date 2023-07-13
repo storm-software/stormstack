@@ -25,9 +25,6 @@ const yoga: YogaServerInstance<ContactApiServerContext, {}> =
       user: {
         id: 1,
       },
-
-      // Adding this will prevent any issues if you server implementation
-      // copies or extends the context object before passing it to your resolvers
       ...initContextCache(),
     }),
   });

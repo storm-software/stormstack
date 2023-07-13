@@ -88,6 +88,7 @@
   },
   "dependencies": {
     "@envelop/live-query": "^6.0.0",
+    "@envelop/sentry": "^6.0.0",
     "@heroicons/react": "^2.0.18",
     "@js-temporal/polyfill": "^0.4.4",
     "@next/bundle-analyzer": "^13.4.7",
