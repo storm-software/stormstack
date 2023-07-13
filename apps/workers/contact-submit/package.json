@@ -1,7 +1,0 @@
-{
-  "name": "@open-system/worker-contact-submit",
-  "version": "0.0.1",
-  "scripts": {
-    "build": "esbuild --bundle --out ../../../dist/workers/contact-submit/worker-contact-submit.js ./src/index.ts"
-  }
-}

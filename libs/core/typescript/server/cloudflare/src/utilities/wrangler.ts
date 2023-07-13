@@ -24,7 +24,7 @@ export async function runWranglerCommand(
       Path.join(
         workspaceRoot,
         projectConfiguration.targets.build.options.outputPath,
-        "index.js"
+        "worker.mjs"
       )
     );
   } else if (command === "dev") {
@@ -46,14 +46,13 @@ export async function runWranglerCommand(
     ""
   )} `;
 
-  ConsoleLogger.debug(nextCommand);
-  const result = await executeAsync(nextCommand, {
-    cwd: projectConfiguration.root,
-  });
-  if (result) {
+  try {
+    ConsoleLogger.debug(nextCommand);
+    await executeAsync(nextCommand);
+  } catch (e) {
     ConsoleLogger.error(
       `An error occured executing the command '${nextCommand}'. Halting execution early.`
     );
-    throw result;
+    console.error(e);
   }
 }

@@ -1,0 +1,22 @@
+name = "contact-api"
+main = "src/worker.ts"
+workers_dev = true
+
+route = "open-system.io/api/contact"
+
+compatibility_date = "2023-07-10"
+
+account_id = "03700f13b61493bbc558dc93ea4980bc"
+
+[build]
+command = "npx nx run worker-contact-api:build:production"
+cwd = "C:\\Development\\open-system"
+
+
+[[d1_databases]]
+binding = "DB"
+database_name = "contact"
+database_id = "cdc8ff5c-0a0c-44e1-ba18-017049ddb3d4"
+
+
+

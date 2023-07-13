@@ -8,6 +8,12 @@ import {
 import operations from "./wundergraph.operations";
 import server from "./wundergraph.server";
 
+const contact = introspect.graphql({
+  apiNamespace: "contact",
+  url: "https://contact-api.open-system.workers.dev/graphql",
+  subscriptionsUseSSE: true,
+});
+
 const ratings = introspect.graphql({
   apiNamespace: "ratings",
   url: "https://patsullivan.org/api/ratings",
@@ -16,7 +22,7 @@ const ratings = introspect.graphql({
 
 // configureWunderGraph emits the configuration
 configureWunderGraphApplication({
-  apis: [ratings],
+  apis: [contact, ratings],
   server,
   operations,
   generate: {

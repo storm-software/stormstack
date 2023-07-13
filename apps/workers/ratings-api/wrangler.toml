@@ -1,0 +1,15 @@
+name = "ratings-api"
+main = "src/index.ts"
+
+route = "open-system.io/api/ratings"
+
+compatibility_date = "2023-07-09"
+
+account_id = "03700f13b61493bbc558dc93ea4980bc"
+
+workers_dev = true
+
+[build]
+command = "npx nx run worker-ratings-api:build:production"
+
+

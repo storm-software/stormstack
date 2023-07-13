@@ -5,7 +5,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": ["apps/workers/contact-submit/tsconfig.*?.json"]
+        "project": ["apps/workers/contact-api/tsconfig.*?.json"]
       },
       "rules": {}
     },

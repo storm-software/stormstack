@@ -89,6 +89,12 @@
       "@open-system/core-client-form/*": [
         "libs/core/typescript/client/form/src/*"
       ],
+      "@open-system/core-client-notifications": [
+        "libs/core/typescript/client/notifications/src/index.ts"
+      ],
+      "@open-system/core-client-notifications/*": [
+        "libs/core/typescript/client/notifications/src/*"
+      ],
       "@open-system/core-client-pdf": [
         "libs/core/typescript/client/pdf/src/index.ts"
       ],
@@ -107,17 +113,17 @@
       "@open-system/core-server-cloudflare/*": [
         "libs/core/typescript/server/cloudflare/src/*"
       ],
+      "@open-system/core-server-data-access": [
+        "libs/core/typescript/server/data-access/src/index.ts"
+      ],
+      "@open-system/core-server-data-access/*": [
+        "libs/core/typescript/server/data-access/src/*"
+      ],
       "@open-system/core-server-kafka": [
         "libs/core/typescript/server/kafka/src/index.ts"
       ],
       "@open-system/core-server-kafka/*": [
         "libs/core/typescript/server/kafka/src/*"
-      ],
-      "@open-system/core-client-notifications": [
-        "libs/core/typescript/client/notifications/src/index.ts"
-      ],
-      "@open-system/core-client-notifications/*": [
-        "libs/core/typescript/client/notifications/src/*"
       ],
       "@open-system/core-server-utilities": [
         "libs/core/typescript/server/utilities/src/index.ts"

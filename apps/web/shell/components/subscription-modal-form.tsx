@@ -27,6 +27,7 @@ import {
 import clsx from "clsx";
 import { ForwardedRef, MutableRefObject, forwardRef, useCallback } from "react";
 import { subscribe } from "../actions/contact";
+import { graphql, useMutation } from "react-relay";
 
 export type SubscriptionModalFormProps = Omit<ModalProps, "title">;
 
@@ -45,6 +46,18 @@ export const SubscriptionModalForm = forwardRef<
 
       [ref]
     );
+
+    const [commit, isInFlight] = useMutation<FeedbackLikeMutation>(graphql`
+    mutation FeedbackLikeMutation($input: FeedbackLikeData!) {
+      feedback_like(data: $input) {
+        feedback {
+          id
+          viewer_does_like
+          like_count
+        }
+      }
+    }
+  `);
 
     const { add: addNotification } = useSetNotifications();
     const handleSuccess = useCallback(() => {

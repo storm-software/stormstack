@@ -5,15 +5,6 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/contact/typescript/shared/data-access/**/*.{ts,tsx,js,jsx}"
-        ]
-      }
-    },
     "build": {
       "executor": "@nx/rollup:rollup",
       "outputs": ["{options.outputPath}"],
@@ -22,7 +13,7 @@
         "tsConfig": "libs/contact/typescript/shared/data-access/tsconfig.lib.json",
         "project": "libs/contact/typescript/shared/data-access/package.json",
         "entryFile": "libs/contact/typescript/shared/data-access/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
+        "external": ["react", "react-dom"],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "swc",
         "assets": [
@@ -32,6 +23,13 @@
             "output": "."
           }
         ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/contact/typescript/shared/data-access/**/*.ts"]
       }
     },
     "test": {

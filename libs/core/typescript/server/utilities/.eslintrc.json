@@ -4,6 +4,11 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": [
+          "libs/core/typescript/server/utilities/tsconfig.*?.json"
+        ]
+      },
       "rules": {}
     },
     {

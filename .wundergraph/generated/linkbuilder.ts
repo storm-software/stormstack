@@ -73,13 +73,67 @@ const targetStep = <T, F extends keyof T, R>(field: F) => ({
 });
 
 interface TargetTypes {
-	ratings_IRating: "contentId" | "count" | "rate";
-	ratings_Rating: "contentId" | "count" | "rate" | "_join";
+	contact_Attachment:
+		| "contact"
+		| "createdAt"
+		| "emailAddress"
+		| "id"
+		| "name"
+		| "path"
+		| "status"
+		| "updatedAt"
+		| "_join";
+	contact_Contact:
+		| "addressLine1"
+		| "addressLine2"
+		| "attachments"
+		| "city"
+		| "companyName"
+		| "countryCode"
+		| "createdAt"
+		| "emailId"
+		| "firstName"
+		| "id"
+		| "lastName"
+		| "phoneNumber"
+		| "postalCode"
+		| "reason"
+		| "state"
+		| "title"
+		| "updatedAt"
+		| "url"
+		| "_join";
+	contact_ContactAttachmentsConnection: "edges" | "pageCursors" | "pageInfo" | "_join";
+	contact_ContactAttachmentsConnectionEdge: "cursor" | "node" | "_join";
+	contact_EmailAddress: "contacts" | "createdAt" | "email" | "id" | "subscribed" | "updatedAt" | "_join";
+	contact_EmailAddressContactsConnection: "edges" | "pageCursors" | "pageInfo" | "_join";
+	contact_EmailAddressContactsConnectionEdge: "cursor" | "node" | "_join";
+	contact_Node: "id";
+	contact_PageCursor: "cursor" | "isCurrent" | "pageNumber" | "_join";
+	contact_PageCursors: "around" | "first" | "last" | "_join";
+	contact_PageInfo: "endCursor" | "hasNextPage" | "hasPreviousPage" | "startCursor" | "_join";
+	contact_QueryEmailAddressesConnection: "edges" | "pageCursors" | "pageInfo" | "_join";
+	contact_QueryEmailAddressesConnectionEdge: "cursor" | "node" | "_join";
 }
 
 interface SourceFields {
-	ratings_rating: {
-		contentId: null;
+	contact_contact: {
+		id: null;
+	};
+	contact_emailAddress: {
+		id: null;
+	};
+	contact_emailAddresses: {
+		after: null;
+		before: null;
+		first: null;
+		last: null;
+	};
+	contact_node: {
+		id: null;
+	};
+	contact_nodes: {
+		ids: null;
 	};
 }
 

@@ -2,8 +2,6 @@
 
 schema {
   query: Query
-  mutation: Mutation
-  subscription: Subscription
 }
 
 """
@@ -273,30 +271,150 @@ Without authentication, the operation will return an Unauthorized error with sta
 """
 directive @requireAuthentication on QUERY | MUTATION | SUBSCRIPTION
 
-interface ratings_IRating {
-  contentId: String
-  count: Int
-  rate: Float
-}
-
-type Mutation {
-  ratings_updateRating(rate: Float): Float
-}
-
-type Query {
-  ratings_rating(contentId: String): ratings_Rating
-}
-
-type ratings_Rating implements ratings_IRating {
-  contentId: String
-  count: Int
-  rate: Float
+type contact_Attachment {
+  contact: contact_Contact
+  createdAt: String!
+  emailAddress: contact_EmailAddress
+  id: ID!
+  name: String!
+  path: String!
+  status: String!
+  updatedAt: String
   _join: Query!
 }
 
-type Subscription {
-  ratings_countdown(from: Int!): Int!
+type contact_Contact implements contact_Node {
+  addressLine1: String
+  addressLine2: String
+  attachments(after: String, before: String, first: Int, last: Int): contact_ContactAttachmentsConnection!
+  city: String
+  companyName: String
+  countryCode: String
+  createdAt: String!
+  emailId: ID!
+  firstName: String
+  id: ID!
+  lastName: String
+  phoneNumber: String
+  postalCode: String
+  reason: String!
+  state: String
+  title: String
+  updatedAt: String
+  url: String
+  _join: Query!
 }
+
+type contact_ContactAttachmentsConnection {
+  edges: [contact_ContactAttachmentsConnectionEdge]!
+  pageCursors: contact_PageCursors!
+  pageInfo: contact_PageInfo!
+  _join: Query!
+}
+
+type contact_ContactAttachmentsConnectionEdge {
+  cursor: String!
+  node: contact_Attachment!
+  _join: Query!
+}
+
+"""A country code as defined by ISO 3166-1 alpha-2"""
+scalar contact_CountryCode
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+type contact_EmailAddress implements contact_Node {
+  contacts(after: String, before: String, first: Int, last: Int): contact_EmailAddressContactsConnection!
+  createdAt: String!
+  email: String!
+  id: ID!
+  subscribed: Int!
+  updatedAt: String
+  _join: Query!
+}
+
+type contact_EmailAddressContactsConnection {
+  edges: [contact_EmailAddressContactsConnectionEdge]!
+  pageCursors: contact_PageCursors!
+  pageInfo: contact_PageInfo!
+  _join: Query!
+}
+
+type contact_EmailAddressContactsConnectionEdge {
+  cursor: String!
+  node: contact_Contact!
+  _join: Query!
+}
+
+interface contact_Node {
+  id: ID!
+}
+
+type contact_PageCursor {
+  cursor: String!
+  isCurrent: Boolean!
+  pageNumber: Int!
+  _join: Query!
+}
+
+type contact_PageCursors {
+  around: [contact_PageCursor!]!
+  first: contact_PageCursor!
+  last: contact_PageCursor!
+  _join: Query!
+}
+
+type contact_PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  _join: Query!
+}
+
+"""
+A field whose value conforms to the standard E.164 format as specified in: https://en.wikipedia.org/wiki/E.164. Basically this is +17895551234.
+"""
+scalar contact_PhoneNumber
+
+"""
+A field whose value conforms to the standard postal code formats for United States, United Kingdom, Germany, Canada, France, Italy, Australia, Netherlands, Spain, Denmark, Sweden, Belgium, India, Austria, Portugal, Switzerland or Luxembourg.
+"""
+scalar contact_PostalCode
+
+type Query {
+  contact_contact(id: ID!): contact_Contact
+  contact_emailAddress(id: ID!): contact_EmailAddress
+  contact_emailAddresses(after: String, before: String, first: Int, last: Int): contact_QueryEmailAddressesConnection!
+  contact_node(id: ID!): contact_Node
+  contact_nodes(ids: [ID!]!): [contact_Node]!
+}
+
+type contact_QueryEmailAddressesConnection {
+  edges: [contact_QueryEmailAddressesConnectionEdge]!
+  pageCursors: contact_PageCursors!
+  pageInfo: contact_PageInfo!
+  _join: Query!
+}
+
+type contact_QueryEmailAddressesConnectionEdge {
+  cursor: String!
+  node: contact_EmailAddress!
+  _join: Query!
+}
+
+"""
+A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
+"""
+scalar contact_URL
+
+"""
+A field whose value is a generic Universally Unique Identifier: https://en.wikipedia.org/wiki/Universally_unique_identifier.
+"""
+scalar UUID
 
 enum COMMON_REGEX_PATTERN {
   EMAIL

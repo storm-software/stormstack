@@ -17,6 +17,24 @@
         ]
       }
     },
+    "prisma": {
+      "command": "prisma",
+      "options": {
+        "cwd": "libs/contact/typescript/server/data-access"
+      }
+    },
+    "migrate": {
+      "command": "prisma migrate dev",
+      "options": {
+        "cwd": "libs/contact/typescript/server/data-access"
+      }
+    },
+    "generate-types": {
+      "command": "prisma generate",
+      "options": {
+        "cwd": "libs/contact/typescript/server/data-access"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

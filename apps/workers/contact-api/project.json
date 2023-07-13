@@ -1,36 +1,44 @@
 {
-  "name": "worker-contact-submit",
+  "name": "worker-contact-api",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/workers/contact-submit/src",
+  "sourceRoot": "apps/workers/contact-api/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@open-system/executors-typescript:cloudflare-worker-build",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "platform": "node",
-        "outputPath": "dist/apps/workers/contact-submit",
-        "format": ["cjs"],
-        "bundle": false,
-        "main": "apps/workers/contact-submit/src/index.ts",
-        "tsConfig": "apps/workers/contact-submit/tsconfig.json",
-        "assets": ["apps/workers/contact-submit/src/assets"],
-        "generatePackageJson": true,
-        "esbuildOptions": {
-          "sourcemap": true,
-          "outExtension": {
-            ".js": ".js"
+        "outputPath": "dist/apps/workers/contact-api",
+        "main": "apps/workers/contact-api/src/worker.ts",
+        "tsConfig": "apps/workers/contact-api/tsconfig.json",
+        "format": ["esm"],
+        "assets": [
+          {
+            "input": "./apps/workers/contact-api",
+            "glob": "**/*.toml",
+            "output": "."
           }
-        }
+        ]
       },
       "configurations": {
-        "development": {},
+        "development": {
+          "esbuildOptions": {
+            "sourcemap": true,
+            "bundle": false,
+            "outdir": "dist/apps/workers/contact-api",
+            "outExtension": {
+              ".js": ".mjs"
+            }
+          }
+        },
         "production": {
           "esbuildOptions": {
             "sourcemap": false,
+            "bundle": true,
+            "outdir": "dist/apps/workers/contact-api",
             "outExtension": {
-              ".js": ".js"
+              ".js": ".mjs"
             }
           }
         }
@@ -40,14 +48,14 @@
       "executor": "@open-system/executors-typescript:cloudflare-worker-serve",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "worker-contact-submit:serve"
+        "buildTarget": "worker-contact-api:serve"
       },
       "configurations": {
         "development": {
-          "buildTarget": "worker-contact-submit:serve:development"
+          "buildTarget": "worker-contact-api:serve:development"
         },
         "production": {
-          "buildTarget": "worker-contact-submit:serve:production"
+          "buildTarget": "worker-contact-api:serve:production"
         }
       }
     },
@@ -55,14 +63,14 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/workers/contact-submit/**/*.ts"]
+        "lintFilePatterns": ["apps/workers/contact-api/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/workers/contact-submit/jest.config.ts",
+        "jestConfig": "apps/workers/contact-api/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -75,15 +83,12 @@
     "deploy": {
       "executor": "@open-system/executors-typescript:cloudflare-worker-deploy",
       "defaultConfiguration": "production",
-      "name": "worker-contact-submit",
-      "tsconfig": "apps/workers/contact-submit/tsconfig.json",
-      "minify": true,
-      "no-bundle": false,
+      "tsconfig": "apps/workers/contact-api/tsconfig.json",
       "options": {
-        "buildTarget": "worker-contact-submit:deploy"
+        "buildTarget": "worker-contact-api:deploy"
       },
       "production": {
-        "buildTarget": "worker-contact-submit:deploy:production"
+        "buildTarget": "worker-contact-api:deploy:production"
       }
     },
     "semantic-release": {
@@ -92,7 +97,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "worker-contact-submit-v${VERSION}"
+        "tagFormat": "worker-contact-api-v${VERSION}"
       }
     }
   },

@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: "worker-contact-submit",
+  displayName: "worker-contact-api",
   preset: "../../../testing/jest.preset.js",
   transform: {
     "^.+\\.[tj]sx?$": [
@@ -9,5 +9,5 @@ export default {
     ],
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-  coverageDirectory: "../../../coverage/apps/workers/contact-submit",
+  coverageDirectory: "../../../coverage/apps/workers/contact-api",
 };

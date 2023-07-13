@@ -1,0 +1,60 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator kysely {
+  provider = "prisma-kysely"
+  output = "../src/db"
+  fileName = "types.ts"
+  enumFileName = "enums.ts"
+}
+
+model Contact {
+  id                      Int                      @default(autoincrement()) @id
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime?                @updatedAt
+  createdBy               String
+  updatedBy               String?
+  reason                  String
+  details                 String?
+  email                   ContactEmail             @relation(fields: [emailId], references: [id])
+  emailId                 Int
+  phoneNumber             String?
+  firstName               String?
+  lastName                String?
+  addressLine1            String?
+  addressLine2            String?
+  postalCode              String?
+  city                    String?
+  state                   String?
+  countryCode             String?
+  title                   String?
+  companyName             String?
+  url                     String?
+  attachments             ContactAttachment[]
+}
+
+model ContactEmail {
+  id                      Int                      @default(autoincrement()) @id
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime?                @updatedAt
+  createdBy               String
+  updatedBy               String?
+  email                   String                   @unique
+  subscribed              Boolean                  @default(true)
+  contacts                Contact[]
+}
+
+model ContactAttachment {
+  id                      Int                      @default(autoincrement()) @id
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime?                @updatedAt
+  createdBy               String
+  updatedBy               String?
+  name                    String
+  path                    String
+  status                  String
+  contact                 Contact                  @relation(fields: [contactId], references: [id])
+  contactId               Int
+}

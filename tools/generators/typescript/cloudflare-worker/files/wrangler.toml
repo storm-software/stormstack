@@ -8,6 +8,7 @@ route = "open-system.io/api<%= route %>"
 compatibility_date = "<%= compatibility_date %>"
 
 account_id = "<%= account_id %>"
+zone_id = "<%= zone_id %>"
 workers_dev = true
 
 [build]

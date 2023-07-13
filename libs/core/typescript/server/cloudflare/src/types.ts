@@ -1,4 +1,7 @@
+import { ApiServerContext } from "@open-system/core-server-data-access";
 import { Headers } from "@open-system/core-shared-utilities";
+import { Kysely } from "kysely";
+
 // import { ReadableStream } from "stream/web";
 
 export interface BaseCloudflareEnv {
@@ -173,3 +176,8 @@ export type R2Objects = {
       truncated: false;
     }
 );
+
+export type CloudflareApiServerContext<
+  TSchema = {},
+  TContext = {}
+> = ApiServerContext<Kysely<TSchema>, TContext>;

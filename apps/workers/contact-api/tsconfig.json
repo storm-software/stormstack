@@ -1,19 +1,22 @@
 {
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../dist/apps/workers/contact-submit",
-    "module": "commonjs",
+    "outDir": "../../../dist/apps/workers/contact-api",
     "target": "esnext",
     "lib": ["esnext"],
+    "allowJs": true,
+		"checkJs": true,
     "alwaysStrict": true,
     "strict": true,
     "preserveConstEnums": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "types": [
       "@cloudflare/workers-types",
       "@types/jest",
-      "@types/service-worker-mock"
     ]
   },
   "exclude": [
