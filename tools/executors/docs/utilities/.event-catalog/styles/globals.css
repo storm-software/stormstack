@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mermaid svg {
+  width: 100%;
+}
+
+.prose .event-table table {
+  width: inherit;
+  table-layout: inherit;
+  text-align: inherit;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.prose .event-table tbody td:first-child,
+.prose .event-table thead th:first-child {
+  padding-left: 20px;
+}
+
+.prose .event-table tbody td,
+event-table thead th {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.prose pre {
+  padding: 0;
+}
+
+/* For the examples component on markdown page */
+.prose .examples a {
+  text-decoration: none;
+}
+
+.prose .examples a.selected {
+  --tw-text-opacity: 1;
+  color: rgba(5, 150, 105, var(--tw-text-opacity));
+}
+
+.node-label {
+  font-size: 12px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+.react-flow__controls-no-shadow {
+  box-shadow: none !important;
+}
+
+.d2h-diff-table .d2h-code-side-line {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-template-columns: auto 1fr;
+  grid-gap: 0.6em;
+  margin-bottom: 0.05em;
+  padding-right: 4.2em;
+}
+
+.d2h-diff-table .d2h-code-line,
+.d2h-diff-table .d2h-code-line-ctn {
+  white-space: pre-wrap;
+}
+
+
+.swagger-ui .info .base-url, .swagger-ui .info .title small pre {
+  background:none;
+}
+
+.swagger-ui .wrapper {
+  padding: 0px !important;
+}
+
+.swagger-hide-title .swagger-ui .info .title {
+  display: none;
+}
+
+.eventcatalog-swagger .swagger-ui .scheme-container{
+  background: none;
+  box-shadow: none;
+  padding: 0;
+}

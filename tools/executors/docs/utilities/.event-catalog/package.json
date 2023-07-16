@@ -1,0 +1,15 @@
+{
+  "name": "@open-system/docs-event-catalog",
+  "version": "0.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "scripts:move-schema-for-download": "node scripts/move-schemas-for-download.js",
+    "generate": "node scripts/generate.js",
+    "build": "next build && next export",
+    "start": "next start",
+    "lint": "next lint"
+  }
+}

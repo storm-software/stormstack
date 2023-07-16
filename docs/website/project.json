@@ -1,14 +1,14 @@
 {
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "name": "docs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "docs-website",
   "projectType": "application",
-  "sourceRoot": "docs/src",
+  "sourceRoot": "docs/website/src",
   "targets": {
     "build": {
       "executor": "@nx-plus/docusaurus:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/docs",
+        "outputPath": "dist/docs/website",
         "verbose": false
       }
     },
@@ -24,7 +24,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "docs-v${VERSION}"
+        "tagFormat": "docs-website-v${VERSION}"
       }
     }
   },

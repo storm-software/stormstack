@@ -93,6 +93,40 @@
               "output": "."
             }
           ]
+        },
+        "event-catalog-serve": {
+          "outputPath": "dist/tools/executors/docs/event-catalog-serve",
+          "main": "tools/executors/docs/event-catalog-serve/impl.ts",
+          "deleteOutputPath": true,
+          "assets": [
+            {
+              "input": "tools/executors/docs/event-catalog-serve",
+              "glob": "schema.json",
+              "output": "."
+            },
+            {
+              "input": "tools/executors/docs/utilities",
+              "glob": ".event-catalog",
+              "output": "."
+            }
+          ]
+        },
+        "event-catalog-build": {
+          "outputPath": "dist/tools/executors/docs/event-catalog-build",
+          "main": "tools/executors/docs/event-catalog-build/impl.ts",
+          "deleteOutputPath": true,
+          "assets": [
+            {
+              "input": "tools/executors/docs/event-catalog-build",
+              "glob": "schema.json",
+              "output": "."
+            },
+            {
+              "input": "tools/executors/docs/utilities",
+              "glob": ".event-catalog",
+              "output": "."
+            }
+          ]
         }
       }
     },

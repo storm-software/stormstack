@@ -95,8 +95,9 @@
     "@nx/react": {
       "application": {
         "style": "css",
-        "unitTestRunner": "jest",
         "linter": "eslint",
+        "bundler": "webpack",
+        "unitTestRunner": "jest",
         "babel": true
       },
       "component": {
@@ -104,8 +105,8 @@
       },
       "library": {
         "style": "css",
-        "unitTestRunner": "jest",
-        "linter": "eslint"
+        "linter": "eslint",
+        "unitTestRunner": "jest"
       }
     },
     "@nx/next": {

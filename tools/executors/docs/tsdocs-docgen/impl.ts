@@ -27,7 +27,7 @@ const documentExecutor = async (
     let result;
     for (const [key, project] of Object.entries(context.workspace.projects)) {
       if (!key.endsWith("docs")) {
-        ConsoleLogger.log(`Begin documenting ${key}`);
+        ConsoleLogger.info(`Begin documenting ${key}`);
 
         const rootPath = context.root;
         const docsPath = Path.join(rootPath, "docs", "ts-docs");

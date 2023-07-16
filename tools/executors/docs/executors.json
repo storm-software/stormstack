@@ -9,6 +9,16 @@
       "implementation": "../../../dist/tools/executors/docs/tsdocs-docgen/impl",
       "schema": "../../../dist/tools/executors/docs/tsdocs-docgen/schema.json",
       "description": "Document typescript code from the extracted TSDocs comments"
+    },
+    "event-catalog-serve": {
+      "implementation": "../../../dist/tools/executors/docs/event-catalog-serve/impl",
+      "schema": "../../../dist/tools/executors/docs/event-catalog-serve/schema.json",
+      "description": "Serve the Event Catalog website"
+    },
+    "event-catalog-build": {
+      "implementation": "../../../dist/tools/executors/docs/event-catalog-build/impl",
+      "schema": "../../../dist/tools/executors/docs/event-catalog-build/schema.json",
+      "description": "Build the Event Catalog website"
     }
   }
 }

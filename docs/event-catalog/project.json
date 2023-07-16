@@ -1,0 +1,32 @@
+{
+  "name": "docs-event-catalog",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "docs/event-catalog",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@open-system/executors-docs:event-catalog-build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/docs/event-catalog"
+      }
+    },
+    "serve": {
+      "executor": "@open-system/executors-docs:event-catalog-serve",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "port": 5000
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "docs-event-catalog-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["domain:docs", "type:apps"]
+}
