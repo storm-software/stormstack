@@ -3,7 +3,6 @@ import { createLockFile, createPackageJson, getLockFileName } from "@nx/js";
 import {
   copyFile,
   copyFiles,
-  createCliOptions,
   executeAsync,
 } from "@open-system/core-server-utilities";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
@@ -26,11 +25,30 @@ export default async function (
       generateLockfile,
     } = options;
 
-    const buildTarget =
-      context.workspace.projects[context.projectName].targets.build;
+    /*const buildTarget =
+      context.workspace.projects[context.projectName].targets.build;*/
 
     if (existsSync(outputPath)) {
       result = await executeAsync(`rmdir /S /Q "${outputPath}" `);
+      if (result) {
+        ConsoleLogger.error(result);
+        return { success: false };
+      }
+    }
+
+    const distPath = Path.join(outputPath, "dist");
+    ConsoleLogger.info("Copying files to dist directory");
+    copyFiles(
+      Path.join(
+        workspaceRoot,
+        context.workspace.projects[context.projectName].sourceRoot
+      ),
+      outputPath
+    );
+
+    if (existsSync(distPath)) {
+      ConsoleLogger.info(`Removing previous dist directory - ${distPath}`);
+      result = await executeAsync(`rmdir /S /Q "${distPath}" `);
       if (result) {
         ConsoleLogger.error(result);
         return { success: false };
@@ -48,19 +66,15 @@ export default async function (
     ConsoleLogger.info("Ensuring package path exists");
     ensureDirSync(packagePath);
 
-    /*if (!existsSync(outputPath)) {
-      mkdir(outputPath);
-    }*/
-
     ConsoleLogger.info("Copying files from package path");
-    copyFiles(packagePath, outputPath);
+    copyFiles(packagePath, distPath);
     copyFile(
       Path.join(
         workspaceRoot,
         context.workspace.projects[context.projectName].sourceRoot,
         "eventcatalog.config.js"
       ),
-      Path.join(outputPath, "eventcatalog.config.js")
+      Path.join(distPath, "eventcatalog.config.js")
     );
     copyFiles(
       Path.join(
@@ -68,7 +82,7 @@ export default async function (
         context.workspace.projects[context.projectName].sourceRoot,
         "public"
       ),
-      Path.join(outputPath, "public")
+      Path.join(distPath, "public")
     );
     copyFiles(
       Path.join(
@@ -76,7 +90,7 @@ export default async function (
         context.workspace.projects[context.projectName].sourceRoot,
         "domains"
       ),
-      Path.join(outputPath, "domains")
+      Path.join(distPath, "domains")
     );
     copyFiles(
       Path.join(
@@ -84,7 +98,7 @@ export default async function (
         context.workspace.projects[context.projectName].sourceRoot,
         "events"
       ),
-      Path.join(outputPath, "events")
+      Path.join(distPath, "events")
     );
     copyFiles(
       Path.join(
@@ -92,16 +106,8 @@ export default async function (
         context.workspace.projects[context.projectName].sourceRoot,
         "services"
       ),
-      Path.join(outputPath, "services")
+      Path.join(distPath, "services")
     );
-
-    ConsoleLogger.info("Running Event Catalog Build");
-    /*await executeAsync(
-      `npx next dev ${outputPath} -p ${port} -H ${hostname ?? "localhost"} `,
-      {
-        cwd: outputPath,
-      }
-    );*/
 
     const builtPackageJson = createPackageJson(
       context.projectName,
@@ -119,19 +125,17 @@ export default async function (
     };
 
     updatePackageJson(builtPackageJson, context);
-    writeJsonFile(`${outputPath}/package.json`, builtPackageJson);
+    writeJsonFile(`${distPath}/package.json`, builtPackageJson);
 
     if (generateLockfile) {
       const lockFile = createLockFile(builtPackageJson);
-      writeFileSync(`${outputPath}/${getLockFileName()}`, lockFile, {
+      writeFileSync(`${distPath}/${getLockFileName()}`, lockFile, {
         encoding: "utf-8",
       });
     }
 
     process.env["__NEXT_REACT_ROOT"] ||= "true";
-    process.env.PROJECT_DIR = outputPath;
-
-    await moveSchemasForDownload();
+    process.env.PROJECT_DIR = distPath;
 
     const config = await import(
       Path.join(process.env.PROJECT_DIR, "eventcatalog.config.js")
@@ -154,20 +158,24 @@ export default async function (
 
     await Promise.all(plugins);
 
+    await moveSchemasForDownload();
+
+    ConsoleLogger.info("Running Event Catalog Build");
     await executeAsync(
-      `npx next build ${createCliOptions({
-        experimentalAppOnly: false,
-        debug: false,
-      })} `,
+      `cross-env PROJECT_DIR=${Path.join(
+        workspaceRoot,
+        distPath
+      )} npx next build `,
       {
-        cwd: outputPath,
+        cwd: distPath,
       }
     );
 
-    await executeAsync(`npx next export `, {
-      cwd: outputPath,
+    /*await executeAsync(`npx next export `, {
+      cwd: distPath,
     });
-    /*if (
+
+    if (
       result &&
       (!Array.isArray(result) ||
         result.length === 0 ||

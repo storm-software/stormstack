@@ -46,7 +46,9 @@ export const getAllDomainsByOwnerId = async (ownerId): Promise<Domain[]> => {
 export const getAllEventsFromDomains = (hydrate?: boolean) => {
   const domainsDir = path.join(process.env.PROJECT_DIR, "domains");
 
-  if (!fs.existsSync(domainsDir)) return [];
+  if (!fs.existsSync(domainsDir)) {
+    return [];
+  }
 
   const domains = fs.readdirSync(domainsDir);
 

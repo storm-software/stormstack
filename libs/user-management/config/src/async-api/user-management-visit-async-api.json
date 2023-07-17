@@ -1,0 +1,157 @@
+{
+  "asyncapi": "2.6.0",
+  "id": "https://user-management-visit.open-system.workers.dev",
+  "info": {
+    "title": "User Management - Visit Service",
+    "version": "1.0.0",
+    "description": "Various Open System services responsible for processing user related data\r\n### Data: \r\n* Personal Information\r\n* Account Activity\r\n* Security Settings",
+    "termsOfService": "https://patsullivan.org/terms",
+    "contact": {
+      "name": "Pat Sullivan",
+      "url": "https://patsullivan.org/contact",
+      "email": "contact@patsullivan.org"
+    },
+    "license": {
+      "name": "BSD 2-Clause License",
+      "url": "https://patsullivan.org/license"
+    }
+  },
+  "tags": [
+    {
+      "name": "user management",
+      "description": "User account specific data/actions."
+    },
+    {
+      "name": "security",
+      "description": "Data used in the security processes."
+    }
+  ],
+  "defaultContentType": "application/json",
+  "servers": {
+    "upstash": {
+      "url": "fitting-dassie-7031-us1-kafka.upstash.io:9092",
+      "description": "Upstash Kafka instance.",
+      "protocol": "kafka",
+      "security": [
+        {
+          "confluentBroker": []
+        }
+      ]
+    }
+  },
+  "channels": {
+    "UserVisited": {
+      "publish": {
+        "operationId": "open-system.user-management.visit-events",
+        "bindings": {
+          "kafka": {
+            "bindingVersion": "0.3.0",
+            "groupId": {
+              "type": "string"
+            },
+            "clientId": {
+              "type": "string"
+            }
+          }
+        },
+        "message": {
+          "$ref": "#/components/messages/visitDetails"
+        }
+      }
+    }
+  },
+  "components": {
+    "messages": {
+      "visitDetails": {
+        "title": "Visit Details",
+        "messageId": "visit-details",
+        "summary": "The details of a user's visit to a page in the application",
+        "tags": [
+          {
+            "name": "user management",
+            "description": "User account specific data/actions."
+          }
+        ],
+        "contentType": "application/json",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "example": "7e1216b7-9fc4-421d-b2da-6c111667e2fd",
+              "description": "A unique Id used to identify the the current user",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "countryCode": {
+              "type": "string",
+              "example": "US",
+              "description": "The user's current country code",
+              "minLength": 2,
+              "maxLength": 2
+            },
+            "continent": {
+              "type": "string",
+              "example": "North America",
+              "description": "The user's current continent"
+            },
+            "latitude": {
+              "type": "string",
+              "description": "The user's current latitude"
+            },
+            "longitude": {
+              "type": "string",
+              "description": "The user's current longitude"
+            },
+            "postalCode": {
+              "type": "string",
+              "example": "11205",
+              "description": "The user's current postalCode",
+              "minLength": 5,
+              "maxLength": 12
+            },
+            "city": {
+              "type": "string",
+              "example": "Albany",
+              "description": "The user's current city"
+            },
+            "state": {
+              "type": "string",
+              "example": "New York",
+              "description": "The user's current state"
+            },
+            "timezone": {
+              "type": "string",
+              "description": "The user's current timezone"
+            },
+            "ip": {
+              "type": "string",
+              "example": "198.51.100.1",
+              "description": "The user's current ip address"
+            }
+          },
+          "required": [
+            "userId"
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "confluentBroker": {
+        "type": "userPassword",
+        "x-configs": {
+          "sasl.mechanisms": "PLAIN",
+          "sasl.password": "{{CLUSTER_API_SECRET}}",
+          "sasl.username": "{{CLUSTER_API_KEY}}",
+          "security.protocol": "sasl_ssl"
+        }
+      },
+      "confluentSchemaRegistry": {
+        "type": "userPassword",
+        "x-configs": {
+          "basic.auth.user.info": "{{SCHEMA_REGISTRY_API_KEY}}:{{SCHEMA_REGISTRY_API_SECRET}}"
+        }
+      }
+    }
+  }
+}

@@ -1,8 +1,9 @@
 module.exports = {
   title: "Open System - Event Catalog",
-  tagline: "Discover, Explore and Document your Event Driven Architectures",
-  organizationName: "Open System",
-  projectName: "Event Catalog",
+  tagline: "Discover, Document, and Explore your Event Driven Architectures",
+  organizationName: "sullivanpj",
+  projectName: "open-system",
+  basePath: "/event-catalog",
   output: "export",
   editUrl:
     "https://github.com/sullivanpj/open-system/docs/event-catalog/edit/master",
@@ -17,7 +18,6 @@ module.exports = {
   },
   logo: {
     alt: "Open System Logo",
-    // found in the public dir
     src: "logo.svg",
   },
   footerLinks: [
@@ -35,13 +35,7 @@ module.exports = {
       id: "sullivanpj",
       name: "Pat Sullivan",
       avatarUrl:
-        "https://pbs.twimg.com/profile_images/1262283153563140096/DYRDqKg6_400x400.png",
-      role: "Developer",
-    },
-    {
-      id: "mSmith",
-      name: "Matthew Smith",
-      avatarUrl: "https://randomuser.me/api/portraits/lego/3.jpg",
+        "https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/circle-logo.png",
       role: "Developer",
     },
   ],
@@ -49,8 +43,13 @@ module.exports = {
     [
       "@eventcatalog/plugin-doc-generator-asyncapi",
       {
-        pathToSpec: ["asyncapi.yml"],
+        pathToSpec: [
+          "libs/user-management/config/src/async-api/user-management-visit-async-api.json",
+        ],
         versionEvents: true,
+        domainName: "User Management",
+        domainSummary:
+          "Business logic around user management and authentication processes",
       },
     ],
   ],

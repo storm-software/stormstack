@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "../../../dist/tools/executors/docs"
   },
-  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts", "**/event-catalog-package/**/*"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.js", "**/*.json"]
 }

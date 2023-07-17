@@ -3,7 +3,7 @@ name: Shipping Service
 summary: |
   Event based application that handles processing of shipments, preparing them and dispatching them.
 owners:
-    - dboyne
+    - sullivanpj
 repository:
   language: JavaScript
   url: https://github.com/boyney123/pretend-shipping-service

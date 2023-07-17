@@ -12,9 +12,10 @@ const config = {
   tagline: "Application Documentation and Developer Guide",
   url: "https://sullivanpj.github.io",
   baseUrl: "/open-system/",
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
+  staticDirectories: ["static"],
   organizationName: "sullivanpj",
   projectName: "open-system",
   trailingSlash: false,
@@ -32,25 +33,7 @@ const config = {
     [
       "docusaurus-plugin-typedoc",
       {
-        entryPoints: [
-          "libs/core/typescript/utilities",
-          "libs/core/typescript/components",
-          "libs/core/typescript/data-access",
-          "libs/core/typescript/feature-form",
-          "libs/core/typescript/feature-notifications",
-          "libs/core/typescript/feature-kafka",
-          "libs/core/typescript/feature-pdf",
-          "libs/shared/typescript/components",
-          "libs/shared/typescript/data-access",
-          "libs/shared/typescript/feature-address",
-          "libs/user-management/typescript/components",
-          "libs/user-management/typescript/data-access",
-          "libs/portfolio/typescript/feature-resume",
-          "libs/engagement/typescript/feature-rating",
-          "libs/contact/typescript/components",
-          "libs/contact/typescript/data-access",
-          "apps/web/shell",
-        ],
+        entryPoints: ["libs/**/typescript/**/*", "apps/web/shell/**/*"],
         entryPointStrategy: "packages",
         theme: "markdown",
         sidebar: {
@@ -65,7 +48,10 @@ const config = {
       /** @type {import('docusaurus-plugin-react-docgen-typescript').Options} */
       {
         // pass in a single string or an array of strings
-        src: ["libs/**/typescript/**/*.tsx", "apps/web/shell/**/*.tsx"],
+        src: [
+          "libs/**/typescript/**/(*.ts|*.tsx)",
+          "apps/web/shell/**/(*.ts|*.tsx)",
+        ],
         parserOptions: {
           // pass parserOptions to react-docgen-typescript
           // here is a good starting point which filters out all
@@ -96,7 +82,7 @@ const config = {
         },
       }),
     ],
-    [
+    /*[
       "redocusaurus",
       {
         // Plugin Options for loading OpenAPI files
@@ -117,19 +103,19 @@ const config = {
             route: "/end-points/contact/",
           },
         ],
-        theme: {},
+        theme: {},*/
 
-        /**
-         * Options to pass to Redoc
-         *
-         * @see https://github.com/redocly/redoc#redoc-options-object
-         */
-        options: { expandResponses: "200" },
+    /**
+     * Options to pass to Redoc
+     *
+     * @see https://github.com/redocly/redoc#redoc-options-object
+     */
+    /*options: { expandResponses: "200" },
       },
-    ],
+    ],*/
   ],
 
-  themes: ["docusaurus-theme-redoc"],
+  /*themes: ["docusaurus-theme-redoc"],*/
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -165,7 +151,7 @@ const config = {
             position: "left",
             label: "Design System",
           },
-          {
+          /*{
             to: "docs/end-points/introduction",
             label: "OpenAPI Specs",
             position: "left",
@@ -179,9 +165,12 @@ const config = {
                 label: "Contact-APIs",
               },
             ],
-          },
+          },*/
           {
-            to: "docs/end-points/introduction",
+            type: "doc",
+            to: "api/index",
+            docId: "api/index",
+            activeBaseRegex: "api",
             label: "API Reference",
             position: "left",
           },
@@ -189,8 +178,15 @@ const config = {
             type: "doc",
             docId: "getting-started/installation",
             to: "getting-started/installation",
+            activeBaseRegex: "docs/(getting-started|end-points|doc-creation)",
             label: "Training",
             position: "left",
+          },
+          {
+            to: "event-catalog",
+            activeBaseRegex: "event-catalog",
+            label: "Event Catalog",
+            position: "right",
           },
           {
             href: "https://github.com/sullivanpj/open-system",

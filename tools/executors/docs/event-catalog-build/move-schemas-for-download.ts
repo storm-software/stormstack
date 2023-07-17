@@ -67,7 +67,7 @@ const parseEventDirectory = (publicSchemaDir, eventsDir) => {
 };
 
 export const moveSchemasForDownload = async () => {
-  const publicDir = path.join(process.env.PROJECT_DIR, "../public");
+  const publicDir = path.join(process.env.PROJECT_DIR, "public");
   const publicSchemaDir = path.join(publicDir, "schemas");
 
   const eventsWithoutDomainsDir = path.join(process.env.PROJECT_DIR, "events");

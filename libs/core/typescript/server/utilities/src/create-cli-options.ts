@@ -9,3 +9,9 @@ export function createCliOptions(
     return arr;
   }, []);
 }
+
+export function createCliOptionsString(
+  obj: Record<string, string | number | boolean>
+): string {
+  return createCliOptions(obj).join(" ");
+}
