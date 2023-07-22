@@ -47,6 +47,7 @@ export const getRandomIntRange = (min: number, max: number): number => {
 const numberFromNumberOrNumberString = (obj: unknown): number | undefined => {
   if (typeof obj == "number") return obj;
   if (isNumberString(obj)) return Number(obj);
+  return undefined;
 };
 
 export const NumberFromString = zod.preprocess(

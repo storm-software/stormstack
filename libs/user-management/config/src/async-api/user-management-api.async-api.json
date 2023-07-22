@@ -1,8 +1,8 @@
 {
   "asyncapi": "2.6.0",
-  "id": "https://user-management-api.open-system.workers.dev",
+  "id": "https://user-management-visit.open-system.workers.dev",
   "info": {
-    "title": "User Management - API Service",
+    "title": "User Management - Visit Service",
     "version": "1.0.0",
     "description": "Various Open System services responsible for processing user related data\r\n### Data: \r\n* Personal Information\r\n* Account Activity\r\n* Security Settings",
     "termsOfService": "https://patsullivan.org/terms",
@@ -18,7 +18,7 @@
   },
   "tags": [
     {
-      "name": "user-management",
+      "name": "user management",
       "description": "User account specific data/actions."
     },
     {
@@ -32,16 +32,6 @@
       "url": "fitting-dassie-7031-us1-kafka.upstash.io:9092",
       "description": "Kafka Bootstrap Server",
       "protocol": "kafka",
-      "protocolVersion": "1.0.0",
-      "tags": [
-        {
-          "name": "kafka",
-          "description": "A server using Kafka to send and/or receive messages."
-        },       {
-          "name": "upstash",
-          "description": "A serverless Kafka provider."
-        }
-      ],
       "security": [
         {
           "confluentBroker": []
@@ -52,15 +42,6 @@
       "url": "https://user-management-api.open-system.workers.dev",
       "description": "User Management API Server",
       "protocol": "kafka",
-      "tags": [
-        {
-          "name": "kafka",
-          "description": "A server using Kafka to send and/or receive messages."
-        },       {
-          "name": "cloudflare",
-          "description": "A serverless provider of functional worker services."
-        }
-      ],
       "security": [
         {
           "confluentBroker": []
@@ -69,11 +50,9 @@
     }
   },
   "channels": {
-    "open-system.user-management.user-visited": {
-      "description": "A channel used to exchange messages about user visits to the application",
+    "UserVisited": {
       "publish": {
-        "summary": "Produce event data when a user visits to the application",
-        "operationId": "ProduceUserVisited",
+        "operationId": "open-system.user-management.visit-events",
         "bindings": {
           "kafka": {
             "bindingVersion": "0.3.0",
@@ -86,64 +65,28 @@
           }
         },
         "message": {
-          "messageId": "ProduceUserVisitedData",
-          "$ref": "#/components/messages/userVisitedData"
+          "$ref": "#/components/messages/visitDetails"
         }
-      },
-      "subscribe": {
-        "summary": "Consume event data when a user visits to the application",
-        "operationId": "ConsumeUserVisited",
-        "bindings": {
-          "kafka": {
-            "bindingVersion": "0.3.0",
-            "groupId": {
-              "type": "string"
-            },
-            "clientId": {
-              "type": "string"
-            }
-          }
-        },
-        "message": {
-          "messageId": "ConsumeUserVisitedData",
-          "$ref": "#/components/messages/userVisitedData"
-        }
-      },
-      "servers": [
-        "message-broker",
-        "user-management-api"
-      ]
+      }
     }
   },
   "components": {
     "messages": {
-      "userVisitedData": {
-        "title": "User Visited Data",
-        "description": "Event details describing a user's visit to the application",
+      "visitDetails": {
+        "title": "Visit Details",
+        "messageId": "visit-details",
+        "summary": "The details of a user's visit to a page in the application",
         "tags": [
           {
-            "name": "user-management",
+            "name": "user management",
             "description": "User account specific data/actions."
           }
         ],
         "contentType": "application/json",
-        "headers": {
-          "type": "object",
-          "properties": {
-            "correlationId": {
-              "description": "Correlation ID set by application",
-              "type": "string"
-            },
-            "applicationInstanceId": {
-              "description": "Unique identifier for a given instance of the publishing application",
-              "type": "string"
-            }
-          }
-        },
         "payload": {
           "type": "object",
           "properties": {
-            "id": {
+            "userId": {
               "type": "string",
               "example": "7e1216b7-9fc4-421d-b2da-6c111667e2fd",
               "description": "A unique Id used to identify the the current user",
@@ -198,7 +141,7 @@
             }
           },
           "required": [
-            "id"
+            "userId"
           ]
         }
       }

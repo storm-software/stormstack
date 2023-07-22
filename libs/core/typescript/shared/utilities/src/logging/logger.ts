@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseUtilityClass } from "../common";
+import { LOGGER_SYMBOL } from "../types";
 
 export abstract class Logger extends BaseUtilityClass {
   constructor() {

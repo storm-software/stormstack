@@ -12,7 +12,7 @@ import { UserTypes } from "@open-system/user-management-shared-data-access";
  */
 export class UserAccountAggregate extends AggregateRoot {
   public userVisit = () => {
-    this.emit(new UserAccountVisitedApplicationEvent());
+    // this.emit(new UserAccountVisitedApplicationEvent());
   };
 
   public constructor(
