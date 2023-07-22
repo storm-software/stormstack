@@ -16,6 +16,8 @@ export const Tokens = {
   COOKIE_PARSER: Symbol.for("OS_COOKIE_PARSER_SYMBOL"),
 };
 
+export const LOGGER_SYMBOL = Symbol.for("OS_LOGGER_SYMBOL");
+
 /**
  * The valid types of the index for an `Indexable` type object
  */
@@ -65,7 +67,7 @@ export interface ILogger {
   debug: (...message: any[]) => any;
 }
 
-export interface ICustomUtilityClass {
+export interface IBaseUtilityClass {
   /**
    * The object instance Id
    */
@@ -105,7 +107,7 @@ export interface AbortError extends IError {
 export type IResult<
   TError extends IError | null = null,
   TData = unknown
-> = ICustomUtilityClass & {
+> = IBaseUtilityClass & {
   /**
    * The source of the error
    */
@@ -162,6 +164,14 @@ export enum ResultSourceTypes {
   VALIDATION = 4,
   ABORTED = 5,
 }
+
+export type ReducerFunction<TState, TAction> = (
+  state: TState,
+  action: TAction
+) => TState;
+
+export type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
 export interface SelectOption {
   /**
@@ -226,7 +236,7 @@ export const enum DateTimeFormatTemplates {
 /**
  * Wrap the `Temporal.Instant` object so we can re-use it in other places
  */
-export interface IDateTime extends Temporal.Instant, ICustomUtilityClass {}
+export interface IDateTime extends Temporal.Instant, IBaseUtilityClass {}
 
 /**
  * Represents an HTTP method.
@@ -506,4 +516,12 @@ export interface PaginatedServerResult<TData = Record<string, any>>
    * @returns Whether or not this is the last page of results.
    */
   isLast: boolean;
+}
+
+export interface IIdentity<T = string> {
+  id: T;
+}
+
+export interface IVersioned {
+  version: number;
 }

@@ -1,4 +1,4 @@
-import { CustomUtilityClass } from "@open-system/core-shared-utilities";
+import { BaseUtilityClass } from "@open-system/core-shared-utilities";
 import { RefObject } from "react";
 import { FieldProxyConfig } from "../types";
 
@@ -10,7 +10,7 @@ export const FIELD_PROXY_SYMBOL = Symbol.for("FIELD_PROXY_SYMBOL");
 export class FieldProxy<
   TValue = any,
   TRef extends HTMLInputElement = HTMLInputElement
-> extends CustomUtilityClass {
+> extends BaseUtilityClass {
   public static create(config: FieldProxyConfig): FieldProxy {
     return new FieldProxy(
       config?.ref,

@@ -44,7 +44,7 @@ module.exports = {
       "@eventcatalog/plugin-doc-generator-asyncapi",
       {
         pathToSpec: [
-          "libs/user-management/config/src/async-api/user-management-visit-async-api.json",
+          "libs/user-management/config/src/async-api/user-management-api.async-api.json",
         ],
         versionEvents: true,
         domainName: "User Management",

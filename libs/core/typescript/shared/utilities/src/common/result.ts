@@ -6,7 +6,7 @@ import {
   ResultSourceTypes,
   Tokens,
 } from "../types";
-import { CustomUtilityClass } from "./custom-utility-class";
+import { BaseUtilityClass } from "./base-utility-class";
 import { DateTime } from "./date-time";
 import { isError, isObject } from "./type-checks";
 
@@ -14,7 +14,7 @@ import { isError, isObject } from "./type-checks";
  * An object to contain generic data describing the result of a FXL or external process
  */
 export class Result<TError extends IError | null = any, TData = unknown>
-  extends CustomUtilityClass
+  extends BaseUtilityClass
   implements IResult<TError, TData>
 {
   /**

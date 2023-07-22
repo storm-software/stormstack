@@ -1,3 +1,4 @@
+import zod from "zod";
 import { isEmpty } from "./type-checks";
 
 /**
@@ -27,7 +28,8 @@ export const parseInteger = (
   }
 };
 
-export const getRandomInt = (max: number): number => Math.floor(Math.random() * max);
+export const getRandomInt = (max: number): number =>
+  Math.floor(Math.random() * max);
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
@@ -40,5 +42,17 @@ export const getRandomIntRange = (min: number, max: number): number => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
+const numberFromNumberOrNumberString = (obj: unknown): number | undefined => {
+  if (typeof obj == "number") return obj;
+  if (isNumberString(obj)) return Number(obj);
+};
+
+export const NumberFromString = zod.preprocess(
+  numberFromNumberOrNumberString,
+  zod.number().min(1)
+);
+
+export const isNumberString = (obj: unknown) =>
+  zod.string().regex(/^\d+$/).safeParse(obj).success;

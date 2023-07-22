@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { atomWithWebStorage } from "@open-system/core-client-data-access";
 import { DateTime } from "@open-system/core-shared-utilities";
+import { UserTypes } from "@open-system/user-management-shared-data-access";
 import { Getter, Setter, atom } from "jotai";
-
-export type UserTypes = "internal" | "external" | "guest";
-export const UserTypes = {
-  INTERNAL: "internal" as UserTypes,
-  EXTERNAL: "external" as UserTypes,
-  GUEST: "guest" as UserTypes,
-};
 
 export const userNameAtom = atomWithWebStorage<string>("user-name", "Guest");
 

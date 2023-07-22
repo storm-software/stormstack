@@ -12,6 +12,13 @@ import {
 import { Kysely } from "kysely";
 import { D1Dialect } from "kysely-d1";
 
+declare global {
+  namespace GraphQLModules {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface GlobalContext extends ContactApiServerContext {}
+  }
+}
+
 interface Env {
   DB: any;
 }

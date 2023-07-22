@@ -16,4 +16,7 @@ export class BaseError extends Error implements IError {
 
     this.extendedMessage ??= message;
   }
+
+  public isSameError = (other: unknown): boolean =>
+    this.name === (other as BaseError)?.name;
 }

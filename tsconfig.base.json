@@ -113,17 +113,23 @@
       "@open-system/core-server-cloudflare/*": [
         "libs/core/typescript/server/cloudflare/src/*"
       ],
-      "@open-system/core-server-data-access": [
-        "libs/core/typescript/server/data-access/src/index.ts"
+      "@open-system/core-server-graphql": [
+        "libs/core/typescript/server/core-server-graphql/src/index.ts"
       ],
-      "@open-system/core-server-data-access/*": [
-        "libs/core/typescript/server/data-access/src/*"
+      "@open-system/core-server-graphql/*": [
+        "libs/core/typescript/server/graphql/src/*"
       ],
       "@open-system/core-server-kafka": [
         "libs/core/typescript/server/kafka/src/index.ts"
       ],
       "@open-system/core-server-kafka/*": [
         "libs/core/typescript/server/kafka/src/*"
+      ],
+      "@open-system/core-server-services": [
+        "libs/core/typescript/server/services/src/index.ts"
+      ],
+      "@open-system/core-server-services/*": [
+        "libs/core/typescript/server/services/src/*"
       ],
       "@open-system/core-server-utilities": [
         "libs/core/typescript/server/utilities/src/index.ts"
@@ -208,6 +214,18 @@
       ],
       "@open-system/user-management-server-data-access/*": [
         "libs/user-management/typescript/server/data-access/src/*"
+      ],
+      "@open-system/user-management-server-user-account": [
+        "libs/user-management/typescript/server/user-account/src/index.ts"
+      ],
+      "@open-system/user-management-server-user-account/*": [
+        "libs/user-management/typescript/server/user-account/src/*"
+      ],
+      "@open-system/user-management-shared-data-access": [
+        "libs/user-management/typescript/shared/data-access/src/index.ts"
+      ],
+      "@open-system/user-management-shared-data-access/*": [
+        "libs/user-management/typescript/shared/data-access/src/*"
       ]
     }
   },

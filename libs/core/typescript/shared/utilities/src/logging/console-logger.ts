@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { ILogger } from "../types";
+import { Logger } from "./logger";
 import {
   endGroup,
   printError,
@@ -9,7 +9,7 @@ import {
   startGroup,
 } from "./print";
 
-export class ConsoleLogger implements ILogger {
+export class ConsoleLogger extends Logger {
   /**
    * It takes a string as an argument and prints it to the console.
    * @param {string} message - The message to be printed.

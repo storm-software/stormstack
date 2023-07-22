@@ -87,6 +87,7 @@
     "eagerEsModules": true
   },
   "dependencies": {
+    "@envelop/graphql-modules": "^5.0.0",
     "@envelop/live-query": "^6.0.0",
     "@envelop/sentry": "^6.0.0",
     "@heroicons/react": "^2.0.18",
@@ -104,6 +105,7 @@
     "dotenv": "^16.0.3",
     "file-selector": "^0.6.0",
     "graphql": "^16.7.1",
+    "graphql-modules": "^2.1.2",
     "graphql-scalars": "^1.22.2",
     "graphql-sse": "^2.2.0",
     "graphql-yoga": "^4.0.3",
@@ -127,7 +129,8 @@
     "relay-runtime": "^15.0.0",
     "rimraf": "^5.0.0",
     "schema-dts": "^1.1.2",
-    "tslib": "^2.5.2"
+    "tslib": "^2.5.2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@asyncapi/generator": "^1.9.18",
@@ -283,7 +286,7 @@
     "ts-node": "^10.9.1",
     "typedoc": "^0.24.8",
     "typedoc-plugin-markdown": "^3.15.3",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.0-beta",
     "url-loader": "^4.1.1",
     "url-parse": "^1.5.10",
     "webpack": "^5.81.0",

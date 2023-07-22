@@ -1,5 +1,5 @@
+export * from "./base-utility-class";
 export * from "./boolean-fns";
-export * from "./custom-utility-class";
 export * from "./date-fns";
 export * from "./date-time";
 export * from "./env-fns";

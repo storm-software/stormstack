@@ -7,6 +7,7 @@ import {
   isSymbol as isSymbolExternal,
 } from "radash";
 import { MutableRefObject } from "react";
+import zod from "zod";
 import { SelectOption } from "../types";
 
 /**
@@ -299,8 +300,8 @@ export const isError = (obj: unknown): obj is Error => {
 
   const tag = getTag(obj);
   return (
-    tag == "[object Error]" ||
-    tag == "[object DOMException]" ||
+    tag === "[object Error]" ||
+    tag === "[object DOMException]" ||
     (typeof (obj as Error)?.message === "string" &&
       typeof (obj as Error)?.name === "string" &&
       !isPlainObject(obj))
@@ -350,4 +351,12 @@ export const isStringSet = (obj: unknown): obj is NonNullable<string> => {
   } catch (e) {
     return false;
   }
+};
+
+// treat an empty string (`''`) as undefined
+const emptyString = <T extends zod.ZodType>(input: T) => {
+  return zod.preprocess((value: unknown) => {
+    if (value === "") return undefined;
+    return value;
+  }, input);
 };
