@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "autoApprove": false,
+  "automerge": false,
+  "packageRules": [
+    {
+      "matchPackageNames": ["@nx"],
+      "postUpgradeTasks": {
+        "commands": [
+          "npx nx migrate latest --run-migrations --create-commits --commit-message='chore(repo): update @nx dependencies'",
+        ]
+      }
+    }
+  ]
+}

@@ -112,6 +112,7 @@
     "helios-opentelemetry-sdk": "^1.0.75",
     "jotai": "^2.1.0",
     "jotai-molecules": "^1.1.1",
+    "kafkajs": "^2.2.4",
     "kysely": "^0.26.0",
     "kysely-d1": "^0.3.0",
     "lottie-web": "^5.12.0",
@@ -133,11 +134,11 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@asyncapi/generator": "^1.9.18",
+    "@asyncapi/generator": "^1.10.10",
     "@asyncapi/generator-filters": "^2.1.0",
     "@asyncapi/generator-react-sdk": "^0.2.25",
-    "@asyncapi/modelina": "^1.4.0",
-    "@asyncapi/parser": "^2.0.0",
+    "@asyncapi/modelina": "^1.8.6",
+    "@asyncapi/parser": "^2.0.3",
     "@babel/core": "7.22.5",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-react": "^7.14.5",
