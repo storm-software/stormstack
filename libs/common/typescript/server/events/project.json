@@ -1,0 +1,60 @@
+{
+  "name": "common-server-events",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/common/typescript/server/events/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/common/typescript/server/events",
+        "tsConfig": "libs/common/typescript/server/events/tsconfig.lib.json",
+        "packageJson": "libs/common/typescript/server/events/package.json",
+        "main": "libs/common/typescript/server/events/src/index.ts",
+        "assets": ["libs/common/typescript/server/events/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/common/typescript/server/events/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/common/typescript/server/events/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "common-server-events-v${VERSION}"
+      }
+    },
+    "generate": {
+      "executor": "@open-system/executors-typescript:event-library",
+      "outputs": ["dist/libs/common/typescript/server/events"],
+      "options": {
+        "outputPath": "",
+        "templateName": "Kafka-TypeScript"
+      }
+    }
+  },
+  "tags": []
+}
