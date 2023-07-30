@@ -1,5 +1,10 @@
 {
   "executors": {
+    "event-library": {
+      "implementation": "../../../dist/tools/executors/typescript/event-library/impl",
+      "schema": "../../../dist/tools/executors/typescript/event-library/schema.json",
+      "description": "Generates the Event library to be used by all applications in the system based on an AsyncApi spec."
+    },
     "client-api-sync": {
       "implementation": "../../../dist/tools/executors/typescript/client-api-sync/impl",
       "schema": "../../../dist/tools/executors/typescript/client-api-sync/schema.json",

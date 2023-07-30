@@ -138,7 +138,7 @@
 
 * **engagement-ui-feat-like:** Added optimistic update for like action ([d1ced25](https://github.com/sullivanpj/open-system/commit/d1ced25d6af8505e64754c09b453d87facf69456))
 * **shared-ui-feat-layout:** Updated footer design ([bddb0c7](https://github.com/sullivanpj/open-system/commit/bddb0c7934be06a2120f18af15a1055aa75e2d8c))
-* **tools-asyncapi-rabbitmq:** Cleaned up the Async-Api folder structure ([a010cce](https://github.com/sullivanpj/open-system/commit/a010ccea977f72d26c5b6cab0b6df3d942e99bab))
+* **tools-async-api-rabbitmq:** Cleaned up the Async-Api folder structure ([a010cce](https://github.com/sullivanpj/open-system/commit/a010ccea977f72d26c5b6cab0b6df3d942e99bab))
 * **tools-executors-typescript:** Resolved build issues with tools projects ([b1bd88c](https://github.com/sullivanpj/open-system/commit/b1bd88c287be805384aaf0bae5346a8fa9723ab9))
 * **web-shell:** Improved the introduction sections desktop display ([4fc305c](https://github.com/sullivanpj/open-system/commit/4fc305c59ff29e166f5827888a575859185b2c76))
 * **web-shell:** Resolved major issues with next js app loading ([d6937ad](https://github.com/sullivanpj/open-system/commit/d6937ad78268fecf3c7e7fbd59d23fe76fa94db5))
@@ -159,7 +159,7 @@
 * **engagement-ui-data-access:** Added code to handle reactions gets and updates ([197f821](https://github.com/sullivanpj/open-system/commit/197f821bfa12c13901ac32d5500f3c80d6e79e05))
 * **shared-ui-data-access:** Added shared data access library for user data ([1da2397](https://github.com/sullivanpj/open-system/commit/1da23973eeb7c701a66e2d1529a39df09ecfaf91))
 * **shared-ui-feat-layout:** Re-organized the folder structure of ui libraries ([a812c41](https://github.com/sullivanpj/open-system/commit/a812c41d75064d513420d6d4686966675f1e21f9))
-* **tools-asyncapi-rabbitmq:** Added .NET RabbitMQ generator core functionality ([31364fd](https://github.com/sullivanpj/open-system/commit/31364fdb71e6970f79d22b2c1fe294d5e04ccbb6))
+* **tools-async-api-rabbitmq:** Added .NET RabbitMQ generator core functionality ([31364fd](https://github.com/sullivanpj/open-system/commit/31364fdb71e6970f79d22b2c1fe294d5e04ccbb6))
 * **web-shell:** Added Introduction section ([4cd46f4](https://github.com/sullivanpj/open-system/commit/4cd46f43de31e28ee4e1046a1402c31e0738fb9c))
 * **web-shell:** Added introduction section to the landing page ([8edf186](https://github.com/sullivanpj/open-system/commit/8edf186783703d0729362a00c3d7787ae633f2a0))
 * **web-shell:** Enhanements to web application ([0ba6cde](https://github.com/sullivanpj/open-system/commit/0ba6cded9f7f5aea8fb205c3fdbd9a9d9daba9b4))

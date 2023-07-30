@@ -16,15 +16,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "paths": {
-      "@open-system/core-shared-utilities": [
-        "libs/core/typescript/shared/utilities/src/index.ts"
-      ],
-      "@open-system/core-shared-utilities/*": [
-        "libs/core/typescript/shared/utilities/src/*"
-      ],
-    }
+    "resolveJsonModule": true
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }

@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.tools.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "outDir": "../../../dist/tools/async-api/kafka",
+    "module": "commonjs",
+    "target": "es5",
+    "types": ["node"],
+    "declarationMap": false,
+    "declaration": false,
+    "importHelpers": false,
+    "noImplicitAny": false
+  },
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+}

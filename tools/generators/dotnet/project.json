@@ -149,6 +149,6 @@
   "implicitDependencies": [
     "core-shared-utilities",
     "core-server-utilities",
-    "tools-asyncapi-rabbitmq"
+    "tools-async-api-rabbitmq"
   ]
 }

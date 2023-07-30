@@ -148,6 +148,18 @@
               "output": "."
             }
           ]
+        },
+        "event-library": {
+          "outputPath": "dist/tools/executors/typescript/event-library",
+          "main": "tools/executors/typescript/event-library/impl.ts",
+          "deleteOutputPath": true,
+          "assets": [
+            {
+              "input": "tools/executors/typescript/event-library",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
         }
       }
     },
@@ -165,6 +177,7 @@
   "implicitDependencies": [
     "core-shared-utilities",
     "core-server-utilities",
-    "core-server-cloudflare"
+    "core-server-cloudflare",
+    "tools-async-api-kafka"
   ]
 }

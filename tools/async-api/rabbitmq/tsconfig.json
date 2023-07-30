@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.tools.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "outDir": "../../../dist/out-tsc",
+    "strict": false,
+    "declarationMap": false,
+    "forceConsistentCasingInFileNames": false,
+    "noImplicitAny": false,
+    "types": ["node"]
+  },
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+}

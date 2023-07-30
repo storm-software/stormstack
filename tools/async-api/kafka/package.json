@@ -1,0 +1,60 @@
+{
+  "name": "@open-system/tools-async-api-kafka",
+  "version": "0.0.1",
+  "description": "A template package for Async-API Kafka TypeScript code generation from the Open-System repository.",
+  "scripts": {
+    "get-version": "echo $npm_package_version",
+    "gen-readme-toc": "markdown-toc -i README.md",
+    "lint": "eslint --max-warnings 0 --fix --config .eslint.json .",
+    "generate:assets": "",
+    "generate:examples": "",
+    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
+  },
+  "dependencies": {
+    "@asyncapi/generator-filters": "^2.1.0",
+    "@asyncapi/generator-react-sdk": "^0.2.23",
+    "@asyncapi/parser": "^2.0.0",
+    "yaml": "^2.0.0"
+  },
+  "generator": {
+    "renderer": "react",
+    "generator": ">=1.8.0",
+    "parameters": {
+      "supportedProtocols": [
+        "kafka"
+      ],
+      "outputPath": {
+        "type": "string",
+        "description": "Path to the directory where the files will be generated"
+      },
+      "pdf": {
+        "type": "boolean",
+        "description": "Set to `true` to get index.pdf generated next to your index.html",
+        "default": false
+      },
+      "png": {
+        "type": "boolean",
+        "description": "Set to `true` to get index.png generated next to your index.html",
+        "default": false
+      },
+      "svg": {
+        "type": "boolean",
+        "description": "Set to `true` to get index.svg generated next to your index.html",
+        "default": false
+      },
+      "maxTextSize": {
+        "type": "integer",
+        "description": "It is possible that in case of an extremely large Async-API document default mermaid recommended text size will not be enough. Then you need to explicitly make it larger",
+        "default": 50000
+      },
+      "server": {
+        "type": "string",
+        "description": "The bootstrap server host address",
+        "default": "message-broker"
+      }
+    },
+    "filters": [
+      "@asyncapi/generator-filters"
+    ]
+  }
+}
