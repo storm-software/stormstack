@@ -20,7 +20,6 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "paths": {
-      "@open-system/asyncapi-rabbitmq": ["tools/asyncapi/rabbitmq/index.ts"],
       "@open-system/common-client-address": [
         "libs/common/typescript/client/address/src/index.ts"
       ],
@@ -40,6 +39,12 @@
         "libs/common/typescript/client/data-access/src/*"
       ],
       "@open-system/common-config": ["libs/common/config/src/index.ts"],
+      "@open-system/common-server-events": [
+        "libs/common/typescript/server/events/src/index.ts"
+      ],
+      "@open-system/common-server-events/*": [
+        "libs/common/typescript/server/events/src/*"
+      ],
       "@open-system/common-shared-data-access": [
         "libs/common/typescript/shared/data-access/src/index.ts"
       ],
@@ -114,7 +119,7 @@
         "libs/core/typescript/server/cloudflare/src/*"
       ],
       "@open-system/core-server-graphql": [
-        "libs/core/typescript/server/core-server-graphql/src/index.ts"
+        "libs/core/typescript/server/graphql/src/index.ts"
       ],
       "@open-system/core-server-graphql/*": [
         "libs/core/typescript/server/graphql/src/*"
@@ -124,6 +129,12 @@
       ],
       "@open-system/core-server-kafka/*": [
         "libs/core/typescript/server/kafka/src/*"
+      ],
+      "@open-system/core-server-pino-logger": [
+        "libs/core/typescript/server/pino-logger/src/index.ts"
+      ],
+      "@open-system/core-server-pino-logger/*": [
+        "libs/core/typescript/server/pino-logger/src/*"
       ],
       "@open-system/core-server-services": [
         "libs/core/typescript/server/services/src/index.ts"
@@ -193,6 +204,12 @@
       ],
       "@open-system/portfolio-client-resume/*": [
         "libs/portfolio/typescript/client/resume/src/*"
+      ],
+      "@open-system/tools-async-api-kafka": [
+        "dist/tools/async-api/kafka/index.ts"
+      ],
+      "@open-system/tools-async-api-rabbitmq": [
+        "dist/tools/async-api/rabbitmq/index.ts"
       ],
       "@open-system/user-management-client-components": [
         "libs/user-management/typescript/client/components/src/index.ts"

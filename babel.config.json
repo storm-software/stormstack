@@ -7,7 +7,8 @@
     ".",
 
     // Also consider monorepo packages "root" and load their .babelrc.json files.
-    "./libs/*"
+    "./libs/*",
+    "./tools/*"
   ],
   // @see https://babeljs.io/docs/en/options#presets
   "presets": [
@@ -73,6 +74,12 @@
         "version": "3.22.7"
       }
     ],
-    "relay"
+    [
+      "relay",
+      {
+        "artifactDirectory": "./apps/web/shell/__generated__/relay",
+        "extensions": ["ts", "tsx"]
+      }
+    ]
   ]
 }

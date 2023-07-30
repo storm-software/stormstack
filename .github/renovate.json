@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:base",
+    "schedule:weekly"
   ],
   "autoApprove": false,
   "automerge": false,
@@ -13,6 +14,15 @@
           "npx nx migrate latest --run-migrations --create-commits --commit-message='chore(repo): update @nx dependencies'",
         ]
       }
+    },
+    {
+      "groupName": "dependencies-non-major",
+      "matchUpdateTypes": [
+        "digest",
+        "minor",
+        "patch",
+        "pin"
+      ]
     }
   ]
 }

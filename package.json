@@ -5,7 +5,6 @@
   "version": "0.0.0",
   "license": "BSD 2-Clause \"Simplified\" License",
   "description": "🧪 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries 🧪",
-  "author": "Pat Sullivan <Patrick.Joseph.Sullivan@ProtonMail.com>",
   "homepage": "https://sullivanpj.github.io/open-system/",
   "repository": {
     "type": "github",
@@ -13,6 +12,11 @@
   },
   "bugs": {
     "url": "https://github.com/sullivanpj/open-system/issues"
+  },
+  "author": {
+    "email": "contact@patsullivan.org",
+    "name": "Pat Sullivan",
+    "url": "https://patsullivan.org"
   },
   "keywords": [
     "pat",
@@ -66,6 +70,7 @@
     "relay": "relay-compiler --watch",
     "wundergraph": "wunderctl up --debug",
     "add:contributors": "all-contributors add",
+    "generate:graphql": "graphql-codegen --config graphql-codegen.ts",
     "generate:contributors": "all-contributors generate",
     "add:decisions": "npx log4brains adr new",
     "preview:decisions": "npx log4brains preview"
@@ -90,6 +95,7 @@
     "@envelop/graphql-modules": "^5.0.0",
     "@envelop/live-query": "^6.0.0",
     "@envelop/sentry": "^6.0.0",
+    "@graphql-yoga/plugin-response-cache": "^2.1.0",
     "@heroicons/react": "^2.0.18",
     "@js-temporal/polyfill": "^0.4.4",
     "@next/bundle-analyzer": "^13.4.7",
@@ -117,6 +123,7 @@
     "kysely-d1": "^0.3.0",
     "lottie-web": "^5.12.0",
     "next": "^13.4.4",
+    "pino": "^8.14.2",
     "radash": "^11.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -152,6 +159,10 @@
     "@eventcatalog/core": "^0.6.12",
     "@eventcatalog/plugin-doc-generator-asyncapi": "^0.3.5",
     "@eventcatalog/types": "^0.4.2",
+    "@graphql-codegen/cli": "^4.0.1",
+    "@graphql-codegen/graphql-modules-preset": "^4.0.1",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@hookform/devtools": "^4.3.1",
     "@mdx-js/react": "1.6.22",
     "@nx-dotnet/core": "^1.22.0",
