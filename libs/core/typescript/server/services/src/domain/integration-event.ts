@@ -2,21 +2,39 @@
 import { BaseUtilityClass } from "@open-system/core-shared-utilities";
 import { IIntegrationEvent, INTEGRATION_EVENT_TOKEN } from "./types";
 
-export abstract class IntegrationEvent<TData = Record<string, any>>
+export abstract class IntegrationEvent
   extends BaseUtilityClass
-  implements IIntegrationEvent<TData>
+  implements IIntegrationEvent
 {
-  public readonly id: string;
+  readonly #id: string;
+  readonly #version: number;
+  readonly #sourceId: string | undefined;
+  readonly #eventType: string;
 
-  public abstract get data(): TData;
-
-  public constructor(
-    public type: string,
-    public version = 1,
-    public sourceId?: string
-  ) {
+  public constructor(eventType: string, version = 1, sourceId?: string) {
     super(INTEGRATION_EVENT_TOKEN);
 
-    this.id = `${type}-v${version}`;
+    this.#id = `${eventType}-v${version}`;
+    this.#eventType = eventType;
+    this.#version = version;
+    this.#sourceId = sourceId;
   }
+
+  public get id(): string {
+    return this.#id;
+  }
+
+  public get eventType(): string {
+    return this.#eventType;
+  }
+
+  public get version(): number {
+    return this.#version;
+  }
+
+  public get sourceId(): string | undefined {
+    return this.#sourceId;
+  }
+
+  public abstract stringify(): string;
 }

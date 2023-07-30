@@ -1,4 +1,4 @@
-import { BaseUtilityClass, DateTime } from "@open-system/core-shared-utilities";
+import { BaseUtilityClass } from "@open-system/core-shared-utilities";
 import { IDomainEvent } from "./domain-event";
 import { IntegrationEvent } from "./integration-event";
 import { AGGREGATE_ROOT_TOKEN, IAggregateRoot } from "./types";
@@ -12,15 +12,15 @@ export abstract class AggregateRoot
   extends BaseUtilityClass
   implements IAggregateRoot
 {
-  #version = 0;
+  #sequence = 0;
   #uncommittedEvents = [] as IDomainEvent<typeof this>[];
 
   public get isNew() {
-    return this.#version === 0;
+    return this.#sequence === 0;
   }
 
-  public get version() {
-    return this.#version;
+  public get sequence() {
+    return this.#sequence;
   }
 
   public get uncommittedEvents() {
@@ -32,9 +32,11 @@ export abstract class AggregateRoot
   };
 
   public apply(event: IDomainEvent<typeof this>) {
-    if (event.aggregateVersion !== this.#version + 1) {
+    if (event.aggregateSequence !== this.#sequence + 1) {
       throw new Error(
-        `Invalid event version: ${event.aggregateVersion} for aggregate ${this.id} (current version ${this.version}).`
+        `Invalid event sequence: ${event.aggregateSequence} for aggregate ${
+          this.id
+        } (current sequence ${this.#sequence}).`
       );
     }
     if (event.aggregateId !== this.id) {
@@ -44,23 +46,27 @@ export abstract class AggregateRoot
     }
 
     this.innerApply(event);
-    this.#version++;
+    this.#sequence++;
   }
 
-  public constructor(public readonly id: string) {
+  public constructor(
+    public readonly id: string,
+    public readonly currentUserId: string
+  ) {
     super(AGGREGATE_ROOT_TOKEN);
   }
 
   protected emit(event: IntegrationEvent) {
     this.#uncommittedEvents.push({
-      timestamp: DateTime.current,
-      type: event.type,
-      version: event.version,
-      sourceId: event.sourceId,
-      data: event.data,
+      eventType: event.eventType,
+      eventVersion: event.version,
+      timestamp: new Date(Date.now()),
+      correlationId: "",
+      userId: this.currentUserId,
       aggregateId: this.id,
-      aggregateVersion: this.#version + this.#uncommittedEvents.length + 1,
+      aggregateSequence: this.#sequence + this.#uncommittedEvents.length + 1,
       aggregateType: this._type,
+      integrationEvent: event,
     });
   }
 

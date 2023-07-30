@@ -354,7 +354,7 @@ export const isStringSet = (obj: unknown): obj is NonNullable<string> => {
 };
 
 // treat an empty string (`''`) as undefined
-const emptyString = <T extends zod.ZodType>(input: T) => {
+export const emptyString = <T extends zod.ZodType>(input: T) => {
   return zod.preprocess((value: unknown) => {
     if (value === "") return undefined;
     return value;

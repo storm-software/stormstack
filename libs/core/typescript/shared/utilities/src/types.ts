@@ -525,3 +525,7 @@ export interface IIdentity<T = string> {
 export interface IVersioned {
   version: number;
 }
+
+export interface ISequenced {
+  sequence: number;
+}

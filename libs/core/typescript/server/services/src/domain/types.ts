@@ -2,14 +2,14 @@
 import {
   IBaseUtilityClass,
   IIdentity,
+  ISequenced,
   IVersioned,
 } from "@open-system/core-shared-utilities";
 import { IDomainEvent } from "./domain-event";
 
-export interface IAggregateRoot
-  extends IVersioned,
-    IIdentity,
-    IBaseUtilityClass {
+export interface IEntity extends ISequenced, IIdentity, IBaseUtilityClass {}
+
+export interface IAggregateRoot extends IEntity {
   uncommittedEvents: IDomainEvent<any>[];
   apply: (event: IDomainEvent<any>) => void;
   clearUncommittedEvents: () => void;
@@ -24,12 +24,9 @@ export interface IAggregateManager
   clearUncommittedEvents: () => void;
 }
 
-export interface IIntegrationEvent<TData = Record<string, any>>
-  extends IVersioned,
-    IIdentity {
-  type: string;
+export interface IIntegrationEvent extends IVersioned, IIdentity {
+  eventType: string;
   sourceId?: string;
-  data: TData;
 }
 
 export const AGGREGATE_ROOT_TOKEN = Symbol.for("AGGREGATE_ROOT_TOKEN");

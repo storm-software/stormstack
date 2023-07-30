@@ -32,7 +32,9 @@ export const createSimpleCommandHandler = <
       context: TContext
     ) => {
       if (command.id) {
-        aggregate = await context.repository.getById(command.id);
+        aggregate = (await context.repository.getById(
+          command.id
+        )) as TAggregate;
       }
 
       if (prepare) {

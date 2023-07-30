@@ -53,19 +53,15 @@ export const createComplexCommandHandler = <
       context: TContext
     ) => {
       aggregate = await handle(aggregate, command, context);
-      await context.eventStore.saveEvents<TAggregate>(
-        aggregate.id,
-        aggregate.uncommittedEvents
-      );
       await context.eventPublisher.publishEvents<TAggregate>(
         aggregate.uncommittedEvents
       );
 
       /*aggregate.uncommittedEvents.forEach(event => {
         aggregate.apply(event);
-      });
+      });*/
 
-      aggregate.clearUncommittedEvents();*/
+      aggregate.clearUncommittedEvents();
 
       return aggregate;
     },

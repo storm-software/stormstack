@@ -12,25 +12,19 @@ export type UserContext<TContext = {}> = Record<string, any> &
     email?: string;
   };
 
-export type ServerContext<TContext = {}, TUser = {}> = Record<string, any> & {
+export type ServerContext<TUser extends UserContext = UserContext> = {
   logger: Logger;
   user: UserContext<TUser>;
-} & TContext;
+};
 
-export type ComplexServerContext<TContext = {}, TUser = {}> = Record<
-  string,
-  any
-> &
-  ServerContext<TContext, TUser> & {
+export type ComplexServerContext<TUser extends UserContext = UserContext> =
+  ServerContext<TUser> & {
     eventStore: EventStore;
     snapshotStore: any;
     eventPublisher: EventPublisher;
-  } & TContext;
+  };
 
-export type SimpleServerContext<TContext = {}, TUser = {}> = Record<
-  string,
-  any
-> &
-  ServerContext<TContext, TUser> & {
+export type SimpleServerContext<TUser extends UserContext = UserContext> =
+  ServerContext<TUser> & {
     repository: Repository;
-  } & TContext;
+  };

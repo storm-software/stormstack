@@ -4,5 +4,6 @@ export * from "./complex-command-handler";
 export * from "./context";
 export * from "./event-publisher";
 export * from "./event-store";
+export * from "./message-broker";
 export * from "./repository";
 export * from "./simple-command-handler";

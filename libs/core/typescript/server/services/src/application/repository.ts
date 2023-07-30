@@ -1,15 +1,11 @@
-import {
-  BaseUtilityClass,
-  IIdentity,
-  IVersioned,
-  Logger,
-} from "@open-system/core-shared-utilities";
+import { BaseUtilityClass, Logger } from "@open-system/core-shared-utilities";
 import { Injectable } from "graphql-modules";
+import { IEntity } from "../domain";
 import { REPOSITORY_TOKEN } from "../types";
 
 @Injectable()
 export abstract class Repository<
-  TData extends IIdentity & IVersioned = IIdentity & IVersioned
+  TData extends IEntity = IEntity
 > extends BaseUtilityClass {
   constructor(private readonly logger: Logger) {
     super(REPOSITORY_TOKEN);
@@ -24,8 +20,8 @@ export abstract class Repository<
   public async addOrUpdate(data: TData): Promise<void> {
     this.logger.debug(`Adding or updating record for ID - '${data.id}'`);
 
-    data.version++;
-    if (data.version === 0) {
+    data.sequence++;
+    if (data.sequence === 0) {
       return this.innerAdd(data);
     }
     return this.innerUpdate(data);
