@@ -1,38 +1,38 @@
 {
-  "name": "contact-server-data-access",
+  "name": "contact-server-graphql",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/contact/typescript/server/data-access/src",
+  "sourceRoot": "libs/contact/typescript/server/graphql/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/contact/typescript/server/data-access",
-        "tsConfig": "libs/contact/typescript/server/data-access/tsconfig.lib.json",
-        "packageJson": "libs/contact/typescript/server/data-access/package.json",
-        "main": "libs/contact/typescript/server/data-access/src/index.ts",
+        "outputPath": "dist/libs/contact/typescript/server/graphql",
+        "tsConfig": "libs/contact/typescript/server/graphql/tsconfig.lib.json",
+        "packageJson": "libs/contact/typescript/server/graphql/package.json",
+        "main": "libs/contact/typescript/server/graphql/src/index.ts",
         "assets": [
-          "libs/contact/typescript/server/data-access/*.md"
+          "libs/contact/typescript/server/graphql/*.md"
         ]
       }
     },
     "prisma-init": {
       "command": "prisma init",
       "options": {
-        "cwd": "libs/contact/typescript/server/data-access"
+        "cwd": "libs/contact/typescript/server/graphql"
       }
     },
     "prisma-migrate": {
       "command": "prisma migrate dev",
       "options": {
-        "cwd": "libs/contact/typescript/server/data-access"
+        "cwd": "libs/contact/typescript/server/graphql"
       }
     },
     "generate": {
       "command": "prisma generate --data-proxy",
       "options": {
-        "cwd": "libs/contact/typescript/server/data-access"
+        "cwd": "libs/contact/typescript/server/graphql"
       }
     },
     "lint": {
@@ -40,7 +40,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/contact/typescript/server/data-access/**/*.ts"
+          "libs/contact/typescript/server/graphql/**/*.ts"
         ]
       }
     },
@@ -48,7 +48,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/contact/typescript/server/data-access/jest.config.ts",
+        "jestConfig": "libs/contact/typescript/server/graphql/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -64,7 +64,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "contact-server-data-access-v${VERSION}"
+        "tagFormat": "contact-server-graphql-v${VERSION}"
       }
     }
   },

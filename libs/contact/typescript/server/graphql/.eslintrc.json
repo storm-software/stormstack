@@ -6,7 +6,7 @@
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
         "project": [
-          "libs/contact/typescript/server/data-access/tsconfig.*?.json"
+          "libs/contact/typescript/server/graphql/tsconfig.*?.json"
         ]
       },
       "rules": {}

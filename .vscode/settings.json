@@ -3,8 +3,6 @@
    * relay graph-ql
    ******************************/
   "relay.autoStartCompiler": true,
-  "relay.debugExclude": ["**/node_modules/**", "**/__mocks__/**", "**/__generated__/**"],
-
 
   /******************************
    * bracket pair colorization
@@ -66,7 +64,12 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
+  /******************************
+   * Prisma
+   ******************************/
   "[prisma]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "Prisma.prisma"
   },
 

@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: "contact-server-data-access",
+  displayName: "contact-server-graphql",
   preset: "../../../../../jest.preset.js",
   testEnvironment: "node",
   transform: {
@@ -8,5 +8,5 @@ export default {
   },
   moduleFileExtensions: ["ts", "js", "html"],
   coverageDirectory:
-    "../../../../../coverage/libs/contact/typescript/server/data-access",
+    "../../../../../coverage/libs/contact/typescript/server/graphql",
 };

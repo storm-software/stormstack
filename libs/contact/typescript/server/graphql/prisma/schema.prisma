@@ -19,16 +19,27 @@ generator pothos {
 
 generator pothosCrud {
     provider            = "prisma-generator-pothos-codegen"
-    generatorConfigPath = "../pothos.config.js"
+    generatorConfigPath = "../codegen.config.js"
 }
 
 generator zod {
-    provider      = "zod-prisma"
-    output        = "../src/__generated__/zod"
-    relationModel = true
-    modelCase     = "camelCase"
-    modelSuffix   = "Schema"
-    useDecimalJs  = true
+    provider                         = "zod-prisma-types"
+    output                           = "../src/__generated__/zod"
+    useMultipleFiles                 = true // default is false
+    writeBarrelFiles                 = true // default is true
+    createInputTypes                 = true // default is true
+    createModelTypes                 = false // default is true
+    addInputTypeValidation           = true // default is true
+    addIncludeType                   = true // default is true
+    addSelectType                    = true // default is true
+    validateWhereUniqueInput         = true // default is false
+    createOptionalDefaultValuesTypes = true // default is false
+    createRelationValuesTypes        = true // default is false
+    createPartialTypes               = true // default is false
+    useDefaultValidators             = true // default is true
+    coerceDate                       = true // default is true
+    writeNullishInModelTypes         = true // default is false
+    prismaClientPath                 = "../prisma"
 }
 
 enum ContactReason {
@@ -40,6 +51,7 @@ enum ContactReason {
     Subscription
 }
 
+/// The data fields related to a specific Contact request instance
 model Contact {
     /// The unique identifier for the Contact
     /// @Pothos.omit(create)
@@ -47,7 +59,7 @@ model Contact {
 
     /// A timestamp of when the Contact was created
     /// @Pothos.omit(create, update)
-    createdAt DateTime @default(now())
+    createdOn DateTime @default(now())
 
     /// The user who created the Contact
     /// @Pothos.omit(create, update)
@@ -55,7 +67,7 @@ model Contact {
 
     /// A timestamp of when the Contact was last updated
     /// @Pothos.omit(create, update)
-    updatedAt DateTime? @updatedAt
+    updatedOn DateTime? @updatedAt
 
     /// The user who last updated the Contact
     /// @Pothos.omit(create, update)
@@ -68,10 +80,10 @@ model Contact {
     details String?
 
     /// The provided email to respond back to the Contact request
-    email String /// @zod.email()
+    email String /// @zod.string.email()
 
     /// The provided phone number to respond back to the Contact request
-    phoneNumber String? /// @zod.max(15)
+    phoneNumber String? /// @zod.string.max(15)
 
     /// The provided first name of the Contact
     firstName String?
@@ -86,7 +98,7 @@ model Contact {
     addressLine2 String?
 
     /// The provided postal code of the Contact
-    postalCode String? /// @zod.min(5).max(12)
+    postalCode String? /// @zod.string.min(5).max(12)
 
     /// The provided city of the Contact
     city String?
@@ -104,7 +116,7 @@ model Contact {
     companyName String?
 
     /// The provided URL of the Contact
-    url String? /// @zod.url()
+    url String? /// @zod.string.url()
 
     /// A list of file attachments included by the Contact
     attachments ContactAttachment[]
@@ -117,6 +129,7 @@ enum AttachmentStatus {
     Removed
 }
 
+/// A file attachment included by a Contact
 model ContactAttachment {
     /// The unique identifier for the ContactAttachment
     /// @Pothos.omit(create)
@@ -124,7 +137,7 @@ model ContactAttachment {
 
     /// A timestamp of when the ContactAttachment was created
     /// @Pothos.omit(create, update)
-    createdAt DateTime @default(now())
+    createdOn DateTime @default(now())
 
     /// The user who created the ContactAttachment
     /// @Pothos.omit(create, update)
@@ -132,22 +145,25 @@ model ContactAttachment {
 
     /// A timestamp of when the ContactAttachment was last updated
     /// @Pothos.omit(create, update)
-    updatedAt DateTime? @updatedAt
+    updatedOn DateTime? @updatedAt
 
     /// The user who last updated the ContactAttachment
     /// @Pothos.omit(create, update)
     updatedBy String? @db.ObjectId
 
+    /// The name of the file
     name String
 
+    /// The path of the file
     path String
 
+    /// The status of the file
     status AttachmentStatus @default(Pending)
 
-    data Bytes?
-
+    /// The Contact the attachment belongs to
     contact Contact @relation(fields: [contactId], references: [id])
 
+    /// The Contact (Id) the attachment belongs to
     contactId String @db.ObjectId
 
     @@unique([name, path])

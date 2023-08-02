@@ -82,6 +82,9 @@
         "libs/contact/typescript/shared/data-access/src/*"
       ],
       "@open-system/contact/config": ["libs/contact/config/src/index.ts"],
+      "@open-system/core-client-application/*": [
+        "libs/core/typescript/client/application/src/*"
+      ],
       "@open-system/core-client-components": [
         "libs/core/typescript/client/components/src/index.ts"
       ],
@@ -121,14 +124,17 @@
       "@open-system/core-server-application": [
         "libs/core/typescript/server/application/src/index.ts"
       ],
-      "@open-system/core-client-application/*": [
-        "libs/core/typescript/client/application/src/*"
-      ],
       "@open-system/core-server-cloudflare": [
         "libs/core/typescript/server/cloudflare/src/index.ts"
       ],
       "@open-system/core-server-cloudflare/*": [
         "libs/core/typescript/server/cloudflare/src/*"
+      ],
+      "@open-system/core-server-domain": [
+        "libs/core/typescript/server/domain/src/index.ts"
+      ],
+      "@open-system/core-server-domain/*": [
+        "libs/core/typescript/server/domain/src/*"
       ],
       "@open-system/core-server-graphql": [
         "libs/core/typescript/server/graphql/src/index.ts"
@@ -147,12 +153,6 @@
       ],
       "@open-system/core-server-pino-logger/*": [
         "libs/core/typescript/server/pino-logger/src/*"
-      ],
-      "@open-system/core-server-domain": [
-        "libs/core/typescript/server/domain/src/index.ts"
-      ],
-      "@open-system/core-server-domain/*": [
-        "libs/core/typescript/server/domain/src/*"
       ],
       "@open-system/core-server-utilities": [
         "libs/core/typescript/server/utilities/src/index.ts"
