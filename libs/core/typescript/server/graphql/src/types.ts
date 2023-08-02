@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { ComplexServerContext } from "@open-system/core-server-services/application/context";
+import {
+  EventSourcedServerContext,
+  UserContext,
+} from "@open-system/core-server-application";
 import { MergedScalars, SchemaTypes } from "@pothos/core";
 import { AllSelection } from "kysely/dist/cjs/parser/select-parser";
-import { GraphQLServerContext } from "./context";
 
 export interface PageCursor {
   cursor: string;
@@ -94,14 +96,17 @@ export type SchemaScalars = MergedScalars<any> & {
 };
 
 export type ApiSchemaType<
+  PrismaTypes,
   TContext extends GraphQLServerContext = GraphQLServerContext,
   TScalars extends SchemaScalars = SchemaScalars
 > = SchemaTypes & {
+  Objects: SchemaTypes["Objects"] & PageCursor & PageCursors;
   Context: TContext;
   Scalars: TScalars;
   Connection: {
     pageCursors: PageCursors;
   };
+  PrismaTypes: PrismaTypes;
 };
 
 export interface GraphQLHandlerOptions {
@@ -117,22 +122,9 @@ export interface GraphQLHandlerOptions {
   release: string;
 }
 
-export type GraphQLServerContext<
-  TDatabase = {},
-  TContext = {}
-> = ComplexServerContext<TContext> & {
-  database: TDatabase;
-  request: any;
-  requestId: string;
-  headers: Record<string, string | string[] | undefined>;
-};
-
-export type GraphQLComplexServerContext<
-  TDatabase = {},
-  TContext = {}
-> = GraphQLServerContext<TDatabase, TContext> & ComplexServerContext<TContext>;
-
-export type GraphQLSimpleServerContext<
-  TDatabase = {},
-  TContext = {}
-> = GraphQLServerContext<TDatabase, TContext> & SimpleServerContext<TContext>;
+export type GraphQLServerContext<TUser extends UserContext = UserContext> =
+  EventSourcedServerContext<TUser> & {
+    request: any;
+    requestId: string;
+    headers: Record<string, string | string[] | undefined>;
+  } & GraphQLModules.ModuleContext;

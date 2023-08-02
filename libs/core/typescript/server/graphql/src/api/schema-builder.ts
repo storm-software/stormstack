@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { BaseError } from "@open-system/core-shared-utilities";
 import SchemaBuilder from "@pothos/core";
+import ErrorsPlugin from "@pothos/plugin-errors";
+import PrismaPlugin from "@pothos/plugin-prisma";
 import RelayPlugin, {
   decodeGlobalID,
   encodeGlobalID,
 } from "@pothos/plugin-relay";
+import ValidationPlugin from "@pothos/plugin-validation";
 import {
   CountryCodeResolver,
   CurrencyResolver,
@@ -22,6 +26,7 @@ import {
   URLResolver,
   UUIDResolver,
 } from "graphql-scalars";
+import { ZodFormattedError } from "zod";
 import {
   ApiSchemaType,
   GraphQLServerContext,
@@ -29,14 +34,56 @@ import {
   PageCursors,
 } from "../types";
 
+// Util for flattening zod errors into something easier to represent in your Schema.
+function flattenErrors(
+  error: ZodFormattedError<unknown>,
+  path: string[]
+): { path: string[]; message: string }[] {
+  // eslint-disable-next-line no-underscore-dangle
+  const errors = error._errors.map((message: string) => ({
+    path,
+    message,
+  }));
+
+  Object.keys(error).forEach(key => {
+    if (key !== "_errors") {
+      errors.push(
+        ...flattenErrors(
+          (error as Record<string, unknown>)[key] as ZodFormattedError<unknown>,
+          [...path, key]
+        )
+      );
+    }
+  });
+
+  return errors;
+}
+
 export const createSchemaBuilder = <
+  PrismaTypes,
   TContext extends GraphQLServerContext = GraphQLServerContext
->() => {
-  const builder = new SchemaBuilder<ApiSchemaType<TContext>>({
-    plugins: [RelayPlugin],
+>(
+  client: any
+) => {
+  const builder = new SchemaBuilder<ApiSchemaType<PrismaTypes, TContext>>({
+    plugins: [ErrorsPlugin, ValidationPlugin, PrismaPlugin, RelayPlugin],
+    errorOptions: {
+      defaultTypes: [BaseError],
+    },
+    validationOptions: {
+      // optionally customize how errors are formatted
+      validationError: (zodError, args, context, info) => {
+        // the default behavior is to just throw the zod error directly
+        return zodError;
+      },
+    },
+    prisma: {
+      client,
+      // use where clause from prismaRelatedConnection for totalCount
+      filterConnectionTotalCount: true,
+    },
     relayOptions: {
-      // These will become the defaults in the next major version
-      clientMutationId: "required",
+      clientMutationId: "optional",
       cursorType: "String",
       idFieldName: "id",
       brandLoadedObjects: true,
@@ -87,9 +134,9 @@ export const createSchemaBuilder = <
 
   PageCursorRef.implement({
     fields: t => ({
-      cursor: t.exposeString("cursor", {}),
-      pageNumber: t.exposeInt("pageNumber", {}),
-      isCurrent: t.exposeBoolean("isCurrent", {}),
+      cursor: t.exposeString("cursor"),
+      pageNumber: t.exposeInt("pageNumber"),
+      isCurrent: t.exposeBoolean("isCurrent"),
     }),
   });
 
@@ -99,6 +146,39 @@ export const createSchemaBuilder = <
       resolve: ({ pageCursors }: any) => pageCursors,
     })
   );
+
+  const ErrorInterface = builder
+    .interfaceRef<BaseError>("BaseError")
+    .implement({
+      fields: t => ({
+        message: t.exposeString("message"),
+      }),
+    });
+
+  // A type for the individual validation issues
+  const FieldBaseError = builder
+    .objectRef<{
+      message: string;
+      path: string[];
+    }>("FieldBaseError")
+    .implement({
+      fields: t => ({
+        message: t.exposeString("message"),
+        path: t.exposeStringList("path"),
+      }),
+    });
+
+  // The actual error type
+  builder.objectType(BaseError, {
+    name: "BaseError",
+    interfaces: [ErrorInterface],
+    fields: t => ({
+      errors: t.field({
+        type: [FieldBaseError],
+        resolve: err => flattenErrors(err.format(), []),
+      }),
+    }),
+  });
 
   return builder;
 };

@@ -17,20 +17,20 @@
         ]
       }
     },
-    "prisma": {
-      "command": "prisma",
+    "prisma-init": {
+      "command": "prisma init",
       "options": {
         "cwd": "libs/contact/typescript/server/data-access"
       }
     },
-    "migrate": {
+    "prisma-migrate": {
       "command": "prisma migrate dev",
       "options": {
         "cwd": "libs/contact/typescript/server/data-access"
       }
     },
-    "generate-types": {
-      "command": "prisma generate",
+    "generate": {
+      "command": "prisma generate --data-proxy",
       "options": {
         "cwd": "libs/contact/typescript/server/data-access"
       }

@@ -1,61 +1,154 @@
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+    provider = "mongodb"
+    url      = env("CONTACT_DB_CONNECTION_STRING")
 }
 
-generator kysely {
-  provider = "prisma-kysely"
-  output = "../src/db"
-  fileName = "types.ts"
-  enumFileName = "enums.ts"
+generator client {
+    provider = "prisma-client-js"
+    // Generate into custom location because this repo has multiple prisma schemas
+    output   = "../src/__generated__/prisma"
+}
+
+generator pothos {
+    provider     = "prisma-pothos-types"
+    // Match client output location from above
+    clientOutput = "./prisma"
+    prismaUtils  = true
+    output       = "../src/__generated__/types.ts"
+}
+
+generator pothosCrud {
+    provider            = "prisma-generator-pothos-codegen"
+    generatorConfigPath = "../pothos.config.js"
+}
+
+generator zod {
+    provider      = "zod-prisma"
+    output        = "../src/__generated__/zod"
+    relationModel = true
+    modelCase     = "camelCase"
+    modelSuffix   = "Schema"
+    useDecimalJs  = true
+}
+
+enum ContactReason {
+    Business
+    Question
+    Other
+    Project
+    Interest
+    Subscription
 }
 
 model Contact {
-  id                      Int                      @default(autoincrement()) @id
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime?                @updatedAt
-  createdBy               Int
-  updatedBy               Int?
-  reason                  String
-  details                 String?
-  email                   ContactEmail             @relation(fields: [emailId], references: [id])
-  emailId                 Int
-  phoneNumber             String?
-  firstName               String?
-  lastName                String?
-  addressLine1            String?
-  addressLine2            String?
-  postalCode              String?
-  city                    String?
-  state                   String?
-  countryCode             String?
-  title                   String?
-  companyName             String?
-  url                     String?
-  attachments             ContactAttachment[]
+    /// The unique identifier for the Contact
+    /// @Pothos.omit(create)
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    /// A timestamp of when the Contact was created
+    /// @Pothos.omit(create, update)
+    createdAt DateTime @default(now())
+
+    /// The user who created the Contact
+    /// @Pothos.omit(create, update)
+    createdBy String @db.ObjectId
+
+    /// A timestamp of when the Contact was last updated
+    /// @Pothos.omit(create, update)
+    updatedAt DateTime? @updatedAt
+
+    /// The user who last updated the Contact
+    /// @Pothos.omit(create, update)
+    updatedBy String? @db.ObjectId
+
+    /// The reason of the Contact
+    reason ContactReason @default(Other)
+
+    /// The details of the Contact
+    details String?
+
+    /// The provided email to respond back to the Contact request
+    email String /// @zod.email()
+
+    /// The provided phone number to respond back to the Contact request
+    phoneNumber String? /// @zod.max(15)
+
+    /// The provided first name of the Contact
+    firstName String?
+
+    /// The provided first name of the Contact
+    lastName String?
+
+    /// The provided address of the Contact
+    addressLine1 String?
+
+    /// The provided address of the Contact
+    addressLine2 String?
+
+    /// The provided postal code of the Contact
+    postalCode String? /// @zod.min(5).max(12)
+
+    /// The provided city of the Contact
+    city String?
+
+    /// The provided state of the Contact
+    state String?
+
+    /// The provided country code of the Contact
+    countryCode String?
+
+    /// The provided title of the Contact
+    title String?
+
+    /// The provided company name of the Contact
+    companyName String?
+
+    /// The provided URL of the Contact
+    url String? /// @zod.url()
+
+    /// A list of file attachments included by the Contact
+    attachments ContactAttachment[]
 }
 
-model ContactEmail {
-  id                      Int                      @default(autoincrement()) @id
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime?                @updatedAt
-  createdBy               Int
-  updatedBy               Int?
-  email                   String                   @unique
-  contacts                Contact[]
+enum AttachmentStatus {
+    Pending
+    Approved
+    Rejected
+    Removed
 }
 
 model ContactAttachment {
-  id                      Int                      @default(autoincrement()) @id
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime?                @updatedAt
-  createdBy               Int
-  updatedBy               Int?
-  name                    String
-  path                    String
-  status                  String
-  contact                 Contact                  @relation(fields: [contactId], references: [id])
-  contactId               Int
+    /// The unique identifier for the ContactAttachment
+    /// @Pothos.omit(create)
+    id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  @@unique([name, path])
+    /// A timestamp of when the ContactAttachment was created
+    /// @Pothos.omit(create, update)
+    createdAt DateTime @default(now())
+
+    /// The user who created the ContactAttachment
+    /// @Pothos.omit(create, update)
+    createdBy String @db.ObjectId
+
+    /// A timestamp of when the ContactAttachment was last updated
+    /// @Pothos.omit(create, update)
+    updatedAt DateTime? @updatedAt
+
+    /// The user who last updated the ContactAttachment
+    /// @Pothos.omit(create, update)
+    updatedBy String? @db.ObjectId
+
+    name String
+
+    path String
+
+    status AttachmentStatus @default(Pending)
+
+    data Bytes?
+
+    contact Contact @relation(fields: [contactId], references: [id])
+
+    contactId String @db.ObjectId
+
+    @@unique([name, path])
 }
