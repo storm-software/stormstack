@@ -1,6 +1,3 @@
-import { RequestOptions } from "http";
-import { ClientHttp2Session } from "http2";
-
 import {
   GraphQLFieldConfigMap,
   GraphQLFieldResolver,
@@ -8,6 +5,13 @@ import {
   GraphQLResolveInfo,
   GraphQLScalarType,
 } from "graphql";
+import { RequestOptions } from "http";
+import { ClientHttp2Session } from "http2";
+import {
+  CompressionTypes,
+  ConsumerRunConfig,
+  ConsumerSubscribeTopics,
+} from "kafkajs";
 
 export interface KSqlDBEntities {
   [key: string]: {
@@ -113,3 +117,13 @@ export const SkipStreamList = [
   "_confluent-monitoring",
 ];
 
+export type KafkaMessageBrokerReadConfig = {
+  subscription: Omit<ConsumerSubscribeTopics, "topic" | "topics">;
+  handler: ConsumerRunConfig;
+};
+
+export type KafkaMessageBrokerWriteConfig = {
+  acks?: number;
+  timeout?: number;
+  compression?: CompressionTypes;
+};

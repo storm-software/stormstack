@@ -1,18 +1,20 @@
 {
   /******************************
-  * relay graphql
-  ******************************/
+   * relay graph-ql
+   ******************************/
   "relay.autoStartCompiler": true,
+  "relay.debugExclude": ["**/node_modules/**", "**/__mocks__/**", "**/__generated__/**"],
+
 
   /******************************
-  * bracket pair colorization
-  ******************************/
+   * bracket pair colorization
+   ******************************/
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
 
   /******************************
-  * eslint / prettier
-  ******************************/
+   * eslint / prettier
+   ******************************/
   "editor.formatOnSave": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "typescript.tsdk": "node_modules/typescript/lib",
@@ -29,7 +31,7 @@
       "source.fixAll.eslint": true,
       "source.organizeImports": true,
       "source.sortMembers": true
-    },
+    }
   },
   "[javascriptreact]": {
     "editor.formatOnSave": true,
@@ -38,7 +40,7 @@
       "source.fixAll.eslint": true,
       "source.organizeImports": true,
       "source.sortMembers": true
-    },
+    }
   },
   "[typescript]": {
     "editor.formatOnSave": true,
@@ -47,7 +49,7 @@
       "source.fixAll.eslint": true,
       "source.organizeImports": true,
       "source.sortMembers": true
-    },
+    }
   },
   "[typescriptreact]": {
     "editor.formatOnSave": true,
@@ -56,7 +58,7 @@
       "source.fixAll.eslint": true,
       "source.organizeImports": true,
       "source.sortMembers": true
-    },
+    }
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -69,16 +71,16 @@
   },
 
   /******************************
-  * csharpier
-  ******************************/
+   * csharpier
+   ******************************/
   "[csharp]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "csharpier.csharpier-vscode"
   },
 
   /******************************
-  * vscode-icons
-  ******************************/
+   * vscode-icons
+   ******************************/
   "vsicons.associations.files": [
     {
       "icon": "registry",
@@ -124,17 +126,24 @@
       "icon": "dotenv",
       "extensions": [".env", ".env.local", ".env.production"],
       "languages": ["dotenv"],
-      "format": "svg",
+      "format": "svg"
     },
     {
       "icon": "sentry",
-      "extensions": [".sentryclirc", "sentry.client.config.js", "sentry.server.config.js", "sentry.properties"],
-      "format": "svg",
-    },
+      "extensions": [
+        ".sentryclirc",
+        "sentry.client.config.js",
+        "sentry.server.config.js",
+        "sentry.properties"
+      ],
+      "format": "svg"
+    }
   ],
   "vsicons.associations.folders": [
     {
-    "icon": "graphql", "extensions": ["graphql", "gql"], "format": "svg"
+      "icon": "graphql",
+      "extensions": ["graphql", "gql"],
+      "format": "svg"
     },
     {
       "icon": "www",
@@ -219,11 +228,15 @@
   ],
 
   /******************************
-  * commitizen
-  ******************************/
+   * commitizen
+   ******************************/
   "commitizen.capitalizeWindowsDriveLetter": true,
   "commitizen.autoSync": false,
   "commitizen.showOutputChannel": "always",
+
+  /******************************
+   * CSpell
+   ******************************/
   "cSpell.words": [
     "asyncapi",
     "bundlewatch",

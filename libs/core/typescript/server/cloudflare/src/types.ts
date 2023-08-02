@@ -1,6 +1,6 @@
-import { ApiServerContext } from "@open-system/core-server-data-access";
+import { UserContext } from "@open-system/core-server-application";
+import { GraphQLServerContext } from "@open-system/core-server-graphql";
 import { Headers } from "@open-system/core-shared-utilities";
-import { Kysely } from "kysely";
 
 // import { ReadableStream } from "stream/web";
 
@@ -178,7 +178,5 @@ export type R2Objects = {
 );
 
 export type CloudflareApiServerContext<
-  TSchema = {},
-  TContext = {},
-  TUserContext = {}
-> = ApiServerContext<Kysely<TSchema>, TContext, TUserContext>;
+  TUser extends UserContext = UserContext
+> = GraphQLServerContext<TUser>;

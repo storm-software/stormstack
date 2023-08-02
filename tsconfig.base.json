@@ -39,6 +39,12 @@
         "libs/common/typescript/client/data-access/src/*"
       ],
       "@open-system/common-config": ["libs/common/config/src/index.ts"],
+      "@open-system/common-server-auth": [
+        "libs/common/typescript/server/auth/src/index.ts"
+      ],
+      "@open-system/common-server-auth/*": [
+        "libs/common/typescript/server/auth/src/*"
+      ],
       "@open-system/common-server-events": [
         "libs/common/typescript/server/events/src/index.ts"
       ],
@@ -112,6 +118,12 @@
       "@open-system/core-client-utilities/*": [
         "libs/core/typescript/client/utilities/src/*"
       ],
+      "@open-system/core-server-application": [
+        "libs/core/typescript/server/application/src/index.ts"
+      ],
+      "@open-system/core-client-application/*": [
+        "libs/core/typescript/client/application/src/*"
+      ],
       "@open-system/core-server-cloudflare": [
         "libs/core/typescript/server/cloudflare/src/index.ts"
       ],
@@ -136,11 +148,11 @@
       "@open-system/core-server-pino-logger/*": [
         "libs/core/typescript/server/pino-logger/src/*"
       ],
-      "@open-system/core-server-services": [
-        "libs/core/typescript/server/services/src/index.ts"
+      "@open-system/core-server-domain": [
+        "libs/core/typescript/server/domain/src/index.ts"
       ],
-      "@open-system/core-server-services/*": [
-        "libs/core/typescript/server/services/src/*"
+      "@open-system/core-server-domain/*": [
+        "libs/core/typescript/server/domain/src/*"
       ],
       "@open-system/core-server-utilities": [
         "libs/core/typescript/server/utilities/src/index.ts"
@@ -226,17 +238,35 @@
       "@open-system/user-management-config": [
         "libs/user-management/config/src/index.ts"
       ],
+      "@open-system/user-management-server-activity": [
+        "libs/user-management/typescript/server/activity/src/index.ts"
+      ],
+      "@open-system/user-management-server-activity/*": [
+        "libs/user-management/typescript/server/activity/src/*"
+      ],
+      "@open-system/user-management-server-auth": [
+        "libs/user-management/typescript/server/auth/src/index.ts"
+      ],
+      "@open-system/user-management-server-auth/*": [
+        "libs/user-management/typescript/server/auth/src/*"
+      ],
+      "@open-system/user-management-server-core": [
+        "libs/user-management/typescript/server/core/src/index.ts"
+      ],
+      "@open-system/user-management-server-core/*": [
+        "libs/user-management/typescript/server/core/src/*"
+      ],
       "@open-system/user-management-server-data-access": [
         "libs/user-management/typescript/server/data-access/src/index.ts"
       ],
       "@open-system/user-management-server-data-access/*": [
         "libs/user-management/typescript/server/data-access/src/*"
       ],
-      "@open-system/user-management-server-user-account": [
-        "libs/user-management/typescript/server/user-account/src/index.ts"
+      "@open-system/user-management-server-graphql": [
+        "libs/user-management/typescript/server/graphql/src/index.ts"
       ],
-      "@open-system/user-management-server-user-account/*": [
-        "libs/user-management/typescript/server/user-account/src/*"
+      "@open-system/user-management-server-graphql/*": [
+        "libs/user-management/typescript/server/graphql/src/*"
       ],
       "@open-system/user-management-shared-data-access": [
         "libs/user-management/typescript/shared/data-access/src/index.ts"

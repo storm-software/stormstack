@@ -1,6 +1,6 @@
 module.exports = {
   title: "Open System - Event Catalog",
-  tagline: "Discover, Document, and Explore your Event Driven Architectures",
+  tagline: "Discover, Explore, and Document your Event-Driven Architectures",
   organizationName: "sullivanpj",
   projectName: "open-system",
   basePath: "/event-catalog",

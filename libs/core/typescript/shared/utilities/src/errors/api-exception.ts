@@ -1,4 +1,4 @@
-import { BaseError } from "./base-error";
+import { BaseError, BaseErrorCode } from "./base-error";
 
 /**
  * Represents an error caused by an api call i.e. it has attributes for a HTTP status code
@@ -13,15 +13,16 @@ export class ApiException<T> extends BaseError {
   public name = "API Exception";
 
   public constructor(
-    public code: number,
+    public httpCode: number,
     message: string,
     public body?: T,
     public headers?: Headers
   ) {
     super(
+      BaseErrorCode.invalid_return_type,
       message,
       "HTTP-Code: " +
-        code +
+        httpCode +
         "\nMessage: " +
         message +
         "\nBody: " +

@@ -1,5 +1,5 @@
 import { IBaseUtilityClass } from "../types";
-import { getUniqueId } from "./get-unique-id";
+import { UniqueIdGenerator } from "./unique-id-generator";
 
 /**
  * A base abstract class to be inherited by all utility classes added.
@@ -8,25 +8,30 @@ import { getUniqueId } from "./get-unique-id";
  */
 export abstract class BaseUtilityClass implements IBaseUtilityClass {
   public constructor(public readonly _symbol: symbol) {
-    this._type = (this as unknown as object)?.constructor.name;
+    this.objectType = (this as unknown as object)?.constructor.name;
   }
 
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public _id = getUniqueId();
+  public objectInstanceId = UniqueIdGenerator.generate();
+
+  /**
+   * Internal timestamp field used to identify the time this specific object instance was initialized
+   */
+  public readonly objectInstanceTimestamp: number = Date.now();
 
   /**
    * The string identifier of this specific class type
    */
-  public readonly _type: string;
+  public readonly objectType: string;
 
   /**
    * Returns back a hash code to identify this specific instance
    *
    * @remarks The combination of class name and Id
    */
-  public getHashCode = () => `${this._type}-${this._id}`;
+  public getHashCode = () => `${this.objectType}-${this.objectInstanceId}`;
 
   /**
    * The `isEqualInstance` method is comparing the hash codes of two instances of the `BaseUtilityClass`

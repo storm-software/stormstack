@@ -121,7 +121,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
         : Temporal.Now.instant().epochNanoseconds
     );
 
-    this._type = (this as unknown as object)?.constructor.name;
+    this.objectType = (this as unknown as object)?.constructor.name;
   }
 
   /**
@@ -154,12 +154,12 @@ export class DateTime extends Temporal.Instant implements IDateTime {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public readonly _id = getUniqueId();
+  public readonly objectInstanceId = getUniqueId();
 
   /**
    * The string identifier of this specific class type
    */
-  public readonly _type: string;
+  public readonly objectType: string;
 
   /**
    * Readonly field used internally to identify if the object is a DateTime
@@ -171,5 +171,5 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    *
    * @remarks The combination of class name and Id
    */
-  public getHashCode = () => `${this._type}-${this._id}`;
+  public getHashCode = () => `${this.objectType}-${this.objectInstanceId}`;
 }

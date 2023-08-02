@@ -71,7 +71,7 @@ export interface IBaseUtilityClass {
   /**
    * The object instance Id
    */
-  _id: string;
+  objectInstanceId: string;
 
   /**
    * A symbol representing the class type
@@ -81,7 +81,7 @@ export interface IBaseUtilityClass {
   /**
    * A string representation of the class
    */
-  _type: string;
+  objectType: string;
 
   /**
    * Returns back a hash code to identify this specific instance
@@ -529,3 +529,5 @@ export interface IVersioned {
 export interface ISequenced {
   sequence: number;
 }
+
+export const CONFIG_TOKEN = Symbol.for("CONFIG_TOKEN");
