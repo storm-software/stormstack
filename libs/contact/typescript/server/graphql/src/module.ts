@@ -1,14 +1,20 @@
-import { createModule } from "graphql-modules";
+// import { schemaPrinter } from "@open-system/core-server-graphql";
 import { generateAllCrud } from "./__generated__/crud/autocrud";
 import { builder } from "./builder";
 
 generateAllCrud();
 
-export const schema = builder.toSchema();
-export const module = createModule({
+builder.queryType({});
+builder.mutationType({});
+
+export const schema = builder.toSchema({});
+
+// schemaPrinter("./__generated__/schema.graphql", schema);
+
+/*export const module = createModule({
   id: "contact",
   dirname: __dirname,
   typeDefs: schema.typeDefs,
   resolvers: schema.resolvers,
   providers: [],
-});
+});*/

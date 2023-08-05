@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseError } from "@open-system/core-shared-utilities";
-import SchemaBuilder from "@pothos/core";
+import SchemaBuilder, { SchemaTypes } from "@pothos/core";
 import ErrorsPlugin from "@pothos/plugin-errors";
 import PrismaPlugin from "@pothos/plugin-prisma";
+import PrismaUtils from "@pothos/plugin-prisma-utils";
 import RelayPlugin, {
   decodeGlobalID,
   encodeGlobalID,
 } from "@pothos/plugin-relay";
 import ValidationPlugin from "@pothos/plugin-validation";
+import { BaseDMMF } from "@prisma/client/runtime/library";
 import {
   CountryCodeResolver,
   CurrencyResolver,
@@ -28,10 +30,10 @@ import {
 } from "graphql-scalars";
 import { ZodFormattedError } from "zod";
 import {
-  ApiSchemaType,
   GraphQLServerContext,
   PageCursor,
   PageCursors,
+  SchemaScalars,
 } from "../types";
 
 // Util for flattening zod errors into something easier to represent in your Schema.
@@ -60,13 +62,28 @@ function flattenErrors(
 }
 
 export const createSchemaBuilder = <
-  PrismaTypes,
+  TPrismaTypes extends Record<string, any> | undefined,
   TContext extends GraphQLServerContext = GraphQLServerContext
 >(
-  client: any
+  client: any,
+  dmmf?: BaseDMMF
 ) => {
-  const builder = new SchemaBuilder<ApiSchemaType<PrismaTypes, TContext>>({
-    plugins: [ErrorsPlugin, ValidationPlugin, PrismaPlugin, RelayPlugin],
+  const builder = new SchemaBuilder<{
+    Objects: SchemaTypes["Objects"] & PageCursor & PageCursors;
+    Context: TContext;
+    Scalars: SchemaScalars;
+    Connection: {
+      pageCursors: PageCursors;
+    };
+    PrismaTypes: TPrismaTypes;
+  }>({
+    plugins: [
+      ErrorsPlugin,
+      ValidationPlugin,
+      RelayPlugin,
+      PrismaPlugin,
+      PrismaUtils,
+    ],
     errorOptions: {
       defaultTypes: [BaseError],
     },
@@ -79,20 +96,21 @@ export const createSchemaBuilder = <
     },
     prisma: {
       client,
-      // use where clause from prismaRelatedConnection for totalCount
-      filterConnectionTotalCount: true,
+      dmmf,
+      exposeDescriptions: true,
     },
     relayOptions: {
       clientMutationId: "optional",
-      cursorType: "String",
+      cursorType: "ID",
       idFieldName: "id",
       brandLoadedObjects: true,
+      nodesOnConnection: true,
       encodeGlobalID,
       decodeGlobalID,
     },
   });
 
-  builder.mutationType({});
+  // builder.mutationType({});
 
   builder.addScalarType("Date", DateResolver, {});
   builder.addScalarType("DateTime", DateTimeResolver, {});
@@ -134,9 +152,9 @@ export const createSchemaBuilder = <
 
   PageCursorRef.implement({
     fields: t => ({
-      cursor: t.exposeString("cursor"),
-      pageNumber: t.exposeInt("pageNumber"),
-      isCurrent: t.exposeBoolean("isCurrent"),
+      cursor: t.exposeString("cursor", {}),
+      pageNumber: t.exposeInt("pageNumber", {}),
+      isCurrent: t.exposeBoolean("isCurrent", {}),
     }),
   });
 
@@ -151,7 +169,8 @@ export const createSchemaBuilder = <
     .interfaceRef<BaseError>("BaseError")
     .implement({
       fields: t => ({
-        message: t.exposeString("message"),
+        code: t.exposeString("code", {}),
+        message: t.exposeString("message", {}),
       }),
     });
 
@@ -163,8 +182,8 @@ export const createSchemaBuilder = <
     }>("FieldBaseError")
     .implement({
       fields: t => ({
-        message: t.exposeString("message"),
-        path: t.exposeStringList("path"),
+        message: t.exposeString("message", {}),
+        path: t.exposeStringList("path", {}),
       }),
     });
 

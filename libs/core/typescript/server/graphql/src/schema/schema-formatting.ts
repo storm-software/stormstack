@@ -13,7 +13,6 @@ import {
   OperationTypeDefinitionNode,
   visit,
 } from "graphql";
-import { sort } from "radash";
 
 /**
  * Builds GraphQLSchema without validation of SDL
@@ -298,10 +297,10 @@ function sortNodes(
         Kind.OPERATION_TYPE_DEFINITION
       )
     ) {
-      return sort(nodes, "operation");
+      return nodes; // sort(nodes, "operation");
     }
 
-    return sort(nodes, "kind", "name.value");
+    return nodes; // sort(nodes, "kind", "name.value");
   }
 
   return;

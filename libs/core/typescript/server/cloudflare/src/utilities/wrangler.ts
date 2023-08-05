@@ -23,13 +23,16 @@ export async function runWranglerCommand(
     wranglerOptions.push(
       Path.join(
         workspaceRoot,
-        projectConfiguration.targets.build.options.outputPath,
+        projectConfiguration.targets["build"].options.outputPath,
         "worker.mjs"
       )
     );
   } else if (command === "dev") {
     wranglerOptions.push(
-      Path.join(workspaceRoot, projectConfiguration.targets.build.options.main)
+      Path.join(
+        workspaceRoot,
+        projectConfiguration.targets["build"].options.main
+      )
     );
   }
 

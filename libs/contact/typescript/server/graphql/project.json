@@ -13,25 +13,75 @@
         "packageJson": "libs/contact/typescript/server/graphql/package.json",
         "main": "libs/contact/typescript/server/graphql/src/index.ts",
         "assets": [
-          "libs/contact/typescript/server/graphql/*.md"
+          {
+            "glob": "libs/contact/typescript/server/graphql/README.md",
+            "input": ".",
+            "output": "."
+          }
         ]
       }
     },
-    "prisma-init": {
-      "command": "prisma init",
+    "prisma-db-pull": {
+      "executor": "nx:run-commands",
       "options": {
+        "command": "npx prisma db pull",
+        "cwd": "libs/contact/typescript/server/graphql"
+      }
+    },
+    "prisma-db-push": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma db push",
         "cwd": "libs/contact/typescript/server/graphql"
       }
     },
     "prisma-migrate": {
-      "command": "prisma migrate dev",
+      "executor": "nx:run-commands",
       "options": {
+        "command": "npx prisma migrate dev",
         "cwd": "libs/contact/typescript/server/graphql"
       }
     },
-    "generate": {
-      "command": "prisma generate --data-proxy",
+    "prisma-format": {
+      "executor": "nx:run-commands",
       "options": {
+        "command": "npx prisma format",
+        "cwd": "libs/contact/typescript/server/graphql"
+      }
+    },
+    "prisma-generate": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "direct",
+      "options": {
+        "command": "npx prisma generate",
+        "cwd": "libs/contact/typescript/server/graphql"
+      },
+      "configurations": {
+        "direct": {
+          "options": {
+            "command": "npx prisma generate",
+            "cwd": "libs/contact/typescript/server/graphql"
+          }
+        },
+        "data-proxy": {
+          "options": {
+            "command": "npx prisma generate --data-proxy",
+            "cwd": "libs/contact/typescript/server/graphql"
+          }
+        }
+      }
+    },
+    "prisma-full": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx run contact-server-graphql:prisma-db-pull",
+          "npx nx run contact-server-graphql:prisma-generate",
+          "npx nx run contact-server-graphql:prisma-format",
+          "npx nx run contact-server-graphql:bundle",
+          "npx nx run contact-server-graphql:prisma-migrate",
+          "npx nx run contact-server-graphql:prisma-db-push"
+        ],
         "cwd": "libs/contact/typescript/server/graphql"
       }
     },
@@ -39,9 +89,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/contact/typescript/server/graphql/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/contact/typescript/server/graphql/**/*.ts"]
       }
     },
     "test": {

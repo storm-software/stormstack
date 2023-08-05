@@ -37,6 +37,15 @@
           "codeCoverage": true
         }
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "core-server-application-v${VERSION}"
+      }
     }
   },
   "tags": []

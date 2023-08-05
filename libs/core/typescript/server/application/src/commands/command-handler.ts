@@ -1,5 +1,4 @@
 import { IAggregateRoot } from "@open-system/core-server-domain";
-import { isPromise } from "@open-system/core-shared-utilities";
 import { ServerContext } from "../context";
 import { ICommand } from "./command";
 
@@ -24,7 +23,11 @@ export const commandHandler =
       commandId,
       version = 1,
     }: CommandHandlerParams<TRequest, TAggregate, TCommand, TContext>,
-    handle: (
+    handle: <
+      TAggregate extends IAggregateRoot = IAggregateRoot,
+      TCommand extends ICommand<TRequest> = ICommand<TRequest>,
+      TContext extends ServerContext = ServerContext
+    >(
       aggregate: TAggregate,
       command: TCommand,
       context: TContext
@@ -35,19 +38,18 @@ export const commandHandler =
       commandId,
       version,
       request
-    );
+    ) as TCommand;
 
-    let aggregate = context.factories.aggregate<TRequest>(
-      request,
-      command.id,
-      context.correlationId,
-      context.user.id
+    const aggregate = await handle<TAggregate, TCommand, TContext>(
+      context.factories.aggregate<TAggregate>(
+        request,
+        command.id,
+        context.correlationId,
+        context.user.id
+      ),
+      command,
+      context
     );
-    if (isPromise(aggregate)) {
-      aggregate = await aggregate;
-    }
-
-    aggregate = await handle(aggregate, command, context);
 
     return aggregate;
   };

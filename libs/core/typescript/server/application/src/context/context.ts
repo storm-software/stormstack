@@ -15,12 +15,12 @@ export type UserContext<TContext = {}> = Record<string, any> &
   };
 
 export type FactoriesContext = {
-  aggregate: <TRequest>(
-    request: TRequest,
+  aggregate: <TAggregate extends IAggregateRoot = IAggregateRoot>(
+    request: any,
     sourceId: string,
     correlationId: string,
     userId: string
-  ) => IAggregateRoot;
+  ) => TAggregate;
   command: <TRequest>(
     commandId: string,
     version: number,

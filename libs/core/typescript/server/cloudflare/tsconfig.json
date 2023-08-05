@@ -3,12 +3,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "forceConsistentCasingInFileNames": true,
+    "strict": false,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "types": ["node"]
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
   },
   "files": [],
   "include": [],

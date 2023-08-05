@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
+/*import {
   CommandHandlerParams,
   EventSourcedServerContext,
   IAggregateRoot,
@@ -29,4 +29,4 @@ export const eventSourcedMutationHandler =
     await eventSourcedCommandHandler<TRequest, TAggregate, TCommand, TContext>(
       params
     )(request, context);
-}
+}*/

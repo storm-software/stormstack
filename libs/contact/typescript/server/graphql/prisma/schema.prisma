@@ -1,20 +1,22 @@
 datasource db {
     provider = "mongodb"
-    url      = env("CONTACT_DB_CONNECTION_STRING")
+    url      = env("CONTACT_DATABASE_URL") // uses connection pooling
+    // directUrl         = env("CONTACT_DATABASE_DIRECT_URL") // uses a direct connection
+    // shadowDatabaseUrl = env("CONTACT_DATABASE_DIRECT_URL") // used for migrations
 }
 
 generator client {
     provider = "prisma-client-js"
     // Generate into custom location because this repo has multiple prisma schemas
-    output   = "../src/__generated__/prisma"
+    output   = "../../../../../../../node_modules/.prisma/client/contact"
 }
 
 generator pothos {
     provider     = "prisma-pothos-types"
     // Match client output location from above
-    clientOutput = "./prisma"
+    clientOutput = "@prisma/client/contact"
     prismaUtils  = true
-    output       = "../src/__generated__/types.ts"
+    output       = "../src/__generated__/types.d.ts"
 }
 
 generator pothosCrud {
@@ -22,25 +24,25 @@ generator pothosCrud {
     generatorConfigPath = "../codegen.config.js"
 }
 
-generator zod {
-    provider                         = "zod-prisma-types"
-    output                           = "../src/__generated__/zod"
-    useMultipleFiles                 = true // default is false
-    writeBarrelFiles                 = true // default is true
-    createInputTypes                 = true // default is true
-    createModelTypes                 = false // default is true
-    addInputTypeValidation           = true // default is true
-    addIncludeType                   = true // default is true
-    addSelectType                    = true // default is true
-    validateWhereUniqueInput         = true // default is false
-    createOptionalDefaultValuesTypes = true // default is false
-    createRelationValuesTypes        = true // default is false
-    createPartialTypes               = true // default is false
-    useDefaultValidators             = true // default is true
-    coerceDate                       = true // default is true
-    writeNullishInModelTypes         = true // default is false
-    prismaClientPath                 = "../prisma"
-}
+//generator zod {
+//    provider                         = "zod-prisma-types"
+//    output                           = "../src/__generated__/zod"
+//    useMultipleFiles                 = false // default is false
+//    writeBarrelFiles                 = true // default is true
+//    createInputTypes                 = true // default is true
+//    createModelTypes                 = false // default is true
+//    addInputTypeValidation           = true // default is true
+//    addIncludeType                   = false // default is true
+//    addSelectType                    = false // default is true
+//    validateWhereUniqueInput         = true // default is false
+//   createOptionalDefaultValuesTypes = true // default is false
+//    createRelationValuesTypes        = false // default is false
+//    createPartialTypes               = false // default is false
+//    useDefaultValidators             = true // default is true
+//    coerceDate                       = true // default is true
+//    writeNullishInModelTypes         = true // default is false
+//    prismaClientPath                 = "@prisma/client/contact"
+//}
 
 enum ContactReason {
     Business
@@ -51,26 +53,28 @@ enum ContactReason {
     Subscription
 }
 
+enum AttachmentStatus {
+    Pending
+    Approved
+    Rejected
+    Removed
+}
+
 /// The data fields related to a specific Contact request instance
 model Contact {
-    /// The unique identifier for the Contact
-    /// @Pothos.omit(create)
+    /// @Pothos.omit(create) The unique identifier for the Contact
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    /// A timestamp of when the Contact was created
-    /// @Pothos.omit(create, update)
+    /// @Pothos.omit(create, update) A timestamp of when the Contact was created
     createdOn DateTime @default(now())
 
-    /// The user who created the Contact
-    /// @Pothos.omit(create, update)
+    /// @Pothos.omit(create, update) The user who created the Contact
     createdBy String @db.ObjectId
 
-    /// A timestamp of when the Contact was last updated
-    /// @Pothos.omit(create, update)
+    /// @Pothos.omit(create, update) A timestamp of when the Contact was last updated
     updatedOn DateTime? @updatedAt
 
-    /// The user who last updated the Contact
-    /// @Pothos.omit(create, update)
+    /// @Pothos.omit(create, update) The user who last updated the Contact
     updatedBy String? @db.ObjectId
 
     /// The reason of the Contact
@@ -80,10 +84,10 @@ model Contact {
     details String?
 
     /// The provided email to respond back to the Contact request
-    email String /// @zod.string.email()
+    email String
 
     /// The provided phone number to respond back to the Contact request
-    phoneNumber String? /// @zod.string.max(15)
+    phoneNumber String?
 
     /// The provided first name of the Contact
     firstName String?
@@ -98,7 +102,7 @@ model Contact {
     addressLine2 String?
 
     /// The provided postal code of the Contact
-    postalCode String? /// @zod.string.min(5).max(12)
+    postalCode String?
 
     /// The provided city of the Contact
     city String?
@@ -116,39 +120,27 @@ model Contact {
     companyName String?
 
     /// The provided URL of the Contact
-    url String? /// @zod.string.url()
+    url String?
 
     /// A list of file attachments included by the Contact
     attachments ContactAttachment[]
 }
 
-enum AttachmentStatus {
-    Pending
-    Approved
-    Rejected
-    Removed
-}
-
 /// A file attachment included by a Contact
 model ContactAttachment {
-    /// The unique identifier for the ContactAttachment
-    /// @Pothos.omit(create)
+    /// @Pothos.omit(create) The unique identifier for the ContactAttachment
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    /// A timestamp of when the ContactAttachment was created
-    /// @Pothos.omit(create, update)
+    /// @Pothos.omit(create, update) A timestamp of when the ContactAttachment was created
     createdOn DateTime @default(now())
 
-    /// The user who created the ContactAttachment
-    /// @Pothos.omit(create, update)
+    /// @Pothos.omit(create, update) The user who created the ContactAttachment
     createdBy String @db.ObjectId
 
-    /// A timestamp of when the ContactAttachment was last updated
-    /// @Pothos.omit(create, update)
+    /// @Pothos.omit(create, update) A timestamp of when the ContactAttachment was last updated
     updatedOn DateTime? @updatedAt
 
-    /// The user who last updated the ContactAttachment
-    /// @Pothos.omit(create, update)
+    /// @Pothos.omit(create, update) The user who last updated the ContactAttachment
     updatedBy String? @db.ObjectId
 
     /// The name of the file

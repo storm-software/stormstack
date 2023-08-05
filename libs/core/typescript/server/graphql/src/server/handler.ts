@@ -1,7 +1,8 @@
 import { isGraphQLError } from "@envelop/core";
 import { useGraphQLModules } from "@envelop/graphql-modules";
-import { pinoLogger } from "@open-system/core-server-pino-logger";
-import { UserContext } from "@open-system/core-server-services";
+import { UserContext } from "@open-system/core-server-application";
+import { Injector } from "@open-system/core-shared-injection";
+import { Logger } from "@open-system/core-shared-utilities";
 import { Module, createApplication } from "graphql-modules";
 import { createYoga, useErrorHandler } from "graphql-yoga";
 import { useResponseCache, useSentry, useSentryUser } from "../envelop";
@@ -18,7 +19,7 @@ export const createGraphQLHandler = <
   });
 
   const server = createYoga<TServerContext>({
-    logging: pinoLogger,
+    logging: Injector.get(Logger),
     plugins: [
       useGraphQLModules(application),
       useSentry(),
