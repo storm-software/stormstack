@@ -17,37 +17,37 @@ export class ServerConfigManager extends ConfigManager {
 
   public get helios() {
     return {
-      token: this.env.HS_TOKEN,
-      environment: this.env.HS_ENVIRONMENT,
-      serviceName: this.env.HS_SERVICE_NAME,
+      token: this.env["HS_TOKEN"],
+      environment: this.env["HS_ENVIRONMENT"],
+      serviceName: this.env["HS_SERVICE_NAME"],
     };
   }
 
   public get bundlewatch() {
     return {
-      token: this.env.BUNDLEWATCH_GITHUB_TOKEN,
+      token: this.env["BUNDLEWATCH_GITHUB_TOKEN"],
     };
   }
 
   public get virusTotal() {
     return {
-      apiKey: this.env.VIRUS_TOTAL_API_KEY,
+      apiKey: this.env["VIRUS_TOTAL_API_KEY"],
     };
   }
 
   public get kafka() {
     return {
-      username: this.env.UPSTASH_KAFKA_REST_USERNAME,
-      password: this.env.UPSTASH_KAFKA_REST_PASSWORD,
-      serverUrl: this.env.UPSTASH_KAFKA_REST_URL,
+      username: this.env["UPSTASH_KAFKA_REST_USERNAME"],
+      password: this.env["UPSTASH_KAFKA_REST_PASSWORD"],
+      serverUrl: this.env["UPSTASH_KAFKA_REST_URL"],
     };
   }
 
   public get sentry() {
     return {
-      token: this.env.SENTRY_AUTH_TOKEN,
-      properties: this.env.SENTRY_PROPERTIES,
-      organization: this.env.SENTRY_ORGANIZATION,
+      token: this.env["SENTRY_AUTH_TOKEN"],
+      properties: this.env["SENTRY_PROPERTIES"],
+      organization: this.env["SENTRY_ORGANIZATION"],
     };
   }
 
@@ -55,7 +55,7 @@ export class ServerConfigManager extends ConfigManager {
     return {
       allowedOrigins: this.isProduction
         ? [this.baseUrl]
-        : ["http://localhost:3000", this.env.WG_ALLOWED_ORIGIN],
+        : ["http://localhost:3000", this.env["WG_ALLOWED_ORIGIN"]],
     };
   }
 }

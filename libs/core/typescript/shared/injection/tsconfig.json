@@ -1,16 +1,13 @@
 {
   "extends": "../../../../../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
     "forceConsistentCasingInFileNames": true,
-    "strict": false,
-    "noImplicitOverride": false,
-    "noPropertyAccessFromIndexSignature": false,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "types": ["jest", "node"]
+    "noFallthroughCasesInSwitch": true
   },
   "files": [],
   "include": [],

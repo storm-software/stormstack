@@ -1,7 +1,8 @@
-import { BaseError, BaseErrorCode } from "./base-error";
+import { BaseError } from "./base-error";
+import { BaseErrorCode } from "./error-codes";
 
 export class ConfigurationError extends BaseError {
-  public name = "Configuration Error";
+  public override name = "Configuration Error";
 
   public constructor(
     public configurationName: string,

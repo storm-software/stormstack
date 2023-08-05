@@ -1,11 +1,9 @@
 import { ServerConfigManager } from "@open-system/core-server-utilities";
+import { Service } from "@open-system/core-shared-injection";
 import { Logger } from "@open-system/core-shared-utilities";
-import { Injectable } from "graphql-modules";
 import pino from "pino";
 
-@Injectable({
-  global: true,
-})
+@Service(Logger)
 export class PinoLogger extends Logger {
   #logger: pino.BaseLogger;
 

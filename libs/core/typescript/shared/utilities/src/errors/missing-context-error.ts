@@ -1,4 +1,5 @@
 import { BaseError } from "./base-error";
+import { BaseErrorCode } from "./error-codes";
 
 /**
  * Represents an error caused by an api call i.e. it has attributes for a HTTP status code
@@ -10,12 +11,13 @@ import { BaseError } from "./base-error";
  *
  */
 export class MissingContextError extends BaseError {
-  public name = "Missing Context Error";
+  public override name = "Missing Context Error";
 
   public constructor(public contextName: string) {
     super(
-      "This component cannot be rendered without a parent context.",
-      `Missing context: ${contextName}`
+      BaseErrorCode.missing_context,
+      `This component cannot be rendered without a parent context.
+Missing context: ${contextName}`
     );
   }
 }

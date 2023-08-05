@@ -1,4 +1,5 @@
 import { BaseError } from "./base-error";
+import { BaseErrorCode } from "./error-codes";
 
 /**
  *
@@ -7,7 +8,7 @@ import { BaseError } from "./base-error";
  * @extends {Error}
  */
 export class RequiredError extends BaseError {
-  public name = "Required Fields Error";
+  public override name = "Required Fields Error";
 
   constructor(
     public field: string,
@@ -15,8 +16,9 @@ export class RequiredError extends BaseError {
     public process?: string
   ) {
     super(
-      `Required parameter ${field} is missing`,
-      `Required parameter ${field} was null or undefined ${
+      BaseErrorCode.required_field_missing,
+      `Required parameter ${field} is missing.
+Required parameter ${field} was null or undefined ${
         process || method
           ? ` when calling ${
               process && method ? `${process}.${method}` : process ?? method

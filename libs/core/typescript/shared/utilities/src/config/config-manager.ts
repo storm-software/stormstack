@@ -24,33 +24,33 @@ export class ConfigManager extends BaseUtilityClass {
 
   public get defaults() {
     return {
-      locale: this.env.NEXT_PUBLIC_DEFAULT_LOCALE,
-      timezone: this.env.NEXT_PUBLIC_DEFAULT_TIMEZONE,
+      locale: this.env["NEXT_PUBLIC_DEFAULT_LOCALE"],
+      timezone: this.env["NEXT_PUBLIC_DEFAULT_TIMEZONE"],
     };
   }
 
   public get repository() {
     return {
-      owner: this.env.CI_REPO_OWNER,
-      name: this.env.CI_REPO_NAME,
-      branch: this.env.CI_BRANCH,
+      owner: this.env["CI_REPO_OWNER"],
+      name: this.env["CI_REPO_NAME"],
+      branch: this.env["CI_BRANCH"],
     };
   }
 
   public get logging() {
     return {
-      logLevel: this.env.LOG_LEVEL,
+      logLevel: this.env["LOG_LEVEL"],
     };
   }
 
   public get environment() {
-    return this.env.NODE_ENV;
+    return this.env["NODE_ENV"];
   }
 
   public get isDevelopment() {
     return (
       this.environment === "development" ||
-      this.env.GITPOD_WORKSPACE_ID !== undefined
+      this.env["GITPOD_WORKSPACE_ID"] !== undefined
     );
   }
 
@@ -61,6 +61,6 @@ export class ConfigManager extends BaseUtilityClass {
   public get baseUrl() {
     return this.isDevelopment
       ? "http://localhost:3000"
-      : this.env.NEXT_PUBLIC_BASE_URL;
+      : this.env["NEXT_PUBLIC_BASE_URL"];
   }
 }

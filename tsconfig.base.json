@@ -69,11 +69,11 @@
       "@open-system/contact-client-data-access/*": [
         "libs/contact/typescript/client/data-access/src/*"
       ],
-      "@open-system/contact-server-data-access": [
-        "libs/contact/typescript/server/data-access/src/index.ts"
+      "@open-system/contact-server-graphql": [
+        "libs/contact/typescript/server/graphql/src/index.ts"
       ],
-      "@open-system/contact-server-data-access/*": [
-        "libs/contact/typescript/server/data-access/src/*"
+      "@open-system/contact-server-graphql/*": [
+        "libs/contact/typescript/server/graphql/src/*"
       ],
       "@open-system/contact-shared-data-access": [
         "libs/contact/typescript/shared/data-access/src/index.ts"
@@ -165,6 +165,12 @@
       ],
       "@open-system/core-shared-data-access/*": [
         "libs/core/typescript/shared/data-access/src/*"
+      ],
+      "@open-system/core-shared-injection": [
+        "libs/core/typescript/shared/injection/src/index.ts"
+      ],
+      "@open-system/core-shared-injection/*": [
+        "libs/core/typescript/shared/injection/src/*"
       ],
       "@open-system/core-shared-utilities": [
         "libs/core/typescript/shared/utilities/src/index.ts"
