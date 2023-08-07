@@ -1,8 +1,7 @@
 import {
   ContactApiServerContext,
-  DB,
   builder,
-} from "@open-system/contact-server-data-access";
+} from "@open-system/contact-server-graphql";
 import { initContextCache } from "@pothos/core";
 import {
   YogaInitialContext,
@@ -51,7 +50,7 @@ const handler = {
         }),
       };
 
-      return yoga.fetch(request, context as ContactApiServerContext);
+      return yoga.fetch(request, context);
     } catch (e: any) {
       return new Response(e?.message, { status: 500 });
     }

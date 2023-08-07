@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "storm-generate",
+  "title": "Open System - Storm Generate",
+  "description": "Generate code based on a provided Storm model",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "description": "The `.storm` file name and path of the Storm model to use",
+      "default": "./schema.storm"
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "Path to the directory where the files will be generated",
+      "default": "src/__generated__"
+    },
+    "packageManager": {
+      "type": "string",
+      "description": "Name of the package manager used by this repository",
+      "options": [
+        "npm", "yarn", "pnpm"
+      ],
+      "default": "npm"
+    },
+    "dependencyCheck": {
+      "type": "boolean",
+      "description": "Should the currently installed Prisma version be checked",
+      "default": true
+    }
+  },
+  "required": ["stormFile", "outputPath", "packageManager", "dependencyCheck"]
+}

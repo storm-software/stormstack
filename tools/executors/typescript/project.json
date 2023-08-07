@@ -160,6 +160,18 @@
               "output": "."
             }
           ]
+        },
+        "storm-generate": {
+          "outputPath": "dist/tools/executors/typescript/storm-generate",
+          "main": "tools/executors/typescript/storm-generate/impl.ts",
+          "deleteOutputPath": true,
+          "assets": [
+            {
+              "input": "tools/executors/typescript/storm-generate",
+              "glob": "schema.json",
+              "output": "."
+            }
+          ]
         }
       }
     },

@@ -12,9 +12,10 @@ export class ClassRenderer extends TypeScriptObjectRenderer {
       await this.runAdditionalContentPreset(),
     ];
 
-    return `class ${
-      this.model.name ?? this.model.name
-    } extends IntegrationEvent {
+    return `
+
+@Event()
+class ${this.model.name ?? this.model.name} extends IntegrationEvent {
 ${this.indent(this.renderBlock(content, 2))}
 }`;
   }

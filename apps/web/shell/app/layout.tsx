@@ -27,6 +27,11 @@ import RootProvider from "./root-provider";
   () => import("./(components)/cookie-policy-banner.client")
 );*/
 
+const title = "Pat Sullivan Development";
+const description = "Software designed for tomorrow's brands";
+const image =
+  "https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/circle-logo.png";
+
 const contactJsonLd: WithContext<ContactPoint> = {
   "@context": "https://schema.org",
   "@type": "ContactPoint",
@@ -64,7 +69,8 @@ const personJsonLd: WithContext<Person> = {
   hasOccupation: architectJsonLd,
   jobTitle: "Software Architect",
   knowsLanguage: "en",
-  description: "Software designed for tomorrow's brands",
+  description:
+    "A financial technology developer based out of the New York metropolitan area.",
   contactPoint: contactJsonLd,
 };
 
@@ -72,18 +78,19 @@ export const metadata = {
   colorScheme: "dark",
   themeColor: "#18181B",
   title: {
-    template: "%s - Pat Sullivan Development",
-    default: "Pat Sullivan Development",
+    template: `%s - ${title}`,
+    default: title,
+    images: [image],
   },
   authors: [{ name: "Pat Sullivan", url: "https://patsullivan.org" }],
   metadataBase: new URL("https://patsullivan.org"),
-  description: "Software designed for tomorrow's brands",
+  description: description,
   manifest: "https://patsullivan.org/manifest.json",
   noindex: false,
   nofollow: false,
   canonical: "https://patsullivan.org",
   generator: "Pat Sullivan",
-  applicationName: "Pat Sullivan Development",
+  applicationName: title,
   referrer: "origin-when-cross-origin",
   keywords: [
     "Pat",
