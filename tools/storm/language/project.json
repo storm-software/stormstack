@@ -1,0 +1,112 @@
+{
+  "name": "tools-storm-language",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/storm/language/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/storm/language",
+        "main": "tools/storm/language/src/index.ts",
+        "project": "tools/storm/language/package.json",
+        "tsConfig": "tools/storm/language/tsconfig.json",
+        "assets": [
+          {
+            "glob": "tools/storm/language/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "bundle": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/storm/language",
+        "main": "tools/storm/language/src/index.ts",
+        "project": "tools/storm/language/package.json",
+        "tsConfig": "tools/storm/language/tsconfig.json",
+        "assets": [
+          {
+            "glob": "tools/storm/language/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "outputPath": "dist/tools/storm/language",
+      "defaultConfiguration": "default",
+      "options": {
+        "commands": [
+          "npx langium generate",
+          "npx nx run tools-storm-language:bundle"
+        ],
+        "cwd": "tools/storm/language"
+      },
+      "configurations": {
+        "default": {
+          "options": {
+            "commands": [
+              "npx langium generate",
+              "npx nx run tools-storm-language:bundle"
+            ],
+            "cwd": "tools/storm/language"
+          }
+        },
+        "watch": {
+          "options": {
+            "commands": [
+              "concurrently \"langium generate --watch\" \"tsc --watch\"",
+              "npx nx run tools-storm-language:bundle"
+            ],
+            "watch": true,
+            "cwd": "tools/storm/language"
+          }
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/storm/language/**/*.ts",
+          "tools/storm/language/generators.json",
+          "tools/storm/language/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "tools/storm/language/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-storm-language-v${VERSION}"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["core-shared-utilities"]
+}

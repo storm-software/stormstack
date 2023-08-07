@@ -1,0 +1,78 @@
+{
+  "name": "tools-storm-runtime",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/storm/runtime/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/storm/runtime",
+        "main": "tools/storm/runtime/src/index.ts",
+        "project": "tools/storm/runtime/package.json",
+        "tsConfig": "tools/storm/runtime/tsconfig.json",
+        "assets": [
+          {
+            "glob": "tools/storm/runtime/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "bundle": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/storm/runtime",
+        "main": "tools/storm/runtime/src/index.ts",
+        "project": "tools/storm/runtime/package.json",
+        "tsConfig": "tools/storm/runtime/tsconfig.json",
+        "assets": [
+          {
+            "glob": "tools/storm/runtime/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/storm/runtime/**/*.ts",
+          "tools/storm/runtime/generators.json",
+          "tools/storm/runtime/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "tools/storm/runtime/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-storm-runtime-v${VERSION}"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["core-shared-utilities"]
+}

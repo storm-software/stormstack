@@ -69,6 +69,9 @@
       "@open-system/contact-client-data-access/*": [
         "libs/contact/typescript/client/data-access/src/*"
       ],
+      "@open-system/contact-server-attachment": [
+        "libs/contact/typescript/server/attachment/src/index.ts"
+      ],
       "@open-system/contact-server-graphql": [
         "libs/contact/typescript/server/graphql/src/index.ts"
       ],
@@ -229,6 +232,18 @@
       "@open-system/tools-async-api-rabbitmq": [
         "dist/tools/async-api/rabbitmq/index.ts"
       ],
+      "@open-system/tools-storm-language": [
+        "tools/storm/language/src/index.ts"
+      ],
+      "@open-system/tools-storm-language/*": [
+        "tools/storm/language/src/*"
+      ],
+      "@open-system/tools-storm-schema": ["tools/storm/schema/src/index.ts"],
+      "@open-system/tools-storm-schema/*": ["tools/storm/schema/src/*"],
+      "@open-system/tools-storm-sdk": ["tools/storm/sdk/src/index.ts"],
+      "@open-system/tools-storm-sdk/*": ["tools/storm/sdk/src/*"],
+      "@open-system/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
+      "@open-system/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],
       "@open-system/user-management-client-components": [
         "libs/user-management/typescript/client/components/src/index.ts"
       ],

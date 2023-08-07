@@ -1,0 +1,14 @@
+{
+  "projectName": "Storm",
+  "languages": [
+    {
+      "id": "storm",
+      "grammar": "src/storm.langium",
+      "fileExtensions": [".storm"],
+      "textMate": {
+        "out": "syntaxes/storm.tmLanguage.json"
+      }
+    }
+  ],
+  "out": "src/generated"
+}
