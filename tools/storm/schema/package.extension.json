@@ -2,7 +2,7 @@
   "name": "storm-schema",
   "displayName": "Storm Language Tools",
   "version": "0.0.1",
-  "publisher": "Pat Sullivan Development",
+  "publisher": "pat-sullivan",
   "license": "BSD 2-Clause \"Simplified\" License",
   "description": "A toolkit for building secure CRUD apps with Next.js + GraphQL built on Prisma and Zenstack.",
   "homepage": "https://sullivanpj.github.io/open-system/",
@@ -23,10 +23,12 @@
     "react",
     "typescript",
     "data modeling",
-    "graphql"
+    "graphql",
+    "zenstack",
+    "prisma"
   ],
   "preview": false,
-  "icon": "asset/logo.png",
+  "icon": "assets/logo.png",
   "publishConfig": {
     "directory": "dist/tools/storm/schema",
     "linkDirectory": true
@@ -50,8 +52,8 @@
         ],
         "configuration": "./language-configuration.json",
         "icon": {
-          "light": "./asset/logo.png",
-          "dark": "./asset/logo.png"
+          "light": "./assets/logo.png",
+          "dark": "./assets/logo.png"
         }
       }
     ],

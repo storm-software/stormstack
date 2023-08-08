@@ -123,7 +123,8 @@
     "webp",
     "websphere",
     "wunderctl",
-    "wundergraph"
+    "wundergraph",
+    "zenstack"
   ],
   "enableFiletypes": [
     "mdx"

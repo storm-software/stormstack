@@ -7,6 +7,7 @@
     "ms-vscode-remote.remote-containers",
     "asyncapi.asyncapi-preview",
     "ms-dotnettools.csharp",
-    "streetsidesoftware.code-spell-checker"
+    "streetsidesoftware.code-spell-checker",
+    "pat-sullivan.storm-schema"
   ]
 }

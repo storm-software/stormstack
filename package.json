@@ -305,6 +305,7 @@
     "redocusaurus": "^1.6.2",
     "reflect-metadata": "^0.1.13",
     "relay-compiler": "^15.0.0",
+    "renamer": "^4.0.0",
     "rollup-plugin-url": "^3.0.1",
     "server-only": "^0.0.1",
     "storybook": "^7.0.7",

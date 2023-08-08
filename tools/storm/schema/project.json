@@ -79,7 +79,7 @@
           },
           {
             "input": ".",
-            "glob": "LICENSE.md",
+            "glob": "LICENSE",
             "output": "."
           },
           {
@@ -119,9 +119,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx nx run tools-storm-schema:bundle",
-          "rmdir /S /Q 'package.json' ",
-          "renamer --replace \"package.json\" package.extension.json",
+          "rimraf /S /Q \"package.json\" ",
+          "renamer --replace --find \"package.extension.json\" --replace \"package.json\" *",
           "npx vsce package --no-dependencies",
           "npx vsce publish --no-dependencies"
         ],
