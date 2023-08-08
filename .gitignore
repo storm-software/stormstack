@@ -7,7 +7,7 @@
 dist
 tmp
 /out-tsc
-build
+# build
 
 # dependencies
 node_modules
@@ -62,6 +62,12 @@ tools/**/*.properties
 .next
 .stoplight
 
+####### Tool Specific #######
+
+!tools/storm/**/[Bb]in/**
+!tools/storm/**/[Bb]uild/**
+
+
 ################################################################
 
 # User-specific files
@@ -87,7 +93,7 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+# [Bb]in/
 [Oo]bj/
 [Ll]og/
 

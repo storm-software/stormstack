@@ -14,25 +14,8 @@
         "tsConfig": "tools/storm/sdk/tsconfig.json",
         "assets": [
           {
-            "glob": "tools/storm/sdk/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
-      }
-    },
-    "bundle": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/tools/storm/sdk",
-        "main": "tools/storm/sdk/src/index.ts",
-        "project": "tools/storm/sdk/package.json",
-        "tsConfig": "tools/storm/sdk/tsconfig.json",
-        "assets": [
-          {
-            "glob": "tools/storm/sdk/README.md",
-            "input": ".",
+            "input": "tools/storm/sdk",
+            "glob": "README.md",
             "output": "."
           }
         ]

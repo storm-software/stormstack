@@ -14,8 +14,8 @@
         "tsConfig": "tools/storm/language/tsconfig.json",
         "assets": [
           {
-            "glob": "tools/storm/language/README.md",
-            "input": ".",
+            "input": "tools/storm/language",
+            "glob": "README.md",
             "output": "."
           }
         ]

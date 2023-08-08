@@ -9,7 +9,7 @@
     "schema": {
       "type": "string",
       "description": "The `.storm` file name and path of the Storm model to use",
-      "default": "./schema.storm"
+      "default": "schema.storm"
     },
     "outputPath": {
       "type": "string",
@@ -30,5 +30,5 @@
       "default": true
     }
   },
-  "required": ["stormFile", "outputPath", "packageManager", "dependencyCheck"]
+  "required": ["schema", "outputPath", "packageManager", "dependencyCheck"]
 }

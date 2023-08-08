@@ -1,0 +1,73 @@
+{
+  "name": "storm-schema",
+  "displayName": "Storm Language Tools",
+  "version": "0.0.1",
+  "publisher": "Pat Sullivan Development",
+  "license": "BSD 2-Clause \"Simplified\" License",
+  "description": "A toolkit for building secure CRUD apps with Next.js + GraphQL built on Prisma and Zenstack.",
+  "homepage": "https://sullivanpj.github.io/open-system/",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/sullivanpj/open-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sullivanpj/open-system/issues"
+  },
+  "author": {
+    "email": "contact@patsullivan.org",
+    "name": "Pat Sullivan",
+    "url": "https://patsullivan.org"
+  },
+  "keywords": [
+    "fullstack",
+    "react",
+    "typescript",
+    "data modeling",
+    "graphql"
+  ],
+  "preview": false,
+  "icon": "asset/logo.png",
+  "publishConfig": {
+    "directory": "dist/tools/storm/schema",
+    "linkDirectory": true
+  },
+  "engines": {
+    "vscode": "^1.56.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "storm",
+        "aliases": [
+          "Storm Model",
+          "storm"
+        ],
+        "extensions": [
+          ".storm"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./asset/logo.png",
+          "dark": "./asset/logo.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "storm",
+        "scopeName": "source.storm",
+        "path": "./syntaxes/storm.tmLanguage.json"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:storm"
+  ],
+  "bin": {
+    "storm": "bin/cli"
+  },
+  "main": "./extension.js"
+}

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { deepCopy } from "@open-system/core-shared-utilities";
+import { deepCopy } from "@open-system/core-shared-utilities/common/deep-copy";
 import { lowerCaseFirst } from "lower-case-first";
 import { upperCaseFirst } from "upper-case-first";
 import { fromZodError } from "zod-validation-error";

@@ -73,6 +73,14 @@
     "editor.defaultFormatter": "Prisma.prisma"
   },
 
+    /******************************
+   * Storm
+   ******************************/
+   "[storm]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+
   /******************************
    * csharpier
    ******************************/

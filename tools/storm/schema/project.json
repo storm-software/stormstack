@@ -14,28 +14,118 @@
         "tsConfig": "tools/storm/schema/tsconfig.json",
         "assets": [
           {
-            "glob": "tools/storm/schema/README.md",
+            "input": "tools/storm/schema",
+            "glob": "README.md",
+            "output": "."
+          },
+          {
             "input": ".",
+            "glob": "LICENSE.md",
+            "output": "."
+          },
+          {
+            "input": "tools/storm/schema/bin",
+            "glob": "*.*",
+            "output": "bin"
+          },
+          {
+            "input": "tools/storm/schema/build",
+            "glob": "*.*",
+            "output": "build"
+          },
+          {
+            "input": "tools/storm/schema/src/res",
+            "glob": "*.*",
+            "output": "res"
+          },
+          {
+            "input": "tools/storm/schema/assets",
+            "glob": "*.*",
+            "output": "assets"
+          },
+          {
+            "input": "tools/storm/schema/syntaxes",
+            "glob": "*.*",
+            "output": "syntaxes"
+          },
+          {
+            "input": "tools/storm/schema",
+            "glob": "language-configuration.json",
             "output": "."
           }
         ]
       }
     },
     "bundle": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/tools/storm/schema",
-        "main": "tools/storm/schema/src/index.ts",
+        "outputPath": "dist/tools/storm/schema-bundle",
+        "main": "tools/storm/schema/src/extension.ts",
+        "additionalEntryPoints": [
+          "tools/storm/schema/src/language-server/main.ts"
+        ],
         "project": "tools/storm/schema/package.json",
         "tsConfig": "tools/storm/schema/tsconfig.json",
+        "external": ["vscode"],
+        "platform": "node",
+        "metafile": true,
+        "deleteOutputPath": true,
         "assets": [
           {
-            "glob": "tools/storm/schema/README.md",
+            "input": "tools/storm/schema",
+            "glob": "README.md",
+            "output": "."
+          },
+          {
             "input": ".",
+            "glob": "LICENSE.md",
+            "output": "."
+          },
+          {
+            "input": "tools/storm/schema/src/res",
+            "glob": "*.*",
+            "output": "res"
+          },
+          {
+            "input": "tools/storm/schema/assets",
+            "glob": "*.*",
+            "output": "assets"
+          },
+          {
+            "input": "tools/storm/schema/syntaxes",
+            "glob": "*.*",
+            "output": "syntaxes"
+          },
+          {
+            "input": "tools/storm/schema",
+            "glob": "language-configuration.json",
+            "output": "."
+          },
+          {
+            "input": "tools/storm/schema",
+            "glob": "package.extension.json",
             "output": "."
           }
-        ]
+        ],
+        "esbuildOptions": {
+          "sourcemap": false,
+          "bundle": true,
+          "outdir": "dist/tools/storm/schema-bundle"
+        }
+      }
+    },
+    "publish-vscode": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx run tools-storm-schema:bundle",
+          "rmdir /S /Q 'package.json' ",
+          "renamer --replace \"package.json\" package.extension.json",
+          "npx vsce package --no-dependencies",
+          "npx vsce publish --no-dependencies"
+        ],
+        "cwd": "dist/tools/storm/schema-bundle"
       }
     },
     "lint": {
@@ -73,6 +163,6 @@
       }
     }
   },
-  "tags": [],
-  "implicitDependencies": ["core-shared-utilities"]
+  "tags": []
+  // "implicitDependencies": ["core-shared-utilities"]
 }

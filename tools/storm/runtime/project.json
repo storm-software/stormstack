@@ -14,8 +14,8 @@
         "tsConfig": "tools/storm/runtime/tsconfig.json",
         "assets": [
           {
-            "glob": "tools/storm/runtime/README.md",
-            "input": ".",
+            "input": "tools/storm/runtime",
+            "glob": "README.md",
             "output": "."
           }
         ]
