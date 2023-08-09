@@ -1,11 +1,10 @@
-import { ExecutorContext } from "@nx/devkit";
-// import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import Generator from "@asyncapi/generator";
-import { ExecOptions, exec } from "child_process";
+import { ExecutorContext } from "@nx/devkit";
+import { executeAsync } from "@open-system/core-server-utilities/execute-async";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { existsSync } from "fs-extra";
 import glob from "glob";
 import Path from "path";
-import { promisify } from "util";
 import { EventLibraryExecutorSchema } from "./schema";
 import { mapTemplateToImport } from "./utilities";
 
@@ -13,7 +12,7 @@ export default async function (
   { templateName, ...options }: EventLibraryExecutorSchema,
   context: ExecutorContext
 ) {
-  console.info("Running Event Library code executor.");
+  ConsoleLogger.info("Running Event Library code executor.");
 
   try {
     const libsDirectory = Path.join(
@@ -27,7 +26,7 @@ export default async function (
     const files = glob.sync(libsDirectory);
 
     if (!files || files.length === 0) {
-      console.error(
+      ConsoleLogger.error(
         `No Async-API specs could be found in library packages. Searched in directory: '${libsDirectory}'. ** NOTE: Async-API specs must be named with the extension '.async-api.json' **`
       );
       return { success: false };
@@ -39,27 +38,29 @@ export default async function (
     );
 
     for (const file of files) {
-      console.info(`Generating events from Async-API spec in file: ${file}`);
+      ConsoleLogger.info(
+        `Generating events from Async-API spec in file: ${file}`
+      );
 
       const domainName = file.substring(
         Path.join(context.root, "libs").length + 1,
         file.indexOf("/", Path.join(context.root, "libs").length + 2)
       );
       const domainOutputPath = Path.join(outputPath, domainName);
-      console.info(
+      ConsoleLogger.info(
         `Determined domain to be '${domainName}' - '${domainOutputPath}'`
       );
 
       if (existsSync(domainOutputPath)) {
         const result = await executeAsync(`rmdir /S /Q "${domainOutputPath}" `);
-        if (result?.stderr) {
-          console.error(result);
+        if (result) {
+          ConsoleLogger.error(result);
           return { success: false };
         }
       } else {
         const result = await executeAsync(`mkdir ${domainOutputPath}`);
-        if (result?.stderr) {
-          console.error(result);
+        if (SpeechRecognitionResult) {
+          ConsoleLogger.error(result);
           return { success: false };
         }
       }
@@ -75,30 +76,25 @@ export default async function (
         }
       );
 
-      console.info(
+      ConsoleLogger.info(
         `Generator has been created, preparing to generate from file: ${file}`
       );
 
       try {
         await generator.generateFromFile(file);
       } catch (e) {
-        console.error(`An error occurred building`);
+        ConsoleLogger.error(`An error occurred building`);
         throw e;
       }
     }
 
-    console.info("Event Library code generation process succeeded");
+    ConsoleLogger.info("Event Library code generation process succeeded");
 
     return { success: true };
   } catch (e) {
-    console.error(`An error occurred building ${context.projectName}`);
-    console.error(e);
+    ConsoleLogger.error(`An error occurred building ${context.projectName}`);
+    ConsoleLogger.error(e);
 
     return { success: false };
   }
 }
-
-const executeAsync = async (command: string, options?: ExecOptions) => {
-  console.info(`Executing command: "${command}"`);
-  return await promisify(exec)(command, options);
-};

@@ -4,7 +4,7 @@ import {
   Plugin,
   isGeneratorDecl,
   isPlugin,
-} from "@open-system/tools-storm-language";
+} from "@open-system/tools-storm-language/ast";
 import { getPrismaVersion } from "@open-system/tools-storm-runtime";
 import type { DMMF } from "@prisma/generator-helper";
 import { getDMMF as getDMMF5 } from "@prisma/internals";

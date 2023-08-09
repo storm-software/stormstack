@@ -8,6 +8,7 @@
     "asyncapi.asyncapi-preview",
     "ms-dotnettools.csharp",
     "streetsidesoftware.code-spell-checker",
+    "langium.langium-vscode",
     "pat-sullivan.storm-schema"
   ]
 }

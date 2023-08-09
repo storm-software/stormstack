@@ -5,13 +5,21 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/storm/language",
-        "main": "tools/storm/language/src/index.ts",
+        "main": "tools/storm/language/src/module.ts",
+        "additionalEntryPoints": ["tools/storm/language/src/ast.ts"],
         "project": "tools/storm/language/package.json",
         "tsConfig": "tools/storm/language/tsconfig.json",
+        "platform": "node",
+        "metafile": true,
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": false,
+        "minify": true,
+        "format": ["esm", "cjs"],
         "assets": [
           {
             "input": "tools/storm/language",
@@ -21,50 +29,26 @@
         ]
       }
     },
-    "bundle": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/tools/storm/language",
-        "main": "tools/storm/language/src/index.ts",
-        "project": "tools/storm/language/package.json",
-        "tsConfig": "tools/storm/language/tsconfig.json",
-        "assets": [
-          {
-            "glob": "tools/storm/language/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
-      }
-    },
     "generate": {
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
-      "outputPath": "dist/tools/storm/language",
+      "outputPath": "tools/storm/language",
       "defaultConfiguration": "default",
       "options": {
-        "commands": [
-          "npx langium generate",
-          "npx nx run tools-storm-language:bundle"
-        ],
+        "commands": ["npx langium generate"],
         "cwd": "tools/storm/language"
       },
       "configurations": {
         "default": {
           "options": {
-            "commands": [
-              "npx langium generate",
-              "npx nx run tools-storm-language:bundle"
-            ],
+            "commands": ["npx langium generate"],
             "cwd": "tools/storm/language"
           }
         },
         "watch": {
           "options": {
             "commands": [
-              "concurrently \"langium generate --watch\" \"tsc --watch\"",
-              "npx nx run tools-storm-language:bundle"
+              "concurrently \"langium generate --watch\" \"tsc --watch\""
             ],
             "watch": true,
             "cwd": "tools/storm/language"

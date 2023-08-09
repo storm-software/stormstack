@@ -187,7 +187,7 @@ export function makeProxy<T extends PrismaProxyHandler>(
       }
 
       if (prop === "toString") {
-        return () => `$zenstack_${name}[${target.toString()}]`;
+        return () => `$storm_${name}[${target.toString()}]`;
       }
 
       if (prop === "$transaction") {
@@ -201,7 +201,7 @@ export function makeProxy<T extends PrismaProxyHandler>(
           return (input: any, ...rest: any[]) => {
             if (Array.isArray(input)) {
               throw new Error(
-                "Sequential operations transaction is not supported by ZenStack enhanced Prisma client. Please use interactive transaction instead."
+                "Sequential operations transaction is not supported by Storm enhanced Prisma client. Please use interactive transaction instead."
               );
             } else if (typeof input !== "function") {
               throw new Error("A function value input is expected");
@@ -298,7 +298,7 @@ function cleanCallStack(stack: string, method: string, message: string) {
       continue;
     }
 
-    // skip leading zenstack and anonymous lines
+    // skip leading Storm and anonymous lines
     if (
       line.includes("@open-system/tools-storm-runtime") ||
       line.includes("<anonymous>")

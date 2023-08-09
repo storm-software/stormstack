@@ -5,7 +5,7 @@ import { hash } from "bcryptjs";
 import { DEFAULT_PASSWORD_SALT_LENGTH } from "../constants";
 import { DbClientContract, PrismaWriteActionType } from "../types";
 import { getDefaultModelMeta } from "./model-meta";
-import { NestedWriteVisitor } from "./nested-write-vistor";
+import { NestedWriteVisitor } from "./nested-write-visitor";
 import {
   DefaultPrismaProxyHandler,
   PrismaProxyActions,
@@ -50,7 +50,10 @@ class PasswordHandler extends DefaultPrismaProxyHandler {
   }
 
   // base override
-  protected async preprocessArgs(action: PrismaProxyActions, args: any) {
+  protected override async preprocessArgs(
+    action: PrismaProxyActions,
+    args: any
+  ) {
     const actionsOfInterest: PrismaProxyActions[] = [
       "create",
       "createMany",

@@ -4,8 +4,13 @@
     "config:base",
     "schedule:weekly",
     ":semanticCommits",
-    ":automergePatch"
+    ":automergePatch",
+    ":noUnscheduledUpdates", ":pinAllExceptPeerDependencies"
   ],
+  "semanticCommits": "enabled",
+  "reviewers": ["@sullivanpj"],
+  "rebaseWhen": "conflicted",
+  "rangeStrategy": "pin",
   "automerge": true,
   "major": {
     "automerge": false

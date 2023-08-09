@@ -1,10 +1,12 @@
 import { ExecutorContext, workspaceRoot } from "@nx/devkit";
 import { executeAsync } from "@open-system/core-server-utilities";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
-import { generateAction } from "@open-system/tools-storm-schema";
+import { generateAction } from "@open-system/tools-storm-schema/cli";
 import { existsSync } from "fs";
 import Path from "path";
 import { StormGenerateExecutorSchema } from "./schema";
+
+Error.stackTraceLimit = Infinity;
 
 export default async function (
   options: StormGenerateExecutorSchema,
@@ -16,13 +18,29 @@ export default async function (
 
     const buildTarget =
       context.workspace.projects[context.projectName].targets.build;
+    const projectRoot = context.workspace.projects[context.projectName].root;
+    const sourceRoot =
+      context.workspace.projects[context.projectName].sourceRoot;
 
-    const schemaPath = Path.join(workspaceRoot, options.schema);
+    let schemaPath = options.schema;
     if (!existsSync(schemaPath)) {
-      ConsoleLogger.error(
-        `No Storm schema file could be found at: "${schemaPath}" `
-      );
-      return { success: false };
+      schemaPath = Path.join(workspaceRoot, options.schema);
+      if (!existsSync(schemaPath)) {
+        schemaPath = Path.join(projectRoot, options.schema);
+        if (!existsSync(schemaPath)) {
+          schemaPath = Path.join(sourceRoot, options.schema);
+          if (!existsSync(schemaPath)) {
+            ConsoleLogger.error(
+              `No Storm schema file could be found. Checked:
+"${options.schema}",
+"${Path.join(workspaceRoot, options.schema)}",
+"${Path.join(projectRoot, options.schema)}",
+"${schemaPath}" `
+            );
+            return { success: false };
+          }
+        }
+      }
     }
 
     const outputPath = Path.join(workspaceRoot, buildTarget.options.outputPath);
@@ -48,7 +66,7 @@ export default async function (
     return { success: !result };
   } catch (e) {
     ConsoleLogger.error(
-      `An error occurred syncing client API for ${context.projectName}`
+      `An error occurred running Storm (Code Generation) executor for ${context.projectName}`
     );
     ConsoleLogger.error(e);
 

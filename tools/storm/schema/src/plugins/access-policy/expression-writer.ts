@@ -554,7 +554,7 @@ export class ExpressionWriter {
     // TODO: do we need short-circuit for logical operators?
 
     if (operator === "&&") {
-      // // && short-circuit: left && right -> left ? right : { zenstack_guard: false }
+      // // && short-circuit: left && right -> left ? right : { storm_guard: false }
       // if (!this.hasFieldAccess(expr.left)) {
       //     this.plain(expr.left);
       //     this.writer.write(' ? ');
@@ -568,7 +568,7 @@ export class ExpressionWriter {
       });
       // }
     } else {
-      // // || short-circuit: left || right -> left ? { zenstack_guard: true } : right
+      // // || short-circuit: left || right -> left ? { storm_guard: true } : right
       // if (!this.hasFieldAccess(expr.left)) {
       //     this.plain(expr.left);
       //     this.writer.write(' ? ');

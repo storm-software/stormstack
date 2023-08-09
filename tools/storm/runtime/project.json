@@ -5,13 +5,20 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/storm/runtime",
         "main": "tools/storm/runtime/src/index.ts",
         "project": "tools/storm/runtime/package.json",
         "tsConfig": "tools/storm/runtime/tsconfig.json",
+        "platform": "node",
+        "metafile": true,
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": false,
+        "minify": true,
+        "format": ["esm", "cjs"],
         "assets": [
           {
             "input": "tools/storm/runtime",

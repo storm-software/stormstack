@@ -233,7 +233,7 @@ export function validateAttributeApplication(
 ) {
   const decl = attr.decl.ref;
   if (!decl) {
-    return;
+    return undefined;
   }
 
   const targetDecl = attr.$container;
@@ -243,7 +243,7 @@ export function validateAttributeApplication(
       `attribute "${decl.name}" can only be used on attribute declarations`,
       { node: attr }
     );
-    return;
+    return undefined;
   }
 
   if (

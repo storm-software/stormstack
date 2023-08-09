@@ -6,7 +6,7 @@ const { get } = require("@vercel/edge-config");
 //const withSentry = require("./config/withSentry");
 // const { withSentryConfig } = require("@sentry/nextjs");
 
-const { NEXT_PUBLIC_CORS_URL } = process.env;
+const { NEXT_PUBLIC_CORS_URL, ANALYZE, MAINTENANCE_MODE } = process.env;
 
 /*const baseUrl = NEXT_PUBLIC_BASE_URL
   ? `${NEXT_PUBLIC_BASE_URL}`
@@ -236,9 +236,9 @@ const plugins = [
 
   config => {
     // Enable Webpack analyzer
-    if (process.env.ANALYZE) {
+    if (ANALYZE) {
       const withBundleAnalyzer = require("@next/bundle-analyzer")({
-        enabled: !!process.env.ANALYZE,
+        enabled: !!ANALYZE,
       });
       return withBundleAnalyzer(config);
     }
@@ -247,7 +247,7 @@ const plugins = [
   },
 
   config => {
-    if (process.env.MAINTENANCE_MODE) {
+    if (MAINTENANCE_MODE) {
       config.redirects = async () => {
         return [
           {

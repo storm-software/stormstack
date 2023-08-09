@@ -6,7 +6,7 @@ import {
   isDataModel,
   isDataSource,
   isEnum,
-} from "@open-system/tools-storm-language";
+} from "@open-system/tools-storm-language/ast";
 import {
   AUXILIARY_FIELDS,
   PluginOptions,

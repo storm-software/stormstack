@@ -15,7 +15,7 @@ import { resolveField } from "../model-meta";
 import {
   NestedWriteVisitor,
   NestedWriteVisitorContext,
-} from "../nested-write-vistor";
+} from "../nested-write-visitor";
 import { PrismaProxyHandler } from "../proxy";
 import type { ModelMeta, PolicyDef, ZodSchemas } from "../types";
 import {

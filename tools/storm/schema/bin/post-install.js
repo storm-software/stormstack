@@ -3,7 +3,7 @@ try {
     process.exit(0);
   }
 
-  const Mixpanel = require("mixpanel");
+  /*const Mixpanel = require("mixpanel");
   const machineId = require("node-machine-id");
   const os = require("os");
 
@@ -20,5 +20,7 @@ try {
     version,
   };
 
-  mixpanel.track("npm:install", payload);
-} catch {}
+  mixpanel.track("npm:install", payload);*/
+} catch {
+  /* empty */
+}

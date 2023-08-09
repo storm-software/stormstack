@@ -1,8 +1,10 @@
 let schemas;
 try {
-    schemas = require('.zenstack/zod/models/index');
-} catch {}
+  schemas = require(".storm/zod/models/index");
+} catch {
+  /* empty */
+}
 
 module.exports = schemas && {
-    ...schemas,
+  ...schemas,
 };

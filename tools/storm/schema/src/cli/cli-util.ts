@@ -1,3 +1,4 @@
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging/console-logger";
 import {
   isDataSource,
   isPlugin,
@@ -43,7 +44,7 @@ import { CliError } from "./cli-error";
 import { PluginRunner } from "./plugin-runner";
 
 /**
- * Initializes an existing project for ZenStack
+ * Initializes an existing project for Storm
  */
 export async function initProject(
   projectPath: string,
@@ -52,14 +53,14 @@ export async function initProject(
   tag?: string
 ) {
   if (!fs.existsSync(projectPath)) {
-    console.error(`Path does not exist: ${projectPath}`);
+    ConsoleLogger.error(`Path does not exist: ${projectPath}`);
     throw new CliError("project path does not exist");
   }
 
   const defaultPrismaSchemaLocation = "./prisma/schema.prisma";
   if (prismaSchema) {
     if (!fs.existsSync(prismaSchema)) {
-      console.error(`Prisma schema file does not exist: ${prismaSchema}`);
+      ConsoleLogger.error(`Prisma schema file does not exist: ${prismaSchema}`);
       throw new CliError("prisma schema does not exist");
     }
   } else if (fs.existsSync(defaultPrismaSchemaLocation)) {
@@ -70,8 +71,8 @@ export async function initProject(
   let sampleModelGenerated = false;
 
   if (fs.existsSync(stormFile)) {
-    console.warn(
-      `ZenStack model already exists at ${stormFile}, not generating a new one.`
+    ConsoleLogger.warn(
+      `Storm model already exists at ${stormFile}, not generating a new one.`
     );
   } else {
     if (prismaSchema) {
@@ -102,18 +103,18 @@ export async function initProject(
   );
 
   if (sampleModelGenerated) {
-    console.log(`Sample model generated at: ${chalk.blue(stormFile)}
+    ConsoleLogger.info(`Sample model generated at: ${chalk.blue(stormFile)}
 
 Please check the following guide on how to model your app:
     https://zenstack.dev/#/modeling-your-app.`);
   } else if (prismaSchema) {
-    console.log(
+    ConsoleLogger.info(
       `Your current Prisma schema "${prismaSchema}" has been copied to "${stormFile}".
-Moving forward please edit this file and run "zenstack generate" to regenerate Prisma schema.`
+Moving forward please edit this file and run "storm generate" to regenerate Prisma schema.`
     );
   }
 
-  console.log(chalk.green("\nProject initialized successfully!"));
+  ConsoleLogger.success(chalk.green("\nProject initialized successfully!"));
 }
 
 /**
@@ -126,30 +127,40 @@ export async function loadDocument(fileName: string): Promise<Model> {
   const services = createStormServices(NodeFileSystem).Storm;
   const extensions = services.LanguageMetaData.fileExtensions;
   if (!extensions.includes(path.extname(fileName))) {
-    console.error(
-      chalk.yellow(`Please choose a file with extension: ${extensions}.`)
-    );
+    ConsoleLogger.error(`Please choose a file with extension: ${extensions}.`);
     throw new CliError("invalid schema file");
   }
 
   if (!fs.existsSync(fileName)) {
-    console.error(chalk.red(`File ${fileName} does not exist.`));
+    ConsoleLogger.error(`File ${fileName} does not exist.`);
     throw new CliError("schema file does not exist");
   }
 
-  // load standard library
-  const stdLib = services.shared.workspace.LangiumDocuments.getOrCreateDocument(
-    URI.file(path.resolve(path.join(__dirname, "../res", STD_LIB_MODULE_NAME)))
+  const stdLibFile = URI.file(
+    path.resolve(path.join(__dirname, "../res", STD_LIB_MODULE_NAME))
   );
+  ConsoleLogger.info(`Loading standard library file from '${stdLibFile.toString()}'
+JSON File:
+${JSON.stringify(stdLibFile.toJSON())}`);
+
+  // load standard library
+  const stdLib =
+    services.shared.workspace.LangiumDocuments.getOrCreateDocument(stdLibFile);
+
+  ConsoleLogger.info("Running getPluginDocuments");
 
   // load documents provided by plugins
   const pluginDocuments = await getPluginDocuments(services, fileName);
 
   const langiumDocuments = services.shared.workspace.LangiumDocuments;
+
+  const file = URI.file(path.resolve(fileName));
+  ConsoleLogger.info(`Loading langium file from '${file.toString()}'
+JSON File:
+${JSON.stringify(file.toJSON())}`);
+
   // load the document
-  const document = langiumDocuments.getOrCreateDocument(
-    URI.file(path.resolve(fileName))
-  );
+  const document = langiumDocuments.getOrCreateDocument(file);
 
   // load all imports
   const importedURIs = eagerLoadAllImports(document, langiumDocuments);
@@ -157,6 +168,8 @@ export async function loadDocument(fileName: string): Promise<Model> {
   const importedDocuments = importedURIs.map(uri =>
     langiumDocuments.getOrCreateDocument(uri)
   );
+
+  ConsoleLogger.info("Running DocumentBuilder");
 
   // build the document together with standard library and plugin modules
   await services.shared.workspace.DocumentBuilder.build(
@@ -172,14 +185,12 @@ export async function loadDocument(fileName: string): Promise<Model> {
     .toArray();
 
   if (validationErrors.length > 0) {
-    console.error(chalk.red("Validation errors:"));
+    ConsoleLogger.error("Validation errors:");
     for (const validationError of validationErrors) {
-      console.error(
-        chalk.red(
-          `line ${validationError.range.start.line + 1}: ${
-            validationError.message
-          } [${document.textDocument.getText(validationError.range)}]`
-        )
+      ConsoleLogger.error(
+        `line ${validationError.range.start.line + 1}: ${
+          validationError.message
+        } [${document.textDocument.getText(validationError.range)}]`
       );
     }
     throw new CliError("schema validation errors");
@@ -200,12 +211,12 @@ export async function loadDocument(fileName: string): Promise<Model> {
 function validationAfterMerge(model: Model) {
   const dataSources = model.declarations.filter(d => isDataSource(d));
   if (dataSources.length == 0) {
-    console.error(
+    ConsoleLogger.error(
       chalk.red("Validation errors: Model must define a datasource")
     );
     throw new CliError("schema validation errors");
   } else if (dataSources.length > 1) {
-    console.error(
+    ConsoleLogger.error(
       chalk.red(
         "Validation errors: Multiple datasource declarations are not allowed"
       )
@@ -314,7 +325,7 @@ export async function runPlugins(options: {
     await new PluginRunner().run(context);
   } catch (err) {
     if (err instanceof PluginError) {
-      console.error(chalk.red(`${err.plugin}: ${err.message}`));
+      ConsoleLogger.error(chalk.red(`${err.plugin}: ${err.message}`));
       throw new CliError(err.message);
     } else {
       throw err;
@@ -329,7 +340,7 @@ export async function dumpInfo(projectPath: string) {
   try {
     pkgJson = require(path.join(resolvedPath, "package.json"));
   } catch {
-    console.error(
+    ConsoleLogger.error(
       "Unable to locate package.json. Are you in a valid project directory?"
     );
     return;
@@ -353,14 +364,14 @@ export async function dumpInfo(projectPath: string) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const version = require(resolved).version;
       versions.add(version);
-      console.log(`    ${chalk.green(pkg.padEnd(20))}\t${version}`);
+      ConsoleLogger.info(`    ${chalk.green(pkg.padEnd(20))}\t${version}`);
     } catch {
       // noop
     }
   }
 
   if (versions.size > 1) {
-    console.warn(
+    ConsoleLogger.warn(
       chalk.yellow(
         "WARNING: Multiple versions of Storm packages detected. This may cause issues."
       )
@@ -375,11 +386,11 @@ export async function dumpInfo(projectPath: string) {
       spinner.succeed();
       const version = [...versions][0];
       if (semver.gt(latest, version)) {
-        console.log(`A newer version of Zenstack is available: ${latest}.`);
+        ConsoleLogger.info(`A newer version of Storm is available: ${latest}.`);
       } else if (semver.gt(version, latest)) {
-        console.log("You are using a pre-release version of Storm.");
+        ConsoleLogger.info("You are using a pre-release version of Storm.");
       } else {
-        console.log("You are using the latest version of Storm.");
+        ConsoleLogger.info("You are using the latest version of Storm.");
       }
     }
   }

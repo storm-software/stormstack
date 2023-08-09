@@ -16,39 +16,53 @@
       "outputs": ["{options.outputFile}"]
     },
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/executors/typescript",
         "tsConfig": "tools/executors/typescript/tsconfig.json",
         "project": "tools/executors/typescript/package.json",
         "main": "tools/executors/typescript/index.ts",
-        "rollupConfig": "tools/executors/typescript/rollup.config.js",
-        "external": "all",
-        "deleteOutputPath": false,
+        "additionalEntryPoints": [
+          "tools/executors/typescript/cloudflare-worker-build/impl.ts",
+          "tools/executors/typescript/cloudflare-worker-deploy/impl.ts",
+          "tools/executors/typescript/cloudflare-worker-serve/impl.ts",
+          "tools/executors/typescript/design-tokens-build/impl.ts",
+          "tools/executors/typescript/design-components-clean/impl.ts",
+          "tools/executors/typescript/client-api-sync/impl.ts",
+          "tools/executors/typescript/client-gql-sync/impl.ts",
+          "tools/executors/typescript/event-library/impl.ts",
+          "tools/executors/typescript/storm-generate/impl.ts"
+        ],
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": false,
+        "minify": true,
+        "external": ["@open-system/tools-storm-schema"],
         "assets": [
           {
-            "input": "./tools/executors/typescript",
+            "input": "tools/executors/typescript",
             "glob": "**/*!(design-token-parsers)/**/*.md",
             "output": "."
           },
           {
-            "input": "./tools/executors/typescript",
+            "input": "tools/executors/typescript",
             "glob": "**/schema.json",
             "output": "."
           },
           {
-            "input": "./tools/executors/typescript",
+            "input": "tools/executors/typescript",
             "glob": "executors.json",
             "output": "."
           },
           {
-            "input": "./tools/executors/typescript",
-            "glob": "executors.json",
-            "output": "."
+            "input": "tools/executors/typescript",
+            "glob": "README.md",
+            "output": "/"
           },
           {
-            "input": "",
+            "input": "tools/executors/typescript",
             "glob": "CHANGELOG.md",
             "output": "/"
           },
@@ -58,121 +72,11 @@
             "output": "/"
           },
           {
-            "input": "./tools/executors/typescript",
+            "input": "tools/executors/typescript",
             "glob": "migrations.json",
             "output": "."
           }
         ]
-      },
-      "configurations": {
-        "cloudflare-worker-build": {
-          "outputPath": "dist/tools/executors/typescript/cloudflare-worker-build",
-          "main": "tools/executors/typescript/cloudflare-worker-build/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/cloudflare-worker-build",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "cloudflare-worker-deploy": {
-          "outputPath": "dist/tools/executors/typescript/cloudflare-worker-deploy",
-          "main": "tools/executors/typescript/cloudflare-worker-deploy/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/cloudflare-worker-deploy",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "cloudflare-worker-serve": {
-          "outputPath": "dist/tools/executors/typescript/cloudflare-worker-serve",
-          "main": "tools/executors/typescript/cloudflare-worker-serve/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/cloudflare-worker-serve",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "design-tokens-build": {
-          "outputPath": "dist/tools/executors/typescript/design-tokens-build",
-          "main": "tools/executors/typescript/design-tokens-build/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/design-tokens-build",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "design-components-clean": {
-          "outputPath": "dist/tools/executors/typescript/design-components-clean",
-          "main": "tools/executors/typescript/design-components-clean/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/design-components-clean",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "client-api-sync": {
-          "outputPath": "dist/tools/executors/typescript/client-api-sync",
-          "main": "tools/executors/typescript/client-api-sync/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/client-api-sync",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "client-gql-sync": {
-          "outputPath": "dist/tools/executors/typescript/client-gql-sync",
-          "main": "tools/executors/typescript/client-gql-sync/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/client-gql-sync",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "event-library": {
-          "outputPath": "dist/tools/executors/typescript/event-library",
-          "main": "tools/executors/typescript/event-library/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/event-library",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "storm-generate": {
-          "outputPath": "dist/tools/executors/typescript/storm-generate",
-          "main": "tools/executors/typescript/storm-generate/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/typescript/storm-generate",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        }
       }
     },
     "semantic-release": {
@@ -185,11 +89,5 @@
       }
     }
   },
-  "tags": [],
-  "implicitDependencies": [
-    "core-shared-utilities",
-    "core-server-utilities",
-    "core-server-cloudflare",
-    "tools-async-api-kafka"
-  ]
+  "tags": []
 }

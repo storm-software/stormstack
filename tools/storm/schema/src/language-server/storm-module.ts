@@ -1,23 +1,51 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   StormGeneratedModule,
   StormGeneratedSharedModule,
 } from "@open-system/tools-storm-language/module";
 import {
+  DefaultAstNodeDescriptionProvider,
+  DefaultAstNodeLocator,
+  DefaultCompletionProvider,
   DefaultConfigurationProvider,
+  DefaultDefinitionProvider,
   DefaultDocumentBuilder,
+  DefaultDocumentHighlightProvider,
+  DefaultDocumentSymbolProvider,
+  DefaultDocumentValidator,
+  DefaultFoldingRangeProvider,
   DefaultIndexManager,
+  DefaultJsonSerializer,
   DefaultLangiumDocumentFactory,
   DefaultLangiumDocuments,
   DefaultLanguageServer,
+  DefaultLexer,
+  DefaultLinker,
+  DefaultModuleContext,
+  DefaultNameProvider,
+  DefaultReferenceDescriptionProvider,
+  DefaultReferences,
+  DefaultReferencesProvider,
+  DefaultRenameProvider,
+  DefaultScopeComputation,
+  DefaultScopeProvider,
   DefaultServiceRegistry,
   DefaultSharedModuleContext,
+  DefaultTokenBuilder,
+  DefaultValueConverter,
+  JSDocDocumentationProvider,
+  LangiumDefaultServices,
   LangiumDefaultSharedServices,
   LangiumServices,
   LangiumSharedServices,
   Module,
+  MultilineCommentHoverProvider,
   MutexLock,
   PartialLangiumServices,
-  createDefaultModule,
+  ValidationRegistry,
+  createCompletionParser,
+  createGrammarConfig,
   inject,
 } from "langium";
 import { TextDocuments } from "vscode-languageserver";
@@ -26,6 +54,7 @@ import { StormCodeActionProvider } from "./storm-code-action";
 import { StormDefinitionProvider } from "./storm-definition";
 import { StormFormatter } from "./storm-formatter";
 import { StormLinker } from "./storm-linker";
+import { createStormParser } from "./storm-parser";
 import { StormScopeComputation, StormScopeProvider } from "./storm-scope";
 import StormWorkspaceManager from "./storm-workspace-manager";
 import {
@@ -88,7 +117,7 @@ export function createSharedModule(
       LangiumDocumentFactory: services =>
         new DefaultLangiumDocumentFactory(services),
       DocumentBuilder: services => new DefaultDocumentBuilder(services),
-      TextDocuments: new TextDocuments(TextDocument),
+      TextDocuments: _services => new TextDocuments(TextDocument),
       IndexManager: services => new DefaultIndexManager(services),
       WorkspaceManager: services => new StormWorkspaceManager(services),
       FileSystemProvider: services => context.fileSystemProvider(services),
@@ -96,6 +125,112 @@ export function createSharedModule(
       ConfigurationProvider: services =>
         new DefaultConfigurationProvider(services),
     },
+  };
+}
+
+/*export function createDefaultModule(context: DefaultModuleContext) {
+  return {
+    documentation: {
+      DocumentationProvider: services =>
+        new JSDocDocumentationProvider(services),
+    },
+    parser: {
+      GrammarConfig: services => createGrammarConfig(services),
+      LangiumParser: services => createLangiumParser(services),
+      CompletionParser: services => createCompletionParser(services),
+      ValueConverter: () => new DefaultValueConverter(),
+      TokenBuilder: () => new DefaultTokenBuilder(),
+      Lexer: services => new DefaultLexer(services),
+    },
+    lsp: {
+      CompletionProvider: services => new DefaultCompletionProvider(services),
+      DocumentSymbolProvider: services =>
+        new DefaultDocumentSymbolProvider(services),
+      HoverProvider: services => new MultilineCommentHoverProvider(services),
+      FoldingRangeProvider: services =>
+        new DefaultFoldingRangeProvider(services),
+      ReferencesProvider: services => new DefaultReferencesProvider(services),
+      DefinitionProvider: services => new DefaultDefinitionProvider(services),
+      DocumentHighlightProvider: services =>
+        new DefaultDocumentHighlightProvider(services),
+      RenameProvider: services => new DefaultRenameProvider(services),
+    },
+    workspace: {
+      AstNodeLocator: () => new DefaultAstNodeLocator(),
+      AstNodeDescriptionProvider: services =>
+        new DefaultAstNodeDescriptionProvider(services),
+      ReferenceDescriptionProvider: services =>
+        new DefaultReferenceDescriptionProvider(services),
+    },
+    references: {
+      Linker: services => new DefaultLinker(services),
+      NameProvider: () => new DefaultNameProvider(),
+      ScopeProvider: services => new DefaultScopeProvider(services),
+      ScopeComputation: services => new DefaultScopeComputation(services),
+      References: services => new DefaultReferences(services),
+    },
+    serializer: {
+      JsonSerializer: services => new DefaultJsonSerializer(services),
+    },
+    validation: {
+      DocumentValidator: services => new DefaultDocumentValidator(services),
+      ValidationRegistry: services => new ValidationRegistry(services),
+    },
+    shared: () => context.shared,
+  };
+}*/
+
+export function createDefaultModule(
+  context: DefaultModuleContext
+): Module<LangiumServices, LangiumDefaultServices> {
+  return {
+    documentation: {
+      DocumentationProvider: services =>
+        new JSDocDocumentationProvider(services),
+    },
+    parser: {
+      GrammarConfig: services => createGrammarConfig(services),
+      LangiumParser: services => createStormParser(services),
+      CompletionParser: services => createCompletionParser(services),
+      ValueConverter: () => new DefaultValueConverter(),
+      TokenBuilder: () => new DefaultTokenBuilder(),
+      Lexer: services => new DefaultLexer(services),
+    },
+    lsp: {
+      CompletionProvider: services => new DefaultCompletionProvider(services),
+      DocumentSymbolProvider: services =>
+        new DefaultDocumentSymbolProvider(services),
+      HoverProvider: services => new MultilineCommentHoverProvider(services),
+      FoldingRangeProvider: services =>
+        new DefaultFoldingRangeProvider(services),
+      ReferencesProvider: services => new DefaultReferencesProvider(services),
+      DefinitionProvider: services => new DefaultDefinitionProvider(services),
+      DocumentHighlightProvider: services =>
+        new DefaultDocumentHighlightProvider(services),
+      RenameProvider: services => new DefaultRenameProvider(services),
+    },
+    workspace: {
+      AstNodeLocator: () => new DefaultAstNodeLocator(),
+      AstNodeDescriptionProvider: services =>
+        new DefaultAstNodeDescriptionProvider(services),
+      ReferenceDescriptionProvider: services =>
+        new DefaultReferenceDescriptionProvider(services),
+    },
+    references: {
+      Linker: services => new DefaultLinker(services),
+      NameProvider: () => new DefaultNameProvider(),
+      ScopeProvider: services => new DefaultScopeProvider(services),
+      ScopeComputation: services => new DefaultScopeComputation(services),
+      References: services => new DefaultReferences(services),
+    },
+    serializer: {
+      JsonSerializer: services => new DefaultJsonSerializer(services),
+    },
+    validation: {
+      DocumentValidator: services => new DefaultDocumentValidator(services),
+      ValidationRegistry: services => new ValidationRegistry(services),
+    },
+    shared: () => context.shared,
   };
 }
 

@@ -18,7 +18,7 @@ import {
 } from "../../types";
 import { getVersion } from "../../version";
 import { getFields, resolveField } from "../model-meta";
-import { NestedWriteVisitorContext } from "../nested-write-vistor";
+import { NestedWriteVisitorContext } from "../nested-write-visitor";
 import type {
   InputCheckFunc,
   ModelMeta,
@@ -206,7 +206,7 @@ export class PolicyUtil {
 
     if (!provider) {
       throw this.unknownError(
-        `zenstack: unable to load authorization guard for ${model}`
+        `storm: unable to load authorization guard for ${model}`
       );
     }
     const r = provider({ user: this.user, preValue });

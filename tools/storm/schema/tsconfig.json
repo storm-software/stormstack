@@ -5,11 +5,19 @@
     "module": "commonjs",
     "target": "es6",
     "types": ["node"],
-    "declaration": true,
+    "strict": false,
     "noImplicitAny": false,
-    "lib": ["ESNext"],
-    "sourceMap": true
+    "sourceMap": true,
+    "noUnusedLocals": false,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "experimentalDecorators": true
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "bin/cli"]
 }

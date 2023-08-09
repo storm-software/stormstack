@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging/console-logger";
 import { isPlugin, Plugin } from "@open-system/tools-storm-language/ast";
 import {
   getDataModels,
@@ -32,7 +33,7 @@ type PluginInfo = {
 };
 
 /**
- * ZenStack plugin runner
+ * Storm plugin runner
  */
 export class PluginRunner {
   /**
@@ -40,7 +41,11 @@ export class PluginRunner {
    */
   async run(context: Context): Promise<void> {
     const version = getVersion();
-    console.log(chalk.bold(`⌛️ ZenStack CLI v${version}, running plugins`));
+    ConsoleLogger.info(
+      chalk.bold(`⌛️ Storm CLI v${version}, running plugins`)
+    );
+
+    ConsoleLogger.debug("Ensuring default output folder exists and is empty");
 
     ensureDefaultOutputFolder();
 
@@ -49,15 +54,23 @@ export class PluginRunner {
       isPlugin(d)
     );
 
+    ConsoleLogger.debug(
+      `Loading schema from ${chalk.bold(context.schemaPath)}`
+    );
+
     let prismaOutput = resolvePath("./prisma/schema.prisma", {
       schemaPath: context.schemaPath,
       name: "",
     });
 
+    ConsoleLogger.debug(`Validating ${pluginDecls.length} Plugins from model`);
+
     for (const pluginDecl of pluginDecls) {
       const pluginProvider = this.getPluginProvider(pluginDecl);
       if (!pluginProvider) {
-        console.error(`Plugin ${pluginDecl.name} has invalid provider option`);
+        ConsoleLogger.error(
+          `Plugin ${pluginDecl.name} has invalid provider option`
+        );
         throw new PluginError(
           "",
           `Plugin ${pluginDecl.name} has invalid provider option`
@@ -69,7 +82,7 @@ export class PluginRunner {
       try {
         pluginModule = require(pluginModulePath);
       } catch (err) {
-        console.error(
+        ConsoleLogger.error(
           `Unable to load plugin module ${pluginProvider}: ${pluginModulePath}, ${err}`
         );
         throw new PluginError(
@@ -79,7 +92,7 @@ export class PluginRunner {
       }
 
       if (!pluginModule.default || typeof pluginModule.default !== "function") {
-        console.error(
+        ConsoleLogger.error(
           `Plugin provider ${pluginProvider} is missing a default function export`
         );
         throw new PluginError(
@@ -95,6 +108,11 @@ export class PluginRunner {
         name: pluginName,
       };
 
+      ConsoleLogger.debug(
+        `Preparing to load plugin:
+${JSON.stringify(options)}`
+      );
+
       pluginDecl.fields.forEach(f => {
         const value = getLiteral(f.value) ?? getLiteralArray(f.value);
         if (value === undefined) {
@@ -106,14 +124,21 @@ export class PluginRunner {
         options[f.name] = value;
       });
 
-      plugins.push({
+      const plugin = {
         name: pluginName,
         provider: pluginProvider,
         dependencies,
         options,
         run: pluginModule.default as PluginFunction,
         module: pluginModule,
-      });
+      };
+
+      ConsoleLogger.debug(
+        `Loading plugin:
+${JSON.stringify(plugin)}`
+      );
+
+      plugins.push(plugin);
 
       if (
         pluginProvider === "@core/prisma" &&
@@ -196,7 +221,7 @@ export class PluginRunner {
     for (const plugin of plugins) {
       for (const dep of plugin.dependencies) {
         if (!plugins.find(p => p.provider === dep)) {
-          console.error(
+          ConsoleLogger.error(
             `Plugin ${plugin.provider} depends on "${dep}" but it's not declared`
           );
           throw new PluginError(
@@ -213,7 +238,7 @@ export class PluginRunner {
     for (const { name, provider, run, options } of plugins) {
       // const start = Date.now();
       await this.runPlugin(name, run, context, options, dmmf, warnings);
-      // console.log(`✅ Plugin ${chalk.bold(name)} (${provider}) completed in ${Date.now() - start}ms`);
+      // ConsoleLogger.log(`✅ Plugin ${chalk.bold(name)} (${provider}) completed in ${Date.now() - start}ms`);
       if (provider === "@core/prisma") {
         // load prisma DMMF
         dmmf = await getDMMF({
@@ -222,13 +247,13 @@ export class PluginRunner {
       }
     }
 
-    console.log(
+    ConsoleLogger.log(
       chalk.green(chalk.bold("\n👻 All plugins completed successfully!"))
     );
 
-    warnings.forEach(w => console.warn(chalk.yellow(w)));
+    warnings.forEach(w => ConsoleLogger.warn(chalk.yellow(w)));
 
-    console.log(
+    ConsoleLogger.log(
       `Don't forget to restart your dev server to let the changes take effect.`
     );
   }

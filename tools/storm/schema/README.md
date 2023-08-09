@@ -1,4 +1,4 @@
-# tools-storm-schema
+# ⚡Storm Language Tools
 
 This library was generated with [Nx](https://nx.dev).
 

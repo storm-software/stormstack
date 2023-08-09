@@ -359,7 +359,7 @@ attribute @@deny(_ operation: String, _ condition: Boolean)
 /**
  * Indicates that the field is a password field and needs to be hashed before persistence.
  *
- * ZenStack uses `bcryptjs` library to hash password. You can use the `saltLength` parameter
+ * Storm uses `bcryptjs` library to hash password. You can use the `saltLength` parameter
  * to configure the cost of hashing, or use `salt` parameter to provide an explicit salt.
  * By default, salt length of 12 is used.
  *

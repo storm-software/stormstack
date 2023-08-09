@@ -78,8 +78,8 @@ export function createProgram() {
   program
     .description(
       `${chalk.bold.blue(
-        "ζ"
-      )} ZenStack is a Prisma power pack for building full-stack apps.\n\nDocumentation: https://zenstack.dev.`
+        "⚡"
+      )} Storm is a Prisma power pack for building full-stack apps.\n\nDocumentation: https://patsullivan.org.`
     )
     .showHelpAfterError()
     .showSuggestionAfterError();
@@ -103,13 +103,13 @@ export function createProgram() {
 
   program
     .command("info")
-    .description("Get information of installed ZenStack and related packages.")
+    .description("Get information of installed Storm and related packages.")
     .argument("[path]", "project path", ".")
     .action(infoAction);
 
   program
     .command("init")
-    .description("Initialize an existing project for ZenStack.")
+    .description("Initialize an existing project for Storm.")
     .addOption(configOption)
     .addOption(pmOption)
     .addOption(

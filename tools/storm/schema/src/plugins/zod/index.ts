@@ -1,4 +1,4 @@
-import { Model } from "@open-system/tools-storm-language";
+import { Model } from "@open-system/tools-storm-language/ast";
 import { PluginOptions } from "@open-system/tools-storm-sdk";
 import type { DMMF } from "@prisma/generator-helper";
 import { generate } from "./generator";

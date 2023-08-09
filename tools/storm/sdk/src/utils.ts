@@ -18,7 +18,7 @@ import {
   Model,
   Reference,
   ReferenceExpr,
-} from "@open-system/tools-storm-language";
+} from "@open-system/tools-storm-language/ast";
 import path from "path";
 import { ExpressionContext } from "./constants";
 import { PluginOptions } from "./types";

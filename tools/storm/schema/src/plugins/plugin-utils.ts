@@ -42,14 +42,16 @@ export function ensureDefaultOutputFolder() {
 }
 
 /**
- * Gets the default node_modules/.zenstack output folder for plugins.
+ * Gets the default node_modules/.storm output folder for plugins.
  * @returns
  */
 export function getDefaultOutputFolder() {
   // Find the real runtime module path, it might be a symlink in pnpm
-  let runtimeModulePath = require.resolve("@open-system/tools-storm-runtime");
+  let runtimeModulePath = require.resolve(
+    process.env.STORM_RUNTIME_MODULE ?? "@open-system/tools-storm-runtime"
+  );
 
-  if (process.env.ZENSTACK_TEST === "1") {
+  if (process.env.STORM_TEST === "1") {
     // handling the case when running as tests, resolve relative to CWD
     runtimeModulePath = path.resolve(
       path.join(process.cwd(), "node_modules", "@open-system", "runtime")
@@ -57,7 +59,7 @@ export function getDefaultOutputFolder() {
   }
 
   if (runtimeModulePath) {
-    // start with the parent folder of @zenstackhq, supposed to be a node_modules folder
+    // start with the parent folder of @open-system, supposed to be a node_modules folder
     while (
       !runtimeModulePath.endsWith("@open-system") &&
       runtimeModulePath !== "/"

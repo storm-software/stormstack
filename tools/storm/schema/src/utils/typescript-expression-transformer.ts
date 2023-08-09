@@ -11,7 +11,7 @@ import {
   ReferenceExpr,
   ThisExpr,
   UnaryExpr,
-} from "@open-system/tools-storm-language";
+} from "@open-system/tools-storm-language/ast";
 import { getLiteral } from "@open-system/tools-storm-sdk";
 import { ExpressionContext } from "../constants";
 import { isFromStdlib } from "../language-server/utils";

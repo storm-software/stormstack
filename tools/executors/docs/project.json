@@ -16,36 +16,53 @@
       "outputs": ["{options.outputFile}"]
     },
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/executors/docs",
         "tsConfig": "tools/executors/docs/tsconfig.json",
         "project": "tools/executors/docs/package.json",
         "main": "tools/executors/docs/index.ts",
-        "rollupConfig": "tools/executors/docs/rollup.config.js",
-        "external": "all",
-        "deleteOutputPath": false,
+        "additionalEntryPoints": [
+          "tools/executors/docs/design-tokens-docgen/impl.ts",
+          "tools/executors/docs/tsdocs-docgen/impl.ts",
+          "tools/executors/docs/event-catalog-serve/impl.ts",
+          "tools/executors/docs/event-catalog-build/impl.ts",
+
+          "tools/executors/typescript/cloudflare-worker-deploy/impl.ts",
+          "tools/executors/typescript/cloudflare-worker-serve/impl.ts",
+          "tools/executors/typescript/design-tokens-build/impl.ts",
+          "tools/executors/typescript/design-components-clean/impl.ts",
+          "tools/executors/typescript/client-api-sync/impl.ts",
+          "tools/executors/typescript/client-gql-sync/impl.ts",
+          "tools/executors/typescript/event-library/impl.ts",
+          "tools/executors/typescript/storm-generate/impl.ts"
+        ],
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": false,
+        "minify": true,
         "assets": [
           {
-            "input": "./tools/executors/docs",
+            "input": "tools/executors/docs",
             "glob": "**/*.d.ts",
             "output": "."
           },
           {
-            "input": "./tools/executors/docs",
+            "input": "tools/executors/docs",
             "glob": "**/schema.json",
             "output": "."
           },
           {
-            "input": "./tools/executors/docs",
+            "input": "tools/executors/docs",
             "glob": "executors.json",
             "output": "."
           },
           {
-            "input": "./tools/executors/docs",
-            "glob": "executors.json",
-            "output": "."
+            "input": "tools/executors/docs",
+            "glob": "README.md",
+            "output": "/"
           },
           {
             "input": "",
@@ -58,76 +75,21 @@
             "output": "/"
           },
           {
-            "input": "./tools/executors/docs",
+            "input": "tools/executors/docs",
             "glob": "migrations.json",
+            "output": "."
+          },
+          {
+            "input": "tools/executors/docs/tsdocs-docgen",
+            "glob": "api-extractor.json",
+            "output": "."
+          },
+          {
+            "input": "tools/executors/docs/utilities",
+            "glob": ".event-catalog",
             "output": "."
           }
         ]
-      },
-      "configurations": {
-        "design-tokens-docgen": {
-          "outputPath": "dist/tools/executors/docs/design-tokens-docgen",
-          "main": "tools/executors/docs/design-tokens-docgen/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/docs/design-tokens-docgen",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "tsdocs-docgen": {
-          "outputPath": "dist/tools/executors/docs/tsdocs-docgen",
-          "main": "tools/executors/docs/tsdocs-docgen/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/docs/tsdocs-docgen",
-              "glob": "schema.json",
-              "output": "."
-            },
-            {
-              "input": "tools/executors/docs/tsdocs-docgen",
-              "glob": "api-extractor.json",
-              "output": "."
-            }
-          ]
-        },
-        "event-catalog-serve": {
-          "outputPath": "dist/tools/executors/docs/event-catalog-serve",
-          "main": "tools/executors/docs/event-catalog-serve/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/docs/event-catalog-serve",
-              "glob": "schema.json",
-              "output": "."
-            },
-            {
-              "input": "tools/executors/docs/utilities",
-              "glob": ".event-catalog",
-              "output": "."
-            }
-          ]
-        },
-        "event-catalog-build": {
-          "outputPath": "dist/tools/executors/docs/event-catalog-build",
-          "main": "tools/executors/docs/event-catalog-build/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/executors/docs/event-catalog-build",
-              "glob": "schema.json",
-              "output": "."
-            },
-            {
-              "input": "tools/executors/docs/utilities",
-              "glob": ".event-catalog",
-              "output": "."
-            }
-          ]
-        }
       }
     },
     "semantic-release": {

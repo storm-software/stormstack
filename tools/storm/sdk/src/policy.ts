@@ -1,7 +1,7 @@
 import type {
   DataModel,
   DataModelAttribute,
-} from "@open-system/tools-storm-language";
+} from "@open-system/tools-storm-language/ast";
 import { getLiteral } from "./utils";
 import { hasValidationAttributes } from "./validation";
 
