@@ -1,19 +1,17 @@
 {
-  "name": "user-management-typescript-shared-user-management-shared-data-access",
+  "name": "user-management-shared-data-access",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/user-management/typescript/shared/user-management-shared-data-access/src",
+  "sourceRoot": "libs/user-management/typescript/shared/data-access/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/user-management/typescript/shared/user-management-shared-data-access",
-        "main": "libs/user-management/typescript/shared/user-management-shared-data-access/src/index.ts",
-        "tsConfig": "libs/user-management/typescript/shared/user-management-shared-data-access/tsconfig.lib.json",
-        "assets": [
-          "libs/user-management/typescript/shared/user-management-shared-data-access/*.md"
-        ]
+        "outputPath": "dist/libs/user-management/typescript/shared/data-access",
+        "main": "libs/user-management/typescript/shared/data-access/src/index.ts",
+        "tsConfig": "libs/user-management/typescript/shared/data-access/tsconfig.lib.json",
+        "assets": ["libs/user-management/typescript/shared/data-access/*.md"]
       }
     },
     "lint": {
@@ -21,7 +19,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/user-management/typescript/shared/user-management-shared-data-access/**/*.ts"
+          "libs/user-management/typescript/shared/data-access/**/*.ts"
         ]
       }
     },
@@ -29,7 +27,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/user-management/typescript/shared/user-management-shared-data-access/jest.config.ts",
+        "jestConfig": "libs/user-management/typescript/shared/data-access/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

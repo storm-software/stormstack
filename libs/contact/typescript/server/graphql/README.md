@@ -1,4 +1,4 @@
-# contact-server-graphql
+# tools-storm-graphql
 
 This library was generated with [Nx](https://nx.dev).
 

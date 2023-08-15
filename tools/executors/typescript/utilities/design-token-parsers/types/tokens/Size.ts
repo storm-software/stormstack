@@ -12,6 +12,7 @@ export class SizeToken extends Token implements TokenInterface {
 
   constructor(element: Partial<SizeToken>) {
     super(element);
+
     this.value = element.value!;
   }
 }

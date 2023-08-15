@@ -232,13 +232,15 @@
       "@open-system/tools-async-api-rabbitmq": [
         "dist/tools/async-api/rabbitmq/index.ts"
       ],
+      "@open-system/tools-storm-language/*": ["tools/storm/language/src/*"],
       "@open-system/tools-storm-language/ast": [
         "tools/storm/language/src/ast.ts"
       ],
       "@open-system/tools-storm-language/module": [
         "tools/storm/language/src/module.ts"
       ],
-      "@open-system/tools-storm-language/*": ["tools/storm/language/src/*"],
+      "@open-system/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
+      "@open-system/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],
       "@open-system/tools-storm-schema": ["tools/storm/schema/src/index.ts"],
       "@open-system/tools-storm-schema/*": ["tools/storm/schema/src/*"],
       "@open-system/tools-storm-schema/cli": [
@@ -261,8 +263,6 @@
       ],
       "@open-system/tools-storm-sdk": ["tools/storm/sdk/src/index.ts"],
       "@open-system/tools-storm-sdk/*": ["tools/storm/sdk/src/*"],
-      "@open-system/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
-      "@open-system/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],
       "@open-system/user-management-client-components": [
         "libs/user-management/typescript/client/components/src/index.ts"
       ],

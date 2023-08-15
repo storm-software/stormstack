@@ -16,7 +16,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "build": {
-      "executor": "@nx/esbuild:esbuild",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/executors/typescript",
@@ -34,12 +34,7 @@
           "tools/executors/typescript/event-library/impl.ts",
           "tools/executors/typescript/storm-generate/impl.ts"
         ],
-        "platform": "node",
-        "deleteOutputPath": true,
-        "bundle": true,
-        "sourcemap": false,
-        "minify": true,
-        "external": ["@open-system/tools-storm-schema"],
+        "clean": true,
         "assets": [
           {
             "input": "tools/executors/typescript",

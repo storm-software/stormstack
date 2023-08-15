@@ -1,17 +1,16 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
+    "outDir": "../../../dist/tools/storm/sdk",
     "module": "commonjs",
-    "outDir": "../../../dist/out-tsc",
-    "declaration": true,
+    "target": "es6",
     "types": ["node"],
-    "forceConsistentCasingInFileNames": true,
     "strict": false,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "declaration": true,
+    "noImplicitAny": false,
+    "lib": ["ESNext"],
+    "sourceMap": true
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
 }

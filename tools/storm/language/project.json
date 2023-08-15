@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/esbuild:esbuild",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/storm/language",
@@ -13,13 +13,7 @@
         "additionalEntryPoints": ["tools/storm/language/src/ast.ts"],
         "project": "tools/storm/language/package.json",
         "tsConfig": "tools/storm/language/tsconfig.json",
-        "platform": "node",
-        "metafile": true,
-        "deleteOutputPath": true,
-        "bundle": true,
-        "sourcemap": false,
-        "minify": true,
-        "format": ["esm", "cjs"],
+        "clean": true,
         "assets": [
           {
             "input": "tools/storm/language",

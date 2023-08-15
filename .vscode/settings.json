@@ -10,6 +10,8 @@
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
 
+  "typescript.tsserver.log": "verbose",
+
   /******************************
    * eslint / prettier
    ******************************/

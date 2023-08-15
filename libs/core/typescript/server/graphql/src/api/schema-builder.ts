@@ -89,7 +89,12 @@ export const createSchemaBuilder = <
     },
     validationOptions: {
       // optionally customize how errors are formatted
-      validationError: (zodError, args, context, info) => {
+      validationError: (
+        zodError: any,
+        _args: any,
+        _context: any,
+        _info: any
+      ) => {
         // the default behavior is to just throw the zod error directly
         return zodError;
       },
@@ -108,7 +113,7 @@ export const createSchemaBuilder = <
       encodeGlobalID,
       decodeGlobalID,
     },
-  });
+  } as any);
 
   // builder.mutationType({});
 

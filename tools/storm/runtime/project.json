@@ -5,41 +5,18 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/esbuild:esbuild",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/storm/runtime",
         "main": "tools/storm/runtime/src/index.ts",
         "project": "tools/storm/runtime/package.json",
         "tsConfig": "tools/storm/runtime/tsconfig.json",
-        "platform": "node",
-        "metafile": true,
-        "deleteOutputPath": true,
-        "bundle": true,
-        "sourcemap": false,
-        "minify": true,
-        "format": ["esm", "cjs"],
+        "clean": true,
         "assets": [
           {
             "input": "tools/storm/runtime",
             "glob": "README.md",
-            "output": "."
-          }
-        ]
-      }
-    },
-    "bundle": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/tools/storm/runtime",
-        "main": "tools/storm/runtime/src/index.ts",
-        "project": "tools/storm/runtime/package.json",
-        "tsConfig": "tools/storm/runtime/tsconfig.json",
-        "assets": [
-          {
-            "glob": "tools/storm/runtime/README.md",
-            "input": ".",
             "output": "."
           }
         ]
@@ -80,6 +57,5 @@
       }
     }
   },
-  "tags": [],
-  "implicitDependencies": ["core-shared-utilities"]
+  "tags": []
 }

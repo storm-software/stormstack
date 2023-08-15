@@ -1,3 +1,4 @@
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
 import {
   GeneratorDecl,
   Model,
@@ -72,9 +73,9 @@ export function getPrismaClientImportSpec(
   );
 
   // DEBUG:
-  // console.log('PRISMA SCHEMA PATH:', prismaSchemaOutputDir);
-  // console.log('PRISMA CLIENT PATH:', resolvedPrismaClientOutput);
-  // console.log('IMPORTING PATH:', importingFromDir);
+  ConsoleLogger.log(`PRISMA SCHEMA PATH: ${prismaSchemaOutputDir}`);
+  ConsoleLogger.log(`PRISMA CLIENT PATH: ${resolvedPrismaClientOutput}`);
+  ConsoleLogger.log(`IMPORTING PATH: ${importingFromDir}`);
 
   // compute prisma client absolute output dir relative to the importing file
   return normalizePath(

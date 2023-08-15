@@ -303,7 +303,7 @@ function sortNodes(
     return nodes; // sort(nodes, "kind", "name.value");
   }
 
-  return;
+  return undefined;
 }
 
 function isOfKindList<T>(

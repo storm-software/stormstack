@@ -19,8 +19,7 @@ if (swcJestConfig.swcrc === undefined) {
 // swcJestConfig.module.noInterop = false;
 
 export default {
-  displayName:
-    "user-management-typescript-shared-user-management-shared-data-access",
+  displayName: "user-management-shared-data-access",
   preset: "../../../../../jest.preset.js",
   transform: {
     "^.+\\.[tj]s$": ["@swc/jest", swcJestConfig],
@@ -28,5 +27,5 @@ export default {
   moduleFileExtensions: ["ts", "js", "html"],
   testEnvironment: "jsdom",
   coverageDirectory:
-    "../../../../../coverage/libs/user-management/typescript/shared/user-management-shared-data-access",
+    "../../../../../coverage/libs/user-management/typescript/shared/data-access",
 };

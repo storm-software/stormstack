@@ -15,21 +15,21 @@ export class ConsoleLogger extends Logger {
    * @param {string} message - The message to be printed.
    */
   static success(...message: any[]) {
-    printSuccess(message);
+    printSuccess(message, true, true, false);
   }
 
   /**
    * @param {string} message - The message to be printed.
    */
   static error(...message: any[]) {
-    printError(message);
+    printError(message, true, true, true);
   }
 
   /**
    * @param {string} error - The message to be printed.
    */
   static exception(error: Error) {
-    printError(error);
+    printError(error, true, true, true);
   }
 
   /**
@@ -37,7 +37,7 @@ export class ConsoleLogger extends Logger {
    * @param {string} message - The message to be printed.
    */
   static warn(...message: any[]) {
-    printWarning(message);
+    printWarning(message, true, true, true);
   }
 
   /**
@@ -50,7 +50,7 @@ export class ConsoleLogger extends Logger {
    * @param {string} message - The message to be printed.
    */
   static info(...message: any[]) {
-    printInfo(message);
+    printInfo(message, true, true, false);
   }
 
   /**
@@ -59,7 +59,16 @@ export class ConsoleLogger extends Logger {
    * @param {string} message - The message to be printed.
    */
   static debug(...message: any[]) {
-    printInfo(message);
+    printInfo(message, true, true, false);
+  }
+
+  /**
+   * The function `log` is a static method of the class `Logger`. It takes a string as an argument and
+   * calls the function `printInfo` with that string as an argument.
+   * @param {string} message - The message to be printed.
+   */
+  static log(...message: any[]) {
+    ConsoleLogger.info(message);
   }
 
   /**
@@ -82,7 +91,7 @@ export class ConsoleLogger extends Logger {
    * @returns Nothing.
    */
   success(...message: any[]) {
-    printSuccess(message);
+    printSuccess(message, true, true, true);
   }
 
   /**
@@ -91,7 +100,7 @@ export class ConsoleLogger extends Logger {
    * @returns Nothing.
    */
   error(...message: any[]) {
-    printError(message);
+    printError(message, true, true, true);
   }
 
   /**
@@ -100,7 +109,7 @@ export class ConsoleLogger extends Logger {
    * @returns Nothing.
    */
   exception(error: Error) {
-    printError(error);
+    printError(error, true, true, true);
   }
 
   /**
@@ -109,7 +118,7 @@ export class ConsoleLogger extends Logger {
    * @returns Nothing.
    */
   warn(...message: any[]) {
-    printWarning(message);
+    printWarning(message, true, true, true);
   }
 
   /**
@@ -117,7 +126,7 @@ export class ConsoleLogger extends Logger {
    * @returns A promise that resolves to void.
    */
   info(...message: any[]) {
-    printInfo(message);
+    printInfo(message, true, true, false);
   }
 
   /**
@@ -126,6 +135,14 @@ export class ConsoleLogger extends Logger {
    * @returns Nothing.
    */
   debug(...message: any[]) {
-    printInfo(message);
+    printInfo(message, true, true, true);
+  }
+
+  /**
+   * @param {string} message - The message to be printed.
+   * @returns A promise that resolves to void.
+   */
+  log(...message: any[]) {
+    this.info(message);
   }
 }

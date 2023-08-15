@@ -1,3 +1,4 @@
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging/console-logger";
 import type { PolicyOperationKind } from "@open-system/tools-storm-runtime";
 import fs from "fs";
 import path from "path";
@@ -9,6 +10,8 @@ export const ALL_OPERATION_KINDS: PolicyOperationKind[] = [
   "read",
   "delete",
 ];
+
+const MAX_PATH_SEARCH_DEPTH = 30;
 
 /**
  * Gets the nearest "node_modules" folder by walking up from start path.
@@ -46,28 +49,43 @@ export function ensureDefaultOutputFolder() {
  * @returns
  */
 export function getDefaultOutputFolder() {
-  // Find the real runtime module path, it might be a symlink in pnpm
-  let runtimeModulePath = require.resolve(
-    process.env.STORM_RUNTIME_MODULE ?? "@open-system/tools-storm-runtime"
-  );
-
-  if (process.env.STORM_TEST === "1") {
-    // handling the case when running as tests, resolve relative to CWD
-    runtimeModulePath = path.resolve(
-      path.join(process.cwd(), "node_modules", "@open-system", "runtime")
+  let modulesFolder = process.env.STORM_RUNTIME_MODULE;
+  if (!modulesFolder) {
+    const runtimeModuleFolder = "@open-system/tools-storm-runtime";
+    ConsoleLogger.debug(
+      `Searching for Storm Runtime in ${runtimeModuleFolder}`
     );
-  }
 
-  if (runtimeModulePath) {
-    // start with the parent folder of @open-system, supposed to be a node_modules folder
-    while (
-      !runtimeModulePath.endsWith("@open-system") &&
-      runtimeModulePath !== "/"
-    ) {
+    // Find the real runtime module path, it might be a symlink in pnpm
+    let runtimeModulePath = require.resolve(runtimeModuleFolder);
+
+    if (process.env.STORM_TEST === "1") {
+      // handling the case when running as tests, resolve relative to CWD
+      runtimeModulePath = path.resolve(
+        path.join(process.cwd(), "node_modules", "@open-system", "runtime")
+      );
+    }
+
+    ConsoleLogger.debug(`Loading Storm Runtime from ${runtimeModulePath}`);
+
+    if (runtimeModulePath) {
+      // start with the parent folder of @open-system, supposed to be a node_modules folder
+      let depth = 0;
+      while (
+        !runtimeModulePath.endsWith("@open-system") &&
+        runtimeModulePath !== "/" &&
+        depth++ < MAX_PATH_SEARCH_DEPTH
+      ) {
+        runtimeModulePath = path.join(runtimeModulePath, "..");
+      }
       runtimeModulePath = path.join(runtimeModulePath, "..");
     }
-    runtimeModulePath = path.join(runtimeModulePath, "..");
+    modulesFolder = getNodeModulesFolder(runtimeModulePath);
   }
-  const modulesFolder = getNodeModulesFolder(runtimeModulePath);
-  return modulesFolder ? path.join(modulesFolder, ".storm") : undefined;
+
+  return modulesFolder
+    ? modulesFolder.endsWith(".storm")
+      ? modulesFolder
+      : path.join(modulesFolder, ".storm")
+    : undefined;
 }

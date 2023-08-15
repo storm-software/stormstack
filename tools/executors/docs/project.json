@@ -27,16 +27,7 @@
           "tools/executors/docs/design-tokens-docgen/impl.ts",
           "tools/executors/docs/tsdocs-docgen/impl.ts",
           "tools/executors/docs/event-catalog-serve/impl.ts",
-          "tools/executors/docs/event-catalog-build/impl.ts",
-
-          "tools/executors/typescript/cloudflare-worker-deploy/impl.ts",
-          "tools/executors/typescript/cloudflare-worker-serve/impl.ts",
-          "tools/executors/typescript/design-tokens-build/impl.ts",
-          "tools/executors/typescript/design-components-clean/impl.ts",
-          "tools/executors/typescript/client-api-sync/impl.ts",
-          "tools/executors/typescript/client-gql-sync/impl.ts",
-          "tools/executors/typescript/event-library/impl.ts",
-          "tools/executors/typescript/storm-generate/impl.ts"
+          "tools/executors/docs/event-catalog-build/impl.ts"
         ],
         "platform": "node",
         "deleteOutputPath": true,

@@ -5,12 +5,13 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/esbuild:esbuild",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/storm/schema",
         "main": "tools/storm/schema/src/cli/index.ts",
         "additionalEntryPoints": [
+          "tools/storm/schema/src/index.ts",
           "tools/storm/schema/src/language-server/main.ts",
           "tools/storm/schema/src/plugins/access-policy/index.ts",
           "tools/storm/schema/src/plugins/model-meta/index.ts",
@@ -19,16 +20,8 @@
         ],
         "project": "tools/storm/schema/package.json",
         "tsConfig": "tools/storm/schema/tsconfig.json",
-        "platform": "node",
-        "metafile": true,
-        "deleteOutputPath": true,
-        "bundle": true,
-        "sourcemap": false,
-        "minify": false,
+        "clean": true,
         "external": ["@open-system/tools-storm-runtime"],
-        "generatePackageJson": true,
-        "thirdParty": true,
-        "format": ["esm", "cjs"],
         "assets": [
           {
             "input": "tools/storm/schema",

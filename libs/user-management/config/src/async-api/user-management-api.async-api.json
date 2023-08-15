@@ -3,7 +3,7 @@
   "id": "https://user-management-visit.open-system.workers.dev",
   "info": {
     "title": "User Management - Visit Service",
-    "version": "1.0.0",
+    "version": "1.0",
     "description": "Various Open System services responsible for processing user related data\r\n### Data: \r\n* Personal Information\r\n* Account Activity\r\n* Security Settings",
     "termsOfService": "https://patsullivan.org/terms",
     "contact": {
@@ -18,7 +18,7 @@
   },
   "tags": [
     {
-      "name": "user management",
+      "name": "user-management",
       "description": "User account specific data/actions."
     },
     {
@@ -32,6 +32,16 @@
       "url": "fitting-dassie-7031-us1-kafka.upstash.io:9092",
       "description": "Kafka Bootstrap Server",
       "protocol": "kafka",
+      "tags": [
+        {
+          "name": "kafka",
+          "description": "A server using Kafka to send and/or receive messages."
+        },
+        {
+          "name": "upstash",
+          "description": "A serverless Kafka provider."
+        }
+      ],
       "security": [
         {
           "confluentBroker": []
@@ -42,6 +52,16 @@
       "url": "https://user-management-api.open-system.workers.dev",
       "description": "User Management API Server",
       "protocol": "kafka",
+      "tags": [
+        {
+          "name": "kafka",
+          "description": "A server using Kafka to send and/or receive messages."
+        },
+        {
+          "name": "cloudflare",
+          "description": "A serverless provider of functional worker services."
+        }
+      ],
       "security": [
         {
           "confluentBroker": []
@@ -50,9 +70,30 @@
     }
   },
   "channels": {
-    "UserVisited": {
+    "open-system.user-management.user-visited": {
+      "description": "A channel used to exchange messages about user visits to the application",
       "publish": {
-        "operationId": "open-system.user-management.visit-events",
+        "summary": "Produce event data when a user visits to the application",
+        "operationId": "ProduceUserVisited",
+        "message": {
+          "messageId": "ProduceUserVisitedMessage",
+          "name": "UserVisitedEvent",
+          "title": "User Visited Data",
+          "description": "Event details describing a user's visit to the application",
+          "summary": "The details of a user's visit to a page in the application",
+          "traits": [
+            {
+              "$ref": "#/components/messageTraits/commonMessageFields"
+            }
+          ],
+          "payload": {
+            "$ref": "#/components/schemas/UserVisitedEvent"
+          }
+        }
+      },
+      "subscribe": {
+        "summary": "Consume event data when a user visits to the application",
+        "operationId": "ConsumeUserVisited",
         "bindings": {
           "kafka": {
             "bindingVersion": "0.3.0",
@@ -65,85 +106,199 @@
           }
         },
         "message": {
-          "$ref": "#/components/messages/visitDetails"
+          "messageId": "ConsumeUserVisitedMessage",
+          "name": "UserVisitedEvent",
+          "title": "User Visited Data",
+          "description": "Event details describing a user's visit to the application",
+          "summary": "The details of a user's visit to a page in the application",
+          "traits": [
+            {
+              "$ref": "#/components/messageTraits/commonMessageFields"
+            }
+          ],
+          "payload": {
+            "$ref": "#/components/schemas/UserVisitedEvent"
+          }
         }
-      }
+      },
+      "servers": ["message-broker", "user-management-api"]
     }
   },
   "components": {
-    "messages": {
-      "visitDetails": {
-        "title": "Visit Details",
-        "messageId": "visit-details",
-        "summary": "The details of a user's visit to a page in the application",
+    "messageTraits": {
+      "commonMessageFields": {
+        "bindings": {
+          "kafka": {
+            "bindingVersion": "0.3.0",
+            "groupId": {
+              "type": "string"
+            },
+            "clientId": {
+              "type": "string"
+            }
+          }
+        },
         "tags": [
           {
-            "name": "user management",
+            "name": "user-management",
             "description": "User account specific data/actions."
           }
         ],
         "contentType": "application/json",
-        "payload": {
+        "headers": {
           "type": "object",
           "properties": {
-            "userId": {
+            "id": {
+              "type": "string",
+              "example": "7e1216b7-9fc4-421d-b2da-6c111667e2fd",
+              "description": "A unique Id used to identify the the event",
+              "minLength": 36,
+              "maxLength": 36
+            },
+            "version": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1,
+              "description": "The current version number of the event",
+              "min": 0
+            },
+            "aggregateId": {
               "type": "string",
               "example": "7e1216b7-9fc4-421d-b2da-6c111667e2fd",
               "description": "A unique Id used to identify the the current user",
               "minLength": 36,
               "maxLength": 36
             },
-            "countryCode": {
-              "type": "string",
-              "example": "US",
-              "description": "The user's current country code",
-              "minLength": 2,
-              "maxLength": 2
+            "aggregateVersion": {
+              "type": "integer",
+              "format": "int32",
+              "example": 1,
+              "description": "The current version number of the aggregate",
+              "min": 0
             },
-            "continent": {
+            "aggregateType": {
               "type": "string",
-              "example": "North America",
-              "description": "The user's current continent"
+              "example": "user-account",
+              "description": "A unique Id used to identify the the current user"
             },
-            "latitude": {
+            "timestamp": {
               "type": "string",
-              "description": "The user's current latitude"
+              "format": "date-time",
+              "example": "2023-01-10T00:00:00.000Z",
+              "description": "A date-time captured right as the event occured"
             },
-            "longitude": {
+            "correlationId": {
               "type": "string",
-              "description": "The user's current longitude"
-            },
-            "postalCode": {
-              "type": "string",
-              "example": "11205",
-              "description": "The user's current postalCode",
-              "minLength": 5,
-              "maxLength": 12
-            },
-            "city": {
-              "type": "string",
-              "example": "Albany",
-              "description": "The user's current city"
-            },
-            "state": {
-              "type": "string",
-              "example": "New York",
-              "description": "The user's current state"
-            },
-            "timezone": {
-              "type": "string",
-              "description": "The user's current timezone"
-            },
-            "ip": {
-              "type": "string",
-              "example": "198.51.100.1",
-              "description": "The user's current ip address"
+              "example": "7e1216b7-9fc4-421d-b2da-6c111667e2fd",
+              "description": "A unique Id used to identify the the event",
+              "minLength": 36,
+              "maxLength": 36
             }
           },
           "required": [
-            "userId"
+            "id",
+            "version",
+            "aggregateId",
+            "aggregateVersion",
+            "aggregateType",
+            "timestamp",
+            "correlationId"
           ]
         }
+      }
+    },
+    "schemas": {
+      "UserVisitedEvent": {
+        "type": "object",
+        "properties": {
+          "visitedOn": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-10T00:00:00.000Z",
+            "description": "A date-time captured right as the visit event occured"
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "US",
+            "description": "The user's current country code",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "continent": {
+            "type": "string",
+            "example": "North America",
+            "description": "The user's current continent"
+          },
+          "latitude": {
+            "type": "string",
+            "description": "The user's current latitude"
+          },
+          "longitude": {
+            "type": "string",
+            "description": "The user's current longitude"
+          },
+          "postalCode": {
+            "type": "string",
+            "example": "11205",
+            "description": "The user's current postalCode",
+            "minLength": 5,
+            "maxLength": 12
+          },
+          "city": {
+            "type": "string",
+            "example": "Albany",
+            "description": "The user's current city"
+          },
+          "state": {
+            "type": "string",
+            "example": "New York",
+            "description": "The user's current state"
+          },
+          "timezone": {
+            "type": "string",
+            "example": "UTC",
+            "description": "The user's current timezone"
+          },
+          "ip": {
+            "type": "string",
+            "example": "198.51.100.1",
+            "description": "The user's current ip address",
+            "format": "ip"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://patsullivan.org/contact",
+            "description": "The URL the user visited",
+            "format": "url"
+          }
+        },
+        "required": ["visitedOn", "url"],
+        "additionalProperties": false
+      },
+      "UserCreatedEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "7e1216b7-9fc4-421d-b2da-6c111667e2fd",
+            "description": "A unique Id used to identify the the current user",
+            "minLength": 36,
+            "maxLength": 36
+          },
+          "userType": {
+            "$id": "UserType",
+            "type": "string",
+            "example": "external",
+            "description": "The user's current country code",
+            "enum": ["internal", "external", "guest"]
+          },
+          "emailAddress": {
+            "type": "string",
+            "example": "example@email.com",
+            "description": "The user's registration email address"
+          }
+        },
+        "required": ["id", "userType", "emailAddress"]
       }
     },
     "securitySchemes": {

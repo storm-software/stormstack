@@ -9,19 +9,16 @@ module.exports = {
     exportEverythingInObjectsDotTs: true,
     prismaImporter: `import { Prisma } from '@prisma/client/contact';`,
     resolverImports: `\nimport { prisma } from '../../../../client';`,
-    replacer(generated, position) {
-      // replacer(generated, position) {
-      //   return `// THIS CONTENT WAS INSERTED AT REPLACE. THE POSITION IS ${position}\n${generated}`
-      // },
-
-      //export const ContactAttachmentObject = definePrismaObject('ContactAttachment',
+    replacer(generated, _) {
       generated = generated.replace(
         "type Types = typeof builder extends PothosSchemaTypes.SchemaBuilder<infer T> ? T : unknown;",
         "export type Types = typeof builder extends PothosSchemaTypes.SchemaBuilder<infer T> ? T : unknown;"
       );
 
-      const regex = /export const (\w+)Object = definePrismaObject\('(\w+)',/g;
-      const match = regex.exec(generated);
+      const match =
+        /export const (\w+)Object = definePrismaObject\('(\w+)',/g.exec(
+          generated
+        );
       if (match && match.length > 1) {
         generated = generated.replace(
           `export const ${match[1]}Object = definePrismaObject('${match[1]}'`,

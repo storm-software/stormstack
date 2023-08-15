@@ -19,7 +19,7 @@ const print = (
   newLineAfter = true,
   prefix?: string,
   postfix?: string,
-  stackTrace?: string
+  stackTrace: string | boolean | undefined = false
 ): string => {
   return `${newLine ? "\n" : ""}${prefix ? `${prefix} ` : ""}${
     Array.isArray(message)
@@ -34,16 +34,18 @@ const print = (
         chalk.bold("Timestamp: ") +
         formatDateTime(
           DateTime.current,
-          { smallestUnit: "milliseconds" },
+          { smallestUnit: "milliseconds", calendarName: "never" },
           "UTC"
         ) +
-        "\n" +
-        chalk.bold("Stack Trace: ") +
-        (stackTrace
-          ? stackTrace
-          : (message as Error)?.stack
-          ? (message as Error)?.stack
-          : new Error().stack?.substring(6) ?? "")
+        (stackTrace !== false
+          ? "\n" +
+            chalk.bold("Stack Trace: ") +
+            (stackTrace
+              ? stackTrace
+              : (message as Error)?.stack
+              ? (message as Error)?.stack
+              : new Error().stack?.substring(6) ?? "")
+          : "")
       : ""
   }${newLineAfter ? "\n" : ""}`;
 };
@@ -101,15 +103,18 @@ const formatLine = (message: unknown): string =>
  */
 export const printInfo = (
   message: unknown[],
-  newLine = true,
-  newLineAfter = true
+  newLine: boolean | undefined = true,
+  newLineAfter: boolean | undefined = true,
+  stackTrace: boolean | undefined = false
 ) => {
   console.info(
     print(
       message,
       newLine,
       newLineAfter,
-      chalk.bold.blue(" > " + chalk.bgBlue.whiteBright(" i ") + " INFO -")
+      chalk.bold.blue(" > " + chalk.bgBlue.whiteBright(" i ") + " INFO -"),
+      undefined,
+      stackTrace
     )
   );
 };
@@ -135,8 +140,9 @@ export const printInfo = (
  */
 export const printSuccess = (
   message: unknown[],
-  newLine = true,
-  newLineAfter = true
+  newLine: boolean | undefined = true,
+  newLineAfter: boolean | undefined = true,
+  stackTrace: boolean | undefined = false
 ) => {
   console.info(
     print(
@@ -145,7 +151,9 @@ export const printSuccess = (
       newLineAfter,
       chalk.bold.green(
         " > " + chalk.bold.bgGreen.whiteBright(" ✓ ") + " SUCCESS -"
-      )
+      ),
+      undefined,
+      stackTrace
     )
   );
 };
@@ -158,15 +166,18 @@ export const printSuccess = (
  */
 export const printWarning = (
   message: unknown[],
-  newLine = true,
-  newLineAfter = true
+  newLine: boolean | undefined = true,
+  newLineAfter: boolean | undefined = true,
+  stackTrace: boolean | undefined = true
 ) => {
   console.warn(
     print(
       message,
       newLine,
       newLineAfter,
-      chalk.bold.yellow(" > " + chalk.bgYellow.blackBright(" ▲ ") + " WARN -")
+      chalk.bold.yellow(" > " + chalk.bgYellow.blackBright(" ▲ ") + " WARN -"),
+      undefined,
+      stackTrace
     )
   );
 };
@@ -180,8 +191,9 @@ export const printWarning = (
  */
 export const printError = (
   message: unknown[] | Error,
-  newLine = true,
-  newLineAfter = true
+  newLine: boolean | undefined = true,
+  newLineAfter: boolean | undefined = true,
+  stackTrace: boolean | undefined = true
 ) => {
   const error = message as Error;
   console.error(message);
@@ -196,7 +208,7 @@ export const printError = (
         )}-`
       ),
       undefined,
-      error.stack
+      stackTrace !== false ? error.stack : false
     )
   );
 };
