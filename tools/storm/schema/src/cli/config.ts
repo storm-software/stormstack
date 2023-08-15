@@ -1,10 +1,7 @@
-import {
-  GUARD_FIELD_NAME,
-  TRANSACTION_FIELD_NAME,
-} from "@open-system/tools-storm-sdk";
 import fs from "fs";
 import z, { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
+import { GUARD_FIELD_NAME, TRANSACTION_FIELD_NAME } from "../sdk";
 import { CliError } from "./cli-error";
 
 const schema = z

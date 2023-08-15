@@ -1,4 +1,4 @@
-import { AUXILIARY_FIELDS } from "@open-system/tools-storm-sdk";
+import { AUXILIARY_FIELDS } from "../../sdk";
 import indentString from "./indent-string";
 
 /**

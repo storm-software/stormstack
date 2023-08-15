@@ -10,6 +10,9 @@ import {
   ReferenceExpr,
 } from "@open-system/tools-storm-language/ast";
 import type { RuntimeAttribute } from "@open-system/tools-storm-runtime";
+import { lowerCaseFirst } from "lower-case-first";
+import path from "path";
+import { CodeBlockWriter, VariableDeclarationKind } from "ts-morph";
 import {
   createProject,
   emitProject,
@@ -24,10 +27,7 @@ import {
   resolved,
   resolvePath,
   saveProject,
-} from "@open-system/tools-storm-sdk";
-import { lowerCaseFirst } from "lower-case-first";
-import path from "path";
-import { CodeBlockWriter, VariableDeclarationKind } from "ts-morph";
+} from "../../sdk";
 import { getDefaultOutputFolder } from "../plugin-utils";
 
 export const name = "Model Metadata";

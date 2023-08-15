@@ -18,6 +18,18 @@ import type {
   PolicyKind,
   PolicyOperationKind,
 } from "@open-system/tools-storm-runtime";
+import { streamAllContents } from "langium";
+import { lowerCaseFirst } from "lower-case-first";
+import path from "path";
+import {
+  FunctionDeclaration,
+  SourceFile,
+  StatementStructures,
+  VariableDeclarationKind,
+  WriterFunction,
+} from "ts-morph";
+import { name } from ".";
+import { isFromStdlib } from "../../language-server/utils";
 import {
   analyzePolicies,
   createProject,
@@ -34,19 +46,7 @@ import {
   resolvePath,
   RUNTIME_PACKAGE,
   saveProject,
-} from "@open-system/tools-storm-sdk";
-import { streamAllContents } from "langium";
-import { lowerCaseFirst } from "lower-case-first";
-import path from "path";
-import {
-  FunctionDeclaration,
-  SourceFile,
-  StatementStructures,
-  VariableDeclarationKind,
-  WriterFunction,
-} from "ts-morph";
-import { name } from ".";
-import { isFromStdlib } from "../../language-server/utils";
+} from "../../sdk";
 import { getIdFields, isAuthInvocation } from "../../utils/ast-utils";
 import {
   TypeScriptExpressionTransformer,

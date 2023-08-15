@@ -24,6 +24,12 @@ import {
   getPrismaVersion,
   PRISMA_MINIMUM_VERSION,
 } from "@open-system/tools-storm-runtime";
+import fs from "fs";
+import { writeFile } from "fs/promises";
+import path from "path";
+import semver from "semver";
+import { name } from ".";
+import { getStringLiteral } from "../../language-server/validator/utils";
 import {
   analyzePolicies,
   getDataModels,
@@ -36,13 +42,7 @@ import {
   resolved,
   resolvePath,
   TRANSACTION_FIELD_NAME,
-} from "@open-system/tools-storm-sdk";
-import fs from "fs";
-import { writeFile } from "fs/promises";
-import path from "path";
-import semver from "semver";
-import { name } from ".";
-import { getStringLiteral } from "../../language-server/validator/utils";
+} from "../../sdk";
 import { execSync } from "../../utils/exec-utils";
 import {
   ModelFieldType,

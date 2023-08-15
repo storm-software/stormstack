@@ -1,5 +1,4 @@
 import { isPlugin, Model } from "@open-system/tools-storm-language/ast";
-import { getLiteral } from "@open-system/tools-storm-sdk";
 import {
   DefaultWorkspaceManager,
   interruptAndCheck,
@@ -8,6 +7,7 @@ import {
 import path from "path";
 import { CancellationToken, WorkspaceFolder } from "vscode-languageserver";
 import { URI, Utils } from "vscode-uri";
+import { getLiteral } from "../sdk";
 import { PLUGIN_MODULE_NAME, STD_LIB_MODULE_NAME } from "./constants";
 
 /**

@@ -1,5 +1,5 @@
 import { Model } from "@open-system/tools-storm-language/ast";
-import { PluginOptions } from "@open-system/tools-storm-sdk";
+import { PluginOptions } from "../../sdk";
 import PolicyGenerator from "./policy-guard-generator";
 
 export const name = "Access Policy";

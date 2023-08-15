@@ -14,14 +14,14 @@ import {
   ReferenceExpr,
   UnaryExpr,
 } from "@open-system/tools-storm-language/ast";
+import { CodeBlockWriter } from "ts-morph";
+import { name } from ".";
 import {
   ExpressionContext,
   getFunctionExpressionContext,
   getLiteral,
   PluginError,
-} from "@open-system/tools-storm-sdk";
-import { CodeBlockWriter } from "ts-morph";
-import { name } from ".";
+} from "../../sdk";
 import { getIdFields, isAuthInvocation } from "../../utils/ast-utils";
 import {
   TypeScriptExpressionTransformer,

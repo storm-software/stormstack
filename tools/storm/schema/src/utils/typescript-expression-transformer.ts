@@ -12,10 +12,10 @@ import {
   ThisExpr,
   UnaryExpr,
 } from "@open-system/tools-storm-language/ast";
-import { getLiteral } from "@open-system/tools-storm-sdk";
 import { ExpressionContext } from "../constants";
 import { isFromStdlib } from "../language-server/utils";
 import { isFutureExpr } from "../plugins/access-policy/utils";
+import { getLiteral } from "../sdk";
 
 export class TypeScriptExpressionTransformerError extends Error {
   constructor(message: string) {

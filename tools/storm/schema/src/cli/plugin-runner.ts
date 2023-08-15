@@ -2,6 +2,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { ConsoleLogger } from "@open-system/core-shared-utilities/logging/console-logger";
 import { isPlugin, Plugin } from "@open-system/tools-storm-language/ast";
+import type { DMMF } from "@prisma/generator-helper";
+import chalk from "chalk";
+import fs from "fs";
+import ora from "ora";
+import path from "path";
+import { ensureDefaultOutputFolder } from "../plugins/plugin-utils";
 import {
   getDataModels,
   getDMMF,
@@ -12,13 +18,7 @@ import {
   PluginFunction,
   PluginOptions,
   resolvePath,
-} from "@open-system/tools-storm-sdk";
-import type { DMMF } from "@prisma/generator-helper";
-import chalk from "chalk";
-import fs from "fs";
-import ora from "ora";
-import path from "path";
-import { ensureDefaultOutputFolder } from "../plugins/plugin-utils";
+} from "../sdk";
 import type { Context } from "../types";
 import { getVersion } from "../utils/version-utils";
 import { config } from "./config";

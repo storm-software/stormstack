@@ -11,13 +11,13 @@ import {
   isDataModelFieldAttribute,
   isLiteralExpr,
 } from "@open-system/tools-storm-language/ast";
+import { AstNode, ValidationAcceptor } from "langium";
+import { P, match } from "ts-pattern";
 import {
   ExpressionContext,
   getFunctionExpressionContext,
   isEnumFieldReference,
-} from "@open-system/tools-storm-sdk";
-import { AstNode, ValidationAcceptor } from "langium";
-import { P, match } from "ts-pattern";
+} from "../../sdk";
 import { getDataModelFieldReference } from "../../utils/ast-utils";
 import { AstValidator } from "../types";
 import { isFromStdlib } from "../utils";

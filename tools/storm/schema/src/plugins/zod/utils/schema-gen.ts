@@ -4,15 +4,15 @@ import {
   DataModelFieldAttribute,
   isEnum,
 } from "@open-system/tools-storm-language/ast";
+import { upperCaseFirst } from "upper-case-first";
+import { name } from "..";
 import {
   ExpressionContext,
   PluginError,
   getAttributeArg,
   getAttributeArgLiteral,
   getLiteral,
-} from "@open-system/tools-storm-sdk";
-import { upperCaseFirst } from "upper-case-first";
-import { name } from "..";
+} from "../../../sdk";
 import {
   TypeScriptExpressionTransformer,
   TypeScriptExpressionTransformerError,

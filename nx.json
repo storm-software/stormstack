@@ -3,8 +3,13 @@
   "affected": {
     "defaultBase": "main"
   },
-  "cli": {
+  "cliOptions": {
+    "packageManager": "npm",
     "defaultCollection": "@nx/next"
+  },
+  "workspaceLayout": {
+    "libsDir": "libs",
+    "appsDir": "apps"
   },
   "tasksRunnerOptions": {
     "cloud": {
@@ -30,7 +35,11 @@
           "e2e",
           "build-storybook",
           "build-custom-server"
-        ]
+        ],
+        "captureStderr": true,
+        "parallel": 5,
+        "cacheDirectory": "node_modules/.nx/cache",
+        "skipNxCache": false
       }
     }
   },

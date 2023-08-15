@@ -1,23 +1,18 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Model } from "@open-system/tools-storm-language/ast";
-import {
-  getPrismaVersion,
-} from "@open-system/tools-storm-runtime";
-import {
-  AUXILIARY_FIELDS,
-  getPrismaClientImportSpec,
-} from "@open-system/tools-storm-sdk";
-import {
-  checkModelHasModelRelation,
-  findModelByName,
-  isAggregateInputType,
-} from "@open-system/tools-storm-sdk/dmmf-helpers";
-import indentString from "@open-system/tools-storm-sdk/utils";
+import { getPrismaVersion } from "@open-system/tools-storm-runtime";
 import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
 import path from "path";
 import * as semver from "semver";
 import { Project } from "ts-morph";
 import { upperCaseFirst } from "upper-case-first";
+import { AUXILIARY_FIELDS, getPrismaClientImportSpec } from "../../sdk";
+import {
+  checkModelHasModelRelation,
+  findModelByName,
+  isAggregateInputType,
+} from "../../sdk/dmmf-helpers";
+import indentString from "../../sdk/utils";
 import { AggregateOperationSupport, TransformerParams } from "./types";
 
 export default class Transformer {

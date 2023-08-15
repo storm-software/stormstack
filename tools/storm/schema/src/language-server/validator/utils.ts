@@ -19,9 +19,9 @@ import {
   isReferenceExpr,
   ReferenceExpr,
 } from "@open-system/tools-storm-language/ast";
-import { resolved } from "@open-system/tools-storm-sdk";
 import { AstNode, ValidationAcceptor } from "langium";
 import pluralize from "pluralize";
+import { resolved } from "../../sdk";
 
 /**
  * Checks if the given declarations have duplicated names

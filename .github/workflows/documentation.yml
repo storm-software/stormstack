@@ -51,6 +51,9 @@ jobs:
         uses: nrwl/nx-set-shas@v3
       - run: npm install --legacy-peer-deps
 
+      - name: Generate README Table of Contents
+        run: npm run generate:readme-toc
+
       - name: Prepare for build
         run: npm run build:tools-ci && npm run build:tools-executors-docs
 

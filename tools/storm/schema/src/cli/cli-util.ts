@@ -4,7 +4,6 @@ import {
   isPlugin,
   Model,
 } from "@open-system/tools-storm-language/ast";
-import { getLiteral, PluginError } from "@open-system/tools-storm-sdk";
 import chalk from "chalk";
 import fs from "fs";
 import getLatestVersion from "get-latest-version";
@@ -28,6 +27,7 @@ import {
   createStormServices,
   StormServices,
 } from "../language-server/storm-module";
+import { getLiteral, PluginError } from "../sdk";
 import { Context } from "../types";
 import {
   mergeBaseModel,

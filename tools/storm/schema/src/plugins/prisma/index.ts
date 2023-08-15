@@ -1,6 +1,6 @@
 import { Model } from "@open-system/tools-storm-language/ast";
-import { PluginOptions } from "@open-system/tools-storm-sdk";
 import type { DMMF } from "@prisma/generator-helper";
+import { PluginOptions } from "../../sdk";
 import PrismaSchemaGenerator from "./schema-generator";
 
 export const name = "Prisma";

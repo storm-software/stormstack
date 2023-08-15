@@ -7,17 +7,17 @@ import {
   ReferenceExpr,
 } from "@open-system/tools-storm-language/ast";
 import {
-  analyzePolicies,
-  getLiteral,
-  getModelIdFields,
-  getModelUniqueFields,
-} from "@open-system/tools-storm-sdk";
-import {
   AstNode,
   DiagnosticInfo,
   getDocument,
   ValidationAcceptor,
 } from "langium";
+import {
+  analyzePolicies,
+  getLiteral,
+  getModelIdFields,
+  getModelUniqueFields,
+} from "../../sdk";
 import { IssueCodes, SCALAR_TYPES } from "../constants";
 import { AstValidator } from "../types";
 import { getUniqueFields } from "../utils";

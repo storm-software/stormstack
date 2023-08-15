@@ -7,6 +7,13 @@ import {
   isDataSource,
   isEnum,
 } from "@open-system/tools-storm-language/ast";
+import { ConnectorType, DMMF } from "@prisma/generator-helper";
+import { promises as fs } from "fs";
+import { streamAllContents } from "langium";
+import path from "path";
+import { Project } from "ts-morph";
+import { upperCaseFirst } from "upper-case-first";
+import { isFromStdlib } from "../../language-server/utils";
 import {
   AUXILIARY_FIELDS,
   PluginOptions,
@@ -20,18 +27,11 @@ import {
   isForeignKeyField,
   resolvePath,
   saveProject,
-} from "@open-system/tools-storm-sdk";
+} from "../../sdk";
 import {
   addMissingInputObjectTypes,
   resolveAggregateOperationSupport,
-} from "@open-system/tools-storm-sdk/dmmf-helpers";
-import { ConnectorType, DMMF } from "@prisma/generator-helper";
-import { promises as fs } from "fs";
-import { streamAllContents } from "langium";
-import path from "path";
-import { Project } from "ts-morph";
-import { upperCaseFirst } from "upper-case-first";
-import { isFromStdlib } from "../../language-server/utils";
+} from "../../sdk/dmmf-helpers";
 import { getDefaultOutputFolder } from "../plugin-utils";
 import Transformer from "./transformer";
 import removeDir from "./utils/removeDir";

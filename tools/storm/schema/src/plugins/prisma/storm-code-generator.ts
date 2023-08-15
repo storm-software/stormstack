@@ -18,7 +18,7 @@ import {
   ThisExpr,
   UnaryExpr,
 } from "@open-system/tools-storm-language/ast";
-import { resolved } from "@open-system/tools-storm-sdk";
+import { resolved } from "../../sdk";
 
 /**
  * Options for the generator.

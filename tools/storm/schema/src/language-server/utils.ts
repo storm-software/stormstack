@@ -7,8 +7,8 @@ import {
   Model,
   ReferenceExpr,
 } from "@open-system/tools-storm-language/ast";
-import { resolved } from "@open-system/tools-storm-sdk";
 import { AstNode } from "langium";
+import { resolved } from "../sdk";
 import { STD_LIB_MODULE_NAME } from "./constants";
 
 /**
