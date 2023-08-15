@@ -9,7 +9,9 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/core/typescript/client/pdf/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/core/typescript/client/pdf/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {

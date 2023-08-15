@@ -83,9 +83,7 @@
     "deploy-schema": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "wrangler d1 execute contact --file=./db/schema.sql"
-        ],
+        "commands": ["wrangler d1 execute contact --file=./db/schema.sql"],
         "cwd": "apps/workers/contact-api",
         "parallel": false
       }

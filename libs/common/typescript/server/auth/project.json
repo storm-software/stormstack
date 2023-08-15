@@ -19,9 +19,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/common/typescript/server/auth/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/common/typescript/server/auth/**/*.ts"]
       }
     },
     "test": {

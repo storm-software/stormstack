@@ -43,7 +43,7 @@
           "imagesDir": "assets/images",
           "verbose": true,
           "clean": false
-        },
+        }
       }
     },
     "lint": {

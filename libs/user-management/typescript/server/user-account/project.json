@@ -12,9 +12,7 @@
         "tsConfig": "libs/user-management/typescript/server/user-account/tsconfig.lib.json",
         "packageJson": "libs/user-management/typescript/server/user-account/package.json",
         "main": "libs/user-management/typescript/server/user-account/src/index.ts",
-        "assets": [
-          "libs/user-management/typescript/server/user-account/*.md"
-        ]
+        "assets": ["libs/user-management/typescript/server/user-account/*.md"]
       }
     },
     "lint": {

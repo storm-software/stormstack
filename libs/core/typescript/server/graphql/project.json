@@ -19,9 +19,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/core/typescript/server/graphql/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/core/typescript/server/graphql/**/*.ts"]
       }
     },
     "test": {

@@ -9,7 +9,9 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/common/typescript/client/address/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/common/typescript/client/address/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {

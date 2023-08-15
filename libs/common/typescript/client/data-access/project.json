@@ -28,7 +28,9 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/common/typescript/client/data-access/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/common/typescript/client/data-access/**/*.ts"
+        ]
       }
     },
     "test": {

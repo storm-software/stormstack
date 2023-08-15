@@ -19,9 +19,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/common/typescript/server/events/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/common/typescript/server/events/**/*.ts"]
       }
     },
     "test": {
@@ -49,7 +47,7 @@
     },
     "generate": {
       "executor": "@open-system/executors-typescript:event-library",
-      "outputs": ["dist/libs/common/typescript/server/events"],
+      "outputs": ["{workspaceRoot}/dist/libs/common/typescript/server/events"],
       "options": {
         "outputPath": "",
         "templateName": "Kafka-TypeScript"

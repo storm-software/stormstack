@@ -25,14 +25,14 @@
           }
         ],
         "esbuildOptions": {
-          "sourcemap": true,
+          "sourcemap": true
         }
       },
       "configurations": {
         "development": {},
         "production": {
           "esbuildOptions": {
-            "sourcemap": false,
+            "sourcemap": false
           }
         }
       }

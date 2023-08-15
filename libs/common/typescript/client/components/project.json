@@ -29,7 +29,9 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/common/typescript/client/components/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/common/typescript/client/components/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "test": {

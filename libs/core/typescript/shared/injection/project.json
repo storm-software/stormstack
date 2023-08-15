@@ -18,9 +18,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/core/typescript/shared/injection/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/core/typescript/shared/injection/**/*.ts"]
       }
     },
     "test": {
