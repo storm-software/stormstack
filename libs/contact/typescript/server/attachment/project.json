@@ -12,7 +12,8 @@
         "tsConfig": "libs/contact/typescript/server/attachment/tsconfig.lib.json",
         "packageJson": "libs/contact/typescript/server/attachment/package.json",
         "main": "libs/contact/typescript/server/attachment/src/index.ts",
-        "assets": ["libs/contact/typescript/server/attachment/*.md"]
+        "assets": ["libs/contact/typescript/server/attachment/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

@@ -11,7 +11,8 @@
         "outputPath": "dist/libs/user-management/typescript/shared/data-access",
         "main": "libs/user-management/typescript/shared/data-access/src/index.ts",
         "tsConfig": "libs/user-management/typescript/shared/data-access/tsconfig.lib.json",
-        "assets": ["libs/user-management/typescript/shared/data-access/*.md"]
+        "assets": ["libs/user-management/typescript/shared/data-access/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

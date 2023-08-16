@@ -12,7 +12,8 @@
         "tsConfig": "libs/core/typescript/server/graphql/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/graphql/package.json",
         "main": "libs/core/typescript/server/graphql/src/index.ts",
-        "assets": ["libs/core/typescript/server/graphql/*.md"]
+        "assets": ["libs/core/typescript/server/graphql/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

@@ -28,6 +28,7 @@
     "devkit",
     "DMMF",
     "docgen",
+    "doctoc",
     "endregion",
     "enjoi",
     "esbuild",

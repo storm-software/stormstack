@@ -12,7 +12,8 @@
         "tsConfig": "libs/core/typescript/server/application/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/application/package.json",
         "main": "libs/core/typescript/server/application/src/index.ts",
-        "assets": ["libs/core/typescript/server/application/*.md"]
+        "assets": ["libs/core/typescript/server/application/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

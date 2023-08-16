@@ -11,7 +11,8 @@
         "outputPath": "dist/libs/core/typescript/server/kafka",
         "main": "libs/core/typescript/server/kafka/src/index.ts",
         "tsConfig": "libs/core/typescript/server/kafka/tsconfig.lib.json",
-        "assets": ["libs/core/typescript/server/kafka/*.md"]
+        "assets": ["libs/core/typescript/server/kafka/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

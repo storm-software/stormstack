@@ -37,7 +37,7 @@ export default async function (
     await executeAsync(`esbuild --bundle --outdir=${outputPath} ${mainPath} `);
 
     ConsoleLogger.success(
-      `Cloudflare Worker build successfully ran for ${context.projectName}.`
+      `📦 Cloudflare Worker built and packaged successfully for ${context.projectName}.`
     );
 
     return { success: !result };

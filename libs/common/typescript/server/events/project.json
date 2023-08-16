@@ -12,7 +12,8 @@
         "tsConfig": "libs/common/typescript/server/events/tsconfig.lib.json",
         "packageJson": "libs/common/typescript/server/events/package.json",
         "main": "libs/common/typescript/server/events/src/index.ts",
-        "assets": ["libs/common/typescript/server/events/*.md"]
+        "assets": ["libs/common/typescript/server/events/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

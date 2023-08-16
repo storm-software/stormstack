@@ -3,13 +3,8 @@
   "affected": {
     "defaultBase": "main"
   },
-  "cliOptions": {
-    "packageManager": "npm",
+  "cli": {
     "defaultCollection": "@nx/next"
-  },
-  "workspaceLayout": {
-    "libsDir": "libs",
-    "appsDir": "apps"
   },
   "tasksRunnerOptions": {
     "cloud": {
@@ -22,7 +17,8 @@
           "e2e",
           "build-storybook"
         ],
-        "accessToken": "YzE2MTRhZTItYjEzMS00OGE3LWE4ZTMtNWYzNjc4ZGY0NzA2fHJlYWQtb25seQ=="
+        "accessToken": "YzE2MTRhZTItYjEzMS00OGE3LWE4ZTMtNWYzNjc4ZGY0NzA2fHJlYWQtb25seQ==",
+        "parallel": 5
       }
     },
     "default": {
@@ -36,10 +32,7 @@
           "build-storybook",
           "build-custom-server"
         ],
-        "captureStderr": true,
-        "parallel": 5,
-        "cacheDirectory": "node_modules/.nx/cache",
-        "skipNxCache": false
+        "parallel": 5
       }
     }
   },
@@ -96,7 +89,8 @@
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
       "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/tsconfig.storybook.json"
+      "!{projectRoot}/tsconfig.storybook.json",
+      "!{projectRoot}/test-setup.[jt]s"
     ],
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },

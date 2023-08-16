@@ -5,7 +5,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": ["tools/storm/sdk/tsconfig.*?.json"]
+        "project": ["tools/storm/drizzle/tsconfig.*?.json"]
       },
       "rules": {}
     },
@@ -16,6 +16,13 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nx/dependency-checks": "error"
+      }
     }
   ]
 }

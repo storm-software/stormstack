@@ -52,7 +52,8 @@
             "glob": "migrations.json",
             "output": "."
           }
-        ]
+        ],
+        "updateBuildableProjectDepsInPackageJson": true
       },
       "configurations": {
         "client-api": {

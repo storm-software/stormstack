@@ -37,7 +37,8 @@
             "glob": "LICENSE",
             "output": "/"
           }
-        ]
+        ],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "build": {

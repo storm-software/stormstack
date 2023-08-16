@@ -12,7 +12,8 @@
         "tsConfig": "libs/core/typescript/server/pino-logger/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/pino-logger/package.json",
         "main": "libs/core/typescript/server/pino-logger/src/index.ts",
-        "assets": ["libs/core/typescript/server/pino-logger/*.md"]
+        "assets": ["libs/core/typescript/server/pino-logger/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

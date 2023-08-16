@@ -63,7 +63,8 @@
             "glob": "language-configuration.json",
             "output": "."
           }
-        ]
+        ],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "bundle": {
