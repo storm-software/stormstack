@@ -25,26 +25,29 @@
     "sullivanpj",
     "open-system",
     "open",
-    "system"
+    "system",
+    "monorepo",
+    "storm",
+    "storm-lang"
   ],
-  "workspaces": [
-    "apps/*",
-    "libs/*",
-    "design-system/*",
-    "tools/*",
-    "docs/*"
-  ],
+  "packageManager": "pnpm@8.6.3",
+  "engines": {
+    "node": ">=18.17.0",
+    "pnpm": ">=8.6.3"
+  },
   "scripts": {
     "nx": "nx",
+    "preinstall": "node -e \"if(process.env.CI == 'true') {console.log('Skipping preinstall...'); process.exit(1)}\" || npx -y only-allow pnpm",
+    "install:csb": "corepack enable && pnpm install --frozen-lockfile",
     "prepare:husky": "is-ci || husky install",
-    "prepare": "npm run prepare:husky && npx patch-package -y",
+    "prepare": "pnpm prepare:husky && npx patch-package -y",
     "clean:apps": "rimraf dist/apps",
     "clean:libs": "rimraf dist/libs",
     "clean:tools": "rimraf dist/tools",
     "clean": "rimraf dist",
-    "build:tools": "cross-env FORCE_COLOR=1 npx nx run tools-executors-typescript:build && npx nx run tools-executors-docs:build && npx nx run design-system-tokens:build:open-system",
-    "build:tools-ci": "npx nx run tools-executors-typescript:build && npx nx run design-system-tokens:build:open-system",
-    "build:web-deploy": "npm run build:tools-ci && npx nx run web-shell:build:production",
+    "build:tools": "cross-env FORCE_COLOR=1 pnpm nx run tools-executors-typescript:build && pnpm nx run tools-executors-docs:build && pnpm nx run design-system-tokens:build:open-system",
+    "build:tools-ci": "pnpm nx run tools-executors-typescript:build && pnpm nx run design-system-tokens:build:open-system",
+    "build:web-deploy": "npm run build:tools-ci && pnpm nx run web-shell:build:production",
     "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
     "build:wundergraph": "wunderctl generate",
     "build": "npm run build:wundergraph && relay-compiler && nx run-many -t build --all --parallel 4",
@@ -62,27 +65,11 @@
     "wundergraph": "wunderctl up --debug",
     "add:contributors": "all-contributors add",
     "generate": "graphql-codegen --config graphql-codegen.ts",
-    "generate:readme-toc": "npx doctoc --github README.md",
+    "generate:readme-toc": "pnpm doctoc --github README.md",
     "generate:graphql": "graphql-codegen --config graphql-codegen.ts",
     "generate:contributors": "all-contributors generate",
-    "add:decisions": "npx log4brains adr new",
-    "preview:decisions": "npx log4brains preview"
-  },
-  "relay": {
-    "src": "./",
-    "artifactDirectory": "./apps/web/shell/__generated__/relay",
-    "language": "typescript",
-    "schema": "./.wundergraph/generated/wundergraph.schema.graphql",
-    "exclude": [
-      "**/node_modules/**",
-      "**/__mocks__/**",
-      "**/__generated__/**",
-      "**/.wundergraph/generated/**"
-    ],
-    "persistConfig": {
-      "file": "./.wundergraph/operations/relay/persisted.json"
-    },
-    "eagerEsModules": true
+    "add:decisions": "pnpm log4brains adr new",
+    "preview:decisions": "pnpm log4brains preview"
   },
   "dependencies": {
     "@envelop/graphql-modules": "^5.0.0",
@@ -339,8 +326,24 @@
   },
   "husky": {
     "hooks": {
-      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+      "prepare-commit-msg": "exec < /dev/tty && pnpm cz --hook || true"
     }
+  },
+  "relay": {
+    "src": "./",
+    "artifactDirectory": "./apps/web/shell/__generated__/relay",
+    "language": "typescript",
+    "schema": "./.wundergraph/generated/wundergraph.schema.graphql",
+    "exclude": [
+      "**/node_modules/**",
+      "**/__mocks__/**",
+      "**/__generated__/**",
+      "**/.wundergraph/generated/**"
+    ],
+    "persistConfig": {
+      "file": "./.wundergraph/operations/relay/persisted.json"
+    },
+    "eagerEsModules": true
   },
   "bundlewatch": {
     "files": [
@@ -356,9 +359,5 @@
         "beta"
       ]
     }
-  },
-  "engines": {
-    "node": ">=18.17.0"
-  },
-  "packageManager": "npm@9.7.2"
+  }
 }

@@ -22,13 +22,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up node
-        uses: actions/setup-node@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: "18.x"
+          version: 8
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      - uses: actions/setup-node@v3
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version-file: .github/.nvmrc
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install Dependencies
+        uses: nrwl/nx-set-shas@v3
+      - run: pnpm i
 
       - name: Restore next build
         uses: actions/cache@v3
@@ -41,17 +49,17 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Prepare for build
-        run: npm run build:tools-ci
+        run: pnpm build:tools-ci
 
       - name: Build next.js app
         env:
           SKIP_BUILD_PRODUCT_REDIRECTS: 1
-        run: npx nx run web-shell:build
+        run: pnpm nx run web-shell:build
 
       # Here's the first place where next-bundle-analysis' own script is used
       # This step pulls the raw bundle stats for the current bundle
       - name: Analyze bundle
-        run: npx -p nextjs-bundle-analysis report
+        run: pnpm -p nextjs-bundle-analysis report
 
       - name: Upload bundle
         uses: actions/upload-artifact@v3

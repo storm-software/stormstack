@@ -34,20 +34,27 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+
       - uses: actions/setup-node@v3
         with:
-          node-version: "18.x"
           registry-url: https://registry.npmjs.org/
-          cache: 'npm'
+          node-version-file: .github/.nvmrc
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      - uses: nrwl/nx-set-shas@v3
-      - run: npm install --legacy-peer-deps
+      - name: Install Dependencies
+        uses: nrwl/nx-set-shas@v3
+      - run: pnpm i
 
-      - run: npm run build:tools-ci
-      - run: npx nx format
+      - run: pnpm build:tools-ci
+      - run: pnpm nx format
       # - run: npx nx affected -t lint --parallel=3
       # - run: npx nx affected -t test --parallel=3 --configuration=ci --base=${{ github.event.before }}
-      - run: npx nx affected -t build --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
+      - run: pnpm nx affected -t build --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
 
       #- name: Run Tests
       #  uses: nick-fields/retry@v2.8.3

@@ -21,15 +21,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: "18.x"
-          registry-url: https://registry.npmjs.org/
-          cache: 'npm'
+          version: 8
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      - uses: actions/setup-node@v3
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version-file: .github/.nvmrc
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install Dependencies
+        uses: nrwl/nx-set-shas@v3
+      - run: pnpm i
 
       - name: Get appropriate base and head commits for `nx affected` commands
         uses: nrwl/nx-set-shas@v3
@@ -43,10 +49,10 @@ jobs:
       #  run: npx nx-cloud start-ci-run
 
       - name: Prepare for build
-        run: npm run build:tools-ci
+        run: pnpm build:tools-ci
 
       - name: Build Design Tokens
-        run: npx nx run design-system-tokens:build:open-system
+        run: pnpm nx run design-system-tokens:build:open-system
 
       # - name: Run Tests
       #  uses: nick-fields/retry@v2.8.3

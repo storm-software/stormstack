@@ -36,6 +36,12 @@
       }
     }
   },
+  "defaultBase": "main",
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": false
+    }
+  },
   "targetDependencies": {
     "build": [
       {
@@ -79,6 +85,20 @@
     }
   },
   "namedInputs": {
+    "globalBuildAffectingConfig": [
+      "{workspaceRoot}/babel.config.js",
+      "{workspaceRoot}/tailwind.config.js",
+      "{workspaceRoot}/tsconfig.base.json",
+      "{workspaceRoot}/graphql-codegen.ts",
+      "{workspaceRoot}/package.json"
+    ],
+    "globalNonBuildAffectingConfig": [
+      "{workspaceRoot}/.log4brains.yml",
+      "{workspaceRoot}/.nxreleaserc.json",
+      "{workspaceRoot}/.eslintrc.json",
+      "{workspaceRoot}/jest.config.ts",
+      "{workspaceRoot}/testing/jest-preset.js"
+    ],
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
@@ -88,8 +108,9 @@
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
-      "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/tsconfig.storybook.json",
+      "!{workspaceRoot}/testing/jest-setup.[jt]s",
+      "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/test-setup.[jt]s"
     ],
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]

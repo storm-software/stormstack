@@ -1,8 +1,8 @@
-if (process.argv.slice(2).some(arg => arg.includes("package-lock.json"))) {
+if (process.argv.slice(2).some(arg => arg.includes("pnpm-lock.json"))) {
   console.warn(
     [
       "⚠️ ----------------------------------------------------------------------------------------- ⚠️",
-      "⚠️ package-lock.json changed, please run `npm install` to ensure your packages are up to date. ⚠️",
+      "⚠️ pnpm-lock.yaml changed, please run `pnpm i` to ensure your packages are up to date.       ⚠️",
       "⚠️ ----------------------------------------------------------------------------------------- ⚠️",
     ].join("\n")
   );

@@ -40,28 +40,33 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: "18.x"
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
           registry-url: https://registry.npmjs.org/
-          cache: 'npm'
+          node-version-file: .github/.nvmrc
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Dependencies
         uses: nrwl/nx-set-shas@v3
-      - run: npm install --legacy-peer-deps
+      - run: pnpm i
 
       - name: Generate README Table of Contents
-        run: npm run generate:readme-toc
+        run: pnpm generate:readme-toc
 
       - name: Prepare for build
-        run: npm run build:tools-ci && npm run build:tools-executors-docs
+        run: pnpm build:tools-ci && pnpm build:tools-executors-docs
 
       - name: Build website
-        run: npx nx run docs-website:build
+        run: pnpm nx run docs-website:build
 
       - name: Build event catalog
-        run: npx nx run docs-event-catalog:build
+        run: pnpm nx run docs-event-catalog:build
 
       - name: Copy event catalog into website
         run: mkdir ./dist/docs/website/event-catalog && cp -r ./dist/docs/event-catalog/dist/out/* ./dist/docs/website/event-catalog

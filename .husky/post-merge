@@ -3,4 +3,4 @@
 changedFiles="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
 
 node ./.husky/scripts/package-version-warning.js $changedFiles
-npm run format
+pnpm format
