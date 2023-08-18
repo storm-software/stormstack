@@ -1,3 +1,4 @@
+import { lowerCaseFirst } from "@open-system/core-shared-utilities";
 import {
   ArrayExpr,
   DataModel,
@@ -10,7 +11,6 @@ import {
   ReferenceExpr,
 } from "@open-system/tools-storm-language/ast";
 import type { RuntimeAttribute } from "@open-system/tools-storm-runtime";
-import { lowerCaseFirst } from "lower-case-first";
 import path from "path";
 import { CodeBlockWriter, VariableDeclarationKind } from "ts-morph";
 import {

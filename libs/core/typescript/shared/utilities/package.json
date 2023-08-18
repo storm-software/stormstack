@@ -1,4 +1,9 @@
 {
   "name": "@open-system/core-shared-utilities",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "nanoid": "^4.0.2",
+    "type-detect": "^4.0.8"
+  }
 }

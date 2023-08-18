@@ -11,5 +11,7 @@ export * from "./is-server";
 export * from "./noop";
 export * from "./observable-wrappers";
 export * from "./result";
+export * from "./string-fns";
 export * from "./type-checks";
 export * from "./unique-id-generator";
+

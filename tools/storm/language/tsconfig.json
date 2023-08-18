@@ -1,14 +1,14 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../dist/tools/storm/language",
+    "outDir": "../../../dist/out-tsc",
     "module": "commonjs",
     "target": "es6",
     "types": ["node"],
     "declaration": true,
     "noImplicitAny": false,
     "lib": ["ESNext"],
-    "sourceMap": true,
+    "sourceMap": false,
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]

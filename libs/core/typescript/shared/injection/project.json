@@ -11,8 +11,7 @@
         "outputPath": "dist/libs/core/typescript/shared/injection",
         "main": "libs/core/typescript/shared/injection/src/index.ts",
         "tsConfig": "libs/core/typescript/shared/injection/tsconfig.lib.json",
-        "assets": ["libs/core/typescript/shared/injection/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
+        "assets": ["libs/core/typescript/shared/injection/*.md"]
       }
     },
     "lint": {

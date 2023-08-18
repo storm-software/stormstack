@@ -35,6 +35,7 @@
           "tools/executors/typescript/storm-generate/impl.ts"
         ],
         "clean": true,
+        "external": "all",
         "assets": [
           {
             "input": "tools/executors/typescript",

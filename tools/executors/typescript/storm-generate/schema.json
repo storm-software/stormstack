@@ -3,12 +3,12 @@
   "cli": "nx",
   "id": "storm-generate",
   "title": "Open System - Storm Generate",
-  "description": "Generate code based on a provided Storm model",
+  "description": "Generate code based on a provided Storm model⚡",
   "type": "object",
   "properties": {
     "schema": {
       "type": "string",
-      "description": "The `.storm` file name and path of the Storm model to use",
+      "description": "The `.storm` file name and path of the Storm model to use for code generation ⚡",
       "default": "schema.storm"
     },
     "outputPath": {
@@ -22,7 +22,7 @@
       "options": [
         "npm", "yarn", "pnpm"
       ],
-      "default": "npm"
+      "default": "pnpm"
     },
     "dependencyCheck": {
       "type": "boolean",

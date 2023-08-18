@@ -9,12 +9,10 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/storm/language",
-        "main": "tools/storm/language/src/module.ts",
-        "additionalEntryPoints": ["tools/storm/language/src/ast.ts"],
+        "main": "tools/storm/language/src/index.ts",
         "project": "tools/storm/language/package.json",
         "tsConfig": "tools/storm/language/tsconfig.json",
         "clean": true,
-        "external": "all",
         "assets": [
           {
             "input": "tools/storm/language",
@@ -30,13 +28,13 @@
       "outputPath": "tools/storm/language",
       "defaultConfiguration": "default",
       "options": {
-        "commands": ["npx langium generate"],
+        "commands": ["pnpm langium generate"],
         "cwd": "tools/storm/language"
       },
       "configurations": {
         "default": {
           "options": {
-            "commands": ["npx langium generate"],
+            "commands": ["pnpm langium generate"],
             "cwd": "tools/storm/language"
           }
         },

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { upperCaseFirst } from "upper-case-first";
+import { upperCaseFirst } from "@open-system/core-shared-utilities";
 import { fromZodError } from "zod-validation-error";
 import { CrudFailureReason, PRISMA_TX_FLAG } from "../../constants";
 import {

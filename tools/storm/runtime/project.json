@@ -14,8 +14,6 @@
         "tsConfig": "tools/storm/runtime/tsconfig.json",
         "clean": true,
         "external": "all",
-        "skipTypeCheck": true,
-        "updateBuildableProjectDepsInPackageJson": true,
         "assets": [
           {
             "input": "tools/storm/runtime",

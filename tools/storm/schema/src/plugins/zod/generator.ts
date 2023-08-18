@@ -1,3 +1,4 @@
+import { upperCaseFirst } from "@open-system/core-shared-utilities";
 import {
   DataModel,
   DataSource,
@@ -12,7 +13,6 @@ import { promises as fs } from "fs";
 import { streamAllContents } from "langium";
 import path from "path";
 import { Project } from "ts-morph";
-import { upperCaseFirst } from "upper-case-first";
 import { isFromStdlib } from "../../language-server/utils";
 import {
   AUXILIARY_FIELDS,

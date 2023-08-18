@@ -1,10 +1,10 @@
+import { upperCaseFirst } from "@open-system/core-shared-utilities";
 import {
   DataModel,
   DataModelField,
   DataModelFieldAttribute,
   isEnum,
 } from "@open-system/tools-storm-language/ast";
-import { upperCaseFirst } from "upper-case-first";
 import { name } from "..";
 import {
   ExpressionContext,

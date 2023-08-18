@@ -21,7 +21,8 @@
         "project": "tools/storm/schema/package.json",
         "tsConfig": "tools/storm/schema/tsconfig.json",
         "clean": true,
-        "external": ["@open-system/tools-storm-runtime"],
+        "external": "all",
+        "swcrc": "tools/storm/schema/.swcrc",
         "assets": [
           {
             "input": "tools/storm/schema",
@@ -63,8 +64,7 @@
             "glob": "language-configuration.json",
             "output": "."
           }
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
+        ]
       }
     },
     "bundle": {

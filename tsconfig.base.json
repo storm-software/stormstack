@@ -232,13 +232,9 @@
       "@open-system/tools-async-api-rabbitmq": [
         "dist/tools/async-api/rabbitmq/index.ts"
       ],
-      "@open-system/tools-storm-drizzle": ["tools/storm/drizzle/src/index.ts"],
       "@open-system/tools-storm-language/*": ["tools/storm/language/src/*"],
-      "@open-system/tools-storm-language/ast": [
-        "tools/storm/language/src/ast.ts"
-      ],
-      "@open-system/tools-storm-language/module": [
-        "tools/storm/language/src/module.ts"
+      "@open-system/tools-storm-language": [
+        "tools/storm/language/src/index.ts"
       ],
       "@open-system/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
       "@open-system/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],

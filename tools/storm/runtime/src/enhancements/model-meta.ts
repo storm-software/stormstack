@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { lowerCaseFirst } from "lower-case-first";
+import { lowerCaseFirst } from "@open-system/core-shared-utilities";
 import path from "path";
 import { FieldInfo } from "../types";
 import { ModelMeta } from "./types";

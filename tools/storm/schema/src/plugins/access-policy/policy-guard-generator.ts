@@ -1,3 +1,4 @@
+import { lowerCaseFirst } from "@open-system/core-shared-utilities";
 import {
   DataModel,
   Expression,
@@ -19,7 +20,6 @@ import type {
   PolicyOperationKind,
 } from "@open-system/tools-storm-runtime";
 import { streamAllContents } from "langium";
-import { lowerCaseFirst } from "lower-case-first";
 import path from "path";
 import {
   FunctionDeclaration,

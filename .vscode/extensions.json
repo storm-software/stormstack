@@ -9,6 +9,18 @@
     "ms-dotnettools.csharp",
     "streetsidesoftware.code-spell-checker",
     "langium.langium-vscode",
-    "pat-sullivan.storm-schema"
+    "pat-sullivan.storm-schema",
+    "editorconfig.editorconfig",
+    "ambar.bundle-size",
+    "aaron-bond.better-comments",
+    "graphql.vscode-graphql",
+    "graphql.vscode-graphql-syntax",
+    "sburg.vscode-javascript-booster",
+    "meta.relay",
+    "bradlc.vscode-tailwindcss",
+    "vscode-icons-team.vscode-icons",
+    "knisterpeter.vscode-commitizen",
+    "prisma.prisma",
+    "capaj.graphql-codegen-vscode"
   ]
 }

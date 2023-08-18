@@ -24,8 +24,8 @@ function getPackageManager(projectPath = "."): PackageManagers {
   );
 
   if (!lockFile) {
-    // default use npm
-    return "npm";
+    // default use pnpm
+    return "pnpm";
   }
 
   switch (path.basename(lockFile)) {
