@@ -360,3 +360,50 @@ export const emptyString = <T extends zod.ZodType>(input: T) => {
     return value;
   }, input);
 };
+
+export const propertyIsOnObject = (object, property) => {
+  try {
+    return property in object;
+  } catch (_) {
+    return false;
+  }
+};
+
+// Protects from prototype poisoning and unexpected merging up the prototype chain.
+export const propertyIsUnsafe = (target, key) => {
+  return (
+    propertyIsOnObject(target, key) && // Properties are safe to merge if they don't exist in the target yet,
+    !(
+      Object.hasOwnProperty.call(target, key) && // unsafe if they exist up the prototype chain,
+      Object.propertyIsEnumerable.call(target, key)
+    )
+  ); // and also unsafe if they're non-enumerable.
+};
+
+export const isMergeableObject = (value: any): boolean => {
+  return isNonNullObject(value) && !isSpecialType(value);
+};
+
+export const isNonNullObject = value => {
+  return !!value && typeof value === "object";
+};
+
+export const isSpecialType = value => {
+  const stringValue = Object.prototype.toString.call(value);
+
+  return (
+    stringValue === "[object RegExp]" ||
+    stringValue === "[object Date]" ||
+    isReactElement(value)
+  );
+};
+
+// see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
+export const isReactElement = value => {
+  return (
+    value.$$typeof ===
+    (typeof Symbol === "function" && Symbol.for
+      ? Symbol.for("react.element")
+      : 0xeac7)
+  );
+};

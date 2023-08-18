@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
 import { ExecOptions, exec } from "child_process";
 import { promisify } from "util";
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { upperCaseFirst } from "@open-system/core-shared-utilities";
+import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
 import { Model } from "@open-system/tools-storm-language/ast";
 import { getPrismaVersion } from "@open-system/tools-storm-runtime";
 import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
@@ -8,9 +8,9 @@ import * as semver from "semver";
 import { Project } from "ts-morph";
 import { AUXILIARY_FIELDS, getPrismaClientImportSpec } from "../../sdk";
 import {
-  checkModelHasModelRelation,
-  findModelByName,
-  isAggregateInputType,
+    checkModelHasModelRelation,
+    findModelByName,
+    isAggregateInputType,
 } from "../../sdk/dmmf-helpers";
 import indentString from "../../sdk/utils";
 import { AggregateOperationSupport, TransformerParams } from "./types";

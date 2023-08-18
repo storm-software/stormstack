@@ -1,3 +1,4 @@
+import { Headers } from "../types";
 import { BaseError } from "./base-error";
 import { BaseErrorCode } from "./error-codes";
 

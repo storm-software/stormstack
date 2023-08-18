@@ -8,7 +8,7 @@ export interface SizeValue {
 
 export class SizeToken extends Token implements TokenInterface {
   type: TokensType = "size";
-  value: SizeValue;
+  declare value: SizeValue;
 
   constructor(element: Partial<SizeToken>) {
     super(element);

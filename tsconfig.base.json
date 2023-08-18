@@ -211,10 +211,13 @@
         "libs/engagement/typescript/shared/data-access/src/*"
       ],
       "@open-system/engagement/config": ["libs/engagement/config/src/index.ts"],
-      "@open-system/executors-docs": ["tools/executors/docs/index.ts"],
+      "@open-system/tools-executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
-      "@open-system/executors-typescript": [
+      "@open-system/tools-executors-typescript": [
         "tools/executors/typescript/index.ts"
+      ],
+      "@open-system/tools-executors-typescript/*": [
+        "tools/executors/typescript/*"
       ],
       "@open-system/generators-dotnet": ["tools/generators/dotnet/index.ts"],
       "@open-system/generators-typescript": [

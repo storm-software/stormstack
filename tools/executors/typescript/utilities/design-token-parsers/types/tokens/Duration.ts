@@ -1,5 +1,5 @@
-import Token, { TokenInterface } from './Token';
-import { TokensType } from './index';
+import Token, { TokenInterface } from "./Token";
+import { TokensType } from "./index";
 
 export interface DurationValue {
   duration: number;
@@ -7,8 +7,8 @@ export interface DurationValue {
 }
 
 export class DurationToken extends Token implements TokenInterface {
-  type: TokensType = 'duration';
-  value: DurationValue;
+  type: TokensType = "duration";
+  declare value: DurationValue;
 
   constructor(element: Partial<DurationToken>) {
     super(element);

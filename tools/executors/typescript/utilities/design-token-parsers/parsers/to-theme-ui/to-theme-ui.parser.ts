@@ -1,19 +1,19 @@
-import { IToken, TokensType } from '../../types';
-import prettier from 'prettier';
-import * as TokensClass from './tokens';
-import { LibsType } from '../global-libs';
-import * as _ from 'lodash';
-import * as os from 'os';
+import * as _ from "lodash";
+import * as os from "os";
+import prettier from "prettier";
+import { IToken, TokensType } from "../../types";
+import { LibsType } from "../global-libs";
 import {
   ColorsFormat,
   ThemeUiIndexes,
   ThemeUiTokenClass,
   ThemeUiType,
   ThemeUiTypes,
-} from './to-theme-ui.type';
+} from "./to-theme-ui.type";
+import * as TokensClass from "./tokens";
 
 export type InputDataType = Array<
-  Pick<IToken, 'id' | 'name' | 'value' | 'type'> & Record<string, any>
+  Pick<IToken, "id" | "name" | "value" | "type"> & Record<string, any>
 >;
 export type OutputDataType = string;
 export type FormatTokenType = Partial<{
@@ -21,34 +21,39 @@ export type FormatTokenType = Partial<{
     format: ColorsFormat;
   };
   opacityFormat: {
-    unit: 'percent' | 'none';
-    type?: 'number' | 'string';
+    unit: "percent" | "none";
+    type?: "number" | "string";
   };
   fontSizeFormat: {
-    type: 'number' | 'string';
-    unit?: 'px' | 'rem';
+    type: "number" | "string";
+    unit?: "px" | "rem";
   };
 }>;
-type PresetableKey = 'fontWeights' | 'fontSizes';
+type PresetableKey = "fontWeights" | "fontSizes";
 type PresetsType = Partial<{
   fontWeights: {
-    preset: 'base' | Record<string, string | number>;
+    preset: "base" | Record<string, string | number>;
     freeze?: boolean;
   };
   fontSizes: {
-    preset: 'base' | Array<string | number>;
-    unit?: 'px' | 'rem';
+    preset: "base" | Array<string | number>;
+    unit?: "px" | "rem";
     freeze?: boolean;
   };
 }>;
 export type OptionsType =
   | Partial<{
-      formatName: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase' | 'none';
+      formatName:
+        | "camelCase"
+        | "kebabCase"
+        | "snakeCase"
+        | "pascalCase"
+        | "none";
       formatTokens: FormatTokenType;
       formatConfig: Partial<{
-        module: 'es6' | 'commonjs' | 'json';
+        module: "es6" | "commonjs" | "json";
         objectName: string;
-        endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+        endOfLine: "auto" | "lf" | "crlf" | "cr";
         tabWidth: number;
         useTabs: boolean;
         singleQuote: boolean;
@@ -68,13 +73,13 @@ export class Indexes {
   private static _instance: Indexes;
   private _enable: boolean;
   list: ThemeUiIndexes = {};
-  presets: ToThemeUiParser['styles'] = {};
+  presets: ToThemeUiParser["styles"] = {};
 
   private constructor(enable: boolean) {
     this._enable = enable;
   }
 
-  public static init(enable: boolean, presets: Indexes['presets']) {
+  public static init(enable: boolean, presets: Indexes["presets"]) {
     this._instance = new this(enable);
     this._instance.presets = { ...presets };
     if (enable && Object.keys(presets).length > 0) {
@@ -85,11 +90,14 @@ export class Indexes {
         if (Array.isArray(values)) {
           values.forEach(
             (value, index) =>
-              (this._instance.list[property as keyof ThemeUiIndexes]![value] = index),
+              (this._instance.list[property as keyof ThemeUiIndexes]![value] =
+                index)
           );
         } else {
           Object.entries<string>(values).forEach(
-            ([key, value]) => (this._instance.list[property as keyof ThemeUiIndexes]![value] = key),
+            ([key, value]) =>
+              (this._instance.list[property as keyof ThemeUiIndexes]![value] =
+                key)
           );
         }
       });
@@ -104,7 +112,7 @@ export class Indexes {
     themeUiKey: ThemeUiType,
     tokenKey: string,
     tokenRef: string | number,
-    value: string | number = tokenRef,
+    value: string | number = tokenRef
   ) {
     if (!this._enable) return;
     if (!this.list[themeUiKey]) this.list[themeUiKey] = {};
@@ -115,7 +123,7 @@ export class Indexes {
         if (matchedPreset) this.list[themeUiKey]![tokenKey] = matchedPreset;
       } else {
         const matchedPreset = Object.entries(preset as object).find(
-          ([_, presetValue]) => value === presetValue,
+          ([_, presetValue]) => value === presetValue
         );
         if (matchedPreset) this.list[themeUiKey]![tokenKey] = matchedPreset[0];
       }
@@ -136,12 +144,12 @@ class ToThemeUiParser {
   styles: Partial<Record<ThemeUiType, any>> = {};
   constructor(tokens: InputDataType, options: OptionsType) {
     this.options = options;
-    this.objectName = options?.formatConfig?.objectName ?? 'theme';
-    this.transformNameFn = _[options?.formatName ?? 'camelCase'];
+    this.objectName = options?.formatConfig?.objectName ?? "theme";
+    this.transformNameFn = _[options?.formatName ?? "camelCase"];
     this.exportDefault = options?.formatConfig?.exportDefault ?? true;
-    this.module = options?.formatConfig?.module ?? 'es6';
+    this.module = options?.formatConfig?.module ?? "es6";
     this.tokens = tokens;
-    this.tokensGroupByType = _.groupBy(tokens, 'type');
+    this.tokensGroupByType = _.groupBy(tokens, "type");
     this.styles = {};
     if (options?.presets) this.initPreset(options.presets);
     Indexes.init(!!options?.variants, this.styles);
@@ -149,7 +157,7 @@ class ToThemeUiParser {
 
   initPreset(presets: PresetsType) {
     this.styles.fontWeights =
-      presets.fontWeights?.preset === 'base'
+      presets.fontWeights?.preset === "base"
         ? {
             thin: 100,
             extraLight: 200,
@@ -163,20 +171,30 @@ class ToThemeUiParser {
           } // source: https://developer.mozilla.org/fr/docs/Web/CSS/font-weight
         : presets.fontWeights?.preset ?? {};
 
-    if (presets.fontSizes?.preset === 'base') {
+    if (presets.fontSizes?.preset === "base") {
       this.styles.fontSizes =
-        presets.fontSizes?.unit && presets.fontSizes?.unit === 'px'
-          ? ['8.19px', '10.24px', '12.8px', '16px', '20px', '25px', '31.25px', '39.06px', '48.83px']
+        presets.fontSizes?.unit && presets.fontSizes?.unit === "px"
+          ? [
+              "8.19px",
+              "10.24px",
+              "12.8px",
+              "16px",
+              "20px",
+              "25px",
+              "31.25px",
+              "39.06px",
+              "48.83px",
+            ]
           : [
-              '0.512rem',
-              '0.64rem',
-              '0.8rem',
-              '1rem',
-              '1.25rem',
-              '1.563rem',
-              '1.953rem',
-              '2.441rem',
-              '3.052rem',
+              "0.512rem",
+              "0.64rem",
+              "0.8rem",
+              "1rem",
+              "1.25rem",
+              "1.563rem",
+              "1.953rem",
+              "2.441rem",
+              "3.052rem",
             ]; // source: https://type-scale.com/;
     } else if (presets.fontSizes?.preset) {
       this.styles.fontSizes = presets.fontSizes?.preset;
@@ -195,25 +213,31 @@ class ToThemeUiParser {
   setGlobal(type: TokensType) {
     const tokenHandler = getClassByType(type);
     if (!tokenHandler) return {};
-    let tokenByType = this.tokensGroupByType[type].reduce((acc, token) => {
+    const tokenByType = this.tokensGroupByType[type].reduce((acc, token) => {
       const instance = new tokenHandler(token, this.transformNameFn);
       const themeUiTokens = instance.generate(this.options, this.tokens);
-      (Object.keys(themeUiTokens) as Array<ThemeUiTypes>).forEach(themeUiKey => {
-        if (
-          this.styles[themeUiKey] &&
-          this.options?.presets?.[themeUiKey as keyof PresetsType]?.freeze
-        )
-          return;
-        if (Array.isArray(themeUiTokens[themeUiKey])) {
-          acc[themeUiKey] = (acc[themeUiKey] || []).concat(themeUiTokens[themeUiKey]);
-        } else {
-          if (!acc[themeUiKey]) acc[themeUiKey] = {};
-          Object.assign(acc[themeUiKey], themeUiTokens[themeUiKey]);
+      (Object.keys(themeUiTokens) as Array<ThemeUiTypes>).forEach(
+        themeUiKey => {
+          if (
+            this.styles[themeUiKey] &&
+            this.options?.presets?.[themeUiKey as keyof PresetsType]?.freeze
+          )
+            return;
+          if (Array.isArray(themeUiTokens[themeUiKey])) {
+            acc[themeUiKey] = (acc[themeUiKey] || []).concat(
+              themeUiTokens[themeUiKey]
+            );
+          } else {
+            if (!acc[themeUiKey]) acc[themeUiKey] = {};
+            Object.assign(acc[themeUiKey], themeUiTokens[themeUiKey]);
+          }
         }
-      });
+      );
       return acc;
     }, this.styles as Record<ThemeUiType, any>);
-    return tokenHandler.afterGenerate ? tokenHandler.afterGenerate(tokenByType) : tokenByType;
+    return tokenHandler.afterGenerate
+      ? tokenHandler.afterGenerate(tokenByType)
+      : tokenByType;
   }
 
   setVariants(type: TokensType) {
@@ -224,7 +248,7 @@ class ToThemeUiParser {
           this.styles,
           this.tokensGroupByType[type],
           this.options,
-          this.transformNameFn,
+          this.transformNameFn
         )
       : this.styles;
   }
@@ -233,27 +257,27 @@ class ToThemeUiParser {
     const styles = JSON.stringify(this.styles);
     return prettier.format(
       (() => {
-        if (this.module === 'json') {
+        if (this.module === "json") {
           return styles;
-        } else if (this.module === 'es6' && this.exportDefault)
-          return `const ${this.objectName} = ${styles} ${`;${os.EOL + os.EOL}export default ${
-            this.objectName
-          };`}`;
-        else if (this.module === 'es6' && !this.exportDefault)
+        } else if (this.module === "es6" && this.exportDefault)
+          return `const ${this.objectName} = ${styles} ${`;${
+            os.EOL + os.EOL
+          }export default ${this.objectName};`}`;
+        else if (this.module === "es6" && !this.exportDefault)
           return `export const ${this.objectName} = ${styles};`;
-        else if (this.module === 'commonjs' && this.exportDefault)
-          return `const ${this.objectName} = ${styles}; ${`${os.EOL + os.EOL}module.exports = ${
-            this.objectName
-          };`}`;
+        else if (this.module === "commonjs" && this.exportDefault)
+          return `const ${this.objectName} = ${styles}; ${`${
+            os.EOL + os.EOL
+          }module.exports = ${this.objectName};`}`;
         else
-          return `const ${this.objectName} = ${styles}; ${`${os.EOL + os.EOL}module.exports = {${
-            this.objectName
-          }};`}`;
+          return `const ${this.objectName} = ${styles}; ${`${
+            os.EOL + os.EOL
+          }module.exports = {${this.objectName}};`}`;
       })(),
       {
         ...this.options?.formatConfig,
-        parser: this.module === 'json' ? 'json' : 'babel',
-      },
+        parser: this.module === "json" ? "json" : "babel",
+      }
     );
   }
 }
@@ -261,12 +285,8 @@ class ToThemeUiParser {
 export default async function (
   tokens: InputDataType,
   options: OptionsType,
-  { _ }: Pick<LibsType, '_'>,
+  { _ }: Pick<LibsType, "_">
 ): Promise<OutputDataType> {
-  try {
-    const parserInstance = new ToThemeUiParser(tokens, options);
-    return parserInstance.exec().finalize();
-  } catch (err) {
-    throw err;
-  }
+  const parserInstance = new ToThemeUiParser(tokens, options);
+  return parserInstance.exec().finalize();
 }

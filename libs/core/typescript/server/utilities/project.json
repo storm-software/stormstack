@@ -5,15 +5,14 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/server/utilities",
         "tsConfig": "libs/core/typescript/server/utilities/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/utilities/package.json",
         "main": "libs/core/typescript/server/utilities/src/index.ts",
-        "assets": ["libs/core/typescript/server/utilities/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
+        "assets": ["libs/core/typescript/server/utilities/*.md"]
       }
     },
     "lint": {
@@ -47,5 +46,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": ["core-shared-utilities"]
 }

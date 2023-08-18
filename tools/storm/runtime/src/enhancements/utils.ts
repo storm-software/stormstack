@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { lowerCaseFirst } from "@open-system/core-shared-utilities";
+import { lowerCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
 import path from "path";
 import * as util from "util";
 import { AUXILIARY_FIELDS } from "../constants";

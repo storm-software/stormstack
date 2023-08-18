@@ -1,7 +1,7 @@
 import { ExecutorContext, workspaceRoot } from "@nx/devkit";
 import { executeAsync } from "@open-system/core-server-utilities";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
-import { generateAction } from "@open-system/tools-storm-schema/cli";
+import { generateAction } from "@open-system/tools-storm-schema";
 import { existsSync } from "fs";
 import Path from "path";
 import { StormGenerateExecutorSchema } from "./schema";

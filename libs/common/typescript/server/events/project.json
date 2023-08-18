@@ -47,7 +47,7 @@
       }
     },
     "generate": {
-      "executor": "@open-system/executors-typescript:event-library",
+      "executor": "@open-system/tools-executors-typescript:event-library",
       "outputs": ["{workspaceRoot}/dist/libs/common/typescript/server/events"],
       "options": {
         "outputPath": "",

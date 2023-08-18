@@ -40,11 +40,11 @@
       }
     },
     "generate": {
-      "executor": "@open-system/executors-typescript:storm-generate",
+      "executor": "@open-system/tools-executors-typescript:storm-generate",
       "options": {
         "outputPath": "libs/contact/typescript/server/attachment/src/__generated__",
         "schema": "schema.storm",
-        "packageManager": "npm",
+        "packageManager": "pnpm",
         "dependencyCheck": true
       }
     }

@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "clean": {
-      "executor": "@open-system/executors-typescript:design-tokens-clean",
+      "executor": "@open-system/tools-executors-typescript:design-tokens-clean",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/design-system/tokens",
@@ -15,7 +15,7 @@
       }
     },
     "build": {
-      "executor": "@open-system/executors-typescript:design-tokens-build",
+      "executor": "@open-system/tools-executors-typescript:design-tokens-build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "open-system",
       "options": {

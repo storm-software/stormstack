@@ -1,13 +1,13 @@
-import Token, { TokenInterface } from './Token';
-import { TokensType } from './index';
+import Token, { TokenInterface } from "./Token";
+import { TokensType } from "./index";
 
 export interface OpacityValue {
   opacity: number;
 }
 
 export class OpacityToken extends Token implements TokenInterface {
-  type: TokensType = 'opacity';
-  value: OpacityValue;
+  type: TokensType = "opacity";
+  declare value: OpacityValue;
 
   constructor(element: Partial<OpacityToken>) {
     super(element);

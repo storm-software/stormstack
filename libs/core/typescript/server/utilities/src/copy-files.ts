@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
 import fs, { CopyOptionsSync, copyFileSync, copySync } from "fs-extra";
 
 export const copyFiles = (

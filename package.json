@@ -359,5 +359,10 @@
         "beta"
       ]
     }
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@nx/js@16.7.0": "patches/@nx__js@16.7.0.patch"
+    }
   }
 }

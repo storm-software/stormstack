@@ -21,8 +21,6 @@
         "project": "tools/storm/schema/package.json",
         "tsConfig": "tools/storm/schema/tsconfig.json",
         "clean": true,
-        "external": "all",
-        "swcrc": "tools/storm/schema/.swcrc",
         "assets": [
           {
             "input": "tools/storm/schema",
@@ -173,5 +171,10 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": [
+    "tools-storm-language",
+    "tools-storm-runtime",
+    "core-shared-utilities"
+  ]
 }

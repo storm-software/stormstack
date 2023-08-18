@@ -1,5 +1,5 @@
-import Token, { TokenInterface } from './Token';
-import { TokensType } from './index';
+import Token, { TokenInterface } from "./Token";
+import { TokensType } from "./index";
 
 export interface ColorValue {
   r: number;
@@ -9,8 +9,8 @@ export interface ColorValue {
 }
 
 export class ColorToken extends Token implements TokenInterface {
-  type: TokensType = 'color';
-  value: ColorValue;
+  type: TokensType = "color";
+  declare value: ColorValue;
 
   constructor(element: Partial<ColorToken>) {
     super(element);

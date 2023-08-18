@@ -38,5 +38,11 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": [
+    "core-shared-utilities",
+    "core-shared-injection",
+    "core-server-domain",
+    "core-server-application"
+  ]
 }

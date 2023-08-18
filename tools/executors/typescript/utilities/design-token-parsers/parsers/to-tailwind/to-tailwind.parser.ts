@@ -1,5 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
-import deepmerge from "deepmerge";
+import { ConsoleLogger, deepMerge } from "@open-system/core-shared-utilities";
 import * as _ from "lodash";
 import os from "os";
 import { IToken, PartialRecord, TokensType } from "../../types";
@@ -83,7 +82,7 @@ class ToTailwind {
       (acc, token) => {
         const instance = new TokenHandler(token);
         const tailwindTokens = instance.generate(this.options, this.tokens);
-        return deepmerge(acc, tailwindTokens);
+        return deepMerge(acc, tailwindTokens);
       },
       {}
     );

@@ -1,7 +1,7 @@
-import Token, { TokenInterface } from './Token';
-import { ColorToken, ColorValue } from './Color';
-import { MeasurementToken, MeasurementValue } from './Measurement';
-import { TokensType } from './index';
+import { ColorToken, ColorValue } from "./Color";
+import { MeasurementToken, MeasurementValue } from "./Measurement";
+import Token, { TokenInterface } from "./Token";
+import { TokensType } from "./index";
 
 export interface Shadow {
   color:
@@ -36,8 +36,8 @@ export interface Shadow {
 export type ShadowValue = Array<Shadow>;
 
 export class ShadowToken extends Token implements TokenInterface {
-  type: TokensType = 'shadow';
-  value: ShadowValue;
+  type: TokensType = "shadow";
+  declare value: ShadowValue;
 
   constructor(element: Partial<ShadowToken>) {
     super(element);

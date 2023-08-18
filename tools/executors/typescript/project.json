@@ -35,7 +35,6 @@
           "tools/executors/typescript/storm-generate/impl.ts"
         ],
         "clean": true,
-        "external": "all",
         "assets": [
           {
             "input": "tools/executors/typescript",
@@ -72,8 +71,7 @@
             "glob": "migrations.json",
             "output": "."
           }
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
+        ]
       }
     },
     "semantic-release": {
@@ -86,5 +84,11 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": [
+    "tools-async-api-kafka",
+    "tools-storm-schema",
+    "core-shared-utilities",
+    "core-server-cloudflare"
+  ]
 }

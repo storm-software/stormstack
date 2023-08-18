@@ -1,6 +1,6 @@
-import Token, { TokenInterface } from './Token';
-import { ColorToken, ColorValue } from './Color';
-import { TokensType } from './index';
+import { ColorToken, ColorValue } from "./Color";
+import Token, { TokenInterface } from "./Token";
+import { TokensType } from "./index";
 
 export interface StepForGradient {
   type: string;
@@ -22,8 +22,8 @@ export interface GradientValue {
 }
 
 export class GradientToken extends Token implements TokenInterface {
-  type: TokensType = 'gradient';
-  value: GradientValue;
+  type: TokensType = "gradient";
+  declare value: GradientValue;
 
   constructor(element: Partial<GradientToken>) {
     super(element);

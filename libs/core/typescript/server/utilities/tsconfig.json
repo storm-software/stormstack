@@ -7,6 +7,7 @@
     "noPropertyAccessFromIndexSignature": false,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
+    "sourceMap": false,
     "moduleResolution": "node",
     "types": ["node"]
   },

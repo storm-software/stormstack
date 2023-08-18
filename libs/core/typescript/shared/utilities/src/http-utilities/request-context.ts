@@ -158,7 +158,7 @@ export class RequestContext<T = any> {
   public getRequestOptions(
     api?: HttpFetchApi,
     extraOptions?: any
-  ): RequestInit {
+  ) {
     const method = this.getHttpMethod(api, extraOptions).toString();
 
     ConsoleLogger.debug(

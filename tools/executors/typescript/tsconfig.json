@@ -1,23 +1,22 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../dist/tools/executors/typescript",
+    "outDir": "../../../dist/out-tsc",
     "module": "commonjs",
     "target": "esnext",
-    "types": ["node", "reflect-metadata"],
+    "moduleResolution": "node",
     "strict": false,
     "noImplicitAny": false,
-    "sourceMap": true,
+    "sourceMap": false,
     "noUnusedLocals": false,
     "noImplicitReturns": true,
-    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "noImplicitOverride": false,
+    "declaration": false,
+    "declarationMap": false
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.js", "**/*.json"]

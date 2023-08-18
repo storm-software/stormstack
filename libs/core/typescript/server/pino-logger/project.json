@@ -12,8 +12,7 @@
         "tsConfig": "libs/core/typescript/server/pino-logger/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/pino-logger/package.json",
         "main": "libs/core/typescript/server/pino-logger/src/index.ts",
-        "assets": ["libs/core/typescript/server/pino-logger/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
+        "assets": ["libs/core/typescript/server/pino-logger/*.md"]
       }
     },
     "lint": {
@@ -47,5 +46,10 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": [
+    "core-server-utilities",
+    "core-shared-injection",
+    "core-server-utilities"
+  ]
 }

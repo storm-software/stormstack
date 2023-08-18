@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/executors-docs",
+  "name": "@open-system/tools-executors-docs",
   "executors": "./executors.json",
   "version": "1.0.0",
   "main": "./index.js",

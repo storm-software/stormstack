@@ -9,7 +9,7 @@ import { EventLibraryExecutorSchema } from "./schema";
 import { mapTemplateToImport } from "./utilities";
 
 export default async function (
-  { templateName, ...options }: EventLibraryExecutorSchema,
+  { templateName }: EventLibraryExecutorSchema,
   context: ExecutorContext
 ) {
   ConsoleLogger.info("Running Event Library code executor.");

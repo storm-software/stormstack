@@ -13,7 +13,6 @@
         "project": "tools/storm/runtime/package.json",
         "tsConfig": "tools/storm/runtime/tsconfig.json",
         "clean": true,
-        "external": "all",
         "assets": [
           {
             "input": "tools/storm/runtime",
@@ -58,5 +57,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": ["tools-storm-language", "core-shared-utilities"]
 }

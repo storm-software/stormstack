@@ -88,7 +88,7 @@ const addTargets = (host: Tree, appName: string) => {
     projectConfiguration.targets = {
       ...(projectConfiguration.targets ?? {}),
       build: {
-        executor: "@open-system/executors-typescript:cloudflare-worker-build",
+        executor: "@open-system/tools-executors-typescript:cloudflare-worker-build",
         options: {
           outputPath: `../../../dist/${packageRoot}`,
           tsConfig: `${packageRoot}/tsconfig.json`,
@@ -97,10 +97,10 @@ const addTargets = (host: Tree, appName: string) => {
         },
       },
       serve: {
-        executor: "@open-system/executors-typescript:cloudflare-worker-serve",
+        executor: "@open-system/tools-executors-typescript:cloudflare-worker-serve",
       },
       deploy: {
-        executor: "@open-system/executors-typescript:cloudflare-worker-deploy",
+        executor: "@open-system/tools-executors-typescript:cloudflare-worker-deploy",
       },
       "semantic-release": {
         executor: "@theunderscorer/nx-semantic-release:semantic-release",

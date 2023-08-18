@@ -5,7 +5,7 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@open-system/executors-typescript:cloudflare-worker-build",
+      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
@@ -37,7 +37,7 @@
       }
     },
     "serve": {
-      "executor": "@open-system/executors-typescript:cloudflare-worker-serve",
+      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-serve",
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "worker-<%= name %>:serve"
@@ -73,7 +73,7 @@
       }
     },
     "deploy": {
-      "executor": "@open-system/executors-typescript:cloudflare-worker-deploy",
+      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-deploy",
       "defaultConfiguration": "production",
       "name": "worker-<%= name %>",
       "tsconfig": "apps/workers/<%= name %>/tsconfig.json",

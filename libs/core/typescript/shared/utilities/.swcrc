@@ -16,10 +16,10 @@
   },
   "module": {
     "type": "commonjs",
-    "strict": false,
+    "strict": true,
     "noInterop": true
   },
-  "sourceMaps": false,
+  "sourceMaps": true,
   "exclude": [
     "jest.config.ts",
     ".*\\.spec.tsx?$",

@@ -1,56 +1,56 @@
-import { lowerCaseFirst } from "@open-system/core-shared-utilities";
+import { lowerCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
 import {
-  DataModel,
-  Expression,
-  isBinaryExpr,
-  isDataModel,
-  isDataModelField,
-  isEnum,
-  isExpression,
-  isInvocationExpr,
-  isMemberAccessExpr,
-  isReferenceExpr,
-  isThisExpr,
-  isUnaryExpr,
-  MemberAccessExpr,
-  Model,
+    DataModel,
+    Expression,
+    isBinaryExpr,
+    isDataModel,
+    isDataModelField,
+    isEnum,
+    isExpression,
+    isInvocationExpr,
+    isMemberAccessExpr,
+    isReferenceExpr,
+    isThisExpr,
+    isUnaryExpr,
+    MemberAccessExpr,
+    Model,
 } from "@open-system/tools-storm-language/ast";
 import type {
-  PolicyKind,
-  PolicyOperationKind,
+    PolicyKind,
+    PolicyOperationKind,
 } from "@open-system/tools-storm-runtime";
 import { streamAllContents } from "langium";
 import path from "path";
 import {
-  FunctionDeclaration,
-  SourceFile,
-  StatementStructures,
-  VariableDeclarationKind,
-  WriterFunction,
+    FunctionDeclaration,
+    SourceFile,
+    StatementStructures,
+    VariableDeclarationKind,
+    WriterFunction,
 } from "ts-morph";
 import { name } from ".";
 import { isFromStdlib } from "../../language-server/utils";
 import {
-  analyzePolicies,
-  createProject,
-  emitProject,
-  ExpressionContext,
-  getDataModels,
-  getLiteral,
-  getPrismaClientImportSpec,
-  hasAttribute,
-  hasValidationAttributes,
-  PluginError,
-  PluginOptions,
-  resolved,
-  resolvePath,
-  RUNTIME_PACKAGE,
-  saveProject,
+    analyzePolicies,
+    createProject,
+    emitProject,
+    ExpressionContext,
+    getDataModels,
+    getLiteral,
+    getPrismaClientImportSpec,
+    hasAttribute,
+    hasValidationAttributes,
+    PluginError,
+    PluginOptions,
+    resolved,
+    resolvePath,
+    RUNTIME_PACKAGE,
+    saveProject,
 } from "../../sdk";
 import { getIdFields, isAuthInvocation } from "../../utils/ast-utils";
 import {
-  TypeScriptExpressionTransformer,
-  TypeScriptExpressionTransformerError,
+    TypeScriptExpressionTransformer,
+    TypeScriptExpressionTransformerError,
 } from "../../utils/typescript-expression-transformer";
 import { ALL_OPERATION_KINDS, getDefaultOutputFolder } from "../plugin-utils";
 import { ExpressionWriter, FALSE, TRUE } from "./expression-writer";

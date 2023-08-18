@@ -5,12 +5,13 @@ import tinycolor from "tinycolor2";
 import { AllowedFormat, PartialRecord } from "../types";
 import { MustacheStatic } from "../types/libs/mustache";
 
-declare module "lodash" {
+/*declare module "lodash" {
   export interface LoDashStatic {
     pascalCase(string?: string): string;
     none(string?: string): string;
   }
-}
+}*/
+
 _.mixin({ pascalCase: _.flow(_.camelCase, _.upperFirst) });
 _.mixin({ none: (i: string) => i });
 

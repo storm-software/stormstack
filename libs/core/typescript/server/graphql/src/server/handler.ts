@@ -32,9 +32,8 @@ export const createGraphQLHandler = <
         ) as Context;*/
 
         for (const error of errors) {
-          if (isGraphQLError(error) && error.originalError) {
+          if (isGraphQLError(error)) {
             console.error(error);
-            console.error(error.originalError);
             continue;
           } else {
             console.error(error);

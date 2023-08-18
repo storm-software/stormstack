@@ -1,4 +1,9 @@
 {
   "name": "@open-system/core-server-graphql",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "dependencies": {
+    "@envelop/core": "^4.0.0",
+    "@envelop/types": "^4.0.0",
+    "@sentry/node": "^7.64.0"
+  }
 }

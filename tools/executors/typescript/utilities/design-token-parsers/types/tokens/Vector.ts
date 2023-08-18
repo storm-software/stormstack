@@ -1,5 +1,5 @@
-import Token, { TokenInterface } from './Token';
-import { TokensType } from './index';
+import Token, { TokenInterface } from "./Token";
+import { TokensType } from "./index";
 
 export interface VectorValue {
   url?: string;
@@ -9,8 +9,8 @@ export interface VectorValue {
 }
 
 export class VectorToken extends Token implements TokenInterface {
-  type: TokensType = 'vector';
-  value: VectorValue;
+  type: TokensType = "vector";
+  declare value: VectorValue;
 
   constructor(element: Partial<VectorToken>) {
     super(element);
