@@ -86,7 +86,7 @@ Run `nx serve open-system` for a dev server. Navigate to http://localhost:4200/.
 
 In the Open System, `storm` refers to a collection of applications and libraries that are used to build server-side code from a user-defined model. This functionality all lives in the Open System's `tools` directory (/tools/storm).
 
-<div align="center"><img src="https://raw.githubusercontent.com/sullivanpj/open-system/main/docs/website/static/img/flow-charts/storm-generate.bg.svg" width="100%" /></div>
+<div align="center"><img src="https://raw.githubusercontent.com/sullivanpj/open-system/main/docs/website/static/img/flow-charts/storm-generate.bg.png" width="100%" /></div>
 
 More information can be found in the [📓 Documentation](https://sullivanpj.github.io/open-system).
 
