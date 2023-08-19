@@ -17,6 +17,7 @@
         "project": "tools/storm/language/package.json",
         "tsConfig": "tools/storm/language/tsconfig.json",
         "clean": true,
+        "updateBuildableProjectDepsInPackageJson": true,
         "assets": [
           {
             "input": "tools/storm/language",

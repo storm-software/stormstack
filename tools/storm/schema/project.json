@@ -21,6 +21,7 @@
         "project": "tools/storm/schema/package.json",
         "tsConfig": "tools/storm/schema/tsconfig.json",
         "clean": true,
+        "skipTypeCheck": true,
         "assets": [
           {
             "input": "tools/storm/schema",

@@ -2,11 +2,15 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
-    "module": "esnext",
-    "target": "esnext",
+    "module": "CommonJS",
+    "target": "ES6",
     "types": ["node"],
     "declaration": true,
     "noImplicitAny": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
     "lib": ["ESNext"],
     "sourceMap": true
   },
