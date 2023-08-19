@@ -194,3 +194,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+<h1 align="center"></h1>
+
+<div align="center">
+  <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.png" width="100%"/>
+</div>
+
+<h2 align="center">Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer</h2>
+
+<h1 align="center"> </h1>
