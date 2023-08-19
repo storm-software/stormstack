@@ -4,11 +4,9 @@
 <a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://github.com/sullivanpj/open-system" target="_blank">Repository</a>  |  <a href="https://sullivanpj.github.io/open-system/" target="_blank">Documentation</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Report an Issue</a>
 </div>
 
-
-<h1 align="center"></h1>
+<h2 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer</h2>
 
 The `Open System` is a monorepo containing modern, scalable web application code, additional utility applications/tools, various libraries, and a fully featured back-end, serverless framework.
-
 
 [![github](https://img.shields.io/github/package-json/v/sullivanpj/open-system?style=for-the-badge&color=10B981)](https://github.com/sullivanpj/open-system)&nbsp;[![Nx](https://img.shields.io/badge/Nx-14.4.2-lightgrey?style=for-the-badge&logo=nx&logoWidth=20&&color=10B981)](http://nx.dev/)&nbsp;[![NextJs](https://img.shields.io/badge/Next.js-13.0.5-lightgrey?style=for-the-badge&logo=nextdotjs&logoWidth=20&color=10B981)](https://nextjs.org/)&nbsp;[![codecov.io](https://img.shields.io/codecov/c/github/commitizen/cz-cli.svg?style=for-the-badge&color=10B981)](https://codecov.io/github/commitizen/cz-cli?branch=master)&nbsp;[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=10B981)](http://commitizen.github.io/cz-cli/)&nbsp;![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=10B981)&nbsp;[![documented with docusaurus](https://img.shields.io/badge/documented_with-docusaurus-success.svg?style=for-the-badge&logo=readthedocs&color=10B981)](https://docusaurus.io/)
 
@@ -200,7 +198,13 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 <div align="center">
   <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.png" width="100%"/>
 </div>
+<div align="center">
+<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  |  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  |  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>
+</div>
+<div align="center">
+<b>Fingerprint:</b> 1BD2 7192 7770 2549 F4C9 F238 E6AD C420 DA5C 4C2D
+</div>
 
-<h2 align="center">Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer</h2>
+<h2 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer</h2>
 
 <h1 align="center"> </h1>
