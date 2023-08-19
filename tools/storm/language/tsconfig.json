@@ -2,13 +2,13 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "esnext",
     "types": ["node"],
     "declaration": true,
     "noImplicitAny": false,
     "lib": ["ESNext"],
-    "sourceMap": true,
+    "sourceMap": true
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]

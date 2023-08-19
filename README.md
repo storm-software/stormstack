@@ -1,11 +1,11 @@
-<br /><div align="center"><img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/open-system.logo-green.svg" width="100%" altText="Open System" /></div>
+<div align="center"><img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/open-system.logo-green.svg" width="100%" altText="Open System" /></div>
 
 <div align="center">
 <a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://github.com/sullivanpj/open-system" target="_blank">Repository</a>  |  <a href="https://sullivanpj.github.io/open-system/" target="_blank">Documentation</a>  |  <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a> | <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=enhancement&template=feature-request.yml&title=Feature Request%3A+">Request a Feature</a> | <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=documentation&template=documentation.yml&title=Documentation Request%3A+">Request Documentation</a> | <a href="https://github.com/sullivanpj/open-system/discussions">Ask a Question</a>
 </div>
 
 <br />
-The `Open System` is a monorepo containing modern, scalable web application code, additional utility applications/tools, various libraries, and a fully featured, serverless back-end framework. The Open System is built using [Nx](https://nx.dev/), a set of extensible dev tools for monorepos, which helps you develop like Google, Facebook, and Microsoft. Building on top of Nx, the Open System provides a set of tools and patterns that help you scale your monorepo to many teams while keeping the codebase maintainable.
+The <b>Open System</b> is a monorepo containing modern, scalable web application code, additional utility applications/tools, various libraries, and a fully featured, serverless back-end framework. The Open System is built using <a href="https://nx.dev/" target="_blank">Nx</a>, a set of extensible dev tools for monorepos, which helps you develop like Google, Facebook, and Microsoft. Building on top of Nx, the Open System provides a set of tools and patterns that help you scale your monorepo to many teams while keeping the codebase maintainable.
 
 <h3 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer<br /><br /></h3>
 
@@ -17,7 +17,7 @@ The `Open System` is a monorepo containing modern, scalable web application code
 
 <!--#endif-->
 
-<h1 align="center"> </h1>
+<h2 align="center"></h2>
 
 ### Table of Contents
 
@@ -42,11 +42,15 @@ The `Open System` is a monorepo containing modern, scalable web application code
   - [Understand your workspace](#understand-your-workspace)
 - [☁ Nx Cloud](#-nx-cloud)
   - [Distributed Computation Caching \& Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Support](#support)
+- [License](#license)
 - [Contributors ✨](#contributors-)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-<br /><br />
+<br />
 
 # Quick Features
 
@@ -84,12 +88,12 @@ Run `nx build open-system` to build the project. The build artifacts will be sto
 
 ## Development Server
 
-Run `nx serve open-system` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `nx serve open-system` for a dev server. Navigate to <http://localhost:4200/>. The app will automatically reload if you change any of the source files.
 <br /><br />
 
 # Storm - Model-Driven Development
 
-In the Open System, ⚡ *storm* refers to a collection of applications and libraries that are used to build server-side code from a user-defined model. This functionality all lives in the Open System's `tools` directory (/tools/storm).
+In the Open System, ⚡ _storm_ refers to a collection of applications and libraries that are used to build server-side code from a user-defined model. This functionality all lives in the Open System's `tools` directory (/tools/storm).
 
 <div align="center"><img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/storm-generate.bg.png" width="800px" /></div>
 <br />
@@ -173,6 +177,45 @@ Teams using Nx gain the advantage of building full-stack applications with their
 Visit [Nx Cloud](https://nx.app/) to learn more.
 <br /><br />
 
+# Roadmap
+
+See the [open issues](https://github.com/sullivanpj/open-system/issues) for a list of proposed features (and known issues).
+
+- [Top Feature Requests](https://github.com/sullivanpj/open-system/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+- [Top Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+- [Newest Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+  <br /><br />
+
+# Contributing
+
+First off, thanks for taking the time to contribute! Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make will benefit everybody else and are **greatly appreciated**.
+
+Please try to create bug reports that are:
+
+- _Reproducible._ Include steps to reproduce the problem.
+- _Specific._ Include as much detail as possible: which version, what environment, etc.
+- _Unique._ Do not duplicate existing opened issues.
+- _Scoped to a Single Bug._ One bug per report.
+
+Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
+
+You can use [markdownlint-cli](https://github.com/sullivanpj/open-system/markdownlint-cli) to check for common markdown style inconsistency.
+<br /><br />
+
+# Support
+
+Reach out to the maintainer at one of the following places:
+
+- [Contact](https://www.patsullivan.org/contact)
+- [GitHub discussions](https://github.com/sullivanpj/open-system/discussions)
+- <contact@patsullivan.org>
+
+# License
+
+This project is licensed under the **BSD-2-Clause license**. Feel free to edit and distribute this template as you like.
+
+See [LICENSE](LICENSE) for more information.
+
 # Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -213,8 +256,9 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 <div align="center">
 <a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  |  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  | <a href="https://github.com/sullivanpj" target="_blank">GitHub</a>  |  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>
 </div>
+
 <div align="center">
-<b>Fingerprint:</b> 1BD2 7192 7770 2549 F4C9 F238 E6AD C420 DA5C 4C2D
+<p><b>Fingerprint:</b> 1BD2 7192 7770 2549 F4C9 F238 E6AD C420 DA5C 4C2D</p>
 </div>
 
 <h2 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer<br /><br /></h2>

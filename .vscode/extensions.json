@@ -21,6 +21,7 @@
     "vscode-icons-team.vscode-icons",
     "knisterpeter.vscode-commitizen",
     "prisma.prisma",
-    "capaj.graphql-codegen-vscode"
+    "capaj.graphql-codegen-vscode",
+    "davidanson.vscode-markdownlint"
   ]
 }

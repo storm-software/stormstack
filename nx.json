@@ -13,6 +13,7 @@
         "cacheableOperations": [
           "build",
           "lint",
+          "format",
           "test",
           "e2e",
           "build-storybook"
@@ -27,6 +28,7 @@
         "cacheableOperations": [
           "build",
           "lint",
+          "format",
           "test",
           "e2e",
           "build-storybook",

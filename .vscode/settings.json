@@ -67,6 +67,14 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
+    /******************************
+   * Markdown
+   ******************************/
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
+
   /******************************
    * Prisma
    ******************************/
