@@ -1,12 +1,13 @@
 <div align="center"><img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/open-system.logo-green.svg" width="100%" altText="Open System" /></div>
 
 <div align="center">
-<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://github.com/sullivanpj/open-system" target="_blank">Repository</a>  |  <a href="https://sullivanpj.github.io/open-system/" target="_blank">Documentation</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Report an Issue</a>
+<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://github.com/sullivanpj/open-system" target="_blank">Repository</a>  |  <a href="https://sullivanpj.github.io/open-system/" target="_blank">Documentation</a>  |  <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a> | <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=enhancement&template=feature-request.yml&title=Feature Request%3A+">Request a Feature</a> | <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=documentation&template=documentation.yml&title=Documentation Request%3A+">Request Documentation</a> | <a href="https://github.com/sullivanpj/open-system/discussions">Ask a Question</a>
 </div>
 
-<h2 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer</h2>
+<br />
+The `Open System` is a monorepo containing modern, scalable web application code, additional utility applications/tools, various libraries, and a fully featured, serverless back-end framework. The Open System is built using [Nx](https://nx.dev/), a set of extensible dev tools for monorepos, which helps you develop like Google, Facebook, and Microsoft. Building on top of Nx, the Open System provides a set of tools and patterns that help you scale your monorepo to many teams while keeping the codebase maintainable.
 
-The `Open System` is a monorepo containing modern, scalable web application code, additional utility applications/tools, various libraries, and a fully featured back-end, serverless framework.
+<h3 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer<br /><br /></h3>
 
 [![github](https://img.shields.io/github/package-json/v/sullivanpj/open-system?style=for-the-badge&color=10B981)](https://github.com/sullivanpj/open-system)&nbsp;[![Nx](https://img.shields.io/badge/Nx-14.4.2-lightgrey?style=for-the-badge&logo=nx&logoWidth=20&&color=10B981)](http://nx.dev/)&nbsp;[![NextJs](https://img.shields.io/badge/Next.js-13.0.5-lightgrey?style=for-the-badge&logo=nextdotjs&logoWidth=20&color=10B981)](https://nextjs.org/)&nbsp;[![codecov.io](https://img.shields.io/codecov/c/github/commitizen/cz-cli.svg?style=for-the-badge&color=10B981)](https://codecov.io/github/commitizen/cz-cli?branch=master)&nbsp;[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=10B981)](http://commitizen.github.io/cz-cli/)&nbsp;![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=10B981)&nbsp;[![documented with docusaurus](https://img.shields.io/badge/documented_with-docusaurus-success.svg?style=for-the-badge&logo=readthedocs&color=10B981)](https://docusaurus.io/)
 
@@ -16,18 +17,20 @@ The `Open System` is a monorepo containing modern, scalable web application code
 
 <!--#endif-->
 
-### Table of Contents (via [DocToc](https://github.com/thlorenz/doctoc))
+<h1 align="center"> </h1>
+
+### Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- END doctoc -->
 
 - [Quick Features](#quick-features)
-- [Technology Stack](#technology-stack)
+  - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Build](#build)
   - [Development Server](#development-server)
-- [⚡Storm](#storm)
+- [Storm - Model-Driven Development](#storm---model-driven-development)
 - [Environment Configuration Help](#environment-configuration-help)
   - [Plug-Ins](#plug-ins)
   - [Generate an Application](#generate-an-application)
@@ -42,6 +45,8 @@ The `Open System` is a monorepo containing modern, scalable web application code
 - [Contributors ✨](#contributors-)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<br /><br />
 
 # Quick Features
 
@@ -58,13 +63,14 @@ The following are some of the features/publishable code that are included in thi
 - React Suspense + Fetch-As-You-Render Query Prefetching
 - Dedicated Devtools
 
-# Technology Stack
+## Tech Stack
 
 <div>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="TypeScript" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/codecov/codecov-plain.svg" alt="Codecov" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/apachekafka/apachekafka-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-plain.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/canva/canva-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/electron/electron-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-plain.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/eslint/eslint-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/figma/figma-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/graphql/graphql-plain.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/jira/jira-plain.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/markdown/markdown-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-plain.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-plain.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/storybook/storybook-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-plain.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/prometheus/prometheus-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-plain.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/threejs/threejs-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vscode/vscode-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/apple/apple-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bash/bash-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/blender/blender-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/jamstack/jamstack-original.svg" alt="Kafka" width="40" height="40"/>&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/npm/npm-original-wordmark.svg" alt="Kafka" width="40" height="40"/>&nbsp;
 </div>
 
-**Note:** The above list of technologies is not exhaustive. It is just meant to serve as a list of *some* of the technologies that are used in this repository.
+**Note:** The above list of technologies is far from exhaustive. It is just meant to serve as a short list of _some_ of the technologies that are used in this repository.
+<br /><br />
 
 # Getting Started
 
@@ -79,14 +85,17 @@ Run `nx build open-system` to build the project. The build artifacts will be sto
 ## Development Server
 
 Run `nx serve open-system` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+<br /><br />
 
-# ⚡Storm
+# Storm - Model-Driven Development
 
-In the Open System, `storm` refers to a collection of applications and libraries that are used to build server-side code from a user-defined model. This functionality all lives in the Open System's `tools` directory (/tools/storm).
+In the Open System, ⚡ *storm* refers to a collection of applications and libraries that are used to build server-side code from a user-defined model. This functionality all lives in the Open System's `tools` directory (/tools/storm).
 
-<div align="center"><img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/storm-generate.bg.png" width="100%" /></div>
+<div align="center"><img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/storm-generate.bg.png" width="800px" /></div>
+<br />
 
 More information can be found in the [📓 Documentation](https://sullivanpj.github.io/open-system).
+<br /><br />
 
 # Environment Configuration Help
 
@@ -126,6 +135,7 @@ Libraries are shareable across libraries and applications. They can be imported 
 ## Code Scaffolding
 
 Run `nx g @nx/react:component my-component --project=open-system` to generate a new component.
+<br /><br />
 
 # Testing
 
@@ -146,6 +156,7 @@ Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 ## Understand your workspace
 
 Run `nx graph` to see a diagram of the dependencies of the Open System projects.
+<br /><br />
 
 # ☁ Nx Cloud
 
@@ -160,6 +171,7 @@ Nx Cloud pairs with Nx in order to enable you to build and test code more rapidl
 Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
 
 Visit [Nx Cloud](https://nx.app/) to learn more.
+<br /><br />
 
 # Contributors ✨
 
@@ -194,17 +206,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 <h1 align="center"></h1>
-
+<br />
 <div align="center">
   <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.png" width="100%"/>
 </div>
 <div align="center">
-<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  |  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  |  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>
+<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  |  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  | <a href="https://github.com/sullivanpj" target="_blank">GitHub</a>  |  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>
 </div>
 <div align="center">
 <b>Fingerprint:</b> 1BD2 7192 7770 2549 F4C9 F238 E6AD C420 DA5C 4C2D
 </div>
 
-<h2 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer</h2>
-
-<h1 align="center"> </h1>
+<h2 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer<br /><br /></h2>
