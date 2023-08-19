@@ -1,5 +1,8 @@
 import { ScopedObjectState } from "@open-system/core-shared-data-access";
-import { getUniqueId, isDevelopment } from "@open-system/core-shared-utilities";
+import {
+  UniqueIdGenerator,
+  isDevelopment,
+} from "@open-system/core-shared-utilities";
 import { Atom, WritableAtom } from "jotai";
 import { atomWithReducer, splitAtom } from "jotai/utils";
 
@@ -46,7 +49,7 @@ export function atomWithList<
   const returnedAtom = atomWithReducer<TValue[], ListAction<TValue>>(
     initialValue.map(
       (item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">>) =>
-        ({ id: getUniqueId(), ...item } as TValue)
+        ({ id: UniqueIdGenerator.generate(), ...item } as TValue)
     ),
     (prev: TValue[] = [], action: ListAction<TValue>) => {
       switch (action.type) {
@@ -54,7 +57,7 @@ export function atomWithList<
           // eslint-disable-next-line no-case-declarations
           const newItem = action.item;
           if (!newItem.id) {
-            newItem.id = getUniqueId();
+            newItem.id = UniqueIdGenerator.generate();
           }
 
           if (
@@ -73,7 +76,7 @@ export function atomWithList<
         case "reset":
           return (action.initialValue ?? initialValue).map(
             (item: Omit<TValue, "id"> & Partial<Pick<TValue, "id">>) =>
-              ({ id: getUniqueId(), ...item } as TValue)
+              ({ id: UniqueIdGenerator.generate(), ...item } as TValue)
           );
 
         case "process":

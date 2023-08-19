@@ -3,5 +3,9 @@
   "executors": "./executors.json",
   "version": "1.0.0",
   "main": "./index.js",
-  "typings": "./index.d.ts"
+  "typings": "./index.d.ts",
+  "dependencies": {
+    "@eventcatalog/core": "^1.0.1",
+    "@eventcatalog/types": "^0.4.2"
+  }
 }

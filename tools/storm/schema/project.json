@@ -130,8 +130,8 @@
         "commands": [
           "rimraf /S /Q \"package.json\" ",
           "renamer --replace --find \"package.extension.json\" --replace \"package.json\" *",
-          "npx vsce package --no-dependencies",
-          "npx vsce publish --no-dependencies"
+          "pnpm vsce package --no-dependencies",
+          "pnpm vsce publish --no-dependencies"
         ],
         "cwd": "dist/tools/storm/schema-bundle"
       }

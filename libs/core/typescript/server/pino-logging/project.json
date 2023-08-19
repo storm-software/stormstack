@@ -1,32 +1,32 @@
 {
-  "name": "core-server-pino-logger",
+  "name": "core-server-pino-logging",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/core/typescript/server/pino-logger/src",
+  "sourceRoot": "libs/core/typescript/server/pino-logging/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/core/typescript/server/pino-logger",
-        "tsConfig": "libs/core/typescript/server/pino-logger/tsconfig.lib.json",
-        "packageJson": "libs/core/typescript/server/pino-logger/package.json",
-        "main": "libs/core/typescript/server/pino-logger/src/index.ts",
-        "assets": ["libs/core/typescript/server/pino-logger/*.md"]
+        "outputPath": "dist/libs/core/typescript/server/pino-logging",
+        "tsConfig": "libs/core/typescript/server/pino-logging/tsconfig.lib.json",
+        "packageJson": "libs/core/typescript/server/pino-logging/package.json",
+        "main": "libs/core/typescript/server/pino-logging/src/index.ts",
+        "assets": ["libs/core/typescript/server/pino-logging/*.md"]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/core/typescript/server/pino-logger/**/*.ts"]
+        "lintFilePatterns": ["libs/core/typescript/server/pino-logging/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/core/typescript/server/pino-logger/jest.config.ts",
+        "jestConfig": "libs/core/typescript/server/pino-logging/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -42,7 +42,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "core-server-pino-logger-v${VERSION}"
+        "tagFormat": "core-server-pino-logging-v${VERSION}"
       }
     }
   },

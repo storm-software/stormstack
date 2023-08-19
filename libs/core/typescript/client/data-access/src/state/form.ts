@@ -10,8 +10,7 @@ import {
   ScopedObjectState,
 } from "@open-system/core-shared-data-access";
 import {
-  getUniqueId,
-  getUniqueNumericId,
+  UniqueIdGenerator,
   isDevelopment,
   isEmpty,
   isFunction,
@@ -243,13 +242,13 @@ export const fileUploadFamily = atomFamily(
                   set(fileAtomAtoms, {
                     type: "insert",
                     value: {
-                      id: getUniqueId(),
+                      id: UniqueIdGenerator.generate(),
                       field,
                       formId,
                       file,
-                      fileName: `${get(currentUserIdAtom)}-${getUniqueNumericId(
-                        10
-                      )}.${file.type}`,
+                      fileName: `${get(
+                        currentUserIdAtom
+                      )}-${UniqueIdGenerator.generate()}.${file.type}`,
                       originalFileName: file.name,
                       errors: errors[file.name],
                     },

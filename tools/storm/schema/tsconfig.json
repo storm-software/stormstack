@@ -1,23 +1,14 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../dist/tools/storm/schema",
+    "outDir": "../../../dist/out-tsc",
     "module": "commonjs",
     "target": "esnext",
     "types": ["node", "reflect-metadata"],
-    "strict": false,
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "noUnusedLocals": false,
-    "noImplicitReturns": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
     "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "noImplicitAny": false,
+    "lib": ["ESNext"],
+    "sourceMap": true,
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "bin/cli"]

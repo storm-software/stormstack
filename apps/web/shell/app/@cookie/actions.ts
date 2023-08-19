@@ -1,10 +1,10 @@
 "use server";
 
-import { getUniqueId } from "@open-system/core-shared-utilities";
+import { UniqueIdGenerator } from "@open-system/core-shared-utilities";
 import { cookies } from "next/headers";
 
 export async function addUser() {
-  const userId = getUniqueId();
+  const userId = UniqueIdGenerator.generate();
 
   const cookieStore = cookies();
   cookieStore.set("user-id", userId);

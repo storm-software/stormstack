@@ -3,12 +3,12 @@
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
     "module": "commonjs",
-    "target": "es6",
+    "target": "esnext",
     "types": ["node"],
     "declaration": true,
     "noImplicitAny": false,
     "lib": ["ESNext"],
-    "sourceMap": false,
+    "sourceMap": true,
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]

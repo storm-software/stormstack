@@ -1,7 +1,15 @@
 {
+  "dryRun": false,
   "changelog": true,
+  "changelogFile": "${PROJECT_DIR}/CHANGELOG.md",
+  "commitMessage": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+  "linkCompare": true,
+  "linkReferences": true,
   "npm": true,
   "github": true,
+  "git": true,
+  "gitAssets": ["${WORKSPACE_DIR}/LICENSE"],
+  "tagFormat": "${PROJECT_NAME}-v${version}",
   "repositoryUrl": "https://github.com/sullivanpj/open-system",
-  "branches": ["master", "main"]
+  "branches": ["main", "alpha", "beta"]
 }

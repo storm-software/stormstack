@@ -1,5 +1,5 @@
 import { MessageBroker } from "@open-system/core-server-services";
-import { Logger, getUniqueId } from "@open-system/core-shared-utilities";
+import { Logger, UniqueIdGenerator } from "@open-system/core-shared-utilities";
 import { Injectable } from "graphql-modules";
 import { Consumer, Kafka, Message, Producer } from "kafkajs";
 import { KafkaConfig } from "../environment";
@@ -32,7 +32,7 @@ export class KafkaMessageBroker extends MessageBroker<
       ssl: true,
     });
 
-    this.#groupId = getUniqueId();
+    this.#groupId = UniqueIdGenerator.generate();
     this.#producer = this.#kafka.producer();
     this.#consumer = this.#kafka.consumer({
       groupId: this.#groupId,

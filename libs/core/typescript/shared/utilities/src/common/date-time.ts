@@ -1,7 +1,7 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { IDateTime, Tokens } from "../types";
-import { getUniqueId } from "./get-unique-id";
 import { isBigInt, isDate, isFunction } from "./type-checks";
+import { UniqueIdGenerator } from "./unique-id-generator";
 
 /**
  * A wrapper of the and Date class
@@ -154,7 +154,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public readonly objectInstanceId = getUniqueId();
+  public readonly objectInstanceId = UniqueIdGenerator.generate();
 
   /**
    * The string identifier of this specific class type

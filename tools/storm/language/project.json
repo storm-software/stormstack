@@ -10,6 +10,10 @@
       "options": {
         "outputPath": "dist/tools/storm/language",
         "main": "tools/storm/language/src/index.ts",
+        "additionalEntryPoints": [
+          "tools/storm/language/src/ast.ts",
+          "tools/storm/language/src/module.ts"
+        ],
         "project": "tools/storm/language/package.json",
         "tsConfig": "tools/storm/language/tsconfig.json",
         "clean": true,

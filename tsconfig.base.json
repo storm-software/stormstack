@@ -151,11 +151,11 @@
       "@open-system/core-server-kafka/*": [
         "libs/core/typescript/server/kafka/src/*"
       ],
-      "@open-system/core-server-pino-logger": [
-        "libs/core/typescript/server/pino-logger/src/index.ts"
+      "@open-system/core-server-pino-logging": [
+        "libs/core/typescript/server/pino-logging/src/index.ts"
       ],
-      "@open-system/core-server-pino-logger/*": [
-        "libs/core/typescript/server/pino-logger/src/*"
+      "@open-system/core-server-pino-logging/*": [
+        "libs/core/typescript/server/pino-logging/src/*"
       ],
       "@open-system/core-server-utilities": [
         "libs/core/typescript/server/utilities/src/index.ts"
@@ -235,7 +235,8 @@
       "@open-system/tools-async-api-rabbitmq": [
         "dist/tools/async-api/rabbitmq/index.ts"
       ],
-      "@open-system/tools-storm-language/*": ["tools/storm/language/src/*"],
+      "@open-system/tools-storm-language/ast": ["tools/storm/language/src/ast"],
+      "@open-system/tools-storm-language/module": ["tools/storm/language/src/module"],
       "@open-system/tools-storm-language": [
         "tools/storm/language/src/index.ts"
       ],
