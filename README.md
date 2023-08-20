@@ -103,7 +103,7 @@ More information can be found in the [📓 Documentation](https://sullivanpj.git
 
 # Environment Configuration Help
 
-If you run into any issues while trying to run any of the above steps, please reach out to Patrick.Sullivan.
+If you run into any issues while trying to run any of the above steps, please reach out to Patrick Sullivan. See the [Support](#support) section for more information.
 
 ## Plug-Ins
 

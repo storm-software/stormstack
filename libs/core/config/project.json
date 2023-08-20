@@ -1,0 +1,8 @@
+{
+  "name": "core-config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/config/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}

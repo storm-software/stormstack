@@ -27,7 +27,8 @@
           "tools/executors/docs/design-tokens-docgen/impl.ts",
           "tools/executors/docs/tsdocs-docgen/impl.ts",
           "tools/executors/docs/event-catalog-serve/impl.ts",
-          "tools/executors/docs/event-catalog-build/impl.ts"
+          "tools/executors/docs/event-catalog-build/impl.ts",
+          "tools/executors/docs/readme-format/impl.ts"
         ],
         "platform": "node",
         "deleteOutputPath": true,

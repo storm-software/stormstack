@@ -5,6 +5,7 @@
   "main": "./index.js",
   "typings": "./index.d.ts",
   "dependencies": {
+    "@asyncapi/generator": "^1.10.14",
     "@nx/devkit": "16.7.0",
     "@types/fs-extra": "^11.0.1",
     "fs-extra": "^11.1.1",

@@ -124,6 +124,7 @@
       "@open-system/core-client-utilities/*": [
         "libs/core/typescript/client/utilities/src/*"
       ],
+      "@open-system/core-config": ["libs/core/config/src/index.ts"],
       "@open-system/core-server-application": [
         "libs/core/typescript/server/application/src/index.ts"
       ],
@@ -211,14 +212,7 @@
         "libs/engagement/typescript/shared/data-access/src/*"
       ],
       "@open-system/engagement/config": ["libs/engagement/config/src/index.ts"],
-      "@open-system/tools-executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
-      "@open-system/tools-executors-typescript": [
-        "tools/executors/typescript/index.ts"
-      ],
-      "@open-system/tools-executors-typescript/*": [
-        "tools/executors/typescript/*"
-      ],
       "@open-system/generators-dotnet": ["tools/generators/dotnet/index.ts"],
       "@open-system/generators-typescript": [
         "tools/generators/typescript/index.ts"
@@ -235,10 +229,19 @@
       "@open-system/tools-async-api-rabbitmq": [
         "dist/tools/async-api/rabbitmq/index.ts"
       ],
-      "@open-system/tools-storm-language/ast": ["tools/storm/language/src/ast"],
-      "@open-system/tools-storm-language/module": ["tools/storm/language/src/module"],
+      "@open-system/tools-executors-docs": ["tools/executors/docs/index.ts"],
+      "@open-system/tools-executors-typescript": [
+        "tools/executors/typescript/index.ts"
+      ],
+      "@open-system/tools-executors-typescript/*": [
+        "tools/executors/typescript/*"
+      ],
       "@open-system/tools-storm-language": [
         "tools/storm/language/src/index.ts"
+      ],
+      "@open-system/tools-storm-language/ast": ["tools/storm/language/src/ast"],
+      "@open-system/tools-storm-language/module": [
+        "tools/storm/language/src/module"
       ],
       "@open-system/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
       "@open-system/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],
