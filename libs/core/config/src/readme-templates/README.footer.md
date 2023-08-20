@@ -1,15 +1,30 @@
-<!--START_SECTION:footer-section-->
-
-# Roadmap
+## Roadmap
 
 See the [open issues](https://github.com/sullivanpj/open-system/issues) for a list of proposed features (and known issues).
 
 - [Top Feature Requests](https://github.com/sullivanpj/open-system/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
 - [Top Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
 - [Newest Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
-  <br /><br />
 
-# Contributing
+## Support
+
+Reach out to the maintainer at one of the following places:
+
+- [Contact](https://www.patsullivan.org/contact)
+- [GitHub discussions](https://github.com/sullivanpj/open-system/discussions)
+- <contact@patsullivan.org>
+
+## License
+
+This project is licensed under the **BSD-2-Clause license**. Feel free to edit and distribute this template as you like.
+
+See [LICENSE](LICENSE) for more information.
+
+## Changelog
+
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Every release, along with the migration instructions, is documented in the [CHANGELOG](CHANGELOG.md) file
+
+## Contributing
 
 First off, thanks for taking the time to contribute! Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make will benefit everybody else and are **greatly appreciated**.
 
@@ -23,31 +38,13 @@ Please try to create bug reports that are:
 Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 You can use [markdownlint-cli](https://github.com/sullivanpj/open-system/markdownlint-cli) to check for common markdown style inconsistency.
-<br /><br />
 
-# Support
-
-Reach out to the maintainer at one of the following places:
-
-- [Contact](https://www.patsullivan.org/contact)
-- [GitHub discussions](https://github.com/sullivanpj/open-system/discussions)
-- <contact@patsullivan.org>
-  <br /><br />
-
-# License
-
-This project is licensed under the **BSD-2-Clause license**. Feel free to edit and distribute this template as you like.
-
-See [LICENSE](LICENSE) for more information.
-<br /><br />
-
-# Contributors ✨
+## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
+
 <table>
   <tbody>
     <tr>
@@ -66,14 +63,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tfoot>
 </table>
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-<h1 align="center"></h1>
+<br />
 <br />
 <div align="center">
   <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.png" width="100%"/>
@@ -86,6 +80,4 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 <p><b>Fingerprint:</b> 1BD2 7192 7770 2549 F4C9 F238 E6AD C420 DA5C 4C2D</p>
 </div>
 
-<h2 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer<br /><br /></h2>
-
-<!--END_SECTION:footer-section-->
+<h4 align="center">💻 Visit <a href="https://www.patsullivan.org" target="_blank">patsullivan.org</a> to stay up to date with this developer<br /><br /></h4>

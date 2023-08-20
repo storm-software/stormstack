@@ -3,7 +3,7 @@
   "cli": "nx",
   "id": "readme-format",
   "title": "Open System - ReadMe Formatter",
-  "description": "Format the ReadMe files in the workspace.",
+  "description": "Format the ReadMe files in the workspace using template files from a provided directory.",
   "type": "object",
   "properties": {
     "templatePath": {
@@ -20,6 +20,11 @@
     "inputFile": {
       "type": "string",
       "description": "The path and file name to the README.md file to format."
+    },
+    "clean": {
+      "type": "boolean",
+      "description": "Delete README file in the output prior to formatting new content.",
+      "default": false
     }
   },
   "required": ["templatePath"]

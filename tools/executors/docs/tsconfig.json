@@ -1,7 +1,22 @@
 {
-  "extends": "../../tsconfig.tools.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../dist/tools/executors/docs"
+    "outDir": "../../../dist/out-tsc",
+    "module": "commonjs",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "strict": false,
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "noUnusedLocals": false,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noImplicitOverride": false,
+    "declaration": false,
+    "declarationMap": false
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.js", "**/*.json"]

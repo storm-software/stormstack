@@ -162,6 +162,15 @@
         }
       }
     },
+    "readme-format": {
+      "executor": "@open-system/tools-executors-docs:readme-format",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "outputPath": "tools/storm/schema",
+        "inputFile": "tools/storm/schema/README.md",
+        "templatePath": "libs/core/config/src/readme-templates"
+      }
+    },
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {

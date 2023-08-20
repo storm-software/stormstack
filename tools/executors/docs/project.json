@@ -30,11 +30,9 @@
           "tools/executors/docs/event-catalog-build/impl.ts",
           "tools/executors/docs/readme-format/impl.ts"
         ],
-        "platform": "node",
         "deleteOutputPath": true,
-        "bundle": true,
-        "sourcemap": false,
-        "minify": true,
+        "sourcemap": true,
+        "minify": false,
         "assets": [
           {
             "input": "tools/executors/docs",

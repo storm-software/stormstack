@@ -40,7 +40,7 @@ const print = (
         (stackTrace !== false
           ? "\n" +
             chalk.bold("Stack Trace: ") +
-            (stackTrace
+            (typeof stackTrace === "string"
               ? stackTrace
               : (message as Error)?.stack
               ? (message as Error)?.stack

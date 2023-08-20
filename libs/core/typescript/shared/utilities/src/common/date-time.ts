@@ -121,7 +121,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
         : Temporal.Now.instant().epochNanoseconds
     );
 
-    this.objectType = (this as unknown as object)?.constructor.name;
+    this.objectType = "DateTime"; // (this as unknown as object)?.constructor.name;
   }
 
   /**
