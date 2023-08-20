@@ -71,6 +71,15 @@
         "passWithNoTests": true
       }
     },
+    "readme-format": {
+      "executor": "@open-system/tools-executors-docs:readme-format",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "outputPath": "tools/async-api/kafka",
+        "inputFile": "tools/async-api/kafka/README.md",
+        "templatePath": "libs/core/config/src/readme-templates"
+      }
+    },
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {

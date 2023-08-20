@@ -9,6 +9,11 @@
       "implementation": "../../../dist/tools/generators/typescript/cloudflare-worker/impl",
       "schema": "../../../dist/tools/generators/typescript/cloudflare-worker/schema.json",
       "description": "Generate Cloudflare worker"
+    },
+    "repo-readme-format": {
+      "implementation": "../../../dist/tools/generators/typescript/repo-readme-format/impl",
+      "schema": "../../../dist/tools/generators/typescript/repo-readme-format/schema.json",
+      "description": "Format the ReadMe files in the workspace using template files from a provided directory"
     }
   }
 }

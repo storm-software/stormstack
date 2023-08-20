@@ -23,7 +23,7 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 <!-- END header -->
 
-# 🔧 Open System Documentation Nx Executors 🔨
+# 🔧 Open System TypeScript Nx Generators 🔨
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -34,7 +34,7 @@ This library was generated with [Nx](https://nx.dev).
 
 **Table of Contents**
 
-- [🔧 Open System Documentation Nx Executors 🔨](#-open-system-documentation-nx-executors-)
+- [🔧 Open System TypeScript Nx Generators 🔨](#-open-system-typescript-nx-generators-)
   - [Building](#building)
   - [Running unit tests](#running-unit-tests)
   - [Roadmap](#roadmap)
@@ -52,11 +52,11 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Building
 
-Run `nx build tools-executors-docs` to build the library.
+Run `nx build tools-generators-typescript` to build the library.
 
 ## Running unit tests
 
-Run `nx test tools-executors-docs` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test tools-generators-typescript` to execute the unit tests via [Jest](https://jestjs.io).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

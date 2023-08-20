@@ -16,29 +16,42 @@
       "outputs": ["{options.outputFile}"]
     },
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/generators/typescript",
         "tsConfig": "tools/generators/typescript/tsconfig.json",
         "project": "tools/generators/typescript/package.json",
         "main": "tools/generators/typescript/index.ts",
-        "rollupConfig": "tools/generators/typescript/rollup.config.js",
-        "external": "all",
-        "deleteOutputPath": false,
+        "additionalEntryPoints": [
+          "tools/generators/typescript/client-api/impl.ts",
+          "tools/generators/typescript/cloudflare-worker/impl.ts",
+          "tools/generators/typescript/repo-readme-format/impl.ts"
+        ],
+        "clean": true,
         "assets": [
           {
-            "input": "./tools/generators/typescript",
-            "glob": "**/*.md",
+            "input": "tools/generators/typescript",
+            "glob": "**/*!(design-token-parsers)/**/*.md",
             "output": "."
           },
           {
-            "input": "./tools/generators/typescript",
-            "glob": "generators.json",
+            "input": "tools/generators/typescript",
+            "glob": "**/schema.json",
             "output": "."
           },
           {
-            "input": "",
+            "input": "tools/generators/typescript",
+            "glob": "executors.json",
+            "output": "."
+          },
+          {
+            "input": "tools/generators/typescript",
+            "glob": "README.md",
+            "output": "/"
+          },
+          {
+            "input": "tools/generators/typescript",
             "glob": "CHANGELOG.md",
             "output": "/"
           },
@@ -48,43 +61,21 @@
             "output": "/"
           },
           {
-            "input": "./tools/generators/typescript",
+            "input": "tools/generators/typescript",
             "glob": "migrations.json",
             "output": "."
+          },
+          {
+            "input": "tools/generators/typescript/cloudflare-worker",
+            "glob": "schema.json",
+            "output": "."
+          },
+          {
+            "input": "tools/generators/typescript/cloudflare-worker/files",
+            "glob": "**/*",
+            "output": "./files"
           }
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
-      },
-      "configurations": {
-        "client-api": {
-          "outputPath": "dist/tools/generators/typescript/client-api",
-          "main": "tools/generators/typescript/client-api/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/generators/typescript/client-api",
-              "glob": "schema.json",
-              "output": "."
-            }
-          ]
-        },
-        "cloudflare-worker": {
-          "outputPath": "dist/tools/generators/typescript/cloudflare-worker",
-          "main": "tools/generators/typescript/cloudflare-worker/impl.ts",
-          "deleteOutputPath": true,
-          "assets": [
-            {
-              "input": "tools/generators/typescript/cloudflare-worker",
-              "glob": "schema.json",
-              "output": "."
-            },
-            {
-              "input": "tools/generators/typescript/cloudflare-worker/files",
-              "glob": "**/*",
-              "output": "./files"
-            }
-          ]
-        }
+        ]
       }
     },
     "semantic-release": {

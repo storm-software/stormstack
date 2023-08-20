@@ -1,5 +1,12 @@
 {
-  "name": "@open-system/generators-typescript",
+  "name": "@open-system/tools-generators-typescript",
   "generators": "./generators.json",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "dependencies": {
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.3"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1"
+  }
 }

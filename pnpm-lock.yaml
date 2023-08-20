@@ -895,7 +895,18 @@ importers:
 
   tools/generators/dotnet: {}
 
-  tools/generators/typescript: {}
+  tools/generators/typescript:
+    dependencies:
+      fs-extra:
+        specifier: ^11.1.1
+        version: 11.1.1
+      glob:
+        specifier: ^10.3.3
+        version: 10.3.3
+    devDependencies:
+      '@types/fs-extra':
+        specifier: ^11.0.1
+        version: 11.0.1
 
   tools/generators/typescript/cloudflare-worker/files: {}
 

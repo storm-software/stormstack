@@ -74,6 +74,15 @@
         ]
       }
     },
+    "readme-format": {
+      "executor": "@open-system/tools-executors-docs:readme-format",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "outputPath": "tools/executors/typescript",
+        "inputFile": "tools/executors/typescript/README.md",
+        "templatePath": "libs/core/config/src/readme-templates"
+      }
+    },
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {

@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "repo-readme-format",
+  "title": "Open System - Repo ReadMe Formatter Generator",
+  "description": "Format all the ReadMe files in the workspace using template files from a provided directory.",
+  "type": "object",
+  "properties": {
+    "templatePath": {
+      "type": "string",
+      "description": "The path of the template README.md files to use.",
+      "x-completion-type": "directory",
+      "x-priority": "important"
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "The output path of the generated README.md files (if empty will use the current path of the input README.md).",
+      "x-completion-type": "directory"
+    },
+    "inputGlob": {
+      "type": "string",
+      "description": "A glob path for the README.md files to format.",
+      "default": "**/README.md"
+    },
+    "clean": {
+      "type": "boolean",
+      "description": "Delete README file in the output prior to formatting new content.",
+      "default": false
+    }
+  },
+  "required": ["templatePath", "inputFile"]
+}

@@ -214,7 +214,7 @@
       "@open-system/engagement/config": ["libs/engagement/config/src/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
       "@open-system/generators-dotnet": ["tools/generators/dotnet/index.ts"],
-      "@open-system/generators-typescript": [
+      "@open-system/tools-generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
       "@open-system/portfolio-client-resume": [

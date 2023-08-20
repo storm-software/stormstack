@@ -13,3 +13,7 @@ export const findFileName = (filePath: string): string => {
       ?.pop() ?? ""
   );
 };
+
+export const findFilePath = (filePath: string): string => {
+  return filePath.replace(findFileName(filePath), "");
+};
