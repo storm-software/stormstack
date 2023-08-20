@@ -5,7 +5,6 @@
   "title": "Open System - Cloudflare Worker Serve",
   "description": "Serve a Cloudflare Worker locally",
   "type": "object",
-  "properties": {
-  },
+  "properties": {},
   "required": []
 }

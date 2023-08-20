@@ -116,19 +116,31 @@ NoneInverse.args = { transitionDirection: "none", inverse: true };
  * None - Secondary
  */
 export const NoneSecondaryInverse = Template.bind({});
-NoneSecondaryInverse.args = { transitionDirection: "none", variant: "secondary", inverse: true };
+NoneSecondaryInverse.args = {
+  transitionDirection: "none",
+  variant: "secondary",
+  inverse: true,
+};
 
 /**
  * None - Tertiary
  */
 export const NoneTertiaryInverse = Template.bind({});
-NoneTertiaryInverse.args = { transitionDirection: "none", variant: "tertiary", inverse: true };
+NoneTertiaryInverse.args = {
+  transitionDirection: "none",
+  variant: "tertiary",
+  inverse: true,
+};
 
 /**
  * None - Gradient
  */
 export const NoneGradientInverse = Template.bind({});
-NoneGradientInverse.args = { transitionDirection: "none", variant: "gradient", inverse: true };
+NoneGradientInverse.args = {
+  transitionDirection: "none",
+  variant: "gradient",
+  inverse: true,
+};
 
 const InverseTemplate: ComponentStory<typeof Button> = args => (
   <Button {...args}>Btn Text</Button>

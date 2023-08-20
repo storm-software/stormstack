@@ -5,9 +5,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": [
-          "libs/portfolio/typescript/client/resume/tsconfig.*?.json"
-        ]
+        "project": ["libs/portfolio/typescript/client/resume/tsconfig.*?.json"]
       },
       "rules": {}
     },

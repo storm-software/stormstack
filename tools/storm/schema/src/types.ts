@@ -1,5 +1,5 @@
 import { Model } from "@open-system/tools-storm-language/ast";
-import type { DMMF } from '@prisma/generator-helper';
+import type { DMMF } from "@prisma/generator-helper";
 
 export interface Context {
   schema: Model;

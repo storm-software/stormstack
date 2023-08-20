@@ -1,6 +1,7 @@
 # PX to REM
 
 ## Description
+
 This parser helps you convert the value of a measurement design token from pixel to rem.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'px-to-rem';
+  name: "px-to-rem";
   options: {
     basePixelValue?: number;
     keys: Array<string>;
@@ -46,6 +47,7 @@ type output = Array<Record<string, unknown>>;
 ## Usage
 
 ### Config
+
 ```jsonc
 "parsers": [
   {
@@ -61,6 +63,7 @@ type output = Array<Record<string, unknown>>;
 ### Before/After
 
 #### Input
+
 ```jsonc
 {
   // …
@@ -69,7 +72,7 @@ type output = Array<Record<string, unknown>>;
       "unit": "px",
       "measure": 14
     }
-  },
+  }
   // …
 }
 ```
@@ -84,8 +87,8 @@ type output = Array<Record<string, unknown>>;
       "fontSize": {
         "measure": 0.875,
         "unit": "rem"
-      },
-    },
+      }
+    }
     // …
   }
 ]

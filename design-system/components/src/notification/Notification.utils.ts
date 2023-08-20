@@ -23,7 +23,6 @@ export function getBackgroundStyle(variant: NotificationVariants) {
     : "bg-bg-1";
 }
 
-
 export function getTextStyle(variant: NotificationVariants) {
   return variant === NotificationVariants.ERROR
     ? "text-bg-error"

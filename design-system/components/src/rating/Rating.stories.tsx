@@ -20,12 +20,12 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Rating> = args => (
   <div className="ml-20">
-    <Rating {...args}>   
-      <RatingOption name="1" value={1} /> 
+    <Rating {...args}>
+      <RatingOption name="1" value={1} />
       <RatingOption name="2" value={2} />
       <RatingOption name="3" value={3} />
       <RatingOption name="4" value={4} />
-      <RatingOption name="5" value={5} />    
+      <RatingOption name="5" value={5} />
     </Rating>
   </div>
 );

@@ -14,7 +14,7 @@ export const initialRatingContext: RatingContextState = {
   glow: true,
   placeholder: 1,
   current: -1,
-  setCurrent: (next: number) => {}
+  setCurrent: (next: number) => {},
 };
 
 // Create the context

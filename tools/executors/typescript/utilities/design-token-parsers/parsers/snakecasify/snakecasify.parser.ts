@@ -1,4 +1,4 @@
-import { LibsType } from '../global-libs';
+import { LibsType } from "../global-libs";
 
 export type InputDataType = Array<Record<string, any>>;
 export type OutputDataType = InputDataType;
@@ -10,8 +10,8 @@ export type OptionsType =
 
 export default async function (
   tokens: InputDataType,
-  options: OptionsType = { keys: ['name'] },
-  { _ }: Pick<LibsType, '_'>,
+  options: OptionsType = { keys: ["name"] },
+  { _ }: Pick<LibsType, "_">
 ): Promise<OutputDataType> {
   return tokens.map(token => {
     options.keys.forEach(key => {

@@ -1,9 +1,7 @@
 {
   "name": "storm",
   "scopeName": "source.storm",
-  "fileTypes": [
-    ".storm"
-  ],
+  "fileTypes": [".storm"],
   "patterns": [
     {
       "include": "#comments"

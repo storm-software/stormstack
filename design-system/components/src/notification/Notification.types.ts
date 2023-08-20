@@ -1,4 +1,9 @@
-export type NotificationVariants = "warning" | "error" | "info" | "success" | "gradient";
+export type NotificationVariants =
+  | "warning"
+  | "error"
+  | "info"
+  | "success"
+  | "gradient";
 export const NotificationVariants = {
   WARNING: "warning" as NotificationVariants,
   ERROR: "error" as NotificationVariants,

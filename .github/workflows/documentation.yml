@@ -88,5 +88,3 @@ jobs:
 
       - name: Release repository version
         run: pnpm nx run-many --target=semantic-release --parallel=false
-
-

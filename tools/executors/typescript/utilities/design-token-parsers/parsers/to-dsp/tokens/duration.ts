@@ -1,5 +1,5 @@
-import { DurationToken } from '../../../types';
-import { DspEntity } from '../dsp.type';
+import { DurationToken } from "../../../types";
+import { DspEntity } from "../dsp.type";
 
 export class Duration extends DurationToken {
   constructor(token: Partial<DurationToken>) {
@@ -10,12 +10,12 @@ export class Duration extends DurationToken {
     const { duration, unit } = this.value;
 
     return {
-      class: 'token',
-      type: 'color',
+      class: "token",
+      type: "color",
       id: this.id!,
       name: this.name,
       value: `${duration}${unit}`,
-      tags: ['specify', 'duration'],
+      tags: ["specify", "duration"],
     };
   }
 }

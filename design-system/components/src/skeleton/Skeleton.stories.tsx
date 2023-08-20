@@ -23,7 +23,7 @@ Primary.args = {};
 const RoundedTemplate: ComponentStory<typeof Skeleton> = args => (
   <div className="flex flex-row w-96 items-center gap-3">
     <div className="max-h-fit max-w-fit">
-    <Skeleton {...args} />
+      <Skeleton {...args} />
     </div>
     <div className="flex w-full flex-col gap-3">
       <Skeleton />

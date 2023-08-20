@@ -6,8 +6,6 @@ Thank you good citizen for your hard work! Please provide the below details desc
 
 **Note:** Please read the [contributing guide](https://github.com/sullivanpj/open-system/blob/main/.github/CONTRIBUTING.md) before raising a pull request.
 
-
-
 ## Pull request type
 
 <!-- Please try to limit your pull request to one type, submit multiple pull requests if needed. -->

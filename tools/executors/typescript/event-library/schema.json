@@ -9,10 +9,7 @@
     "templateName": {
       "type": "string",
       "description": "Name of the template to generate",
-      "options": [
-        "Kafka-TypeScript",
-        "RabbitMQ-DotNet"
-      ]
+      "options": ["Kafka-TypeScript", "RabbitMQ-DotNet"]
     },
     "outputPath": {
       "type": "string",

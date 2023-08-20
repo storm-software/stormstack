@@ -1,6 +1,7 @@
 # Pick
 
 ## Description
+
 This parser helps you get only specific keys from a design token given in params.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'pick';
+  name: "pick";
   options?: {
     keys: Array<string>;
     filter?: {
@@ -71,14 +72,14 @@ type output = Array<{ [key: string]: any }>;
 ```js
 [
   {
-    type: 'color',
+    type: "color",
     value: {
       a: 0.96,
       b: 20,
       g: 227,
       r: 122,
     },
-    name: 'Brand / Primary Color',
+    name: "Brand / Primary Color",
   },
 ];
 ```

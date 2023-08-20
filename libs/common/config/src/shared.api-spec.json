@@ -57,9 +57,7 @@
             "$ref": "#/components/schemas/Guid"
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "RecordBase": {
         "title": "RecordBase",
@@ -100,11 +98,7 @@
             "example": "PSUL"
           }
         },
-        "required": [
-          "id",
-          "createdOn",
-          "createdBy"
-        ]
+        "required": ["id", "createdOn", "createdBy"]
       },
       "Indexed": {
         "title": "Indexed",
@@ -127,9 +121,7 @@
             "$ref": "#/components/schemas/Guid"
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "BaseProblemDetailsResponse": {
         "title": "BaseProblemDetailsResponse",
@@ -175,14 +167,7 @@
             "type": "string",
             "example": "error",
             "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
-            "enum": [
-              "fatal",
-              "error",
-              "warning",
-              "info",
-              "debug",
-              "none"
-            ],
+            "enum": ["fatal", "error", "warning", "info", "debug", "none"],
             "default": "error"
           },
           "resultCode": {
@@ -219,9 +204,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name"
-        ]
+        "required": ["name"]
       },
       "ProblemDetailsResponse": {
         "allOf": [
@@ -262,11 +245,7 @@
                 }
               }
             },
-            "required": [
-              "type",
-              "status",
-              "traceId"
-            ]
+            "required": ["type", "status", "traceId"]
           }
         ]
       },
@@ -357,9 +336,7 @@
                   "$ref": "#/components/schemas/Guid"
                 }
               },
-              "required": [
-                "id"
-              ]
+              "required": ["id"]
             },
             "examples": {
               "Sample Response": {

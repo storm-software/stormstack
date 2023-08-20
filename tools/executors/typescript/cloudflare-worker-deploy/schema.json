@@ -5,7 +5,6 @@
   "title": "Open System - Cloudflare Worker Deploy",
   "description": "Deploy a Cloudflare Worker",
   "type": "object",
-  "properties": {
-  },
+  "properties": {},
   "required": []
 }

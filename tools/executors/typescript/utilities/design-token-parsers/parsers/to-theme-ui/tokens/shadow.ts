@@ -1,7 +1,7 @@
-import { ShadowToken } from '../../../types';
-import { OptionsType } from '../to-theme-ui.parser';
-import tinycolor from 'tinycolor2';
-import { ShadowMapping } from '../to-theme-ui.type';
+import { ShadowToken } from "../../../types";
+import { OptionsType } from "../to-theme-ui.parser";
+import tinycolor from "tinycolor2";
+import { ShadowMapping } from "../to-theme-ui.type";
 
 interface ThemeUiShadow extends Partial<Record<ShadowMapping, any>> {
   shadows?: Record<string, string>;
@@ -14,7 +14,7 @@ export class Shadow extends ShadowToken {
     this.transformedName = transformNameFn(token.name);
   }
   generate(options: OptionsType): ThemeUiShadow {
-    const colorFormat = options?.formatTokens?.colorFormat?.format ?? 'rgb';
+    const colorFormat = options?.formatTokens?.colorFormat?.format ?? "rgb";
 
     return {
       shadows: {
@@ -24,13 +24,17 @@ export class Shadow extends ShadowToken {
             const x = `${offsetX.value.measure}${offsetX.value.unit}`;
             const y = `${offsetY.value.measure}${offsetY.value.unit}`;
             const blurString = `${blur.value.measure}${blur.value.unit}`;
-            const spreadString = spread ? ` ${spread.value.measure}${spread.value.unit}` : '';
-            const innerText = isInner ? 'inset ' : '';
+            const spreadString = spread
+              ? ` ${spread.value.measure}${spread.value.unit}`
+              : "";
+            const innerText = isInner ? "inset " : "";
             const colorString = tinycolor(color.value).toString(colorFormat);
-            acc.push(`${innerText}${x} ${y} ${blurString}${spreadString} ${colorString}`);
+            acc.push(
+              `${innerText}${x} ${y} ${blurString}${spreadString} ${colorString}`
+            );
             return acc;
           }, [] as Array<string>)
-          .join(', '),
+          .join(", "),
       },
     };
   }

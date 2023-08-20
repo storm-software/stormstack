@@ -1,4 +1,4 @@
-import { BitmapToken } from '../../../types';
+import { BitmapToken } from "../../../types";
 
 export class Bitmap extends BitmapToken {
   constructor(token: Partial<BitmapToken>) {

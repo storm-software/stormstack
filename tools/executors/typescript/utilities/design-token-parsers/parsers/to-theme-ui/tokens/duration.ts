@@ -1,6 +1,6 @@
-import { DurationToken } from '../../../types';
-import { Utils } from './index';
-import { DurationMapping } from '../to-theme-ui.type';
+import { DurationToken } from "../../../types";
+import { Utils } from "./index";
+import { DurationMapping } from "../to-theme-ui.type";
 
 interface ThemeUiDuration extends Partial<Record<DurationMapping, any>> {
   durations: Record<string, number | string>;

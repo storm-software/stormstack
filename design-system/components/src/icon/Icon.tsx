@@ -30,8 +30,6 @@ export const Icon = ({
   const [lottie, setLottie] = useState<LottiePlayer | null>(null);
   const [animation, setAnimation] = useState<AnimationItem | null>(null);
 
-  
-
   useEffect(() => {
     import("lottie-web").then(Lottie => setLottie(Lottie.default));
   }, []);

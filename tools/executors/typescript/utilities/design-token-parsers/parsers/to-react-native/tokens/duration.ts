@@ -1,4 +1,4 @@
-import { DurationToken } from '../../../types';
+import { DurationToken } from "../../../types";
 
 export class Duration extends DurationToken {
   constructor(token: Partial<DurationToken>) {
@@ -8,16 +8,16 @@ export class Duration extends DurationToken {
   toReactNative() {
     const { duration, unit } = this.value;
     switch (unit) {
-      case 'h':
+      case "h":
         return duration * 60 * 60 * 1000;
-      case 'm':
+      case "m":
         return duration * 60 * 1000;
-      case 's':
+      case "s":
         return duration * 1000;
-      case 'ms':
+      case "ms":
       default:
         return duration;
-      case 'ns':
+      case "ns":
         return duration / 1000;
     }
   }

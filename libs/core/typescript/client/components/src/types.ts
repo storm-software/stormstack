@@ -3,4 +3,3 @@ export type ModalReference = {
   open: () => void;
   close: () => void;
 };
-

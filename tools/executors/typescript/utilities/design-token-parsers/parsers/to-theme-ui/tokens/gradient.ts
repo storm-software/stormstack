@@ -1,6 +1,6 @@
-import tinycolor from 'tinycolor2';
-import { GradientToken } from '../../../types';
-import { GradientMapping } from '../to-theme-ui.type';
+import tinycolor from "tinycolor2";
+import { GradientToken } from "../../../types";
+import { GradientMapping } from "../to-theme-ui.type";
 
 interface ThemeUiGradient extends Partial<Record<GradientMapping, any>> {
   gradients?: Record<string, string>;
@@ -20,11 +20,12 @@ export class Gradient extends GradientToken {
           .map(gradient => {
             return `linear-gradient(${gradient.angle}, ${gradient.colors
               .map(
-                ({ color, position }) => `${tinycolor(color.value).toString('rgb')} ${position}%`,
+                ({ color, position }) =>
+                  `${tinycolor(color.value).toString("rgb")} ${position}%`
               )
-              .join(', ')})`;
+              .join(", ")})`;
           })
-          .join(', '),
+          .join(", "),
       },
     };
   }

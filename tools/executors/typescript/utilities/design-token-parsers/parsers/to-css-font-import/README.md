@@ -1,6 +1,7 @@
 # To CSS Font Import
 
 ## Description
+
 This parser helps you create CSS `@font-face` rules to import your font files.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,13 +10,22 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'to-css-font-import';
+  name: "to-css-font-import";
   options?: {
-    formats?: Array<'woff2' | 'woff' | 'otf' | 'ttf' | 'eot'>;
+    formats?: Array<"woff2" | "woff" | "otf" | "ttf" | "eot">;
     fontsPath?: string;
-    fontFamilyTransform?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+    fontFamilyTransform?:
+      | "camelCase"
+      | "kebabCase"
+      | "snakeCase"
+      | "pascalCase";
     includeFontWeight?: boolean;
-    genericFamily?: 'serif' | 'sans-serif' | 'cursive' | 'fantasy' | 'monospace';
+    genericFamily?:
+      | "serif"
+      | "sans-serif"
+      | "cursive"
+      | "fantasy"
+      | "monospace";
   };
 }
 ```
@@ -39,7 +49,7 @@ interface parser {
 Array of object with at least the key `name`
 
 ```ts
-Array<{name: string, [Key: string] : any}>
+Array<{ name: string; [Key: string]: any }>;
 ```
 
 ### Output
@@ -93,8 +103,9 @@ type output = string;
 
 ```css
 @font-face {
-  font-family: 'Inter-Medium';
-  src: url('Inter-Medium.woff2') format('woff2'), url('Inter-Medium.woff') format('woff');
+  font-family: "Inter-Medium";
+  src: url("Inter-Medium.woff2") format("woff2"), url("Inter-Medium.woff")
+      format("woff");
   font-weight: 700;
 }
 ```

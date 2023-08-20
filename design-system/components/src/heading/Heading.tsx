@@ -12,7 +12,7 @@ export type HeadingProps = PropsWithBase<{
 
   /**
    * The CSS/Tailwind utility class name to use to color the text
-   * 
+   *
    * @default "text-primary"
    */
   colorClassName?: string;
@@ -21,7 +21,12 @@ export type HeadingProps = PropsWithBase<{
 /**
  * The base Heading component used by the Open System repository
  */
-export const Heading = ({ className, children, level = 2, colorClassName = "text-primary" }: HeadingProps) => {
+export const Heading = ({
+  className,
+  children,
+  level = 2,
+  colorClassName = "text-primary",
+}: HeadingProps) => {
   return (
     <>
       {level === 1 ? (
@@ -30,7 +35,11 @@ export const Heading = ({ className, children, level = 2, colorClassName = "text
             "w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_40%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_6px]",
             className
           )}>
-          <h1 className={clsx("text-6xl font-header-1 leading-[3rem] shadow-white text-shadow-lg", colorClassName)}>
+          <h1
+            className={clsx(
+              "text-6xl font-header-1 leading-[3rem] shadow-white text-shadow-lg",
+              colorClassName
+            )}>
             {children}
           </h1>
         </span>
@@ -40,7 +49,11 @@ export const Heading = ({ className, children, level = 2, colorClassName = "text
             "w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_50%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_6px]",
             className
           )}>
-          <h2 className={clsx("font-header-2 text-6xl leading-[3.5rem] shadow-white text-shadow-lg", colorClassName)}>
+          <h2
+            className={clsx(
+              "font-header-2 text-6xl leading-[3.5rem] shadow-white text-shadow-lg",
+              colorClassName
+            )}>
             {children}
           </h2>
         </span>
@@ -50,7 +63,11 @@ export const Heading = ({ className, children, level = 2, colorClassName = "text
             "w-fit bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-[length:100%_50%] bg-bottom bg-no-repeat px-2 transition-[background-size] hover:bg-[length:100%_5px]",
             className
           )}>
-          <h3 className={clsx("font-header-3 text-4xl leading-[2rem] shadow-white text-shadow-lg", colorClassName)}>
+          <h3
+            className={clsx(
+              "font-header-3 text-4xl leading-[2rem] shadow-white text-shadow-lg",
+              colorClassName
+            )}>
             {children}
           </h3>
         </span>

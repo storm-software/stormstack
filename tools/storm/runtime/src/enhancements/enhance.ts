@@ -1,12 +1,14 @@
-import { getDefaultModelMeta } from './model-meta';
-import { withOmit, WithOmitOptions } from './omit';
-import { withPassword, WithPasswordOptions } from './password';
-import { withPolicy, WithPolicyContext, WithPolicyOptions } from './policy';
+import { getDefaultModelMeta } from "./model-meta";
+import { withOmit, WithOmitOptions } from "./omit";
+import { withPassword, WithPasswordOptions } from "./password";
+import { withPolicy, WithPolicyContext, WithPolicyOptions } from "./policy";
 
 /**
  * Options @see enhance
  */
-export type EnhancementOptions = WithPolicyOptions & WithPasswordOptions & WithOmitOptions;
+export type EnhancementOptions = WithPolicyOptions &
+  WithPasswordOptions &
+  WithOmitOptions;
 
 let hasPassword: boolean | undefined = undefined;
 let hasOmit: boolean | undefined = undefined;
@@ -22,31 +24,37 @@ let hasOmit: boolean | undefined = undefined;
  * @param options Options.
  */
 export function enhance<DbClient extends object>(
-    prisma: DbClient,
-    context?: WithPolicyContext,
-    options?: EnhancementOptions
+  prisma: DbClient,
+  context?: WithPolicyContext,
+  options?: EnhancementOptions
 ) {
-    let result = prisma;
+  let result = prisma;
 
-    if (hasPassword === undefined || hasOmit === undefined) {
-        const modelMeta = options?.modelMeta ?? getDefaultModelMeta();
-        const allFields = Object.values(modelMeta.fields).flatMap((modelInfo) => Object.values(modelInfo));
-        hasPassword = allFields.some((field) => field.attributes?.some((attr) => attr.name === '@password'));
-        hasOmit = allFields.some((field) => field.attributes?.some((attr) => attr.name === '@omit'));
-    }
+  if (hasPassword === undefined || hasOmit === undefined) {
+    const modelMeta = options?.modelMeta ?? getDefaultModelMeta();
+    const allFields = Object.values(modelMeta.fields).flatMap(modelInfo =>
+      Object.values(modelInfo)
+    );
+    hasPassword = allFields.some(field =>
+      field.attributes?.some(attr => attr.name === "@password")
+    );
+    hasOmit = allFields.some(field =>
+      field.attributes?.some(attr => attr.name === "@omit")
+    );
+  }
 
-    if (hasPassword) {
-        // @password proxy
-        result = withPassword(result, options);
-    }
+  if (hasPassword) {
+    // @password proxy
+    result = withPassword(result, options);
+  }
 
-    if (hasOmit) {
-        // @omit proxy
-        result = withOmit(result, options);
-    }
+  if (hasOmit) {
+    // @omit proxy
+    result = withOmit(result, options);
+  }
 
-    // policy proxy
-    result = withPolicy(result, context, options);
+  // policy proxy
+  result = withPolicy(result, context, options);
 
-    return result;
+  return result;
 }

@@ -56,7 +56,7 @@ html[data-theme="dark"] {
   background-color: transparent;
 }
 html[data-theme="dark"] .hero::before {
-  content: '';
+  content: "";
   background-image: url("../../static/img/background.jpg");
   background-size: cover;
   height: 100%;
@@ -87,7 +87,8 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
 }
 
 .navbar__title {
-  --ifm-heading-font-family: 'Nunito Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --ifm-heading-font-family: "Nunito Sans", "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
   background: linear-gradient(to right, #30cfd0, #c43ad6);
   background-clip: text;
   -webkit-background-clip: text;
@@ -97,7 +98,8 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
 }
 
 .navbar__title:hover {
-  --ifm-heading-font-family: 'Nunito Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --ifm-heading-font-family: "Nunito Sans", "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
   background: inherit;
   background-clip: inherit;
   -webkit-background-clip: inherit;
@@ -126,9 +128,6 @@ html[data-theme="dark"] .docusaurus-highlight-code-line {
   --ifm-hero-background-color: var(--ifm-color-primary-darkest);
 }
 
-
-
-
 /*.hero {
   --ifm-hero-background-color: #e5e5e5;
 }*/
@@ -152,7 +151,7 @@ html[data-theme="dark"] .hero__title {
 
 .text_white-glow {
   color: var(--ifm-font-color-base);
-  font-family: 'Nunito Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Nunito Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-shadow: 0 0 80px rgb(192 219 255 / 35%), 0 0 32px rgb(65 120 255 / 24%);
 }
 

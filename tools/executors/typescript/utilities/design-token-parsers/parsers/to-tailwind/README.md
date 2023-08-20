@@ -1,6 +1,7 @@
 # To Tailwind
 
 ## Description
+
 Format design tokens to create a theme compatible with the [TailwindCSS specification](https://tailwindcss.com/docs/theme).
 The theme is also compatible with [WindiCSS](https://windicss.org/).
 
@@ -9,25 +10,26 @@ This parser creates a file containing the whole theme. It can then be used in th
 The theme created by this parser is compatible with the Tailwind versions >= `2.x`.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
+
 ## Interface
 
 ```ts
 interface parser {
-  name: 'to-tailwind';
+  name: "to-tailwind";
   options: Partial<{
-    formatName: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+    formatName: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
     formatTokens: Partial<{
       colorFormat: {
         format: ColorsFormat;
       };
       fontSizeFormat: {
-        unit: 'px' | 'rem';
+        unit: "px" | "rem";
       };
     }>;
     formatConfig: Partial<{
-      module: 'es6' | 'commonjs';
+      module: "es6" | "commonjs";
       objectName: string;
-      endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+      endOfLine: "auto" | "lf" | "crlf" | "cr";
       tabWidth: number;
       useTabs: boolean;
       singleQuote: boolean;
@@ -154,15 +156,15 @@ type output = string;
 ```js
 const theme = {
   colors: {
-    primary: '#c6bdff',
+    primary: "#c6bdff",
   },
-  fontSize: { body: '16px' },
-  lineHeight: { body: '20px' },
+  fontSize: { body: "16px" },
+  lineHeight: { body: "20px" },
   fontFamily: {
-    body: ['Roboto-Regular'],
+    body: ["Roboto-Regular"],
   },
   spacing: {
-    'base-space-01': '4px',
+    "base-space-01": "4px",
   },
 };
 
@@ -258,15 +260,15 @@ export default theme;
 ```js
 const extend = {
   colors: {
-    primary: 'rgb(198, 189, 255)',
+    primary: "rgb(198, 189, 255)",
   },
-  fontSize: { body: '16px' },
-  lineHeight: { body: '20px' },
+  fontSize: { body: "16px" },
+  lineHeight: { body: "20px" },
   fontFamily: {
-    body: ['Roboto-Regular'],
+    body: ["Roboto-Regular"],
   },
   spacing: {
-    'base-space-01': '4px',
+    "base-space-01": "4px",
   },
 };
 
@@ -329,10 +331,10 @@ module.exports = extend;
 ```js
 const extend = {
   colors: {
-    'custom-color-primary': '#C6BDFF',
+    "custom-color-primary": "#C6BDFF",
   },
   spacing: {
-    'custom-spacing-base-space-01': '4px',
+    "custom-spacing-base-space-01": "4px",
   },
 };
 
@@ -394,8 +396,8 @@ module.exports = extend;
 const extend = {
   colors: {
     danger: {
-      100: '#ff2187',
-      200: '#ff2121',
+      100: "#ff2187",
+      200: "#ff2121",
     },
   },
 };

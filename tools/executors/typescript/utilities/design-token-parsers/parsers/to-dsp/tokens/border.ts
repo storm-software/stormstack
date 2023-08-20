@@ -1,5 +1,5 @@
-import { BorderToken } from '../../../types';
-import { DspEntity } from '../dsp.type';
+import { BorderToken } from "../../../types";
+import { DspEntity } from "../dsp.type";
 
 export class Border extends BorderToken {
   constructor(token: Partial<BorderToken>) {
@@ -12,12 +12,12 @@ export class Border extends BorderToken {
     const { r, g, b, a } = color.value;
 
     return {
-      class: 'token',
-      type: 'custom',
+      class: "token",
+      type: "custom",
       id: this.id!,
       name: this.name,
       value: `${measure}${unit} ${type} rgba(${r}, ${g}, ${b}, ${a})`,
-      tags: ['specify', 'border'],
+      tags: ["specify", "border"],
     };
   }
 }

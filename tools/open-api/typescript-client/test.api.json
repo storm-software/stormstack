@@ -115,9 +115,7 @@
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       },
       "post": {
         "summary": "Add Message",
@@ -184,9 +182,7 @@
             "$ref": "#/components/parameters/UserId"
           }
         ],
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       }
     },
     "/{guid}": {
@@ -250,9 +246,7 @@
           }
         ],
         "description": "An end point that returns the system's message literals to a client",
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       },
       "delete": {
         "summary": "Remove Message",
@@ -294,9 +288,7 @@
             "$ref": "#/components/parameters/UserId"
           }
         ],
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       },
       "patch": {
         "summary": "Update Message",
@@ -357,9 +349,7 @@
             "$ref": "#/components/parameters/UserId"
           }
         ],
-        "tags": [
-          "Message"
-        ]
+        "tags": ["Message"]
       }
     }
   },
@@ -410,16 +400,10 @@
             "type": "string",
             "default": "EN-US",
             "example": "EN-US",
-            "enum": [
-              "EN-US"
-            ]
+            "enum": ["EN-US"]
           }
         },
-        "required": [
-          "message",
-          "messageType",
-          "culture"
-        ]
+        "required": ["message", "messageType", "culture"]
       },
       "Shared_Api-spec_Guid": {
         "type": "string",
@@ -464,11 +448,7 @@
             "example": "PSUL"
           }
         },
-        "required": [
-          "guid",
-          "createdOn",
-          "createdBy"
-        ],
+        "required": ["guid", "createdOn", "createdBy"],
         "x-examples": {
           "Sample Record": {
             "guid": "123e4567-e89b-12d3-a456-426614174000",
@@ -491,9 +471,7 @@
             "$ref": "#/components/schemas/Shared_Api-spec_Guid"
           }
         },
-        "required": [
-          "guid"
-        ],
+        "required": ["guid"],
         "x-examples": {
           "Sample Response": {
             "guid": "123e4567-e89b-12d3-a456-426614174000"

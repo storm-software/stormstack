@@ -5,9 +5,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": [
-          "libs/core/typescript/server/domain/tsconfig.*?.json"
-        ]
+        "project": ["libs/core/typescript/server/domain/tsconfig.*?.json"]
       },
       "rules": {}
     },

@@ -1,4 +1,4 @@
-import { MeasurementToken } from '../../../types';
+import { MeasurementToken } from "../../../types";
 
 export class Measurement extends MeasurementToken {
   constructor(token: Partial<MeasurementToken>) {

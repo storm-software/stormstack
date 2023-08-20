@@ -132,7 +132,5 @@
     "wundergraph",
     "zenstack"
   ],
-  "enableFiletypes": [
-    "mdx"
-  ]
+  "enableFiletypes": ["mdx"]
 }

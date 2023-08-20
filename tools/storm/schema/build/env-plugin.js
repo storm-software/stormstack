@@ -1,60 +1,65 @@
 // from: https://github.com/rw3iss/esbuild-envfile-plugin
 
-const path = require('path');
-const fs = require('fs');
+const path = require("path");
+const fs = require("fs");
 
-const ENV = process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || "development";
 
 module.exports = {
-    name: 'env',
+  name: "env",
 
-    setup(build) {
-        function _findEnvFile(dir) {
-            if (!fs.existsSync(dir)) return undefined;
+  setup(build) {
+    function _findEnvFile(dir) {
+      if (!fs.existsSync(dir)) return undefined;
 
-            const candidates = [`${dir}/.env.${ENV}.local`, `${dir}/.env.${ENV}`, `${dir}/.env.local`, `${dir}/.env`];
+      const candidates = [
+        `${dir}/.env.${ENV}.local`,
+        `${dir}/.env.${ENV}`,
+        `${dir}/.env.local`,
+        `${dir}/.env`,
+      ];
 
-            for (const candidate of candidates) {
-                if (fs.existsSync(candidate)) {
-                    console.log('Using env from:', candidate);
-                    return candidate;
-                }
-            }
-
-            const next = path.resolve(dir, '../');
-            if (next === dir) {
-                // at root now, exit
-                return undefined;
-            } else {
-                return _findEnvFile(next);
-            }
+      for (const candidate of candidates) {
+        if (fs.existsSync(candidate)) {
+          console.log("Using env from:", candidate);
+          return candidate;
         }
+      }
 
-        build.onResolve({ filter: /^env$/ }, async (args) => {
-            const envPath = _findEnvFile(args.resolveDir);
-            return {
-                path: args.path,
-                namespace: 'env-ns',
-                pluginData: {
-                    ...args.pluginData,
-                    envPath,
-                },
-            };
-        });
+      const next = path.resolve(dir, "../");
+      if (next === dir) {
+        // at root now, exit
+        return undefined;
+      } else {
+        return _findEnvFile(next);
+      }
+    }
 
-        build.onLoad({ filter: /.*/, namespace: 'env-ns' }, async (args) => {
-            // read in .env file contents and combine with regular .env:
-            let config = {};
-            if (args.pluginData && args.pluginData.envPath) {
-                let data = await fs.promises.readFile(args.pluginData.envPath, 'utf8');
-                const buf = Buffer.from(data);
-                config = require('dotenv').parse(buf);
-            }
+    build.onResolve({ filter: /^env$/ }, async args => {
+      const envPath = _findEnvFile(args.resolveDir);
+      return {
+        path: args.path,
+        namespace: "env-ns",
+        pluginData: {
+          ...args.pluginData,
+          envPath,
+        },
+      };
+    });
 
-            return {
-                contents: JSON.stringify({ ...config, ...process.env }),
-                loader: 'json',
-            };
-        });
-    },
+    build.onLoad({ filter: /.*/, namespace: "env-ns" }, async args => {
+      // read in .env file contents and combine with regular .env:
+      let config = {};
+      if (args.pluginData && args.pluginData.envPath) {
+        let data = await fs.promises.readFile(args.pluginData.envPath, "utf8");
+        const buf = Buffer.from(data);
+        config = require("dotenv").parse(buf);
+      }
+
+      return {
+        contents: JSON.stringify({ ...config, ...process.env }),
+        loader: "json",
+      };
+    });
+  },
 };

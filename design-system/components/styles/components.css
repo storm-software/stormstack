@@ -1,5 +1,11 @@
 .background-caution {
-  background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,0.4) 40px);
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 20px,
+    rgba(0, 0, 0, 0.4) 20px,
+    rgba(0, 0, 0, 0.4) 40px
+  );
 }
 
 .dashed-lg {
@@ -15,19 +21,22 @@
 }
 
 .dashed-lg:hover {
-  background: linear-gradient(to right, #10B981 50%, transparent 0%) top repeat-x,
-    linear-gradient(#10B981 50%, transparent 0%) right repeat-y,
-    linear-gradient(to right, #10B981 50%, transparent 0%) bottom repeat-x,
-    linear-gradient(#10B981 50%, transparent 0%) left repeat-y;
-    background-size: 20px 2px, 2px 20px;
+  background: linear-gradient(to right, #10b981 50%, transparent 0%) top
+      repeat-x,
+    linear-gradient(#10b981 50%, transparent 0%) right repeat-y,
+    linear-gradient(to right, #10b981 50%, transparent 0%) bottom repeat-x,
+    linear-gradient(#10b981 50%, transparent 0%) left repeat-y;
+  background-size: 20px 2px, 2px 20px;
 }
 
-button, .ripple-container.ripple-inner, .ripple-container-dark.ripple-inner {
+button,
+.ripple-container.ripple-inner,
+.ripple-container-dark.ripple-inner {
   position: relative;
   overflow: hidden;
   z-index: 9999;
   transition: background 400ms;
-  background-color: #6200EE;
+  background-color: #6200ee;
   padding: 1rem 2rem;
   font-size: 1.5rem;
   outline: 0;
@@ -43,7 +52,8 @@ span.ripple {
   animation: ripple 600ms linear;
 }
 
-button span.ripple, .ripple-container span.ripple {
+button span.ripple,
+.ripple-container span.ripple {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -59,14 +69,14 @@ button span.ripple, .ripple-container span.ripple {
 }
 
 .link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 2px;
   left: 0px;
   width: 100%;
   height: 3px;
   z-index: 1;
-  background: #10B981;
+  background: #10b981;
   display: block;
   -webkit-transform-origin: left top;
   -ms-transform-origin: left top;
@@ -90,5 +100,3 @@ button span.ripple, .ripple-container span.ripple {
 .purple-shadow {
   box-shadow: "0 0 10px 4px rgba(107, 114, 128, 0.4)";
 }
-
-

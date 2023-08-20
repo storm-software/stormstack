@@ -1,4 +1,4 @@
-import { DurationToken } from '../../../types';
+import { DurationToken } from "../../../types";
 
 export class Duration extends DurationToken {
   constructor(token: Partial<DurationToken>) {

@@ -1,6 +1,7 @@
 # Filter
 
 ## Description
+
 This parser helps you filter tokens and assets by their name using a regular expression.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'filter';
+  name: "filter";
   options: {
     key: string;
     regex:
@@ -60,6 +61,7 @@ type output = Array<Record<string, any>>;
 ### Config
 
 The following config filters the elements containing the word "Background".
+
 ```jsonc
 "parsers": [
   {

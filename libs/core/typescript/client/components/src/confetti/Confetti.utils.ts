@@ -1,4 +1,7 @@
-import { getRandomIntRange, IsServer } from "@open-system/core-shared-utilities";
+import {
+  getRandomIntRange,
+  IsServer,
+} from "@open-system/core-shared-utilities";
 import { MutableRefObject, useCallback } from "react";
 
 // ammount to add on each button press
@@ -249,8 +252,7 @@ export const useConfetti = (
         sequins.splice(index, 1);
     });
 
-    !IsServer &&
-    window.requestAnimationFrame(render);
+    !IsServer && window.requestAnimationFrame(render);
   }, [
     button?.offsetHeight,
     button?.offsetWidth,

@@ -2,18 +2,18 @@
 
 import {} from "./models";
 import type {
-	BaseRequestContext,
-	HooksConfiguration,
-	PreUploadHookRequest,
-	PreUploadHookResponse,
-	PostUploadHookRequest,
-	PostUploadHookResponse,
-	QueryHook,
-	QueryHookWithoutInput,
-	MutationHook,
-	MutationHookWithoutInput,
-	SubscriptionHook,
-	SubscriptionHookWithoutInput,
+  BaseRequestContext,
+  HooksConfiguration,
+  PreUploadHookRequest,
+  PreUploadHookResponse,
+  PostUploadHookRequest,
+  PostUploadHookResponse,
+  QueryHook,
+  QueryHookWithoutInput,
+  MutationHook,
+  MutationHookWithoutInput,
+  SubscriptionHook,
+  SubscriptionHookWithoutInput,
 } from "@wundergraph/sdk/server";
 import type { InternalClient } from "./wundergraph.internal.client";
 import type { User } from "./wundergraph.server";
@@ -22,15 +22,20 @@ import { InternalOperationsClient } from "./wundergraph.internal.operations.clie
 export type DATA_SOURCES = never;
 
 export interface HookContext<TCustomContext = any>
-	extends BaseRequestContext<User, InternalClient, InternalOperationsClient, TCustomContext> {}
+  extends BaseRequestContext<
+    User,
+    InternalClient,
+    InternalOperationsClient,
+    TCustomContext
+  > {}
 
 export type HooksConfig<TCustomContext = any> = HooksConfiguration<
-	QueryHooks<TCustomContext>,
-	MutationHooks<TCustomContext>,
-	SubscriptionHooks<TCustomContext>,
-	UploadHooks<TCustomContext>,
-	DATA_SOURCES,
-	HookContext<TCustomContext>
+  QueryHooks<TCustomContext>,
+  MutationHooks<TCustomContext>,
+  SubscriptionHooks<TCustomContext>,
+  UploadHooks<TCustomContext>,
+  DATA_SOURCES,
+  HookContext<TCustomContext>
 >;
 
 export type QueryHooks<TCustomContext = any> = {};

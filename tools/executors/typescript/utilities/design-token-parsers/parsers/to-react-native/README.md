@@ -10,28 +10,33 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'to-react-native';
+  name: "to-react-native";
   options?: Partial<{
     colorFormat?:
-      | 'rgb'
-      | 'prgb'
-      | 'hex'
-      | 'hex6'
-      | 'hex3'
-      | 'hex4'
-      | 'hex8'
-      | 'name'
-      | 'hsl'
-      | 'hsv';
+      | "rgb"
+      | "prgb"
+      | "hex"
+      | "hex6"
+      | "hex3"
+      | "hex4"
+      | "hex8"
+      | "name"
+      | "hsl"
+      | "hsv";
     objectName?: string;
     assetsFolderPath?: string | { vector?: string; bitmap?: string };
     prettierConfig?: Partial<{
-      endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+      endOfLine: "auto" | "lf" | "crlf" | "cr";
       tabWidth: number;
       useTabs: boolean;
     }>;
-    formatFileName?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase' | 'none';
-    formatKeys?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+    formatFileName?:
+      | "camelCase"
+      | "kebabCase"
+      | "snakeCase"
+      | "pascalCase"
+      | "none";
+    formatKeys?: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
     typescript?: {
       castToConst?: boolean;
     };
@@ -108,26 +113,26 @@ type output = string;
 [
   // …
   {
-    name: 'activity.svg',
+    name: "activity.svg",
     value: {
-      url: 'https://s3-us-west-2.amazonaws.com/figma-alpha-api/img/a114/ce5c/947dcb83ea93c2da18ee2ea16f470a30',
+      url: "https://s3-us-west-2.amazonaws.com/figma-alpha-api/img/a114/ce5c/947dcb83ea93c2da18ee2ea16f470a30",
     },
-    type: 'vector',
+    type: "vector",
   },
   {
-    name: 'Body',
+    name: "Body",
     value: {
       font: {
         meta: {
-          source: 'localStyles',
+          source: "localStyles",
         },
-        name: 'Inter-Medium',
-        type: 'font',
+        name: "Inter-Medium",
+        type: "font",
         value: {
           isItalic: false,
-          fontFamily: 'Inter',
+          fontFamily: "Inter",
           fontWeight: 500,
-          fontPostScriptName: 'Inter-Medium',
+          fontPostScriptName: "Inter-Medium",
         },
       },
       color: {
@@ -140,32 +145,32 @@ type output = string;
       },
       fontSize: {
         value: {
-          unit: 'px',
+          unit: "px",
           measure: 14,
         },
       },
       textAlign: {
-        vertical: 'top',
-        horizontal: 'left',
+        vertical: "top",
+        horizontal: "left",
       },
       lineHeight: {
         value: {
-          unit: 'px',
+          unit: "px",
           measure: 20,
         },
       },
     },
-    type: 'textStyle',
+    type: "textStyle",
   },
   {
-    name: 'Colors / Accent',
+    name: "Colors / Accent",
     value: {
       a: 1,
       b: 239,
       g: 80,
       r: 102,
     },
-    type: 'color',
+    type: "color",
   },
   // …
 ];
@@ -174,8 +179,8 @@ type output = string;
 #### Output
 
 ```js
-import vectorActivity from '../src/assets/activity.svg';
-import bitmapAcmeLogo from '../src/assets/acme-logo.png';
+import vectorActivity from "../src/assets/activity.svg";
+import bitmapAcmeLogo from "../src/assets/acme-logo.png";
 
 const theme = {
   bitmap: {
@@ -203,30 +208,30 @@ const theme = {
       fontWeight: 500,
       fontSize: 14,
       lineHeight: 20,
-      fontFamily: 'Inter-Medium',
-      color: '#1e212b',
+      fontFamily: "Inter-Medium",
+      color: "#1e212b",
       letterSpacing: 10,
     },
   },
   border: {
     borderAccent: {
       borderWidth: 2,
-      borderStyle: 'solid',
-      borderColor: 'rgb(102, 80, 239)',
+      borderStyle: "solid",
+      borderColor: "rgb(102, 80, 239)",
       borderRadius: 16,
     },
   },
   color: {
-    colorsAccent: 'rgb(87, 124, 254)',
+    colorsAccent: "rgb(87, 124, 254)",
   },
   font: {
-    firaCodeMedium: 'FiraCode-Medium',
+    firaCodeMedium: "FiraCode-Medium",
   },
   gradient: {
     gradientsColored: [
       {
         angle: 90,
-        colors: ['rgb(245, 72, 63)', 'rgb(255, 142, 5)'],
+        colors: ["rgb(245, 72, 63)", "rgb(255, 142, 5)"],
         locations: [0, 1],
       },
     ],
@@ -275,7 +280,7 @@ module.exports = {
     ios: {},
     android: {},
   },
-  assets: ['assets/fonts/'],
+  assets: ["assets/fonts/"],
 };
 ```
 
@@ -289,7 +294,7 @@ Finally, run `react-native link` after `specify pull`. All fonts in `assets/font
 Simple as that:
 
 ```tsx
-import { Image } from 'react-native';
+import { Image } from "react-native";
 
 const App = () => <Image source={theme.bitmap.myBitmap} />;
 ```
@@ -301,7 +306,9 @@ const App = () => <Image source={theme.bitmap.myBitmap} />;
 You will need to install and configure [`react-native-svg-transformer`](https://github.com/kristerkari/react-native-svg-transformer). If you are using Expo, this is pre-configured for you. The imported SVG's are React Elements, so it is recommended you create a simple `Vector` component:
 
 ```tsx
-const Vector = ({ source: SVGElement, ...props }: Props) => <SVGElement {...props} />;
+const Vector = ({ source: SVGElement, ...props }: Props) => (
+  <SVGElement {...props} />
+);
 
 const App = () => <Vector source={theme.vector.myVector} />;
 ```
@@ -316,7 +323,7 @@ For rendering gradients we recommend to use [react-native-linear-gradient](https
 Gradients can be rendered as such:
 
 ```tsx
-import { LinearGradient } from 'react-native-linear-gradient';
+import { LinearGradient } from "react-native-linear-gradient";
 
 const App = () => (
   <LinearGradient

@@ -7,7 +7,9 @@ export default {
   component: Spinner,
 };
 
-const Template: ComponentStory<typeof Spinner> = args => <Spinner {...args} className="h-16 w-16" />;
+const Template: ComponentStory<typeof Spinner> = args => (
+  <Spinner {...args} className="h-16 w-16" />
+);
 
 export const Primary = Template.bind({});
 Primary.args = {};
@@ -31,7 +33,7 @@ export const Quarternary = Template.bind({});
 Quarternary.args = { variant: SpinnerVariants.QUARTERNARY };
 
 export const QuarternaryInverse = Template.bind({});
-QuarternaryInverse.args = { variant: SpinnerVariants.QUARTERNARY, inverse: true };
-
-
-
+QuarternaryInverse.args = {
+  variant: SpinnerVariants.QUARTERNARY,
+  inverse: true,
+};

@@ -1,13 +1,13 @@
-import { ShadowToken } from '../../../types';
-import { FormatTokenType } from '../to-jss.parser';
-import tinycolor from 'tinycolor2';
+import { ShadowToken } from "../../../types";
+import { FormatTokenType } from "../to-jss.parser";
+import tinycolor from "tinycolor2";
 
 export class Shadow extends ShadowToken {
   constructor(token: Partial<ShadowToken>) {
     super(token);
   }
 
-  toJss({ shadowFormat = 'string', colorFormat = 'rgb' }: FormatTokenType) {
+  toJss({ shadowFormat = "string", colorFormat = "rgb" }: FormatTokenType) {
     return this.value.reduce((acc, shadow, idx, arr) => {
       const { color, offsetX, offsetY, blur, isInner, spread } = shadow;
       const x = offsetX.value;
@@ -15,34 +15,34 @@ export class Shadow extends ShadowToken {
       const bl = blur.value;
       const innerText = isInner
         ? {
-            string: 'inset ',
+            string: "inset ",
             array: "'inset', ",
-            object: 'inset',
+            object: "inset",
           }[shadowFormat]
-        : '';
+        : "";
       const prepend = idx
         ? {
-            string: acc + ', ',
-            array: acc + '], [',
-            object: acc + ', ',
+            string: acc + ", ",
+            array: acc + "], [",
+            object: acc + ", ",
           }[shadowFormat]
-        : '';
+        : "";
       const before = !idx
         ? {
             string: "'",
-            array: '[[',
-            object: '[',
+            array: "[[",
+            object: "[",
           }[shadowFormat]
-        : '';
+        : "";
       const after = !arr[idx + 1]
         ? {
             string: "'",
-            array: ']]',
-            object: ']',
+            array: "]]",
+            object: "]",
           }[shadowFormat]
-        : '';
+        : "";
 
-      if (shadowFormat === 'object')
+      if (shadowFormat === "object")
         return (
           before +
           prepend +
@@ -56,16 +56,18 @@ export class Shadow extends ShadowToken {
           }) +
           after
         );
-      else if (shadowFormat === 'array')
-        return `${before}${prepend}${innerText}${x.measure}, ${y.measure}, ${bl.measure}${
-          spread ? `, ${spread.value.measure}` : ''
-        },'${tinycolor(color.value).toString(colorFormat)}'${after}`;
-      else
-        return `${before}${prepend}${innerText}${x.measure}${x.unit} ${y.measure}${y.unit} ${
+      else if (shadowFormat === "array")
+        return `${before}${prepend}${innerText}${x.measure}, ${y.measure}, ${
           bl.measure
-        }${bl.unit}${spread ? ` ${spread.value.measure}${spread.value.unit}` : ''} ${tinycolor(
-          color.value,
-        ).toString(colorFormat)}${after}`;
-    }, '');
+        }${spread ? `, ${spread.value.measure}` : ""},'${tinycolor(
+          color.value
+        ).toString(colorFormat)}'${after}`;
+      else
+        return `${before}${prepend}${innerText}${x.measure}${x.unit} ${
+          y.measure
+        }${y.unit} ${bl.measure}${bl.unit}${
+          spread ? ` ${spread.value.measure}${spread.value.unit}` : ""
+        } ${tinycolor(color.value).toString(colorFormat)}${after}`;
+    }, "");
   }
 }

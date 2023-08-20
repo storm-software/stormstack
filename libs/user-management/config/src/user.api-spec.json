@@ -144,9 +144,7 @@
           }
         ],
         "description": "An end point that returns the list of users in the system",
-        "tags": [
-          "Users"
-        ]
+        "tags": ["Users"]
       }
     },
     "/users/{userId}": {
@@ -269,9 +267,7 @@
           }
         ],
         "description": "An end point that returns data for a specific user",
-        "tags": [
-          "Users"
-        ]
+        "tags": ["Users"]
       },
       "delete": {
         "summary": "Remove User",
@@ -401,9 +397,7 @@
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/userId"
           }
         ],
-        "tags": [
-          "Users"
-        ]
+        "tags": ["Users"]
       },
       "post": {
         "summary": "Add User",
@@ -414,9 +408,7 @@
             "in": "cookie"
           }
         ],
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "requestBody": {
           "$ref": "#/components/requestBodies/UpdateUserRequest"
         },
@@ -548,9 +540,7 @@
             }
           }
         },
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "requestBody": {
           "$ref": "#/components/requestBodies/UpdateUserRequest"
         },
@@ -592,12 +582,7 @@
                 "minimum": 1
               }
             },
-            "required": [
-              "userId",
-              "name",
-              "type",
-              "visitCount"
-            ]
+            "required": ["userId", "name", "type", "visitCount"]
           }
         ],
         "type": "object",
@@ -617,19 +602,12 @@
                 },
                 "type": {
                   "type": "string",
-                  "enum": [
-                    "guest",
-                    "internal",
-                    "external"
-                  ],
+                  "enum": ["guest", "internal", "external"],
                   "default": "guest",
                   "example": "guest"
                 }
               },
-              "required": [
-                "name",
-                "type"
-              ]
+              "required": ["name", "type"]
             },
             "examples": {
               "Sample Request": {
@@ -686,11 +664,7 @@
         "required": false,
         "schema": {
           "type": "string",
-          "enum": [
-            "guest",
-            "internal",
-            "external"
-          ],
+          "enum": ["guest", "internal", "external"],
           "example": "guest"
         },
         "description": "The type of the user"

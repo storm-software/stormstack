@@ -1,5 +1,5 @@
-import { LibsType } from '../global-libs';
-import Template from '../../libs/template';
+import { LibsType } from "../global-libs";
+import Template from "../../libs/template";
 
 export type InputDataType = Array<Record<string, any>>;
 export type OutputDataType = InputDataType;
@@ -12,9 +12,9 @@ export type OptionsType = {
 export default async function (
   tokens: InputDataType,
   options: OptionsType,
-  { _ }: Pick<LibsType, '_'>,
+  { _ }: Pick<LibsType, "_">
 ): Promise<OutputDataType> {
-  const key = options.key || 'name';
+  const key = options.key || "name";
   const template = new Template(options.suffix);
   return tokens.map(token => {
     if (!options.types || (token.type && options.types.includes(token.type))) {

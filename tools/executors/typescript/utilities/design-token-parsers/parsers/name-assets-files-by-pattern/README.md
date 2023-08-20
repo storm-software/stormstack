@@ -1,6 +1,7 @@
 # Name asset files by pattern
 
 ## Description
+
 This parser helps you set a structured filename on your assets. It won't rename your asset but only add a new `filename` property on the asset object. The filename structure uses [mustache](https://github.com/janl/mustache.js#templates) as a template engine.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'name-assets-files-by-pattern';
+  name: "name-assets-files-by-pattern";
   options: {
     pattern: string;
   };
@@ -23,12 +24,14 @@ interface parser {
 | `pattern` | required | `string` |         | The pattern used to generate files names. It must match [mustache](https://github.com/janl/mustache.js#templates) template syntax. |
 
 ## Output
+
 Please keep in mind that this parser generates files. This is why you should always set a folder as the final `path` in your parent rule.
 
 <details open>
 <summary>See Do & Don't config examples</summary>
 
 ✅ Do
+
 ```
 // ...
 "rules": [
@@ -45,6 +48,7 @@ Please keep in mind that this parser generates files. This is why you should alw
 ```
 
 🚫 Don't
+
 ```
 // ...
 "rules": [
@@ -59,6 +63,7 @@ Please keep in mind that this parser generates files. This is why you should alw
   }
 ]
 ```
+
 </details>
 
 ## Types

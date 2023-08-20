@@ -1,6 +1,6 @@
-import { DepthToken } from '../../../types';
-import { DepthMapping } from '../to-theme-ui.type';
-import { Utils } from './index';
+import { DepthToken } from "../../../types";
+import { DepthMapping } from "../to-theme-ui.type";
+import { Utils } from "./index";
 
 interface ThemeUiDepth extends Partial<Record<DepthMapping, any>> {
   zIndices: Record<string, number>;

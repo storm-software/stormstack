@@ -10,14 +10,14 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'to-theme-ui';
+  name: "to-theme-ui";
   options: Partial<{
-    formatName: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase' | 'none';
+    formatName: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase" | "none";
     variants: boolean;
     formatConfig: Partial<{
-      module: 'es6' | 'commonjs' | 'json';
+      module: "es6" | "commonjs" | "json";
       objectName: string;
-      endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+      endOfLine: "auto" | "lf" | "crlf" | "cr";
       tabWidth: number;
       useTabs: boolean;
       singleQuote: boolean;
@@ -25,25 +25,35 @@ interface parser {
     }>;
     formatTokens?: {
       colorFormat?: {
-        format: 'rgb' | 'prgb' | 'hex' | 'hex6' | 'hex3' | 'hex4' | 'hex8' | 'name' | 'hsl' | 'hsv';
+        format:
+          | "rgb"
+          | "prgb"
+          | "hex"
+          | "hex6"
+          | "hex3"
+          | "hex4"
+          | "hex8"
+          | "name"
+          | "hsl"
+          | "hsv";
       };
       opacityFormat?: {
-        type?: 'number' | 'string';
-        unit: 'percent' | 'none';
+        type?: "number" | "string";
+        unit: "percent" | "none";
       };
       fontSizeFormat?: {
-        type: 'number' | 'string';
-        unit?: 'px' | 'rem';
+        type: "number" | "string";
+        unit?: "px" | "rem";
       };
     };
     presets?: {
       fontWeights?: {
-        preset: 'base' | Record<string, string | number>;
+        preset: "base" | Record<string, string | number>;
         freeze?: boolean;
       };
       fontSizes?: {
-        preset: 'base' | Array<string | number>;
-        unit?: 'px' | 'rem';
+        preset: "base" | Array<string | number>;
+        unit?: "px" | "rem";
         freeze?: boolean;
       };
     };
@@ -108,7 +118,7 @@ Using the base preset will return the following object:
 On the other hand you can use a custom preset that match the following type:
 
 ```ts
-Record<string, string | number>
+Record<string, string | number>;
 ```
 
 #### Font Size
@@ -118,13 +128,33 @@ The base preset depends of the unit.
 Choosing `px` returns:
 
 ```jsonc
-["8.19px", "10.24px", "12.8px", "16px", "20px", "25px", "31.25px", "39.06px", "48.83px"]
+[
+  "8.19px",
+  "10.24px",
+  "12.8px",
+  "16px",
+  "20px",
+  "25px",
+  "31.25px",
+  "39.06px",
+  "48.83px"
+]
 ```
 
 Choosing `rem` returns:
 
 ```jsonc
-["0.512rem", "0.64rem", "0.8rem", "1rem", "1.25rem", "1.563rem", "1.953rem", "2.441rem", "3.052rem"]
+[
+  "0.512rem",
+  "0.64rem",
+  "0.8rem",
+  "1rem",
+  "1.25rem",
+  "1.563rem",
+  "1.953rem",
+  "2.441rem",
+  "3.052rem"
+]
 ```
 
 ## Types
@@ -225,20 +255,20 @@ type output = string;
 ```js
 const theme = {
   sizes: {
-    baseSpace01: '4px',
+    baseSpace01: "4px",
   },
   colors: {
-    primary: 'rgb(198, 189, 255)',
+    primary: "rgb(198, 189, 255)",
   },
   fonts: {
-    robotoRegular: 'Roboto-Regular',
+    robotoRegular: "Roboto-Regular",
   },
   fontWeights: {
     robotoRegular: 400,
   },
   fontSizes: [16],
   lineHeights: {
-    body: '20px',
+    body: "20px",
   },
 };
 
@@ -353,29 +383,29 @@ const theme = {
     black: 900,
   },
   fontSizes: [
-    '0.512rem',
-    '0.64rem',
-    '0.8rem',
-    '0.875rem',
-    '1rem',
-    '1.25rem',
-    '1.563rem',
-    '1.953rem',
-    '2.441rem',
-    '3.052rem',
+    "0.512rem",
+    "0.64rem",
+    "0.8rem",
+    "0.875rem",
+    "1rem",
+    "1.25rem",
+    "1.563rem",
+    "1.953rem",
+    "2.441rem",
+    "3.052rem",
   ],
-  colors: { primary: '#c6bdff' },
-  sizes: { baseSpace01: '4px' },
-  lineHeights: { body: '20px' },
+  colors: { primary: "#c6bdff" },
+  sizes: { baseSpace01: "4px" },
+  lineHeights: { body: "20px" },
   text: {
     body: {
-      fontFamily: 'Roboto-Regular',
-      lineHeight: '20px',
-      fontSize: '0.875rem',
+      fontFamily: "Roboto-Regular",
+      lineHeight: "20px",
+      fontSize: "0.875rem",
       fontWeight: 400,
-      textAlign: 'left',
-      verticalAlign: 'top',
-      fontVariant: 'small-caps',
+      textAlign: "left",
+      verticalAlign: "top",
+      fontVariant: "small-caps",
     },
   },
 };

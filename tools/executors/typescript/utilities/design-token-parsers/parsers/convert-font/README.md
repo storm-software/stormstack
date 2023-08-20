@@ -1,6 +1,7 @@
 # Convert Font
 
 ## Description
+
 This parser helps you convert font in several formats.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,11 +10,11 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'convert-font';
+  name: "convert-font";
   options?: {
-    formats?: Array<'woff2' | 'woff' | 'otf' | 'ttf' | 'eot'>;
-    fileNameKey?: 'name' | 'fontFamily' | 'fontPostScriptName' | Array<string>;
-    fileNameFormat?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+    formats?: Array<"woff2" | "woff" | "otf" | "ttf" | "eot">;
+    fileNameKey?: "name" | "fontFamily" | "fontPostScriptName" | Array<string>;
+    fileNameFormat?: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
   };
 }
 ```
@@ -27,12 +28,14 @@ interface parser {
 | `fileNameFormat` | optional | `camelCase` `kebabCase` `snakeCase` `pascalCase`            |                     | The function to normalize the file name                                                                                             |
 
 ## Output
+
 Please keep in mind that this parser generates files. This is why you should always set a folder as the final `path` in your parent rule.
 
 <details open>
 <summary>See Do & Don't config examples</summary>
 
 ✅ Do
+
 ```
 // ...
 "rules": [
@@ -49,6 +52,7 @@ Please keep in mind that this parser generates files. This is why you should alw
 ```
 
 🚫 Don't
+
 ```
 // ...
 "rules": [
@@ -63,6 +67,7 @@ Please keep in mind that this parser generates files. This is why you should alw
   }
 ]
 ```
+
 </details>
 
 ## Types
@@ -93,6 +98,7 @@ type output = Array<{
 ## Usage
 
 ### Config
+
 ```jsonc
 "parsers": [
   {

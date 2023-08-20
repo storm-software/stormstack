@@ -1,6 +1,5 @@
 import { ProgressTrackerItemStatus } from "@open-system/design-system-components";
 
-
 export const ContactFormSegments = {
   REASON: "reason",
   PERSONAL_INFO: "personal-info",

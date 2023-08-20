@@ -1,6 +1,6 @@
 export type SpinnerVariants =
   | "primary"
-  | "secondary" 
+  | "secondary"
   | "tertiary"
   | "quaternary";
 export const SpinnerVariants = {

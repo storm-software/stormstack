@@ -63,13 +63,13 @@ export interface RatingContextState {
    */
   isVertical?: boolean;
 
-    /**
+  /**
    * The current rating value that the user selected/is hovering over
    */
-    current: number;
+  current: number;
 
-     /**
+  /**
    * The current rating value that the user selected/is hovering over
    */
-     setCurrent: (next: number) => void;
+  setCurrent: (next: number) => void;
 }

@@ -1,6 +1,4 @@
-export type BreadcrumbVariants =
-  | "primary"
-  | "secondary"
+export type BreadcrumbVariants = "primary" | "secondary";
 export const BreadcrumbVariants = {
   PRIMARY: "primary" as BreadcrumbVariants,
   SECONDARY: "secondary" as BreadcrumbVariants,

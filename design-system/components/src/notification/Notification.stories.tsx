@@ -44,8 +44,7 @@ Success.args = {
 
 export const LongMessage = Template.bind({});
 LongMessage.args = {
-  body:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 };
 
 export const CloseIconDisplayed = Template.bind({});
@@ -57,5 +56,9 @@ CloseIconDisplayed.args = {
 export const WithActions = Template.bind({});
 WithActions.args = {
   body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  actions: <div className="flex flex-row-reverse w-full gap-6 mt-3"><Link variant={LinkVariants.PRIMARY}>View Item</Link></div>,
+  actions: (
+    <div className="flex flex-row-reverse w-full gap-6 mt-3">
+      <Link variant={LinkVariants.PRIMARY}>View Item</Link>
+    </div>
+  ),
 };

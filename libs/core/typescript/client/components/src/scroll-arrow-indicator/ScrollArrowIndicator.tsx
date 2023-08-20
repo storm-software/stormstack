@@ -12,7 +12,6 @@ export function ScrollArrowIndicator({
   isHidden = false,
   ...props
 }: ScrollArrowIndicatorProps) {
-
   return (
     <AnimatePresence>
       {!isHidden && (

@@ -1,7 +1,12 @@
 .prettierignore
-.docusaurus/
-dist/**
+**/.docusaurus/
+**/dist/**
 **/dotnet/**
-node_modules/
+**/node_modules/
+**/.next/**
+**/pnpm-lock.yaml/**
+**/tools/docker/**
+**/__snapshots__/**
+**/__generated__/**
 
 # tailwind.config.js

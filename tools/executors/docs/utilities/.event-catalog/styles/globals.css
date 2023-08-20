@@ -65,9 +65,9 @@ event-table thead th {
   white-space: pre-wrap;
 }
 
-
-.swagger-ui .info .base-url, .swagger-ui .info .title small pre {
-  background:none;
+.swagger-ui .info .base-url,
+.swagger-ui .info .title small pre {
+  background: none;
 }
 
 .swagger-ui .wrapper {
@@ -78,7 +78,7 @@ event-table thead th {
   display: none;
 }
 
-.eventcatalog-swagger .swagger-ui .scheme-container{
+.eventcatalog-swagger .swagger-ui .scheme-container {
   background: none;
   box-shadow: none;
   padding: 0;

@@ -1,80 +1,87 @@
 # TO CSS TEXTSTYLE
 
 ## Description
+
 This parser helps you create text styles as CSS classes.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
+
 ## Interface
 
 ```ts
 interface parser {
-  name: 'to-css-text-style';
+  name: "to-css-text-style";
   options?: {
     include?: Array<
-      | 'color'
-      | 'font-family'
-      | 'font-size'
-      | 'font-weight'
-      | 'line-height'
-      | 'letter-spacing'
-      | 'text-align'
-      | 'vertical-align'
-      | 'text-transform'
-      | 'font-variant'
-      | 'text-decoration'
-      | 'text-indent'
-      | 'font'
-      | 'fontSize'
-      | 'lineHeight'
-      | 'letterSpacing'
-      | 'textAlign'
-      | 'textTransform'
-      | 'fontVariant'
-      | 'textDecoration'
-      | 'textIndent'
+      | "color"
+      | "font-family"
+      | "font-size"
+      | "font-weight"
+      | "line-height"
+      | "letter-spacing"
+      | "text-align"
+      | "vertical-align"
+      | "text-transform"
+      | "font-variant"
+      | "text-decoration"
+      | "text-indent"
+      | "font"
+      | "fontSize"
+      | "lineHeight"
+      | "letterSpacing"
+      | "textAlign"
+      | "textTransform"
+      | "fontVariant"
+      | "textDecoration"
+      | "textIndent"
     >;
     exclude?: Array<
-      | 'color'
-      | 'font-family'
-      | 'font-size'
-      | 'font-weight'
-      | 'line-height'
-      | 'letter-spacing'
-      | 'text-align'
-      | 'vertical-align'
-      | 'text-transform'
-      | 'font-variant'
-      | 'text-decoration'
-      | 'text-indent'
-      | 'font'
-      | 'fontSize'
-      | 'lineHeight'
-      | 'letterSpacing'
-      | 'textAlign'
-      | 'textTransform'
-      | 'fontVariant'
-      | 'textDecoration'
-      | 'textIndent'
+      | "color"
+      | "font-family"
+      | "font-size"
+      | "font-weight"
+      | "line-height"
+      | "letter-spacing"
+      | "text-align"
+      | "vertical-align"
+      | "text-transform"
+      | "font-variant"
+      | "text-decoration"
+      | "text-indent"
+      | "font"
+      | "fontSize"
+      | "lineHeight"
+      | "letterSpacing"
+      | "textAlign"
+      | "textTransform"
+      | "fontVariant"
+      | "textDecoration"
+      | "textIndent"
     >;
     prefix?: string;
     suffix?: string;
     colorFormat?:
-      | 'rgb'
-      | 'prgb'
-      | 'hex'
-      | 'hex6'
-      | 'hex3'
-      | 'hex4'
-      | 'hex8'
-      | 'name'
-      | 'hsl'
-      | 'hsv';
-    cssClassFormat?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
-    fontFamilyFormat?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
-    genericFamily?: 'serif' | 'sans-serif' | 'cursive' | 'fantasy' | 'monospace';
+      | "rgb"
+      | "prgb"
+      | "hex"
+      | "hex6"
+      | "hex3"
+      | "hex4"
+      | "hex8"
+      | "name"
+      | "hsl"
+      | "hsv";
+    cssClassFormat?: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
+    fontFamilyFormat?: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
+    genericFamily?:
+      | "serif"
+      | "sans-serif"
+      | "cursive"
+      | "fantasy"
+      | "monospace";
     relativeLineHeight?: boolean;
     prettierConfig?: Partial<{
-      endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+      endOfLine: "auto" | "lf" | "crlf" | "cr";
       tabWidth: number;
       useTabs: boolean;
     }>;
@@ -108,7 +115,7 @@ Array of object with at least the key `name` and the value that match the [TextS
 ### Input
 
 ```ts
- Array<{ name: string; value: TextStyleValue } & Record<any, any>>
+Array<{ name: string; value: TextStyleValue } & Record<any, any>>;
 ```
 
 ### Output

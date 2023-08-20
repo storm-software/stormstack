@@ -67,7 +67,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-    /******************************
+  /******************************
    * Markdown
    ******************************/
   "[markdown]": {
@@ -83,10 +83,10 @@
     "editor.defaultFormatter": "Prisma.prisma"
   },
 
-    /******************************
+  /******************************
    * Storm
    ******************************/
-   "[storm]": {
+  "[storm]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "Prisma.prisma"
   },

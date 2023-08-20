@@ -2,7 +2,11 @@
 
 import type { GraphQLError } from "@wundergraph/sdk/client";
 
-export type JSONValue = string | number | boolean | JSONObject | Array<JSONValue>;
+export type JSONValue =
+  | string
+  | number
+  | boolean
+  | JSONObject
+  | Array<JSONValue>;
 
 export type JSONObject = { [key: string]: JSONValue };
-

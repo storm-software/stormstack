@@ -9,7 +9,7 @@
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "files": [],
   "include": [],

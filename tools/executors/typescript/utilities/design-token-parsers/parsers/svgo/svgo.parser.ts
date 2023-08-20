@@ -11,7 +11,7 @@ import {
   PluginV1,
   PluginV2,
   Plugins,
-  defaultPresetPlugins
+  defaultPresetPlugins,
 } from "./svgo.type";
 
 export type InputDataType = Array<
@@ -29,10 +29,7 @@ export type OptionsType =
   | undefined
   | {
       svgo?: Omit<Config, "plugins"> &
-        (
-          | { plugins?: Array<any> }
-          | { plugins: Array<PluginV1> }
-        );
+        ({ plugins?: Array<any> } | { plugins: Array<PluginV1> });
     };
 
 function getSyntaxPlugin(plugins: NonNullable<Plugins>): "v1" | "v2" {

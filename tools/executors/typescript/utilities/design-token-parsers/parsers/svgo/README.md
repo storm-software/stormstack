@@ -1,6 +1,7 @@
 # SVGO
 
 ## Description
+
 This parser helps you optimize vectors using [svgo](https://github.com/svg/svgo).
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'svgo';
+  name: "svgo";
   options?: {
     // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/3fb92644d8dc475a52147c6315704ece24335469/types/svgo/index.d.ts#L752
     svgo?: OptimizeOptions;
@@ -24,12 +25,14 @@ interface parser {
 | `svgo`    | optional | `OptimizeOptions` | `{ plugins: [{name: 'preset-default'}]}` | Inherits from [svgo](https://github.com/svg/svgo) |
 
 ## Output
+
 Please keep in mind that this parser generates files. This is why you should always set a folder as the final `path` in your parent rule.
 
 <details open>
 <summary>See Do & Don't config examples</summary>
 
 ✅ Do
+
 ```
 // ...
 "rules": [
@@ -46,6 +49,7 @@ Please keep in mind that this parser generates files. This is why you should alw
 ```
 
 🚫 Don't
+
 ```
 // ...
 "rules": [
@@ -60,6 +64,7 @@ Please keep in mind that this parser generates files. This is why you should alw
   }
 ]
 ```
+
 </details>
 
 ## Types

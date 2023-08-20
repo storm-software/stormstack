@@ -3,7 +3,7 @@ name: Shopping
 summary: |
   Domain for everything shopping
 owners:
-    - sullivanpj
+  - sullivanpj
 ---
 
 <Admonition>Domain for everything to do with Shopping at our business. Before adding any events or services to this domain make sure you contact the domain owners and verify it's the correct place.</Admonition>

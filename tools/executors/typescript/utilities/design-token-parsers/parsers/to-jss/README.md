@@ -1,6 +1,7 @@
 # To JSS
 
 ## Description
+
 This parser helps you transform design tokens in JSS.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -37,35 +38,35 @@ By passing `"classObject"` to `textStyleFormat` the parser will generate a jss c
 
 ```ts
 interface parser {
-  name: 'to-jss';
+  name: "to-jss";
   options?: Partial<{
-    formatName: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+    formatName: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
     formatTokens: Partial<{
       colorFormat:
-        | 'rgb'
-        | 'prgb'
-        | 'hex'
-        | 'hex6'
-        | 'hex3'
-        | 'hex4'
-        | 'hex8'
-        | 'name'
-        | 'hsl'
-        | 'hsv';
-      borderFormat: 'string' | 'array' | 'object';
-      durationFormat: 'string' | 'number';
-      opacityFormat: 'string' | 'number';
-      depthFormat: 'string' | 'number';
-      measurementFormat: 'string' | 'number';
-      shadowFormat: 'string' | 'array' | 'object';
-      gradientFormat: 'string' | 'array';
-      textStyleFormat: 'string' | 'array' | 'object' | 'classObject';
-      fontSizeUnit: 'px' | 'pt';
+        | "rgb"
+        | "prgb"
+        | "hex"
+        | "hex6"
+        | "hex3"
+        | "hex4"
+        | "hex8"
+        | "name"
+        | "hsl"
+        | "hsv";
+      borderFormat: "string" | "array" | "object";
+      durationFormat: "string" | "number";
+      opacityFormat: "string" | "number";
+      depthFormat: "string" | "number";
+      measurementFormat: "string" | "number";
+      shadowFormat: "string" | "array" | "object";
+      gradientFormat: "string" | "array";
+      textStyleFormat: "string" | "array" | "object" | "classObject";
+      fontSizeUnit: "px" | "pt";
     }>;
     formatConfig: Partial<{
       jssObjectName: string;
       exportDefault: boolean;
-      endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+      endOfLine: "auto" | "lf" | "crlf" | "cr";
       tabWidth: number;
       useTabs: boolean;
       singleQuote: boolean;
@@ -130,26 +131,26 @@ type output = string;
 ```js
 [
   {
-    name: 'activity.svg',
+    name: "activity.svg",
     value: {
-      url: 'https://s3-us-west-2.amazonaws.com/figma-alpha-api/img/a114/ce5c/947dcb83ea93c2da18ee2ea16f470a30',
+      url: "https://s3-us-west-2.amazonaws.com/figma-alpha-api/img/a114/ce5c/947dcb83ea93c2da18ee2ea16f470a30",
     },
-    type: 'vector',
+    type: "vector",
   },
   {
-    name: 'Body',
+    name: "Body",
     value: {
       font: {
         meta: {
-          source: 'localStyles',
+          source: "localStyles",
         },
-        name: 'Inter-Medium',
-        type: 'font',
+        name: "Inter-Medium",
+        type: "font",
         value: {
           isItalic: false,
-          fontFamily: 'Inter',
+          fontFamily: "Inter",
           fontWeight: 500,
-          fontPostScriptName: 'Inter-Medium',
+          fontPostScriptName: "Inter-Medium",
         },
       },
       color: {
@@ -162,32 +163,32 @@ type output = string;
       },
       fontSize: {
         value: {
-          unit: 'px',
+          unit: "px",
           measure: 14,
         },
       },
       textAlign: {
-        vertical: 'top',
-        horizontal: 'left',
+        vertical: "top",
+        horizontal: "left",
       },
       lineHeight: {
         value: {
-          unit: 'px',
+          unit: "px",
           measure: 20,
         },
       },
     },
-    type: 'textStyle',
+    type: "textStyle",
   },
   {
-    name: 'Colors / Accent',
+    name: "Colors / Accent",
     value: {
       a: 1,
       b: 239,
       g: 80,
       r: 102,
     },
-    type: 'color',
+    type: "color",
   },
 ];
 ```
@@ -196,26 +197,26 @@ type output = string;
 
 ```js
 export const lightTheme = {
-    vector: {
-        activity:
-            'https://s3-us-west-2.amazonaws.com/figma-alpha-api/img/96dc/8825/c166b559140a0a64b28441924700a0b2'
+  vector: {
+    activity:
+      "https://s3-us-west-2.amazonaws.com/figma-alpha-api/img/96dc/8825/c166b559140a0a64b28441924700a0b2",
+  },
+  textStyle: {
+    body: {
+      color: "#1e212bff",
+      font: {
+        style: null,
+        variant: null,
+        weight: 500,
+        size: 14,
+        lineHeight: 20,
+        family: "Inter-Medium",
+      },
+      letterSpacing: 10,
     },
-    textStyle: {
-        body: {
-            color: '#1e212bff',
-            font: {
-                style: null,
-                variant: null,
-                weight: 500,
-                size: 14,
-                lineHeight: 20,
-                family: 'Inter-Medium',
-            },
-            letterSpacing: 10,
-        }
-    },
-    color: {
-        colorsAccent: '#577cfeff',
-    },
+  },
+  color: {
+    colorsAccent: "#577cfeff",
+  },
 };
 ```

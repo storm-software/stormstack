@@ -19,9 +19,7 @@
     "packageManager": {
       "type": "string",
       "description": "Name of the package manager used by this repository",
-      "options": [
-        "npm", "yarn", "pnpm"
-      ],
+      "options": ["npm", "yarn", "pnpm"],
       "default": "pnpm"
     },
     "dependencyCheck": {

@@ -16,7 +16,6 @@ function fileAccepted(file: File, accept: string[]) {
   return isAcceptable;
 }
 
-
 export const checkFileUploadValidations = (
   files: File[],
   fileCount = 0,

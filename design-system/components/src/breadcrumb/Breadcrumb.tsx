@@ -46,19 +46,19 @@ export const Breadcrumb = ({
           className={clsx(
             {
               "bg-breadcrumb-primary-1 after:border-l-breadcrumb-primary-1":
-              variant === BreadcrumbVariants.PRIMARY && !inverse,
+                variant === BreadcrumbVariants.PRIMARY && !inverse,
             },
             {
               "bg-breadcrumb-primary-2 after:border-l-breadcrumb-primary-2":
-              variant === BreadcrumbVariants.PRIMARY && inverse,
+                variant === BreadcrumbVariants.PRIMARY && inverse,
             },
             {
               "bg-breadcrumb-secondary-1 after:border-l-breadcrumb-secondary-1":
-              variant === BreadcrumbVariants.SECONDARY && !inverse,
+                variant === BreadcrumbVariants.SECONDARY && !inverse,
             },
             {
               "bg-breadcrumb-secondary-2 after:border-l-breadcrumb-secondary-2":
-              variant === BreadcrumbVariants.SECONDARY && inverse,
+                variant === BreadcrumbVariants.SECONDARY && inverse,
             },
             "flex h-full w-fit flex-row items-center gap-6 px-6 py-4 after:absolute after:left-[100%] after:z-20 after:h-0 after:w-0 after:border-y-[32px] after:border-l-[50px] after:border-y-transparent after:content-['']"
           )}>
@@ -67,19 +67,19 @@ export const Breadcrumb = ({
               className={clsx(
                 {
                   "fill-breadcrumb-primary-2":
-                  variant === BreadcrumbVariants.PRIMARY && !inverse,
+                    variant === BreadcrumbVariants.PRIMARY && !inverse,
                 },
                 {
                   "fill-breadcrumb-primary-1":
-                  variant === BreadcrumbVariants.PRIMARY && inverse,
+                    variant === BreadcrumbVariants.PRIMARY && inverse,
                 },
                 {
                   "fill-breadcrumb-secondary-2":
-                  variant === BreadcrumbVariants.SECONDARY && !inverse,
+                    variant === BreadcrumbVariants.SECONDARY && !inverse,
                 },
                 {
                   "fill-breadcrumb-secondary-1":
-                  variant === BreadcrumbVariants.SECONDARY && inverse,
+                    variant === BreadcrumbVariants.SECONDARY && inverse,
                 },
                 "transition-colors hover:cursor-pointer hover:fill-hover-link-3"
               )}
@@ -94,19 +94,19 @@ export const Breadcrumb = ({
                 className={clsx(
                   {
                     "fill-breadcrumb-primary-2":
-                    variant === BreadcrumbVariants.PRIMARY && !inverse,
+                      variant === BreadcrumbVariants.PRIMARY && !inverse,
                   },
                   {
                     "fill-breadcrumb-primary-1":
-                    variant === BreadcrumbVariants.PRIMARY && inverse,
+                      variant === BreadcrumbVariants.PRIMARY && inverse,
                   },
                   {
                     "fill-breadcrumb-secondary-2":
-                    variant === BreadcrumbVariants.SECONDARY && !inverse,
+                      variant === BreadcrumbVariants.SECONDARY && !inverse,
                   },
                   {
                     "fill-breadcrumb-secondary-1":
-                    variant === BreadcrumbVariants.SECONDARY && inverse,
+                      variant === BreadcrumbVariants.SECONDARY && inverse,
                   }
                 )}
                 height={30}
@@ -133,19 +133,23 @@ export const Breadcrumb = ({
                           className={clsx(
                             {
                               "fill-breadcrumb-primary-2":
-                              variant === BreadcrumbVariants.PRIMARY && !inverse,
+                                variant === BreadcrumbVariants.PRIMARY &&
+                                !inverse,
                             },
                             {
                               "fill-breadcrumb-primary-1":
-                              variant === BreadcrumbVariants.PRIMARY && inverse,
+                                variant === BreadcrumbVariants.PRIMARY &&
+                                inverse,
                             },
                             {
                               "fill-breadcrumb-secondary-2":
-                              variant === BreadcrumbVariants.SECONDARY && !inverse,
+                                variant === BreadcrumbVariants.SECONDARY &&
+                                !inverse,
                             },
                             {
                               "fill-breadcrumb-secondary-1":
-                              variant === BreadcrumbVariants.SECONDARY && inverse,
+                                variant === BreadcrumbVariants.SECONDARY &&
+                                inverse,
                             }
                           )}
                           height={30}
@@ -164,19 +168,19 @@ export const Breadcrumb = ({
             className={clsx(
               {
                 "bg-breadcrumb-primary-2 after:border-l-breadcrumb-primary-2":
-                variant === BreadcrumbVariants.PRIMARY && !inverse,
+                  variant === BreadcrumbVariants.PRIMARY && !inverse,
               },
               {
                 "bg-breadcrumb-primary-1 after:border-l-breadcrumb-primary-1":
-                variant === BreadcrumbVariants.PRIMARY && inverse,
+                  variant === BreadcrumbVariants.PRIMARY && inverse,
               },
               {
                 "bg-breadcrumb-secondary-2 after:border-l-breadcrumb-secondary-2":
-                variant === BreadcrumbVariants.SECONDARY && !inverse,
+                  variant === BreadcrumbVariants.SECONDARY && !inverse,
               },
               {
                 "bg-breadcrumb-secondary-1 after:border-l-breadcrumb-secondary-1":
-                variant === BreadcrumbVariants.SECONDARY && inverse,
+                  variant === BreadcrumbVariants.SECONDARY && inverse,
               },
               "z-10 flex h-full w-fit items-center gap-6 px-6 py-4 pl-20 after:absolute after:left-[100%] after:h-0 after:w-0 after:border-y-[32px] after:border-l-[50px] after:border-y-transparent after:content-['']"
             )}>

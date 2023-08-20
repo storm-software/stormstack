@@ -1,7 +1,7 @@
-import z from 'zod';
+import z from "zod";
 
 const userVisitedEventSchema = z.object({
-      visitedOn: z.date(),
+  visitedOn: z.date(),
   countryCode: z.string().min(2).max(2),
   continent: z.string(),
   latitude: z.string(),
@@ -11,11 +11,9 @@ const userVisitedEventSchema = z.object({
   state: z.string(),
   timezone: z.string(),
   ip: z.string().ip(),
-  url: z.string().url()
-  
+  url: z.string().url(),
 });
 
 export type UserVisitedEventSchema = z.infer<typeof userVisitedEventSchema>;
-
 
 export { userVisitedEventSchema };

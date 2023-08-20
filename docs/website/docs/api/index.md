@@ -14,7 +14,9 @@ This repository contains modern and scalable web application code, additional ut
 ![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge)
 
 <!--#if GitHubActions-->
+
 [![GitHub Actions Build History](https://buildstats.info/github/chart/sullivanpj/open-system?branch=main&includeBuildsFromPullRequest=false)](https://github.com/sullivanpj/open-system/actions)
+
 <!--#endif-->
 
 ## Getting started

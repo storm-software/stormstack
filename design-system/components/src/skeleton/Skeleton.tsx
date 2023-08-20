@@ -11,7 +11,7 @@ export type SkeletonProps = PropsWithBase<{
 }>;
 
 /**
-* A component used to display a loading skeleton outline
+ * A component used to display a loading skeleton outline
  */
 export const Skeleton = ({
   className,
@@ -22,7 +22,7 @@ export const Skeleton = ({
     <div
       className={clsx(
         "min-h-[1.5rem] min-w-[1.5rem] animate-pulse bg-slate-400",
-        {"rounded-md w-full": !isCircle },
+        { "rounded-md w-full": !isCircle },
         { "rounded-full": isCircle },
         className
       )}

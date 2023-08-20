@@ -16,17 +16,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "downlevelIteration": true,
-    "types": [
-      "node",
-    ],
+    "types": ["node"],
     "plugins": [
       {
         "name": "next"
       }
-    ],
+    ]
   },
   "include": [
-    "next-env.d.ts", "**/*.ts", "**/*.tsx", "hooks/EventCatalog.tsx", "scripts/generate.js"
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "hooks/EventCatalog.tsx",
+    "scripts/generate.js"
   ],
   "exclude": [
     "node_modules",

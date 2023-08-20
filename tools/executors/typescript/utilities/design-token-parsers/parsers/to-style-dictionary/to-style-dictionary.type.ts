@@ -1,5 +1,5 @@
-import Token from '../../types/tokens/Token';
-import { OptionsType } from './to-style-dictionary.parser';
+import Token from "../../types/tokens/Token";
+import { OptionsType } from "./to-style-dictionary.parser";
 
 type BasicObject = Record<string, string>;
 type RecursiveBasicObject = Record<string, BasicObject | string>;
@@ -54,7 +54,10 @@ export type BaseStyleDictionaryTokensFormat = Partial<{
 }>;
 
 export interface StyleDictionaryTokenClass {
-  new (tokens: Partial<Token>, options: Array<string>): StyleDictionaryTokenClassInstance;
+  new (
+    tokens: Partial<Token>,
+    options: Array<string>
+  ): StyleDictionaryTokenClassInstance;
   // afterStringGenerate?(tailwindTokens: TailwindOutputType, result: string): string;
   // afterGenerate(TailwindTokens: TailwindMappingTypes): TailwindOutputType;
 }

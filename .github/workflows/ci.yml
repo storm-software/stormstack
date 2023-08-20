@@ -1,6 +1,5 @@
 name: "CI/CD"
 
-
 on:
   workflow_dispatch:
     inputs:
@@ -9,9 +8,9 @@ on:
         required: false
   push:
     branches:
-      - 'main'
-      - 'alpha'
-      - 'beta'
+      - "main"
+      - "alpha"
+      - "beta"
 
 env:
   NX_DAEMON: false
@@ -22,7 +21,7 @@ env:
 jobs:
   build-and-release:
     if: github.repository == 'sullivanpj/open-system' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/beta')
-    name: 'Build & Release'
+    name: "Build & Release"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

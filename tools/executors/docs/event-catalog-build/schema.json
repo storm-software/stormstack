@@ -22,7 +22,7 @@
       "description": "Generate a lockfile (e.g. package-lock.json) that matches the workspace lockfile to ensure package versions match.",
       "default": false,
       "x-priority": "internal"
-    },
+    }
   },
   "required": []
 }

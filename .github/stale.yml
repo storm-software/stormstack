@@ -9,7 +9,7 @@ daysUntilClose: 7
 
 # Issues or Pull Requests with these labels will never be considered stale. Set to `[]` to disable
 exemptLabels: []
-  
+
 # Set to true to ignore issues in a project (defaults to false)
 exemptProjects: false
 
@@ -34,7 +34,6 @@ markComment: >
 
 # Limit the number of actions per hour, from 1-30. Default is 30
 limitPerRun: 30
-
 # Limit to only `issues` or `pulls`
 # only: issues
 

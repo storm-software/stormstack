@@ -1,5 +1,5 @@
-import { LibsType } from '../global-libs';
-import { TokensType } from '../../types';
+import { LibsType } from "../global-libs";
+import { TokensType } from "../../types";
 
 export type InputDataType = Array<Record<string, any>>;
 export type OutputDataType = InputDataType;
@@ -17,7 +17,7 @@ const flattenObject = (obj: Record<string, any>) => {
   const flattened: Record<string, any> = {};
 
   Object.keys(obj).forEach(key => {
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
+    if (typeof obj[key] === "object" && obj[key] !== null) {
       Object.assign(flattened, flattenObject(obj[key]));
     } else {
       flattened[key] = obj[key];
@@ -29,8 +29,8 @@ const flattenObject = (obj: Record<string, any>) => {
 
 export default async function (
   tokens: InputDataType,
-  options: OptionsType = { keys: ['name'] },
-  { _ }: Pick<LibsType, '_'>,
+  options: OptionsType = { keys: ["name"] },
+  { _ }: Pick<LibsType, "_">
 ): Promise<OutputDataType> {
   return tokens.map(token => {
     if (

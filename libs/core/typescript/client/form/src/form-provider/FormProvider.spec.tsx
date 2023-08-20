@@ -5,10 +5,7 @@ import { FormProvider } from "./FormProvider";
 
 describe("FormProvider", () => {
   it("should render successfully", () => {
-    const { baseElement } = render(
-      <FormProvider
-      />
-    );
+    const { baseElement } = render(<FormProvider />);
     expect(baseElement).toBeTruthy();
   });
 });

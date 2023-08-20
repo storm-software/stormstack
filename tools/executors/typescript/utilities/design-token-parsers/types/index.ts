@@ -1,8 +1,8 @@
-import { SpServicesType } from '../parsers/global-libs';
+import { SpServicesType } from "../parsers/global-libs";
 
-export * from './tokens';
-export * from './Providers';
-export * from './utils/utils';
+export * from "./tokens";
+export * from "./Providers";
+export * from "./utils/utils";
 
 declare global {
   namespace NodeJS {
@@ -13,13 +13,13 @@ declare global {
 }
 
 export type ColorsFormat =
-  | 'rgb'
-  | 'prgb'
-  | 'hex'
-  | 'hex6'
-  | 'hex3'
-  | 'hex4'
-  | 'hex8'
-  | 'name'
-  | 'hsl'
-  | 'hsv';
+  | "rgb"
+  | "prgb"
+  | "hex"
+  | "hex6"
+  | "hex3"
+  | "hex4"
+  | "hex8"
+  | "name"
+  | "hsl"
+  | "hsv";

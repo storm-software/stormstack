@@ -1,7 +1,7 @@
-import { DepthToken } from '../../../types';
-import { OptionsType } from '../to-tailwind.parser';
-import { DepthMapping, TailwindMappingTypes } from '../to-tailwind.type';
-import { Utils } from './index';
+import { DepthToken } from "../../../types";
+import { OptionsType } from "../to-tailwind.parser";
+import { DepthMapping, TailwindMappingTypes } from "../to-tailwind.type";
+import { Utils } from "./index";
 
 export class Depth extends DepthToken {
   token: Partial<DepthToken>;
@@ -15,8 +15,8 @@ export class Depth extends DepthToken {
       zIndex: Utils.go<ConstructorParameters<typeof DepthToken>[0]>(
         this.token,
         options,
-        'zIndex',
-        `${this.value.depth}`,
+        "zIndex",
+        `${this.value.depth}`
       ),
     };
   }

@@ -1,6 +1,7 @@
 # Suffix By
 
 ## Description
+
 This parser helps you concatenate two strings.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'suffix-by';
+  name: "suffix-by";
   options?: {
     key?: string;
     suffix: string;

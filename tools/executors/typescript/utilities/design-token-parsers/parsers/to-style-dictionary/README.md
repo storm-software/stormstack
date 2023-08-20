@@ -1,6 +1,7 @@
 # To Style Dictionary
 
 ## Description
+
 This parser helps you generate [Style Dictionary](https://amzn.github.io/style-dictionary/#/) configuration files for all your design tokens coming from Specify.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,17 +10,17 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'to-style-dictionary';
+  name: "to-style-dictionary";
   options: Partial<{
-    formatName: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+    formatName: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
     formatTokens: Partial<{
       colorFormat: {
         format: ColorsFormat;
       };
       fontSizeFormat: {
-        unit: 'px' | 'rem' | 'none';
+        unit: "px" | "rem" | "none";
       };
-      fontFormat: Array<'woff2' | 'woff' | 'otf' | 'ttf' | 'eot'>;
+      fontFormat: Array<"woff2" | "woff" | "otf" | "ttf" | "eot">;
     }>;
     splitBy?: string;
     assetsBaseDirectory?: Partial<{
@@ -28,7 +29,7 @@ interface parser {
       icons?: string;
     }>;
     formatConfig?: Partial<{
-      endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+      endOfLine: "auto" | "lf" | "crlf" | "cr";
       tabWidth: number;
       useTabs: boolean;
     }>;
@@ -53,12 +54,14 @@ interface parser {
 | `formatConfig.useTabs`             | optional | `boolean`                                                         | `true`      | [Prettier documentation](https://prettier.io/docs/en/options.html#tabs)                                                                                                                                    |
 
 ## Output
+
 Please keep in mind that this parser generates files. This is why you should always set a folder as the final `path` in your parent rule.
 
 <details open>
 <summary>See Do & Don't config examples</summary>
 
 ✅ Do
+
 ```
 // ...
 "rules": [
@@ -75,6 +78,7 @@ Please keep in mind that this parser generates files. This is why you should alw
 ```
 
 🚫 Don't
+
 ```
 // ...
 "rules": [
@@ -89,6 +93,7 @@ Please keep in mind that this parser generates files. This is why you should alw
   }
 ]
 ```
+
 </details>
 
 ## Types

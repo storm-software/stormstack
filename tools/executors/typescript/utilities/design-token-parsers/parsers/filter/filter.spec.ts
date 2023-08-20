@@ -1,14 +1,14 @@
-import filter from './filter.parser';
-import { Token } from '../../types';
-import libs from '../global-libs';
-import seeds from '../../tests/seeds';
+import filter from "./filter.parser";
+import { Token } from "../../types";
+import libs from "../global-libs";
+import seeds from "../../tests/seeds";
 
-describe('Filter', () => {
-  it('Should return the elements matching the RegEx', async () => {
+describe("Filter", () => {
+  it("Should return the elements matching the RegEx", async () => {
     const result = await filter(
       seeds().tokens as Array<Token>,
-      { key: 'name', regex: { pattern: 'Background', flags: 'g' } },
-      libs,
+      { key: "name", regex: { pattern: "Background", flags: "g" } },
+      libs
     );
     if (result instanceof Error) return fail(result);
     expect(Array.isArray(result)).toEqual(true);
@@ -18,24 +18,26 @@ describe('Filter', () => {
     return;
   });
 
-  it('Should return only the element matching the RegEx while ignoring the case', async () => {
+  it("Should return only the element matching the RegEx while ignoring the case", async () => {
     const tokens = seeds().tokens as Array<Token>;
     const result = await filter(
       tokens,
-      { key: 'type', regex: { pattern: 'VeCtOr', flags: 'i' } },
-      libs,
+      { key: "type", regex: { pattern: "VeCtOr", flags: "i" } },
+      libs
     );
     if (result instanceof Error) return fail(result);
     expect(Array.isArray(result)).toEqual(true);
-    expect(result.length).toEqual(tokens.filter(token => token.type === 'vector').length);
+    expect(result.length).toEqual(
+      tokens.filter(token => token.type === "vector").length
+    );
     return;
   });
 
-  it('Should return all the elements when regex is empty', async () => {
+  it("Should return all the elements when regex is empty", async () => {
     const result = await filter(
       seeds().tokens as Array<Token>,
-      { key: 'name', regex: { pattern: '', flags: 'g' } },
-      libs,
+      { key: "name", regex: { pattern: "", flags: "g" } },
+      libs
     );
     if (result instanceof Error) return fail(result);
     expect(result).toBeDefined();
@@ -44,11 +46,11 @@ describe('Filter', () => {
     return;
   });
 
-  it('Should return one element when RegEx is without flag', async () => {
+  it("Should return one element when RegEx is without flag", async () => {
     const result = await filter(
       seeds().tokens as Array<Token>,
-      { key: 'name', regex: { pattern: 'Background' } },
-      libs,
+      { key: "name", regex: { pattern: "Background" } },
+      libs
     );
     if (result instanceof Error) return fail(result);
     expect(result).toBeDefined();
@@ -57,11 +59,11 @@ describe('Filter', () => {
     return;
   });
 
-  it('Should return one element when RegEx is with empty flag', async () => {
+  it("Should return one element when RegEx is with empty flag", async () => {
     const result = await filter(
       seeds().tokens as Array<Token>,
-      { key: 'name', regex: { pattern: 'Background', flags: '' } },
-      libs,
+      { key: "name", regex: { pattern: "Background", flags: "" } },
+      libs
     );
     if (result instanceof Error) return fail(result);
     expect(result).toBeDefined();
@@ -70,11 +72,11 @@ describe('Filter', () => {
     return;
   });
 
-  it('Should return one element when RegEx is not an object', async () => {
+  it("Should return one element when RegEx is not an object", async () => {
     const result = await filter(
       seeds().tokens as Array<Token>,
-      { key: 'name', regex: 'Background' },
-      libs,
+      { key: "name", regex: "Background" },
+      libs
     );
     if (result instanceof Error) return fail(result);
     expect(result).toBeDefined();
@@ -83,8 +85,12 @@ describe('Filter', () => {
     return;
   });
 
-  it('Should work on non-string values', async () => {
-    const result = await filter(seeds().tokens, { key: 'meta.dimension', regex: '2' }, libs);
+  it("Should work on non-string values", async () => {
+    const result = await filter(
+      seeds().tokens,
+      { key: "meta.dimension", regex: "2" },
+      libs
+    );
     if (result instanceof Error) return fail(result);
     expect(result).toBeDefined();
     expect(Array.isArray(result)).toEqual(true);

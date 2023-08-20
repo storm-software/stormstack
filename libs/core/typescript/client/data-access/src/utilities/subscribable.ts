@@ -1,27 +1,27 @@
-type Listener = () => void
+type Listener = () => void;
 
 export class Subscribable<TListener = Listener> {
-  protected listeners: Set<{ listener: TListener }>
+  protected listeners: Set<{ listener: TListener }>;
 
   constructor() {
-    this.listeners = new Set()
-    this.subscribe = this.subscribe.bind(this)
+    this.listeners = new Set();
+    this.subscribe = this.subscribe.bind(this);
   }
 
   subscribe(listener: TListener): () => void {
-    const identity = { listener }
-    this.listeners.add(identity)
+    const identity = { listener };
+    this.listeners.add(identity);
 
-    this.onSubscribe()
+    this.onSubscribe();
 
     return () => {
-      this.listeners.delete(identity)
-      this.onUnsubscribe()
-    }
+      this.listeners.delete(identity);
+      this.onUnsubscribe();
+    };
   }
 
   hasListeners(): boolean {
-    return this.listeners.size > 0
+    return this.listeners.size > 0;
   }
 
   protected onSubscribe(): void {

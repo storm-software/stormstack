@@ -19,6 +19,6 @@ These .yaml documents can either be updating manually or using a [GUI editor](ht
 
 ## End Point List
 
-|           API Hives            |     Domain     | API App      |
-| :----------------------------: | :------------: | :----------- |
-| [Shared](/end-points/shared) | Shared | N/A |
+|          API Hives           | Domain | API App |
+| :--------------------------: | :----: | :------ |
+| [Shared](/end-points/shared) | Shared | N/A     |

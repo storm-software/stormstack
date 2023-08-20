@@ -1,21 +1,21 @@
 import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
 import {
-    DataModel,
-    DataModelField,
-    DataModelFieldAttribute,
-    isEnum,
+  DataModel,
+  DataModelField,
+  DataModelFieldAttribute,
+  isEnum,
 } from "@open-system/tools-storm-language/ast";
 import { name } from "..";
 import {
-    ExpressionContext,
-    PluginError,
-    getAttributeArg,
-    getAttributeArgLiteral,
-    getLiteral,
+  ExpressionContext,
+  PluginError,
+  getAttributeArg,
+  getAttributeArgLiteral,
+  getLiteral,
 } from "../../../sdk";
 import {
-    TypeScriptExpressionTransformer,
-    TypeScriptExpressionTransformerError,
+  TypeScriptExpressionTransformer,
+  TypeScriptExpressionTransformerError,
 } from "../../../utils/typescript-expression-transformer";
 
 export function makeFieldSchema(field: DataModelField) {

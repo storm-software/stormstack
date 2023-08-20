@@ -141,9 +141,7 @@
         },
         "description": "Remove an existing reaction to an article",
         "parameters": [],
-        "tags": [
-          "Reaction"
-        ]
+        "tags": ["Reaction"]
       },
       "post": {
         "summary": "Add Reaction",
@@ -249,9 +247,7 @@
         },
         "description": "Add a new reaction to an article",
         "parameters": [],
-        "tags": [
-          "Reaction"
-        ],
+        "tags": ["Reaction"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -260,17 +256,10 @@
                 "properties": {
                   "type": {
                     "type": "string",
-                    "enum": [
-                      "like",
-                      "unlike",
-                      "cry",
-                      "laugh"
-                    ]
+                    "enum": ["like", "unlike", "cry", "laugh"]
                   }
                 },
-                "required": [
-                  "type"
-                ]
+                "required": ["type"]
               }
             }
           }
@@ -299,9 +288,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "data"
-                      ]
+                      "required": ["data"]
                     }
                   ]
                 }
@@ -390,9 +377,7 @@
           }
         },
         "description": "Return the reactions for a specific article, comment, etc. ",
-        "tags": [
-          "Reaction"
-        ],
+        "tags": ["Reaction"],
         "parameters": [
           {
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/parameters/pageNumber"
@@ -525,9 +510,7 @@
           }
         },
         "description": "Return the reaction counts for a specific article, comment, etc. ",
-        "tags": [
-          "Reaction"
-        ],
+        "tags": ["Reaction"],
         "parameters": [
           {
             "$ref": "#/components/parameters/type"
@@ -553,10 +536,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "userId",
-              "type"
-            ]
+            "required": ["userId", "type"]
           }
         ],
         "description": "A model containing the reaction data returned from the server",
@@ -579,10 +559,7 @@
             "example": 0
           }
         },
-        "required": [
-          "type",
-          "count"
-        ],
+        "required": ["type", "count"],
         "description": "A model containing the minimum reaction count data"
       }
     },
@@ -595,12 +572,7 @@
         "required": false,
         "schema": {
           "type": "string",
-          "enum": [
-            "like",
-            "dislike",
-            "laugh",
-            "cry"
-          ],
+          "enum": ["like", "dislike", "laugh", "cry"],
           "example": "like"
         },
         "description": "The type of reaction the user had"

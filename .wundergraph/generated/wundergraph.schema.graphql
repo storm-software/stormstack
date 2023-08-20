@@ -29,7 +29,7 @@ directive @hooksVariable on VARIABLE_DEFINITION
 directive @jsonSchema(
   """
   The value of both of these keywords MUST be a string.
-  
+
   Both of these keywords can be used to decorate a user interface with
   information about the data produced by this user interface.  A title
   will preferably be short, whereas a description will provide
@@ -39,7 +39,7 @@ directive @jsonSchema(
   title: String
   """
   The value of both of these keywords MUST be a string.
-  
+
   Both of these keywords can be used to decorate a user interface with
   information about the data produced by this user interface.  A title
   will preferably be short, whereas a description will provide
@@ -49,7 +49,7 @@ directive @jsonSchema(
   description: String
   """
   The value of "multipleOf" MUST be a number, strictly greater than 0.
-  
+
   A numeric instance is valid only if division by this keyword's value
   results in an integer.
   """
@@ -57,7 +57,7 @@ directive @jsonSchema(
   """
   The value of "maximum" MUST be a number, representing an inclusive
   upper limit for a numeric instance.
-  
+
   If the instance is a number, then this keyword validates only if the
   instance is less than or exactly equal to "maximum".
   """
@@ -65,7 +65,7 @@ directive @jsonSchema(
   """
   The value of "exclusiveMaximum" MUST be number, representing an
   exclusive upper limit for a numeric instance.
-  
+
   If the instance is a number, then the instance is valid only if it
   has a value strictly less than (not equal to) "exclusiveMaximum".
   """
@@ -73,7 +73,7 @@ directive @jsonSchema(
   """
   The value of "minimum" MUST be a number, representing an inclusive
   lower limit for a numeric instance.
-  
+
   If the instance is a number, then this keyword validates only if the
   instance is greater than or exactly equal to "minimum".
   """
@@ -81,30 +81,30 @@ directive @jsonSchema(
   """
   The value of "exclusiveMinimum" MUST be number, representing an
   exclusive lower limit for a numeric instance.
-  
+
   If the instance is a number, then the instance is valid only if it
   has a value strictly greater than (not equal to) "exclusiveMinimum".
   """
   exclusiveMinimum: Int
   """
   The value of this keyword MUST be a non-negative integer.
-  
+
   A string instance is valid against this keyword if its length is less
   than, or equal to, the value of this keyword.
-  
+
   The length of a string instance is defined as the number of its
   characters as defined by RFC 7159 [RFC7159].
   """
   maxLength: Int
   """
   The value of this keyword MUST be a non-negative integer.
-  
+
   A string instance is valid against this keyword if its length is
   greater than, or equal to, the value of this keyword.
-  
+
   The length of a string instance is defined as the number of its
   characters as defined by RFC 7159 [RFC7159].
-  
+
   Omitting this keyword has the same behavior as a value of 0.
   """
   minLength: Int
@@ -112,7 +112,7 @@ directive @jsonSchema(
   The value of this keyword MUST be a string.  This string SHOULD be a
   valid regular expression, according to the ECMA 262 regular
   expression dialect.
-  
+
   A string instance is considered valid if the regular expression
   matches the instance successfully.  Recall: regular expressions are
   not implicitly anchored.
@@ -120,32 +120,34 @@ directive @jsonSchema(
   pattern: String
   """
   The value of this keyword MUST be a non-negative integer.
-  
+
   An array instance is valid against "maxItems" if its size is less
   than, or equal to, the value of this keyword.
   """
   maxItems: Int
   """
   The value of this keyword MUST be a non-negative integer.
-  
+
   An array instance is valid against "minItems" if its size is greater
   than, or equal to, the value of this keyword.
-  
+
   Omitting this keyword has the same behavior as a value of 0.
   """
   minItems: Int
   """
   The value of this keyword MUST be a boolean.
-  
+
   If this keyword has boolean value false, the instance validates
   successfully.  If it has boolean value true, the instance validates
   successfully if all of its elements are unique.
-  
+
   Omitting this keyword has the same behavior as a value of false.
   """
   uniqueItems: Boolean
   commonPattern: COMMON_REGEX_PATTERN
-  """Optional field to apply the JSON schema to"""
+  """
+  Optional field to apply the JSON schema to
+  """
   on: String
 ) repeatable on VARIABLE_DEFINITION
 
@@ -164,11 +166,14 @@ directive @rbac(
 The @fromClaim directive sets the variable to the value retrieved from the given a claim.
 Adding this directive makes the operation require authentication.
 """
-directive @fromClaim(name: WG_CLAIM, on: String = "") repeatable on VARIABLE_DEFINITION
+directive @fromClaim(
+  name: WG_CLAIM
+  on: String = ""
+) repeatable on VARIABLE_DEFINITION
 
 """
 The directive @injectCurrentDateTime injects a DateTime string of the current date and time into the variable.
-This variable MUST be a string compatible scalar. 
+This variable MUST be a string compatible scalar.
 
 The default format, is: ISO 8601
 If no format is chosen, the default format is used.
@@ -191,7 +196,9 @@ disallowing the user to supply it.
 
 This means, the UUID is 100% generated server-side and can be considered untempered.
 """
-directive @injectGeneratedUUID(on: String = "") repeatable on VARIABLE_DEFINITION
+directive @injectGeneratedUUID(
+  on: String = ""
+) repeatable on VARIABLE_DEFINITION
 
 """
 The @internalOperation Directive marks an Operation as internal.
@@ -203,7 +210,10 @@ directive @internalOperation on QUERY | MUTATION | SUBSCRIPTION
 """
 The directive @injectEnvironmentVariable allows you to inject an environment variable into the variable definition.
 """
-directive @injectEnvironmentVariable(name: String!, on: String = "") repeatable on VARIABLE_DEFINITION
+directive @injectEnvironmentVariable(
+  name: String!
+  on: String = ""
+) repeatable on VARIABLE_DEFINITION
 
 """
 The @export directive instructs the Execution Planner to export the field during the execution into the variable of the 'as' argument.
@@ -215,7 +225,9 @@ Note that the @export directive only works on fields that return a single value.
 It's not possible to export a list or object field.
 """
 directive @export(
-  """The argument 'as' is the name of the variable to export the field to."""
+  """
+  The argument 'as' is the name of the variable to export the field to.
+  """
   as: String!
 ) on FIELD
 
@@ -236,9 +248,9 @@ directive @transform(
   """
   Using the 'get' transformation allows you to extract a nested field using a JSON path.
   This is useful to unnest data, e.g. when using the '_join' field, which adds an extra layer of nesting.
-  
+
   Example:
-  
+
   query GetName {
       name: me @transform(get: "info.name") {
           info {
@@ -246,9 +258,9 @@ directive @transform(
           }
       }
   }
-  
+
   Before the transformation, the resolve looks like this:
-  
+
   {
       "name": {
           "info": {
@@ -256,9 +268,9 @@ directive @transform(
           }
       }
   }
-  
+
   With the transformation applied, the response will be reshaped like this:
-  
+
   {
       "name": "John Doe"
   }
@@ -275,7 +287,12 @@ directive @requireAuthentication on QUERY | MUTATION | SUBSCRIPTION
 type contact_Contact implements contact_Node {
   addressLine1: String
   addressLine2: String
-  attachments(after: String, before: String, first: Int, last: Int): contact_ContactAttachmentsConnection!
+  attachments(
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): contact_ContactAttachmentsConnection!
   city: String
   companyName: String
   countryCode: String
@@ -321,7 +338,12 @@ type contact_ContactAttachmentsConnectionEdge {
 }
 
 type contact_ContactEmail implements contact_Node {
-  contacts(after: String, before: String, first: Int, last: Int): contact_ContactEmailContactsConnection!
+  contacts(
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): contact_ContactEmailContactsConnection!
   createdAt: String!
   email: String!
   id: ID!
@@ -342,7 +364,9 @@ type contact_ContactEmailContactsConnectionEdge {
   _join: Query!
 }
 
-"""A country code as defined by ISO 3166-1 alpha-2"""
+"""
+A country code as defined by ISO 3166-1 alpha-2
+"""
 scalar contact_CountryCode
 
 input contact_CreateContactAttachment {
@@ -389,7 +413,9 @@ A field whose value conforms to the standard internet email address format as sp
 scalar contact_EmailAddress
 
 type Mutation {
-  contact_createContact(input: contact_CreateContactInput!): contact_CreateContactPayload!
+  contact_createContact(
+    input: contact_CreateContactInput!
+  ): contact_CreateContactPayload!
 }
 
 interface contact_Node {
@@ -431,7 +457,13 @@ scalar contact_PostalCode
 type Query {
   contact_contact(id: ID!): contact_Contact
   contact_contactEmail(id: ID!): contact_ContactEmail
-  contact_emailAddresses(after: String, before: String, first: Int, ids: [ID!]!, last: Int): contact_QueryEmailAddressesConnection!
+  contact_emailAddresses(
+    after: String
+    before: String
+    first: Int
+    ids: [ID!]!
+    last: Int
+  ): contact_QueryEmailAddressesConnection!
   contact_node(id: ID!): contact_Node
   contact_nodes(ids: [ID!]!): [contact_Node]!
 }
@@ -469,47 +501,89 @@ enum WG_ROLE {
   user
 }
 
-"""Well known claims - https://www.iana.org/assignments/jwt/jwt.xhtml"""
+"""
+Well known claims - https://www.iana.org/assignments/jwt/jwt.xhtml
+"""
 enum WG_CLAIM {
-  """iss"""
+  """
+  iss
+  """
   ISSUER
-  """deprecated alias for ISSUER"""
+  """
+  deprecated alias for ISSUER
+  """
   PROVIDER
-  """sub"""
+  """
+  sub
+  """
   SUBJECT
-  """alias for sub"""
+  """
+  alias for sub
+  """
   USERID
-  """name"""
+  """
+  name
+  """
   NAME
-  """given_name"""
+  """
+  given_name
+  """
   GIVEN_NAME
-  """family_name"""
+  """
+  family_name
+  """
   FAMILY_NAME
-  """middle_name"""
+  """
+  middle_name
+  """
   MIDDLE_NAME
-  """nickname"""
+  """
+  nickname
+  """
   NICKNAME
-  """preferred_username"""
+  """
+  preferred_username
+  """
   PREFERRED_USERNAME
-  """profile"""
+  """
+  profile
+  """
   PROFILE
-  """picture"""
+  """
+  picture
+  """
   PICTURE
-  """website"""
+  """
+  website
+  """
   WEBSITE
-  """email"""
+  """
+  email
+  """
   EMAIL
-  """email_verified"""
+  """
+  email_verified
+  """
   EMAIL_VERIFIED
-  """gender"""
+  """
+  gender
+  """
   GENDER
-  """birthdate"""
+  """
+  birthdate
+  """
   BIRTH_DATE
-  """zoneinfo"""
+  """
+  zoneinfo
+  """
   ZONE_INFO
-  """locale"""
+  """
+  locale
+  """
   LOCALE
-  """location"""
+  """
+  location
+  """
   LOCATION
 }
 

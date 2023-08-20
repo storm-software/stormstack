@@ -1,6 +1,6 @@
 export interface DspEntity {
-  class: 'token' | 'collection' | 'doc' | 'component';
-  type: 'color' | 'size' | 'custom' | 'alias' | 'font' | 'page';
+  class: "token" | "collection" | "doc" | "component";
+  type: "color" | "size" | "custom" | "alias" | "font" | "page";
   id: string;
   name: string;
   value: string;

@@ -17,7 +17,7 @@ This parser helps you rename your design tokens without characters before the la
 
 ```ts
 interface parser {
-  name: 'replace-string';
+  name: "replace-string";
   options: {
     keys?: Array<string>;
     regex:

@@ -36,20 +36,13 @@
   "engines": {
     "vscode": "^1.56.0"
   },
-  "categories": [
-    "Programming Languages"
-  ],
+  "categories": ["Programming Languages"],
   "contributes": {
     "languages": [
       {
         "id": "storm",
-        "aliases": [
-          "Storm Model",
-          "storm"
-        ],
-        "extensions": [
-          ".storm"
-        ],
+        "aliases": ["Storm Model", "storm"],
+        "extensions": [".storm"],
         "configuration": "./language-configuration.json",
         "icon": {
           "light": "./assets/logo.png",
@@ -65,9 +58,7 @@
       }
     ]
   },
-  "activationEvents": [
-    "onLanguage:storm"
-  ],
+  "activationEvents": ["onLanguage:storm"],
   "bin": {
     "storm": "bin/cli"
   },

@@ -50,9 +50,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "data"
-                      ]
+                      "required": ["data"]
                     }
                   ]
                 }
@@ -239,9 +237,7 @@
           }
         ],
         "description": "An end point that returns the list of contacts",
-        "tags": [
-          "Contact"
-        ],
+        "tags": ["Contact"],
         "x-os-request-name": "GetContactsQuery"
       },
       "post": {
@@ -391,9 +387,7 @@
             }
           }
         },
-        "tags": [
-          "Contact"
-        ],
+        "tags": ["Contact"],
         "parameters": [],
         "description": "Add a new contact",
         "x-os-request-name": "CreateContactCommand",
@@ -571,9 +565,7 @@
         },
         "parameters": [],
         "description": "An end point that returns data for a specific contact",
-        "tags": [
-          "Contact"
-        ]
+        "tags": ["Contact"]
       },
       "put": {
         "summary": "Update Contact",
@@ -722,9 +714,7 @@
             }
           }
         },
-        "tags": [
-          "Contact"
-        ],
+        "tags": ["Contact"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -768,9 +758,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "data"
-                      ]
+                      "required": ["data"]
                     }
                   ]
                 }
@@ -914,13 +902,7 @@
           {
             "schema": {
               "type": "string",
-              "enum": [
-                "business",
-                "question",
-                "other",
-                "project",
-                "interest"
-              ]
+              "enum": ["business", "question", "other", "project", "interest"]
             },
             "in": "query",
             "name": "reason",
@@ -944,9 +926,7 @@
           }
         ],
         "description": "An end point that returns detail data for a specific contact",
-        "tags": [
-          "Contact"
-        ]
+        "tags": ["Contact"]
       },
       "post": {
         "summary": "Create Contact Detail",
@@ -1095,9 +1075,7 @@
             }
           }
         },
-        "tags": [
-          "Contact"
-        ],
+        "tags": ["Contact"],
         "description": "An end point that adds a new detail to an existing contact",
         "parameters": []
       }
@@ -1127,9 +1105,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "data"
-                      ]
+                      "required": ["data"]
                     }
                   ]
                 }
@@ -1256,9 +1232,7 @@
           }
         ],
         "description": "An end point that returns a list of emails on the subscription list",
-        "tags": [
-          "Contact"
-        ]
+        "tags": ["Contact"]
       }
     },
     "/contacts/subscriptions/{email}": {
@@ -1394,9 +1368,7 @@
         },
         "parameters": [],
         "description": "An end point that returns a boolean value indicating if the specified email is on the subscription list",
-        "tags": [
-          "Contact"
-        ]
+        "tags": ["Contact"]
       },
       "post": {
         "summary": "Subscribe",
@@ -1522,9 +1494,7 @@
         },
         "description": "Add a new email address to the subcription list",
         "parameters": [],
-        "tags": [
-          "Contact"
-        ]
+        "tags": ["Contact"]
       },
       "delete": {
         "summary": "Unsubscribe",
@@ -1649,9 +1619,7 @@
           }
         },
         "description": "Remove an existing email address from the subcription list",
-        "tags": [
-          "Contact"
-        ]
+        "tags": ["Contact"]
       }
     }
   },
@@ -1705,11 +1673,7 @@
                 "default": true
               }
             },
-            "required": [
-              "email",
-              "reason",
-              "isSubscribed"
-            ]
+            "required": ["email", "reason", "isSubscribed"]
           },
           {
             "$ref": "../../../shared/config/src/shared.api-spec.json#/components/schemas/Address"
@@ -1758,9 +1722,7 @@
             "format": "uri"
           }
         },
-        "required": [
-          "reason"
-        ],
+        "required": ["reason"],
         "x-stoplight": {
           "id": "63946c2ead1c5"
         }

@@ -4,7 +4,10 @@ import {
   ButtonVariants,
 } from "./Button.types";
 
-export function getBackgroundColor(disabled: boolean, variant: ButtonVariants | string) {
+export function getBackgroundColor(
+  disabled: boolean,
+  variant: ButtonVariants | string
+) {
   return disabled
     ? "bg-disabled"
     : variant === ButtonVariants.GRADIENT
@@ -18,7 +21,10 @@ export function getBackgroundColor(disabled: boolean, variant: ButtonVariants | 
     : "bg-primary";
 }
 
-export function getTextColor(disabled: boolean, variant: ButtonVariants | string) {
+export function getTextColor(
+  disabled: boolean,
+  variant: ButtonVariants | string
+) {
   return disabled
     ? "text-disabled"
     : variant === ButtonVariants.GRADIENT
@@ -33,11 +39,8 @@ export function getTextColor(disabled: boolean, variant: ButtonVariants | string
 }
 
 export function getCursor(disabled: boolean) {
-  return disabled
-    ? "cursor-not-allowed"
-    : "cursor-pointer";
+  return disabled ? "cursor-not-allowed" : "cursor-pointer";
 }
-
 
 export function getHoverTextColor(variant: ButtonVariants | string) {
   return variant === ButtonVariants.GRADIENT ? "text-primary" : "text-inverse";
@@ -63,4 +66,3 @@ export function getBorderRadius(
     ? "rounded"
     : "rounded-lg";
 }
-

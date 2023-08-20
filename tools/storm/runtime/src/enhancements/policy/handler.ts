@@ -4,25 +4,25 @@ import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string
 import { fromZodError } from "zod-validation-error";
 import { CrudFailureReason, PRISMA_TX_FLAG } from "../../constants";
 import {
-    AuthUser,
-    DbClientContract,
-    DbOperations,
-    FieldInfo,
-    PolicyOperationKind,
+  AuthUser,
+  DbClientContract,
+  DbOperations,
+  FieldInfo,
+  PolicyOperationKind,
 } from "../../types";
 import { ModelDataVisitor } from "../model-data-visitor";
 import { resolveField } from "../model-meta";
 import {
-    NestedWriteVisitor,
-    NestedWriteVisitorContext,
+  NestedWriteVisitor,
+  NestedWriteVisitorContext,
 } from "../nested-write-visitor";
 import { PrismaProxyHandler } from "../proxy";
 import type { ModelMeta, PolicyDef, ZodSchemas } from "../types";
 import {
-    enumerate,
-    formatObject,
-    getIdFields,
-    prismaClientValidationError,
+  enumerate,
+  formatObject,
+  getIdFields,
+  prismaClientValidationError,
 } from "../utils";
 import { Logger } from "./logger";
 import { PolicyUtil } from "./policy-utils";

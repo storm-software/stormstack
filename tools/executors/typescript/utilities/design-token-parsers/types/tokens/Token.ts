@@ -1,7 +1,7 @@
-import { Source } from '../Providers';
-import { TokensType, TokensValues } from './index';
-import crypto from 'crypto';
-import { LinkableTokensSignaturesValue } from '../utils/utils';
+import { Source } from "../Providers";
+import { TokensType, TokensValues } from "./index";
+import crypto from "crypto";
+import { LinkableTokensSignaturesValue } from "../utils/utils";
 
 export interface TokenInterface {
   originId: string;
@@ -42,10 +42,10 @@ export abstract class Token implements IToken {
   repositoryId?: string;
 
   constructor(element: Partial<Token>) {
-    this.originId = element?.originId || '';
+    this.originId = element?.originId || "";
     this.type = element.type!;
     this.meta = element?.meta || {};
-    this.name = element?.name || 'No name';
+    this.name = element?.name || "No name";
     this.createdAt = element?.createdAt || undefined;
     this.updatedAt = element?.updatedAt || undefined;
     this.source = element?.source || undefined;
@@ -55,13 +55,13 @@ export abstract class Token implements IToken {
   }
 
   computeSignature(value: string) {
-    return crypto.createHash('md5').update(value).digest('hex');
+    return crypto.createHash("md5").update(value).digest("hex");
   }
 
   match<T extends { id: string }, U>(
     value: U,
     indexes: LinkableTokensSignaturesValue,
-    tokens: Array<T>,
+    tokens: Array<T>
   ): T | { value: U } {
     const signature = this.computeSignature(JSON.stringify(value));
     return indexes[signature]

@@ -1,6 +1,7 @@
 # Snakecasify
 
 ## Description
+
 This parser helps you apply snakecase function on specific keys from a design token.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'snakecasify';
+  name: "snakecasify";
   options?: {
     keys: Array<string>;
   };

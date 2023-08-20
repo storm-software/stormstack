@@ -1,4 +1,4 @@
 module.exports = {
-    models: require('./models'),
-    input: require('./input'),
+  models: require("./models"),
+  input: require("./input"),
 };

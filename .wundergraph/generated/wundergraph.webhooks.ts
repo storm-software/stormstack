@@ -8,4 +8,9 @@ import type { ORM as TypedORM } from "./orm";
 
 export type WebhooksConfig = {};
 
-export const createWebhook = createWebhookFactory<InternalOperationsClient, InternalClient, ContextType, TypedORM>();
+export const createWebhook = createWebhookFactory<
+  InternalOperationsClient,
+  InternalClient,
+  ContextType,
+  TypedORM
+>();

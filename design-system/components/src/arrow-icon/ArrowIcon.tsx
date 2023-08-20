@@ -7,9 +7,16 @@ export type ArrowIconProps = PropsWithBase<{
   isReverse?: boolean;
 }>;
 
-export function ArrowIcon({ className, isReverse = false, ...props }: ArrowIconProps) {
+export function ArrowIcon({
+  className,
+  isReverse = false,
+  ...props
+}: ArrowIconProps) {
   return (
-    <div className={clsx("relative h-5 w-[1.9rem] overflow-hidden pt-[0rem]", {"rotate-180": isReverse})}>
+    <div
+      className={clsx("relative h-5 w-[1.9rem] overflow-hidden pt-[0rem]", {
+        "rotate-180": isReverse,
+      })}>
       <svg
         className={clsx("h-5 w-10 group-hover:animate-arrow", className)}
         viewBox="0 0 25 25">

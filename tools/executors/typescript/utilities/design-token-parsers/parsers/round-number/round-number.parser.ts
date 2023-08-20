@@ -1,5 +1,5 @@
-import { LibsType } from '../global-libs';
-import listPathsByPattern from '../../libs/list-paths-by-pattern';
+import { LibsType } from "../global-libs";
+import listPathsByPattern from "../../libs/list-paths-by-pattern";
 
 export type InputDataType = Array<Record<string, any>>;
 export type OutputDataType = InputDataType;
@@ -8,15 +8,15 @@ export type OptionsType =
   | {
       keys: Array<string>; // default []
       precision?: number; // default 0
-      mode?: 'down' | 'up' | 'auto'; // default auto
+      mode?: "down" | "up" | "auto"; // default auto
     };
 
-const defaultOptions = { keys: [], precision: 0, mode: 'auto' };
+const defaultOptions = { keys: [], precision: 0, mode: "auto" };
 
 export default async function (
   tokens: InputDataType,
   options: OptionsType,
-  { _ }: Pick<LibsType, '_'>,
+  { _ }: Pick<LibsType, "_">
 ): Promise<OutputDataType> {
   const mergedOptions = {
     ...defaultOptions,
@@ -30,9 +30,9 @@ export default async function (
         const originalValue = _.get(token, selector);
 
         const roundFunction =
-          mergedOptions.mode === 'auto'
+          mergedOptions.mode === "auto"
             ? Math.round
-            : mergedOptions.mode === 'up'
+            : mergedOptions.mode === "up"
             ? Math.ceil
             : Math.floor;
 

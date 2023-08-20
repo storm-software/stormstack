@@ -19,14 +19,17 @@ export const useToastMessages = (): [
   return [useToastMessagesValue(), useSetToastMessages()];
 };
 
-export const useSetToastError = (): ((summary: string, details?: string) => void)  => {
+export const useSetToastError = (): ((
+  summary: string,
+  details?: string
+) => void) => {
   const { add } = useSetToastMessages();
 
   return useCallback((summary: string, details?: string) => {
     add({
       type: ToastVariants.ERROR,
       summary,
-      details
-    })
-  }, [])
+      details,
+    });
+  }, []);
 };

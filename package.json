@@ -62,7 +62,8 @@
     "test": "nx test",
     "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
     "start": "nx serve",
-    "format:prettier": "pnpm run prettier --cache --write --list-different --ignore-unknown \"**/*\"",
+    "format:prettier": "prettier --cache --write --list-different --ignore-unknown \"**/*\"",
+    "format:readme": "pnpm exec nx generate @open-system/tools-generators-typescript:repo-readme-format --templatePath=\"libs/core/config/src\" --no-interactive",
     "format": "nx format && pnpm format:prettier",
     "relay": "relay-compiler --watch",
     "wundergraph": "wunderctl up --debug",
@@ -73,7 +74,7 @@
     "generate:contributors": "all-contributors generate",
     "add:decisions": "pnpm log4brains adr new",
     "preview:decisions": "pnpm log4brains preview",
-    "pre-commit": "exit 0 && lint-staged"
+    "pre-commit": "exit 0 && lint-staged && pnpm format"
   },
   "dependencies": {
     "@envelop/graphql-modules": "^5.0.0",
@@ -293,11 +294,6 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {

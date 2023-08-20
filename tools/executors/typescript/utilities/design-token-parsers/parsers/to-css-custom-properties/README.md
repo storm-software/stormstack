@@ -10,15 +10,25 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'to-css-custom-properties';
+  name: "to-css-custom-properties";
   options?: Partial<{
-    formatName: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
+    formatName: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
     formatTokens: Partial<{
-      color: 'rgb' | 'prgb' | 'hex' | 'hex6' | 'hex3' | 'hex4' | 'hex8' | 'name' | 'hsl' | 'hsv';
+      color:
+        | "rgb"
+        | "prgb"
+        | "hex"
+        | "hex6"
+        | "hex3"
+        | "hex4"
+        | "hex8"
+        | "name"
+        | "hsl"
+        | "hsv";
     }>;
     formatConfig: Partial<{
       selector: string;
-      endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+      endOfLine: "auto" | "lf" | "crlf" | "cr";
       tabWidth: number;
       useTabs: boolean;
     }>;
@@ -139,7 +149,7 @@ type output = string;
 #### Output
 
 ```css
-body[data-theme='light'] {
+body[data-theme="light"] {
   /* COLOR */
   --primary-color: hsla(90, 84%, 48%, 0.96);
 }

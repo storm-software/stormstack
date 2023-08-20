@@ -4,12 +4,12 @@ version: 0.0.1
 summary: |
   Event represents when a shipment has been delievered and received.
 producers:
-    - Shipping Service
+  - Shipping Service
 consumers:
-    - Order Service
-    - Data Lake
+  - Order Service
+  - Data Lake
 owners:
-    - sullivanpj
+  - sullivanpj
 ---
 
 <Admonition>When firing this event make sure you set the `correlation-id` in the headers. Our schemas have standard metadata make sure you read and follow it.</Admonition>

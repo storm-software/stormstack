@@ -4,9 +4,10 @@
   <em>This is a .NET C# RabbitMQ template for the AsyncAPI generator</em>
 </p>
 
-
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](##Contributors-✨)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This template is for generating a .NET C# wrapper for the RabbitMQ client based on your AsyncAPI document. The template uses the [RabbitMQ C# Client](https://rabbitmq.github.io/rabbitmq-dotnet-client/api/RabbitMQ.Client.html) library.
@@ -14,23 +15,26 @@ This template is for generating a .NET C# wrapper for the RabbitMQ client based 
 Have you found a bug or have an idea for improvement? Feel free to contribute! See [the contribution guidelines](#Contributing) how to do so.
 
 ## Example usage
-Given any AsyncAPI file (`AsyncAPI.yml`) first generate the client with the [AsyncAPI generator](https://github.com/asyncapi/generator) such as 
+
+Given any AsyncAPI file (`AsyncAPI.yml`) first generate the client with the [AsyncAPI generator](https://github.com/asyncapi/generator) such as
+
 ```bash
 ag .\asyncapi.yaml .\dotnet-rabbitmq-template\ -o .\output --force-write -p server=production
 ```
 
 # How to use
+
 The generated output shall be seen a subscriber and/or publisher of message on/from a rabbit mq broker.
 
 ## Requirements
-* @asyncapi/generator < v2.0.0 >v1.1.1
+
+- @asyncapi/generator < v2.0.0 >v1.1.1
 
 Install the generator through [npm or run it from docker official installer](https://github.com/asyncapi/generator#install).
 
 # Contributing
 
 Before contributing please read the [CONTRIBUTING](CONTRIBUTING.md) document.
-
 
 ## Contributors ✨
 

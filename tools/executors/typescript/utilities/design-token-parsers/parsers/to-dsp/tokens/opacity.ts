@@ -1,5 +1,5 @@
-import { OpacityToken } from '../../../types';
-import { DspEntity } from '../dsp.type';
+import { OpacityToken } from "../../../types";
+import { DspEntity } from "../dsp.type";
 
 export class Opacity extends OpacityToken {
   constructor(token: Partial<OpacityToken>) {
@@ -7,12 +7,12 @@ export class Opacity extends OpacityToken {
   }
   toDsp(): DspEntity {
     return {
-      class: 'token',
-      type: 'custom',
+      class: "token",
+      type: "custom",
       id: this.id!,
       name: this.name,
       value: `${this.value.opacity / 100}`,
-      tags: ['specify', 'opacity'],
+      tags: ["specify", "opacity"],
     };
   }
 }

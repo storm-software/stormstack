@@ -1,5 +1,5 @@
-import { MeasurementToken } from '../../../types';
-import { DspEntity } from '../dsp.type';
+import { MeasurementToken } from "../../../types";
+import { DspEntity } from "../dsp.type";
 
 export class Measurement extends MeasurementToken {
   constructor(token: Partial<MeasurementToken>) {
@@ -7,12 +7,12 @@ export class Measurement extends MeasurementToken {
   }
   toDsp(): DspEntity {
     return {
-      class: 'token',
-      type: 'size',
+      class: "token",
+      type: "size",
       id: this.id!,
       name: this.name,
       value: `${this.value.measure}${this.value.unit}`,
-      tags: ['specify', 'measurement'],
+      tags: ["specify", "measurement"],
     };
   }
 }

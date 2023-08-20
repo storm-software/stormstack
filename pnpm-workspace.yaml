@@ -1,7 +1,7 @@
 packages:
-  - 'tools/**'
-  - 'design-system/**'
-  - 'libs/**'
-  - 'apps/**'
-  - 'docs/**'
-  - '!**/test/**'
+  - "tools/**"
+  - "design-system/**"
+  - "libs/**"
+  - "apps/**"
+  - "docs/**"
+  - "!**/test/**"

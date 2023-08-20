@@ -1,12 +1,12 @@
 import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
 import {
-    DataModel,
-    DataSource,
-    EnumField,
-    Model,
-    isDataModel,
-    isDataSource,
-    isEnum,
+  DataModel,
+  DataSource,
+  EnumField,
+  Model,
+  isDataModel,
+  isDataSource,
+  isEnum,
 } from "@open-system/tools-storm-language/ast";
 import { ConnectorType, DMMF } from "@prisma/generator-helper";
 import { promises as fs } from "fs";
@@ -15,22 +15,22 @@ import path from "path";
 import { Project } from "ts-morph";
 import { isFromStdlib } from "../../language-server/utils";
 import {
-    AUXILIARY_FIELDS,
-    PluginOptions,
-    createProject,
-    emitProject,
-    getDataModels,
-    getLiteral,
-    getPrismaClientImportSpec,
-    hasAttribute,
-    isEnumFieldReference,
-    isForeignKeyField,
-    resolvePath,
-    saveProject,
+  AUXILIARY_FIELDS,
+  PluginOptions,
+  createProject,
+  emitProject,
+  getDataModels,
+  getLiteral,
+  getPrismaClientImportSpec,
+  hasAttribute,
+  isEnumFieldReference,
+  isForeignKeyField,
+  resolvePath,
+  saveProject,
 } from "../../sdk";
 import {
-    addMissingInputObjectTypes,
-    resolveAggregateOperationSupport,
+  addMissingInputObjectTypes,
+  resolveAggregateOperationSupport,
 } from "../../sdk/dmmf-helpers";
 import { getDefaultOutputFolder } from "../plugin-utils";
 import Transformer from "./transformer";

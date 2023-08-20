@@ -1,6 +1,7 @@
 # TO DSP
 
 ## Description
+
 This parser helps you create a [Design System Package (DSP)](https://github.com/AdobeXD/design-system-package-dsp).
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface x {
-  name: 'to-dsp';
+  name: "to-dsp";
   options?: Partial<{
     settings: Partial<{
       name?: string;
@@ -32,14 +33,15 @@ interface x {
 | `settings.snippetTriggerPrefix` | optional | `string` |                        | Trigger for snippets on components (examples: 'sp-' or 'ex-") |
 | `createAssets`                  | true     | `true`   | `true`                 | Defines if you want the assets to be created or not           |
 
-
 ## Output
+
 Please keep in mind that this parser generates files. This is why you should always set a folder as the final `path` in your parent rule.
 
 <details open>
 <summary>See Do & Don't config examples</summary>
 
 ✅ Do
+
 ```
 // ...
 "rules": [
@@ -56,6 +58,7 @@ Please keep in mind that this parser generates files. This is why you should alw
 ```
 
 🚫 Don't
+
 ```
 // ...
 "rules": [
@@ -70,6 +73,7 @@ Please keep in mind that this parser generates files. This is why you should alw
   }
 ]
 ```
+
 </details>
 
 ## Types
@@ -86,7 +90,7 @@ Array<{
   name: string;
   value: any;
   type: string;
-}>
+}>;
 ```
 
 ### Output

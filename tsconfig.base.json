@@ -214,9 +214,6 @@
       "@open-system/engagement/config": ["libs/engagement/config/src/index.ts"],
       "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
       "@open-system/generators-dotnet": ["tools/generators/dotnet/index.ts"],
-      "@open-system/tools-generators-typescript": [
-        "tools/generators/typescript/index.ts"
-      ],
       "@open-system/portfolio-client-resume": [
         "libs/portfolio/typescript/client/resume/src/index.ts"
       ],
@@ -235,6 +232,9 @@
       ],
       "@open-system/tools-executors-typescript/*": [
         "tools/executors/typescript/*"
+      ],
+      "@open-system/tools-generators-typescript": [
+        "tools/generators/typescript/index.ts"
       ],
       "@open-system/tools-storm-language": [
         "tools/storm/language/src/index.ts"

@@ -4,11 +4,11 @@ version: 0.0.2
 summary: |
   Holds information about what the user added to their shopping cart.
 producers:
-    - Basket Service
+  - Basket Service
 consumers:
-    - Data Lake
+  - Data Lake
 owners:
-    - sullivanpj
+  - sullivanpj
 ---
 
 <Admonition>When firing this event make sure you set the `correlation-id` in the headers. Our schemas have standard metadata make sure you read and follow it.</Admonition>

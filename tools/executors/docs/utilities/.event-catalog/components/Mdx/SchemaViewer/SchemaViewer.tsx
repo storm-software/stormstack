@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 
-import { JsonSchemaViewer } from '@stoplight/json-schema-viewer';
-import { injectStyles } from '@stoplight/mosaic';
-import styles from './SchemaViewer.module.css';
+import { JsonSchemaViewer } from "@stoplight/json-schema-viewer";
+import { injectStyles } from "@stoplight/mosaic";
+import styles from "./SchemaViewer.module.css";
 
 // Inject Stoplight styles
 injectStyles();
@@ -15,7 +15,13 @@ type Props = {
   maxHeight?: number;
 };
 
-function SchemaViewer({ schema, maxHeight, renderRootTreeLines = false, hideExamples = false, defaultExpandedDepth = 1 }: Props) {
+function SchemaViewer({
+  schema,
+  maxHeight,
+  renderRootTreeLines = false,
+  hideExamples = false,
+  defaultExpandedDepth = 1,
+}: Props) {
   const JsonSchema = useMemo(() => JSON.parse(schema as string), [schema]);
 
   return (

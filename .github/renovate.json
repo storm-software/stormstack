@@ -5,7 +5,8 @@
     "schedule:weekly",
     ":semanticCommits",
     ":automergePatch",
-    ":noUnscheduledUpdates", ":pinAllExceptPeerDependencies"
+    ":noUnscheduledUpdates",
+    ":pinAllExceptPeerDependencies"
   ],
   "semanticCommits": "enabled",
   "reviewers": ["@sullivanpj"],

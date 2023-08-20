@@ -22,11 +22,7 @@ export const BadgeVariants = {
   GRADIENT: "gradient" as BadgeVariants,
 };
 
-export type BadgeBorderThickness =
-  | "none"
-  | "thin"
-  | "normal"
-  | "thick";
+export type BadgeBorderThickness = "none" | "thin" | "normal" | "thick";
 export const BadgeBorderThickness = {
   NONE: "none" as BadgeBorderThickness,
   THIN: "thin" as BadgeBorderThickness,

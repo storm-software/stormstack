@@ -1,7 +1,9 @@
-import dynamic from 'next/dynamic';
-import '@asyncapi/react-component/styles/default.min.css';
+import dynamic from "next/dynamic";
+import "@asyncapi/react-component/styles/default.min.css";
 
-const AsyncApiComponent = dynamic(import('@asyncapi/react-component'), { ssr: false });
+const AsyncApiComponent = dynamic(import("@asyncapi/react-component"), {
+  ssr: false,
+});
 
 const config = {
   show: {

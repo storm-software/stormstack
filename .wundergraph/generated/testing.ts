@@ -1,8 +1,8 @@
 import {
-	ServerOptions,
-	WunderGraphTestServer,
-	WunderGraphMockServer,
-	WunderGraphTestServers,
+  ServerOptions,
+  WunderGraphTestServer,
+  WunderGraphMockServer,
+  WunderGraphTestServers,
 } from "@wundergraph/sdk/testing";
 import { createClient, WunderGraphClient } from "./client";
 
@@ -16,11 +16,13 @@ export type TestServers = WunderGraphTestServers<WunderGraphClient>;
  * The test server will be started on a random port.
  * You can use the `client()` method to make requests against the test server.
  */
-export const createTestServer = (opts?: Partial<ServerOptions<WunderGraphClient>>) => {
-	return new WunderGraphTestServer({
-		...opts,
-		createClient: opts?.createClient ?? createClient,
-	});
+export const createTestServer = (
+  opts?: Partial<ServerOptions<WunderGraphClient>>
+) => {
+  return new WunderGraphTestServer({
+    ...opts,
+    createClient: opts?.createClient ?? createClient,
+  });
 };
 
 /**
@@ -29,7 +31,7 @@ export const createTestServer = (opts?: Partial<ServerOptions<WunderGraphClient>
  * You can use the `mock()` method to make requests against the mock server.
  */
 export const createMockServer = () => {
-	return new WunderGraphMockServer();
+  return new WunderGraphMockServer();
 };
 
 /**
@@ -37,8 +39,10 @@ export const createMockServer = () => {
  * All servers will be started on a random port.
  * You can use the `testServer.client()` method to make requests against the test server.
  */
-export const createTestAndMockServer = (opts?: Partial<ServerOptions<WunderGraphClient>>) => {
-	const ts = createTestServer(opts);
-	const ms = createMockServer();
-	return new WunderGraphTestServers<WunderGraphClient>(ms, ts);
+export const createTestAndMockServer = (
+  opts?: Partial<ServerOptions<WunderGraphClient>>
+) => {
+  const ts = createTestServer(opts);
+  const ms = createMockServer();
+  return new WunderGraphTestServers<WunderGraphClient>(ms, ts);
 };

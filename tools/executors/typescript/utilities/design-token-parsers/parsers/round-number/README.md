@@ -1,20 +1,22 @@
 # Round number
 
 ## Description
+
 This parser helps you round any measurement design token with specific precision.
 
 Some measurement token values like a font size, a line height or a shadow blur may need to be rounded. By specifying a mode, you can control the round function more precisely.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
+
 ## Interface
 
 ```ts
 interface parser {
-  name: 'round-number';
+  name: "round-number";
   options: {
     keys: Array<string>;
     precision?: number;
-    mode?: 'down' | 'up' | 'auto';
+    mode?: "down" | "up" | "auto";
   };
 }
 ```
@@ -62,6 +64,7 @@ The following config rounds the measure of a measurement design token:
   // …
 ]
 ```
+
 ### Before/After
 
 #### Input
@@ -113,6 +116,7 @@ The following config rounds the measure of a measurement design token:
 ## Complex Usage - Rounding text style font size and shadows blur
 
 ### Config
+
 This config uses patterns. Here, the shadow has an array as a value. So we use `[*]` to round all the blur measures.
 
 ```jsonc

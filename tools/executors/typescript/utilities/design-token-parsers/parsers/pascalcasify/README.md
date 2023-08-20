@@ -1,14 +1,16 @@
 # Pascalcasify
 
 ## Description
+
 This parser helps you apply pascalcase function on specific keys from a design token.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
+
 ## Interface
 
 ```ts
 interface parser {
-  name: 'pascalcasify';
+  name: "pascalcasify";
   options?: {
     keys: Array<string>;
   };

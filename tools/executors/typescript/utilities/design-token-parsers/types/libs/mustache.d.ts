@@ -111,7 +111,7 @@ export interface MustacheStatic {
     template: string,
     view: any | MustacheContext,
     partials?: PartialsOrLookupFn,
-    tagsOrOptions?: OpeningAndClosingTags | RenderOptions,
+    tagsOrOptions?: OpeningAndClosingTags | RenderOptions
   ): string;
 }
 
@@ -235,7 +235,7 @@ export class MustacheWriter {
     template: string,
     view: any | MustacheContext,
     partials?: PartialsOrLookupFn,
-    config?: OpeningAndClosingTags | RenderOptions,
+    config?: OpeningAndClosingTags | RenderOptions
   ): string;
 
   /**
@@ -260,7 +260,7 @@ export class MustacheWriter {
     context: MustacheContext,
     partials?: PartialsOrLookupFn,
     originalTemplate?: string,
-    config?: RenderOptions,
+    config?: RenderOptions
   ): string;
 
   /**
@@ -283,7 +283,7 @@ export class MustacheWriter {
     context: MustacheContext,
     partials?: PartialsOrLookupFn,
     originalTemplate?: string,
-    config?: RenderOptions,
+    config?: RenderOptions
   ): string;
 
   /**
@@ -306,7 +306,7 @@ export class MustacheWriter {
     context: MustacheContext,
     partials?: PartialsOrLookupFn,
     originalTemplate?: string,
-    config?: RenderOptions,
+    config?: RenderOptions
   ): string;
 
   /**
@@ -321,7 +321,11 @@ export class MustacheWriter {
    * @param lineHasNonSpace
    * Whether to indent lines that are empty.
    */
-  indentPartial(partial: string, indentation: string, lineHasNonSpace: boolean): string;
+  indentPartial(
+    partial: string,
+    indentation: string,
+    lineHasNonSpace: boolean
+  ): string;
 
   /**
    * Renders a partial.
@@ -342,7 +346,7 @@ export class MustacheWriter {
     token: string[],
     context: MustacheContext,
     partials?: PartialsOrLookupFn,
-    config?: OpeningAndClosingTags | RenderOptions,
+    config?: OpeningAndClosingTags | RenderOptions
   ): string;
 
   /**
@@ -365,7 +369,11 @@ export class MustacheWriter {
    * @param context
    * The context to use for rendering the token.
    */
-  escapedValue(token: string[], context: MustacheContext, config?: RenderOptions): string;
+  escapedValue(
+    token: string[],
+    context: MustacheContext,
+    config?: RenderOptions
+  ): string;
 
   /**
    * Renders a raw token.
@@ -376,14 +384,14 @@ export class MustacheWriter {
   rawValue(token: string[]): string;
 }
 
-type RAW_VALUE = 'text';
-type ESCAPED_VALUE = 'name';
-type UNESCAPED_VALUE = '&';
-type SECTION = '#';
-type INVERTED = '^';
-type COMMENT = '!';
-type PARTIAL = '>';
-type EQUAL = '=';
+type RAW_VALUE = "text";
+type ESCAPED_VALUE = "name";
+type UNESCAPED_VALUE = "&";
+type SECTION = "#";
+type INVERTED = "^";
+type COMMENT = "!";
+type PARTIAL = ">";
+type EQUAL = "=";
 
 export type TemplateSpanType =
   | RAW_VALUE

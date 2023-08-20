@@ -48,16 +48,16 @@ export const SubscriptionModalForm = forwardRef<
     );
 
     const [commit, isInFlight] = useMutation<FeedbackLikeMutation>(graphql`
-    mutation FeedbackLikeMutation($input: FeedbackLikeData!) {
-      feedback_like(data: $input) {
-        feedback {
-          id
-          viewer_does_like
-          like_count
+      mutation FeedbackLikeMutation($input: FeedbackLikeData!) {
+        feedback_like(data: $input) {
+          feedback {
+            id
+            viewer_does_like
+            like_count
+          }
         }
       }
-    }
-  `);
+    `);
 
     const { add: addNotification } = useSetNotifications();
     const handleSuccess = useCallback(() => {

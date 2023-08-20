@@ -1,6 +1,7 @@
 # Sort By
 
 ## Description
+
 This parser helps loop on several design tokens and sort them according to their respective key values.
 
 Learn more about how to configure Specify in the API documentation: [https://specifyapp.com/developers](https://specifyapp.com/developers).
@@ -9,7 +10,7 @@ Learn more about how to configure Specify in the API documentation: [https://spe
 
 ```ts
 interface parser {
-  name: 'sort-by';
+  name: "sort-by";
   options?: {
     keys: Array<string>;
   };

@@ -45,17 +45,17 @@ services:
     container_name: eventstore.db
     image: eventstore/eventstore:22.10.2-buster-slim
     ports:
-        - "1113:1113"
-        - "2113:2113"
+      - "1113:1113"
+      - "2113:2113"
     networks:
-        - network-eventstore
+      - network-eventstore
     volumes:
-        - type: volume
-          source: eventstore-volume-data
-          target: /var/lib/eventstore
-        - type: volume
-          source: eventstore-volume-logs
-          target: /var/log/eventstore
+      - type: volume
+        source: eventstore-volume-data
+        target: /var/lib/eventstore
+      - type: volume
+        source: eventstore-volume-logs
+        target: /var/log/eventstore
 
 volumes:
   postgresql-data:

@@ -155,10 +155,7 @@ export class RequestContext<T = any> {
     this.headers[key] = value;
   }
 
-  public getRequestOptions(
-    api?: HttpFetchApi,
-    extraOptions?: any
-  ) {
+  public getRequestOptions(api?: HttpFetchApi, extraOptions?: any) {
     const method = this.getHttpMethod(api, extraOptions).toString();
 
     ConsoleLogger.debug(

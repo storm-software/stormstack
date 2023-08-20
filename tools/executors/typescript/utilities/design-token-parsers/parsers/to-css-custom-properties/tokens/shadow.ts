@@ -1,4 +1,4 @@
-import { ShadowToken } from '../../../types';
+import { ShadowToken } from "../../../types";
 
 export class Shadow extends ShadowToken {
   constructor(token: Partial<ShadowToken>) {
@@ -12,14 +12,16 @@ export class Shadow extends ShadowToken {
       const yString = `${offsetY.value.measure}${offsetY.value.unit}`;
       const blurString = `${blur.value.measure}${blur.value.unit}`;
       // Intial space in the string to avoid having double space
-      const spreadString = spread ? ` ${spread.value.measure}${spread.value.unit}` : '';
+      const spreadString = spread
+        ? ` ${spread.value.measure}${spread.value.unit}`
+        : "";
       const { r, g, b, a } = color.value;
-      const innerText = isInner ? 'inset ' : '';
-      if (acc === '') {
+      const innerText = isInner ? "inset " : "";
+      if (acc === "") {
         return `${innerText}${xString} ${yString} ${blurString}${spreadString} rgba(${r},${g},${b},${a})`;
       }
 
       return `${acc}, ${innerText}${xString} ${yString} ${blurString}${spreadString} rgba(${r},${g},${b},${a})`;
-    }, '');
+    }, "");
   }
 }

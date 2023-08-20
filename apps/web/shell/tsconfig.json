@@ -12,10 +12,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "types": [
-      "jest",
-      "node",
-    ],
+    "types": ["jest", "node"],
     "plugins": [
       {
         "name": "next"
@@ -23,7 +20,7 @@
     ]
   },
   "paths": {
-    "@/*": ["apps/web/shell/*"],
+    "@/*": ["apps/web/shell/*"]
   },
   "include": [
     "**/*.ts",

@@ -1,32 +1,32 @@
 import { lowerCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
 import {
-    ArrayExpr,
-    DataModel,
-    DataModelField,
-    isArrayExpr,
-    isDataModel,
-    isLiteralExpr,
-    isReferenceExpr,
-    Model,
-    ReferenceExpr,
+  ArrayExpr,
+  DataModel,
+  DataModelField,
+  isArrayExpr,
+  isDataModel,
+  isLiteralExpr,
+  isReferenceExpr,
+  Model,
+  ReferenceExpr,
 } from "@open-system/tools-storm-language/ast";
 import type { RuntimeAttribute } from "@open-system/tools-storm-runtime";
 import path from "path";
 import { CodeBlockWriter, VariableDeclarationKind } from "ts-morph";
 import {
-    createProject,
-    emitProject,
-    getAttributeArg,
-    getAttributeArgs,
-    getDataModels,
-    getLiteral,
-    hasAttribute,
-    isIdField,
-    PluginError,
-    PluginOptions,
-    resolved,
-    resolvePath,
-    saveProject,
+  createProject,
+  emitProject,
+  getAttributeArg,
+  getAttributeArgs,
+  getDataModels,
+  getLiteral,
+  hasAttribute,
+  isIdField,
+  PluginError,
+  PluginOptions,
+  resolved,
+  resolvePath,
+  saveProject,
 } from "../../sdk";
 import { getDefaultOutputFolder } from "../plugin-utils";
 

@@ -1,5 +1,5 @@
-import { EnhancementOptions, enhance } from './enhance';
-import { WithPolicyContext } from './policy';
+import { EnhancementOptions, enhance } from "./enhance";
+import { WithPolicyContext } from "./policy";
 
 /**
  * Gets a Prisma client enhanced with all essential behaviors, including access
@@ -12,9 +12,9 @@ import { WithPolicyContext } from './policy';
  * @param options Options.
  */
 export function withPresets<DbClient extends object>(
-    prisma: DbClient,
-    context?: WithPolicyContext,
-    options?: EnhancementOptions
+  prisma: DbClient,
+  context?: WithPolicyContext,
+  options?: EnhancementOptions
 ) {
-    return enhance(prisma, context, options);
+  return enhance(prisma, context, options);
 }

@@ -1,7 +1,7 @@
-import { OpacityToken } from '../../../types';
-import { OptionsType } from '../to-theme-ui.parser';
-import { Utils } from './index';
-import { OpacityMapping } from '../to-theme-ui.type';
+import { OpacityToken } from "../../../types";
+import { OptionsType } from "../to-theme-ui.parser";
+import { Utils } from "./index";
+import { OpacityMapping } from "../to-theme-ui.type";
 
 interface ThemeUiOpacities extends Partial<Record<OpacityMapping, any>> {
   opacities: Array<string | number>;
@@ -15,11 +15,11 @@ export class Opacity extends OpacityToken {
   }
   generate(options: OptionsType): ThemeUiOpacities {
     let opacity: number | string = this.value.opacity;
-    const opacityType = options?.formatTokens?.opacityFormat?.type || 'number';
-    const opacityUnit = options?.formatTokens?.opacityFormat?.unit || 'none';
-    if (opacityUnit === 'percent') {
+    const opacityType = options?.formatTokens?.opacityFormat?.type || "number";
+    const opacityUnit = options?.formatTokens?.opacityFormat?.unit || "none";
+    if (opacityUnit === "percent") {
       opacity = `${opacity}%`;
-    } else if (opacityType === 'string') {
+    } else if (opacityType === "string") {
       opacity = `${opacity / 100}`;
     } else {
       opacity = opacity / 100;
@@ -28,7 +28,8 @@ export class Opacity extends OpacityToken {
   }
 
   static afterGenerate(tokens: ThemeUiOpacities) {
-    if (tokens.opacities) tokens.opacities = Utils.deduplicateAndSortList(tokens.opacities);
+    if (tokens.opacities)
+      tokens.opacities = Utils.deduplicateAndSortList(tokens.opacities);
     return tokens;
   }
 }

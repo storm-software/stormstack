@@ -1,4 +1,4 @@
-import { LibsType } from '../global-libs';
+import { LibsType } from "../global-libs";
 
 export type InputDataType = Array<Record<string, any>>;
 export type OutputDataType = InputDataType;
@@ -14,12 +14,12 @@ export type OptionsType = {
 export default async function (
   tokens: InputDataType,
   options: OptionsType,
-  { _ }: Pick<LibsType, '_'>,
+  { _ }: Pick<LibsType, "_">
 ): Promise<OutputDataType | Error> {
   try {
     const reg =
-      typeof options.regex === 'object'
-        ? new RegExp(options.regex.pattern, options.regex.flags || '')
+      typeof options.regex === "object"
+        ? new RegExp(options.regex.pattern, options.regex.flags || "")
         : new RegExp(options.regex);
     const result: InputDataType = [];
     tokens.forEach(token => {

@@ -1,7 +1,7 @@
-import { FontToken } from '../../../types';
-import { Utils } from './index';
-import { FontMapping } from '../to-theme-ui.type';
-import { Indexes } from '../to-theme-ui.parser';
+import { FontToken } from "../../../types";
+import { Utils } from "./index";
+import { FontMapping } from "../to-theme-ui.type";
+import { Indexes } from "../to-theme-ui.parser";
 
 interface ThemeUiFont extends Partial<Record<FontMapping, any>> {
   fonts?: Record<string, string>;
@@ -27,8 +27,13 @@ export class Font extends FontToken {
       },
     };
     result.fontWeights = { [this.transformedName]: this.value.fontWeight };
-    Indexes.Instance.add('fontWeights', this.id, this.transformedName, this.value.fontWeight);
-    Indexes.Instance.add('fonts', this.id, this.transformedName);
+    Indexes.Instance.add(
+      "fontWeights",
+      this.id,
+      this.transformedName,
+      this.value.fontWeight
+    );
+    Indexes.Instance.add("fonts", this.id, this.transformedName);
     return result;
   }
 }

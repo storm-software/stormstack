@@ -5,7 +5,6 @@
   "title": "Open System - Cloudflare Worker Build",
   "description": "Build a Cloudflare Worker",
   "type": "object",
-  "properties": {
-  },
+  "properties": {},
   "required": []
 }

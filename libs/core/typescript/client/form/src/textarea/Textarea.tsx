@@ -6,7 +6,12 @@ import {
 } from "@open-system/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { useFieldErrors, useFieldValue, useIsSubmitting, useFieldRegistration } from "@open-system/core-client-data-access";
+import {
+  useFieldErrors,
+  useFieldValue,
+  useIsSubmitting,
+  useFieldRegistration,
+} from "@open-system/core-client-data-access";
 import { ValidationPropType } from "../types";
 
 export type TextareaProps = Omit<OsTextareaProps, "minLength" | "maxLength"> & {

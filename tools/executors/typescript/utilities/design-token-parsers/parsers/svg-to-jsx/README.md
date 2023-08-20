@@ -8,13 +8,13 @@ This parser helps you wrap SVG files within a JSX component.
 
 ```ts
 interface parser {
-  name: 'svg-to-jsx';
+  name: "svg-to-jsx";
   options: {
     prepend?: string;
     formatConfig?: Partial<{
       exportDefault: boolean;
-      variableFormat?: 'camelCase' | 'kebabCase' | 'snakeCase' | 'pascalCase';
-      endOfLine: 'auto' | 'lf' | 'crlf' | 'cr';
+      variableFormat?: "camelCase" | "kebabCase" | "snakeCase" | "pascalCase";
+      endOfLine: "auto" | "lf" | "crlf" | "cr";
       tabWidth: number;
       useTabs: boolean;
       singleQuote: boolean;

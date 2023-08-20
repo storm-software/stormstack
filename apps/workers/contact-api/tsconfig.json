@@ -5,7 +5,7 @@
     "target": "esnext",
     "lib": ["esnext"],
     "allowJs": true,
-		"checkJs": true,
+    "checkJs": true,
     "alwaysStrict": true,
     "strict": true,
     "preserveConstEnums": true,
@@ -14,10 +14,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "types": [
-      "@cloudflare/workers-types",
-      "@types/jest",
-    ]
+    "types": ["@cloudflare/workers-types", "@types/jest"]
   },
   "exclude": [
     "jest.config.ts",

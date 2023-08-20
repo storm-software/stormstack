@@ -1,7 +1,7 @@
-import { AppFormat } from './Apps';
+import { AppFormat } from "./Apps";
 
 export interface FigmaSourceSettings {
-  sourceType: 'frames' | 'localStyles';
+  sourceType: "frames" | "localStyles";
   fileId: string;
   fileUrl: string;
   pageId?: string;
@@ -15,7 +15,7 @@ export interface UrlSourceSettings {
 
 export type SourceSettings = UrlSourceSettings | FigmaSourceSettings;
 
-export type SourceStatusValue = 'on' | 'off' | 'error';
+export type SourceStatusValue = "on" | "off" | "error";
 
 export interface Source {
   id: string;

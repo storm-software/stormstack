@@ -1,7 +1,7 @@
-import { OpacityToken } from '../../../types';
-import { Utils } from './index';
-import { OpacityMapping } from '../to-tailwind.type';
-import { OptionsType } from '../to-tailwind.parser';
+import { OpacityToken } from "../../../types";
+import { Utils } from "./index";
+import { OpacityMapping } from "../to-tailwind.type";
+import { OptionsType } from "../to-tailwind.parser";
 
 export class Opacity extends OpacityToken {
   token: Partial<OpacityToken>;
@@ -15,14 +15,15 @@ export class Opacity extends OpacityToken {
       opacity: Utils.go<ConstructorParameters<typeof OpacityToken>[0]>(
         this.token,
         options,
-        'opacity',
-        `${this.value.opacity / 100}`,
+        "opacity",
+        `${this.value.opacity / 100}`
       ),
     };
   }
 
   static afterGenerate(tokens: OpacityMapping) {
-    if (tokens.opacity) tokens.opacity = Utils.sortObjectByValue(tokens.opacity);
+    if (tokens.opacity)
+      tokens.opacity = Utils.sortObjectByValue(tokens.opacity);
     return tokens;
   }
 }

@@ -1,1 +1,1 @@
-export * from './generated/module';
+export * from "./generated/module";

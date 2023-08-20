@@ -1,4 +1,3 @@
-
 /**
  * Upper case the first character of an input string.
  */

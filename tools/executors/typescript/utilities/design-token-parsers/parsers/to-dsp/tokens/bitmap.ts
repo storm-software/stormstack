@@ -1,5 +1,5 @@
-import { BitmapToken, DownloadableFile } from '../../../types';
-import { DspEntity } from '../dsp.type';
+import { BitmapToken, DownloadableFile } from "../../../types";
+import { DspEntity } from "../dsp.type";
 
 export class Bitmap extends BitmapToken {
   constructor(token: Partial<BitmapToken>) {
@@ -8,12 +8,12 @@ export class Bitmap extends BitmapToken {
 
   toDsp(): DspEntity {
     return {
-      class: 'token',
-      type: 'custom',
+      class: "token",
+      type: "custom",
       id: this.id!,
       name: this.name,
       value: `assets/${this.name}`,
-      tags: ['specify', 'bitmap'],
+      tags: ["specify", "bitmap"],
     };
   }
 

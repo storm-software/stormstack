@@ -1,8 +1,8 @@
-import tinycolor from 'tinycolor2';
-import { ColorToken } from '../../../types';
-import { ColorMapping } from '../to-tailwind.type';
-import { OptionsType } from '../to-tailwind.parser';
-import { Utils } from './index';
+import tinycolor from "tinycolor2";
+import { ColorToken } from "../../../types";
+import { ColorMapping } from "../to-tailwind.type";
+import { OptionsType } from "../to-tailwind.parser";
+import { Utils } from "./index";
 
 export class Color extends ColorToken {
   token: Partial<ColorToken>;
@@ -15,8 +15,10 @@ export class Color extends ColorToken {
       colors: Utils.go<ConstructorParameters<typeof Color>[0]>(
         this.token,
         options,
-        'colors',
-        tinycolor(this.value).toString(options?.formatTokens?.colorFormat?.format || 'hex'),
+        "colors",
+        tinycolor(this.value).toString(
+          options?.formatTokens?.colorFormat?.format || "hex"
+        )
       ),
     };
   }

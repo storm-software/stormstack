@@ -9,17 +9,17 @@
     "outputFileTypes": {
       "type": "string",
       "alias": "output",
-      "description": "The path (relative to the workspace root) where the OpenAPI JSON spec file is located",
+      "description": "The path (relative to the workspace root) where the OpenAPI JSON spec file is located"
     },
     "outputFileSchemaAst": {
       "type": "string",
       "alias": "output",
-      "description": "The path (relative to the workspace root) where the OpenAPI JSON spec file is located",
+      "description": "The path (relative to the workspace root) where the OpenAPI JSON spec file is located"
     },
     "outputFileClient": {
       "type": "string",
       "alias": "output",
-      "description": "The path (relative to the workspace root) where the OpenAPI JSON spec file is located",
+      "description": "The path (relative to the workspace root) where the OpenAPI JSON spec file is located"
     }
   },
   "required": ["outputFileTypes", "outputFileSchemaAst", "outputFileClient"]

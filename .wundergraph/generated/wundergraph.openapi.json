@@ -32,19 +32,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "propertyPath",
-                "invalidValue",
-                "message"
-              ]
+              "required": ["propertyPath", "invalidValue", "message"]
             }
           }
         },
-        "required": [
-          "message",
-          "input",
-          "errors"
-        ]
+        "required": ["message", "input", "errors"]
       }
     }
   }
