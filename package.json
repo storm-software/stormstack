@@ -68,7 +68,8 @@
     "generate:graphql": "graphql-codegen --config graphql-codegen.ts",
     "generate:contributors": "all-contributors generate",
     "add:decisions": "pnpm log4brains adr new",
-    "preview:decisions": "pnpm log4brains preview"
+    "preview:decisions": "pnpm log4brains preview",
+    "commit": "git-cz"
   },
   "nx": {
     "includedScripts": [

@@ -27,28 +27,21 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 This library was generated with [Nx](https://nx.dev).
 
-<!-- START doctoc -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+## Table of Contents
 
-**Table of Contents**
+- [Building](#building)
+- [Running unit tests](#running-unit-tests)
+- [Roadmap](#roadmap)
+- [Support](#support)
+- [License](#license)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
 
-- [🔧 Open System Documentation Nx Executors 🔨](#-open-system-documentation-nx-executors-)
-  - [Building](#building)
-  - [Running unit tests](#running-unit-tests)
-  - [Roadmap](#roadmap)
-  - [Support](#support)
-  - [License](#license)
-  - [Changelog](#changelog)
-  - [Contributing](#contributing)
-  - [Contributors](#contributors)
-
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- END doctoc -->
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Building
 

@@ -27,16 +27,13 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 This is a Kafka TypeScript template for the AsyncAPI generator
 
-<!-- START doctoc -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+## Table of Contents
 
-**Table of Contents**
-
-- [Async-API Kafka-TypeScript template](#async-api-kafka-typescript-template)
-  - [Overview](#overview)
-  - [Example usage](#example-usage)
+- [Overview](#overview)
+- [Example usage](#example-usage)
 - [How to use](#how-to-use)
   - [Requirements](#requirements)
   - [Roadmap](#roadmap)
@@ -46,11 +43,7 @@ This is a Kafka TypeScript template for the AsyncAPI generator
   - [Contributing](#contributing)
   - [Contributors](#contributors)
 
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- END doctoc -->
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Overview
 

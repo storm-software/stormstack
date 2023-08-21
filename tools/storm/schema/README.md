@@ -31,28 +31,21 @@ This VS Code extension provides code editing helpers for authoring Open System's
 
 This library was generated with [Nx](https://nx.dev).
 
-<!-- START doctoc -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+'##
 
-**Table of Contents**
+- [Features](#features)
+- [Running unit tests](#running-unit-tests)
+- [Roadmap](#roadmap)
+- [Support](#support)
+- [License](#license)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
 
-- [⚡Storm Language Tools VS Code Extension](#storm-language-tools-vs-code-extension)
-  - [Features](#features)
-  - [Running unit tests](#running-unit-tests)
-  - [Roadmap](#roadmap)
-  - [Support](#support)
-  - [License](#license)
-  - [Changelog](#changelog)
-  - [Contributing](#contributing)
-  - [Contributors](#contributors)
-
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- END doctoc -->
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Features
 

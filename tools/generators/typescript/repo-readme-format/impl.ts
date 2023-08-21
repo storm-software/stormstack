@@ -4,25 +4,21 @@ import {
   getProjects,
   joinPathFragments,
 } from "@nx/devkit";
-import { findFileName } from "@open-system/core-server-utilities";
 import {
-  ConsoleLogger,
-  isEmptyObject,
-} from "@open-system/core-shared-utilities";
-//import doctoc from "doctoc";
-import fs, { existsSync } from "fs";
+  execute,
+  findFileName,
+  findFilePath,
+} from "@open-system/core-server-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { existsSync, readdirSync } from "fs";
 import { ReadMeFormatGeneratorSchema } from "./schema";
 
-export default async function (
-  tree: Tree,
-  options?: ReadMeFormatGeneratorSchema
-) {
-  let result!: unknown;
+export default function (tree: Tree, options?: ReadMeFormatGeneratorSchema) {
   try {
     ConsoleLogger.showTitle();
     ConsoleLogger.info("Executing Repo ReadMe Formatting generator...");
     ConsoleLogger.info(`Current Working Dir: ${process.cwd()}`);
-    const { outputPath, templatePath, inputGlob, clean } = options;
+    const { outputPath, templatePath, clean } = options;
 
     if (!existsSync(templatePath)) {
       ConsoleLogger.error(
@@ -30,17 +26,11 @@ export default async function (
           templatePath ? ` at ${templatePath}` : ""
         }`
       );
-      return { success: false };
+      return;
     }
 
-    const projects = getProjects(tree);
-    if (!projects || isEmptyObject(projects)) {
-      ConsoleLogger.error("Cannot find any projects in repository");
-      return { success: false };
-    }
-
-    Object.entries(projects).map(
-      ([projectName, project]: [string, ProjectConfiguration]) => {
+    getProjects(tree).forEach(
+      (project: ProjectConfiguration, projectName: string) => {
         const inputFile = joinPathFragments(project.root, "README.md");
         if (tree.exists(inputFile)) {
           ConsoleLogger.info(`Formatting README file at "${inputFile}"`);
@@ -48,7 +38,9 @@ export default async function (
             ConsoleLogger.warn(`Cannot find the input file at ${inputFile}`);
           } else {
             const outputFilePath = outputPath
-              ? joinPathFragments(outputPath, findFileName(inputFile))
+              ? outputPath.includes("README.md")
+                ? outputPath
+                : joinPathFragments(findFilePath(outputPath), "README.md")
               : inputFile;
 
             if (clean && existsSync(outputFilePath)) {
@@ -60,18 +52,12 @@ export default async function (
                 ConsoleLogger.info(
                   "Cleaning output directory (set `clean` parameter to false to skip)..."
                 );
-                // result = execute(`rmdir /S /Q "${outputFilePath}" `);
                 tree.delete(outputFilePath);
-                if (result) {
-                  ConsoleLogger.error(result);
-                  throw result;
-                }
               }
             }
 
-            const newContent = fs
-              .readdirSync(templatePath)
-              .reduce((ret: string, fileName: string) => {
+            let newContent = readdirSync(templatePath).reduce(
+              (ret: string, fileName: string) => {
                 ConsoleLogger.info(
                   `Using template "${fileName}" to format file...`
                 );
@@ -92,54 +78,51 @@ export default async function (
                   templateContent,
                   ret
                 );
-              }, tree.read(inputFile, "utf8"));
+              },
+              tree.read(inputFile, "utf8")
+            );
 
-            ConsoleLogger.info("Formatting Table of Contents...");
-            /*const toc = doctoc.transform(
-        newContent,
-        "github.com",
-        3,
-        "**Table of Contents**",
-        false,
-        "-",
-        true,
-        false
-      );
-      console.log(toc);
-      if (!toc.transformed) {
-        ConsoleLogger.warn("Table of Contents not found. Skipping...");
-      }
-
-      const packageJsonPath = Path.joinPathFragments(
-        findFilePath(inputFile),
-        "package.json"
-      );
-      if (existsSync(packageJsonPath)) {
-        const packageJson = JSON.parse(
-          readFileSync(packageJsonPath, "utf8") ?? "{}"
-        );
-        if (packageJson?.version) {
-          ConsoleLogger.info("Adding version...");
-          newContent = newContent.replace(
-            "<!-- VERSION -->",
-            packageJson.version
-          );
-        }
-      }
-
-      ConsoleLogger.info(`Writing output markdown to "${outputFilePath}"`);
-      writeFileSync(
-        outputFilePath,
-        toc.transformed
-          ? formatReadMeFromSectionName("doctoc", toc.toc, newContent)
-          : newContent,
-        "utf8"
-      );*/
+            const packageJsonPath = joinPathFragments(
+              findFilePath(inputFile),
+              "package.json"
+            );
+            if (tree.exists(packageJsonPath)) {
+              const packageJson = JSON.parse(
+                tree.read(packageJsonPath, "utf8") ?? "{}"
+              );
+              if (packageJson?.version) {
+                ConsoleLogger.info("Adding version...");
+                newContent = newContent.replace(
+                  "<!-- VERSION -->",
+                  packageJson.version
+                );
+              }
+            }
 
             ConsoleLogger.info(
               `Writing output markdown to "${outputFilePath}"`
             );
             tree.write(outputFilePath, newContent);
+
+            try {
+              const { start, end } = createTokens("doctoc");
+              if (newContent.includes(start) || newContent.includes(end)) {
+                ConsoleLogger.info("Formatting Table of Contents...");
+
+                execute(
+                  `pnpm doctoc ${outputFilePath} --github --title "## Table of Contents" --maxlevel 3`
+                );
+              } else {
+                ConsoleLogger.warn(
+                  `Contents do not contain start/end comments for section "doctoc", skipping  table of contents generation...`
+                );
+              }
+            } catch (e) {
+              ConsoleLogger.warn(
+                `Failed to format Table of Contents for ${outputFilePath}.`
+              );
+              ConsoleLogger.warn(e);
+            }
 
             ConsoleLogger.success(
               `ReadMe Formatting successfully ran for ${projectName}.`
@@ -148,13 +131,9 @@ export default async function (
         }
       }
     );
-
-    return { success: true };
   } catch (e) {
     ConsoleLogger.error(`An error occurred executing ReadMe Formatting`);
     ConsoleLogger.error(e);
-
-    return { success: false };
   }
 }
 
@@ -196,9 +175,15 @@ ${end}`
   );
 };
 
-const createRegExp = (sectionName: string) => {
+const createTokens = (sectionName: string) => {
   const start = `<!-- START ${sectionName} -->`;
   const end = `<!-- END ${sectionName} -->`;
+  return { start, end };
+};
+
+const createRegExp = (sectionName: string) => {
+  const { start, end } = createTokens(sectionName);
+
   const regex = new RegExp(`${start}([\\s\\S]*?)${end}`);
   return { regex, start, end };
 };

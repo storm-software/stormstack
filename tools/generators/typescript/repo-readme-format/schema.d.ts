@@ -2,6 +2,5 @@
 export interface ReadMeFormatGeneratorSchema {
   outputPath: string;
   templatePath: string;
-  inputGlob: string;
   clean: boolean;
 }

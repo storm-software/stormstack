@@ -23,7 +23,33 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<!-- END doctoc -->
+
+## Table of Contents
+
+- [Quick Features](#quick-features)
+  - [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Build](#build)
+  - [Development Server](#development-server)
+- [Storm - Model-Driven Development](#storm---model-driven-development)
+- [Environment Configuration Help](#environment-configuration-help)
+  - [Plug-Ins](#plug-ins)
+  - [Generate an Application](#generate-an-application)
+  - [Generate a Library](#generate-a-library)
+  - [Code Scaffolding](#code-scaffolding)
+- [Testing](#testing)
+  - [Running Unit Tests](#running-unit-tests)
+  - [Running End-to-End Tests](#running-end-to-end-tests)
+  - [Understand your workspace](#understand-your-workspace)
+- [☁ Nx Cloud](#-nx-cloud)
+  - [Distributed Computation Caching \& Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Support](#support)
+- [License](#license)
+- [Contributors ✨](#contributors-)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 - [Quick Features](#quick-features)
   - [Tech Stack](#tech-stack)

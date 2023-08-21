@@ -12,12 +12,6 @@
       "x-completion-type": "directory",
       "x-priority": "important"
     },
-    "inputGlob": {
-      "type": "string",
-      "description": "A glob path for the README.md files to format.",
-      "default": "**/README.md",
-      "x-priority": "important"
-    },
     "outputPath": {
       "type": "string",
       "description": "The output path of the generated README.md files (if empty will use the current path of the input README.md).",
@@ -29,5 +23,5 @@
       "default": false
     }
   },
-  "required": ["templatePath", "inputGlob"]
+  "required": ["templatePath"]
 }

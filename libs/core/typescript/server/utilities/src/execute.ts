@@ -11,15 +11,7 @@ export const execute = (
   try {
     ConsoleLogger.info(`Executing command: "${command}"`);
 
-    const result = exec(command, options);
-    if (result?.stderr) {
-      ConsoleLogger.error(`An error occurred executing command: "${command}"`);
-      ConsoleLogger.error(result.stderr);
-
-      return result.stderr;
-    }
-
-    return undefined;
+    return exec(command, options).stdout;
   } catch (e) {
     ConsoleLogger.error(`An error occurred executing command: "${command}"`);
     ConsoleLogger.error(e);
