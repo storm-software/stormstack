@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: "contact-server-graphql",
-  preset: "../../../../../jest.preset.js",
+  preset: "../../../../../testing/jest.preset.js",
   testEnvironment: "node",
   transform: {
     "^.+\\.[tj]s$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.spec.json" }],

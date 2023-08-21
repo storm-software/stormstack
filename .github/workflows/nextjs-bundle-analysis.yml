@@ -14,10 +14,18 @@ defaults:
     # change this if your nextjs app does not live at the root of the repo
     working-directory: ./
 
+env:
+  CI: true
+  NX_DAEMON: false
+  NX_VERBOSE_LOGGING: true
+  SKIP_ENV_VALIDATION: true
+  GITHUB_ACTOR: "sullivanpj"
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   analyze:
-    env:
-      SKIP_ENV_VALIDATION: true
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,8 +43,7 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Dependencies
-        uses: nrwl/nx-set-shas@v3
-      - run: pnpm i
+        run: pnpm i
 
       - name: Restore next build
         uses: actions/cache@v3

@@ -20,7 +20,7 @@ if (swcJestConfig.swcrc === undefined) {
 
 export default {
   displayName: "core-shared-injection",
-  preset: "../../../../../jest.preset.js",
+  preset: "../../../../../testing/jest.preset.js",
   transform: {
     "^.+\\.[tj]s$": ["@swc/jest", swcJestConfig],
   },

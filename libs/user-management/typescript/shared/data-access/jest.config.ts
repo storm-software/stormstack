@@ -20,7 +20,7 @@ if (swcJestConfig.swcrc === undefined) {
 
 export default {
   displayName: "user-management-shared-data-access",
-  preset: "../../../../../jest.preset.js",
+  preset: "../../../../../testing/jest.preset.js",
   transform: {
     "^.+\\.[tj]s$": ["@swc/jest", swcJestConfig],
   },

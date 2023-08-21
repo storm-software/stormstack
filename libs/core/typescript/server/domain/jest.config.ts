@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: "core-server-domain",
-  preset: "../../../../../jest.preset.js",
+  preset: "../../../../../testing/jest.preset.js",
   testEnvironment: "node",
   transform: {
     "^.+\\.[tj]s$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.spec.json" }],
