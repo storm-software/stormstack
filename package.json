@@ -30,7 +30,7 @@
     "storm",
     "storm-lang"
   ],
-  "packageManager": "pnpm@8.6.3",
+  "packageManager": "pnpm@8.6.12",
   "engines": {
     "node": ">=18.17.0",
     "pnpm": ">=8.6.3"
@@ -163,6 +163,7 @@
     "@nx/workspace": "16.7.0",
     "@opentelemetry/api": "^1.4.1",
     "@opentelemetry/instrumentation": "^0.40.0",
+    "@opentelemetry/otlp-exporter-base": "^0.41.2",
     "@opentelemetry/resources": "^1.14.0",
     "@opentelemetry/sdk-trace-node": "^1.14.0",
     "@opentelemetry/semantic-conventions": "^1.14.0",
