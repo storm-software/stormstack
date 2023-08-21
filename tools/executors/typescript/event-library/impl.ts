@@ -1,6 +1,6 @@
 import Generator from "@asyncapi/generator";
 import { ExecutorContext } from "@nx/devkit";
-import { executeAsync } from "@open-system/core-server-utilities/execute-async";
+import { executeAsync } from "@open-system/core-server-utilities";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { existsSync } from "fs-extra";
 import glob from "glob";

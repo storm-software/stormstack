@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { execSync } from "./exec-utils";
+import { execute } from "./execute";
 
 export type PackageManagers = "npm" | "yarn" | "pnpm";
 
@@ -37,6 +37,7 @@ function getPackageManager(projectPath = "."): PackageManagers {
       return "npm";
   }
 }
+
 export function installPackage(
   pkg: string,
   dev: boolean,
@@ -49,7 +50,7 @@ export function installPackage(
   console.log(`Installing package "${pkg}@${tag}" with ${manager}`);
   switch (manager) {
     case "yarn":
-      execSync(
+      execute(
         `yarn --cwd "${projectPath}" add ${
           exactVersion ? "--exact" : ""
         } ${pkg}@${tag} ${dev ? " --dev" : ""}`
@@ -57,7 +58,7 @@ export function installPackage(
       break;
 
     case "pnpm":
-      execSync(
+      execute(
         `pnpm add -C "${projectPath}" ${exactVersion ? "--save-exact" : ""} ${
           dev ? " --save-dev" : ""
         } ${pkg}@${tag}`
@@ -65,7 +66,7 @@ export function installPackage(
       break;
 
     default:
-      execSync(
+      execute(
         `npm install --prefix "${projectPath}" ${
           exactVersion ? "--save-exact" : ""
         } ${dev ? " --save-dev" : ""} ${pkg}@${tag}`
