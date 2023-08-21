@@ -7,9 +7,7 @@ import { UniqueIdGenerator } from "./unique-id-generator";
  * @remarks This class implements core functionality such as the id and symbol properties
  */
 export abstract class BaseUtilityClass implements IBaseUtilityClass {
-  public constructor(public readonly _symbol: symbol) {
-    this.objectType = (this as unknown as object)?.constructor.name;
-  }
+  public constructor(public readonly _symbol: symbol) {}
 
   /**
    * Internal identifier field used by architecture to identify the specific object
@@ -24,7 +22,9 @@ export abstract class BaseUtilityClass implements IBaseUtilityClass {
   /**
    * The string identifier of this specific class type
    */
-  public readonly objectType: string;
+  public get objectType(): string {
+    return (this as unknown as object)?.constructor.name;
+  }
 
   /**
    * Returns back a hash code to identify this specific instance

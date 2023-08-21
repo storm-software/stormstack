@@ -13,7 +13,7 @@ import { isEmpty, isError, isObject, isPrimitive } from "../common/type-checks";
  * @param [newLineAfter=true] - boolean
  * @param {string} [prefix] - The prefix to use for the message.
  */
-const print = (
+export const print = (
   message: unknown | unknown[],
   newLine = true,
   newLineAfter = true,

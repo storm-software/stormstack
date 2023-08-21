@@ -62,6 +62,8 @@ tools/**/*.properties
 .next
 .stoplight
 
+.cspellcache
+
 ####### Tool Specific #######
 
 !tools/storm/**/[Bb]in/**

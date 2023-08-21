@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Logger } from "./logger";
 import {
   endGroup,
+  print,
   printError,
   printInfo,
   printSuccess,
@@ -68,7 +70,15 @@ export class ConsoleLogger extends Logger {
    * @param {string} message - The message to be printed.
    */
   static log(...message: any[]) {
-    ConsoleLogger.info(message);
+    print(message, false, false, undefined, undefined, false);
+  }
+
+  /**
+   * The static showTitle() function calls the showTitle() method of a ConsoleLogger instance.
+   */
+  static showTitle() {
+    const logger = new ConsoleLogger();
+    logger.showTitle();
   }
 
   /**
@@ -84,65 +94,69 @@ export class ConsoleLogger extends Logger {
     endGroup();
   }
 
+  public constructor() {
+    super();
+  }
+
   /**
    * This function takes a string as an argument, prints it to the console, and returns a promise that
    * resolves to void.
    * @param {string} message - The message to print.
    * @returns Nothing.
    */
-  success(...message: any[]) {
+  public success = (...message: any[]) => {
     printSuccess(message, true, true, true);
-  }
+  };
 
   /**
    * It returns a promise that resolves to void.
    * @param {string} message - The message to be displayed.
    * @returns Nothing.
    */
-  error(...message: any[]) {
+  public error = (...message: any[]) => {
     printError(message, true, true, true);
-  }
+  };
 
   /**
    * It returns a promise that resolves to void.
    * @param {string} error - The message to be displayed.
    * @returns Nothing.
    */
-  exception(error: Error) {
+  public exception = (error: Error) => {
     printError(error, true, true, true);
-  }
+  };
 
   /**
    * The function takes a string as an argument and returns a promise that resolves to void.
    * @param {string} message - The message to be printed.
    * @returns Nothing.
    */
-  warn(...message: any[]) {
+  public warn = (...message: any[]) => {
     printWarning(message, true, true, true);
-  }
+  };
 
   /**
    * @param {string} message - The message to be printed.
    * @returns A promise that resolves to void.
    */
-  info(...message: any[]) {
+  public info = (...message: any[]) => {
     printInfo(message, true, true, false);
-  }
+  };
 
   /**
    * It prints a warning message.
    * @param {string} message - The message to be printed.
    * @returns Nothing.
    */
-  debug(...message: any[]) {
+  public debug = (...message: any[]) => {
     printInfo(message, true, true, true);
-  }
+  };
 
   /**
    * @param {string} message - The message to be printed.
    * @returns A promise that resolves to void.
    */
-  log(...message: any[]) {
-    this.info(message);
-  }
+  public log = (...message: any[]) => {
+    print(message, false, false, undefined, undefined, false);
+  };
 }

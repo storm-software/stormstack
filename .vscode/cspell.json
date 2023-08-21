@@ -36,6 +36,7 @@
     "eventcatalog",
     "eventsourced",
     "Expando",
+    "fullpath",
     "funct",
     "graphiql",
     "Hasher",
@@ -132,5 +133,23 @@
     "wundergraph",
     "zenstack"
   ],
-  "enableFiletypes": ["mdx"]
+  "enableFiletypes": [
+    "txt",
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "md",
+    "mdx"
+  ],
+  "ignorePaths": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/.docusaurus/**",
+    "**/dist/**",
+    "**/.next/**",
+    "**/pnpm-lock.yaml/**",
+    "**/__snapshots__/**",
+    "**/__generated__/**"
+  ]
 }

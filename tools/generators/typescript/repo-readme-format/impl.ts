@@ -1,24 +1,27 @@
-import { Tree } from "@nx/devkit";
 import {
-  execute,
-  findFileName,
-  findFilePath,
-} from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
-import doctoc from "doctoc";
+  ProjectConfiguration,
+  Tree,
+  getProjects,
+  joinPathFragments,
+} from "@nx/devkit";
+import { findFileName } from "@open-system/core-server-utilities";
+import {
+  ConsoleLogger,
+  isEmptyObject,
+} from "@open-system/core-shared-utilities";
+//import doctoc from "doctoc";
 import fs, { existsSync } from "fs";
-import { readFileSync, writeFileSync } from "fs-extra";
-import { glob } from "glob";
-import Path from "path";
 import { ReadMeFormatGeneratorSchema } from "./schema";
 
 export default async function (
-  host: Tree,
+  tree: Tree,
   options?: ReadMeFormatGeneratorSchema
 ) {
   let result!: unknown;
   try {
+    ConsoleLogger.showTitle();
     ConsoleLogger.info("Executing Repo ReadMe Formatting generator...");
+    ConsoleLogger.info(`Current Working Dir: ${process.cwd()}`);
     const { outputPath, templatePath, inputGlob, clean } = options;
 
     if (!existsSync(templatePath)) {
@@ -30,43 +33,69 @@ export default async function (
       return { success: false };
     }
 
-    const inputFiles = await glob(inputGlob, { ignore: "node_modules/**" });
-    if (!inputFiles || inputFiles.length === 0) {
-      ConsoleLogger.warn(`Cannot fine any README files at "${inputGlob}"`);
-      return { success: true };
+    const projects = getProjects(tree);
+    if (!projects || isEmptyObject(projects)) {
+      ConsoleLogger.error("Cannot find any projects in repository");
+      return { success: false };
     }
 
-    inputFiles.forEach(inputFile => {
-      const outputFilePath = outputPath
-        ? Path.join(outputPath, findFileName(inputFile))
-        : inputFile;
+    Object.entries(projects).map(
+      ([projectName, project]: [string, ProjectConfiguration]) => {
+        const inputFile = joinPathFragments(project.root, "README.md");
+        if (tree.exists(inputFile)) {
+          ConsoleLogger.info(`Formatting README file at "${inputFile}"`);
+          if (!tree.exists(inputFile)) {
+            ConsoleLogger.warn(`Cannot find the input file at ${inputFile}`);
+          } else {
+            const outputFilePath = outputPath
+              ? joinPathFragments(outputPath, findFileName(inputFile))
+              : inputFile;
 
-      if (clean && existsSync(outputFilePath)) {
-        if (outputFilePath === inputFile) {
-          ConsoleLogger.warn(
-            "Skipping cleaning since output directory + file name is the same as input directory + file name."
-          );
-        } else {
-          ConsoleLogger.info(
-            "Cleaning output directory (set `clean` parameter to false to skip)..."
-          );
-          result = execute(`rmdir /S /Q "${outputFilePath}" `);
-          if (result) {
-            ConsoleLogger.error(result);
-            throw result;
-          }
-        }
-      }
+            if (clean && existsSync(outputFilePath)) {
+              if (outputFilePath === inputFile) {
+                ConsoleLogger.warn(
+                  "Skipping cleaning since output directory + file name is the same as input directory + file name."
+                );
+              } else {
+                ConsoleLogger.info(
+                  "Cleaning output directory (set `clean` parameter to false to skip)..."
+                );
+                // result = execute(`rmdir /S /Q "${outputFilePath}" `);
+                tree.delete(outputFilePath);
+                if (result) {
+                  ConsoleLogger.error(result);
+                  throw result;
+                }
+              }
+            }
 
-      let newContent = fs
-        .readdirSync(templatePath)
-        .reduce((ret: string, fileName: string) => {
-          ConsoleLogger.info(`Using template "${fileName}" to format file...`);
-          return formatReadMe(Path.join(templatePath, fileName), ret);
-        }, readFileSync(inputFile, "utf8"));
+            const newContent = fs
+              .readdirSync(templatePath)
+              .reduce((ret: string, fileName: string) => {
+                ConsoleLogger.info(
+                  `Using template "${fileName}" to format file...`
+                );
 
-      ConsoleLogger.info("Formatting Table of Contents...");
-      const toc = doctoc.transform(
+                const templateFilePath = joinPathFragments(
+                  templatePath,
+                  fileName
+                );
+                const templateContent = tree.read(templateFilePath, "utf8");
+
+                const section = findFileName(templateFilePath)
+                  .replace(templatePath, "")
+                  .replace("README.", "")
+                  .replace(".md", "");
+
+                return formatReadMeFromSectionName(
+                  section,
+                  templateContent,
+                  ret
+                );
+              }, tree.read(inputFile, "utf8"));
+
+            ConsoleLogger.info("Formatting Table of Contents...");
+            /*const toc = doctoc.transform(
         newContent,
         "github.com",
         3,
@@ -81,7 +110,7 @@ export default async function (
         ConsoleLogger.warn("Table of Contents not found. Skipping...");
       }
 
-      const packageJsonPath = Path.join(
+      const packageJsonPath = Path.joinPathFragments(
         findFilePath(inputFile),
         "package.json"
       );
@@ -105,14 +134,22 @@ export default async function (
           ? formatReadMeFromSectionName("doctoc", toc.toc, newContent)
           : newContent,
         "utf8"
-      );
+      );*/
 
-      ConsoleLogger.success(
-        `ReadMe Formatting successfully ran for ${inputFile}.`
-      );
-    });
+            ConsoleLogger.info(
+              `Writing output markdown to "${outputFilePath}"`
+            );
+            tree.write(outputFilePath, newContent);
 
-    return { success: !result };
+            ConsoleLogger.success(
+              `ReadMe Formatting successfully ran for ${projectName}.`
+            );
+          }
+        }
+      }
+    );
+
+    return { success: true };
   } catch (e) {
     ConsoleLogger.error(`An error occurred executing ReadMe Formatting`);
     ConsoleLogger.error(e);
@@ -120,16 +157,6 @@ export default async function (
     return { success: false };
   }
 }
-
-const formatReadMe = (templatePath: string, readMeContent: string): string => {
-  const templateContent = readFileSync(templatePath, "utf8");
-
-  const section = findFileName(templatePath)
-    .replace(templatePath, "")
-    .replace("README.", "")
-    .replace(".md", "");
-  return formatReadMeFromSectionName(section, templateContent, readMeContent);
-};
 
 const formatReadMeFromSectionName = (
   sectionName: string,

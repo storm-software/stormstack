@@ -32,11 +32,6 @@
         "assets": [
           {
             "input": "tools/generators/typescript",
-            "glob": "**/*!(design-token-parsers)/**/*.md",
-            "output": "."
-          },
-          {
-            "input": "tools/generators/typescript",
             "glob": "**/schema.json",
             "output": "."
           },

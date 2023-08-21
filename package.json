@@ -51,30 +51,30 @@
     "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
     "build:wundergraph": "wunderctl generate",
     "build": "pnpm run build:wundergraph && relay-compiler && nx run-many -t build --all --parallel 4",
-    "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell --no-progress --relative --dot --gitignore",
-    "lint:language": "cross-env FORCE_COLOR=1 alex .",
-    "lint:js": "cross-env FORCE_COLOR=1 eslint --cache --report-unused-disable-directives \"**/*.{js,jsx,ts,tsx}\"",
-    "lint:prettier": "prettier --plugin-search-dir . \"{apps,libs,design-system,docs,scripts,tools}/**/*.{md,mdx,js,jsx,cjs,ts,tsx,json}\"",
-    "lint": "nx lint && pnpm lint:spellcheck && pnpm lint:language && pnpm lint:js && pnpm lint:prettier",
+    "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore",
+    "lint:language": "cross-env FORCE_COLOR=1 alex . --quiet",
+    "lint": "pnpm lint:language",
+    "format": "nx format:write && eslint --fix && pnpm exec nx generate @open-system/tools-generators-typescript:repo-readme-format --templatePath=\"libs/core/config/src/readme-templates\" --no-interactive && pnpm doctoc --github README.md",
     "typecheck": "pnpm run -r typecheck",
     "analyze": "cross-env ANALYZE=true npm run build",
     "test:storybook": "cross-env FORCE_COLOR=1 test-storybook",
     "test": "nx test",
     "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
     "start": "nx serve",
-    "format:prettier": "prettier --cache --write --list-different --ignore-unknown \"**/*\"",
-    "format:readme": "pnpm exec nx generate @open-system/tools-generators-typescript:repo-readme-format --templatePath=\"libs/core/config/src\" --no-interactive",
-    "format": "nx format && pnpm format:prettier",
     "relay": "relay-compiler --watch",
     "wundergraph": "wunderctl up --debug",
     "add:contributors": "all-contributors add",
     "generate": "graphql-codegen --config graphql-codegen.ts",
-    "generate:readme-toc": "pnpm doctoc --github README.md",
     "generate:graphql": "graphql-codegen --config graphql-codegen.ts",
     "generate:contributors": "all-contributors generate",
     "add:decisions": "pnpm log4brains adr new",
-    "preview:decisions": "pnpm log4brains preview",
-    "pre-commit": "exit 0 && lint-staged && pnpm format"
+    "preview:decisions": "pnpm log4brains preview"
+  },
+  "nx": {
+    "includedScripts": [
+      "lint",
+      "format"
+    ]
   },
   "dependencies": {
     "@envelop/graphql-modules": "^5.0.0",
@@ -258,7 +258,6 @@
     "postcss-import": "^15.1.0",
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
-    "pretty-quick": "^3.1.3",
     "prisma": "^5.1.0",
     "prisma-generator-pothos-codegen": "^0.5.8",
     "prisma-kysely": "^1.5.0",
@@ -295,20 +294,6 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "lint-staged": {
-    "**/*": [
-      "pretty-quick --staged"
-    ],
-    "**/*.{js,cjs,mjs,ts,tsx}": [
-      "eslint --fix"
-    ]
-  },
-  "nx": {
-    "includedScripts": [
-      "lint",
-      "format"
-    ]
   },
   "relay": {
     "src": "./",
