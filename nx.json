@@ -138,7 +138,18 @@
     "@nx/next": {
       "application": {
         "style": "css",
-        "linter": "eslint"
+        "linter": "eslint",
+        "bundler": "swc",
+        "unitTestRunner": "jest"
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint",
+        "bundler": "swc",
+        "unitTestRunner": "jest"
       }
     }
   },
