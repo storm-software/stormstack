@@ -25,7 +25,7 @@ env:
   CI: true
   NX_DAEMON: false
   NX_VERBOSE_LOGGING: true
-  GITHUB_ACTOR: "sullivanpj"
+  GITHUB_ACTOR: "🤖 Open System Bot"
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

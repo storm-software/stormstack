@@ -1,5 +1,5 @@
 const { fontFamily } = require("tailwindcss/defaultTheme");
-const extend = require("./dist/design-system/tokens/js/theme");
+const preset = require("./dist/design-system/tokens/tailwind.config");
 const plugin = require("tailwindcss/plugin");
 const { join } = require("path");
 // const { createGlobPatternsForDependencies } = require("@nx/react/tailwind");
@@ -18,15 +18,18 @@ module.exports = {
       "design-system/components/**/*!(*.stories|*.spec).{ts,tsx,html}"
     ),
   ],
+  "presets": [preset],
+  "darkMode": ["class", "[data-mode='dark']"],
+  "experimental": {
+    "optimizeUniversalDefaults": true,
+  },
   "future": {
     "hoverOnlyWhenSupported": true,
   },
   "blocklist": [],
   "theme": {
     "extend": {
-      ...extend,
       "fontFamily": {
-        ...extend.fontFamily,
         "app-title-1": ["var(--font-melody)", ...fontFamily.sans],
         "header-1": ["var(--font-melody)", ...fontFamily.sans],
         "header-2": ["var(--font-melody)", ...fontFamily.sans],
@@ -47,13 +50,11 @@ module.exports = {
         "vhs": ["var(--font-roboto-mono)", ...fontFamily.mono],
       },
       "textShadow": {
-        ...extend.textShadow,
         "sm": "0 1px 2px var(--tw-shadow-color)",
         "DEFAULT": "0 2px 4px var(--tw-shadow-color)",
         "lg": "0 0 80px rgba(var(--tw-shadow-color), 0.8), 0 0 32px rgba(var(--tw-shadow-color), 0.3)",
       },
       "backgroundImage": {
-        ...extend.backgroundImage,
         "bg-radial": "radial-gradient(var(--tw-gradient-stops))",
         "bg-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
@@ -61,7 +62,6 @@ module.exports = {
         "bg-windows": "url(/static/images/bg-windows.svg)",
       },
       "zIndex": {
-        ...extend.zIndex,
         "bg": 2,
         "bg-sphere": 3,
         "content-bg": 80,
@@ -84,7 +84,6 @@ module.exports = {
         "highest": 999,
       },
       "animation": {
-        ...extend.animation,
         "marquee": "marquee 25s linear infinite",
         "marquee2": "marquee2 25s linear infinite",
         "wave1": "wave 18s -3s linear infinite",
@@ -106,7 +105,6 @@ module.exports = {
         "flicker-2": "flicker 1.5s ease-out 0.15s both",
       },
       "keyframes": {
-        ...extend.keyframes,
         "marquee": {
           "0%": { "transform": "translateX(0%)" },
           "100%": { "transform": "translateX(-100%)" },

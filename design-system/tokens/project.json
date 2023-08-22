@@ -4,46 +4,49 @@
   "sourceRoot": "design-system/tokens/src",
   "projectType": "library",
   "targets": {
-    "clean": {
-      "executor": "@open-system/tools-executors-typescript:design-tokens-clean",
+    "build": {
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/design-system/tokens",
-        "tsConfig": "design-system/tokens/tsconfig.lib.json",
-        "assets": ["design-system/tokens/*.md"],
-        "configFile": "design-system/tokens/style-dictionary.config.js"
+        "tsConfig": "design-system/tokens/tsconfig.json",
+        "project": "design-system/tokens/package.json",
+        "main": "design-system/tokens/src/index.ts",
+        "clean": false,
+        "assets": [
+          {
+            "input": "design-system/tokens",
+            "glob": "**/tokens.json",
+            "output": "."
+          },
+          {
+            "input": "design-system/tokens",
+            "glob": "README.md",
+            "output": "/"
+          },
+          {
+            "input": "design-system/tokens",
+            "glob": "CHANGELOG.md",
+            "output": "/"
+          },
+          {
+            "input": "",
+            "glob": "LICENSE",
+            "output": "/"
+          }
+        ]
       }
     },
-    "build": {
-      "executor": "@open-system/tools-executors-typescript:design-tokens-build",
+    "style-dictionary": {
+      "executor": "@nxkit/style-dictionary:build",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "open-system",
       "options": {
         "outputPath": "dist/design-system/tokens",
-        "tsConfig": "design-system/tokens/tsconfig.lib.json",
         "assets": ["design-system/tokens/*.md"],
-        "clean": false
-      },
-      "configurations": {
-        "open-system": {
-          "tokensDir": "design-system/tokens/src/open-system",
-          "fontsDir": "assets/fonts",
-          "imagesDir": "assets/images",
-          "verbose": true,
-          "clean": false
-        },
-        "resume": {
-          "tokensDir": "design-system/tokens/src/resume",
-          "fontsDir": "assets/fonts",
-          "imagesDir": "assets/images"
-        },
-        "production": {
-          "tokensDir": "design-system/tokens/src/open-system",
-          "fontsDir": "assets/fonts",
-          "imagesDir": "assets/images",
-          "verbose": true,
-          "clean": false
-        }
+        "deleteOutputPath": true,
+        "tsConfig": "design-system/tokens/tsconfig.json",
+        "styleDictionaryConfig": "design-system/tokens/style-dictionary.config.ts",
+        "customFileHeaders": "design-system/tokens/src/extensions/file-headers/index.ts"
       }
     },
     "lint": {
@@ -80,5 +83,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["tools-executors-typescript"]
+  "implicitDependencies": ["core-shared-utilities"]
 }

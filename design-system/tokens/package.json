@@ -1,5 +1,11 @@
 {
   "name": "@open-system/design-system-tokens",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "@nxkit/style-dictionary": "^3.0.2"
+  },
+  "dependencies": {
+    "style-dictionary": "^3.8.0"
+  }
 }

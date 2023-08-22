@@ -61,7 +61,6 @@ export abstract class Logger extends BaseUtilityClass {
    * The function `showTitle()` prints a stylized title using the chalk library in TypeScript.
    */
   public showTitle = (): any => {
-    // console.log(chalk.hex("#10B981").bold(" ____________________________"));
     console.log(
       chalk.bgHex("#10B981").bold("                                  ")
     );
@@ -102,48 +101,5 @@ export abstract class Logger extends BaseUtilityClass {
     console.log(
       chalk.bgHex("#10B981").bold("                                  ")
     );
-
-    /*chalk.bgHex("#10B981").bold(" ") +
-      chalk.bgHex("#10B981").bold("            ") +
-      chalk.bgHex("#10B981").hex("#10B981").bold("| |");
-
-    console.log(
-      chalk.bgHex("#10B981").hex("#10B981").bold("| |") +
-        chalk.bgHex("#FFFFFF").hex("#10B981").bold(" |           |          ") +
-        chalk.bgHex("#10B981").hex("#10B981").bold("| |")
-    );
-    console.log(
-      chalk.bgHex("#10B981").hex("#10B981").bold("| |") +
-        chalk.bgHex("#FFFFFF").hex("#10B981").bold("| |") +
-        chalk.bgHex("#10B981").hex("#FFFFFF").bold(" |   Open    ") +
-        chalk.bgHex("#FFFFFF").hex("#10B981").bold("|  System  ") +
-        chalk.bgHex("#10B981").hex("#10B981").bold("| |")
-    );
-    console.log(
-      chalk.bgHex("#10B981").hex("#10B981").bold("| |") +
-        chalk.bgHex("#FFFFFF").hex("#10B981").bold(" |___________|          ") +
-        chalk.bgHex("#10B981").hex("#10B981").bold("| |")
-    );
-    console.log(
-      chalk
-        .bgHex("#10B981")
-        .hex("#10B981")
-        .bold("| |________________________| |")
-    );
-    console.log(
-      chalk
-        .bgHex("#10B981")
-        .hex("#10B981")
-        .bold("|____________________________|")
-    );*/
-
-    /*this.log(chalk.bgHex("#10B981").hex("#").bold(" ____________________________"));
-    this.log(chalk.bgHex("#10B981").hex("#").bold("|  ________________________  |"));
-    this.log(chalk.bgHex("#10B981").hex("#").bold("| |  ___________           | |"));
-    this.log(chalk.bgHex("#10B981").hex("#").bold("| | |           |          | |"));
-    this.log(chalk.bgHex("#10B981").hex("#").bold("| | |   Open    |  System  | |"));
-    this.log(chalk.bgHex("#10B981").hex("#").bold("| | |___________|          | |"));
-    this.log(chalk.bgHex("#10B981").hex("#").bold("| |________________________| |"));
-    this.log(chalk.bgHex("#10B981").hex("#").bold("|____________________________|"));*/
   };
 }

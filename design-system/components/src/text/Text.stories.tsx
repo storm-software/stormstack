@@ -1,8 +1,8 @@
 import type { ComponentStory } from "@storybook/react";
-import { FieldText } from "./FieldText";
+import { FieldText } from "./text";
 
 export default {
-  title: "General/FieldText",
+  title: "General/Text",
   component: FieldText,
 };
 
