@@ -46,7 +46,7 @@ export const FieldText = ({
           {typeof value === "string" ? (
             <p
               className={clsx(
-                "text-md hyphens-auto font-body-1 text-primary",
+                "text-md text-primary hyphens-auto font-body-1",
                 {
                   "h-8": !children && name,
                 },

@@ -1,8 +1,7 @@
-import { ExecutorContext } from "@nx/devkit";
+import { ExecutorContext, joinPathFragments } from "@nx/devkit";
 import { executeAsync } from "@open-system/core-server-utilities";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import Path from "path";
 import { toCssFontImportParser, toTailwindParser } from "../utilities";
 import { InputDataType as ToCssFontImportParserInputDataType } from "../utilities/design-token-parsers/parsers/to-css-font-import";
 import { InputDataType as ToTailwindInputDataType } from "../utilities/design-token-parsers/parsers/to-tailwind";
@@ -25,7 +24,7 @@ export default async function (
       ? context.configurationName
       : "default";
 
-    const tokenJson = Path.join(tokensDir, tokensFile);
+    const tokenJson = joinPathFragments(tokensDir, tokensFile);
     if (!tokenJson) {
       ConsoleLogger.error(
         `No JSON file could be found at ${tokenJson}. Halting execution early.`
@@ -297,23 +296,27 @@ export default async function (
 
     verbose && ConsoleLogger.success(result);
 
-    if (!existsSync(Path.join(outputPath, "js"))) {
+    if (!existsSync(joinPathFragments(outputPath, "js"))) {
       ConsoleLogger.info(
-        `Creating token directory: ${Path.join(outputPath, "js")}`
+        `Creating token directory: ${joinPathFragments(outputPath, "js")}`
       );
 
-      mkdirSync(Path.join(outputPath, "js"), { recursive: true });
+      mkdirSync(joinPathFragments(outputPath, "js"), { recursive: true });
     }
 
     ConsoleLogger.info(
-      `Creating token file: ${Path.join(outputPath, "js", `theme.js`)}`
+      `Creating token file: ${joinPathFragments(outputPath, "js", `theme.js`)}`
     );
-    writeFileSync(Path.join(outputPath, "js", `theme.js`), result, "utf8");
+    writeFileSync(
+      joinPathFragments(outputPath, "js", `theme.js`),
+      result,
+      "utf8"
+    );
 
     ConsoleLogger.success(`Design token theme.js (tailwind import) created.`);
 
-    const fontsPath = existsSync(Path.join(tokensDir, fontsDir))
-      ? Path.join(tokensDir, fontsDir)
+    const fontsPath = existsSync(joinPathFragments(tokensDir, fontsDir))
+      ? joinPathFragments(tokensDir, fontsDir)
       : fontsDir;
     if (existsSync(fontsPath) && dataArray["font"]) {
       result = await toCssFontImportParser(
@@ -352,17 +355,21 @@ export default async function (
 
       verbose && ConsoleLogger.success(result);
 
-      if (!existsSync(Path.join(outputPath, "css"))) {
-        mkdirSync(Path.join(outputPath, "css"), { recursive: true });
+      if (!existsSync(joinPathFragments(outputPath, "css"))) {
+        mkdirSync(joinPathFragments(outputPath, "css"), { recursive: true });
       }
 
-      writeFileSync(Path.join(outputPath, "css", `fonts.css`), result, "utf8");
+      writeFileSync(
+        joinPathFragments(outputPath, "css", `fonts.css`),
+        result,
+        "utf8"
+      );
 
       ConsoleLogger.success(`Theme specific fonts (font.css) created.`);
     }
 
-    /*const imagesPath = existsSync(Path.join(tokensDir, imagesDir))
-      ? Path.join(tokensDir, imagesDir)
+    /*const imagesPath = existsSync(joinPathFragments(tokensDir, imagesDir))
+      ? joinPathFragments(tokensDir, imagesDir)
       : imagesDir;
     ConsoleLogger.info(`Checking for SVG images in ${imagesPath}`);
     if (existsSync(imagesPath)) {
@@ -379,9 +386,9 @@ export default async function (
         result = await svgoParser(
           fileList.map((file: string) => ({
             name: file,
-            url: Path.join(imagesDir, file),
+            url: joinPathFragments(imagesDir, file),
             value: {
-              url: Path.join(imagesDir, file),
+              url: joinPathFragments(imagesDir, file),
               type: "svg",
             },
             type: "svg",
