@@ -170,6 +170,12 @@
       "@open-system/core-shared-data-access/*": [
         "libs/core/typescript/shared/data-access/src/*"
       ],
+      "@open-system/core-shared-env": [
+        "libs/core/typescript/shared/env/src/index.ts"
+      ],
+      "@open-system/core-shared-env/*": [
+        "libs/core/typescript/shared/env/src/*"
+      ],
       "@open-system/core-shared-injection": [
         "libs/core/typescript/shared/injection/src/index.ts"
       ],
@@ -212,8 +218,6 @@
         "libs/engagement/typescript/shared/data-access/src/*"
       ],
       "@open-system/engagement/config": ["libs/engagement/config/src/index.ts"],
-      "@open-system/executors-dotnet": ["tools/executors/dotnet/index.ts"],
-      "@open-system/generators-dotnet": ["tools/generators/dotnet/index.ts"],
       "@open-system/portfolio-client-resume": [
         "libs/portfolio/typescript/client/resume/src/index.ts"
       ],
