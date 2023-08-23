@@ -742,7 +742,11 @@ importers:
         specifier: ^7.64.0
         version: 7.64.0
 
-  libs/core/typescript/server/infisical: {}
+  libs/core/typescript/server/infisical:
+    dependencies:
+      infisical-node:
+        specifier: ^1.4.3
+        version: 1.4.3
 
   libs/core/typescript/server/kafka:
     dependencies:
@@ -27455,6 +27459,17 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /infisical-node@1.4.3:
+    resolution: {integrity: sha512-z/gYkctAB6yQoH/9um9znvljsF6WVhsrMw9urZ80O5E1M+/RwZW40mc6LHs2nQpZD90at6SbuzVWQoEwSdEmTw==}
+    dependencies:
+      axios: 1.4.0
+      dotenv: 16.3.1
+      tweetnacl: 1.0.3
+      tweetnacl-util: 0.15.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     dependencies:
@@ -40402,8 +40417,16 @@ packages:
     engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
     dev: false
 
+  /tweetnacl-util@0.15.1:
+    resolution: {integrity: sha512-RKJBIj8lySrShN4w6i/BonWp2Z/uxwC3h4y7xsRrpP59ZboCd0GpEVsOnMDYLMmKBpYhb5TgHzZXy7wTfYFBRw==}
+    dev: false
+
   /tweetnacl@0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
+
+  /tweetnacl@1.0.3:
+    resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
+    dev: false
 
   /type-check@0.3.2:
     resolution: {integrity: sha512-ZCmOJdvOWDBYJlzAoFkC+Q0+bUyEOS1ltgp1MGU03fqHG+dbi9tBFU2Rd9QKiDZFAYrhPh2JUf7rZRIuHRKtOg==}

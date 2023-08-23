@@ -48,6 +48,7 @@
     "Hsts",
     "ICRUD",
     "indexeddb",
+    "infisical",
     "Inversify",
     "Invision",
     "jsbi",
@@ -136,7 +137,15 @@
     "wundergraph",
     "zenstack"
   ],
-  "enableFiletypes": ["txt", "js", "jsx", "ts", "tsx", "md", "mdx"],
+  "enableFiletypes": [
+    "txt",
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "md",
+    "mdx"
+  ],
   "ignorePaths": [
     "**/.git/**",
     "**/node_modules/**",

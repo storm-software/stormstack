@@ -146,6 +146,12 @@
       "@open-system/core-server-graphql/*": [
         "libs/core/typescript/server/graphql/src/*"
       ],
+      "@open-system/core-server-infisical": [
+        "libs/core/typescript/server/infisical/src/index.ts"
+      ],
+      "@open-system/core-server-infisical/*": [
+        "libs/core/typescript/server/infisical/src/*"
+      ],
       "@open-system/core-server-kafka": [
         "libs/core/typescript/server/kafka/src/index.ts"
       ],
