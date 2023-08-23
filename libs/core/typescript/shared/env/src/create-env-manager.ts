@@ -20,6 +20,11 @@ const defaultOptions: BaseOptions = {
   env: process.env
 };
 
+/**
+ * Creates an environment manager that can be used to access environment variables.
+ * @param options The options to use when accessing the environment variables.
+ * @returns The environment variable manager.
+ */
 export const createEnvManager = <
   T = Record<string, string | boolean | number | undefined>
 >(
