@@ -8,7 +8,12 @@ export class EnvConfigurationError extends ConfigurationError {
   If you're running in Netlify, make sure you've configured env variable ${envName}.
   Please see README.md for more details on configuring your system.`;
 
-  public constructor(envName: string) {
-    super(envName, EnvConfigurationError.formatExtendedMessage(envName));
+  public constructor(envName: string, customMessage?: string) {
+    super(
+      envName,
+      customMessage
+        ? customMessage
+        : EnvConfigurationError.formatExtendedMessage(envName)
+    );
   }
 }
