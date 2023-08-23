@@ -5,7 +5,7 @@ import { isPlugin, Plugin } from "@open-system/tools-storm-language/ast";
 import type { DMMF } from "@prisma/generator-helper";
 import chalk from "chalk";
 import fs from "fs";
-import ora from "ora";
+// import ora from "ora";
 import path from "path";
 import { ensureDefaultOutputFolder } from "../plugins/plugin-utils";
 import {
@@ -17,7 +17,7 @@ import {
   PluginError,
   PluginFunction,
   PluginOptions,
-  resolvePath,
+  resolvePath
 } from "../sdk";
 import type { Context } from "../types";
 import { getVersion } from "../utils/version-utils";
@@ -60,7 +60,7 @@ export class PluginRunner {
 
     let prismaOutput = resolvePath("./prisma/schema.prisma", {
       schemaPath: context.schemaPath,
-      name: "",
+      name: ""
     });
 
     ConsoleLogger.debug(`Validating ${pluginDecls.length} Plugins from model`);
@@ -105,7 +105,7 @@ export class PluginRunner {
       const pluginName = this.getPluginName(pluginModule, pluginProvider);
       const options: PluginOptions = {
         schemaPath: context.schemaPath,
-        name: pluginName,
+        name: pluginName
       };
 
       ConsoleLogger.debug(
@@ -130,7 +130,7 @@ ${JSON.stringify(options)}`
         dependencies,
         options,
         run: pluginModule.default as PluginFunction,
-        module: pluginModule,
+        module: pluginModule
       };
 
       ConsoleLogger.debug(
@@ -156,7 +156,7 @@ ${JSON.stringify(plugin)}`
     }> = [
       { provider: "@core/prisma" },
       { provider: "@core/model-meta" },
-      { provider: "@core/access-policy" },
+      { provider: "@core/access-policy" }
     ];
 
     if (
@@ -209,10 +209,10 @@ ${JSON.stringify(plugin)}`
           options: {
             schemaPath: context.schemaPath,
             name: pluginName,
-            ...corePlugin.options,
+            ...corePlugin.options
           },
           run: pluginModule.default,
-          module: pluginModule,
+          module: pluginModule
         });
       }
     }
@@ -236,13 +236,17 @@ ${JSON.stringify(plugin)}`
 
     let dmmf: DMMF.Document | undefined = undefined;
     for (const { name, provider, run, options } of plugins) {
-      // const start = Date.now();
+      const start = Date.now();
       await this.runPlugin(name, run, context, options, dmmf, warnings);
-      // ConsoleLogger.log(`✅ Plugin ${chalk.bold(name)} (${provider}) completed in ${Date.now() - start}ms`);
+      ConsoleLogger.log(
+        `✅ Plugin ${chalk.bold(name)} (${provider}) completed in ${
+          Date.now() - start
+        }ms`
+      );
       if (provider === "@core/prisma") {
         // load prisma DMMF
         dmmf = await getDMMF({
-          datamodel: fs.readFileSync(prismaOutput, { encoding: "utf-8" }),
+          datamodel: fs.readFileSync(prismaOutput, { encoding: "utf-8" })
         });
       }
     }
@@ -284,7 +288,7 @@ ${JSON.stringify(plugin)}`
     dmmf: DMMF.Document | undefined,
     warnings: string[]
   ) {
-    const spinner = ora(`Running plugin ${chalk.cyan(name)}`).start();
+    //const spinner = ora(`Running plugin ${chalk.cyan(name)}`).start();
     try {
       let result = run(context.schema, options, dmmf, config);
       if (result instanceof Promise) {
@@ -294,9 +298,10 @@ ${JSON.stringify(plugin)}`
         warnings.push(...result);
       }
 
-      spinner.succeed();
+      // spinner.succeed();
     } catch (err) {
-      spinner.fail();
+      ConsoleLogger.error(err);
+      //spinner.fail();
       throw err;
     }
   }

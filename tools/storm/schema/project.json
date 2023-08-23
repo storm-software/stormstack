@@ -22,6 +22,7 @@
         "tsConfig": "tools/storm/schema/tsconfig.json",
         "clean": true,
         "skipTypeCheck": true,
+        "updateBuildableProjectDepsInPackageJson": true,
         "assets": [
           {
             "input": "tools/storm/schema",
@@ -62,6 +63,11 @@
             "input": "tools/storm/schema",
             "glob": "language-configuration.json",
             "output": "."
+          },
+          {
+            "input": "tools/storm/schema/bin",
+            "glob": "cli",
+            "output": "bin"
           }
         ]
       }
@@ -135,6 +141,20 @@
           "pnpm vsce publish --no-dependencies"
         ],
         "cwd": "dist/tools/storm/schema-bundle"
+      }
+    },
+    "publish-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["pnpm publish --registry http://localhost:4873"],
+        "cwd": "dist/tools/storm/schema"
+      }
+    },
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["pnpm pack . --pack-destination \"../.build\""],
+        "cwd": "dist/tools/storm/schema"
       }
     },
     "lint": {

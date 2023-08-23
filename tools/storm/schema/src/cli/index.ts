@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { PackageManagers } from "@open-system/core-server-utilities/package-fns";
 import { StormLanguageMetaData } from "@open-system/tools-storm-language/module";
 import chalk from "chalk";
 import { Command, Option } from "commander";
 import fs from "fs";
 import * as semver from "semver";
-import { PackageManagers } from "../utils/pkg-utils";
 import { getVersion } from "../utils/version-utils";
 import { CliError } from "./cli-error";
 import { dumpInfo, initProject, runPlugins } from "./cli-util";

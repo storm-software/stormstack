@@ -18,8 +18,29 @@
             "input": "tools/storm/runtime",
             "glob": "README.md",
             "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "LICENSE",
+            "output": "."
           }
         ]
+      }
+    },
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["pnpm pack dist --pack-destination \"../.build\""],
+        "cwd": "dist/tools/storm/runtime"
+      }
+    },
+    "publish-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm nx run tools-storm-runtime:build && pnpm publish --tag dev"
+        ],
+        "cwd": "dist/tools/storm/runtime"
       }
     },
     "lint": {

@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@vscode/vsce": "^2.20.1",
-    "chalk": "^5.3.0",
+    "chalk": "4.1.0",
     "langium": "1.2.1",
     "langium-cli": "1.2.1",
     "ora": "^7.0.1",

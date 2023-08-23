@@ -3,11 +3,9 @@
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
     "module": "commonjs",
-    "target": "esnext",
-    "types": ["node", "reflect-metadata"],
+    "target": "es2022",
     "declaration": true,
     "noImplicitAny": false,
-    "lib": ["ESNext"],
     "sourceMap": true
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],

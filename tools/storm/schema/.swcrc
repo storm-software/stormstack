@@ -1,6 +1,6 @@
 {
   "jsc": {
-    "target": "es2017",
+    "target": "es2022",
     "parser": {
       "syntax": "typescript",
       "decorators": true,
@@ -8,7 +8,7 @@
     },
     "transform": {
       "decoratorMetadata": true,
-      "legacyDecorator": true
+      "decoratorVersion": "2022-03"
     },
     "keepClassNames": true,
     "externalHelpers": true,

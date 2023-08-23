@@ -2,7 +2,7 @@ import { ConsoleLogger } from "@open-system/core-shared-utilities/logging/consol
 import {
   isDataSource,
   isPlugin,
-  Model,
+  Model
 } from "@open-system/tools-storm-language/ast";
 import chalk from "chalk";
 import fs from "fs";
@@ -12,33 +12,33 @@ import {
   getDocument,
   LangiumDocument,
   LangiumDocuments,
-  Mutable,
+  Mutable
 } from "langium";
 import { NodeFileSystem } from "langium/node";
-import ora from "ora";
+// import ora from "ora";
+import {
+  ensurePackage,
+  installPackage,
+  PackageManagers
+} from "@open-system/core-server-utilities/package-fns";
 import path from "path";
 import semver from "semver";
 import { URI } from "vscode-uri";
 import {
   PLUGIN_MODULE_NAME,
-  STD_LIB_MODULE_NAME,
+  STD_LIB_MODULE_NAME
 } from "../language-server/constants";
 import {
   createStormServices,
-  StormServices,
+  StormServices
 } from "../language-server/storm-module";
 import { getLiteral, PluginError } from "../sdk";
 import { Context } from "../types";
 import {
   mergeBaseModel,
   resolveImport,
-  resolveTransitiveImports,
+  resolveTransitiveImports
 } from "../utils/ast-utils";
-import {
-  ensurePackage,
-  installPackage,
-  PackageManagers,
-} from "../utils/pkg-utils";
 import { getVersion } from "../utils/version-utils";
 import { CliError } from "./cli-error";
 import { PluginRunner } from "./plugin-runner";
@@ -175,7 +175,7 @@ ${JSON.stringify(file.toJSON())}`);
   await services.shared.workspace.DocumentBuilder.build(
     [stdLib, ...pluginDocuments, document, ...importedDocuments],
     {
-      validationChecks: "all",
+      validationChecks: "all"
     }
   );
 
@@ -318,7 +318,7 @@ export async function runPlugins(options: {
   const context: Context = {
     schema: model,
     schemaPath: path.resolve(options.schema),
-    outDir: options?.outDir ?? path.dirname(options.schema),
+    outDir: options?.outDir ?? path.dirname(options.schema)
   };
 
   try {
@@ -352,14 +352,14 @@ export async function dumpInfo(projectPath: string) {
     ),
     ...Object.keys(pkgJson.devDependencies ?? {}).filter(p =>
       p.startsWith("@open-system/")
-    ),
+    )
   ];
 
   const versions = new Set<string>();
   for (const pkg of packages) {
     try {
       const resolved = require.resolve(`${pkg}/package.json`, {
-        paths: [resolvedPath],
+        paths: [resolvedPath]
       });
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const version = require(resolved).version;
@@ -377,13 +377,13 @@ export async function dumpInfo(projectPath: string) {
       )
     );
   } else if (versions.size > 0) {
-    const spinner = ora("Checking npm registry").start();
+    // const spinner = ora("Checking npm registry").start();
     const latest = await getLatestVersion("storm");
 
     if (!latest) {
-      spinner.fail("unable to check for latest version");
+      // spinner.fail("unable to check for latest version");
     } else {
-      spinner.succeed();
+      // spinner.succeed();
       const version = [...versions][0];
       if (semver.gt(latest, version)) {
         ConsoleLogger.info(`A newer version of Storm is available: ${latest}.`);

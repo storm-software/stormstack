@@ -23,6 +23,11 @@
             "input": "tools/storm/language",
             "glob": "README.md",
             "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "LICENSE",
+            "output": "."
           }
         ]
       }
@@ -52,6 +57,22 @@
             "cwd": "tools/storm/language"
           }
         }
+      }
+    },
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["pnpm pack dist --pack-destination \"../.build\""],
+        "cwd": "dist/tools/storm/language"
+      }
+    },
+    "publish-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm nx run tools-storm-language:build && pnpm publish --tag dev"
+        ],
+        "cwd": "dist/tools/storm/language"
       }
     },
     "lint": {
