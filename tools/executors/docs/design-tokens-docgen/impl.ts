@@ -5,7 +5,7 @@ import {
   lstatSync,
   readdirSync,
   readFileSync,
-  writeFileSync,
+  writeFileSync
 } from "fs";
 import Path from "path";
 import prettier from "prettier";
@@ -184,7 +184,7 @@ ${miscTokens.join("\n")}`
     : ""
 }                `,
             {
-              parser: "markdown",
+              parser: "markdown"
             }
           )
         );

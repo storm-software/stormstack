@@ -61,7 +61,7 @@ jobs:
         run: pnpm build:tools-ci
 
       - name: Build documents executor
-        run: pnpm build:tools-executors-docs
+        run: pnpm nx run tools-executors-docs:build
 
       - name: Build website
         run: pnpm nx run docs-website:build

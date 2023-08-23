@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
+  "id": "design-tokens-docgen",
   "title": "Open System - Design Tokens Document Generator",
   "description": "Create documentation for the design tokens",
   "type": "object",

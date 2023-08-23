@@ -69,7 +69,7 @@
     "generate:contributors": "all-contributors generate",
     "add:decisions": "pnpm log4brains adr new",
     "preview:decisions": "pnpm log4brains preview",
-    "pre-commit": "exit 0 && lint-staged",
+    "pre-commit": "lint-staged",
     "commit": "git-cz"
   },
   "nx": {
@@ -315,7 +315,6 @@
       "prettier --write"
     ],
     "**/*.{js,jsx,ts,tsx,md,mdx}": [
-      "pnpm lint:spellcheck",
       "pnpm lint:language"
     ],
     "**/*.{js,jsx,ts,tsx}": [

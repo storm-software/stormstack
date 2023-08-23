@@ -240,9 +240,6 @@
       "@open-system/tools-executors-typescript": [
         "tools/executors/typescript/index.ts"
       ],
-      "@open-system/tools-executors-typescript/*": [
-        "tools/executors/typescript/*"
-      ],
       "@open-system/tools-generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],

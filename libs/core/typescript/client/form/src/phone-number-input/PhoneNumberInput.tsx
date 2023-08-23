@@ -2,7 +2,7 @@
 
 import {
   InputAutoCompleteTypes,
-  InputTypes,
+  InputTypes
 } from "@open-system/design-system-components";
 import { Input, InputProps } from "../input";
 
@@ -17,9 +17,9 @@ export function PhoneNumberInput(props: PhoneNumberInputProps) {
       autoComplete={InputAutoCompleteTypes.TEL}
       pattern={{
         value: new RegExp(
-          /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+          /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im
         ),
-        message: "Invalid phone number format provided.",
+        message: "Invalid phone number format provided."
       }}
       maxLength={15}
       {...props}

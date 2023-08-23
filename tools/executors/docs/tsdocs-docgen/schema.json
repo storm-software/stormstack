@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/schema",
   "type": "object",
   "cli": "nx",
+  "id": "tsdocs-docgen",
   "title": "Open System - TypeScript Documentation Generator",
   "description": "Generate markdown documents based on the `TSDocs` comments provided in the project's files.",
   "properties": {}
