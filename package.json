@@ -54,7 +54,7 @@
     "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore",
     "lint:language": "cross-env FORCE_COLOR=1 alex . --quiet",
     "lint": "pnpm lint:language",
-    "format": "nx format:write && eslint --fix && pnpm exec nx generate @open-system/tools-generators-typescript:repo-readme-format --templatePath=\"libs/core/config/src/readme-templates\" --no-interactive && pnpm doctoc --github README.md",
+    "format": "nx format:write && pnpm doctoc --github README.md",
     "typecheck": "pnpm run -r typecheck",
     "analyze": "cross-env ANALYZE=true npm run build",
     "test:storybook": "cross-env FORCE_COLOR=1 test-storybook",
@@ -69,6 +69,7 @@
     "generate:contributors": "all-contributors generate",
     "add:decisions": "pnpm log4brains adr new",
     "preview:decisions": "pnpm log4brains preview",
+    "pre-commit": "exit 0 && lint-staged",
     "commit": "git-cz"
   },
   "nx": {
@@ -297,6 +298,32 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*": [
+      "pnpm nx format"
+    ],
+    "**/*.{js,cjs,mjs,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "**/*.{js,jsx,ts,tsx,json,css,scss,md,mdx,yml,yaml,graphql,html}": [
+      "prettier --write"
+    ],
+    "**/*.{js,jsx,ts,tsx,md,mdx}": [
+      "pnpm lint:spellcheck",
+      "pnpm lint:language"
+    ],
+    "**/*.{js,jsx,ts,tsx}": [
+      "pnpm typecheck"
+    ],
+    "**/README.md": [
+      "pnpm exec nx generate @open-system/tools-generators-typescript:repo-readme-format --templatePath=\"libs/core/config/src/readme-templates\" --no-interactive"
+    ]
   },
   "relay": {
     "src": "./",
