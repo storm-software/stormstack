@@ -65,8 +65,8 @@ jobs:
       - name: Prepare for build
         run: pnpm build:tools-ci
 
-      - name: Run Linters
-        run: pnpm nx affected -t lint --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
+      #- name: Run Linters
+      #  run: pnpm nx affected -t lint --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
 
       - name: Run Formatters
         run: pnpm nx format

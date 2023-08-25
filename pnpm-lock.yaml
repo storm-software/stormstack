@@ -282,10 +282,10 @@ importers:
         version: 3.11.1(@pothos/core@3.30.0)(graphql@16.7.1)
       "@pothos/plugin-prisma":
         specifier: ^3.53.0
-        version: 3.53.0(@pothos/core@3.30.0)(@prisma/client@5.1.0)(graphql@16.7.1)(typescript@5.2.0-beta)
+        version: 3.53.0(@pothos/core@3.30.0)(@prisma/client@5.2.0)(graphql@16.7.1)(typescript@5.2.0-beta)
       "@pothos/plugin-prisma-utils":
         specifier: ^0.10.0
-        version: 0.10.0(@pothos/core@3.30.0)(@pothos/plugin-prisma@3.53.0)(@prisma/client@5.1.0)(graphql@16.7.1)
+        version: 0.10.0(@pothos/core@3.30.0)(@pothos/plugin-prisma@3.53.0)(@prisma/client@5.2.0)(graphql@16.7.1)
       "@pothos/plugin-relay":
         specifier: ^3.43.0
         version: 3.43.0(@pothos/core@3.30.0)(graphql@16.7.1)
@@ -296,11 +296,11 @@ importers:
         specifier: ^3.9.2
         version: 3.9.2(@pothos/core@3.30.0)(graphql@16.7.1)(zod@3.21.4)
       "@prisma/client":
-        specifier: ^5.1.0
-        version: 5.1.0(prisma@5.1.0)
+        specifier: ^5.2.0
+        version: 5.2.0(prisma@5.2.0)
       "@prisma/generator-helper":
-        specifier: ^5.1.1
-        version: 5.1.1
+        specifier: ^5.2.0
+        version: 5.2.0
       "@react-pdf/renderer":
         specifier: ^3.1.9
         version: 3.1.9(react@18.2.0)
@@ -557,11 +557,11 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(prettier@2.8.8)
       prisma:
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^5.2.0
+        version: 5.2.0
       prisma-generator-pothos-codegen:
         specifier: ^0.5.8
-        version: 0.5.8(@pothos/core@3.30.0)(@pothos/plugin-prisma@3.53.0)(@prisma/client@5.1.0)(graphql@16.7.1)(prisma@5.1.0)
+        version: 0.5.8(@pothos/core@3.30.0)(@pothos/plugin-prisma@3.53.0)(@prisma/client@5.2.0)(graphql@16.7.1)(prisma@5.2.0)
       prisma-kysely:
         specifier: ^1.5.0
         version: 1.5.0
@@ -636,7 +636,7 @@ importers:
         version: 3.2.0
       zod-prisma:
         specifier: ^0.5.4
-        version: 0.5.4(prisma@5.1.0)(zod@3.21.4)
+        version: 0.5.4(prisma@5.2.0)(zod@3.21.4)
       zod-prisma-types:
         specifier: ^2.7.4
         version: 2.7.4
@@ -685,6 +685,9 @@ importers:
       docusaurus-plugin-react-docgen-typescript:
         specifier: ^1.1.0
         version: 1.1.0(react-docgen-typescript@2.2.2)(react@17.0.2)
+      docusaurus-plugin-typedoc:
+        specifier: ^0.19.2
+        version: 0.19.2(typedoc-plugin-markdown@3.15.4)(typedoc@0.24.8)
       react-docgen-typescript:
         specifier: ^2.2.2
         version: 2.2.2(typescript@5.1.6)
@@ -764,9 +767,15 @@ importers:
       "@types/fs-extra":
         specifier: ^11.0.1
         version: 11.0.1
+      fs:
+        specifier: 0.0.1-security
+        version: 0.0.1-security
       fs-extra:
         specifier: ^11.1.1
         version: 11.1.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
 
   libs/core/typescript/shared/data-access: {}
 
@@ -964,6 +973,9 @@ importers:
       ora:
         specifier: ^7.0.1
         version: 7.0.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -15596,7 +15608,7 @@ packages:
       graphql: 16.7.1
     dev: true
 
-  /@pothos/plugin-prisma-utils@0.10.0(@pothos/core@3.30.0)(@pothos/plugin-prisma@3.53.0)(@prisma/client@5.1.0)(graphql@16.7.1):
+  /@pothos/plugin-prisma-utils@0.10.0(@pothos/core@3.30.0)(@pothos/plugin-prisma@3.53.0)(@prisma/client@5.2.0)(graphql@16.7.1):
     resolution:
       {
         integrity: sha512-cDQ8mMDOvsHeI98SrMzVuMT/yfN+GIvmIu4QD5/05n9f5Qeg3wPl3/DK9QXRfG4FA8qiWQpw8q5JrGhGp+Vh8Q==
@@ -15608,15 +15620,15 @@ packages:
       graphql: ">=15.1.0"
     dependencies:
       "@pothos/core": 3.30.0(graphql@16.7.1)
-      "@pothos/plugin-prisma": 3.53.0(@pothos/core@3.30.0)(@prisma/client@5.1.0)(graphql@16.7.1)(typescript@5.2.0-beta)
-      "@prisma/client": 5.1.0(prisma@5.1.0)
+      "@pothos/plugin-prisma": 3.53.0(@pothos/core@3.30.0)(@prisma/client@5.2.0)(graphql@16.7.1)(typescript@5.2.0-beta)
+      "@prisma/client": 5.2.0(prisma@5.2.0)
       "@prisma/generator-helper": 4.16.2
       graphql: 16.7.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@pothos/plugin-prisma@3.53.0(@pothos/core@3.30.0)(@prisma/client@5.1.0)(graphql@16.7.1)(typescript@5.2.0-beta):
+  /@pothos/plugin-prisma@3.53.0(@pothos/core@3.30.0)(@prisma/client@5.2.0)(graphql@16.7.1)(typescript@5.2.0-beta):
     resolution:
       {
         integrity: sha512-ANUcQ4l5EFNK70D0YbYi8wadCi3ktX+z07xBf5RDhfm295Sshm4+gxOlJ9LRXobbT2XoWusoWAAbxK2g0J5xIQ==
@@ -15629,8 +15641,8 @@ packages:
       typescript: ">=4.7.2"
     dependencies:
       "@pothos/core": 3.30.0(graphql@16.7.1)
-      "@prisma/client": 5.1.0(prisma@5.1.0)
-      "@prisma/generator-helper": 5.1.1
+      "@prisma/client": 5.2.0(prisma@5.2.0)
+      "@prisma/generator-helper": 5.2.0
       graphql: 16.7.1
       typescript: 5.2.0-beta
     transitivePeerDependencies:
@@ -15678,10 +15690,10 @@ packages:
       zod: 3.21.4
     dev: true
 
-  /@prisma/client@5.1.0(prisma@5.1.0):
+  /@prisma/client@5.2.0(prisma@5.2.0):
     resolution:
       {
-        integrity: sha512-aIxuXlH3p3Vy91buodQhYgAD9m0yuxJzpXMhc1ejQ/WN3pNNWzBA0iDcBObLq8DMdszcXmoLAk3hiRq/ZwBsOw==
+        integrity: sha512-AiTjJwR4J5Rh6Z/9ZKrBBLel3/5DzUNntMohOy7yObVnVoTNVFi2kvpLZlFuKO50d7yDspOtW6XBpiAd0BVXbQ==
       }
     engines: { node: ">=16.13" }
     requiresBuild: true
@@ -15691,8 +15703,8 @@ packages:
       prisma:
         optional: true
     dependencies:
-      "@prisma/engines-version": 5.1.0-28.a9b7003df90aa623086e4d6f4e43c72468e6339b
-      prisma: 5.1.0
+      "@prisma/engines-version": 5.2.0-25.2804dc98259d2ea960602aca6b8e7fdc03c1758f
+      prisma: 5.2.0
     dev: true
 
   /@prisma/debug@3.15.2:
@@ -15771,6 +15783,19 @@ packages:
       - supports-color
     dev: true
 
+  /@prisma/debug@5.2.0:
+    resolution:
+      {
+        integrity: sha512-dOrNOA8B65l3dCp2r3gn5A5dbMXNbEixO3JAaMWiS2q03qMU3/R9oNv86H2c1i3GSwQglH5gjwpkA9olp/+h1A==
+      }
+    dependencies:
+      "@types/debug": 4.1.8
+      debug: 4.3.4(supports-color@8.1.1)
+      strip-ansi: 6.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@prisma/engine-core@4.13.0:
     resolution:
       {
@@ -15820,10 +15845,10 @@ packages:
       - supports-color
     dev: true
 
-  /@prisma/engines-version@5.1.0-28.a9b7003df90aa623086e4d6f4e43c72468e6339b:
+  /@prisma/engines-version@5.2.0-25.2804dc98259d2ea960602aca6b8e7fdc03c1758f:
     resolution:
       {
-        integrity: sha512-jTwE2oy1yjICmTfnCR0ASIpuMZXZ18sUzQXB7V0RMbrM9OlcmbUwXPuYhnxXuWN8XwRmujeIhsXs/Zeh+fjPOQ==
+        integrity: sha512-jsnKT5JIDIE01lAeCj2ghY9IwxkedhKNvxQeoyLs6dr4ZXynetD0vTy7u6wMJt8vVPv8I5DPy/I4CFaoXAgbtg==
       }
     dev: true
 
@@ -15843,18 +15868,18 @@ packages:
     requiresBuild: true
     dev: true
 
-  /@prisma/engines@5.1.0:
-    resolution:
-      {
-        integrity: sha512-HqaFsnPmZOdMWkPq6tT2eTVTQyaAXEDdKszcZ4yc7DGMBIYRP6j/zAJTtZUG9SsMV8FaucdL5vRyxY/p5Ni28g==
-      }
-    requiresBuild: true
-    dev: true
-
   /@prisma/engines@5.1.1:
     resolution:
       {
         integrity: sha512-NV/4nVNWFZSJCCIA3HIFJbbDKO/NARc9ej0tX5S9k2EVbkrFJC4Xt9b0u4rNZWL4V+F5LAjvta8vzEUw0rw+HA==
+      }
+    requiresBuild: true
+    dev: true
+
+  /@prisma/engines@5.2.0:
+    resolution:
+      {
+        integrity: sha512-dT7FOLUCdZmq+AunLqB1Iz+ZH/IIS1Fz2THmKZQ6aFONrQD/BQ5ecJ7g2wGS2OgyUFf4OaLam6/bxmgdOBDqig==
       }
     requiresBuild: true
     dev: true
@@ -16018,6 +16043,20 @@ packages:
       }
     dependencies:
       "@prisma/debug": 5.1.1
+      "@types/cross-spawn": 6.0.2
+      cross-spawn: 7.0.3
+      kleur: 4.1.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@prisma/generator-helper@5.2.0:
+    resolution:
+      {
+        integrity: sha512-jju+nGe8IgwDhs412sx6PSk5efkuoBqHOJSqbRBb9Y/fMfeDRGLVdwia8Hj+PKmd/YXrqFgBd4NDeFxeCcVVqw==
+      }
+    dependencies:
+      "@prisma/debug": 5.2.0
       "@types/cross-spawn": 6.0.2
       cross-spawn: 7.0.3
       kleur: 4.1.5
@@ -23794,6 +23833,13 @@ packages:
       }
     engines: { node: ">=12" }
 
+  /ansi-sequence-parser@1.1.1:
+    resolution:
+      {
+        integrity: sha512-vJXt3yiaUL4UU546s3rPXlsry/RnM730G1+HkpKE012AN0sx1eOrxSu95oKDIonskeLTijMgqWZ3uDEe3NFvyg==
+      }
+    dev: false
+
   /ansi-styles@3.2.1:
     resolution:
       {
@@ -29948,6 +29994,19 @@ packages:
       react-docgen-typescript: 2.2.2(typescript@5.1.6)
     dev: false
 
+  /docusaurus-plugin-typedoc@0.19.2(typedoc-plugin-markdown@3.15.4)(typedoc@0.24.8):
+    resolution:
+      {
+        integrity: sha512-N4B2MOaXIyu+FloFn6zVbGgSqszeFQE/7ZIgFakpkVg5F0rfysiDGac2PHbPf4o8DWdyyviJOAuhXk6U7Febeg==
+      }
+    peerDependencies:
+      typedoc: ">=0.24.0"
+      typedoc-plugin-markdown: ">=3.15.0"
+    dependencies:
+      typedoc: 0.24.8(typescript@5.1.6)
+      typedoc-plugin-markdown: 3.15.4(typedoc@0.24.8)
+    dev: false
+
   /dom-accessibility-api@0.5.16:
     resolution:
       {
@@ -33158,6 +33217,13 @@ packages:
         integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
       }
 
+  /fs@0.0.1-security:
+    resolution:
+      {
+        integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==
+      }
+    dev: false
+
   /fsevents@2.3.2:
     resolution:
       {
@@ -35819,7 +35885,6 @@ packages:
       {
         integrity: sha512-8nWq2nLTAwd02jTqJExUYFSD/fKq6VH9Y/oG2accc/kdI0V98Bag8d5a4gi3XHz73rDWa2PvTtvcWYquKqSENA==
       }
-    dev: true
 
   /inherits@2.0.3:
     resolution:
@@ -39745,7 +39810,6 @@ packages:
       {
         integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==
       }
-    dev: true
 
   /lz-string@1.5.0:
     resolution:
@@ -44851,6 +44915,16 @@ packages:
       }
     engines: { node: ">=8" }
 
+  /path@0.12.7:
+    resolution:
+      {
+        integrity: sha512-aXXC6s+1w7otVF9UletFkFcDsJeO7lSZBPUQhtb5O0xJe8LtYhj/GxldoL09bBj9+ZmE2hNoHqQSFMN5fikh4Q==
+      }
+    dependencies:
+      process: 0.11.10
+      util: 0.10.3
+    dev: false
+
   /pathe@1.1.1:
     resolution:
       {
@@ -46515,7 +46589,7 @@ packages:
       react: 17.0.2
     dev: false
 
-  /prisma-generator-pothos-codegen@0.5.8(@pothos/core@3.30.0)(@pothos/plugin-prisma@3.53.0)(@prisma/client@5.1.0)(graphql@16.7.1)(prisma@5.1.0):
+  /prisma-generator-pothos-codegen@0.5.8(@pothos/core@3.30.0)(@pothos/plugin-prisma@3.53.0)(@prisma/client@5.2.0)(graphql@16.7.1)(prisma@5.2.0):
     resolution:
       {
         integrity: sha512-rL/yApp900bvjxbDoNeHuuiNFcV/VTw8umpf3uk5kUBGvAXtG95B/BOZr8blYVHFrsPaMCZ+dJ3wPUtbK0xQKQ==
@@ -46529,12 +46603,12 @@ packages:
       prisma: ^4.7.0
     dependencies:
       "@pothos/core": 3.30.0(graphql@16.7.1)
-      "@pothos/plugin-prisma": 3.53.0(@pothos/core@3.30.0)(@prisma/client@5.1.0)(graphql@16.7.1)(typescript@5.2.0-beta)
-      "@prisma/client": 5.1.0(prisma@5.1.0)
+      "@pothos/plugin-prisma": 3.53.0(@pothos/core@3.30.0)(@prisma/client@5.2.0)(graphql@16.7.1)(typescript@5.2.0-beta)
+      "@prisma/client": 5.2.0(prisma@5.2.0)
       "@prisma/generator-helper": 4.3.0
       "@prisma/internals": 4.3.0
       graphql: 16.7.1
-      prisma: 5.1.0
+      prisma: 5.2.0
       tokenizr: 1.6.7
     transitivePeerDependencies:
       - encoding
@@ -46558,16 +46632,16 @@ packages:
       - supports-color
     dev: true
 
-  /prisma@5.1.0:
+  /prisma@5.2.0:
     resolution:
       {
-        integrity: sha512-wkXvh+6wxk03G8qwpZMOed4Y3j+EQ+bMTlvbDZHeal6k1E8QuGKzRO7DRXlE1NV0WNgOAas8kwZqcLETQ2+BiQ==
+        integrity: sha512-FfFlpjVCkZwrqxDnP4smlNYSH1so+CbfjgdpioFzGGqlQAEm6VHAYSzV7jJgC3ebtY9dNOhDMS2+4/1DDSM7bQ==
       }
     engines: { node: ">=16.13" }
     hasBin: true
     requiresBuild: true
     dependencies:
-      "@prisma/engines": 5.1.0
+      "@prisma/engines": 5.2.0
     dev: true
 
   /prismjs@1.27.0:
@@ -50488,6 +50562,18 @@ packages:
       interpret: 1.4.0
       rechoir: 0.6.2
 
+  /shiki@0.14.3:
+    resolution:
+      {
+        integrity: sha512-U3S/a+b0KS+UkTyMjoNojvTgrBHjgp7L6ovhFVZsXmBGnVdQ4K4U9oK0z63w538S91ATngv1vXigHCSWOwnr+g==
+      }
+    dependencies:
+      ansi-sequence-parser: 1.1.1
+      jsonc-parser: 3.2.0
+      vscode-oniguruma: 1.7.0
+      vscode-textmate: 8.0.0
+    dev: false
+
   /shimmer@1.2.1:
     resolution:
       {
@@ -53960,6 +54046,35 @@ packages:
       }
     dev: true
 
+  /typedoc-plugin-markdown@3.15.4(typedoc@0.24.8):
+    resolution:
+      {
+        integrity: sha512-KpjFL/NDrQAbY147oIoOgob2vAdEchsMcTVd6+e6H2lC1l5xhi48bhP/fMJI7qYQ8th5nubervgqw51z7gY66A==
+      }
+    peerDependencies:
+      typedoc: ">=0.24.0"
+    dependencies:
+      handlebars: 4.7.8
+      typedoc: 0.24.8(typescript@5.1.6)
+    dev: false
+
+  /typedoc@0.24.8(typescript@5.1.6):
+    resolution:
+      {
+        integrity: sha512-ahJ6Cpcvxwaxfu4KtjA8qZNqS43wYt6JL27wYiIgl1vd38WW/KWX11YuAeZhuz9v+ttrutSsgK+XO1CjL1kA3w==
+      }
+    engines: { node: ">= 14.14" }
+    hasBin: true
+    peerDependencies:
+      typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x
+    dependencies:
+      lunr: 2.3.9
+      marked: 4.3.0
+      minimatch: 9.0.3
+      shiki: 0.14.3
+      typescript: 5.1.6
+    dev: false
+
   /types-ramda@0.29.4:
     resolution:
       {
@@ -55040,7 +55155,6 @@ packages:
       }
     dependencies:
       inherits: 2.0.1
-    dev: true
 
   /util@0.11.1:
     resolution:
@@ -55473,6 +55587,13 @@ packages:
       vscode-languageserver-protocol: 3.17.3
     dev: false
 
+  /vscode-oniguruma@1.7.0:
+    resolution:
+      {
+        integrity: sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==
+      }
+    dev: false
+
   /vscode-test@0.4.3:
     resolution:
       {
@@ -55485,6 +55606,13 @@ packages:
       https-proxy-agent: 2.2.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /vscode-textmate@8.0.0:
+    resolution:
+      {
+        integrity: sha512-AFbieoL7a5LMqcnOF04ji+rpXadgOXnZsxQr//r83kLPr7biP7am3g9zbaZIaBGwBRWeSvoMD4mgPdX3e4NWBg==
+      }
     dev: false
 
   /vscode-uri@3.0.7:
@@ -56762,7 +56890,7 @@ packages:
       - supports-color
     dev: true
 
-  /zod-prisma@0.5.4(prisma@5.1.0)(zod@3.21.4):
+  /zod-prisma@0.5.4(prisma@5.2.0)(zod@3.21.4):
     resolution:
       {
         integrity: sha512-5Ca4Qd1a1jy1T/NqCEpbr0c+EsbjJfJ/7euEHob3zDvtUK2rTuD1Rc/vfzH8q8PtaR2TZbysD88NHmrLwpv3Xg==
@@ -56779,7 +56907,7 @@ packages:
     dependencies:
       "@prisma/generator-helper": 3.8.1
       parenthesis: 3.1.8
-      prisma: 5.1.0
+      prisma: 5.2.0
       ts-morph: 13.0.3
       zod: 3.21.4
     dev: true

@@ -17,9 +17,9 @@ import {
   isReferenceExpr,
   Model,
   Reference,
-  ReferenceExpr,
+  ReferenceExpr
 } from "@open-system/tools-storm-language/ast";
-import path from "path";
+import { dirname, isAbsolute, join } from "path";
 import { ExpressionContext } from "./constants";
 import { PluginOptions } from "./types";
 
@@ -267,10 +267,10 @@ export function isForeignKeyField(field: DataModelField) {
 }
 
 export function resolvePath(_path: string, options: PluginOptions) {
-  if (path.isAbsolute(_path)) {
+  if (isAbsolute(_path)) {
     return _path;
   } else {
-    return path.join(path.dirname(options.schemaPath), _path);
+    return join(dirname(options.schemaPath), _path);
   }
 }
 

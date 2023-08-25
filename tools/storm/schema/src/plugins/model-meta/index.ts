@@ -8,10 +8,10 @@ import {
   isLiteralExpr,
   isReferenceExpr,
   Model,
-  ReferenceExpr,
+  ReferenceExpr
 } from "@open-system/tools-storm-language/ast";
 import type { RuntimeAttribute } from "@open-system/tools-storm-runtime";
-import path from "path";
+import { join } from "path";
 import { CodeBlockWriter, VariableDeclarationKind } from "ts-morph";
 import {
   createProject,
@@ -19,6 +19,7 @@ import {
   getAttributeArg,
   getAttributeArgs,
   getDataModels,
+  getFileHeader,
   getLiteral,
   hasAttribute,
   isIdField,
@@ -26,7 +27,7 @@ import {
   PluginOptions,
   resolved,
   resolvePath,
-  saveProject,
+  saveProject
 } from "../../sdk";
 import { getDefaultOutputFolder } from "../plugin-utils";
 
@@ -49,19 +50,20 @@ export default async function run(model: Model, options: PluginOptions) {
   const project = createProject();
 
   const sf = project.createSourceFile(
-    path.join(output, "model-meta.ts"),
+    join(output, "model-meta.ts"),
     undefined,
     { overwrite: true }
   );
   sf.addStatements("/* eslint-disable */");
+  sf.addStatements(getFileHeader("Model Metadata"));
   sf.addVariableStatement({
     declarationKind: VariableDeclarationKind.Const,
     declarations: [
       {
         name: "metadata",
-        initializer: writer => generateModelMetadata(dataModels, writer),
-      },
-    ],
+        initializer: writer => generateModelMetadata(dataModels, writer)
+      }
+    ]
   });
   sf.addStatements("export default metadata;");
 
@@ -225,7 +227,6 @@ function isRelationOwner(
   }
 
   if (!backLink) {
-    // CHECKME: can this really happen?
     return true;
   }
 

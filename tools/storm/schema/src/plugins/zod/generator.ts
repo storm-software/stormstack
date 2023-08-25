@@ -2,37 +2,37 @@ import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string
 import {
   DataModel,
   DataSource,
-  EnumField,
+  Enum,
   Model,
   isDataModel,
   isDataSource,
-  isEnum,
+  isEnum
 } from "@open-system/tools-storm-language/ast";
 import { ConnectorType, DMMF } from "@prisma/generator-helper";
 import { promises as fs } from "fs";
-import { streamAllContents } from "langium";
-import path from "path";
+import { join } from "path";
 import { Project } from "ts-morph";
-import { isFromStdlib } from "../../language-server/utils";
 import {
   AUXILIARY_FIELDS,
   PluginOptions,
   createProject,
   emitProject,
   getDataModels,
+  getFileHeader,
   getLiteral,
   getPrismaClientImportSpec,
   hasAttribute,
-  isEnumFieldReference,
   isForeignKeyField,
   resolvePath,
-  saveProject,
+  saveProject
 } from "../../sdk";
 import {
   addMissingInputObjectTypes,
-  resolveAggregateOperationSupport,
+  resolveAggregateOperationSupport
 } from "../../sdk/dmmf-helpers";
 import { getDefaultOutputFolder } from "../plugin-utils";
+import { PrismaModel } from "../prisma/prisma-builder";
+import PrismaSchemaGenerator from "../prisma/schema-generator";
 import Transformer from "./transformer";
 import removeDir from "./utils/removeDir";
 import { makeFieldSchema, makeValidationRefinements } from "./utils/schema-gen";
@@ -46,9 +46,9 @@ export async function generate(
   if (!output) {
     const defaultOutputFolder = getDefaultOutputFolder();
     if (defaultOutputFolder) {
-      output = path.join(defaultOutputFolder, "zod");
+      output = join(defaultOutputFolder, "zod");
     } else {
-      output = "./generated/zod";
+      output = "./__generated__/zod";
     }
   }
   output = resolvePath(output, options);
@@ -98,7 +98,7 @@ export async function generate(
       modelOperations,
       aggregateOperationSupport,
       project,
-      storm: model,
+      storm: model
     });
     await transformer.generateInputSchemas();
   }
@@ -106,7 +106,7 @@ export async function generate(
   // create barrel file
   const exports = [
     `export * as models from './models'`,
-    `export * as enums from './enums'`,
+    `export * as enums from './enums'`
   ];
   if (options.modelOnly !== true) {
     exports.push(
@@ -114,8 +114,8 @@ export async function generate(
       `export * as objects from './objects'`
     );
   }
-  project.createSourceFile(path.join(output, "index.ts"), exports.join(";\n"), {
-    overwrite: true,
+  project.createSourceFile(join(output, "index.ts"), exports.join(";\n"), {
+    overwrite: true
   });
 
   // emit
@@ -141,8 +141,11 @@ async function handleGeneratorOutputValue(output: string) {
 async function generateCommonSchemas(project: Project, output: string) {
   // Decimal
   project.createSourceFile(
-    path.join(output, "common", "index.ts"),
-    `
+    join(output, "common", "index.ts"),
+    `/* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
+
+${getFileHeader("Zod Schema")}
+
 import { z } from 'zod';
 export const DecimalSchema = z.union([z.number(), z.string(), z.object({d: z.number().array(), e: z.number(), s: z.number()})]);
 
@@ -168,15 +171,33 @@ async function generateEnumSchemas(
   prismaSchemaEnum: DMMF.SchemaEnum[],
   modelSchemaEnum: DMMF.SchemaEnum[],
   project: Project,
-  storm: Model
+  model: Model
 ) {
-  const enumTypes = [...prismaSchemaEnum, ...modelSchemaEnum];
-  const enumNames = enumTypes.map(enumItem => enumItem.name);
+  const prisma = new PrismaModel();
+  const generator = new PrismaSchemaGenerator();
+
+  const enums = model.declarations.reduce((ret, decl) => {
+    if (decl.$type === Enum) {
+      ret.push(decl as Enum);
+    }
+
+    return ret;
+  }, []);
+  enums.forEach(e => generator.generateEnum(prisma, e));
+
+  const enumNames = prisma.enums.map(enumItem => enumItem.name);
   Transformer.enumNames = enumNames ?? [];
   const transformer = new Transformer({
-    enumTypes,
+    enumTypes: [
+      ...prismaSchemaEnum,
+      ...modelSchemaEnum,
+      ...prisma.enums.map(e => ({
+        name: e.name,
+        values: e.fields.map(f => f.name)
+      }))
+    ],
     project,
-    storm,
+    storm: model
   });
   await transformer.generateEnumSchemas();
 }
@@ -196,7 +217,7 @@ async function generateObjectSchemas(
     moduleNames.push(moduleName);
   }
   project.createSourceFile(
-    path.join(output, "objects/index.ts"),
+    join(output, "objects/index.ts"),
     moduleNames.map(name => `export * from './${name}';`).join("\n"),
     { overwrite: true }
   );
@@ -213,7 +234,7 @@ async function generateModelSchemas(
   }
 
   project.createSourceFile(
-    path.join(output, "models", "index.ts"),
+    join(output, "models", "index.ts"),
     schemaNames.map(name => `export * from './${name}';`).join("\n"),
     { overwrite: true }
   );
@@ -226,10 +247,10 @@ async function generateModelSchema(
 ) {
   const schemaName = `${upperCaseFirst(model.name)}.schema`;
   const sf = project.createSourceFile(
-    path.join(output, "models", `${schemaName}.ts`),
+    join(output, "models", `${schemaName}.ts`),
     undefined,
     {
-      overwrite: true,
+      overwrite: true
     }
   );
   sf.replaceWithText(writer => {
@@ -242,22 +263,23 @@ async function generateModelSchema(
     );
 
     writer.writeLine("/* eslint-disable */");
+    writer.writeLine(getFileHeader("Zod Schema"));
     writer.writeLine(`import { z } from 'zod';`);
 
     // import user-defined enums from Prisma as they might be referenced in the expressions
     const importEnums = new Set<string>();
-    for (const node of streamAllContents(model)) {
+    /*for (const node of streamAllContents(model)) {
       if (isEnumFieldReference(node)) {
         const field = node.target.ref as EnumField;
         if (!isFromStdlib(field.$container)) {
           importEnums.add(field.$container.name);
         }
       }
-    }
+    }*/
     if (importEnums.size > 0) {
       const prismaImport = getPrismaClientImportSpec(
         model.$container,
-        path.join(output, "models")
+        join(output, "models")
       );
       writer.writeLine(
         `import { ${[...importEnums].join(", ")} } from '${prismaImport}';`

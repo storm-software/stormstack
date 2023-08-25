@@ -3,7 +3,7 @@ import {
   DataModel,
   DataModelField,
   DataModelFieldAttribute,
-  isEnum,
+  isEnum
 } from "@open-system/tools-storm-language/ast";
 import { name } from "..";
 import {
@@ -11,11 +11,11 @@ import {
   PluginError,
   getAttributeArg,
   getAttributeArgLiteral,
-  getLiteral,
+  getLiteral
 } from "../../../sdk";
 import {
   TypeScriptExpressionTransformer,
-  TypeScriptExpressionTransformerError,
+  TypeScriptExpressionTransformerError
 } from "../../../utils/typescript-expression-transformer";
 
 export function makeFieldSchema(field: DataModelField) {
@@ -183,7 +183,7 @@ export function makeValidationRefinements(model: DataModel) {
       try {
         const expr = new TypeScriptExpressionTransformer({
           context: ExpressionContext.ValidationRule,
-          fieldReferenceContext: "value",
+          fieldReferenceContext: "value"
         }).transform(valueArg);
         return `.refine((value: any) => ${expr}${message})`;
       } catch (err) {

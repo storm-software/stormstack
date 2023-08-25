@@ -35,7 +35,7 @@ model Contact {
     createdBy String
 
     /// @Pothos.omit(create, update) A timestamp of when the Contact was last updated
-    updatedOn DateTime? @updatedAt
+    updatedAt DateTime? @updatedAt
 
     /// @Pothos.omit(create, update) The user who last updated the Contact
     updatedBy String?
@@ -104,7 +104,7 @@ model ContactAttachment {
     createdBy String
 
     /// @Pothos.omit(create, update) A timestamp of when the ContactAttachment was last updated
-    updatedOn DateTime? @updatedAt
+    updatedAt DateTime? @updatedAt
 
     /// @Pothos.omit(create, update) The user who last updated the ContactAttachment
     updatedBy String?

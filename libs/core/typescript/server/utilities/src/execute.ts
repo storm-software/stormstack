@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { isEmptyObject } from "@open-system/core-shared-utilities/common";
 import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
 import {
   ExecOptions,
   StdioOptions,
-  execSync as extExecSync,
+  execSync as extExecSync
 } from "child_process";
 import { Readable } from "node:stream";
 import { promisify } from "util";
@@ -15,14 +16,20 @@ export const execute = (
   stdio: StdioOptions = "inherit"
 ): string | Buffer | Readable | undefined => {
   try {
-    ConsoleLogger.info(`Executing command: "${command}"`);
+    ConsoleLogger.info(
+      `Executing command: "${command}"${
+        !isEmptyObject(options) ? `, options: ${JSON.stringify(options)}` : ""
+      }${!isEmptyObject(env) ? `, env: ${JSON.stringify(env)}` : ""}${
+        !stdio ? `, stdio: ${stdio}` : ""
+      }`
+    );
 
     const mergedEnv = { ...process.env, ...env };
     return extExecSync(command, {
       encoding: "utf-8",
       env: mergedEnv,
       stdio,
-      ...options,
+      ...options
     });
   } catch (e) {
     ConsoleLogger.error(`An error occurred executing command: "${command}"`);

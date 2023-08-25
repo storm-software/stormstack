@@ -311,7 +311,7 @@ ${JSON.stringify(plugin)}`
     if (pluginModulePath.startsWith("@core/")) {
       pluginModulePath = pluginModulePath.replace(
         /^@core/,
-        path.join(__dirname, "../plugins")
+        path.join(__dirname, "../../../storm/schema/src/plugins")
       );
     }
     return pluginModulePath;

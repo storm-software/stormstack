@@ -43,6 +43,7 @@
     "langium": "1.2.1",
     "langium-cli": "1.2.1",
     "ora": "^7.0.1",
+    "path": "^0.12.7",
     "pluralize": "^8.0.0",
     "semver": "^7.5.4",
     "ts-morph": "^19.0.0",

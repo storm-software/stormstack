@@ -1,13 +1,32 @@
 datasource db {
-  provider = "sqlite"
+    provider = "sqlite"
     url      = "file:./dev.db"
 }
 
 generator js {
     provider = "prisma-client-js"
     // Generate into custom location because this repo has multiple prisma schemas
-    output   = "../../../../../../../node_modules/.prisma/client/contact-attachment"
+    output   = "../../../../../../node_modules/.prisma/client/contact-attachment"
 }
+
+plugin meta {
+  provider = "@core/model-meta"
+  output = "src/__generated__/model-meta"
+  compile = false
+}
+
+plugin zod {
+  provider = "@core/zod"
+  output = "src/__generated__/zod"
+  compile = false
+}
+
+plugin access {
+  provider = "@core/access-policy"
+  output = "src/__generated__/access-policy"
+  compile = false
+}
+
 
 enum ContactReason {
     Business
@@ -27,19 +46,19 @@ enum AttachmentStatus {
 
 // The data fields related to a specific Contact request instance
 model Contact {
-    // @Pothos.omit(create) The unique identifier for the Contact
+    // The unique identifier for the Contact
     id String @id @default(uuid())
 
-    // @Pothos.omit(create, update) A timestamp of when the Contact was created
-    createdOn DateTime @default(now())
+    // A timestamp of when the Contact was created
+    createdAt DateTime @default(now())
 
-    // @Pothos.omit(create, update) The user who created the Contact
+    // The user who created the Contact
     createdBy String
 
-    // @Pothos.omit(create, update) A timestamp of when the Contact was last updated
-    updatedOn DateTime? @updatedAt
+    // A timestamp of when the Contact was last updated
+    updatedAt DateTime? @updatedAt
 
-    // @Pothos.omit(create, update) The user who last updated the Contact
+    // The user who last updated the Contact
     updatedBy String?
 
     // The reason of the Contact
@@ -96,19 +115,19 @@ model Contact {
 
 // A file attachment included by a Contact
 model ContactAttachment {
-    // @Pothos.omit(create) The unique identifier for the ContactAttachment
+    // The unique identifier for the ContactAttachment
     id String @id @default(cuid())
 
-    // @Pothos.omit(create, update) A timestamp of when the ContactAttachment was created
-    createdOn DateTime @default(now())
+    // A timestamp of when the ContactAttachment was created
+    createdAt DateTime @default(now())
 
-    // @Pothos.omit(create, update) The user who created the ContactAttachment
+    // The user who created the ContactAttachment
     createdBy String
 
-    // @Pothos.omit(create, update) A timestamp of when the ContactAttachment was last updated
-    updatedOn DateTime? @updatedAt
+    // A timestamp of when the ContactAttachment was last updated
+    updatedAt DateTime? @updatedAt
 
-    // @Pothos.omit(create, update) The user who last updated the ContactAttachment
+    // The user who last updated the ContactAttachment
     updatedBy String?
 
     // The name of the file

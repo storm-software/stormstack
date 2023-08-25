@@ -8,7 +8,7 @@ export const ALL_OPERATION_KINDS: PolicyOperationKind[] = [
   "update",
   "postUpdate",
   "read",
-  "delete",
+  "delete"
 ];
 
 const MAX_PATH_SEARCH_DEPTH = 30;

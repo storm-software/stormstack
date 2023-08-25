@@ -10,6 +10,7 @@
     "asyncapi",
     "automerge",
     "avrogen",
+    "backlink",
     "Benning",
     "Bootstrapper",
     "Buildable",
@@ -24,6 +25,10 @@
     "compat",
     "corepack",
     "cssmodule",
+    "cuid",
+    "datamodel",
+    "Datasource",
+    "datasources",
     "datetime",
     "devcontainer",
     "devkit",
@@ -92,6 +97,7 @@
     "redocusaurus",
     "reduxjs",
     "Remoting",
+    "renamer",
     "Renderable",
     "Roadmap",
     "rollup",
@@ -137,15 +143,7 @@
     "wundergraph",
     "zenstack"
   ],
-  "enableFiletypes": [
-    "txt",
-    "js",
-    "jsx",
-    "ts",
-    "tsx",
-    "md",
-    "mdx"
-  ],
+  "enableFiletypes": ["txt", "js", "jsx", "ts", "tsx", "md", "mdx"],
   "ignorePaths": [
     "**/.git/**",
     "**/node_modules/**",

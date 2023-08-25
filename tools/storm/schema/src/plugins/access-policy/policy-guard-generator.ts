@@ -13,20 +13,20 @@ import {
   isThisExpr,
   isUnaryExpr,
   MemberAccessExpr,
-  Model,
+  Model
 } from "@open-system/tools-storm-language";
 import type {
   PolicyKind,
-  PolicyOperationKind,
+  PolicyOperationKind
 } from "@open-system/tools-storm-runtime";
 import { streamAllContents } from "langium";
-import path from "path";
+import { join } from "path";
 import {
   FunctionDeclaration,
   SourceFile,
   StatementStructures,
   VariableDeclarationKind,
-  WriterFunction,
+  WriterFunction
 } from "ts-morph";
 import { name } from ".";
 import { isFromStdlib } from "../../language-server/utils";
@@ -36,6 +36,7 @@ import {
   emitProject,
   ExpressionContext,
   getDataModels,
+  getFileHeader,
   getLiteral,
   getPrismaClientImportSpec,
   hasAttribute,
@@ -45,12 +46,12 @@ import {
   resolved,
   resolvePath,
   RUNTIME_PACKAGE,
-  saveProject,
+  saveProject
 } from "../../sdk";
 import { getIdFields, isAuthInvocation } from "../../utils/ast-utils";
 import {
   TypeScriptExpressionTransformer,
-  TypeScriptExpressionTransformerError,
+  TypeScriptExpressionTransformerError
 } from "../../utils/typescript-expression-transformer";
 import { ALL_OPERATION_KINDS, getDefaultOutputFolder } from "../plugin-utils";
 import { ExpressionWriter, FALSE, TRUE } from "./expression-writer";
@@ -73,16 +74,15 @@ export default class PolicyGenerator {
     output = resolvePath(output, options);
 
     const project = createProject();
-    const sf = project.createSourceFile(
-      path.join(output, "policy.ts"),
-      undefined,
-      { overwrite: true }
-    );
+    const sf = project.createSourceFile(join(output, "policy.ts"), undefined, {
+      overwrite: true
+    });
     sf.addStatements("/* eslint-disable */");
+    sf.addStatements(getFileHeader("Access Policy"));
 
     sf.addImportDeclaration({
       namedImports: [{ name: "type QueryContext" }, { name: "hasAllFields" }],
-      moduleSpecifier: `${RUNTIME_PACKAGE}`,
+      moduleSpecifier: `${RUNTIME_PACKAGE}`
     });
 
     // import enums
@@ -90,7 +90,7 @@ export default class PolicyGenerator {
     for (const e of model.declarations.filter(d => isEnum(d))) {
       sf.addImportDeclaration({
         namedImports: [{ name: e.name }],
-        moduleSpecifier: prismaImport,
+        moduleSpecifier: prismaImport
       });
     }
 
@@ -142,9 +142,9 @@ export default class PolicyGenerator {
                 }
               });
             });
-          },
-        },
-      ],
+          }
+        }
+      ]
     });
 
     sf.addStatements("export default policy");
@@ -480,7 +480,7 @@ export default class PolicyGenerator {
       statements.push(writer => {
         const transformer = new TypeScriptExpressionTransformer({
           context: ExpressionContext.AccessPolicy,
-          isPostGuard: kind === "postUpdate",
+          isPostGuard: kind === "postUpdate"
         });
         try {
           denies.forEach(rule => {
@@ -551,10 +551,10 @@ export default class PolicyGenerator {
       parameters: [
         {
           name: "context",
-          type: "QueryContext",
-        },
+          type: "QueryContext"
+        }
       ],
-      statements,
+      statements
     });
 
     return func;
@@ -602,7 +602,7 @@ export default class PolicyGenerator {
 
       const transformer = new TypeScriptExpressionTransformer({
         context: ExpressionContext.AccessPolicy,
-        fieldReferenceContext: "input",
+        fieldReferenceContext: "input"
       });
 
       let expr =
@@ -632,14 +632,14 @@ export default class PolicyGenerator {
       parameters: [
         {
           name: "input",
-          type: "any",
+          type: "any"
         },
         {
           name: "context",
-          type: "QueryContext",
-        },
+          type: "QueryContext"
+        }
       ],
-      statements,
+      statements
     });
 
     return func;

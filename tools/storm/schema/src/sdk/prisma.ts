@@ -4,12 +4,11 @@ import {
   Model,
   Plugin,
   isGeneratorDecl,
-  isPlugin,
+  isPlugin
 } from "@open-system/tools-storm-language/ast";
-import { getPrismaVersion } from "@open-system/tools-storm-runtime";
 import type { DMMF } from "@prisma/generator-helper";
 import { getDMMF as getDMMF5 } from "@prisma/internals";
-import path from "path";
+import { dirname, isAbsolute, posix, relative, resolve, sep } from "path";
 import { getLiteral } from "./utils";
 
 /**
@@ -35,16 +34,16 @@ export function getPrismaClientImportSpec(
     return "@prisma/client";
   }
 
-  if (path.isAbsolute(clientOutput)) {
+  if (isAbsolute(clientOutput)) {
     // absolute path
     return clientOutput;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const stormDir = path.dirname(model.$document!.uri.fsPath);
+  const stormDir = dirname(model.$document!.uri.fsPath);
 
   // compute prisma schema absolute output path
-  let prismaSchemaOutputDir = path.resolve(stormDir, "./prisma");
+  let prismaSchemaOutputDir = resolve(stormDir, "./prisma");
   const prismaPlugin = model.declarations.find(
     d =>
       isPlugin(d) &&
@@ -57,17 +56,17 @@ export function getPrismaClientImportSpec(
       prismaPlugin.fields.find(f => f.name === "output")?.value
     );
     if (output) {
-      if (path.isAbsolute(output)) {
+      if (isAbsolute(output)) {
         // absolute prisma schema output path
-        prismaSchemaOutputDir = path.dirname(output);
+        prismaSchemaOutputDir = dirname(output);
       } else {
-        prismaSchemaOutputDir = path.dirname(path.resolve(stormDir, output));
+        prismaSchemaOutputDir = dirname(resolve(stormDir, output));
       }
     }
   }
 
   // resolve the prisma client output path, which is relative to the prisma schema
-  const resolvedPrismaClientOutput = path.resolve(
+  const resolvedPrismaClientOutput = resolve(
     prismaSchemaOutputDir,
     clientOutput
   );
@@ -78,13 +77,11 @@ export function getPrismaClientImportSpec(
   ConsoleLogger.log(`IMPORTING PATH: ${importingFromDir}`);
 
   // compute prisma client absolute output dir relative to the importing file
-  return normalizePath(
-    path.relative(importingFromDir, resolvedPrismaClientOutput)
-  );
+  return normalizePath(relative(importingFromDir, resolvedPrismaClientOutput));
 }
 
 function normalizePath(p: string) {
-  return p ? p.split(path.sep).join(path.posix.sep) : p;
+  return p ? p.split(sep).join(posix.sep) : p;
 }
 
 export type GetDMMFOptions = {
@@ -100,7 +97,7 @@ export type GetDMMFOptions = {
  * Loads Prisma DMMF with appropriate version
  */
 export function getDMMF(options: GetDMMFOptions): Promise<DMMF.Document> {
-  const prismaVersion = getPrismaVersion();
+  // const prismaVersion = getPrismaVersion();
 
   return getDMMF5(options);
 }

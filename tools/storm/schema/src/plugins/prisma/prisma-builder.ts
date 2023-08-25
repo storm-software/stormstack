@@ -10,10 +10,11 @@ export type SimpleField = { name: string; value: string | string[] };
  * Prisma schema builder
  */
 export class PrismaModel {
-  private datasources: DataSource[] = [];
-  private generators: Generator[] = [];
-  private models: Model[] = [];
-  private enums: Enum[] = [];
+  public datasources: DataSource[] = [];
+  public generators: Generator[] = [];
+  public models: Model[] = [];
+  public enums: Enum[] = [];
+  public isSqlite = false;
 
   addDataSource(
     name: string,
@@ -32,6 +33,8 @@ export class PrismaModel {
       restFields
     );
     this.datasources.push(ds);
+    this.isSqlite = this.datasources.some(d => d.provider === "sqlite");
+
     return ds;
   }
 
@@ -42,13 +45,13 @@ export class PrismaModel {
   }
 
   addModel(name: string): Model {
-    const model = new Model(name, false);
+    const model = new Model(name, false, [], this.isSqlite);
     this.models.push(model);
     return model;
   }
 
   addView(name: string): Model {
-    const model = new Model(name, true);
+    const model = new Model(name, true, [], this.isSqlite);
     this.models.push(model);
     return model;
   }
@@ -56,6 +59,7 @@ export class PrismaModel {
   addEnum(name: string): Enum {
     const e = new Enum(name);
     this.enums.push(e);
+
     return e;
   }
 
@@ -63,8 +67,11 @@ export class PrismaModel {
     return [
       ...this.datasources,
       ...this.generators,
-      ...this.enums,
-      ...this.models,
+      ...(!this.isSqlite ? this.enums : []),
+      ...this.models.map(m => {
+        m.checkEnums(this.enums.map(e => e.name));
+        return m;
+      })
     ]
       .map(d => d.toString())
       .join("\n\n");
@@ -157,10 +164,12 @@ export class FieldDeclaration extends DeclarationBase {
 
 export class Model extends ContainerDeclaration {
   public fields: ModelField[] = [];
+
   constructor(
     public name: string,
     public isView: boolean,
-    documentations: string[] = []
+    documentations: string[] = [],
+    public isSqlite = false
   ) {
     super(documentations);
   }
@@ -171,7 +180,13 @@ export class Model extends ContainerDeclaration {
     attributes: (FieldAttribute | PassThroughAttribute)[] = [],
     documentations: string[] = []
   ): ModelField {
-    const field = new ModelField(name, type, attributes, documentations);
+    const field = new ModelField(
+      name,
+      type,
+      attributes,
+      documentations,
+      this.isSqlite
+    );
     this.fields.push(field);
     return field;
   }
@@ -180,6 +195,14 @@ export class Model extends ContainerDeclaration {
     const attr = new ContainerAttribute(name, args);
     this.attributes.push(attr);
     return attr;
+  }
+
+  checkEnums(enums: string[] = []) {
+    this.fields = this.fields.map(field => {
+      field.setIsEnum(enums);
+
+      return field;
+    });
   }
 
   toString(): string {
@@ -234,25 +257,54 @@ export class ModelFieldType {
 }
 
 export class ModelField extends FieldDeclaration {
+  public isEnum = false;
+
   constructor(
     public name: string,
     public type: ModelFieldType | string,
     attributes: (FieldAttribute | PassThroughAttribute)[] = [],
-    documentations: string[] = []
+    documentations: string[] = [],
+    private isSqlite = false
   ) {
     super(documentations, attributes);
   }
 
   addAttribute(name: string, args: AttributeArg[] = []): FieldAttribute {
-    const attr = new FieldAttribute(name, args);
+    const attr = new FieldAttribute(name, args, this.isSqlite);
     this.attributes.push(attr);
+
     return attr;
+  }
+
+  setIsEnum(enums: string[] = []) {
+    this.isEnum = enums.some(
+      e => e === (typeof this.type === "string" ? this.type : this.type.type)
+    );
+    this.attributes = this.attributes.map(attr => {
+      const fieldAttr = attr as FieldAttribute;
+      if (fieldAttr) {
+        return new FieldAttribute(
+          fieldAttr.name,
+          fieldAttr.args,
+          this.isSqlite,
+          this.isEnum
+        );
+      }
+
+      return attr;
+    });
   }
 
   toString(): string {
     return (
       super.toString() +
-      `${this.name} ${this.type}` +
+      `${this.name} ${
+        this.isSqlite && this.isEnum
+          ? `String${
+              typeof this.type === "string" ? "" : this.type.optional ? "?" : ""
+            }`
+          : this.type
+      }` +
       (this.attributes.length > 0
         ? " " + this.attributes.map(a => a.toString()).join(" ")
         : "")
@@ -261,10 +313,32 @@ export class ModelField extends FieldDeclaration {
 }
 
 export class FieldAttribute {
-  constructor(public name: string, public args: AttributeArg[] = []) {}
+  constructor(
+    public name: string,
+    public args: AttributeArg[] = [],
+    private isSqlite = false,
+    private isEnum = false
+  ) {}
 
   toString(): string {
-    return `${this.name}(` + this.args.map(a => a.toString()).join(", ") + `)`;
+    return (
+      `${this.name}(` +
+      (this.isSqlite && this.isEnum && this.name === "@default"
+        ? this.args.map(
+            a =>
+              new AttributeArgValue(
+                "String",
+                typeof a.value.value === "string"
+                  ? a.value.value
+                  : (a.value.value as FieldReference).field
+              )
+          )
+        : this.args
+      )
+        .map(a => a.toString())
+        .join(", ") +
+      `)`
+    );
   }
 }
 

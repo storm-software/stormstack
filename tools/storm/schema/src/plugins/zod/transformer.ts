@@ -3,14 +3,18 @@ import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string
 import { Model } from "@open-system/tools-storm-language/ast";
 import { getPrismaVersion } from "@open-system/tools-storm-runtime";
 import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
-import path from "path";
+import { join, resolve } from "path";
 import * as semver from "semver";
 import { Project } from "ts-morph";
-import { AUXILIARY_FIELDS, getPrismaClientImportSpec } from "../../sdk";
+import {
+  AUXILIARY_FIELDS,
+  getFileHeader,
+  getPrismaClientImportSpec
+} from "../../sdk";
 import {
   checkModelHasModelRelation,
   findModelByName,
-  isAggregateInputType,
+  isAggregateInputType
 } from "../../sdk/dmmf-helpers";
 import indentString from "../../sdk/utils";
 import { AggregateOperationSupport, TransformerParams } from "./types";
@@ -27,7 +31,7 @@ export default class Transformer {
   static enumNames: string[] = [];
   static rawOpsMap: { [name: string]: string } = {};
   static provider: string;
-  private static outputPath = "./generated";
+  private static outputPath = "./__generated__";
   private hasJson = false;
   private hasDecimal = false;
   private project: Project;
@@ -57,18 +61,17 @@ export default class Transformer {
       const { name, values } = enumType;
       const filteredValues = values.filter(v => !AUXILIARY_FIELDS.includes(v));
 
-      const filePath = path.join(
-        Transformer.outputPath,
-        `enums/${name}.schema.ts`
-      );
-      const content = `/* eslint-disable */\n${this.generateImportZodStatement()}\n${this.generateExportSchemaStatement(
+      const filePath = join(Transformer.outputPath, `enums/${name}.schema.ts`);
+      const content = `/* eslint-disable */\n${getFileHeader(
+        "Zod Schema"
+      )}\n${this.generateImportZodStatement()}\n${this.generateExportSchemaStatement(
         `${name}`,
         `z.enum(${JSON.stringify(filteredValues)})`
       )}`;
       this.project.createSourceFile(filePath, content, { overwrite: true });
     }
     this.project.createSourceFile(
-      path.join(Transformer.outputPath, `enums/index.ts`),
+      join(Transformer.outputPath, `enums/index.ts`),
       this.enumTypes
         .map(enumType => `export * from './${enumType.name}.schema';`)
         .join("\n"),
@@ -89,11 +92,12 @@ export default class Transformer {
     const objectSchema = this.prepareObjectSchema(zodObjectSchemaFields);
     const objectSchemaName = this.resolveObjectSchemaName();
 
-    const filePath = path.join(
+    const filePath = join(
       Transformer.outputPath,
       `objects/${objectSchemaName}.schema.ts`
     );
-    const content = "/* eslint-disable */\n" + objectSchema;
+    const content =
+      `/* eslint-disable */\n${getFileHeader("Zod Schema")}\n` + objectSchema;
     this.project.createSourceFile(filePath, content, { overwrite: true });
     return `${objectSchemaName}.schema`;
   }
@@ -334,7 +338,7 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
   generateImportPrismaStatement() {
     const prismaClientImportPath = getPrismaClientImportSpec(
       this.storm,
-      path.resolve(Transformer.outputPath, "./objects")
+      resolve(Transformer.outputPath, "./objects")
     );
     return `import type { Prisma } from '${prismaClientImportPath}';\n\n`;
   }
@@ -388,7 +392,7 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
 
   checkIsModelQueryType(type: string) {
     const modelQueryTypeSuffixToQueryName: Record<string, string> = {
-      FindManyArgs: "findMany",
+      FindManyArgs: "findMany"
     };
     for (const modelQueryType of ["FindManyArgs"]) {
       if (type.includes(modelQueryType)) {
@@ -396,7 +400,7 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
         return {
           isModelQueryType: true,
           modelName: type.substring(0, modelQueryTypeSuffixIndex),
-          queryName: modelQueryTypeSuffixToQueryName[modelQueryType],
+          queryName: modelQueryTypeSuffixToQueryName[modelQueryType]
         };
       }
     }
@@ -455,8 +459,7 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
         // @ts-expect-error
         upsertOne,
         aggregate,
-        groupBy,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        groupBy
       } = modelOperation;
 
       globalExports.push(`export * from './${modelName}Input.schema'`);
@@ -468,14 +471,14 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
         selectImport,
         includeImport,
         selectZodSchemaLineLazy,
-        includeZodSchemaLineLazy,
+        includeZodSchemaLineLazy
       } = this.resolveSelectIncludeImportAndZodSchemaLine(model);
 
       let imports = [
         `import { z } from 'zod'`,
         this.generateImportPrismaStatement(),
         selectImport,
-        includeImport,
+        includeImport
       ];
       let codeBody = "";
       const operations: [string, string][] = [];
@@ -669,12 +672,13 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
 
       imports = [...new Set(imports)];
 
-      const filePath = path.join(
+      const filePath = join(
         Transformer.outputPath,
         `input/${modelName}Input.schema.ts`
       );
       const content = `
             /* eslint-disable */
+            ${getFileHeader("Zod Schema")}
             ${imports.join(";\n")}
 
             type ${modelName}InputSchemaType = {
@@ -696,13 +700,15 @@ ${operations
       this.project.createSourceFile(filePath, content, { overwrite: true });
     }
 
-    const indexFilePath = path.join(Transformer.outputPath, "input/index.ts");
+    const indexFilePath = join(Transformer.outputPath, "input/index.ts");
     const indexContent = `
 /* eslint-disable */
+
+${getFileHeader("Zod Schema")}
 ${globalExports.join(";\n")}
 `;
     this.project.createSourceFile(indexFilePath, indexContent, {
-      overwrite: true,
+      overwrite: true
     });
   }
 
@@ -746,7 +752,7 @@ ${globalExports.join(";\n")}
       selectZodSchemaLine,
       includeZodSchemaLine,
       selectZodSchemaLineLazy,
-      includeZodSchemaLineLazy,
+      includeZodSchemaLineLazy
     };
   }
 }

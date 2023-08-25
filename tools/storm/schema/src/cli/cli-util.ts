@@ -137,7 +137,9 @@ export async function loadDocument(fileName: string): Promise<Model> {
   }
 
   const stdLibFile = URI.file(
-    path.resolve(path.join(__dirname, "../res", STD_LIB_MODULE_NAME))
+    path.resolve(
+      path.join(__dirname, "../../../storm/schema/res", STD_LIB_MODULE_NAME)
+    )
   );
   ConsoleLogger.info(`Loading standard library file from '${stdLibFile.toString()}'
 JSON File:
