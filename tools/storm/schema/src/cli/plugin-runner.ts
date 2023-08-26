@@ -165,7 +165,10 @@ ${JSON.stringify(plugin)}`
       )
     ) {
       // '@core/zod' plugin is auto-enabled if there're validation rules
-      corePlugins.push({ provider: "@core/zod", options: { modelOnly: true } });
+      corePlugins.push({
+        provider: "@plugins/zod",
+        options: { modelOnly: true }
+      });
     }
 
     // core plugins introduced by dependencies
@@ -310,8 +313,14 @@ ${JSON.stringify(plugin)}`
     let pluginModulePath = provider;
     if (pluginModulePath.startsWith("@core/")) {
       pluginModulePath = pluginModulePath.replace(
-        /^@core/,
-        path.join(__dirname, "../../../storm/schema/src/plugins")
+        /^@core\//,
+        path.join(__dirname, "../../../storm/schema/src/plugins/")
+      );
+    }
+    if (pluginModulePath.startsWith("@plugins/")) {
+      pluginModulePath = pluginModulePath.replace(
+        /^@plugins\//,
+        path.join(__dirname, "../../../storm/plugins/")
       );
     }
     return pluginModulePath;

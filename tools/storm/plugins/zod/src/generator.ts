@@ -8,10 +8,9 @@ import {
   isDataSource,
   isEnum
 } from "@open-system/tools-storm-language/ast";
-import { ConnectorType, DMMF } from "@prisma/generator-helper";
-import { promises as fs } from "fs";
-import { join } from "path";
-import { Project } from "ts-morph";
+import { getDefaultOutputFolder } from "@open-system/tools-storm-schema/plugins/plugin-utils";
+import { PrismaModel } from "@open-system/tools-storm-schema/plugins/prisma/prisma-builder";
+import PrismaSchemaGenerator from "@open-system/tools-storm-schema/plugins/prisma/schema-generator";
 import {
   AUXILIARY_FIELDS,
   PluginOptions,
@@ -25,14 +24,15 @@ import {
   isForeignKeyField,
   resolvePath,
   saveProject
-} from "../../sdk";
+} from "@open-system/tools-storm-schema/sdk";
 import {
   addMissingInputObjectTypes,
   resolveAggregateOperationSupport
-} from "../../sdk/dmmf-helpers";
-import { getDefaultOutputFolder } from "../plugin-utils";
-import { PrismaModel } from "../prisma/prisma-builder";
-import PrismaSchemaGenerator from "../prisma/schema-generator";
+} from "@open-system/tools-storm-schema/sdk/dmmf-helpers";
+import { ConnectorType, DMMF } from "@prisma/generator-helper";
+import { promises as fs } from "fs";
+import { join } from "path";
+import { Project } from "ts-morph";
 import Transformer from "./transformer";
 import removeDir from "./utils/removeDir";
 import { makeFieldSchema, makeValidationRefinements } from "./utils/schema-gen";
@@ -144,7 +144,7 @@ async function generateCommonSchemas(project: Project, output: string) {
     join(output, "common", "index.ts"),
     `/* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
 
-${getFileHeader("Zod Schema")}
+${getFileHeader("Zod Validation")}
 
 import { z } from 'zod';
 export const DecimalSchema = z.union([z.number(), z.string(), z.object({d: z.number().array(), e: z.number(), s: z.number()})]);
@@ -263,7 +263,7 @@ async function generateModelSchema(
     );
 
     writer.writeLine("/* eslint-disable */");
-    writer.writeLine(getFileHeader("Zod Schema"));
+    writer.writeLine(getFileHeader("Zod Validation"));
     writer.writeLine(`import { z } from 'zod';`);
 
     // import user-defined enums from Prisma as they might be referenced in the expressions

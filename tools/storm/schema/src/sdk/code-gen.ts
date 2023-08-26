@@ -1,4 +1,4 @@
-import prettier from "prettier";
+import prettier, { Options } from "prettier";
 import {
   CompilerOptions,
   DiagnosticCategory,
@@ -9,21 +9,24 @@ import {
 } from "ts-morph";
 import { PluginError } from "./types";
 
-const formatOptions = {
-  trailingComma: "all",
-  tabWidth: 4,
-  printWidth: 120,
-  bracketSpacing: true,
+const prettierConfig: Options = {
+  trailingComma: "none",
+  tabWidth: 2,
   semi: true,
-  singleQuote: true,
-  useTabs: false,
-  parser: "typescript"
-} as const;
+  singleQuote: false,
+  quoteProps: "preserve",
+  insertPragma: false,
+  bracketSameLine: true,
+  printWidth: 80,
+  bracketSpacing: true,
+  arrowParens: "avoid",
+  endOfLine: "lf"
+};
 
 async function formatFile(sourceFile: SourceFile) {
   try {
     const content = sourceFile.getFullText();
-    const formatted = prettier.format(content, formatOptions);
+    const formatted = prettier.format(content, prettierConfig);
     sourceFile.replaceWithText(formatted);
     await sourceFile.save();
   } catch {

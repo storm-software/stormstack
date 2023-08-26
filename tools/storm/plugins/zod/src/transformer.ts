@@ -2,21 +2,21 @@
 import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
 import { Model } from "@open-system/tools-storm-language/ast";
 import { getPrismaVersion } from "@open-system/tools-storm-runtime";
-import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
-import { join, resolve } from "path";
-import * as semver from "semver";
-import { Project } from "ts-morph";
 import {
   AUXILIARY_FIELDS,
   getFileHeader,
   getPrismaClientImportSpec
-} from "../../sdk";
+} from "@open-system/tools-storm-schema/sdk";
 import {
   checkModelHasModelRelation,
   findModelByName,
   isAggregateInputType
-} from "../../sdk/dmmf-helpers";
-import indentString from "../../sdk/utils";
+} from "@open-system/tools-storm-schema/sdk/dmmf-helpers";
+import indentString from "@open-system/tools-storm-schema/sdk/utils";
+import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
+import { join, resolve } from "path";
+import * as semver from "semver";
+import { Project } from "ts-morph";
 import { AggregateOperationSupport, TransformerParams } from "./types";
 
 export default class Transformer {
@@ -31,7 +31,7 @@ export default class Transformer {
   static enumNames: string[] = [];
   static rawOpsMap: { [name: string]: string } = {};
   static provider: string;
-  private static outputPath = "./__generated__";
+  private static outputPath = "./__generated__/zod";
   private hasJson = false;
   private hasDecimal = false;
   private project: Project;
@@ -63,7 +63,7 @@ export default class Transformer {
 
       const filePath = join(Transformer.outputPath, `enums/${name}.schema.ts`);
       const content = `/* eslint-disable */\n${getFileHeader(
-        "Zod Schema"
+        "Zod Validation"
       )}\n${this.generateImportZodStatement()}\n${this.generateExportSchemaStatement(
         `${name}`,
         `z.enum(${JSON.stringify(filteredValues)})`
@@ -97,7 +97,8 @@ export default class Transformer {
       `objects/${objectSchemaName}.schema.ts`
     );
     const content =
-      `/* eslint-disable */\n${getFileHeader("Zod Schema")}\n` + objectSchema;
+      `/* eslint-disable */\n${getFileHeader("Zod Validation")}\n` +
+      objectSchema;
     this.project.createSourceFile(filePath, content, { overwrite: true });
     return `${objectSchemaName}.schema`;
   }
@@ -678,7 +679,7 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
       );
       const content = `
             /* eslint-disable */
-            ${getFileHeader("Zod Schema")}
+            ${getFileHeader("Zod Validation")}
             ${imports.join(";\n")}
 
             type ${modelName}InputSchemaType = {
@@ -704,7 +705,7 @@ ${operations
     const indexContent = `
 /* eslint-disable */
 
-${getFileHeader("Zod Schema")}
+${getFileHeader("Zod Validation")}
 ${globalExports.join(";\n")}
 `;
     this.project.createSourceFile(indexFilePath, indexContent, {

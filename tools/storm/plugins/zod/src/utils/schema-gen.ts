@@ -5,18 +5,18 @@ import {
   DataModelFieldAttribute,
   isEnum
 } from "@open-system/tools-storm-language/ast";
-import { name } from "..";
 import {
   ExpressionContext,
   PluginError,
   getAttributeArg,
   getAttributeArgLiteral,
   getLiteral
-} from "../../../sdk";
+} from "@open-system/tools-storm-schema/sdk";
 import {
   TypeScriptExpressionTransformer,
   TypeScriptExpressionTransformerError
-} from "../../../utils/typescript-expression-transformer";
+} from "@open-system/tools-storm-schema/utils/typescript-expression-transformer";
+import { name } from "..";
 
 export function makeFieldSchema(field: DataModelField) {
   let schema = makeZodSchema(field);

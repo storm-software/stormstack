@@ -168,7 +168,7 @@ export default class PrismaSchemaGenerator {
     }
   }
 
-  private generateDataSource(prisma: PrismaModel, dataSource: DataSource) {
+  public generateDataSource(prisma: PrismaModel, dataSource: DataSource) {
     let provider: string | undefined = undefined;
     let url: PrismaDataSourceUrl | undefined = undefined;
     let directUrl: PrismaDataSourceUrl | undefined = undefined;
@@ -251,7 +251,7 @@ export default class PrismaSchemaGenerator {
     );
   }
 
-  private extractDataSourceUrl(
+  public extractDataSourceUrl(
     fieldValue: LiteralExpr | InvocationExpr | ArrayExpr
   ) {
     if (this.isStringLiteral(fieldValue)) {
@@ -271,7 +271,7 @@ export default class PrismaSchemaGenerator {
     }
   }
 
-  private generateGenerator(prisma: PrismaModel, decl: GeneratorDecl) {
+  public generateGenerator(prisma: PrismaModel, decl: GeneratorDecl) {
     const generator = prisma.addGenerator(
       decl.name,
       decl.fields.map(f => {
@@ -317,7 +317,7 @@ export default class PrismaSchemaGenerator {
     }
   }
 
-  private generateModel(
+  public generateModel(
     prisma: PrismaModel,
     decl: DataModel,
     config?: Record<string, string>
@@ -445,9 +445,7 @@ export default class PrismaSchemaGenerator {
     return false;
   }
 
-  private isPrismaAttribute(
-    attr: DataModelAttribute | DataModelFieldAttribute
-  ) {
+  public isPrismaAttribute(attr: DataModelAttribute | DataModelFieldAttribute) {
     if (!attr.decl.ref) {
       return false;
     }
@@ -473,7 +471,7 @@ export default class PrismaSchemaGenerator {
     }
   }
 
-  private generateModelField(model: PrismaDataModel, field: DataModelField) {
+  public generateModelField(model: PrismaDataModel, field: DataModelField) {
     const fieldType =
       field.type.type ||
       field.type.reference?.ref?.name ||
@@ -590,7 +588,7 @@ export default class PrismaSchemaGenerator {
     );
   }
 
-  private generateContainerAttribute(
+  public generateContainerAttribute(
     container: PrismaContainerDeclaration,
     attr: DataModelAttribute
   ) {
@@ -610,7 +608,7 @@ export default class PrismaSchemaGenerator {
     }
   }
 
-  private generateEnum(prisma: PrismaModel, decl: Enum) {
+  public generateEnum(prisma: PrismaModel, decl: Enum) {
     const _enum = prisma.addEnum(decl.name);
 
     for (const field of decl.fields) {
@@ -633,7 +631,7 @@ export default class PrismaSchemaGenerator {
     decl.comments.forEach(c => _enum.addComment(c));
   }
 
-  private generateEnumField(_enum: PrismaEnum, field: EnumField) {
+  public generateEnumField(_enum: PrismaEnum, field: EnumField) {
     const attributes = field.attributes
       .filter(attr => this.isPrismaAttribute(attr))
       .map(attr => this.makeFieldAttribute(attr));

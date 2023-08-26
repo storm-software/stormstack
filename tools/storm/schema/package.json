@@ -45,6 +45,7 @@
     "ora": "^7.0.1",
     "path": "^0.12.7",
     "pluralize": "^8.0.0",
+    "prettier": "2.8.8",
     "semver": "^7.5.4",
     "ts-morph": "^19.0.0",
     "ts-pattern": "^5.0.5",
