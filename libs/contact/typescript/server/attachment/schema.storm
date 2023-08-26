@@ -125,7 +125,7 @@ model Contact {
 // A file attachment included by a Contact
 model ContactAttachment {
     // The unique identifier for the ContactAttachment
-    id String @id @default(cuid())
+    id String @id @default(uuid())
 
     // A timestamp of when the ContactAttachment was created
     createdAt DateTime @default(now())

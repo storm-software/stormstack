@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { kebabCase } from "@open-system/core-shared-utilities/common/string-fns";
+import {
+  constantCase,
+  kebabCase
+} from "@open-system/core-shared-utilities/common/string-fns";
 import { Model } from "@open-system/tools-storm-language/ast";
 import {
   AUXILIARY_FIELDS,
@@ -61,7 +64,7 @@ export default class Transformer {
       )}\n${this.generateExportStatement(
         `${name}`,
         ` {
-${filteredValues.map(v => `${v}: "${v}"`).join(", \n")}
+${filteredValues.map(v => `${constantCase(v)}: "${v}"`).join(", \n")}
 }`
       )}`;
       this.project.createSourceFile(filePath, content, { overwrite: true });

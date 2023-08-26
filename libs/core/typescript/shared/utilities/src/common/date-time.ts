@@ -152,6 +152,14 @@ export class DateTime extends Temporal.Instant implements IDateTime {
   }
 
   /**
+   * It returns the current `DateTime` object as a JavaScript `Date` object
+   * @returns A JavaScript `Date` object.
+   */
+  public asJsDate(): Date {
+    return new Date(this.epochMilliseconds);
+  }
+
+  /**
    * Internal identifier field used by architecture to identify the specific object
    */
   public readonly objectInstanceId = UniqueIdGenerator.generate();

@@ -75,7 +75,8 @@ jobs:
       # - run: npx nx affected -t test --parallel=3 --configuration=ci --base=${{ github.event.before }}
 
       - name: Build repository packages
-        run: pnpm nx affected -t build --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
+        run: pnpm nx affected -t build --parallel=3
+      #  run: pnpm nx affected -t build --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
 
       #- name: Run Tests
       #  uses: nick-fields/retry@v2.8.3

@@ -74,7 +74,7 @@ model Contact {
 
 /// @@allow('create,update,delete,read', true)
 model ContactAttachment {
-    id String @id() @default(cuid())
+    id String @id() @default(uuid())
     createdAt DateTime @default(now())
     createdBy String
     updatedAt DateTime? @updatedAt()

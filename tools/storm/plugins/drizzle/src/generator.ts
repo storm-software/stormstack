@@ -4,12 +4,12 @@ import {
   upperCaseFirst
 } from "@open-system/core-shared-utilities/common/string-fns";
 import {
-  ArrayExpr,
   DataModel,
+  DataSource,
   Enum,
-  MemberAccessExpr,
   Model,
   isDataModel,
+  isDataSource,
   isEnum
 } from "@open-system/tools-storm-language/ast";
 import { getDefaultOutputFolder } from "@open-system/tools-storm-schema/plugins/plugin-utils";
@@ -22,17 +22,19 @@ import {
   emitProject,
   getDataModels,
   getFileHeader,
-  isForeignKeyField,
+  getLiteral,
   resolvePath,
   saveProject
 } from "@open-system/tools-storm-schema/sdk";
-import { DMMF } from "@prisma/generator-helper";
+import { ConnectorType, DMMF } from "@prisma/generator-helper";
 import { promises as fs } from "fs";
 import { join } from "path";
 import { Project } from "ts-morph";
 import Transformer from "./transformer";
+import { PostgresqlSchemaGenerator } from "./utils/postgresql.schema-gen";
 import removeDir from "./utils/removeDir";
-import { makeFieldSchema } from "./utils/schema-gen";
+import { SchemaGenerator } from "./utils/schema-gen";
+import { SqliteSchemaGenerator } from "./utils/sqlite.schema-gen";
 
 export async function generate(
   model: Model,
@@ -71,46 +73,22 @@ export async function generate(
     model
   );
 
-  /*const dataSource = model.declarations.find((d): d is DataSource =>
+  const dataSource = model.declarations.find((d): d is DataSource =>
     isDataSource(d)
   );
 
   const dataSourceProvider = getLiteral<string>(
     dataSource?.fields.find(f => f.name === "provider")?.value
-  ) as ConnectorType;*/
+  ) as ConnectorType;
 
-  await generateModelSchemas(project, model, output);
-
-  /*if (options.modelOnly !== true) {
-    // detailed object schemas referenced from input schemas
-    Transformer.provider = dataSourceProvider;
-    addMissingInputObjectTypes(inputObjectTypes, outputObjectTypes, models);
-    const aggregateOperationSupport =
-      resolveAggregateOperationSupport(inputObjectTypes);
-    //await generateObjectSchemas(inputObjectTypes, project, output, model);
-
-    // input schemas
-    const transformer = new Transformer({
-      models,
-      modelOperations,
-      aggregateOperationSupport,
-      project,
-      storm: model
-    });
-    await transformer.generateInputSchemas();
-  }*/
+  await generateModelSchemas(project, model, output, dataSourceProvider);
 
   // create barrel file
   const exports = [
     `export * as schemas from './schemas'`,
     `export * as enums from './enums'`
   ];
-  /*if (options.modelOnly !== true) {
-    exports.push(
-      `export * as input from './input'`,
-      `export * as objects from './objects'`
-    );
-  }*/
+
   project.createSourceFile(join(output, "index.ts"), exports.join(";\n"), {
     overwrite: true
   });
@@ -173,11 +151,14 @@ async function generateEnumSchemas(
 async function generateModelSchemas(
   project: Project,
   storm: Model,
-  output: string
+  output: string,
+  dataSourceProvider: ConnectorType
 ) {
   const schemaNames: string[] = [];
   for (const dm of getDataModels(storm)) {
-    schemaNames.push(await generateModelSchema(dm, project, output));
+    schemaNames.push(
+      await generateModelSchema(dm, project, output, dataSourceProvider)
+    );
   }
 
   project.createSourceFile(
@@ -190,8 +171,23 @@ async function generateModelSchemas(
 async function generateModelSchema(
   model: DataModel,
   project: Project,
-  output: string
+  output: string,
+  dataSourceProvider: ConnectorType
 ) {
+  let generator: SchemaGenerator;
+  switch (dataSourceProvider) {
+    case "sqlite":
+      generator = new SqliteSchemaGenerator();
+      break;
+    case "postgresql":
+      generator = new PostgresqlSchemaGenerator();
+      break;
+    default:
+      throw new Error(
+        `Unsupported data source provider: ${dataSourceProvider}`
+      );
+  }
+
   const schemaName = `${kebabCase(model.name)}.schema`;
   const sf = project.createSourceFile(
     join(output, "schemas", `${schemaName}.ts`),
@@ -204,15 +200,12 @@ async function generateModelSchema(
     const fields = model.fields.filter(
       field =>
         !AUXILIARY_FIELDS.includes(field.name) &&
-        // scalar fields only
         !isDataModel(field.type.reference?.ref)
     );
 
     writer.writeLine("/* eslint-disable */");
     writer.writeLine(getFileHeader("Drizzle ORM"));
-    writer.writeLine(
-      `import { blob, integer, real, text, sqliteTable } from "drizzle-orm/sqlite-core";`
-    );
+    writer.writeLine(generator.importStatement);
     writer.writeLine(
       `import { UniqueIdGenerator } from "@open-system/core-shared-utilities/common/unique-id-generator";`
     );
@@ -231,45 +224,33 @@ async function generateModelSchema(
       }
     }
 
+    model.fields
+      .filter(modelField => isDataModel(modelField.type.reference?.ref))
+      .forEach(modelField => {
+        writer.writeLine(
+          `import { ${lowerCaseFirst(
+            modelField.type.reference.ref.name
+          )} } from "./${kebabCase(
+            modelField.type.reference.ref.name
+          )}.schema";`
+        );
+      });
+
     // create base schema
-    writer.write(
-      `
-export const ${lowerCaseFirst(model.name)} = sqliteTable("${lowerCaseFirst(
-        model.name
-      )}", `
-    );
+    writer.writeLine("");
+    writer.write(generator.getTableSchema(model.name));
     writer.inlineBlock(() => {
       fields.forEach(field => {
-        let fieldLine = `${field.name}: ${makeFieldSchema(field)}`;
-
-        if (isForeignKeyField(field)) {
-          // field.attributes.find(a => a.name === "relation")
-          const attribute = field.attributes.find(
-            attr => attr.decl.ref?.name === "@relation"
-          );
-          if (attribute) {
-            //const foreignKeyFields = attr.args.find(a => a.name === "fields");
-            const referencesFields = attribute.args.find(
-              a => a.name === "references"
-            )?.value as ArrayExpr;
-            referencesFields.items.forEach(item => {
-              const reference = item as MemberAccessExpr;
-
-              /*const modelFields = model.fields.filter(field =>
-            isDataModel(field.type.reference?.ref)
-          );*/
-
-              fieldLine += `.references(() => ${lowerCaseFirst(
-                field.type.reference?.ref.name
-              )}.${reference?.member?.ref?.name})`;
-            });
-          }
-        }
-
-        writer.writeLine(`${fieldLine},`);
+        writer.writeLine(
+          `${field.name}: ${generator.getFieldSchema(model, field)},`
+        );
       });
     });
     writer.writeLine(");");
+    writer.writeLine("");
+
+    writer.writeLine("");
   });
+
   return schemaName;
 }
