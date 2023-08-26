@@ -16,7 +16,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/executors/docs",
@@ -30,7 +30,13 @@
           "tools/executors/docs/event-catalog-build/impl.ts",
           "tools/executors/docs/readme-format/impl.ts"
         ],
-        "clean": true,
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": true,
+        "minify": false,
+        "skipTypeCheck": true,
+        "format": ["esm", "cjs"],
         "assets": [
           {
             "input": "tools/executors/docs",

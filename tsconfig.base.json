@@ -250,6 +250,12 @@
       "@open-system/tools-storm-language/module": [
         "tools/storm/language/src/module"
       ],
+      "@open-system/tools-storm-plugins-drizzle": [
+        "tools/storm/plugins/drizzle/src/index.ts"
+      ],
+      "@open-system/tools-storm-plugins-zod": [
+        "tools/storm/plugins/zod/src/index.ts"
+      ],
       "@open-system/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
       "@open-system/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],
       "@open-system/tools-storm-schema": ["tools/storm/schema/src/index.ts"],
@@ -259,6 +265,9 @@
       ],
       "@open-system/tools-storm-schema/language-server": [
         "tools/storm/schema/src/language-server/main.ts"
+      ],
+      "@open-system/tools-storm-schema/plugins/*": [
+        "tools/storm/schema/src/plugins/*"
       ],
       "@open-system/tools-storm-schema/plugins/access-policy": [
         "tools/storm/schema/src/plugins/access-policy/index.ts"

@@ -23,19 +23,17 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 <!-- END header -->
 
-# ⚡Impact Design System - Design Tokens
+# ⚡ Storm - Drizzle ORM Plugin
 
-The ⚡Impact design system is a part of the Open System monorepo/family of tools. This library was generated with [Nx](https://nx.dev) and includes the Design Tokens used by this design system.
+This library was generated with [Nx](https://nx.dev).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 ## Table of Contents
 
-- [⚡Impact Design System - Design Tokens](#impact-design-system---design-tokens)
+- [⚡ Storm - Drizzle ORM Plugin](#-storm---drizzle-orm-plugin)
   - [Table of Contents](#table-of-contents)
-  - [Figma](#figma)
-  - [Building](#building)
   - [Running unit tests](#running-unit-tests)
   - [Roadmap](#roadmap)
   - [Support](#support)
@@ -46,23 +44,9 @@ The ⚡Impact design system is a part of the Open System monorepo/family of tool
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Figma
-
-The design tokens are updated and exported from Figma using the [Tokens Studio for Figma](https://docs.tokens.studio/) plugin.
-
-<div align="center">
-  <img src="https://pub-4661138852db4e5da99a6660fbf9b633.r2.dev/Figma - Design Tokens - Rotated.png" width="75%"/>
-</div>
-
-The Figma file associated with the design tokens can be found in the themes folder of this library.
-
-## Building
-
-Run `nx build shared-ui-design-tokens` to build the library.
-
 ## Running unit tests
 
-Run `nx test shared-ui-design-tokens` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test tools-storm-plugins-drizzle` to execute the unit tests via [Jest](https://jestjs.io).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

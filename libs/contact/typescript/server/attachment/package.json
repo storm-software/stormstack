@@ -1,4 +1,7 @@
 {
   "name": "@open-system/contact-server-attachment",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "dependencies": {
+    "drizzle-orm": "^0.28.5"
+  }
 }

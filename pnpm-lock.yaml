@@ -663,7 +663,7 @@ importers:
     dependencies:
       "@eventcatalog/core":
         specifier: ^1.0.1
-        version: 1.0.1(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2)
+        version: 1.0.1(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2)
       "@eventcatalog/plugin-doc-generator-asyncapi":
         specifier: ^0.3.5
         version: 0.3.5
@@ -708,7 +708,11 @@ importers:
 
   libs/contact/typescript/client/data-access: {}
 
-  libs/contact/typescript/server/attachment: {}
+  libs/contact/typescript/server/attachment:
+    dependencies:
+      drizzle-orm:
+        specifier: ^0.28.5
+        version: 0.28.5(@cloudflare/workers-types@4.20230710.0)(@opentelemetry/api@1.4.1)(kysely@0.26.0)
 
   libs/contact/typescript/server/graphql: {}
 
@@ -868,7 +872,7 @@ importers:
         version: 16.2.0
       "@eventcatalog/core":
         specifier: ^1.0.1
-        version: 1.0.1(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2)
+        version: 1.0.1(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2)
       "@eventcatalog/types":
         specifier: ^0.4.2
         version: 0.4.2
@@ -947,6 +951,46 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
 
+  tools/storm/plugins/drizzle:
+    dependencies:
+      "@prisma/generator-helper":
+        specifier: ^5.2.0
+        version: 5.2.0
+      drizzle-orm:
+        specifier: ^0.28.5
+        version: 0.28.5(@cloudflare/workers-types@4.20230710.0)(@opentelemetry/api@1.4.1)(kysely@0.26.0)
+      langium:
+        specifier: 1.2.1
+        version: 1.2.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      semver:
+        specifier: ^7.5.4
+        version: 7.5.4
+      ts-morph:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      drizzle-kit:
+        specifier: ^0.19.13
+        version: 0.19.13
+
+  tools/storm/plugins/zod:
+    dependencies:
+      "@prisma/generator-helper":
+        specifier: ^5.2.0
+        version: 5.2.0
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      semver:
+        specifier: ^7.5.4
+        version: 7.5.4
+      ts-morph:
+        specifier: ^19.0.0
+        version: 19.0.0
+
   tools/storm/runtime:
     dependencies:
       decimal.js:
@@ -979,6 +1023,9 @@ importers:
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
+      prettier:
+        specifier: 2.8.8
+        version: 2.8.8
       semver:
         specifier: ^7.5.4
         version: 7.5.4
@@ -6274,7 +6321,6 @@ packages:
       {
         integrity: sha512-bq0QMM51KyqTL/lIFUToT2AZfulO7pqwQvdZhjPMbxlIJADDNYeFd+GEQ6YGiGl5G/xxVEkpEql59sYlSfzYIg==
       }
-    dev: true
 
   /@colors/colors@1.5.0:
     resolution:
@@ -7853,6 +7899,13 @@ packages:
       - webpack-cli
     dev: false
 
+  /@drizzle-team/studio@0.0.5:
+    resolution:
+      {
+        integrity: sha512-ps5qF0tMxWRVu+V5gvCRrQNqlY92aTnIKdq27gm9LZMSdaKYZt6AVvSK1dlUMzs6Rt0Jm80b+eWct6xShBKhIw==
+      }
+    dev: true
+
   /@emotion/babel-plugin@11.11.0:
     resolution:
       {
@@ -8127,6 +8180,26 @@ packages:
     dependencies:
       tslib: 2.6.1
     dev: false
+
+  /@esbuild-kit/core-utils@3.1.0:
+    resolution:
+      {
+        integrity: sha512-Uuk8RpCg/7fdHSceR1M6XbSZFSuMrxcePFuGgyvsBn+u339dk5OeL4jv2EojwTN2st/unJGsVm4qHWjWNmJ/tw==
+      }
+    dependencies:
+      esbuild: 0.17.19
+      source-map-support: 0.5.21
+    dev: true
+
+  /@esbuild-kit/esm-loader@2.5.5:
+    resolution:
+      {
+        integrity: sha512-Qwfvj/qoPbClxCRNuac1Du01r9gvNOT+pMYtJDapfB1eoGN1YlJ1BixLyL9WVENRx5RXgNLdfYdx/CuswlGhMw==
+      }
+    dependencies:
+      "@esbuild-kit/core-utils": 3.1.0
+      get-tsconfig: 4.7.0
+    dev: true
 
   /@esbuild-plugins/node-globals-polyfill@0.1.1(esbuild@0.16.3):
     resolution:
@@ -8967,7 +9040,7 @@ packages:
       }
     engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
 
-  /@eventcatalog/core@1.0.1(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2):
+  /@eventcatalog/core@1.0.1(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2):
     resolution:
       {
         integrity: sha512-NThMGJ9KHWy+iRCuvhHjXc51cRpDTvfxpsPO3TZaCVpjkuLi2Avv5AnUEyD12oz3Bx6HFtfhvectX5beEHaSoA==
@@ -8978,7 +9051,7 @@ packages:
       "@headlessui/react": 1.7.17(react-dom@17.0.2)(react@17.0.2)
       "@heroicons/react": 1.0.6(react@17.0.2)
       "@mdx-js/react": 1.6.22(react@17.0.2)
-      "@stoplight/json-schema-viewer": 4.5.0(@babel/core@7.22.10)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2)
+      "@stoplight/json-schema-viewer": 4.5.0(@babel/core@7.12.9)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/markdown-viewer": 5.6.0(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/mosaic": 1.42.0(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/mosaic-code-viewer": 1.42.0(react-dom@17.0.2)(react@17.0.2)
@@ -8995,7 +9068,7 @@ packages:
       gray-matter: 4.0.3
       lodash.debounce: 4.0.8
       mermaid: 10.3.0
-      next: 12.3.4(@babel/core@7.22.10)(react-dom@17.0.2)(react@17.0.2)
+      next: 12.3.4(@babel/core@7.12.9)(react-dom@17.0.2)(react@17.0.2)
       next-mdx-remote: 3.0.8(react-dom@17.0.2)(react@17.0.2)
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
@@ -15794,7 +15867,6 @@ packages:
       strip-ansi: 6.0.1
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@prisma/engine-core@4.13.0:
     resolution:
@@ -16062,7 +16134,6 @@ packages:
       kleur: 4.1.5
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@prisma/get-platform@4.13.0:
     resolution:
@@ -17958,7 +18029,7 @@ packages:
       magic-error: 0.0.1
     dev: false
 
-  /@stoplight/json-schema-viewer@4.5.0(@babel/core@7.22.10)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2):
+  /@stoplight/json-schema-viewer@4.5.0(@babel/core@7.12.9)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2):
     resolution:
       {
         integrity: sha512-YtLL+BqyqfcRUMiFFl2w8501b0A7Ae3/RzoYzaHX+y+q/6nGv0/ViwV6W9q2dvC0QXGMjIL+5YhthKyeJ4Px+A==
@@ -17980,7 +18051,7 @@ packages:
       "@stoplight/react-error-boundary": 2.0.0(react-dom@17.0.2)(react@17.0.2)
       "@types/json-schema": 7.0.12
       classnames: 2.3.2
-      jotai: 1.13.1(@babel/core@7.22.10)(react@17.0.2)
+      jotai: 1.13.1(@babel/core@7.12.9)(react@17.0.2)
       lodash: 4.17.21
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
@@ -26701,7 +26772,6 @@ packages:
       es6-iterator: 2.0.3
       memoizee: 0.4.15
       timers-ext: 0.1.7
-    dev: false
 
   /cli-cursor@3.1.0:
     resolution:
@@ -27149,7 +27219,6 @@ packages:
         integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==
       }
     engines: { node: ^12.20.0 || >=14 }
-    dev: false
 
   /comment-json@4.2.3:
     resolution:
@@ -29206,7 +29275,6 @@ packages:
     dependencies:
       es5-ext: 0.10.62
       type: 1.2.0
-    dev: false
 
   /dagre-d3-es@7.0.10:
     resolution:
@@ -29915,6 +29983,15 @@ packages:
       randombytes: 2.1.0
     dev: true
 
+  /difflib@0.2.4:
+    resolution:
+      {
+        integrity: sha512-9YVwmMb0wQHQNr5J9m6BSj6fk4pfGITGQOOs+D9Fl+INODWFOfvhIU1hNv6GgR1RBoC/9NJcwu77zShxV0kT7w==
+      }
+    dependencies:
+      heap: 0.2.7
+    dev: true
+
   /dir-glob@3.0.1:
     resolution:
       {
@@ -30282,6 +30359,109 @@ packages:
         integrity: sha512-pYxfDYpued//QpnLIm4Avk7rsNtAtQkUES2cwAYSvD/wd2pKD71gN2Ebj3e7klzXwjocvE8c5vx/1fxwpqmSxA==
       }
     engines: { node: ">=4" }
+    dev: false
+
+  /dreamopt@0.8.0:
+    resolution:
+      {
+        integrity: sha512-vyJTp8+mC+G+5dfgsY+r3ckxlz+QMX40VjPQsZc5gxVAxLmi64TBoVkP54A/pRAXMXsbu2GMMBrZPxNv23waMg==
+      }
+    engines: { node: ">=0.4.0" }
+    dependencies:
+      wordwrap: 1.0.0
+    dev: true
+
+  /drizzle-kit@0.19.13:
+    resolution:
+      {
+        integrity: sha512-Rba5VW1O2JfJlwVBeZ8Zwt2E2us5oZ08PQBDiVSGlug53TOc8hzXjblZFuF+dnll9/RQEHrkzBmJFgqTvn5Rxg==
+      }
+    hasBin: true
+    dependencies:
+      "@drizzle-team/studio": 0.0.5
+      "@esbuild-kit/esm-loader": 2.5.5
+      camelcase: 7.0.1
+      chalk: 5.3.0
+      commander: 9.5.0
+      esbuild: 0.18.11
+      esbuild-register: 3.4.2(esbuild@0.18.11)
+      glob: 8.1.0
+      hanji: 0.0.5
+      json-diff: 0.9.0
+      minimatch: 7.4.6
+      zod: 3.21.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /drizzle-orm@0.28.5(@cloudflare/workers-types@4.20230710.0)(@opentelemetry/api@1.4.1)(kysely@0.26.0):
+    resolution:
+      {
+        integrity: sha512-6r6Iw4c38NAmW6TiKH3TUpGUQ1YdlEoLJOQptn8XPx3Z63+vFNKfAiANqrIiYZiMjKR9+NYAL219nFrmo1duXA==
+      }
+    peerDependencies:
+      "@aws-sdk/client-rds-data": ">=3"
+      "@cloudflare/workers-types": ">=3"
+      "@libsql/client": "*"
+      "@neondatabase/serverless": ">=0.1"
+      "@opentelemetry/api": ^1.4.1
+      "@planetscale/database": ">=1"
+      "@types/better-sqlite3": "*"
+      "@types/pg": "*"
+      "@types/sql.js": "*"
+      "@vercel/postgres": "*"
+      better-sqlite3: ">=7"
+      bun-types: "*"
+      knex: "*"
+      kysely: "*"
+      mysql2: ">=2"
+      pg: ">=8"
+      postgres: ">=3"
+      sql.js: ">=1"
+      sqlite3: ">=5"
+    peerDependenciesMeta:
+      "@aws-sdk/client-rds-data":
+        optional: true
+      "@cloudflare/workers-types":
+        optional: true
+      "@libsql/client":
+        optional: true
+      "@neondatabase/serverless":
+        optional: true
+      "@opentelemetry/api":
+        optional: true
+      "@planetscale/database":
+        optional: true
+      "@types/better-sqlite3":
+        optional: true
+      "@types/pg":
+        optional: true
+      "@types/sql.js":
+        optional: true
+      "@vercel/postgres":
+        optional: true
+      better-sqlite3:
+        optional: true
+      bun-types:
+        optional: true
+      knex:
+        optional: true
+      kysely:
+        optional: true
+      mysql2:
+        optional: true
+      pg:
+        optional: true
+      postgres:
+        optional: true
+      sql.js:
+        optional: true
+      sqlite3:
+        optional: true
+    dependencies:
+      "@cloudflare/workers-types": 4.20230710.0
+      "@opentelemetry/api": 1.4.1
+      kysely: 0.26.0
     dev: false
 
   /dset@3.1.2:
@@ -30807,7 +30987,6 @@ packages:
       es6-iterator: 2.0.3
       es6-symbol: 3.1.3
       next-tick: 1.1.0
-    dev: false
 
   /es6-iterator@2.0.3:
     resolution:
@@ -30818,7 +30997,6 @@ packages:
       d: 1.0.1
       es5-ext: 0.10.62
       es6-symbol: 3.1.3
-    dev: false
 
   /es6-object-assign@1.1.0:
     resolution:
@@ -30858,7 +31036,6 @@ packages:
     dependencies:
       d: 1.0.1
       ext: 1.7.0
-    dev: false
 
   /es6-weak-map@2.0.3:
     resolution:
@@ -30870,7 +31047,6 @@ packages:
       es5-ext: 0.10.62
       es6-iterator: 2.0.3
       es6-symbol: 3.1.3
-    dev: false
 
   /esbuild-plugin-alias@0.2.1:
     resolution:
@@ -31608,7 +31784,6 @@ packages:
     dependencies:
       d: 1.0.1
       es5-ext: 0.10.62
-    dev: false
 
   /event-stream@3.1.7:
     resolution:
@@ -31900,7 +32075,6 @@ packages:
       }
     dependencies:
       type: 2.7.2
-    dev: false
 
   /extend-shallow@2.0.1:
     resolution:
@@ -34377,6 +34551,16 @@ packages:
     optionalDependencies:
       uglify-js: 3.17.4
 
+  /hanji@0.0.5:
+    resolution:
+      {
+        integrity: sha512-Abxw1Lq+TnYiL4BueXqMau222fPSPMFtya8HdpWsz/xVAhifXou71mPh/kY2+08RgFcVccjG3uZHs6K5HAe3zw==
+      }
+    dependencies:
+      lodash.throttle: 4.1.1
+      sisteransi: 1.0.5
+    dev: true
+
   /har-schema@2.0.0:
     resolution:
       {
@@ -34835,7 +35019,6 @@ packages:
       {
         integrity: sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg==
       }
-    dev: false
 
   /helios-opentelemetry-sdk@1.0.89:
     resolution:
@@ -36621,7 +36804,6 @@ packages:
       {
         integrity: sha512-+lP4/6lKUBfQjZ2pdxThZvLUAafmZb8OAxFb8XXtiQmS35INgr85hdOGoEs124ez1FCnZJt6jau/T+alh58QFQ==
       }
-    dev: false
 
   /is-reference@1.2.1:
     resolution:
@@ -37810,7 +37992,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /jotai@1.13.1(@babel/core@7.22.10)(react@17.0.2):
+  /jotai@1.13.1(@babel/core@7.12.9)(react@17.0.2):
     resolution:
       {
         integrity: sha512-RUmH1S4vLsG3V6fbGlKzGJnLrDcC/HNb5gH2AeA9DzuJknoVxSGvvg8OBB7lke+gDc4oXmdVsaKn/xDUhWZ0vw==
@@ -37853,7 +38035,7 @@ packages:
       jotai-zustand:
         optional: true
     dependencies:
-      "@babel/core": 7.22.10
+      "@babel/core": 7.12.9
       react: 17.0.2
     dev: false
 
@@ -38127,6 +38309,18 @@ packages:
       {
         integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==
       }
+    dev: true
+
+  /json-diff@0.9.0:
+    resolution:
+      {
+        integrity: sha512-cVnggDrVkAAA3OvFfHpFEhOnmcsUpleEKq4d4O8sQWWSH40MBrWstKigVB1kGrgLWzuom+7rRdaCsnBD6VyObQ==
+      }
+    hasBin: true
+    dependencies:
+      cli-color: 2.0.3
+      difflib: 0.2.4
+      dreamopt: 0.8.0
     dev: true
 
   /json-e@4.5.3:
@@ -39490,7 +39684,6 @@ packages:
       {
         integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
       }
-    dev: false
 
   /lodash.topath@4.5.2:
     resolution:
@@ -39797,7 +39990,6 @@ packages:
       }
     dependencies:
       es5-ext: 0.10.62
-    dev: false
 
   /lru_map@0.3.3:
     resolution:
@@ -40591,7 +40783,6 @@ packages:
       lru-queue: 0.1.0
       next-tick: 1.1.0
       timers-ext: 0.1.7
-    dev: false
 
   /memoizerific@1.11.3:
     resolution:
@@ -41921,7 +42112,6 @@ packages:
     engines: { node: ">=10" }
     dependencies:
       brace-expansion: 2.0.1
-    dev: false
 
   /minimatch@9.0.3:
     resolution:
@@ -42467,7 +42657,6 @@ packages:
       {
         integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
       }
-    dev: false
 
   /next@10.2.3(react-dom@17.0.2)(react@17.0.2)(typescript@5.2.0-beta)(webpack@5.81.0):
     resolution:
@@ -42548,7 +42737,7 @@ packages:
       - webpack
     dev: true
 
-  /next@12.3.4(@babel/core@7.22.10)(react-dom@17.0.2)(react@17.0.2):
+  /next@12.3.4(@babel/core@7.12.9)(react-dom@17.0.2)(react@17.0.2):
     resolution:
       {
         integrity: sha512-VcyMJUtLZBGzLKo3oMxrEF0stxh8HwuW976pAzlHhI3t8qJ4SROjCrSh1T24bhrbjw55wfZXAbXPGwPt5FLRfQ==
@@ -42575,7 +42764,7 @@ packages:
       postcss: 8.4.14
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-      styled-jsx: 5.0.7(@babel/core@7.22.10)(react@17.0.2)
+      styled-jsx: 5.0.7(@babel/core@7.12.9)(react@17.0.2)
       use-sync-external-store: 1.2.0(react@17.0.2)
     optionalDependencies:
       "@next/swc-android-arm-eabi": 12.3.4
@@ -52085,7 +52274,7 @@ packages:
       stylis-rule-sheet: 0.0.10(stylis@3.5.4)
     dev: true
 
-  /styled-jsx@5.0.7(@babel/core@7.22.10)(react@17.0.2):
+  /styled-jsx@5.0.7(@babel/core@7.12.9)(react@17.0.2):
     resolution:
       {
         integrity: sha512-b3sUzamS086YLRuvnaDigdAewz1/EFYlHpYBP5mZovKEdQQOIIYq8lApylub3HHZ6xFjV051kkGU7cudJmrXEA==
@@ -52101,7 +52290,7 @@ packages:
       babel-plugin-macros:
         optional: true
     dependencies:
-      "@babel/core": 7.22.10
+      "@babel/core": 7.12.9
       react: 17.0.2
     dev: false
 
@@ -52948,7 +53137,6 @@ packages:
     dependencies:
       es5-ext: 0.10.62
       next-tick: 1.1.0
-    dev: false
 
   /tiny-inflate@1.0.3:
     resolution:
@@ -53958,14 +54146,12 @@ packages:
       {
         integrity: sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==
       }
-    dev: false
 
   /type@2.7.2:
     resolution:
       {
         integrity: sha512-dzlvlNlt6AXU7EBSfpAscydQ7gXB+pPGsPnfJnZpiNJBDj7IaJzQlBZYGdEi4R9HmPdBv2XmWJ6YUtoTa7lmCw==
       }
-    dev: false
 
   /typed-array-buffer@1.0.0:
     resolution:

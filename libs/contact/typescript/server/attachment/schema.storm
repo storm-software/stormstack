@@ -9,15 +9,13 @@ generator js {
     output   = "../../../../../../node_modules/.prisma/client/contact-attachment"
 }
 
+plugin prisma {
+  provider = "@core/prisma"
+}
+
 plugin meta {
   provider = "@core/model-meta"
   output = "src/__generated__/model-meta"
-  compile = false
-}
-
-plugin zod {
-  provider = "@core/zod"
-  output = "src/__generated__/zod"
   compile = false
 }
 
@@ -27,6 +25,17 @@ plugin access {
   compile = false
 }
 
+plugin zod {
+  provider = "@plugins/zod"
+  output = "src/__generated__/zod"
+  compile = false
+}
+
+plugin drizzle {
+  provider = "@plugins/drizzle"
+  output = "src/__generated__/drizzle"
+  compile = false
+}
 
 enum ContactReason {
     Business
