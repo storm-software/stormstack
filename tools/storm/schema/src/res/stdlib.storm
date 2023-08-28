@@ -410,6 +410,46 @@ attribute @regex(_ regex: String, _ message: String?) @@@targetField([StringFiel
 attribute @email(_ message: String?) @@@targetField([StringField]) @@@validation
 
 /**
+ * Validates a string field value is a valid phone number. A valid phone number is defined as A field whose value conforms to the standard `E.164` format as specified in [E.164 specification](https://en.wikipedia.org/wiki/E.164). Basically, this is +17895551234. The very powerful [libphonenumber](https://github.com/googlei18n/libphonenumber) library is available to take that format, parse and display it in whatever display format you want. It can also be used to parse user input and get the `E.164` format to pass into a schema.
+ */
+attribute @phoneNumber(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
+ * Validates a string field value is a valid country code as defined by [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
+ */
+attribute @countryCode(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
+ * Validates a string field value is a valid time zone whose value exists in the standard [IANA Time Zone Database](https://www.iana.org/time-zones).
+ */
+attribute @timeZone(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
+ * Validates a string field value is a valid latitude. A valid latitude is defined as a field whose value is a valid decimal degrees longitude number (53.471). The maximum decimal degrees' precision is 8. See [Decimal Degrees Precision](https://en.wikipedia.org/wiki/Decimal_degrees#Precision) for more information.
+ */
+attribute @latitude(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
+ * Validates a string field value is a valid longitude. A valid longitude is defined as a field whose value is a valid decimal degrees longitude number (53.471). The maximum decimal degrees' precision is 8. See [Decimal Degrees Precision](https://en.wikipedia.org/wiki/Decimal_degrees#Precision) for more information.
+ */
+attribute @longitude(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
+ * Validates a string field value is a valid postal code.
+ */
+attribute @postalCode(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
+ * Validates a string field value is a valid IP Address.
+ */
+attribute @ip(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
+ * Validates a string field value is a valid IEEE 802 48-bit [MAC address](https://en.wikipedia.org/wiki/MAC_address).
+ */
+attribute @mac(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
  * Validates a string field value is a valid ISO datetime.
  */
 attribute @datetime(_ message: String?) @@@targetField([StringField]) @@@validation
@@ -461,6 +501,54 @@ function regex(field: String, regex: String): Boolean {
  * Validates a string field value is a valid email address.
  */
 function email(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid phone number. A valid phone number is defined as A field whose value conforms to the standard `E.164` format as specified in [E.164 specification](https://en.wikipedia.org/wiki/E.164). Basically, this is +17895551234. The very powerful [libphonenumber](https://github.com/googlei18n/libphonenumber) library is available to take that format, parse and display it in whatever display format you want. It can also be used to parse user input and get the `E.164` format to pass into a schema.
+ */
+function phoneNumber(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid country code as defined by [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
+ */
+function countryCode(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid time zone whose value exists in the standard [IANA Time Zone Database](https://www.iana.org/time-zones).
+ */
+function timeZone(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid latitude. A valid latitude is defined as a field whose value is a valid decimal degrees longitude number (53.471). The maximum decimal degrees' precision is 8. See [Decimal Degrees Precision](https://en.wikipedia.org/wiki/Decimal_degrees#Precision) for more information.
+ */
+function latitude(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid longitude. A valid longitude is defined as a field whose value is a valid decimal degrees longitude number (53.471). The maximum decimal degrees' precision is 8. See [Decimal Degrees Precision](https://en.wikipedia.org/wiki/Decimal_degrees#Precision) for more information.
+ */
+function longitude(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid IP address.
+ */
+function ip(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid IEEE 802 48-bit [MAC address](https://en.wikipedia.org/wiki/MAC_address).
+ */
+function mac(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid postal code.
+ */
+function postalCode(field: String): Boolean {
 } @@@expressionContext([ValidationRule])
 
 /**

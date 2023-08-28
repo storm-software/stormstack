@@ -20,7 +20,8 @@ const prettierConfig: Options = {
   printWidth: 80,
   bracketSpacing: true,
   arrowParens: "avoid",
-  endOfLine: "lf"
+  endOfLine: "lf",
+  parser: "typescript"
 };
 
 async function formatFile(sourceFile: SourceFile) {

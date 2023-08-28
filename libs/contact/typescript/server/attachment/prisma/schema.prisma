@@ -40,6 +40,7 @@ model Contact {
     details String?
     /// @email
     email String
+    /// @phoneNumber
     /// @length(1, 20)
     phoneNumber String?
     /// @length(1, 50)
@@ -50,12 +51,14 @@ model Contact {
     addressLine1 String?
     /// @length(1, 100)
     addressLine2 String?
+    /// @postalCode
     /// @length(1, 20)
     postalCode String?
     /// @length(1, 50)
     city String?
     /// @length(1, 50)
     state String?
+    /// @countryCode
     /// @length(1, 2)
     countryCode String?
     /// @length(1, 50)
@@ -81,6 +84,7 @@ model ContactAttachment {
     updatedBy String?
     /// @length(1, 100)
     name String
+    /// @url
     /// @length(1, 100)
     path String
     status String @default("Pending")
