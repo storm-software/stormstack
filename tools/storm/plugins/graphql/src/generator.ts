@@ -137,14 +137,22 @@ function generateEnumSchemas(
     writer.writeLine("");
     if (enumModel.comments && enumModel.comments.length > 0) {
       writer.writeLine(`"""`);
-      writer.writeLine(enumModel.comments.join("\n"));
+      writer.writeLine(
+        enumModel.comments
+          .map(comment => comment.replace("/// ", ""))
+          .join("\n")
+      );
       writer.writeLine(`"""`);
     }
     writer.writeLine(`enum ${enumModel.name} {`);
     enumModel.fields.forEach(enumField => {
       if (enumField.comments && enumField.comments.length > 0) {
         writer.writeLine(`"""`);
-        writer.writeLine(enumField.comments.join("\n"));
+        writer.writeLine(
+          enumField.comments
+            .map(comment => comment.replace("/// ", ""))
+            .join("\n")
+        );
         writer.writeLine(`"""`);
       }
 
@@ -175,6 +183,10 @@ function generateModelSchema(
   writer: CodeBlockWriter,
   generator: SchemaGenerator
 ) {
+  const isExtending = model.attributes.some(
+    attr => attr.decl.ref?.name === "@@extend"
+  );
+
   const fields = model.fields.filter(
     field =>
       !AUXILIARY_FIELDS.includes(field.name) &&
@@ -207,15 +219,17 @@ function generateModelSchema(
   writer.writeLine("");
   if (model.comments && model.comments.length > 0) {
     writer.writeLine(`"""`);
-    writer.writeLine(model.comments.join("\n"));
+    writer.writeLine(
+      model.comments.map(comment => comment.replace("/// ", "")).join("\n")
+    );
     writer.writeLine(`"""`);
   }
-  writer.writeLine(`type ${model.name} {`);
+  writer.writeLine(`${isExtending ? "extend " : ""}type ${model.name} {`);
   fields.forEach(field => {
     if (field.comments && field.comments.length > 0) {
       writer.writeLine(
         `  """
-  ${field.comments.join("\n")}
+  ${field.comments.map(comment => comment.replace("/// ", "")).join("\n")}
   """`
       );
     }

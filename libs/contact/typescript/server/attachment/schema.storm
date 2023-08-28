@@ -5,7 +5,7 @@ datasource db {
 
 generator js {
     provider = "prisma-client-js"
-    // Generate into custom location because this repo has multiple prisma schemas
+    /// Generate into custom location because this repo has multiple prisma schemas
     output   = "../../../../../../node_modules/.prisma/client/contact-attachment"
 }
 
@@ -59,108 +59,110 @@ enum AttachmentStatus {
     Removed
 }
 
-// The data fields related to a specific Contact request instance
+/// The data fields related to a specific Contact request instance
 model Contact {
-    // The unique identifier for the Contact
+    /// The unique identifier for the Contact
     id String @id @default(uuid())
 
-    // A timestamp of when the Contact was created
+    /// A timestamp of when the Contact was created
     createdAt DateTime @default(now())
 
-    // The user who created the Contact
+    /// The user who created the Contact
     createdBy String
 
-    // A timestamp of when the Contact was last updated
+    /// A timestamp of when the Contact was last updated
     updatedAt DateTime? @updatedAt
 
-    // The user who last updated the Contact
+    /// The user who last updated the Contact
     updatedBy String?
 
-    // The reason of the Contact
+    /// The reason of the Contact
     reason ContactReason @default(Other)
 
-    // The details of the Contact
+    /// The details of the Contact
     details String? @length(1, 100)
 
-    // The provided email to respond back to the Contact request
+    /// The provided email to respond back to the Contact request
     email String @email
 
-    // The provided phone number to respond back to the Contact request
+    /// The provided phone number to respond back to the Contact request
     phoneNumber String? @phoneNumber @length(1, 20)
 
-    // The provided first name of the Contact
+    /// The provided first name of the Contact
     firstName String? @length(1, 50)
 
-    // The provided first name of the Contact
+    /// The provided first name of the Contact
     lastName String? @length(1, 50)
 
-    // The provided address of the Contact
+    /// The provided address of the Contact
     addressLine1 String? @length(1, 100)
 
-    // The provided address of the Contact
+    /// The provided address of the Contact
     addressLine2 String? @length(1, 100)
 
-    // The provided postal code of the Contact
+    /// The provided postal code of the Contact
     postalCode String? @postalCode @length(1, 20)
 
-    // The provided city of the Contact
+    /// The provided city of the Contact
     city String? @length(1, 50)
 
-    // The provided state of the Contact
+    /// The provided state of the Contact
     state String? @length(1, 50)
 
-    // The provided country code of the Contact
+    /// The provided country code of the Contact
     countryCode String? @countryCode @length(1, 2)
 
-    // The provided title of the Contact
+    /// The provided title of the Contact
     title String? @length(1, 50)
 
-    // The provided company name of the Contact
+    /// The provided company name of the Contact
     companyName String? @length(1, 50)
 
-    // The provided URL of the Contact
+    /// The provided URL of the Contact
     url String? @url
 
-    // A list of file attachments included by the Contact
+    /// A list of file attachments included by the Contact
     attachments ContactAttachment[]
 
-  // everyone can send contact data
+  /// everyone can send contact data
   @@allow('create,update,delete,read', true)
+
+  @@extend
 }
 
-// A file attachment included by a Contact
+/// A file attachment included by a Contact
 model ContactAttachment {
-    // The unique identifier for the ContactAttachment
+    /// The unique identifier for the ContactAttachment
     id String @id @default(uuid())
 
-    // A timestamp of when the ContactAttachment was created
+    /// A timestamp of when the ContactAttachment was created
     createdAt DateTime @default(now())
 
-    // The user who created the ContactAttachment
+    /// The user who created the ContactAttachment
     createdBy String
 
-    // A timestamp of when the ContactAttachment was last updated
+    /// A timestamp of when the ContactAttachment was last updated
     updatedAt DateTime? @updatedAt
 
-    // The user who last updated the ContactAttachment
+    /// The user who last updated the ContactAttachment
     updatedBy String?
 
-    // The name of the file
+    /// The name of the file
     name String @length(1, 100)
 
-    // The path of the file
+    /// The path of the file
     path String @url @length(1, 100)
 
-    // The status of the file
+    /// The status of the file
     status AttachmentStatus @default(Pending)
 
-    // The Contact the attachment belongs to
+    /// The Contact the attachment belongs to
     contact Contact @relation(fields: [contactId], references: [id])
 
-    // The Contact (Id) the attachment belongs to
+    /// The Contact (Id) the attachment belongs to
     contactId String
 
-    // everyone can send contact data
+    /// everyone can send contact data
     @@allow('create,update,delete,read', true)
 
     @@unique([name, path])

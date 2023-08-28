@@ -61,6 +61,9 @@ enum ExpressionContext {
 
     // used in @@validate
     ValidationRule
+
+    // used in @@extend
+    ExtendModel
 }
 
 /**
@@ -355,6 +358,11 @@ attribute @@allow(_ operation: String, _ condition: Boolean)
  * Defines an access policy that denies a set of operations when the given condition is true.
  */
 attribute @@deny(_ operation: String, _ condition: Boolean)
+
+/**
+ * Determines if the current data model is extending another model.
+ */
+attribute @@extend()
 
 /**
  * Indicates that the field is a password field and needs to be hashed before persistence.

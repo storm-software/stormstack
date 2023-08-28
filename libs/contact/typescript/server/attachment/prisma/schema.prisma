@@ -29,44 +29,67 @@ generator js {
 }
 
 /// @@allow('create,update,delete,read', true)
+/// @@extend
+/// The data fields related to a specific Contact request instance
 model Contact {
+    /// The unique identifier for the Contact
     id String @id() @default(uuid())
+    /// A timestamp of when the Contact was created
     createdAt DateTime @default(now())
+    /// The user who created the Contact
     createdBy String
+    /// A timestamp of when the Contact was last updated
     updatedAt DateTime? @updatedAt()
+    /// The user who last updated the Contact
     updatedBy String?
+    /// The reason of the Contact
     reason String @default("Other")
     /// @length(1, 100)
+    /// The details of the Contact
     details String?
     /// @email
+    /// The provided email to respond back to the Contact request
     email String
     /// @phoneNumber
     /// @length(1, 20)
+    /// The provided phone number to respond back to the Contact request
     phoneNumber String?
     /// @length(1, 50)
+    /// The provided first name of the Contact
     firstName String?
     /// @length(1, 50)
+    /// The provided first name of the Contact
     lastName String?
     /// @length(1, 100)
+    /// The provided address of the Contact
     addressLine1 String?
     /// @length(1, 100)
+    /// The provided address of the Contact
     addressLine2 String?
     /// @postalCode
     /// @length(1, 20)
+    /// The provided postal code of the Contact
     postalCode String?
     /// @length(1, 50)
+    /// The provided city of the Contact
     city String?
     /// @length(1, 50)
+    /// The provided state of the Contact
     state String?
     /// @countryCode
     /// @length(1, 2)
+    /// The provided country code of the Contact
     countryCode String?
     /// @length(1, 50)
+    /// The provided title of the Contact
     title String?
     /// @length(1, 50)
+    /// The provided company name of the Contact
     companyName String?
     /// @url
+    /// The provided URL of the Contact
     url String?
+    /// A list of file attachments included by the Contact
     attachments ContactAttachment[]
 
     storm_guard Boolean @default(true)
@@ -76,19 +99,30 @@ model Contact {
 }
 
 /// @@allow('create,update,delete,read', true)
+/// A file attachment included by a Contact
 model ContactAttachment {
+    /// The unique identifier for the ContactAttachment
     id String @id() @default(uuid())
+    /// A timestamp of when the ContactAttachment was created
     createdAt DateTime @default(now())
+    /// The user who created the ContactAttachment
     createdBy String
+    /// A timestamp of when the ContactAttachment was last updated
     updatedAt DateTime? @updatedAt()
+    /// The user who last updated the ContactAttachment
     updatedBy String?
     /// @length(1, 100)
+    /// The name of the file
     name String
     /// @url
     /// @length(1, 100)
+    /// The path of the file
     path String
+    /// The status of the file
     status String @default("Pending")
+    /// The Contact the attachment belongs to
     contact Contact @relation(fields: [contactId], references: [id])
+    /// The Contact (Id) the attachment belongs to
     contactId String
 
     storm_guard Boolean @default(true)
