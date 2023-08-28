@@ -82,7 +82,7 @@ ${filteredValues.map(v => `${constantCase(v)}: "${v}"`).join(", \n")}
     return `export const ${name} = ${schema}`;
   }
 
-  /*async generateInputSchemas() {
+  /*async generateRepositories() {
     const globalExports: string[] = [];
 
     for (const modelOperation of this.modelOperations) {
@@ -106,7 +106,7 @@ ${filteredValues.map(v => `${constantCase(v)}: "${v}"`).join(", \n")}
         groupBy
       } = modelOperation;
 
-      globalExports.push(`export * from './${modelName}Input.schema'`);
+      globalExports.push(`export * from './${modelName}.repository'`);
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const model = findModelByName(this.models, modelName)!;

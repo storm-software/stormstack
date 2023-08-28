@@ -369,6 +369,29 @@ async function generateModelSchema(
         model.name
       )}UpdateSchema = ${updateSchema};`
     );
+
+    // export types
+    writer.writeLine("");
+    writer.writeLine("// Export types");
+    writer.writeLine(
+      `export type ${upperCaseFirst(
+        model.name
+      )}Schema = z.infer<typeof ${upperCaseFirst(model.name)}Schema>;`
+    );
+    writer.writeLine(
+      `export type ${upperCaseFirst(
+        model.name
+      )}CreateSchema = z.infer<typeof ${upperCaseFirst(
+        model.name
+      )}CreateSchema>;`
+    );
+    writer.writeLine(
+      `export type ${upperCaseFirst(
+        model.name
+      )}UpdateSchema = z.infer<typeof ${upperCaseFirst(
+        model.name
+      )}UpdateSchema>;`
+    );
   });
   return schemaName;
 }

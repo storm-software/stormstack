@@ -1,0 +1,7 @@
+{
+  "name": "@open-system/core-server-drizzle",
+  "version": "0.0.1",
+  "dependencies": {
+    "drizzle-orm": "^0.28.5"
+  }
+}

@@ -254,3 +254,113 @@ async function generateModelSchema(
 
   return schemaName;
 }
+
+/*async function generateObjectSchemas(
+  inputObjectTypes: DMMF.InputType[],
+  project: Project,
+  output: string,
+  storm: Model
+) {
+  const moduleNames: string[] = [];
+  for (let i = 0; i < inputObjectTypes.length; i += 1) {
+    const fields = inputObjectTypes[i]?.fields;
+    const name = inputObjectTypes[i]?.name;
+    const transformer = new Transformer({ name, fields, project, storm });
+    const moduleName = generateObjectSchema(project);
+    moduleNames.push(moduleName);
+  }
+  project.createSourceFile(
+    join(output, "objects/index.ts"),
+    moduleNames.map(name => `export * from './${name}';`).join("\n"),
+    { overwrite: true }
+  );
+}
+
+async function generateModelSchema(
+  model: DataModel,
+  project: Project,
+  output: string,
+  dataSourceProvider: ConnectorType
+) {
+  let generator: SchemaGenerator;
+  switch (dataSourceProvider) {
+    case "sqlite":
+      generator = new SqliteSchemaGenerator();
+      break;
+    case "postgresql":
+      generator = new PostgresqlSchemaGenerator();
+      break;
+    default:
+      throw new Error(
+        `Unsupported data source provider: ${dataSourceProvider}`
+      );
+  }
+
+  const schemaName = `${kebabCase(model.name)}.schema`;
+  const sf = project.createSourceFile(
+    join(output, "schemas", `${schemaName}.ts`),
+    undefined,
+    {
+      overwrite: true
+    }
+  );
+  sf.replaceWithText(writer => {
+    const fields = model.fields.filter(
+      field =>
+        !AUXILIARY_FIELDS.includes(field.name) &&
+        !isDataModel(field.type.reference?.ref)
+    );
+
+    writer.writeLine("/* eslint-disable */
+/*");
+    writer.writeLine(getFileHeader("Drizzle ORM"));
+    writer.writeLine(generator.importStatement);
+    writer.writeLine(
+      `import { UniqueIdGenerator } from "@open-system/core-shared-utilities/common/unique-id-generator";`
+    );
+    writer.writeLine(
+      `import { DateTime } from "@open-system/core-shared-utilities/common/date-time";`
+    );
+
+    // import enum schemas
+    for (const field of fields) {
+      if (field.type.reference?.ref && isEnum(field.type.reference?.ref)) {
+        writer.writeLine(
+          `import { ${upperCaseFirst(
+            field.type.reference?.ref.name
+          )} } from "../enums/${kebabCase(field.type.reference?.ref.name)}";`
+        );
+      }
+    }
+
+    model.fields
+      .filter(modelField => isDataModel(modelField.type.reference?.ref))
+      .forEach(modelField => {
+        writer.writeLine(
+          `import { ${lowerCaseFirst(
+            modelField.type.reference.ref.name
+          )} } from "./${kebabCase(
+            modelField.type.reference.ref.name
+          )}.schema";`
+        );
+      });
+
+    // create base schema
+    writer.writeLine("");
+    writer.write(generator.getTableSchema(model.name));
+    writer.inlineBlock(() => {
+      fields.forEach(field => {
+        writer.writeLine(
+          `${field.name}: ${generator.getFieldSchema(model, field)},`
+        );
+      });
+    });
+    writer.writeLine(");");
+    writer.writeLine("");
+
+    writer.writeLine("");
+  });
+
+  return schemaName;
+}
+*/

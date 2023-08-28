@@ -482,6 +482,7 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
         includeImport
       ];
       let codeBody = "";
+      let types = "";
       const operations: [string, string][] = [];
 
       if (findUnique) {
@@ -489,6 +490,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
           `import { ${modelName}WhereUniqueInputObjectSchema } from '../objects/${modelName}WhereUniqueInput.schema'`
         );
         codeBody += `findUnique: z.object({ ${selectZodSchemaLineLazy} ${includeZodSchemaLineLazy} where: ${modelName}WhereUniqueInputObjectSchema }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}FindUniqueInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.findUnique>;
+        `;
         operations.push(["findUnique", modelName]);
       }
 
@@ -506,6 +513,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
         codeBody += `findFirst: z.object({ ${selectZodSchemaLineLazy} ${includeZodSchemaLineLazy} where: ${modelName}WhereInputObjectSchema.optional(), orderBy: z.union([${modelName}OrderByWithRelationInputObjectSchema, ${modelName}OrderByWithRelationInputObjectSchema.array()]).optional(), cursor: ${modelName}WhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.array(${upperCaseFirst(
           modelName
         )}ScalarFieldEnumSchema).optional() }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}FindFirstInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.findFirst>;
+                `;
         operations.push(["findFirst", modelName]);
       }
 
@@ -523,6 +536,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
         codeBody += `findMany: z.object({ ${selectZodSchemaLineLazy} ${includeZodSchemaLineLazy} where: ${modelName}WhereInputObjectSchema.optional(), orderBy: z.union([${modelName}OrderByWithRelationInputObjectSchema, ${modelName}OrderByWithRelationInputObjectSchema.array()]).optional(), cursor: ${modelName}WhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), distinct: z.array(${upperCaseFirst(
           modelName
         )}ScalarFieldEnumSchema).optional()  }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}FindManyInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.findMany>;
+                `;
         operations.push(["findMany", modelName]);
       }
 
@@ -532,6 +551,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
           `import { ${modelName}UncheckedCreateInputObjectSchema } from '../objects/${modelName}UncheckedCreateInput.schema'`
         );
         codeBody += `create: z.object({ ${selectZodSchemaLineLazy} ${includeZodSchemaLineLazy} data: z.union([${modelName}CreateInputObjectSchema, ${modelName}UncheckedCreateInputObjectSchema]) }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}CreateInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.create>;
+                `;
         operations.push(["create", modelName]);
       }
 
@@ -540,6 +565,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
           `import { ${modelName}CreateManyInputObjectSchema } from '../objects/${modelName}CreateManyInput.schema'`
         );
         codeBody += `createMany: z.object({ data: z.union([${modelName}CreateManyInputObjectSchema, z.array(${modelName}CreateManyInputObjectSchema)]) }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}CreateManyInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.createMany>;
+                `;
         operations.push(["createMany", modelName]);
       }
 
@@ -548,6 +579,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
           `import { ${modelName}WhereUniqueInputObjectSchema } from '../objects/${modelName}WhereUniqueInput.schema'`
         );
         codeBody += `'delete': z.object({ ${selectZodSchemaLineLazy} ${includeZodSchemaLineLazy} where: ${modelName}WhereUniqueInputObjectSchema  }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}DeleteInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.delete>;
+                `;
         operations.push(["delete", modelName]);
       }
 
@@ -556,6 +593,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
           `import { ${modelName}WhereInputObjectSchema } from '../objects/${modelName}WhereInput.schema'`
         );
         codeBody += `deleteMany: z.object({ where: ${modelName}WhereInputObjectSchema.optional()  }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}DeleteManyInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.deleteMany>;
+                `;
         operations.push(["deleteMany", modelName]);
       }
 
@@ -566,6 +609,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
           `import { ${modelName}WhereUniqueInputObjectSchema } from '../objects/${modelName}WhereUniqueInput.schema'`
         );
         codeBody += `update: z.object({ ${selectZodSchemaLineLazy} ${includeZodSchemaLineLazy} data: z.union([${modelName}UpdateInputObjectSchema, ${modelName}UncheckedUpdateInputObjectSchema]), where: ${modelName}WhereUniqueInputObjectSchema  }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}UpdateInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.update>;
+                `;
         operations.push(["update", modelName]);
       }
 
@@ -576,6 +625,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
           `import { ${modelName}WhereInputObjectSchema } from '../objects/${modelName}WhereInput.schema'`
         );
         codeBody += `updateMany: z.object({ data: z.union([${modelName}UpdateManyMutationInputObjectSchema, ${modelName}UncheckedUpdateManyInputObjectSchema]), where: ${modelName}WhereInputObjectSchema.optional()  }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}UpdateManyInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.updateMany>;
+                `;
         operations.push(["updateMany", modelName]);
       }
 
@@ -588,6 +643,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
           `import { ${modelName}UncheckedUpdateInputObjectSchema } from '../objects/${modelName}UncheckedUpdateInput.schema'`
         );
         codeBody += `upsert: z.object({ ${selectZodSchemaLineLazy} ${includeZodSchemaLineLazy} where: ${modelName}WhereUniqueInputObjectSchema, create: z.union([${modelName}CreateInputObjectSchema, ${modelName}UncheckedCreateInputObjectSchema]), update: z.union([${modelName}UpdateInputObjectSchema, ${modelName}UncheckedUpdateInputObjectSchema]) }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}UpsertInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.upsert>;
+                `;
         operations.push(["upsert", modelName]);
       }
 
@@ -649,6 +710,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
         codeBody += `aggregate: z.object({ where: ${modelName}WhereInputObjectSchema.optional(), orderBy: z.union([${modelName}OrderByWithRelationInputObjectSchema, ${modelName}OrderByWithRelationInputObjectSchema.array()]).optional(), cursor: ${modelName}WhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), ${aggregateOperations.join(
           ", "
         )} }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}AggregateInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.aggregate>;
+                `;
         operations.push(["aggregate", modelNameCap]);
       }
 
@@ -662,6 +729,12 @@ export const ${this.name}ObjectSchema: SchemaType = ${schema} as SchemaType;`;
         codeBody += `groupBy: z.object({ where: ${modelName}WhereInputObjectSchema.optional(), orderBy: z.union([${modelName}OrderByWithAggregationInputObjectSchema, ${modelName}OrderByWithAggregationInputObjectSchema.array()]).optional(), having: ${modelName}ScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(${upperCaseFirst(
           modelName
         )}ScalarFieldEnumSchema), ${aggregateOperations.join(", ")} }),`;
+        types += `export type ${upperCaseFirst(
+          modelName
+        )}GroupByInputSchema = z.infer<typeof ${upperCaseFirst(
+          modelName
+        )}InputSchema.groupBy>;
+                `;
 
         if (prismaVersion && semver.gte(prismaVersion, "5.0.0")) {
           // Prisma V5 has a different casing for this guy ...
@@ -693,10 +766,13 @@ ${operations
   .join(",\n")}
             }
 
-            export const ${modelName}InputSchema = {
-            ${indentString(codeBody, 4)}
-            } as ${modelName}InputSchemaType;
-                        `;
+export const ${modelName}InputSchema = {
+${indentString(codeBody, 4)}
+} as ${modelName}InputSchemaType;
+
+// Export types
+${types}
+`;
 
       this.project.createSourceFile(filePath, content, { overwrite: true });
     }
