@@ -83,5 +83,8 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["core-shared-utilities"]
+  "implicitDependencies": [
+    "core-shared-utilities",
+    "tools-executors-typescript"
+  ]
 }

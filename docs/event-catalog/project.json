@@ -28,6 +28,6 @@
       }
     }
   },
-  "tags": ["domain:docs", "type:apps"],
+  "tags": [],
   "implicitDependencies": ["tools-executors-docs"]
 }

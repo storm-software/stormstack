@@ -1,0 +1,52 @@
+{
+  "name": "core-shared-serialization",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/typescript/shared/serialization/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/core/typescript/shared/serialization",
+        "main": "libs/core/typescript/shared/serialization/src/index.ts",
+        "tsConfig": "libs/core/typescript/shared/serialization/tsconfig.lib.json",
+        "assets": ["libs/core/typescript/shared/serialization/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/core/typescript/shared/serialization/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/core/typescript/shared/serialization/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "core-shared-serialization-v${VERSION}"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["core-shared-utilities", "core-shared-injection"]
+}

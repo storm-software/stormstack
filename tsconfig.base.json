@@ -140,6 +140,12 @@
       "@open-system/core-server-domain/*": [
         "libs/core/typescript/server/domain/src/*"
       ],
+      "@open-system/core-server-drizzle": [
+        "libs/core/typescript/server/drizzle/src/index.ts"
+      ],
+      "@open-system/core-server-drizzle/*": [
+        "libs/core/typescript/server/drizzle/src/*"
+      ],
       "@open-system/core-server-graphql": [
         "libs/core/typescript/server/graphql/src/index.ts"
       ],
@@ -187,6 +193,12 @@
       ],
       "@open-system/core-shared-injection/*": [
         "libs/core/typescript/shared/injection/src/*"
+      ],
+      "@open-system/core-shared-serialization": [
+        "libs/core/typescript/shared/serialization/src/index.ts"
+      ],
+      "@open-system/core-shared-serialization/*": [
+        "libs/core/typescript/shared/serialization/src/*"
       ],
       "@open-system/core-shared-utilities": [
         "libs/core/typescript/shared/utilities/src/index.ts"

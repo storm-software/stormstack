@@ -663,7 +663,7 @@ importers:
     dependencies:
       "@eventcatalog/core":
         specifier: ^1.0.1
-        version: 1.0.1(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2)
+        version: 1.0.1(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2)
       "@eventcatalog/plugin-doc-generator-asyncapi":
         specifier: ^0.3.5
         version: 0.3.5
@@ -736,6 +736,12 @@ importers:
 
   libs/core/typescript/server/domain: {}
 
+  libs/core/typescript/server/drizzle:
+    dependencies:
+      drizzle-orm:
+        specifier: ^0.28.5
+        version: 0.28.5(@cloudflare/workers-types@4.20230710.0)(@opentelemetry/api@1.4.1)(kysely@0.26.0)
+
   libs/core/typescript/server/graphql:
     dependencies:
       "@envelop/core":
@@ -790,6 +796,15 @@ importers:
       inversify:
         specifier: ^6.0.1
         version: 6.0.1
+
+  libs/core/typescript/shared/serialization:
+    dependencies:
+      decimal.js:
+        specifier: ^10.4.3
+        version: 10.4.3
+      superjson:
+        specifier: ^1.13.1
+        version: 1.13.1
 
   libs/core/typescript/shared/utilities:
     dependencies:
@@ -872,7 +887,7 @@ importers:
         version: 16.2.0
       "@eventcatalog/core":
         specifier: ^1.0.1
-        version: 1.0.1(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2)
+        version: 1.0.1(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2)
       "@eventcatalog/types":
         specifier: ^0.4.2
         version: 0.4.2
@@ -952,6 +967,31 @@ importers:
         version: 1.2.1
 
   tools/storm/plugins/drizzle:
+    dependencies:
+      "@prisma/generator-helper":
+        specifier: ^5.2.0
+        version: 5.2.0
+      drizzle-orm:
+        specifier: ^0.28.5
+        version: 0.28.5(@cloudflare/workers-types@4.20230710.0)(@opentelemetry/api@1.4.1)(kysely@0.26.0)
+      langium:
+        specifier: 1.2.1
+        version: 1.2.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      semver:
+        specifier: ^7.5.4
+        version: 7.5.4
+      ts-morph:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      drizzle-kit:
+        specifier: ^0.19.13
+        version: 0.19.13
+
+  tools/storm/plugins/graphql:
     dependencies:
       "@prisma/generator-helper":
         specifier: ^5.2.0
@@ -9040,7 +9080,7 @@ packages:
       }
     engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
 
-  /@eventcatalog/core@1.0.1(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2):
+  /@eventcatalog/core@1.0.1(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-native@0.72.4)(tailwindcss@3.3.2):
     resolution:
       {
         integrity: sha512-NThMGJ9KHWy+iRCuvhHjXc51cRpDTvfxpsPO3TZaCVpjkuLi2Avv5AnUEyD12oz3Bx6HFtfhvectX5beEHaSoA==
@@ -9051,7 +9091,7 @@ packages:
       "@headlessui/react": 1.7.17(react-dom@17.0.2)(react@17.0.2)
       "@heroicons/react": 1.0.6(react@17.0.2)
       "@mdx-js/react": 1.6.22(react@17.0.2)
-      "@stoplight/json-schema-viewer": 4.5.0(@babel/core@7.12.9)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2)
+      "@stoplight/json-schema-viewer": 4.5.0(@babel/core@7.22.10)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/markdown-viewer": 5.6.0(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/mosaic": 1.42.0(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/mosaic-code-viewer": 1.42.0(react-dom@17.0.2)(react@17.0.2)
@@ -9068,7 +9108,7 @@ packages:
       gray-matter: 4.0.3
       lodash.debounce: 4.0.8
       mermaid: 10.3.0
-      next: 12.3.4(@babel/core@7.12.9)(react-dom@17.0.2)(react@17.0.2)
+      next: 12.3.4(@babel/core@7.22.10)(react-dom@17.0.2)(react@17.0.2)
       next-mdx-remote: 3.0.8(react-dom@17.0.2)(react@17.0.2)
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
@@ -18029,7 +18069,7 @@ packages:
       magic-error: 0.0.1
     dev: false
 
-  /@stoplight/json-schema-viewer@4.5.0(@babel/core@7.12.9)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2):
+  /@stoplight/json-schema-viewer@4.5.0(@babel/core@7.22.10)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.42.0)(@stoplight/mosaic@1.42.0)(react-dom@17.0.2)(react@17.0.2):
     resolution:
       {
         integrity: sha512-YtLL+BqyqfcRUMiFFl2w8501b0A7Ae3/RzoYzaHX+y+q/6nGv0/ViwV6W9q2dvC0QXGMjIL+5YhthKyeJ4Px+A==
@@ -18051,7 +18091,7 @@ packages:
       "@stoplight/react-error-boundary": 2.0.0(react-dom@17.0.2)(react@17.0.2)
       "@types/json-schema": 7.0.12
       classnames: 2.3.2
-      jotai: 1.13.1(@babel/core@7.12.9)(react@17.0.2)
+      jotai: 1.13.1(@babel/core@7.22.10)(react@17.0.2)
       lodash: 4.17.21
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
@@ -37992,7 +38032,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /jotai@1.13.1(@babel/core@7.12.9)(react@17.0.2):
+  /jotai@1.13.1(@babel/core@7.22.10)(react@17.0.2):
     resolution:
       {
         integrity: sha512-RUmH1S4vLsG3V6fbGlKzGJnLrDcC/HNb5gH2AeA9DzuJknoVxSGvvg8OBB7lke+gDc4oXmdVsaKn/xDUhWZ0vw==
@@ -38035,7 +38075,7 @@ packages:
       jotai-zustand:
         optional: true
     dependencies:
-      "@babel/core": 7.12.9
+      "@babel/core": 7.22.10
       react: 17.0.2
     dev: false
 
@@ -42737,7 +42777,7 @@ packages:
       - webpack
     dev: true
 
-  /next@12.3.4(@babel/core@7.12.9)(react-dom@17.0.2)(react@17.0.2):
+  /next@12.3.4(@babel/core@7.22.10)(react-dom@17.0.2)(react@17.0.2):
     resolution:
       {
         integrity: sha512-VcyMJUtLZBGzLKo3oMxrEF0stxh8HwuW976pAzlHhI3t8qJ4SROjCrSh1T24bhrbjw55wfZXAbXPGwPt5FLRfQ==
@@ -42764,7 +42804,7 @@ packages:
       postcss: 8.4.14
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-      styled-jsx: 5.0.7(@babel/core@7.12.9)(react@17.0.2)
+      styled-jsx: 5.0.7(@babel/core@7.22.10)(react@17.0.2)
       use-sync-external-store: 1.2.0(react@17.0.2)
     optionalDependencies:
       "@next/swc-android-arm-eabi": 12.3.4
@@ -52274,7 +52314,7 @@ packages:
       stylis-rule-sheet: 0.0.10(stylis@3.5.4)
     dev: true
 
-  /styled-jsx@5.0.7(@babel/core@7.12.9)(react@17.0.2):
+  /styled-jsx@5.0.7(@babel/core@7.22.10)(react@17.0.2):
     resolution:
       {
         integrity: sha512-b3sUzamS086YLRuvnaDigdAewz1/EFYlHpYBP5mZovKEdQQOIIYq8lApylub3HHZ6xFjV051kkGU7cudJmrXEA==
@@ -52290,7 +52330,7 @@ packages:
       babel-plugin-macros:
         optional: true
     dependencies:
-      "@babel/core": 7.12.9
+      "@babel/core": 7.22.10
       react: 17.0.2
     dev: false
 
