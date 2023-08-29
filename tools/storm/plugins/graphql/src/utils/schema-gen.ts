@@ -2,8 +2,16 @@ import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string
 import {
   DataModel,
   DataModelField,
+  DataModelFieldType,
+  LiteralExpr,
+  Operation,
+  OperationGroup,
+  OperationInputParam,
+  isApiModel,
   isDataModel,
-  isEnum
+  isEnum,
+  isInput,
+  isInterface
 } from "@open-system/tools-storm-language/ast";
 
 export class SchemaGenerator {
@@ -19,16 +27,22 @@ export class SchemaGenerator {
   public hasCountryCode = false;
   public hasTimeZone = false;
   public hasMAC = false;
+  public hasSemVer = false;
+  public hasOperation = false;
 
   public hasEdgeConnection = false;
 
-  private getColumnTypeSchema(field: DataModelField) {
+  public getColumnTypeSchema(type: DataModelFieldType) {
     let schema: string;
-
-    if (field.type.reference?.ref && isEnum(field.type.reference?.ref)) {
-      schema = field.type.reference.ref.name;
+    if (
+      isDataModel(type.reference?.ref) ||
+      isApiModel(type.reference?.ref) ||
+      isInterface(type.reference?.ref) ||
+      isInput(type.reference?.ref)
+    ) {
+      schema = type.reference.ref.name;
     } else {
-      switch (field.type.type) {
+      switch (type.type) {
         case "Int":
           schema = "Int";
           break;
@@ -54,7 +68,22 @@ export class SchemaGenerator {
       }
     }
 
+    if (type.array) {
+      schema = `[${schema}!]`;
+    }
+    if (!type.optional) {
+      schema += "!";
+    }
+
     return schema;
+  }
+
+  public getOperationInputParam(param: OperationInputParam) {
+    return `${param.name}: ${this.getColumnTypeSchema(param.type)}${
+      (param.defaultValue as LiteralExpr)?.value !== undefined
+        ? ` = ${(param.defaultValue as LiteralExpr).value}`
+        : ""
+    }`;
   }
 
   public getScalarsSchema(): string {
@@ -62,11 +91,35 @@ export class SchemaGenerator {
 
     if (this.hasEdgeConnection) {
       schema += `
+"""
+A base type to define the structure of paginated response data
+"""
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
   startCursor: String!
   endCursor: String!
+}
+
+`;
+    }
+
+    schema += `
+"""
+A base interface for all identifiable models
+"""
+interface Node {
+  id: ID!
+}
+`;
+
+    if (this.hasOperation) {
+      schema += `
+"""
+A base interface model containing the error details of the operation
+"""
+interface Error {
+  message: String!
 }
 
 `;
@@ -108,11 +161,14 @@ type PageInfo {
     if (this.hasMAC) {
       schema += "scalar MAC \n";
     }
+    if (this.hasSemVer) {
+      schema += "scalar SemVer \n";
+    }
 
     return schema;
   }
 
-  public getFieldSchema(model: DataModel, field: DataModelField): string {
+  public getFieldSchema(field: DataModelField): string {
     let schema = "";
     for (const attr of field.attributes) {
       switch (attr.decl.ref?.name) {
@@ -163,59 +219,33 @@ type PageInfo {
           this.hasMAC = true;
           schema = "MAC";
           break;
-
+        case "@semver":
+          this.hasSemVer = true;
+          schema = "SemVer";
+          break;
         default:
           break;
       }
     }
 
-    if (isDataModel(field.type.reference?.ref)) {
-      this.hasEdgeConnection = true;
-      return `(first: Int = 100, after: String): ${
-        field.type.reference?.ref.name
-      }Connection${!field.type.optional ? "!" : ""}`;
+    if (schema) {
+      field.type.array && (schema = `[${schema}]`);
+      !field.type.optional && (schema += "!");
     }
 
-    if (!schema) {
-      schema += this.getColumnTypeSchema(field);
-    }
-
-    if (schema && field.type.array) {
-      schema = `[${schema}]`;
-    }
-
-    /*if (isForeignKeyField(field)) {
-      const modelFields = model.fields.filter(modelField =>
-        isDataModel(modelField.type.reference?.ref)
-      );
-
-      for (const modelField of modelFields) {
-        const attribute = modelField.attributes.find(
-          attr => attr.decl.ref?.name === "@relation"
-        );
-        if (attribute) {
-          const foreignKeyFields = attribute.args.find(
-            a => a.name === "fields"
-          );
-          const foreignKeyField = (
-            foreignKeyFields.value as ArrayExpr
-          ).items.find(
-            item => (item as ReferenceExpr)?.target?.ref?.name === field.name
-          );
-
-          if (
-            foreignKeyField &&
-            field.type.type === "String" &&
-            field.name.endsWith("Id")
-          ) {
-            schema = "ID";
-          }
-        }
+    if (field.type.reference?.ref && isEnum(field.type.reference?.ref)) {
+      schema = field.type.reference.ref.name;
+    } else {
+      if (isDataModel(field.type.reference?.ref)) {
+        this.hasEdgeConnection = true;
+        return `(first: Int = 100, after: String = null): ${
+          field.type.reference?.ref.name
+        }Connection${!field.type.optional ? "!" : ""}`;
       }
-    }*/
 
-    if (schema && !field.type.optional) {
-      schema += "!";
+      if (!schema) {
+        schema += this.getColumnTypeSchema(field.type);
+      }
     }
 
     return `: ${schema}`;
@@ -235,14 +265,25 @@ type PageInfo {
           )
         ) {
           schema += `
+"""
+An object containing the current paginated result data returned from ${
+            relationField.type.reference.ref.name
+          } at the current cursor position
+"""
 type ${upperCaseFirst(relationField.type.reference.ref.name)}Edge {
   node: ${upperCaseFirst(relationField.type.reference.ref.name)}!
   cursor: String!
 }
 
-type ${upperCaseFirst(relationField.type.reference.ref.name)}Connection { 
+"""
+An object containing the paginated child model data returned from ${
+            relationField.type.reference.ref.name
+          }
+"""
+type ${upperCaseFirst(relationField.type.reference.ref.name)}Connection {
   edges: [${upperCaseFirst(relationField.type.reference.ref.name)}Edge!]!
   pageInfo: PageInfo!
+  totalCount: Int!
 }
       `;
         }
@@ -250,5 +291,87 @@ type ${upperCaseFirst(relationField.type.reference.ref.name)}Connection {
     }
 
     return schema;
+  }
+
+  public getMutationResultSchema(operationGroup: OperationGroup): string {
+    return operationGroup.fields.reduce((ret: string, operation: Operation) => {
+      ret += `
+"""
+An object containing the successful result of the ${operation.name} operation
+"""
+type ${upperCaseFirst(operation.name)}Ok {
+  payload: ${this.getColumnTypeSchema(operation.resultType)}
+}
+`;
+
+      if (operation.params && operation.params.length > 0) {
+        if (
+          operation.params.length === 1 &&
+          (isDataModel(operation.params[0].type.reference?.ref) ||
+            isApiModel(operation.params[0].type.reference?.ref) ||
+            isInterface(operation.params[0].type.reference?.ref) ||
+            isInput(operation.params[0].type.reference?.ref))
+        ) {
+          ret += `
+"""
+An object containing potential input errors during the ${
+            operation.name
+          } operation
+"""
+type ${upperCaseFirst(operation.name)}InputErrors {
+  ${operation.params[0].type.reference?.ref.fields
+    .map(param => `${param.name}: String`)
+    .join("\n")}
+}
+`;
+        } else {
+          ret += `
+"""
+An object containing potential input errors during the ${
+            operation.name
+          } operation
+"""
+type ${upperCaseFirst(operation.name)}InputErrors {
+  ${operation.params.map(param => `${param.name}: String`).join("\n")}
+}
+`;
+        }
+
+        ret += `
+"""
+An object containing the summary error message and individual input errors (when applicable) of the ${
+          operation.name
+        } operation
+"""
+type ${upperCaseFirst(operation.name)}Error implements Error {
+  message: String!
+  inputErrors: ${upperCaseFirst(operation.name)}InputErrors!
+}
+      `;
+      } else {
+        ret += `
+"""
+An object containing the error details of the ${operation.name} operation
+"""
+type ${upperCaseFirst(operation.name)}Error implements Error {
+  message: String!
+}
+        `;
+      }
+
+      ret += `
+"""
+A response object containing the successful result data or error details of the ${
+        operation.name
+      } operation
+"""
+type ${upperCaseFirst(operation.name)}Result {
+  ok: ${upperCaseFirst(operation.name)}Ok
+  error: ${upperCaseFirst(operation.name)}Error
+}
+`;
+
+      return ret;
+    }, "");
   }
 }

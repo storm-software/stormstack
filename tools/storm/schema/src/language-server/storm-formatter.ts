@@ -2,7 +2,7 @@ import {
   AbstractFormatter,
   AstNode,
   Formatting,
-  LangiumDocument,
+  LangiumDocument
 } from "langium";
 
 import * as ast from "@open-system/tools-storm-language/ast";
@@ -40,6 +40,12 @@ export class StormFormatter extends AbstractFormatter {
       const model = node as ast.Model;
       const nodes = formatter.nodes(...model.declarations);
       nodes.prepend(Formatting.noIndent());
+    } else if (ast.isOperation(node)) {
+      formatter.property("name").prepend(Formatting.oneSpace());
+      formatter.property("resultType").prepend(Formatting.oneSpace());
+      if (node.attributes.length > 0) {
+        formatter.properties("attributes").prepend(Formatting.oneSpace());
+      }
     }
   }
 

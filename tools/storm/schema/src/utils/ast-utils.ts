@@ -2,18 +2,22 @@ import {
   DataModel,
   DataModelField,
   Expression,
+  Input,
+  Model,
+  ModelImport,
+  Operation,
+  ReferenceExpr,
   isArrayExpr,
   isDataModel,
   isDataModelField,
+  isInput,
   isInvocationExpr,
   isMemberAccessExpr,
   isModel,
-  isReferenceExpr,
-  Model,
-  ModelImport,
-  ReferenceExpr,
+  isOperation,
+  isReferenceExpr
 } from "@open-system/tools-storm-language/ast";
-import { AstNode, getDocument, LangiumDocuments, Mutable } from "langium";
+import { AstNode, LangiumDocuments, Mutable, getDocument } from "langium";
 import { URI, Utils } from "vscode-uri";
 import { isFromStdlib } from "../language-server/utils";
 
@@ -83,7 +87,10 @@ export function getIdFields(dataModel: DataModel) {
       return argValue.items
         .filter(
           (expr): expr is ReferenceExpr =>
-            isReferenceExpr(expr) && !!getDataModelFieldReference(expr)
+            isReferenceExpr(expr) &&
+            !!getDataModelFieldReference(expr) &&
+            !!getOperationReference(expr) &&
+            !!getInputReference(expr)
         )
         .map(expr => expr.target.ref as DataModelField);
     }
@@ -105,6 +112,26 @@ export function getDataModelFieldReference(
   if (isReferenceExpr(expr) && isDataModelField(expr.target.ref)) {
     return expr.target.ref;
   } else if (isMemberAccessExpr(expr) && isDataModelField(expr.member.ref)) {
+    return expr.member.ref;
+  } else {
+    return undefined;
+  }
+}
+
+export function getOperationReference(expr: Expression): Operation | undefined {
+  if (isReferenceExpr(expr) && isOperation(expr.target.ref)) {
+    return expr.target.ref;
+  } else if (isMemberAccessExpr(expr) && isOperation(expr.member.ref)) {
+    return expr.member.ref;
+  } else {
+    return undefined;
+  }
+}
+
+export function getInputReference(expr: Expression): Input | undefined {
+  if (isReferenceExpr(expr) && isInput(expr.target.ref)) {
+    return expr.target.ref;
+  } else if (isMemberAccessExpr(expr) && isInput(expr.member.ref)) {
     return expr.member.ref;
   } else {
     return undefined;

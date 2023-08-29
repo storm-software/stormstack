@@ -1,4 +1,5 @@
 import {
+  ApiModel,
   ArrayExpr,
   AttributeArg,
   AttributeParam,
@@ -12,22 +13,27 @@ import {
   FunctionDecl,
   FunctionParam,
   FunctionParamType,
+  Input,
+  Interface,
   InvocationExpr,
-  isArrayExpr,
-  isDataModel,
-  isDataModelField,
-  isDataModelFieldType,
-  isEnum,
-  isReferenceExpr,
   LiteralExpr,
   MemberAccessExpr,
   NullExpr,
   ObjectExpr,
+  OperationGroup,
   ReferenceExpr,
   ReferenceTarget,
   ResolvedShape,
   ThisExpr,
   UnaryExpr,
+  isArrayExpr,
+  isDataModel,
+  isDataModelField,
+  isDataModelFieldType,
+  isEnum,
+  isInput,
+  isOperationGroup,
+  isReferenceExpr
 } from "@open-system/tools-storm-language/ast";
 import {
   AstNode,
@@ -35,13 +41,13 @@ import {
   AstNodeDescriptionProvider,
   DefaultLinker,
   DocumentState,
-  interruptAndCheck,
-  isReference,
   LangiumDocument,
   LangiumServices,
   LinkingError,
   Reference,
-  streamContents,
+  interruptAndCheck,
+  isReference,
+  streamContents
 } from "langium";
 import { CancellationToken } from "vscode-jsonrpc";
 import { getAllDeclarationsFromImports } from "../utils/ast-utils";
@@ -199,6 +205,30 @@ export class StormLinker extends DefaultLinker {
         );
         break;
 
+      case ApiModel:
+        this.resolveApiModel(node as ApiModel, document, extraScopes);
+        break;
+
+      case Interface:
+        this.resolveInterface(node as Interface, document, extraScopes);
+        break;
+
+      case Input:
+        this.resolveInput(node as Input, document, extraScopes);
+        break;
+
+      case OperationGroup:
+        this.resolveOperationGroup(
+          node as OperationGroup,
+          document,
+          extraScopes
+        );
+        break;
+
+      /*case Operation:
+        this.resolveOperation(node as Operation, document, extraScopes);
+        break;*/
+
       default:
         this.resolveDefault(node, document, extraScopes);
         break;
@@ -284,7 +314,7 @@ export class StormLinker extends DefaultLinker {
       // resolve type
       if (node.target.ref.$type === EnumField) {
         this.resolveToBuiltinTypeOrDecl(node, node.target.ref.$container);
-      } else {
+      } else if ((node.target.ref as DataModelField | FunctionParam)?.type) {
         this.resolveToDeclaredType(
           node,
           (node.target.ref as DataModelField | FunctionParam).type
@@ -353,6 +383,19 @@ export class StormLinker extends DefaultLinker {
     return undefined;
   }
 
+  private getContainingOperationGroup(
+    node: Expression
+  ): OperationGroup | undefined {
+    let curr: AstNode | undefined = node.$container;
+    while (curr) {
+      if (isOperationGroup(curr)) {
+        return curr;
+      }
+      curr = curr.$container;
+    }
+    return undefined;
+  }
+
   private resolveLiteral(node: LiteralExpr) {
     const type =
       typeof node.value === "string"
@@ -379,11 +422,24 @@ export class StormLinker extends DefaultLinker {
     if (
       operandResolved &&
       !operandResolved.array &&
-      isDataModel(operandResolved.decl)
+      (isDataModel(operandResolved.decl) || isInput(operandResolved.decl))
     ) {
-      const modelDecl = operandResolved.decl as DataModel;
+      let modelDecl: any = operandResolved.decl as DataModel;
+      if (!modelDecl) {
+        modelDecl = operandResolved.decl as Input;
+      }
+
       const provider = (name: string) =>
         modelDecl.$resolvedFields.find(f => f.name === name);
+      extraScopes = [provider, ...extraScopes];
+    } else if (
+      operandResolved &&
+      !operandResolved.array &&
+      isOperationGroup(operandResolved.decl)
+    ) {
+      const queryDecl = operandResolved.decl as OperationGroup;
+      const provider = (name: string) =>
+        queryDecl.$resolvedFields.find(f => f.name === name);
       extraScopes = [provider, ...extraScopes];
     }
 
@@ -401,10 +457,25 @@ export class StormLinker extends DefaultLinker {
     this.resolve(node.left, document, extraScopes);
 
     const resolvedType = node.left.$resolvedType;
-    if (resolvedType && isDataModel(resolvedType.decl) && resolvedType.array) {
+    if (
+      resolvedType &&
+      (isDataModel(resolvedType.decl) || isInput(resolvedType.decl)) &&
+      resolvedType.array
+    ) {
       const dataModelDecl = resolvedType.decl;
       const provider = (name: string) =>
         dataModelDecl.$resolvedFields.find(f => f.name === name);
+      extraScopes = [provider, ...extraScopes];
+      this.resolve(node.right, document, extraScopes);
+      this.resolveToBuiltinTypeOrDecl(node, "Boolean");
+    } else if (
+      resolvedType &&
+      isOperationGroup(resolvedType.decl) &&
+      resolvedType.array
+    ) {
+      const dataTypeDecl = resolvedType.decl;
+      const provider = (name: string) =>
+        dataTypeDecl.$resolvedFields.find(f => f.name === name);
       extraScopes = [provider, ...extraScopes];
       this.resolve(node.right, document, extraScopes);
       this.resolveToBuiltinTypeOrDecl(node, "Boolean");
@@ -423,6 +494,14 @@ export class StormLinker extends DefaultLinker {
     let decl: AstNode | undefined = node.$container;
 
     while (decl && !isDataModel(decl)) {
+      decl = decl.$container;
+    }
+
+    while (decl && !isInput(decl)) {
+      decl = decl.$container;
+    }
+
+    while (decl && !isOperationGroup(decl)) {
       decl = decl.$container;
     }
 
@@ -495,7 +574,7 @@ export class StormLinker extends DefaultLinker {
                 ref._ref = this.createLinkingError({
                   reference: ref,
                   container: item,
-                  property: "target",
+                  property: "target"
                 });
               }
             }
@@ -525,12 +604,90 @@ export class StormLinker extends DefaultLinker {
             ref._ref = this.createLinkingError({
               reference: ref,
               container: node.value,
-              property: "target",
+              property: "target"
             });
           }
         }
       }
-    } else {
+    } /*else if (
+      attrParam?.type.type === "TransitiveFieldReference" &&
+      isOperation(attrAppliedOn)
+    ) {
+      // "TransitiveFieldReference" is resolved in the context of the containing Type of the field
+      // where the attribute is applied
+      //
+      // E.g.:
+      //
+      // Type A {
+      //   myId @id String
+      // }
+      //
+      // Type B {
+      //   id @id String
+      //   a A @relation(fields: [id], references: [myId])
+      // }
+      //
+      // In Type B, the attribute argument "myId" is resolved to the field "myId" in Type A
+
+      const transtiveOperationGroup = attrAppliedOn.type.reference
+        ?.ref as OperationGroup;
+      if (transtiveOperationGroup) {
+        // resolve references in the context of the transitive data Type
+        const scopeProvider = (name: string) =>
+          transtiveOperationGroup.$resolvedFields.find(f => f.name === name);
+        if (isArrayExpr(node.value)) {
+          node.value.items.forEach(item => {
+            if (isReferenceExpr(item)) {
+              const resolved = this.resolveFromScopeProviders(
+                item,
+                "target",
+                document,
+                [scopeProvider]
+              );
+              if (resolved) {
+                this.resolveToDeclaredType(item, (resolved as Operation).type);
+              } else {
+                // need to clear linked reference, because it's resolved in default scope by default
+                const ref = item.target as DefaultReference;
+                ref._ref = this.createLinkingError({
+                  reference: ref,
+                  container: item,
+                  property: "target"
+                });
+              }
+            }
+          });
+          if (node.value.items[0]?.$resolvedType?.decl) {
+            this.resolveToBuiltinTypeOrDecl(
+              node.value,
+              node.value.items[0].$resolvedType.decl,
+              true
+            );
+          }
+        } else if (isReferenceExpr(node.value)) {
+          const resolved = this.resolveFromScopeProviders(
+            node.value,
+            "target",
+            document,
+            [scopeProvider]
+          );
+          if (resolved) {
+            this.resolveToDeclaredType(
+              node.value,
+              (resolved as Operation).type
+            );
+          } else {
+            // need to clear linked reference, because it's resolved in default scope by default
+            const ref = node.value.target as DefaultReference;
+            ref._ref = this.createLinkingError({
+              reference: ref,
+              container: node.value,
+              property: "target"
+            });
+          }
+        }
+      }
+    }*/ else {
       this.resolve(node.value, document, extraScopes);
     }
     node.$resolvedType = node.value.$resolvedType;
@@ -551,6 +708,54 @@ export class StormLinker extends DefaultLinker {
 
   private resolveDataModel(
     node: DataModel,
+    document: LangiumDocument<AstNode>,
+    extraScopes: ScopeProvider[]
+  ) {
+    if (node.superTypes.length > 0) {
+      const providers = node.superTypes.map(
+        superType => (name: string) =>
+          superType.ref?.fields.find(f => f.name === name)
+      );
+      extraScopes = [...providers, ...extraScopes];
+    }
+
+    return this.resolveDefault(node, document, extraScopes);
+  }
+
+  private resolveApiModel(
+    node: ApiModel,
+    document: LangiumDocument<AstNode>,
+    extraScopes: ScopeProvider[]
+  ) {
+    if (node.superTypes.length > 0) {
+      const providers = node.superTypes.map(
+        superType => (name: string) =>
+          superType.ref?.fields.find(f => f.name === name)
+      );
+      extraScopes = [...providers, ...extraScopes];
+    }
+
+    return this.resolveDefault(node, document, extraScopes);
+  }
+
+  private resolveInterface(
+    node: Interface,
+    document: LangiumDocument<AstNode>,
+    extraScopes: ScopeProvider[]
+  ) {
+    if (node.superTypes.length > 0) {
+      const providers = node.superTypes.map(
+        superType => (name: string) =>
+          superType.ref?.fields.find(f => f.name === name)
+      );
+      extraScopes = [...providers, ...extraScopes];
+    }
+
+    return this.resolveDefault(node, document, extraScopes);
+  }
+
+  private resolveInput(
+    node: Input,
     document: LangiumDocument<AstNode>,
     extraScopes: ScopeProvider[]
   ) {
@@ -609,6 +814,66 @@ export class StormLinker extends DefaultLinker {
     this.resolveDefault(node, document, scopes);
   }
 
+  private resolveOperationGroup(
+    node: OperationGroup,
+    document: LangiumDocument<AstNode>,
+    extraScopes: ScopeProvider[]
+  ) {
+    if (node.superTypes.length > 0) {
+      /*const providers = node.superTypes.map(
+        superType => (name: string) =>
+          superType.ref..find(f => f.name === name)
+      );*/
+      extraScopes = [...extraScopes];
+    }
+
+    return this.resolveDefault(node, document, extraScopes);
+  }
+
+  /*private resolveOperation(
+    node: Operation,
+    document: LangiumDocument<AstNode>,
+    extraScopes: ScopeProvider[]
+  ) {
+    // Field declaration may contain enum references, and enum fields are pushed to the global
+    // scope, so if there're enums with fields with the same name, an arbitrary one will be
+    // used as resolution target. The correct behavior is to resolve to the enum that's used
+    // as the declaration type of the field:
+    //
+    // enum FirstEnum {
+    //     E1
+    //     E2
+    // }
+
+    // enum SecondEnum  {
+    //     E1
+    //     E3
+    //     E4
+    // }
+
+    // Type M {
+    //     id Int @id
+    //     first  SecondEnum @default(E1) <- should resolve to SecondEnum
+    //     second FirstEnum @default(E1) <- should resolve to FirstEnum
+    // }
+    //
+
+    // make sure type is resolved first
+    this.resolve(node.type, document, extraScopes);
+
+    let scopes = extraScopes;
+
+    // if the field has enum declaration type, resolve the rest with that enum's fields on top of the scopes
+    if (node.type.reference?.ref && isEnum(node.type.reference.ref)) {
+      const contextEnum = node.type.reference.ref as Enum;
+      const enumScope: ScopeProvider = name =>
+        contextEnum.fields.find(f => f.name === name);
+      scopes = [enumScope, ...scopes];
+    }
+
+    this.resolveDefault(node, document, scopes);
+  }*/
+
   private resolveDefault(
     node: AstNode,
     document: LangiumDocument<AstNode>,
@@ -643,24 +908,36 @@ export class StormLinker extends DefaultLinker {
         node.$resolvedType = {
           decl: "Unsupported",
           array: type.array,
-          nullable,
+          nullable
         };
         return;
       }
-    }
+    } /*else if (isOperationType(type)) {
+      nullable = type.optional;
+
+      // referencing a field of 'Unsupported' type
+      if (type.unsupported) {
+        node.$resolvedType = {
+          decl: "Unsupported",
+          array: type.array,
+          nullable
+        };
+        return;
+      }
+    }*/
 
     if (type.type) {
       const mappedType = mapBuiltinTypeToExpressionType(type.type);
       node.$resolvedType = {
         decl: mappedType,
         array: type.array,
-        nullable: nullable,
+        nullable: nullable
       };
     } else if (type.reference) {
       node.$resolvedType = {
         decl: type.reference.ref,
         array: type.array,
-        nullable: nullable,
+        nullable: nullable
       };
     }
   }

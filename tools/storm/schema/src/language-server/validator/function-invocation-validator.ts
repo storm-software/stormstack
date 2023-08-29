@@ -9,14 +9,14 @@ import {
   isArrayExpr,
   isDataModelAttribute,
   isDataModelFieldAttribute,
-  isLiteralExpr,
+  isLiteralExpr
 } from "@open-system/tools-storm-language/ast";
 import { AstNode, ValidationAcceptor } from "langium";
 import { P, match } from "ts-pattern";
 import {
   ExpressionContext,
   getFunctionExpressionContext,
-  isEnumFieldReference,
+  isEnumFieldReference
 } from "../../sdk";
 import { getDataModelFieldReference } from "../../utils/ast-utils";
 import { AstValidator } from "../types";
@@ -75,7 +75,7 @@ export default class FunctionInvocationValidator
           "error",
           `function "${funcDecl.name}" is not allowed in the current context: ${exprContext}`,
           {
-            node: expr,
+            node: expr
           }
         );
         return;
@@ -92,7 +92,7 @@ export default class FunctionInvocationValidator
         if (firstArg) {
           if (!getDataModelFieldReference(firstArg)) {
             accept("error", "first argument must be a field reference", {
-              node: firstArg,
+              node: firstArg
             });
           }
         }
@@ -117,7 +117,7 @@ export default class FunctionInvocationValidator
             "error",
             "second argument must be a literal, an enum, or an array of them",
             {
-              node: secondArg,
+              node: secondArg
             }
           );
         }
@@ -137,7 +137,7 @@ export default class FunctionInvocationValidator
       if (!arg) {
         if (!param.optional) {
           accept("error", `missing argument for parameter "${param.name}"`, {
-            node: funcDecl,
+            node: funcDecl
           });
           success = false;
         }
@@ -183,7 +183,7 @@ export default class FunctionInvocationValidator
         dstIsArray !== argResolvedType.array
       ) {
         accept("error", `argument is not assignable to parameter`, {
-          node: arg,
+          node: arg
         });
         return false;
       }
@@ -194,7 +194,7 @@ export default class FunctionInvocationValidator
         dstIsArray !== argResolvedType.array
       ) {
         accept("error", `argument is not assignable to parameter`, {
-          node: arg,
+          node: arg
         });
         return false;
       }

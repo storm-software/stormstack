@@ -250,6 +250,12 @@ export class TypeScriptExpressionTransformer {
     return `z.string().regex(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/).safeParse(${field}).success`;
   }
 
+  @func("semver")
+  private _semver(args: Expression[]) {
+    const field = this.transform(args[0], false);
+    return `z.string().regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/).safeParse(${field}).success`;
+  }
+
   @func("postalCode")
   private _postalCode(args: Expression[]) {
     const field = this.transform(args[0], false);

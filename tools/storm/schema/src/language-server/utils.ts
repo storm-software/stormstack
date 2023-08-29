@@ -1,11 +1,14 @@
 import {
+  ApiModel,
   DataModel,
   DataModelField,
+  Input,
+  Interface,
   isArrayExpr,
   isModel,
   isReferenceExpr,
   Model,
-  ReferenceExpr,
+  ReferenceExpr
 } from "@open-system/tools-storm-language/ast";
 import { AstNode } from "langium";
 import { resolved } from "../sdk";
@@ -36,7 +39,9 @@ export function isFromStdlib(node: AstNode) {
 /**
  * Gets lists of unique fields declared at the data model level
  */
-export function getUniqueFields(model: DataModel) {
+export function getUniqueFields(
+  model: DataModel | ApiModel | Input | Interface
+) {
   const uniqueAttrs = model.attributes.filter(
     attr => attr.decl.ref?.name === "@@unique" || attr.decl.ref?.name === "@@id"
   );

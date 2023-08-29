@@ -3,29 +3,34 @@ import {
   DataModel,
   Expression,
   InvocationExpr,
-  isDataModel,
-  isDataModelField,
-  isEnumField,
-  isMemberAccessExpr,
-  isReferenceExpr,
-  isThisExpr,
   LiteralExpr,
   MemberAccessExpr,
   ReferenceExpr,
   UnaryExpr,
+  isApiModel,
+  isDataModel,
+  isDataModelField,
+  isEnumField,
+  isInput,
+  isInterface,
+  isMemberAccessExpr,
+  isOperation,
+  isOperationGroup,
+  isReferenceExpr,
+  isThisExpr
 } from "@open-system/tools-storm-language/ast";
 import { CodeBlockWriter } from "ts-morph";
 import { name } from ".";
 import {
   ExpressionContext,
-  getFunctionExpressionContext,
-  getLiteral,
   PluginError,
+  getFunctionExpressionContext,
+  getLiteral
 } from "../../sdk";
 import { getIdFields, isAuthInvocation } from "../../utils/ast-utils";
 import {
   TypeScriptExpressionTransformer,
-  TypeScriptExpressionTransformerError,
+  TypeScriptExpressionTransformerError
 } from "../../utils/typescript-expression-transformer";
 import { isFutureExpr } from "./utils";
 
@@ -68,7 +73,7 @@ export class ExpressionWriter {
   ) {
     this.plainExprBuilder = new TypeScriptExpressionTransformer({
       context: ExpressionContext.AccessPolicy,
-      isPostGuard: this.isPostGuard,
+      isPostGuard: this.isPostGuard
     });
   }
 
@@ -237,6 +242,7 @@ export class ExpressionWriter {
     if (
       isReferenceExpr(expr) &&
       isDataModelField(expr.target.ref) &&
+      isOperation(expr.target.ref) &&
       !this.isPostGuard
     ) {
       return true;
@@ -303,7 +309,7 @@ export class ExpressionWriter {
         $type: ReferenceExpr,
         $container: fieldAccess.$container,
         target: fieldAccess.member,
-        $resolvedType: fieldAccess.$resolvedType,
+        $resolvedType: fieldAccess.$resolvedType
       } as ReferenceExpr;
     }
 
@@ -409,7 +415,12 @@ export class ExpressionWriter {
     fieldAccess: Expression,
     writeOperand: () => void
   ) {
-    if (isDataModel(fieldAccess.$resolvedType?.decl)) {
+    if (
+      isDataModel(fieldAccess.$resolvedType?.decl) ||
+      isInput(fieldAccess.$resolvedType?.decl) ||
+      isApiModel(fieldAccess.$resolvedType?.decl) ||
+      isInterface(fieldAccess.$resolvedType?.decl)
+    ) {
       if (operator === "==") {
         this.writer.write("is: ");
       } else if (operator === "!=") {
@@ -418,6 +429,18 @@ export class ExpressionWriter {
         throw new PluginError(
           name,
           "Only == and != operators are allowed for data model comparison"
+        );
+      }
+      writeOperand();
+    } else if (isOperationGroup(fieldAccess.$resolvedType?.decl)) {
+      if (operator === "==") {
+        this.writer.write("is: ");
+      } else if (operator === "!=") {
+        this.writer.write("isNot: ");
+      } else {
+        throw new PluginError(
+          name,
+          "Only == and != operators are allowed for data query comparison"
         );
       }
       writeOperand();
@@ -639,7 +662,7 @@ export class ExpressionWriter {
       if (funcDecl.name === "contains") {
         if (getLiteral<boolean>(expr.args[2]?.value) === true) {
           extraArgs = {
-            mode: { $type: LiteralExpr, value: "insensitive" } as LiteralExpr,
+            mode: { $type: LiteralExpr, value: "insensitive" } as LiteralExpr
           };
         }
       }

@@ -10,7 +10,7 @@ ModelImport:
     'import' path=STRING  ';'?;
 
 AbstractDeclaration:
-    DataSource | GeneratorDecl| Plugin | DataModel | Enum | FunctionDecl | Attribute;
+    DataSource | GeneratorDecl| Plugin | DataModel | Input | Interface | ApiModel | OperationGroup | Enum | FunctionDecl | Attribute;
 
 // datasource
 DataSource:
@@ -43,7 +43,7 @@ LiteralExpr:
 ArrayExpr:
     '[' (items+=Expression (',' items+=Expression)*)? ']';
 
-type ReferenceTarget = FunctionParam | DataModelField | EnumField;
+type ReferenceTarget = FunctionParam | DataModelField | EnumField | Operation;
 
 ThisExpr:
     value=THIS;
@@ -152,12 +152,14 @@ fragment ArgumentList:
 Argument:
     (name=RegularID ':')? value=Expression;
 
-// model
+// model data
 DataModel:
     (comments+=TRIPLE_SLASH_COMMENT)*
     (
-        ((isAbstract?='abstract')? 'model' name=RegularID
-            ('extends' superTypes+=[DataModel] (',' superTypes+=[DataModel])*)?) |
+        (((isAbstract?='abstract')? 'model' name=RegularID |
+            (isExtend?='extend')? 'model' name=RegularID)
+            (('extends' superTypes+=[DataModel] (',' superTypes+=[DataModel])*)? |
+                ('implements' implements+=[DataModel] (',' implements+=[DataModel])*)?)) |
         ((isView?='view') name=RegularID)
     )
     '{' (
@@ -172,6 +174,69 @@ DataModelField:
 
 DataModelFieldType:
     (type=BuiltinType | unsupported=UnsupportedFieldType | reference=[TypeDeclaration:RegularID]) (array?='[' ']')? (optional?='?')?;
+
+// operation group
+OperationGroup:
+    (comments+=TRIPLE_SLASH_COMMENT)*
+    (
+        ((isExtend?='extend')? 'type' name=OperationGroupName
+            ('extends' superTypes+=[Operation] (',' superTypes+=[Operation])*)?)
+    )
+    '{' (
+        fields+=Operation
+            | attributes+=DataModelAttribute
+        )+
+    '}';
+
+OperationGroupName returns string:
+    'Query' | 'Mutation' | 'Subscription';
+
+Operation:
+    (comments+=TRIPLE_SLASH_COMMENT)*
+    name=RegularID '(' (params+=OperationInputParam (',' params+=OperationInputParam)*)? ')' ':' (resultType=DataModelFieldType) (attributes+=DataModelFieldAttribute)*;
+
+OperationInputParam:
+    TRIPLE_SLASH_COMMENT* (default?='_')? name=RegularID ':' type=DataModelFieldType ('=' defaultValue=(LiteralExpr | ArrayExpr | ObjectExpr))?;
+
+// input data
+Input:
+    (comments+=TRIPLE_SLASH_COMMENT)*
+    (
+        ('input' name=RegularID
+            ('extends' superTypes+=[Input] (',' superTypes+=[Input])*)?)
+    )
+    '{' (
+        fields+=DataModelField
+            | attributes+=DataModelAttribute
+        )+
+    '}';
+
+// API model data
+ApiModel:
+    (comments+=TRIPLE_SLASH_COMMENT)*
+    (
+        ((isExtend?='extend')? 'type' name=RegularID
+            (('extends' superTypes+=[ApiModel] (',' superTypes+=[ApiModel])*)? |
+                ('implements' implements+=[ApiModel] (',' implements+=[ApiModel])*)?))
+    )
+    '{' (
+        fields+=DataModelField
+            | attributes+=DataModelAttribute
+        )+
+    '}';
+
+// interface model data
+Interface:
+    (comments+=TRIPLE_SLASH_COMMENT)*
+    (
+        ((isExtend?='extend')? 'interface' name=RegularID
+            ('extends' superTypes+=[Interface] (',' superTypes+=[Interface])*)?)
+    )
+    '{' (
+        fields+=DataModelField
+            | attributes+=DataModelAttribute
+        )+
+    '}';
 
 UnsupportedFieldType:
     'Unsupported' '(' (value=LiteralExpr) ')';
@@ -206,7 +271,7 @@ QualifiedName returns string:
 // https://github.com/langium/langium/discussions/1012
 RegularID returns string:
     // include keywords that we'd like to work as ID in most places
-    ID | 'model' | 'enum' | 'attribute' | 'datasource' | 'plugin' | 'abstract' | 'in' | 'sort';
+    ID | 'model' | 'type' | 'input' | 'interface' | 'enum' | 'attribute' | 'datasource' | 'plugin' | 'abstract' | 'in' | 'sort';
 
 // internal attribute
 InternalAttributeName returns string:
@@ -235,7 +300,7 @@ AttributeParam:
 AttributeParamType:
     (type=(ExpressionType | 'FieldReference' | 'TransitiveFieldReference' | 'ContextType') | reference=[TypeDeclaration:RegularID]) (array?='[' ']')? (optional?='?')?;
 
-type TypeDeclaration = DataModel | Enum;
+type TypeDeclaration = DataModel | Enum | OperationGroup | Input | Interface | ApiModel;
 
 DataModelFieldAttribute:
     decl=[Attribute:DataModelFieldAttributeName] ('(' AttributeArgList? ')')?;

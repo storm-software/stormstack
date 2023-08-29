@@ -79,6 +79,10 @@ export function makeFieldSchema(field: DataModelField) {
         schema += `.regex(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/)`;
         break;
       }
+      case "@semver": {
+        schema += `.regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/)`;
+        break;
+      }
       case "@latitude": {
         schema += `.regex(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)/)`;
         break;

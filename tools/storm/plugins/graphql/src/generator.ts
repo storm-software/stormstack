@@ -1,7 +1,15 @@
 import {
+  constantCase,
+  upperCaseFirst
+} from "@open-system/core-shared-utilities/common/string-fns";
+import {
+  ApiModel,
   DataModel,
   Enum,
+  Input,
+  Interface,
   Model,
+  OperationGroup,
   isDataModel
 } from "@open-system/tools-storm-language/ast";
 import { getDefaultOutputFolder } from "@open-system/tools-storm-schema/plugins/plugin-utils";
@@ -10,8 +18,12 @@ import {
   PluginOptions,
   createProject,
   emitProject,
+  getApiModels,
   getDataModels,
   getFileHeader,
+  getInputs,
+  getInterfaces,
+  getOperationGroups,
   resolvePath,
   saveProject
 } from "@open-system/tools-storm-schema/sdk";
@@ -67,6 +79,8 @@ export async function generate(
     dataSource?.fields.find(f => f.name === "provider")?.value
   ) as ConnectorType;*/
 
+  // StormGeneratedSharedModule.AstReflection.
+
   const generator = new SchemaGenerator();
   const sf = project.createSourceFile(
     join(output, "schema.graphql"),
@@ -81,6 +95,7 @@ export async function generate(
     writer.writeLine(getFileHeader("GraphQL Schema", ""));
     writer.writeLine(`"""`);
 
+    generateInterfaceSchemas(project, model, output, writer, generator);
     generateEnumSchemas(
       prismaClientDmmf.schema.enumTypes.model ?? [],
       project,
@@ -88,18 +103,14 @@ export async function generate(
       writer,
       generator
     );
+    generateOperationSchemas(project, model, output, writer, generator);
+    generateInputSchemas(project, model, output, writer, generator);
+
     generateModelSchemas(project, model, output, writer, generator);
+    generateApiModelSchemas(project, model, output, writer, generator);
+
+    writer.write(generator.getScalarsSchema());
   });
-
-  // create barrel file
-  const exports = [
-    `export * as schemas from './schemas'`,
-    `export * as enums from './enums'`
-  ];
-
-  /*project.createSourceFile(join(output, "index.ts"), exports.join(";\n"), {
-    overwrite: true
-  });*/
 
   // emit
   const shouldCompile = options.compile !== false;
@@ -156,7 +167,7 @@ function generateEnumSchemas(
         writer.writeLine(`"""`);
       }
 
-      writer.writeLine(`  ${enumField.name}`);
+      writer.writeLine(`  ${constantCase(enumField.name)}`);
     });
     writer.writeLine("}");
     writer.writeLine("");
@@ -170,12 +181,9 @@ function generateModelSchemas(
   writer: CodeBlockWriter,
   generator: SchemaGenerator
 ) {
-  const schemaNames: string[] = [];
   for (const dm of getDataModels(storm)) {
     generateModelSchema(dm, writer, generator);
   }
-
-  writer.write(generator.getScalarsSchema());
 }
 
 function generateModelSchema(
@@ -183,37 +191,12 @@ function generateModelSchema(
   writer: CodeBlockWriter,
   generator: SchemaGenerator
 ) {
-  const isExtending = model.attributes.some(
-    attr => attr.decl.ref?.name === "@@extend"
-  );
-
   const fields = model.fields.filter(
     field =>
       !AUXILIARY_FIELDS.includes(field.name) &&
       (!isDataModel(field.type.reference?.ref) ||
         field.attributes.every(attr => attr.decl.ref?.name !== "@relation"))
   );
-
-  // import enum schemas
-  /*for (const field of fields) {
-    if (field.type.reference?.ref && isEnum(field.type.reference?.ref)) {
-      writer.writeLine(
-        `import { ${upperCaseFirst(
-          field.type.reference?.ref.name
-        )} } from "../enums/${kebabCase(field.type.reference?.ref.name)}";`
-      );
-    }
-  }
-
-  model.fields
-    .filter(modelField => isDataModel(modelField.type.reference?.ref))
-    .forEach(modelField => {
-      writer.writeLine(
-        `import { ${lowerCaseFirst(
-          modelField.type.reference.ref.name
-        )} } from "./${kebabCase(modelField.type.reference.ref.name)}.schema";`
-      );
-    });*/
 
   // create base schema
   writer.writeLine("");
@@ -224,7 +207,124 @@ function generateModelSchema(
     );
     writer.writeLine(`"""`);
   }
-  writer.writeLine(`${isExtending ? "extend " : ""}type ${model.name} {`);
+  writer.writeLine(
+    `${model.isExtend ? "extend " : ""}type ${model.name}${
+      model.implements && model.implements.length > 0
+        ? ` implements ${model.implements
+            .map(impl => impl.ref.name)
+            .join(", ")}`
+        : " implements Node"
+    } {`
+  );
+  fields.forEach(field => {
+    if (field.comments && field.comments.length > 0) {
+      writer.writeLine(
+        `  """
+  ${field.comments.map(comment => comment.replace("/// ", "")).join("\n")}
+  """`
+      );
+    }
+    writer.writeLine(`  ${field.name}${generator.getFieldSchema(field)}`);
+  });
+  writer.writeLine("}");
+  writer.writeLine("");
+  writer.writeLine(generator.getRelationsSchema(model));
+  writer.writeLine("");
+}
+
+function generateInputSchemas(
+  project: Project,
+  storm: Model,
+  output: string,
+  writer: CodeBlockWriter,
+  generator: SchemaGenerator
+) {
+  for (const dm of getInputs(storm)) {
+    generateInputSchema(dm, writer, generator);
+  }
+}
+
+function generateInputSchema(
+  model: Input,
+  writer: CodeBlockWriter,
+  generator: SchemaGenerator
+) {
+  const fields = model.fields.filter(
+    field =>
+      !AUXILIARY_FIELDS.includes(field.name) &&
+      (!isDataModel(field.type.reference?.ref) ||
+        field.attributes.every(attr => attr.decl.ref?.name !== "@relation"))
+  );
+
+  // create base schema
+  writer.writeLine("");
+  if (model.comments && model.comments.length > 0) {
+    writer.writeLine(`"""`);
+    writer.writeLine(
+      model.comments.map(comment => comment.replace("/// ", "")).join("\n")
+    );
+    writer.writeLine(`"""`);
+  }
+  writer.writeLine(`input ${model.name} {`);
+  fields.forEach(field => {
+    if (field.comments && field.comments.length > 0) {
+      writer.writeLine(
+        `  """
+  ${field.comments.map(comment => comment.replace("/// ", "")).join("\n")}
+  """`
+      );
+    }
+    writer.writeLine(`  ${field.name}${generator.getFieldSchema(field)}`);
+  });
+  writer.writeLine("}");
+  writer.writeLine("");
+}
+
+function generateOperationSchemas(
+  project: Project,
+  storm: Model,
+  output: string,
+  writer: CodeBlockWriter,
+  generator: SchemaGenerator
+) {
+  const operationGroups = getOperationGroups(storm);
+  generator.hasOperation = operationGroups?.some(
+    dm => dm.fields && dm.fields.length > 0
+  );
+
+  for (const dm of operationGroups) {
+    generateOperationSchema(dm, writer, generator);
+  }
+
+  const mutation = operationGroups.find(dm => dm.name === "Mutation");
+  if (mutation) {
+    writer.writeLine(generator.getMutationResultSchema(mutation));
+  }
+}
+
+function generateOperationSchema(
+  model: OperationGroup,
+  writer: CodeBlockWriter,
+  generator: SchemaGenerator
+) {
+  const fields = model.fields.filter(
+    field =>
+      !AUXILIARY_FIELDS.includes(field.name) &&
+      !field.attributes.some(attr => attr.decl.ref?.name === "@omit")
+  );
+
+  const isMutation = model.name === "Mutation";
+
+  // create base schema
+  writer.writeLine("");
+  if (model.comments && model.comments.length > 0) {
+    writer.writeLine(`"""`);
+    writer.writeLine(
+      model.comments.map(comment => comment.replace("/// ", "")).join("\n")
+    );
+    writer.writeLine(`"""`);
+  }
+  writer.writeLine(`${model.isExtend ? "extend " : ""}type ${model.name} {`);
   fields.forEach(field => {
     if (field.comments && field.comments.length > 0) {
       writer.writeLine(
@@ -234,11 +334,123 @@ function generateModelSchema(
       );
     }
     writer.writeLine(
-      `  ${field.name}${generator.getFieldSchema(model, field)}`
+      `  ${field.name}${field.params.length > 0 ? "(" : ""}${field.params
+        .map(param => generator.getOperationInputParam(param))
+        .join(", ")}${field.params.length > 0 ? ")" : ""}: ${
+        isMutation
+          ? `${upperCaseFirst(field.name)}Result!`
+          : generator.getColumnTypeSchema(field.resultType)
+      }`
     );
   });
   writer.writeLine("}");
   writer.writeLine("");
-  writer.writeLine(generator.getRelationsSchema(model));
+}
+
+function generateApiModelSchemas(
+  project: Project,
+  storm: Model,
+  output: string,
+  writer: CodeBlockWriter,
+  generator: SchemaGenerator
+) {
+  for (const dm of getApiModels(storm)) {
+    generateApiModelSchema(dm, writer, generator);
+  }
+}
+
+function generateApiModelSchema(
+  model: ApiModel,
+  writer: CodeBlockWriter,
+  generator: SchemaGenerator
+) {
+  const fields = model.fields.filter(
+    field =>
+      !AUXILIARY_FIELDS.includes(field.name) &&
+      (!isDataModel(field.type.reference?.ref) ||
+        field.attributes.every(attr => attr.decl.ref?.name !== "@relation"))
+  );
+
+  // create base schema
+  writer.writeLine("");
+  if (model.comments && model.comments.length > 0) {
+    writer.writeLine(`"""`);
+    writer.writeLine(
+      model.comments.map(comment => comment.replace("/// ", "")).join("\n")
+    );
+    writer.writeLine(`"""`);
+  }
+  writer.writeLine(
+    `${model.isExtend ? "extend " : ""}type ${model.name}${
+      model.implements && model.implements.length > 0
+        ? ` implements ${model.implements
+            .map(impl => impl.ref.name)
+            .join(", ")}`
+        : ""
+    } {`
+  );
+  fields.forEach(field => {
+    if (field.comments && field.comments.length > 0) {
+      writer.writeLine(
+        `  """
+  ${field.comments.map(comment => comment.replace("/// ", "")).join("\n")}
+  """`
+      );
+    }
+    writer.writeLine(`  ${field.name}${generator.getFieldSchema(field)}`);
+  });
+  writer.writeLine("}");
+  writer.writeLine("");
+  writer.writeLine("");
+}
+
+function generateInterfaceSchemas(
+  project: Project,
+  storm: Model,
+  output: string,
+  writer: CodeBlockWriter,
+  generator: SchemaGenerator
+) {
+  for (const dm of getInterfaces(storm)) {
+    generateInterfaceSchema(dm, writer, generator);
+  }
+}
+
+function generateInterfaceSchema(
+  model: Interface,
+  writer: CodeBlockWriter,
+  generator: SchemaGenerator
+) {
+  const fields = model.fields.filter(
+    field =>
+      !AUXILIARY_FIELDS.includes(field.name) &&
+      (!isDataModel(field.type.reference?.ref) ||
+        field.attributes.every(attr => attr.decl.ref?.name !== "@relation"))
+  );
+
+  // create base schema
+  writer.writeLine("");
+  if (model.comments && model.comments.length > 0) {
+    writer.writeLine(`"""`);
+    writer.writeLine(
+      model.comments.map(comment => comment.replace("/// ", "")).join("\n")
+    );
+    writer.writeLine(`"""`);
+  }
+  writer.writeLine(
+    `${model.isExtend ? "extend " : ""}interface ${model.name} {`
+  );
+  fields.forEach(field => {
+    if (field.comments && field.comments.length > 0) {
+      writer.writeLine(
+        `  """
+  ${field.comments.map(comment => comment.replace("/// ", "")).join("\n")}
+  """`
+      );
+    }
+    writer.writeLine(`  ${field.name}${generator.getFieldSchema(field)}`);
+  });
+  writer.writeLine("}");
+  writer.writeLine("");
   writer.writeLine("");
 }

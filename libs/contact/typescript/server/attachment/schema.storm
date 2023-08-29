@@ -49,7 +49,7 @@ enum ContactReason {
     Other
     Project
     Interest
-    Subscription
+    Subscribe
 }
 
 enum AttachmentStatus {
@@ -60,7 +60,7 @@ enum AttachmentStatus {
 }
 
 /// The data fields related to a specific Contact request instance
-model Contact {
+extend model Contact {
     /// The unique identifier for the Contact
     id String @id @default(uuid())
 
@@ -124,10 +124,8 @@ model Contact {
     /// A list of file attachments included by the Contact
     attachments ContactAttachment[]
 
-  /// everyone can send contact data
-  @@allow('create,update,delete,read', true)
-
-  @@extend
+    /// everyone can send contact data
+    @@allow('create,update,delete,read', true)
 }
 
 /// A file attachment included by a Contact
@@ -166,4 +164,24 @@ model ContactAttachment {
     @@allow('create,update,delete,read', true)
 
     @@unique([name, path])
+}
+
+extend type Query {
+    contacts(first: Int = 100, after: String?): Contact[]
+}
+
+input AddAttachmentInput {
+    id String @id
+    name String
+    path String
+    status AttachmentStatus
+    contactId String
+}
+
+extend type Mutation {
+    addAttachment(input: AddAttachmentInput): AddAttachmentResponse
+}
+
+type AddAttachmentResponse {
+    id String
 }

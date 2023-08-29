@@ -8,7 +8,7 @@
     },
     {
       "name": "keyword.control.storm",
-      "match": "\\b(Any|Asc|BigInt|Boolean|Bytes|ContextType|DateTime|Decimal|Desc|FieldReference|Float|Int|Json|Null|Object|String|TransitiveFieldReference|Unsupported|abstract|attribute|datasource|enum|extends|false|function|generator|import|in|model|plugin|sort|true|view)\\b"
+      "match": "\\b(Any|Asc|BigInt|Boolean|Bytes|ContextType|DateTime|Decimal|Desc|FieldReference|Float|Int|Json|Null|Object|String|TransitiveFieldReference|Unsupported|abstract|attribute|datasource|enum|extend|extends|false|function|generator|import|in|input|interface|model|plugin|sort|true|type|view)\\b"
     },
     {
       "name": "string.quoted.double.storm",

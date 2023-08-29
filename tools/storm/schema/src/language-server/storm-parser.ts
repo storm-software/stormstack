@@ -2,7 +2,7 @@ import { LangiumParser, LangiumServices } from "langium";
 /*import { ParserRule } from "langium/lib/grammar/generated/ast";
 import {
   getTypeName,
-  isDataTypeRule,
+  isOperationGroupRule,
   withRuleSuffix,
 } from "langium/src/grammar/internal-grammar-util";*/
 import { createParser } from "langium/lib/parser/parser-builder-base";
@@ -33,7 +33,7 @@ import { createParser } from "langium/lib/parser/parser-builder-base";
   public override rule(rule: ParserRule, impl: RuleImpl): RuleResult {
     const type = rule.fragment
       ? undefined
-      : isDataTypeRule(rule)
+      : isOperationGroupRule(rule)
       ? DatatypeSymbol
       : getTypeName(rule);
     const ruleMethod = this.wrapper.DEFINE_RULE(

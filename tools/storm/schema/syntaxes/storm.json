@@ -8,7 +8,7 @@
     },
     {
       "name": "keyword.control.storm",
-      "match": "\\b(Boolean|datasource|enum|model|String)\\b"
+      "match": "\\b(Boolean|datasource|enum|model|type|input|String)\\b"
     },
     {
       "name": "string.quoted.double.storm",

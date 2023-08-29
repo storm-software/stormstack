@@ -1,22 +1,27 @@
 import {
+  ApiModel,
   Attribute,
   DataModel,
   DataSource,
   Enum,
   Expression,
   FunctionDecl,
+  Input,
+  Interface,
   InvocationExpr,
   Model,
-  StormAstType,
+  OperationGroup,
+  StormAstType
 } from "@open-system/tools-storm-language/ast";
 import {
   AstNode,
   LangiumDocument,
   ValidationAcceptor,
   ValidationChecks,
-  ValidationRegistry,
+  ValidationRegistry
 } from "langium";
 import type { StormServices } from "../storm-module";
+import ApiModelValidator from "./api-model-validator";
 import AttributeValidator from "./attribute-validator";
 import DataModelValidator from "./datamodel-validator";
 import DataSourceValidator from "./datasource-validator";
@@ -24,6 +29,9 @@ import EnumValidator from "./enum-validator";
 import ExpressionValidator from "./expression-validator";
 import FunctionDeclValidator from "./function-decl-validator";
 import FunctionInvocationValidator from "./function-invocation-validator";
+import InputValidator from "./input-validator";
+import InterfaceValidator from "./interface-validator";
+import OperationGroupValidator from "./operation-group-validator";
 import SchemaValidator from "./schema-validator";
 
 /**
@@ -37,11 +45,15 @@ export class StormValidationRegistry extends ValidationRegistry {
       Model: validator.checkModel,
       DataSource: validator.checkDataSource,
       DataModel: validator.checkDataModel,
+      ApiModel: validator.checkApiModel,
+      Input: validator.checkInput,
+      Interface: validator.checkInterface,
+      OperationGroup: validator.checkOperationGroup,
       Enum: validator.checkEnum,
       Attribute: validator.checkAttribute,
       Expression: validator.checkExpression,
       InvocationExpr: validator.checkFunctionInvocation,
-      FunctionDecl: validator.checkFunctionDecl,
+      FunctionDecl: validator.checkFunctionDecl
     };
     this.register(checks, validator);
   }
@@ -82,6 +94,23 @@ export class StormValidator {
 
   checkDataModel(node: DataModel, accept: ValidationAcceptor): void {
     this.shouldCheck(node) && new DataModelValidator().validate(node, accept);
+  }
+
+  checkApiModel(node: ApiModel, accept: ValidationAcceptor): void {
+    this.shouldCheck(node) && new ApiModelValidator().validate(node, accept);
+  }
+
+  checkInterface(node: Interface, accept: ValidationAcceptor): void {
+    this.shouldCheck(node) && new InterfaceValidator().validate(node, accept);
+  }
+
+  checkOperationGroup(node: OperationGroup, accept: ValidationAcceptor): void {
+    this.shouldCheck(node) &&
+      new OperationGroupValidator().validate(node, accept);
+  }
+
+  checkInput(node: Input, accept: ValidationAcceptor): void {
+    this.shouldCheck(node) && new InputValidator().validate(node, accept);
   }
 
   checkEnum(node: Enum, accept: ValidationAcceptor): void {

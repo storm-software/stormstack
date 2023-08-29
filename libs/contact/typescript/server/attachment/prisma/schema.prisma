@@ -29,7 +29,6 @@ generator js {
 }
 
 /// @@allow('create,update,delete,read', true)
-/// @@extend
 /// The data fields related to a specific Contact request instance
 model Contact {
     /// The unique identifier for the Contact

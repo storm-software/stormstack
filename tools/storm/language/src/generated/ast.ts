@@ -8,12 +8,16 @@ import type { AstNode, Reference, ReferenceInfo, TypeMetaData } from "langium";
 import { AbstractAstReflection } from "langium";
 
 export type AbstractDeclaration =
+  | ApiModel
   | Attribute
   | DataModel
   | DataSource
   | Enum
   | FunctionDecl
   | GeneratorDecl
+  | Input
+  | Interface
+  | OperationGroup
   | Plugin;
 
 export const AbstractDeclaration = "AbstractDeclaration";
@@ -135,13 +139,25 @@ export function isInternalAttributeName(
   return typeof item === "string";
 }
 
+export type OperationGroupName = "Mutation" | "Query" | "Subscription";
+
+export function isOperationGroupName(
+  item: unknown
+): item is OperationGroupName {
+  return item === "Query" || item === "Mutation" || item === "Subscription";
+}
+
 export type QualifiedName = string;
 
 export function isQualifiedName(item: unknown): item is QualifiedName {
   return typeof item === "string";
 }
 
-export type ReferenceTarget = DataModelField | EnumField | FunctionParam;
+export type ReferenceTarget =
+  | DataModelField
+  | EnumField
+  | FunctionParam
+  | Operation;
 
 export const ReferenceTarget = "ReferenceTarget";
 
@@ -155,14 +171,20 @@ export type RegularID =
   | "datasource"
   | "enum"
   | "in"
+  | "input"
+  | "interface"
   | "model"
   | "plugin"
   | "sort"
+  | "type"
   | string;
 
 export function isRegularID(item: unknown): item is RegularID {
   return (
     item === "model" ||
+    item === "type" ||
+    item === "input" ||
+    item === "interface" ||
     item === "enum" ||
     item === "attribute" ||
     item === "datasource" ||
@@ -174,12 +196,36 @@ export function isRegularID(item: unknown): item is RegularID {
   );
 }
 
-export type TypeDeclaration = DataModel | Enum;
+export type TypeDeclaration =
+  | ApiModel
+  | DataModel
+  | Enum
+  | Input
+  | Interface
+  | OperationGroup;
 
 export const TypeDeclaration = "TypeDeclaration";
 
 export function isTypeDeclaration(item: unknown): item is TypeDeclaration {
   return reflection.isInstance(item, TypeDeclaration);
+}
+
+export interface ApiModel extends AstNode {
+  readonly $container: Model;
+  readonly $type: "ApiModel";
+  attributes: Array<DataModelAttribute>;
+  comments: Array<string>;
+  fields: Array<DataModelField>;
+  implements: Array<Reference<ApiModel>>;
+  isExtend: boolean;
+  name: RegularID;
+  superTypes: Array<Reference<ApiModel>>;
+}
+
+export const ApiModel = "ApiModel";
+
+export function isApiModel(item: unknown): item is ApiModel {
+  return reflection.isInstance(item, ApiModel);
 }
 
 export interface Argument extends AstNode {
@@ -206,6 +252,7 @@ export interface ArrayExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -295,6 +342,7 @@ export interface BinaryExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -328,7 +376,9 @@ export interface DataModel extends AstNode {
   attributes: Array<DataModelAttribute>;
   comments: Array<string>;
   fields: Array<DataModelField>;
+  implements: Array<Reference<DataModel>>;
   isAbstract: boolean;
+  isExtend: boolean;
   isView: boolean;
   name: RegularID;
   superTypes: Array<Reference<DataModel>>;
@@ -341,7 +391,13 @@ export function isDataModel(item: unknown): item is DataModel {
 }
 
 export interface DataModelAttribute extends AstNode {
-  readonly $container: DataModel | Enum;
+  readonly $container:
+    | ApiModel
+    | DataModel
+    | Enum
+    | Input
+    | Interface
+    | OperationGroup;
   readonly $type: "DataModelAttribute";
   args: Array<AttributeArg>;
   decl: Reference<Attribute>;
@@ -356,7 +412,14 @@ export function isDataModelAttribute(
 }
 
 export interface DataModelField extends AstNode {
-  readonly $container: DataModel | Enum | FunctionDecl;
+  readonly $container:
+    | ApiModel
+    | DataModel
+    | Enum
+    | FunctionDecl
+    | Input
+    | Interface
+    | OperationGroup;
   readonly $type: "DataModelField";
   attributes: Array<DataModelFieldAttribute>;
   comments: Array<string>;
@@ -371,7 +434,7 @@ export function isDataModelField(item: unknown): item is DataModelField {
 }
 
 export interface DataModelFieldAttribute extends AstNode {
-  readonly $container: DataModelField | EnumField;
+  readonly $container: DataModelField | EnumField | Operation;
   readonly $type: "DataModelFieldAttribute";
   args: Array<AttributeArg>;
   decl: Reference<Attribute>;
@@ -386,7 +449,7 @@ export function isDataModelFieldAttribute(
 }
 
 export interface DataModelFieldType extends AstNode {
-  readonly $container: DataModelField;
+  readonly $container: DataModelField | Operation | OperationInputParam;
   readonly $type: "DataModelFieldType";
   array: boolean;
   optional: boolean;
@@ -445,7 +508,14 @@ export function isEnum(item: unknown): item is Enum {
 }
 
 export interface EnumField extends AstNode {
-  readonly $container: DataModel | Enum | FunctionDecl;
+  readonly $container:
+    | ApiModel
+    | DataModel
+    | Enum
+    | FunctionDecl
+    | Input
+    | Interface
+    | OperationGroup;
   readonly $type: "EnumField";
   attributes: Array<DataModelFieldAttribute>;
   comments: Array<string>;
@@ -488,7 +558,14 @@ export function isFunctionDecl(item: unknown): item is FunctionDecl {
 }
 
 export interface FunctionParam extends AstNode {
-  readonly $container: DataModel | Enum | FunctionDecl;
+  readonly $container:
+    | ApiModel
+    | DataModel
+    | Enum
+    | FunctionDecl
+    | Input
+    | Interface
+    | OperationGroup;
   readonly $type: "FunctionParam";
   name: RegularID;
   optional: boolean;
@@ -541,6 +618,39 @@ export function isGeneratorField(item: unknown): item is GeneratorField {
   return reflection.isInstance(item, GeneratorField);
 }
 
+export interface Input extends AstNode {
+  readonly $container: Model;
+  readonly $type: "Input";
+  attributes: Array<DataModelAttribute>;
+  comments: Array<string>;
+  fields: Array<DataModelField>;
+  name: RegularID;
+  superTypes: Array<Reference<Input>>;
+}
+
+export const Input = "Input";
+
+export function isInput(item: unknown): item is Input {
+  return reflection.isInstance(item, Input);
+}
+
+export interface Interface extends AstNode {
+  readonly $container: Model;
+  readonly $type: "Interface";
+  attributes: Array<DataModelAttribute>;
+  comments: Array<string>;
+  fields: Array<DataModelField>;
+  isExtend: boolean;
+  name: RegularID;
+  superTypes: Array<Reference<Interface>>;
+}
+
+export const Interface = "Interface";
+
+export function isInterface(item: unknown): item is Interface {
+  return reflection.isInstance(item, Interface);
+}
+
 export interface InternalAttribute extends AstNode {
   readonly $container: Attribute | FunctionDecl;
   readonly $type: "InternalAttribute";
@@ -565,6 +675,7 @@ export interface InvocationExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -590,6 +701,7 @@ export interface LiteralExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -614,6 +726,7 @@ export interface MemberAccessExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -663,6 +776,7 @@ export interface NullExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -687,6 +801,7 @@ export interface ObjectExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -698,6 +813,63 @@ export const ObjectExpr = "ObjectExpr";
 
 export function isObjectExpr(item: unknown): item is ObjectExpr {
   return reflection.isInstance(item, ObjectExpr);
+}
+
+export interface Operation extends AstNode {
+  readonly $container:
+    | ApiModel
+    | DataModel
+    | Enum
+    | FunctionDecl
+    | Input
+    | Interface
+    | OperationGroup;
+  readonly $type: "Operation";
+  attributes: Array<DataModelFieldAttribute>;
+  comments: Array<string>;
+  name: RegularID;
+  params: Array<OperationInputParam>;
+  resultType: DataModelFieldType;
+}
+
+export const Operation = "Operation";
+
+export function isOperation(item: unknown): item is Operation {
+  return reflection.isInstance(item, Operation);
+}
+
+export interface OperationGroup extends AstNode {
+  readonly $container: Model;
+  readonly $type: "OperationGroup";
+  attributes: Array<DataModelAttribute>;
+  comments: Array<string>;
+  fields: Array<Operation>;
+  isExtend: boolean;
+  name: OperationGroupName;
+  superTypes: Array<Reference<Operation>>;
+}
+
+export const OperationGroup = "OperationGroup";
+
+export function isOperationGroup(item: unknown): item is OperationGroup {
+  return reflection.isInstance(item, OperationGroup);
+}
+
+export interface OperationInputParam extends AstNode {
+  readonly $container: Operation;
+  readonly $type: "OperationInputParam";
+  default: boolean;
+  defaultValue?: ArrayExpr | LiteralExpr | ObjectExpr;
+  name: RegularID;
+  type: DataModelFieldType;
+}
+
+export const OperationInputParam = "OperationInputParam";
+
+export function isOperationInputParam(
+  item: unknown
+): item is OperationInputParam {
+  return reflection.isInstance(item, OperationInputParam);
 }
 
 export interface Plugin extends AstNode {
@@ -750,6 +922,7 @@ export interface ReferenceExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -775,6 +948,7 @@ export interface ThisExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -799,6 +973,7 @@ export interface UnaryExpr extends AstNode {
     | FunctionDecl
     | GeneratorField
     | MemberAccessExpr
+    | OperationInputParam
     | PluginField
     | UnaryExpr
     | UnsupportedFieldType;
@@ -829,6 +1004,7 @@ export function isUnsupportedFieldType(
 
 export type StormAstType = {
   AbstractDeclaration: AbstractDeclaration;
+  ApiModel: ApiModel;
   Argument: Argument;
   ArrayExpr: ArrayExpr;
   Attribute: Attribute;
@@ -852,6 +1028,8 @@ export type StormAstType = {
   FunctionParamType: FunctionParamType;
   GeneratorDecl: GeneratorDecl;
   GeneratorField: GeneratorField;
+  Input: Input;
+  Interface: Interface;
   InternalAttribute: InternalAttribute;
   InvocationExpr: InvocationExpr;
   LiteralExpr: LiteralExpr;
@@ -860,6 +1038,9 @@ export type StormAstType = {
   ModelImport: ModelImport;
   NullExpr: NullExpr;
   ObjectExpr: ObjectExpr;
+  Operation: Operation;
+  OperationGroup: OperationGroup;
+  OperationInputParam: OperationInputParam;
   Plugin: Plugin;
   PluginField: PluginField;
   ReferenceArg: ReferenceArg;
@@ -875,6 +1056,7 @@ export class StormAstReflection extends AbstractAstReflection {
   getAllTypes(): string[] {
     return [
       "AbstractDeclaration",
+      "ApiModel",
       "Argument",
       "ArrayExpr",
       "Attribute",
@@ -898,6 +1080,8 @@ export class StormAstReflection extends AbstractAstReflection {
       "FunctionParamType",
       "GeneratorDecl",
       "GeneratorField",
+      "Input",
+      "Interface",
       "InternalAttribute",
       "InvocationExpr",
       "LiteralExpr",
@@ -906,6 +1090,9 @@ export class StormAstReflection extends AbstractAstReflection {
       "ModelImport",
       "NullExpr",
       "ObjectExpr",
+      "Operation",
+      "OperationGroup",
+      "OperationInputParam",
       "Plugin",
       "PluginField",
       "ReferenceArg",
@@ -914,7 +1101,7 @@ export class StormAstReflection extends AbstractAstReflection {
       "ThisExpr",
       "TypeDeclaration",
       "UnaryExpr",
-      "UnsupportedFieldType",
+      "UnsupportedFieldType"
     ];
   }
 
@@ -923,6 +1110,17 @@ export class StormAstReflection extends AbstractAstReflection {
     supertype: string
   ): boolean {
     switch (subtype) {
+      case ApiModel:
+      case DataModel:
+      case Enum:
+      case Input:
+      case Interface:
+      case OperationGroup: {
+        return (
+          this.isSubtype(AbstractDeclaration, supertype) ||
+          this.isSubtype(TypeDeclaration, supertype)
+        );
+      }
       case ArrayExpr:
       case BinaryExpr:
       case InvocationExpr:
@@ -942,16 +1140,10 @@ export class StormAstReflection extends AbstractAstReflection {
       case Plugin: {
         return this.isSubtype(AbstractDeclaration, supertype);
       }
-      case DataModel:
-      case Enum: {
-        return (
-          this.isSubtype(AbstractDeclaration, supertype) ||
-          this.isSubtype(TypeDeclaration, supertype)
-        );
-      }
       case DataModelField:
       case EnumField:
-      case FunctionParam: {
+      case FunctionParam:
+      case Operation: {
         return this.isSubtype(ReferenceTarget, supertype);
       }
       default: {
@@ -963,11 +1155,16 @@ export class StormAstReflection extends AbstractAstReflection {
   getReferenceType(refInfo: ReferenceInfo): string {
     const referenceId = `${refInfo.container.$type}:${refInfo.property}`;
     switch (referenceId) {
+      case "ApiModel:implements":
+      case "ApiModel:superTypes": {
+        return ApiModel;
+      }
       case "AttributeParamType:reference":
       case "DataModelFieldType:reference":
       case "FunctionParamType:reference": {
         return TypeDeclaration;
       }
+      case "DataModel:implements":
       case "DataModel:superTypes": {
         return DataModel;
       }
@@ -976,11 +1173,20 @@ export class StormAstReflection extends AbstractAstReflection {
       case "InternalAttribute:decl": {
         return Attribute;
       }
+      case "Input:superTypes": {
+        return Input;
+      }
+      case "Interface:superTypes": {
+        return Interface;
+      }
       case "InvocationExpr:function": {
         return FunctionDecl;
       }
       case "MemberAccessExpr:member": {
         return DataModelField;
+      }
+      case "OperationGroup:superTypes": {
+        return Operation;
       }
       case "ReferenceExpr:target": {
         return ReferenceTarget;
@@ -993,10 +1199,23 @@ export class StormAstReflection extends AbstractAstReflection {
 
   getTypeMetaData(type: string): TypeMetaData {
     switch (type) {
+      case "ApiModel": {
+        return {
+          name: "ApiModel",
+          mandatory: [
+            { name: "attributes", type: "array" },
+            { name: "comments", type: "array" },
+            { name: "fields", type: "array" },
+            { name: "implements", type: "array" },
+            { name: "isExtend", type: "boolean" },
+            { name: "superTypes", type: "array" }
+          ]
+        };
+      }
       case "ArrayExpr": {
         return {
           name: "ArrayExpr",
-          mandatory: [{ name: "items", type: "array" }],
+          mandatory: [{ name: "items", type: "array" }]
         };
       }
       case "Attribute": {
@@ -1004,14 +1223,14 @@ export class StormAstReflection extends AbstractAstReflection {
           name: "Attribute",
           mandatory: [
             { name: "attributes", type: "array" },
-            { name: "params", type: "array" },
-          ],
+            { name: "params", type: "array" }
+          ]
         };
       }
       case "AttributeParam": {
         return {
           name: "AttributeParam",
-          mandatory: [{ name: "default", type: "boolean" }],
+          mandatory: [{ name: "default", type: "boolean" }]
         };
       }
       case "AttributeParamType": {
@@ -1019,8 +1238,8 @@ export class StormAstReflection extends AbstractAstReflection {
           name: "AttributeParamType",
           mandatory: [
             { name: "array", type: "boolean" },
-            { name: "optional", type: "boolean" },
-          ],
+            { name: "optional", type: "boolean" }
+          ]
         };
       }
       case "DataModel": {
@@ -1030,16 +1249,18 @@ export class StormAstReflection extends AbstractAstReflection {
             { name: "attributes", type: "array" },
             { name: "comments", type: "array" },
             { name: "fields", type: "array" },
+            { name: "implements", type: "array" },
             { name: "isAbstract", type: "boolean" },
+            { name: "isExtend", type: "boolean" },
             { name: "isView", type: "boolean" },
-            { name: "superTypes", type: "array" },
-          ],
+            { name: "superTypes", type: "array" }
+          ]
         };
       }
       case "DataModelAttribute": {
         return {
           name: "DataModelAttribute",
-          mandatory: [{ name: "args", type: "array" }],
+          mandatory: [{ name: "args", type: "array" }]
         };
       }
       case "DataModelField": {
@@ -1047,14 +1268,14 @@ export class StormAstReflection extends AbstractAstReflection {
           name: "DataModelField",
           mandatory: [
             { name: "attributes", type: "array" },
-            { name: "comments", type: "array" },
-          ],
+            { name: "comments", type: "array" }
+          ]
         };
       }
       case "DataModelFieldAttribute": {
         return {
           name: "DataModelFieldAttribute",
-          mandatory: [{ name: "args", type: "array" }],
+          mandatory: [{ name: "args", type: "array" }]
         };
       }
       case "DataModelFieldType": {
@@ -1062,14 +1283,14 @@ export class StormAstReflection extends AbstractAstReflection {
           name: "DataModelFieldType",
           mandatory: [
             { name: "array", type: "boolean" },
-            { name: "optional", type: "boolean" },
-          ],
+            { name: "optional", type: "boolean" }
+          ]
         };
       }
       case "DataSource": {
         return {
           name: "DataSource",
-          mandatory: [{ name: "fields", type: "array" }],
+          mandatory: [{ name: "fields", type: "array" }]
         };
       }
       case "Enum": {
@@ -1078,8 +1299,8 @@ export class StormAstReflection extends AbstractAstReflection {
           mandatory: [
             { name: "attributes", type: "array" },
             { name: "comments", type: "array" },
-            { name: "fields", type: "array" },
-          ],
+            { name: "fields", type: "array" }
+          ]
         };
       }
       case "EnumField": {
@@ -1087,8 +1308,8 @@ export class StormAstReflection extends AbstractAstReflection {
           name: "EnumField",
           mandatory: [
             { name: "attributes", type: "array" },
-            { name: "comments", type: "array" },
-          ],
+            { name: "comments", type: "array" }
+          ]
         };
       }
       case "FunctionDecl": {
@@ -1096,38 +1317,61 @@ export class StormAstReflection extends AbstractAstReflection {
           name: "FunctionDecl",
           mandatory: [
             { name: "attributes", type: "array" },
-            { name: "params", type: "array" },
-          ],
+            { name: "params", type: "array" }
+          ]
         };
       }
       case "FunctionParam": {
         return {
           name: "FunctionParam",
-          mandatory: [{ name: "optional", type: "boolean" }],
+          mandatory: [{ name: "optional", type: "boolean" }]
         };
       }
       case "FunctionParamType": {
         return {
           name: "FunctionParamType",
-          mandatory: [{ name: "array", type: "boolean" }],
+          mandatory: [{ name: "array", type: "boolean" }]
         };
       }
       case "GeneratorDecl": {
         return {
           name: "GeneratorDecl",
-          mandatory: [{ name: "fields", type: "array" }],
+          mandatory: [{ name: "fields", type: "array" }]
+        };
+      }
+      case "Input": {
+        return {
+          name: "Input",
+          mandatory: [
+            { name: "attributes", type: "array" },
+            { name: "comments", type: "array" },
+            { name: "fields", type: "array" },
+            { name: "superTypes", type: "array" }
+          ]
+        };
+      }
+      case "Interface": {
+        return {
+          name: "Interface",
+          mandatory: [
+            { name: "attributes", type: "array" },
+            { name: "comments", type: "array" },
+            { name: "fields", type: "array" },
+            { name: "isExtend", type: "boolean" },
+            { name: "superTypes", type: "array" }
+          ]
         };
       }
       case "InternalAttribute": {
         return {
           name: "InternalAttribute",
-          mandatory: [{ name: "args", type: "array" }],
+          mandatory: [{ name: "args", type: "array" }]
         };
       }
       case "InvocationExpr": {
         return {
           name: "InvocationExpr",
-          mandatory: [{ name: "args", type: "array" }],
+          mandatory: [{ name: "args", type: "array" }]
         };
       }
       case "Model": {
@@ -1135,32 +1379,60 @@ export class StormAstReflection extends AbstractAstReflection {
           name: "Model",
           mandatory: [
             { name: "declarations", type: "array" },
-            { name: "imports", type: "array" },
-          ],
+            { name: "imports", type: "array" }
+          ]
         };
       }
       case "ObjectExpr": {
         return {
           name: "ObjectExpr",
-          mandatory: [{ name: "fields", type: "array" }],
+          mandatory: [{ name: "fields", type: "array" }]
+        };
+      }
+      case "Operation": {
+        return {
+          name: "Operation",
+          mandatory: [
+            { name: "attributes", type: "array" },
+            { name: "comments", type: "array" },
+            { name: "params", type: "array" }
+          ]
+        };
+      }
+      case "OperationGroup": {
+        return {
+          name: "OperationGroup",
+          mandatory: [
+            { name: "attributes", type: "array" },
+            { name: "comments", type: "array" },
+            { name: "fields", type: "array" },
+            { name: "isExtend", type: "boolean" },
+            { name: "superTypes", type: "array" }
+          ]
+        };
+      }
+      case "OperationInputParam": {
+        return {
+          name: "OperationInputParam",
+          mandatory: [{ name: "default", type: "boolean" }]
         };
       }
       case "Plugin": {
         return {
           name: "Plugin",
-          mandatory: [{ name: "fields", type: "array" }],
+          mandatory: [{ name: "fields", type: "array" }]
         };
       }
       case "ReferenceExpr": {
         return {
           name: "ReferenceExpr",
-          mandatory: [{ name: "args", type: "array" }],
+          mandatory: [{ name: "args", type: "array" }]
         };
       }
       default: {
         return {
           name: type,
-          mandatory: [],
+          mandatory: []
         };
       }
     }

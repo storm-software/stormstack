@@ -1,4 +1,5 @@
 import {
+  ApiModel,
   AstNode,
   DataModel,
   DataModelAttribute,
@@ -8,16 +9,24 @@ import {
   EnumField,
   Expression,
   FunctionDecl,
+  Input,
+  Interface,
   InternalAttribute,
+  Model,
+  Operation,
+  OperationGroup,
+  Reference,
+  ReferenceExpr,
+  isApiModel,
   isArrayExpr,
   isDataModel,
   isEnumField,
+  isInput,
+  isInterface,
   isLiteralExpr,
   isObjectExpr,
-  isReferenceExpr,
-  Model,
-  Reference,
-  ReferenceExpr
+  isOperationGroup,
+  isReferenceExpr
 } from "@open-system/tools-storm-language/ast";
 import { dirname, isAbsolute, join } from "path";
 import { ExpressionContext } from "./constants";
@@ -29,6 +38,43 @@ import { PluginOptions } from "./types";
 export function getDataModels(model: Model) {
   return model.declarations.filter(
     (d): d is DataModel => isDataModel(d) && !hasAttribute(d, "@@ignore")
+  );
+}
+
+/**
+ * Gets data types that are not ignored
+ */
+export function getApiModels(model: Model) {
+  return model.declarations.filter(
+    (d): d is ApiModel => isApiModel(d) && !hasAttribute(d, "@@ignore")
+  );
+}
+
+/**
+ * Gets data types that are not ignored
+ */
+export function getInterfaces(model: Model) {
+  return model.declarations.filter(
+    (d): d is Interface => isInterface(d) && !hasAttribute(d, "@@ignore")
+  );
+}
+
+/**
+ * Gets data types that are not ignored
+ */
+export function getOperationGroups(model: Model) {
+  return model.declarations.filter(
+    (d): d is OperationGroup =>
+      isOperationGroup(d) && !hasAttribute(d, "@@ignore")
+  );
+}
+
+/**
+ * Gets data types that are not ignored
+ */
+export function getInputs(model: Model) {
+  return model.declarations.filter(
+    (d): d is Input => isInput(d) && !hasAttribute(d, "@@ignore")
   );
 }
 
@@ -99,7 +145,14 @@ export default function indentString(string: string, count = 4): string {
 }
 
 export function hasAttribute(
-  decl: DataModel | DataModelField | Enum | EnumField,
+  decl:
+    | DataModel
+    | DataModelField
+    | OperationGroup
+    | Operation
+    | Enum
+    | EnumField
+    | Input,
   name: string
 ) {
   return !!(

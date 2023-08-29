@@ -1,7 +1,7 @@
 import {
   AbstractDeclaration,
   BinaryExpr,
-  ExpressionType,
+  ExpressionType
 } from "./generated/ast";
 
 export { AstNode, Reference } from "langium";
@@ -40,7 +40,7 @@ export const BinaryExprOperatorPriority: Record<
   //CollectionPredicateExpr
   "^": 5,
   "?": 5,
-  "!": 5,
+  "!": 5
 };
 
 declare module "./generated/ast" {
@@ -60,6 +60,38 @@ declare module "./generated/ast" {
 
   interface DataModelField {
     $isInherited?: boolean;
+  }
+
+  interface OperationGroup {
+    /**
+     * Resolved fields, include inherited fields
+     */
+    $resolvedFields: Array<Operation>;
+  }
+
+  interface Operation {
+    $isInherited?: boolean;
+  }
+
+  interface Input {
+    /**
+     * Resolved fields, include inherited fields
+     */
+    $resolvedFields: Array<DataModelField>;
+  }
+
+  interface ApiModel {
+    /**
+     * Resolved fields, include inherited fields
+     */
+    $resolvedFields: Array<DataModelField>;
+  }
+
+  interface Interface {
+    /**
+     * Resolved fields, include inherited fields
+     */
+    $resolvedFields: Array<DataModelField>;
   }
 }
 

@@ -1,8 +1,10 @@
 import {
   DataModel,
+  Input,
   Model,
+  OperationGroup,
   isEnumField,
-  isModel,
+  isModel
 } from "@open-system/tools-storm-language/ast";
 import {
   AstNode,
@@ -21,7 +23,7 @@ import {
   getContainerOfType,
   interruptAndCheck,
   stream,
-  streamAllContents,
+  streamAllContents
 } from "langium";
 import { CancellationToken } from "vscode-jsonrpc";
 import { resolveImportUri } from "../utils/ast-utils";
@@ -76,8 +78,17 @@ export class StormScopeComputation extends DefaultScopeComputation {
     const model = document.parseResult.value as Model;
 
     model.declarations.forEach(decl => {
-      if (decl.$type === "DataModel") {
-        const dataModel = decl as DataModel;
+      if (
+        decl.$type === "DataModel" ||
+        decl.$type === "ApiModel" ||
+        decl.$type === "Input" ||
+        decl.$type === "Interface"
+      ) {
+        let dataModel: any = decl as DataModel;
+        if (!dataModel) {
+          dataModel = decl as Input;
+        }
+
         dataModel.$resolvedFields = [...dataModel.fields];
         dataModel.superTypes.forEach(superType => {
           const superTypeDecl = superType.ref;
@@ -92,6 +103,22 @@ export class StormScopeComputation extends DefaultScopeComputation {
             });
           }
         });
+      } else if (decl.$type === "OperationGroup") {
+        const operationGroup = decl as OperationGroup;
+        operationGroup.$resolvedFields = [...operationGroup.fields];
+        /*operationGroup.superTypes.forEach(superType => {
+          const superTypeDecl = superType.ref;
+          if (superTypeDecl) {
+            superTypeDecl.params.forEach(param => {
+              const cloneField = Object.assign({}, param);
+              cloneField.$isInherited = true;
+              const mutable = cloneField as Mutable<AstNode>;
+              // update container
+              mutable.$container = operationGroup;
+              operationGroup.$resolvedFields.push(cloneField);
+            });
+          }
+        });*/
       }
     });
   }

@@ -6,10 +6,10 @@
 import type {
   LangiumGeneratedServices,
   LangiumGeneratedSharedServices,
-  LangiumServices,
   LangiumSharedServices,
+  LangiumServices,
   LanguageMetaData,
-  Module,
+  Module
 } from "langium";
 import { StormAstReflection } from "./ast";
 import { StormGrammar } from "./grammar";
@@ -17,14 +17,14 @@ import { StormGrammar } from "./grammar";
 export const StormLanguageMetaData: LanguageMetaData = {
   languageId: "storm",
   fileExtensions: [".storm"],
-  caseInsensitive: false,
+  caseInsensitive: false
 };
 
 export const StormGeneratedSharedModule: Module<
   LangiumSharedServices,
   LangiumGeneratedSharedServices
 > = {
-  AstReflection: () => new StormAstReflection(),
+  AstReflection: () => new StormAstReflection()
 };
 
 export const StormGeneratedModule: Module<
@@ -33,5 +33,5 @@ export const StormGeneratedModule: Module<
 > = {
   Grammar: () => StormGrammar(),
   LanguageMetaData: () => StormLanguageMetaData,
-  parser: {},
+  parser: {}
 };

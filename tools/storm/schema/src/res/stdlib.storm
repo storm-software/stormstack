@@ -61,9 +61,6 @@ enum ExpressionContext {
 
     // used in @@validate
     ValidationRule
-
-    // used in @@extend
-    ExtendModel
 }
 
 /**
@@ -360,11 +357,6 @@ attribute @@allow(_ operation: String, _ condition: Boolean)
 attribute @@deny(_ operation: String, _ condition: Boolean)
 
 /**
- * Determines if the current data model is extending another model.
- */
-attribute @@extend()
-
-/**
  * Indicates that the field is a password field and needs to be hashed before persistence.
  *
  * Storm uses `bcryptjs` library to hash password. You can use the `saltLength` parameter
@@ -421,6 +413,13 @@ attribute @email(_ message: String?) @@@targetField([StringField]) @@@validation
  * Validates a string field value is a valid phone number. A valid phone number is defined as A field whose value conforms to the standard `E.164` format as specified in [E.164 specification](https://en.wikipedia.org/wiki/E.164). Basically, this is +17895551234. The very powerful [libphonenumber](https://github.com/googlei18n/libphonenumber) library is available to take that format, parse and display it in whatever display format you want. It can also be used to parse user input and get the `E.164` format to pass into a schema.
  */
 attribute @phoneNumber(_ message: String?) @@@targetField([StringField]) @@@validation
+
+/**
+ * Validates a string field value is a valid [Semantic Version](https://semver.org/).
+ */
+attribute @semver(_ message: String?) @@@targetField([StringField]) @@@validation
+
+
 
 /**
  * Validates a string field value is a valid country code as defined by [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
@@ -515,6 +514,12 @@ function email(field: String): Boolean {
  * Validates a string field value is a valid phone number. A valid phone number is defined as A field whose value conforms to the standard `E.164` format as specified in [E.164 specification](https://en.wikipedia.org/wiki/E.164). Basically, this is +17895551234. The very powerful [libphonenumber](https://github.com/googlei18n/libphonenumber) library is available to take that format, parse and display it in whatever display format you want. It can also be used to parse user input and get the `E.164` format to pass into a schema.
  */
 function phoneNumber(field: String): Boolean {
+} @@@expressionContext([ValidationRule])
+
+/**
+ * Validates a string field value is a valid [Semantic Version](https://semver.org/).
+ */
+function semver(field: String): Boolean {
 } @@@expressionContext([ValidationRule])
 
 /**

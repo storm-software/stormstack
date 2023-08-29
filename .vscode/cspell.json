@@ -78,6 +78,7 @@
     "openapi",
     "opengraph",
     "opentelemetry",
+    "operationgroup",
     "outdir",
     "Parens",
     "Parseable",
