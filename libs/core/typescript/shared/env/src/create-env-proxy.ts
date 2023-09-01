@@ -1,33 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
-  EnvConfigurationError,
   isFunction,
   isPromise,
   noop
 } from "@open-system/core-shared-utilities";
-import { BaseOptions } from "./types";
+import { DEFAULT_OPTIONS } from "./env-manager-options";
+import { BaseOptions, EnvProxy } from "./types";
 
-const cache = new Map<string | symbol, any>();
+const EnvCache = new Map<string | symbol, any>();
 let obj!: any;
-
-export const DEFAULT_OPTIONS: BaseOptions = {
-  isServer: typeof window === "undefined",
-  skipValidation: false,
-  onMissingVariableError: (variable: string, error?: any) => {
-    throw new EnvConfigurationError(variable, error);
-  },
-  onValidationError: (variable: string, error?: any) => {
-    throw new EnvConfigurationError(variable, error);
-  },
-  onInvalidAccess: (variable: string) => {
-    throw new EnvConfigurationError(
-      variable,
-      `Tried to access environment variable "${variable}" on the client.`
-    );
-  },
-  env: process.env
-};
 
 export const getEnvironmentVariable = async <
   TOptions extends Omit<BaseOptions, "env"> &
@@ -37,6 +19,8 @@ export const getEnvironmentVariable = async <
   prop: string,
   options: TOptions
 ) => {
+  const cache = options?.cache ?? EnvCache;
+
   let value: any = options.env[prop as string];
   if (!value) {
     if (cache.has(prop as string)) {
@@ -64,16 +48,13 @@ export const getEnvironmentVariable = async <
 };
 
 /**
- * Creates an environment manager that can be used to access environment variables.
+ * Creates an environment proxy that can be used to access environment variables.
  * @param options The options to use when accessing the environment variables.
  * @returns The environment variable manager.
  */
-export const createEnvManager = <
-  TManager = Record<string, string | boolean | number | undefined>,
-  TOptions extends BaseOptions = BaseOptions
->(
+export const createEnvProxy = <TOptions extends BaseOptions = BaseOptions>(
   options: TOptions = DEFAULT_OPTIONS as TOptions
-): TManager => {
+): EnvProxy => {
   if (!obj) {
     const env = options?.env ?? DEFAULT_OPTIONS.env ?? {};
     obj = new Proxy(env, {

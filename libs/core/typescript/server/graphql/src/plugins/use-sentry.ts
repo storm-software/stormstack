@@ -1,12 +1,22 @@
 import {
   SentryPluginOptions,
-  useSentry as useSentryExt,
+  useSentry as useSentryExt
 } from "@envelop/sentry";
 import type { Plugin } from "@envelop/types";
+import {
+  extractCorrelationId,
+  extractUserId
+} from "@open-system/core-server-application";
+import { JsonParser } from "@open-system/core-shared-serialization";
+import { MissingContextError } from "@open-system/core-shared-utilities";
 import { DefinitionNode, Kind, print } from "graphql";
 import { GraphQLServerContext } from "../types";
 
-export const useSentry = (options: SentryPluginOptions = {}): Plugin => {
+export const useSentry = <
+  TContext extends GraphQLServerContext = GraphQLServerContext
+>(
+  options: SentryPluginOptions = {}
+): Plugin<TContext> => {
   return useSentryExt({
     startTransaction: false,
     renameTransaction: false,
@@ -29,7 +39,12 @@ export const useSentry = (options: SentryPluginOptions = {}): Plugin => {
           (def: DefinitionNode) => def.kind === Kind.OPERATION_DEFINITION
         )?.kind ??
         "unknown";
-      const ctx = args.contextValue as GraphQLServerContext;
+
+      const ctx = args.contextValue as TContext;
+      if (!ctx) {
+        throw new MissingContextError("Context is missing");
+      }
+
       const clientNameHeaderValue = ctx.headers["graphql-client-name"];
       const clientName = Array.isArray(clientNameHeaderValue)
         ? clientNameHeaderValue[0]
@@ -44,24 +59,25 @@ export const useSentry = (options: SentryPluginOptions = {}): Plugin => {
 
       scope.setContext("Extra Info", {
         operationName,
-        variables: JSON.stringify(args.variableValues),
+        variables: JsonParser.stringify(args.variableValues),
         operation: print(args.document),
-        userId: ctx?.user.id,
+        userId: ctx?.user.id
       });
     },
     appendTags: ({ contextValue }) => {
-      const userId = (contextValue as GraphQLServerContext)?.user.id;
-      const requestId = (contextValue as GraphQLServerContext).requestId;
+      const userId = extractUserId(contextValue as TContext);
+      const requestId = extractCorrelationId(contextValue as TContext);
 
       return {
         userId,
         requestId,
+        correlationId: requestId
       };
     },
     skip(args) {
       // It's the readiness check
       return args.operationName === "readiness";
     },
-    ...options,
-  });
+    ...options
+  }) as Plugin<TContext>;
 };

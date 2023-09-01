@@ -2,6 +2,7 @@
   "name": "@open-system/tools-storm-plugins-graphql",
   "version": "0.0.1",
   "dependencies": {
+    "@graphql-tools/load-files": "^7.0.0",
     "@prisma/generator-helper": "^5.2.0",
     "drizzle-orm": "^0.28.5",
     "langium": "1.2.1",
@@ -10,6 +11,12 @@
     "ts-morph": "^19.0.0"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^5.0.0",
+    "@graphql-codegen/core": "^4.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@graphql-tools/graphql-file-loader": "^8.0.0",
+    "@graphql-tools/load": "^8.0.0",
     "drizzle-kit": "^0.19.13"
   }
 }

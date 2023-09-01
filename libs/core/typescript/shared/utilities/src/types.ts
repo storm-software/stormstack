@@ -13,7 +13,7 @@ export const Tokens = {
   HTTP_MIDDLEWARE: Symbol.for("OS_HTTP_MIDDLEWARE_SYMBOL"),
   HTTP_SERVER_CONFIG: Symbol.for("OS_HTTP_SERVER_CONFIG_SYMBOL"),
   API_REQUEST_FACTORY: Symbol.for("OS_API_REQUEST_FACTORY_SYMBOL"),
-  COOKIE_PARSER: Symbol.for("OS_COOKIE_PARSER_SYMBOL"),
+  COOKIE_PARSER: Symbol.for("OS_COOKIE_PARSER_SYMBOL")
 };
 
 export const LOGGER_SYMBOL = Symbol.for("OS_LOGGER_SYMBOL");
@@ -39,6 +39,18 @@ export type AnyCase<T extends IndexType> = string extends T
   : T extends `${infer F}${infer R}`
   ? `${Uppercase<F> | Lowercase<F>}${AnyCase<R>}`
   : "";
+
+export type Newable<T> = new (...args: never[]) => T;
+
+export interface Abstract<T> {
+  prototype: T;
+}
+
+export interface Clonable<T> {
+  clone(): T;
+}
+
+export type MaybePromise<T> = T | Promise<T>;
 
 export interface ILogger {
   /**
@@ -105,7 +117,7 @@ export interface AbortError extends IError {
 }
 
 export type IResult<
-  TError extends IError | null = null,
+  TErr extends IError | null = null,
   TData = unknown
 > = IBaseUtilityClass & {
   /**
@@ -121,7 +133,7 @@ export type IResult<
   /**
    *  A generic error type.
    */
-  error: TError | null;
+  error: TErr | null;
 
   /**
    * Can the application reset the state automatically through the error boundary when the error occurs
@@ -162,7 +174,7 @@ export enum ResultSourceTypes {
   SERVER = 2,
   EXCEPTION = 3,
   VALIDATION = 4,
-  ABORTED = 5,
+  ABORTED = 5
 }
 
 export type ReducerFunction<TState, TAction> = (
@@ -230,7 +242,7 @@ export const enum DateTimeFormatTemplates {
   YYYY__MM__DD_HH_MM_SS = "YYYY/MM/DD HH:MM:SS",
   DD__MM__YY_HH_MM_SS = "DD/MM/YY HH:MM:SS",
   YY__DD__MM_HH_MM_SS = "YY/DD/MM",
-  YY__MM__DD_HH_MM_SS = "YY/MM/DD HH:MM:SS",
+  YY__MM__DD_HH_MM_SS = "YY/MM/DD HH:MM:SS"
 }
 
 /**
@@ -250,7 +262,7 @@ export enum HttpMethod {
   CONNECT = "CONNECT",
   OPTIONS = "OPTIONS",
   TRACE = "TRACE",
-  PATCH = "PATCH",
+  PATCH = "PATCH"
 }
 
 /**
@@ -276,13 +288,13 @@ interface FileList {
   [index: number]: File;
 }
 
-export type LiteralUnion<T extends U, U extends Primitive> =
+export type LiteralUnion<T extends U, U extends BaseType> =
   | T
   | (U & {
       _?: never;
     });
 
-export type Primitive =
+export type BaseType =
   | null
   | undefined
   | string
@@ -313,7 +325,7 @@ export const COLLECTION_FORMATS = {
   csv: ",",
   ssv: " ",
   tsv: "\t",
-  pipes: "|",
+  pipes: "|"
 };
 
 export interface HttpFetchApi {
@@ -340,7 +352,7 @@ export const HttpMediaTypes = {
   OCTET_STREAM: "application/octet-stream",
   FORM: "application/x-www-form-urlencoded",
   TEXT: "text/plain",
-  HTML: "text/html",
+  HTML: "text/html"
 };
 
 export type HttpMethods = "DELETE" | "GET" | "HEAD" | "POST" | "PUT" | "PATCH";
@@ -350,7 +362,7 @@ export const HttpMethods = {
   HEAD: "HEAD" as HttpMethods,
   POST: "POST" as HttpMethods,
   PUT: "PUT" as HttpMethods,
-  PATCH: "PATCH" as HttpMethods,
+  PATCH: "PATCH" as HttpMethods
 };
 
 export type CredentialOption = "include" | "same-origin" | "omit";
@@ -359,7 +371,7 @@ export type HttpHeaderTypes = "x-apikey" | "accept" | "content-type";
 export const HttpHeaderTypes = {
   X_APIKEY: "x-apikey",
   ACCEPT: "accept",
-  CONTENT_TYPE: "content-type",
+  CONTENT_TYPE: "content-type"
 };
 
 export type Headers<
@@ -435,7 +447,7 @@ export type ServerFieldErrorStatus = "error" | "warning" | "info";
 export const ServerFieldErrorStatus = {
   ERROR: "error" as ServerFieldErrorStatus,
   WARNING: "warning" as ServerFieldErrorStatus,
-  INFO: "info" as ServerFieldErrorStatus,
+  INFO: "info" as ServerFieldErrorStatus
 };
 
 export interface ServerFieldError {

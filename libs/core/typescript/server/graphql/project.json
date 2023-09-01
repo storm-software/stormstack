@@ -12,8 +12,7 @@
         "tsConfig": "libs/core/typescript/server/graphql/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/graphql/package.json",
         "main": "libs/core/typescript/server/graphql/src/index.ts",
-        "assets": ["libs/core/typescript/server/graphql/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
+        "assets": ["libs/core/typescript/server/graphql/*.md"]
       }
     },
     "lint": {
@@ -36,12 +35,22 @@
           "codeCoverage": true
         }
       }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "core-server-graphql-v${VERSION}"
+      }
     }
   },
   "tags": [],
   "implicitDependencies": [
     "core-shared-utilities",
     "core-shared-injection",
+    "core-shared-env",
     "core-server-domain",
     "core-server-application"
   ]

@@ -5,6 +5,7 @@
   "version": "0.0.0",
   "license": "BSD 2-Clause \"Simplified\" License",
   "description": "🧪 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries 🧪",
+  "homepage": "https://sullivanpj.github.io/open-system/",
   "repository": {
     "type": "github",
     "url": "https://github.com/sullivanpj/open-system.git"
@@ -51,7 +52,7 @@
     "build:wundergraph": "wunderctl generate",
     "build": "pnpm run build:wundergraph && relay-compiler && nx run-many -t build --all --parallel 4",
     "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore",
-    "lint:language": "cross-env FORCE_COLOR=1 alex . --quiet",
+    "lint:language": "cross-env FORCE_COLOR=1 alex . !**/CODE_OF_CONDUCT.md --quiet",
     "lint": "pnpm lint:language",
     "format": "nx format:write && pnpm doctoc --github README.md",
     "typecheck": "pnpm run -r typecheck",
@@ -308,10 +309,10 @@
       "pnpm nx format"
     ],
     "**/*.{js,cjs,mjs,ts,tsx}": [
-      "eslint --fix"
+      "pnpm eslint --fix"
     ],
     "**/*.{js,jsx,ts,tsx,json,css,scss,md,mdx,yml,yaml,graphql,html}": [
-      "prettier --write"
+      "pnpm prettier --write"
     ],
     "**/*.{js,jsx,ts,tsx,md,mdx}": [
       "pnpm lint:language"

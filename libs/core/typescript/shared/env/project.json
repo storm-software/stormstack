@@ -5,13 +5,19 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/shared/env",
         "main": "libs/core/typescript/shared/env/src/index.ts",
         "tsConfig": "libs/core/typescript/shared/env/tsconfig.lib.json",
-        "assets": ["libs/core/typescript/shared/env/*.md"]
+        "assets": ["libs/core/typescript/shared/env/*.md"],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "neutral"
       }
     },
     "lint": {

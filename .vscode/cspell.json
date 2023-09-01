@@ -17,6 +17,7 @@
     "cacheable",
     "checkmark",
     "CLICKHOUSE",
+    "Clonable",
     "Cloneable",
     "clsx",
     "codecov",

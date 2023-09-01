@@ -3,7 +3,12 @@
   "version": "0.0.1",
   "dependencies": {
     "@envelop/core": "^4.0.0",
+    "@envelop/dataloader": "^5.0.1",
+    "@envelop/extended-validation": "^3.0.1",
+    "@envelop/parser-cache": "^6.0.2",
     "@envelop/types": "^4.0.0",
+    "@envelop/validation-cache": "^6.0.2",
+    "@graphql-hive/client": "^0.24.1",
     "@sentry/node": "^7.64.0"
   }
 }

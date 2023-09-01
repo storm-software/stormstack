@@ -1,4 +1,12 @@
+/* eslint-disable @typescript-eslint/ban-types */
+import { IAggregateRoot } from "@open-system/core-server-domain";
 import { IEntity } from "@open-system/core-server-domain/types";
+import { EnvManager } from "@open-system/core-shared-env/env-manager";
+import { Injector } from "@open-system/core-shared-injection/types";
+import { Logger } from "@open-system/core-shared-utilities";
+import { ICommand } from "./commands";
+import { EventPublisher, EventStore } from "./providers";
+import { Repository } from "./repositories";
 
 export const MESSAGE_BROKER_TOKEN = Symbol.for("MESSAGE_BROKER_TOKEN");
 export const EVENT_PUBLISHER_TOKEN = Symbol.for("EVENT_PUBLISHER_TOKEN");
@@ -250,4 +258,81 @@ export type CountParams<
   TKey extends keyof TData = keyof TData
 > = {
   select?: AggregateCountFieldParams<TData, TKey> | true;
+};
+
+export type UserContext<TContext = {}> = Record<string, any> &
+  TContext & {
+    id: string;
+    name?: string;
+    email?: string;
+  };
+
+export type FactoriesContext = {
+  aggregate: <TAggregate extends IAggregateRoot = IAggregateRoot>(
+    request: any,
+    sourceId: string,
+    correlationId: string,
+    userId: string
+  ) => TAggregate;
+  command: <TRequest>(
+    commandId: string,
+    version: number,
+    request: TRequest
+  ) => ICommand<TRequest>;
+};
+
+export type BaseServerContext<
+  TUser extends UserContext = UserContext,
+  TFactories extends FactoriesContext = FactoriesContext
+> = {
+  correlationId: string;
+  logger: Logger;
+  user: UserContext<TUser>;
+  env: EnvManager;
+  factories?: TFactories;
+  injector: Injector;
+};
+
+export type ServerContext<TUser extends UserContext = UserContext> =
+  BaseServerContext<TUser> & {
+    repository?: Repository;
+  };
+
+export type EventSourcedServerContext<TUser extends UserContext = UserContext> =
+  ServerContext<TUser> & {
+    eventStore: EventStore;
+    snapshotStore: any;
+    eventPublisher: EventPublisher;
+  };
+
+/**
+ * A Function, which when given an Array of keys, returns a Promise of an Array
+ * of values or Errors.
+ */
+export type BatchLoadFn<K, V> = (
+  keys: $ReadOnlyArray<K>
+) => Promise<$ReadOnlyArray<V | Error>>;
+
+/**
+ * Optionally turn off batching or caching or provide a cache key function or a
+ * custom cache instance.
+ */
+export type Options<K, V, C = K> = {
+  batch?: boolean;
+  maxBatchSize?: number;
+  batchScheduleFn?: (callback: () => void) => void;
+  cache?: boolean;
+  cacheKeyFn?: (key: K) => C;
+  cacheMap?: CacheMap<C, Promise<V>> | null;
+  name?: string;
+};
+
+/**
+ * If a custom cache is provided, it must be of this type (a subset of ES6 Map).
+ */
+export type CacheMap<K, V> = {
+  get(key: K): V | void;
+  set(key: K, value: V): any;
+  delete(key: K): any;
+  clear(): any;
 };

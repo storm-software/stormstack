@@ -12,8 +12,7 @@
         "tsConfig": "libs/core/typescript/server/application/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/application/package.json",
         "main": "libs/core/typescript/server/application/src/index.ts",
-        "assets": ["libs/core/typescript/server/application/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
+        "assets": ["libs/core/typescript/server/application/*.md"]
       }
     },
     "lint": {
@@ -51,6 +50,7 @@
   "implicitDependencies": [
     "core-shared-utilities",
     "core-shared-injection",
+    "core-shared-env",
     "core-shared-serialization",
     "core-server-utilities",
     "core-server-domain"

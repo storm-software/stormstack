@@ -1,4 +1,5 @@
-import { ServerConfigManager } from "@open-system/core-server-utilities";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { EnvManager } from "@open-system/core-shared-env/env-manager";
 import { Service } from "@open-system/core-shared-injection";
 import { Logger } from "@open-system/core-shared-utilities";
 import pino from "pino";
@@ -7,16 +8,30 @@ import pino from "pino";
 export class PinoLogger extends Logger {
   #logger: pino.BaseLogger;
 
-  constructor(private readonly config: ServerConfigManager) {
+  constructor(private readonly env: EnvManager) {
     super();
 
     this.#logger = pino({
-      level: this.config.logging.logLevel || "info",
+      level: this.env.get("LOG_LEVEL") ?? "info",
       formatters: {
         level: label => {
           return { level: label.toUpperCase() };
-        },
+        }
       },
+      errorKey: "error",
+      transport: {
+        target: "pino-pretty",
+        options: {
+          colorize: true,
+          colorizeObjects: true,
+          errorLikeObjectKeys: ["err", "error", "exception"],
+          messageKey: "msg",
+          messageFormat:
+            "[{time}] {levelLabel} ({if pid}{pid} - {end}{req.url}): {msg}",
+          singleLine: false,
+          hideObject: false
+        }
+      }
     });
   }
 
@@ -26,51 +41,59 @@ export class PinoLogger extends Logger {
    * @param {string} message - The message to print.
    * @returns Nothing.
    */
-  public success(...message: any[]) {
+  public override success = (...message: any[]) => {
     this.#logger.info(message);
-  }
+  };
 
   /**
    * It returns a promise that resolves to void.
    * @param {string} message - The message to be displayed.
    * @returns Nothing.
    */
-  public error(...message: any[]) {
+  public override error = (...message: any[]) => {
     this.#logger.error(message);
-  }
+  };
 
   /**
    * It returns a promise that resolves to void.
    * @param {string} error - The message to be displayed.
    * @returns Nothing.
    */
-  public exception(...message: any[]) {
+  public override exception = (...message: any[]) => {
     this.#logger.error(message);
-  }
+  };
 
   /**
    * The function takes a string as an argument and returns a promise that resolves to void.
    * @param {string} message - The message to be printed.
    * @returns Nothing.
    */
-  public warn(...message: any[]) {
+  public override warn = (...message: any[]) => {
     this.#logger.warn(message);
-  }
+  };
 
   /**
    * @param {string} message - The message to be printed.
    * @returns A promise that resolves to void.
    */
-  public info(...message: any[]) {
+  public override info = (...message: any[]) => {
     this.#logger.info(message);
-  }
+  };
 
   /**
    * It prints a warning message.
    * @param {string} message - The message to be printed.
    * @returns Nothing.
    */
-  public debug(...message: any[]) {
+  public override debug = (...message: any[]) => {
     this.#logger.debug(message);
-  }
+  };
+
+  /**
+   * @param {string} message - The message to be printed.
+   * @returns A promise that resolves to void.
+   */
+  public override log = (...message: any[]) => {
+    this.#logger.info(message);
+  };
 }

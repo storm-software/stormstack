@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import {
   EventSourcedServerContext,
-  UserContext,
+  UserContext
 } from "@open-system/core-server-application";
 import { MergedScalars, SchemaTypes } from "@pothos/core";
 import { AllSelection } from "kysely/dist/cjs/parser/select-parser";
@@ -127,4 +127,9 @@ export type GraphQLServerContext<TUser extends UserContext = UserContext> =
     request: any;
     requestId: string;
     headers: Record<string, string | string[] | undefined>;
-  } & GraphQLModules.ModuleContext;
+  };
+
+export interface CacheStore<T = any> {
+  get(key: string): T | undefined;
+  set(key: string, value: T): void;
+}

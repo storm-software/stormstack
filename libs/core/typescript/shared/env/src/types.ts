@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseError } from "@open-system/core-shared-utilities";
+import { BaseError, MaybePromise } from "@open-system/core-shared-utilities";
 
 export const ENV_TOKEN = Symbol.for("ENV_TOKEN");
 
@@ -48,7 +48,9 @@ export interface BaseOptions {
   handler?: (
     prop: string,
     options: Omit<BaseOptions, "env"> & Required<Pick<BaseOptions, "env">>
-  ) => Awaited<Promise<any> | any>;
+  ) => Awaited<
+    MaybePromise<Record<string, any> | string | boolean | number | undefined>
+  >;
 
   /**
    * The environment variables to use. Defaults to `process.env`.
@@ -60,4 +62,16 @@ export interface BaseOptions {
    * If potentially multiple can be used, pass an array of prefixes.
    */
   prefix?: string | string[];
+
+  /**
+   * Cache used by the environment manager to store environment variables.
+   */
+  cache?: Map<string | symbol, any>;
 }
+
+export type EnvProxy = Record<
+  string,
+  Awaited<
+    MaybePromise<Record<string, any> | string | boolean | number | undefined>
+  >
+>;

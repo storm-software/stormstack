@@ -5,14 +5,20 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/server/pino-logging",
         "tsConfig": "libs/core/typescript/server/pino-logging/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/pino-logging/package.json",
         "main": "libs/core/typescript/server/pino-logging/src/index.ts",
-        "assets": ["libs/core/typescript/server/pino-logging/*.md"]
+        "assets": ["libs/core/typescript/server/pino-logging/*.md"],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "node"
       }
     },
     "lint": {
@@ -50,6 +56,7 @@
   "implicitDependencies": [
     "core-server-utilities",
     "core-shared-injection",
+    "core-shared-env",
     "core-server-utilities"
   ]
 }

@@ -59,8 +59,7 @@ enum AttachmentStatus {
     Removed
 }
 
-/// The data fields related to a specific Contact request instance
-extend model Contact {
+model Contact {
     /// The unique identifier for the Contact
     id String @id @default(uuid())
 
@@ -128,7 +127,6 @@ extend model Contact {
     @@allow('create,update,delete,read', true)
 }
 
-/// A file attachment included by a Contact
 model ContactAttachment {
     /// The unique identifier for the ContactAttachment
     id String @id @default(uuid())
@@ -166,10 +164,6 @@ model ContactAttachment {
     @@unique([name, path])
 }
 
-extend type Query {
-    contacts(first: Int = 100, after: String?): Contact[]
-}
-
 input AddAttachmentInput {
     id String @id
     name String
@@ -178,7 +172,7 @@ input AddAttachmentInput {
     contactId String
 }
 
-extend type Mutation {
+type Mutation {
     addAttachment(input: AddAttachmentInput): AddAttachmentResponse
 }
 

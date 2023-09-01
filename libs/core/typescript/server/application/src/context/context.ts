@@ -1,52 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { IAggregateRoot } from "@open-system/core-server-domain";
-import { ServerConfigManager } from "@open-system/core-server-utilities";
-import { Logger } from "@open-system/core-shared-utilities";
-import { ICommand } from "../commands";
-import { EventPublisher, EventStore } from "../providers";
-import { Repository } from "../repositories";
+import { EnvManager } from "@open-system/core-shared-env";
+import { Injector } from "@open-system/core-shared-injection";
+import { Injector as InjectorInterface } from "@open-system/core-shared-injection/types";
+import { Logger, UniqueIdGenerator } from "@open-system/core-shared-utilities";
+import { BaseServerContext, ServerContext, UserContext } from "../types";
 
-export type UserContext<TContext = {}> = Record<string, any> &
-  TContext & {
-    id: string;
-    name?: string;
-    email?: string;
+export const createContext = <TUser extends UserContext = UserContext>({
+  correlationId,
+  logger,
+  env,
+  user,
+  injector
+}: {
+  correlationId?: string;
+  logger?: Logger;
+  user?: TUser;
+  env: EnvManager;
+  injector: InjectorInterface;
+}): ServerContext<TUser> => {
+  const _injector = injector ?? Injector;
+
+  return {
+    correlationId: correlationId ? correlationId : UniqueIdGenerator.generate(),
+    logger: logger ?? _injector.get(Logger),
+    env,
+    injector: _injector,
+    user: { id: UniqueIdGenerator.generate(), ...user } as TUser
   };
-
-export type FactoriesContext = {
-  aggregate: <TAggregate extends IAggregateRoot = IAggregateRoot>(
-    request: any,
-    sourceId: string,
-    correlationId: string,
-    userId: string
-  ) => TAggregate;
-  command: <TRequest>(
-    commandId: string,
-    version: number,
-    request: TRequest
-  ) => ICommand<TRequest>;
 };
 
-export type BaseServerContext<
-  TUser extends UserContext = UserContext,
-  TFactories extends FactoriesContext = FactoriesContext
-> = {
-  correlationId: string;
-  logger: Logger;
-  user: UserContext<TUser>;
-  config: ServerConfigManager;
-  factories: TFactories;
-};
+export const extractCorrelationId = (context?: BaseServerContext) =>
+  context?.correlationId;
 
-export type ServerContext<TUser extends UserContext = UserContext> =
-  BaseServerContext<TUser> & {
-    repository: Repository;
-  };
+export const extractLogger = (context?: BaseServerContext) => context?.logger;
 
-export type EventSourcedServerContext<TUser extends UserContext = UserContext> =
-  ServerContext<TUser> & {
-    eventStore: EventStore;
-    snapshotStore: any;
-    eventPublisher: EventPublisher;
-  };
+export const extractUser = (context?: BaseServerContext) => context?.user;
+
+export const extractUserId = (context?: BaseServerContext) => context?.user?.id;

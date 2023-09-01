@@ -1,3 +1,4 @@
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
 import prettier, { Options } from "prettier";
 import {
   CompilerOptions,
@@ -20,18 +21,32 @@ const prettierConfig: Options = {
   printWidth: 80,
   bracketSpacing: true,
   arrowParens: "avoid",
-  endOfLine: "lf",
-  parser: "typescript"
+  endOfLine: "lf"
 };
 
-async function formatFile(sourceFile: SourceFile) {
+export async function formatFile(
+  sourceFile: SourceFile,
+  parser = "typescript"
+) {
   try {
-    const content = sourceFile.getFullText();
-    const formatted = prettier.format(content, prettierConfig);
+    const formatted = await formatString(sourceFile.getFullText(), parser);
     sourceFile.replaceWithText(formatted);
     await sourceFile.save();
   } catch {
     /* empty */
+  }
+}
+
+export async function formatString(
+  content: string,
+  parser = "typescript"
+): Promise<string> {
+  try {
+    return prettier.format(content, { ...prettierConfig, parser });
+  } catch (e) {
+    ConsoleLogger.error("Error formatting file");
+    ConsoleLogger.error(e);
+    return content;
   }
 }
 

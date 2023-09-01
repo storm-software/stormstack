@@ -15,6 +15,6 @@ export const commandFactory =
       id: commandId,
       version,
       request,
-      correlationId: UniqueIdGenerator.generate(),
+      correlationId: UniqueIdGenerator.generate()
     };
   };

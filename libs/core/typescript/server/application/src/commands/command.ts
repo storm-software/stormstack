@@ -1,6 +1,6 @@
 import {
   IIdentity,
-  IVersioned,
+  IVersioned
 } from "@open-system/core-shared-utilities/types";
 
 export interface ICommand<TRequest = Record<string, any>>

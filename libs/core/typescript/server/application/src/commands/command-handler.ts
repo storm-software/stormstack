@@ -1,5 +1,5 @@
 import { IAggregateRoot } from "@open-system/core-server-domain";
-import { ServerContext } from "../context";
+import { ServerContext } from "../types";
 import { ICommand } from "./command";
 
 export type CommandHandlerParams<
@@ -21,7 +21,7 @@ export const commandHandler =
   >(
     {
       commandId,
-      version = 1,
+      version = 1
     }: CommandHandlerParams<TRequest, TAggregate, TCommand, TContext>,
     handle: <
       TAggregate extends IAggregateRoot = IAggregateRoot,
@@ -34,19 +34,19 @@ export const commandHandler =
     ) => Promise<TAggregate>
   ) =>
   async (request: TRequest, context: TContext) => {
-    const command = context.factories.command<TRequest>(
+    const command = context.factories?.command<TRequest>(
       commandId,
       version,
       request
     ) as TCommand;
 
     const aggregate = await handle<TAggregate, TCommand, TContext>(
-      context.factories.aggregate<TAggregate>(
+      context.factories?.aggregate<TAggregate>?.(
         request,
         command.id,
         context.correlationId,
         context.user.id
-      ),
+      ) as any,
       command,
       context
     );

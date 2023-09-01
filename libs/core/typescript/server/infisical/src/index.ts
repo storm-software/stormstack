@@ -1,2 +1,2 @@
-export * from "./env-manager";
+export * from "./infisical-env-manager";
 export * from "./infisical-client";

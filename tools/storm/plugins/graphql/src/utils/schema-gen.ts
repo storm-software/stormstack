@@ -15,6 +15,11 @@ import {
 } from "@open-system/tools-storm-language/ast";
 
 export class SchemaGenerator {
+  // Usage flags
+  public hasOperation = false;
+  public hasEdgeConnection = false;
+
+  // Scalar usage flags
   public hasBigInt = false;
   public hasDateTime = false;
   public hasURL = false;
@@ -28,9 +33,6 @@ export class SchemaGenerator {
   public hasTimeZone = false;
   public hasMAC = false;
   public hasSemVer = false;
-  public hasOperation = false;
-
-  public hasEdgeConnection = false;
 
   public getColumnTypeSchema(type: DataModelFieldType) {
     let schema: string;
@@ -38,7 +40,8 @@ export class SchemaGenerator {
       isDataModel(type.reference?.ref) ||
       isApiModel(type.reference?.ref) ||
       isInterface(type.reference?.ref) ||
-      isInput(type.reference?.ref)
+      isInput(type.reference?.ref) ||
+      isEnum(type.reference?.ref)
     ) {
       schema = type.reference.ref.name;
     } else {
@@ -89,25 +92,7 @@ export class SchemaGenerator {
   public getScalarsSchema(): string {
     let schema = "";
 
-    if (this.hasEdgeConnection) {
-      schema += `
-"""
-A base type to define the structure of paginated response data
-"""
-type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String!
-  endCursor: String!
-}
-
-`;
-    }
-
     schema += `
-"""
-A base interface for all identifiable models
-"""
 interface Node {
   id: ID!
 }
@@ -115,9 +100,6 @@ interface Node {
 
     if (this.hasOperation) {
       schema += `
-"""
-A base interface model containing the error details of the operation
-"""
 interface Error {
   message: String!
 }
@@ -166,6 +148,98 @@ interface Error {
     }
 
     return schema;
+  }
+
+  public getScalarsImport(): string {
+    const scalars = [];
+    if (this.hasBigInt) {
+      scalars.push("BigInt");
+    }
+    if (this.hasDateTime) {
+      scalars.push("DateTime");
+    }
+    if (this.hasURL) {
+      scalars.push("URL");
+    }
+    if (this.hasEmailAddress) {
+      scalars.push("EmailAddress");
+    }
+    if (this.hasPhoneNumber) {
+      scalars.push("PhoneNumber");
+    }
+    if (this.hasIP) {
+      scalars.push("IP");
+    }
+    if (this.hasPostalCode) {
+      scalars.push("PostalCode");
+    }
+    if (this.hasLatitude) {
+      scalars.push("Latitude");
+    }
+    if (this.hasLongitude) {
+      scalars.push("Longitude");
+    }
+    if (this.hasCountryCode) {
+      scalars.push("CountryCode");
+    }
+    if (this.hasTimeZone) {
+      scalars.push("TimeZone");
+    }
+    if (this.hasMAC) {
+      scalars.push("MAC");
+    }
+    if (this.hasSemVer) {
+      scalars.push("SemVer");
+    }
+
+    return `import { ${scalars
+      .map(scalar => `${scalar}Resolver`)
+      .join(", ")} } from "graphql-scalars";`;
+  }
+
+  public getScalarsResolvers(): string {
+    const scalars = [];
+    if (this.hasBigInt) {
+      scalars.push("BigInt");
+    }
+    if (this.hasDateTime) {
+      scalars.push("DateTime");
+    }
+    if (this.hasURL) {
+      scalars.push("URL");
+    }
+    if (this.hasEmailAddress) {
+      scalars.push("EmailAddress");
+    }
+    if (this.hasPhoneNumber) {
+      scalars.push("PhoneNumber");
+    }
+    if (this.hasIP) {
+      scalars.push("IP");
+    }
+    if (this.hasPostalCode) {
+      scalars.push("PostalCode");
+    }
+    if (this.hasLatitude) {
+      scalars.push("Latitude");
+    }
+    if (this.hasLongitude) {
+      scalars.push("Longitude");
+    }
+    if (this.hasCountryCode) {
+      scalars.push("CountryCode");
+    }
+    if (this.hasTimeZone) {
+      scalars.push("TimeZone");
+    }
+    if (this.hasMAC) {
+      scalars.push("MAC");
+    }
+    if (this.hasSemVer) {
+      scalars.push("SemVer");
+    }
+
+    return scalars.map(scalar => `${scalar}: ${scalar}Resolver`).join(", \n");
   }
 
   public getFieldSchema(field: DataModelField): string {
@@ -233,19 +307,20 @@ interface Error {
       !field.type.optional && (schema += "!");
     }
 
-    if (field.type.reference?.ref && isEnum(field.type.reference?.ref)) {
-      schema = field.type.reference.ref.name;
-    } else {
-      if (isDataModel(field.type.reference?.ref)) {
-        this.hasEdgeConnection = true;
-        return `(first: Int = 100, after: String = null): ${
-          field.type.reference?.ref.name
-        }Connection${!field.type.optional ? "!" : ""}`;
-      }
+    if (
+      field.type.array &&
+      isDataModel(field.type.reference?.ref) &&
+      !isEnum(field.type.reference?.ref) &&
+      !isApiModel(field.type.reference?.ref)
+    ) {
+      this.hasEdgeConnection = true;
+      return `(selector: ${field.type.reference?.ref.name}sSelectorInput): ${
+        field.type.reference?.ref.name
+      }Connection${!field.type.optional ? "!" : ""}`;
+    }
 
-      if (!schema) {
-        schema += this.getColumnTypeSchema(field.type);
-      }
+    if (!schema) {
+      schema += this.getColumnTypeSchema(field.type);
     }
 
     return `: ${schema}`;

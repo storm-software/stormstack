@@ -7,7 +7,7 @@ import type { DMMF } from "@prisma/generator-helper";
 export type OptionValue = string | number | boolean;
 
 /**
- * Plugin configuration oiptions
+ * Plugin configuration options
  */
 export type PluginOptions = {
   provider?: string;
