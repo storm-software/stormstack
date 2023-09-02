@@ -23,7 +23,7 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 <!-- END header -->
 
-# core-server-drizzle
+# Core Drizzle ORM Library (Server)
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -32,14 +32,16 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Table of Contents
 
-- [Building](#building)
-- [Running unit tests](#running-unit-tests)
-- [Roadmap](#roadmap)
-- [Support](#support)
-- [License](#license)
-- [Changelog](#changelog)
-- [Contributing](#contributing)
-- [Contributors](#contributors)
+- [Core Drizzle ORM Library (Server)](#core-drizzle-orm-library-server)
+  - [Table of Contents](#table-of-contents)
+  - [Building](#building)
+  - [Running unit tests](#running-unit-tests)
+  - [Roadmap](#roadmap)
+  - [Support](#support)
+  - [License](#license)
+  - [Changelog](#changelog)
+  - [Contributing](#contributing)
+  - [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

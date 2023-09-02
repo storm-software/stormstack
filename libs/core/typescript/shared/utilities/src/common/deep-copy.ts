@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import typeDetect from "type-detect";
 
 // NOTE: for the file size optimization
@@ -38,7 +39,7 @@ const collectionTypeSet = new Set([
   typeArray,
   typeMap,
   typeObject,
-  typeSet,
+  typeSet
 ]);
 
 /**
@@ -403,7 +404,7 @@ export type Options = { customizer?: Customizer };
 export function deepCopy<T>(value: T, options?: Options): T {
   const {
     // TODO: before/after customizer
-    customizer = null,
+    customizer = null
     // TODO: max depth
     // depth = Infinity,
   } = options || {};
@@ -418,10 +419,12 @@ export function deepCopy<T>(value: T, options?: Options): T {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const references = new WeakMap<Record<string, any>, unknown>([
-    [value, copiedValue],
+    [value as Record<string, any>, copiedValue]
   ]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const visited = new WeakSet<Record<string, any>>([value]);
+  const visited = new WeakSet<Record<string, any>>([value] as Iterable<
+    Record<string, any>
+  >);
 
   return recursiveCopy(
     value,

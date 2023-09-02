@@ -542,4 +542,8 @@ export interface ISequenced {
   sequence: number;
 }
 
+export interface IRelayTypeField {
+  __typename: string;
+}
+
 export const CONFIG_TOKEN = Symbol.for("CONFIG_TOKEN");

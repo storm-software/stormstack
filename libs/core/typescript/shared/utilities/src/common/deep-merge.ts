@@ -1,27 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   isFunction,
   isMergeableObject,
   propertyIsOnObject,
-  propertyIsUnsafe,
+  propertyIsUnsafe
 } from "./type-checks";
 
-const emptyTarget = val => {
+const emptyTarget = (val: any) => {
   return Array.isArray(val) ? [] : {};
 };
 
-const cloneUnlessOtherwiseSpecified = (value, options) => {
+const cloneUnlessOtherwiseSpecified = (value: any, options?: any) => {
   return options.clone !== false && options.isMergeableObject(value)
     ? deepMerge(emptyTarget(value), value, options)
     : value;
 };
 
-const defaultArrayMerge = (target, source, options) => {
+const defaultArrayMerge = (
+  target: Array<any>,
+  source: Array<any>,
+  options?: any
+) => {
   return target.concat(source).map(element => {
     return cloneUnlessOtherwiseSpecified(element, options);
   });
 };
 
-const getMergeFunction = (key, options) => {
+const getMergeFunction = (key: string, options?: any) => {
   if (!options.customMerge) {
     return deepMerge;
   }
@@ -29,7 +34,7 @@ const getMergeFunction = (key, options) => {
   return isFunction(customMerge) ? customMerge : deepMerge;
 };
 
-const getKeys = target => {
+const getKeys = (target: Record<string, any>) => {
   return Object.keys(target).concat(
     (Object.getOwnPropertySymbols
       ? Object.getOwnPropertySymbols(target).filter(symbol => {
@@ -39,8 +44,12 @@ const getKeys = target => {
   );
 };
 
-export const mergeObject = (target, source, options) => {
-  const destination = {};
+export const mergeObject = (
+  target: Record<string, any>,
+  source: Record<string, any>,
+  options?: any
+) => {
+  const destination: Record<string, any> = {};
   if (options.isMergeableObject(target)) {
     getKeys(target).forEach(key => {
       destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
@@ -67,7 +76,7 @@ export const mergeObject = (target, source, options) => {
   return destination;
 };
 
-export const deepMerge = (target: any, source: any, options: any = {}) => {
+export const deepMerge: any = (target: any, source: any, options: any = {}) => {
   options = options || {};
   options.arrayMerge = options.arrayMerge || defaultArrayMerge;
   options.isMergeableObject = options.isMergeableObject || isMergeableObject;
@@ -88,7 +97,7 @@ export const deepMerge = (target: any, source: any, options: any = {}) => {
   }
 };
 
-deepMerge.all = function deepMergeAll(array, options) {
+deepMerge.all = function deepMergeAll(array: Array<any>, options?: any) {
   if (!Array.isArray(array)) {
     throw new Error("first argument should be an array");
   }

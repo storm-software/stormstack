@@ -1,10 +1,11 @@
 import {
   ExecutorContext,
   readProjectConfiguration,
-  workspaceRoot,
+  workspaceRoot
 } from "@nx/devkit";
-import { executeAsync } from "@open-system/core-server-utilities";
-import { ConsoleLogger, isSet } from "@open-system/core-shared-utilities";
+import { executeAsync } from "@open-system/core-server-utilities/execute";
+import { isSet } from "@open-system/core-shared-utilities/common/type-checks";
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
 import { FsTree } from "nx/src/generators/tree";
 import Path from "path";
 

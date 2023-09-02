@@ -10,6 +10,7 @@ export const getInfisicalClient = (token: string) => {
 
   client = new InfisicalClient({
     token,
+    siteURL: process.env.INFISICAL_SITE_URL,
     cacheTTL: parseInteger(process.env.INFISICAL_CACHE_TTL, DEFAULT_CACHE_TTL)
   });
 

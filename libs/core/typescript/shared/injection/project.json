@@ -5,13 +5,19 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/shared/injection",
         "main": "libs/core/typescript/shared/injection/src/index.ts",
         "tsConfig": "libs/core/typescript/shared/injection/tsconfig.lib.json",
-        "assets": ["libs/core/typescript/shared/injection/*.md"]
+        "assets": ["libs/core/typescript/shared/injection/*.md"],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "neutral"
       }
     },
     "lint": {

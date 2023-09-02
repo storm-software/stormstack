@@ -2,6 +2,8 @@ import { BaseUtilityClass } from "@open-system/core-shared-utilities";
 import { ENTITY_TOKEN, IEntity } from "../types";
 
 export abstract class Entity extends BaseUtilityClass implements IEntity {
+  public readonly __typename: string = "Entity";
+
   private _sequence = 0;
 
   public get isNew() {

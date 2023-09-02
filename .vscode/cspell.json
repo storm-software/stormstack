@@ -11,6 +11,7 @@
     "automerge",
     "avrogen",
     "backlink",
+    "badkey",
     "Benning",
     "Bootstrapper",
     "Buildable",
@@ -27,6 +28,7 @@
     "corepack",
     "cssmodule",
     "cuid",
+    "Customizer",
     "datamodel",
     "Datasource",
     "datasources",
@@ -64,6 +66,7 @@
     "kysely",
     "langium",
     "Linq",
+    "macrotask",
     "mediastream",
     "Mediat",
     "Mergeable",
@@ -146,7 +149,15 @@
     "wundergraph",
     "zenstack"
   ],
-  "enableFiletypes": ["txt", "js", "jsx", "ts", "tsx", "md", "mdx"],
+  "enableFiletypes": [
+    "txt",
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "md",
+    "mdx"
+  ],
   "ignorePaths": [
     "**/.git/**",
     "**/node_modules/**",

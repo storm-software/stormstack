@@ -5,14 +5,19 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/server/kafka",
         "main": "libs/core/typescript/server/kafka/src/index.ts",
         "tsConfig": "libs/core/typescript/server/kafka/tsconfig.lib.json",
         "assets": ["libs/core/typescript/server/kafka/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "node"
       }
     },
     "lint": {

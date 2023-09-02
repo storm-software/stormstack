@@ -5,14 +5,20 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/server/application",
         "tsConfig": "libs/core/typescript/server/application/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/application/package.json",
         "main": "libs/core/typescript/server/application/src/index.ts",
-        "assets": ["libs/core/typescript/server/application/*.md"]
+        "assets": ["libs/core/typescript/server/application/*.md"],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "node"
       }
     },
     "lint": {

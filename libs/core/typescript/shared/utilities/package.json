@@ -5,5 +5,8 @@
     "@js-temporal/polyfill": "^0.4.4",
     "chalk": "4.1.0",
     "type-detect": "^4.0.8"
+  },
+  "devDependencies": {
+    "@types/type-detect": "^4.0.1"
   }
 }

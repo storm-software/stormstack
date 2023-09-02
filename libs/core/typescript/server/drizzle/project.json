@@ -5,20 +5,20 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/server/drizzle",
         "tsConfig": "libs/core/typescript/server/drizzle/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/drizzle/package.json",
         "main": "libs/core/typescript/server/drizzle/src/index.ts",
-        "assets": [
-          {
-            "glob": "libs/core/typescript/server/drizzle/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "assets": ["libs/core/typescript/server/drizzle/*.md"],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "node"
       }
     },
     "lint": {

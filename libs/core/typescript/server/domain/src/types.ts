@@ -2,11 +2,16 @@
 import {
   IBaseUtilityClass,
   IIdentity,
+  IRelayTypeField,
   ISequenced,
-  IVersioned,
+  IVersioned
 } from "@open-system/core-shared-utilities";
 
-export interface IEntity extends ISequenced, IIdentity, IBaseUtilityClass {
+export interface IEntity
+  extends ISequenced,
+    IIdentity,
+    IRelayTypeField,
+    IBaseUtilityClass {
   currentUserId: string;
 }
 

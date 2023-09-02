@@ -25,17 +25,17 @@ import {
 import { SQLiteTableWithColumns } from "drizzle-orm/sqlite-core";
 
 export const formatWhereParams = <
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
+  TEntity extends IEntity = IEntity,
+  TKey extends keyof TEntity = keyof TEntity
 >(
   schema: SQLiteTableWithColumns<any>,
-  where: WhereParams<TData, TKey>
+  where: WhereParams<TEntity, TKey>
 ): SQL => {
   return Object.entries(where)
     .filter(
       ([key, value]: [
         string,
-        WhereParams<TData, TKey> | WhereParams<TData, TKey>[]
+        WhereParams<TEntity, TKey> | WhereParams<TEntity, TKey>[]
       ]) => key !== "AND" && key !== "OR" && key !== "NOT"
     )
     .reduce(
@@ -43,7 +43,7 @@ export const formatWhereParams = <
         ret: SQL | undefined,
         [key, value]: [
           string,
-          WhereParams<TData, TKey> | WhereParams<TData, TKey>[]
+          WhereParams<TEntity, TKey> | WhereParams<TEntity, TKey>[]
         ]
       ) => {
         // const filter = value as StringNullableFilter | DateTimeNullableFilter | BoolFilter;

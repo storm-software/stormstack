@@ -21,7 +21,7 @@ export const lowerCaseFirst = (input?: string): string | undefined => {
  * @example this-is-an-example
  */
 export const kebabCase = (input?: string): string | undefined => {
-  return dash(input);
+  return input ? dash(input) : input;
 };
 
 /**
@@ -29,7 +29,7 @@ export const kebabCase = (input?: string): string | undefined => {
  * @example this_is_an_example
  */
 export const snakeCase = (input?: string): string | undefined => {
-  return snake(input);
+  return input ? snake(input) : input;
 };
 
 /**
@@ -37,5 +37,5 @@ export const snakeCase = (input?: string): string | undefined => {
  * @example THIS_IS_AN_EXAMPLE
  */
 export const constantCase = (input?: string): string | undefined => {
-  return snake(input).toUpperCase();
+  return input ? snake(input).toUpperCase() : input;
 };

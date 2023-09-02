@@ -5,6 +5,8 @@ import {
 import type { Plugin } from "@envelop/types";
 import {
   extractCorrelationId,
+  extractRequestId,
+  extractService,
   extractUserId
 } from "@open-system/core-server-application";
 import { JsonParser } from "@open-system/core-shared-serialization";
@@ -66,12 +68,15 @@ export const useSentry = <
     },
     appendTags: ({ contextValue }) => {
       const userId = extractUserId(contextValue as TContext);
-      const requestId = extractCorrelationId(contextValue as TContext);
+      const correlationId = extractCorrelationId(contextValue as TContext);
+      const requestId = extractRequestId(contextValue as TContext);
+      const service = extractService(contextValue as TContext);
 
       return {
-        userId,
+        correlationId,
         requestId,
-        correlationId: requestId
+        ...service,
+        userId
       };
     },
     skip(args) {

@@ -3,8 +3,26 @@ import chalk from "chalk";
 import { BaseUtilityClass } from "../common";
 import { LOGGER_SYMBOL } from "../types";
 
+/**
+ * LogObject specifies the interface that optional structured objects
+ * passed to logging functions must conform to. Additionally, if LogObject
+ * is an instance of Error, its field will be expanded into the log message.
+ */
+export interface LogObject extends Object {
+  /**
+   * Optional Error instance to unwrap when formatting the log message.
+   * See also LogObject for some particularities on how Error instances
+   * are handled.
+   */
+  error?: Error;
+}
+
 export abstract class Logger extends BaseUtilityClass {
-  constructor() {
+  public get name(): string {
+    return this._name;
+  }
+
+  constructor(protected _name = "root") {
     super(LOGGER_SYMBOL);
   }
 
@@ -15,6 +33,13 @@ export abstract class Logger extends BaseUtilityClass {
    * @returns Nothing.
    */
   public abstract success: (...message: any[]) => any;
+
+  /**
+   * It returns a promise that resolves to void.
+   * @param {string} message - The fatal message to be displayed.
+   * @returns Nothing.
+   */
+  public abstract fatal: (...message: any[]) => any;
 
   /**
    * It returns a promise that resolves to void.
@@ -44,11 +69,18 @@ export abstract class Logger extends BaseUtilityClass {
   public abstract info: (...message: any[]) => any;
 
   /**
-   * It prints a warning message.
+   * It prints a debug message.
    * @param {string} message - The message to be printed.
    * @returns Nothing.
    */
   public abstract debug: (...message: any[]) => any;
+
+  /**
+   * It prints a trace message.
+   * @param {string} message - The message to be printed.
+   * @returns Nothing.
+   */
+  public abstract trace: (...message: any[]) => any;
 
   /**
    * It prints a warning message.
@@ -56,6 +88,13 @@ export abstract class Logger extends BaseUtilityClass {
    * @returns Nothing.
    */
   public abstract log: (...message: any[]) => any;
+
+  /**
+   * Returns a logger with the provided bindings attached to its log messages
+   * @param bindings Key-value pairs to attach to all messages
+   * @returns The new logger instance
+   */
+  public abstract withFields: (name: string) => Logger;
 
   /**
    * The function `showTitle()` prints a stylized title using the chalk library in TypeScript.

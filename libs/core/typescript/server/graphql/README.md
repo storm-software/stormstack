@@ -23,7 +23,7 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 <!-- END header -->
 
-# core-server-graphql
+# Core GraphQL API Management Library (Server)
 
 This library was generated with [Nx](https://nx.dev).
 

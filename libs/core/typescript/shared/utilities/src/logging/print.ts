@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { formatDateTime } from "../common/date-fns";
 import { DateTime } from "../common/date-time";
 import { isProduction } from "../common/env-fns";
-import { isEmpty, isError, isObject, isPrimitive } from "../common/type-checks";
+import { isBaseType, isEmpty, isError, isObject } from "../common/type-checks";
 
 /**
  * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
@@ -62,7 +62,7 @@ export const print = (
 const format = (message: unknown): string =>
   isEmpty(message)
     ? "<Empty>"
-    : !isPrimitive(message) && !isObject(message) && !isError(message)
+    : !isBaseType(message) && !isObject(message) && !isError(message)
     ? "<Object>"
     : isError(message)
     ? (message as Error)?.name && (message as Error)?.message

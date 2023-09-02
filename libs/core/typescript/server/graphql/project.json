@@ -5,14 +5,20 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/server/graphql",
         "tsConfig": "libs/core/typescript/server/graphql/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/graphql/package.json",
         "main": "libs/core/typescript/server/graphql/src/index.ts",
-        "assets": ["libs/core/typescript/server/graphql/*.md"]
+        "assets": ["libs/core/typescript/server/graphql/*.md"],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "node"
       }
     },
     "lint": {

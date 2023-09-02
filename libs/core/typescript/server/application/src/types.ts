@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import { IAggregateRoot } from "@open-system/core-server-domain";
 import { IEntity } from "@open-system/core-server-domain/types";
+import { EnvironmentType } from "@open-system/core-shared-env";
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
 import { Injector } from "@open-system/core-shared-injection/types";
-import { Logger } from "@open-system/core-shared-utilities";
+import { ArrayElement, Logger } from "@open-system/core-shared-utilities";
 import { ICommand } from "./commands";
-import { EventPublisher, EventStore } from "./providers";
 import { Repository } from "./repositories";
 
 export const MESSAGE_BROKER_TOKEN = Symbol.for("MESSAGE_BROKER_TOKEN");
@@ -281,11 +282,21 @@ export type FactoriesContext = {
   ) => ICommand<TRequest>;
 };
 
+export type ServiceContext = {
+  serviceId: string;
+  serviceName: string;
+  serviceUrl: string;
+  instanceId: string;
+};
+
 export type BaseServerContext<
   TUser extends UserContext = UserContext,
   TFactories extends FactoriesContext = FactoriesContext
 > = {
   correlationId: string;
+  requestId: string;
+  headers: Record<string, string | string[] | undefined>;
+  environment: EnvironmentType;
   logger: Logger;
   user: UserContext<TUser>;
   env: EnvManager;
@@ -293,46 +304,108 @@ export type BaseServerContext<
   injector: Injector;
 };
 
-export type ServerContext<TUser extends UserContext = UserContext> =
-  BaseServerContext<TUser> & {
-    repository?: Repository;
-  };
+export type ServerContext<
+  TUser extends UserContext = UserContext,
+  TEntities extends Array<IEntity> = Array<IEntity>,
+  TNamespace extends ArrayElement<TEntities>["__typename"] = ArrayElement<TEntities>["__typename"],
+  TEntityMapping extends Record<TNamespace, ArrayElement<TEntities>> = Record<
+    TNamespace,
+    ArrayElement<TEntities>
+  >,
+  TSelectKeys extends Record<
+    TNamespace,
+    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
+    | WhereUniqueParams<
+        TEntityMapping[TNamespace],
+        keyof TEntityMapping[TNamespace]
+      >
+    | Record<string, never>
+  > = Record<
+    TNamespace,
+    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
+    | WhereUniqueParams<
+        TEntityMapping[TNamespace],
+        keyof TEntityMapping[TNamespace]
+      >
+    | Record<string, never>
+  >,
+  TCacheKeys = TSelectKeys
+> = BaseServerContext<TUser> & {
+  service: ServiceContext;
+  repositories: Record<
+    TNamespace,
+    Repository<TEntityMapping[TNamespace], TSelectKeys[TNamespace], TCacheKeys>
+  >;
+};
 
-export type EventSourcedServerContext<TUser extends UserContext = UserContext> =
+/*export type EventSourcedServerContext<TUser extends UserContext = UserContext> =
   ServerContext<TUser> & {
     eventStore: EventStore;
     snapshotStore: any;
     eventPublisher: EventPublisher;
+  };*/
+
+export type CreateServerContextParams<TUser extends UserContext = UserContext> =
+  {
+    correlationId?: string;
+    requestId?: string;
+    headers?: Record<string, string | string[] | undefined>;
+    environment?: EnvironmentType;
+    logger?: Logger;
+    user?: TUser;
+    env: EnvManager;
+    injector: Injector;
+    service: Omit<ServiceContext, "instanceId"> &
+      Partial<Pick<ServiceContext, "instanceId">>;
   };
 
 /**
  * A Function, which when given an Array of keys, returns a Promise of an Array
  * of values or Errors.
  */
-export type BatchLoadFn<K, V> = (
-  keys: $ReadOnlyArray<K>
-) => Promise<$ReadOnlyArray<V | Error>>;
+export type BatchLoadFn<
+  TEntity extends IEntity = IEntity,
+  TKeys =
+    | WhereUniqueParams<TEntity, keyof TEntity>
+    | WhereParams<TEntity, keyof TEntity>
+    | Record<string, never>,
+  TCache = TKeys
+> = (keys: Array<TKeys>) => Promise<Array<TEntity | Error>>;
 
 /**
  * Optionally turn off batching or caching or provide a cache key function or a
  * custom cache instance.
  */
-export type Options<K, V, C = K> = {
+export type RepositoryOptions<
+  TEntity extends IEntity = IEntity,
+  TKeys =
+    | WhereUniqueParams<TEntity, keyof TEntity>
+    | WhereParams<TEntity, keyof TEntity>
+    | Record<string, never>,
+  TCacheKeys = TKeys
+> = {
+  name: string;
   batch?: boolean;
   maxBatchSize?: number;
   batchScheduleFn?: (callback: () => void) => void;
   cache?: boolean;
-  cacheKeyFn?: (key: K) => C;
-  cacheMap?: CacheMap<C, Promise<V>> | null;
-  name?: string;
+  cacheKeyFn?: (key: TKeys) => TCacheKeys;
+  cacheMap?: CacheMap<TEntity, TKeys, TCacheKeys> | null;
 };
 
 /**
  * If a custom cache is provided, it must be of this type (a subset of ES6 Map).
  */
-export type CacheMap<K, V> = {
-  get(key: K): V | void;
-  set(key: K, value: V): any;
-  delete(key: K): any;
+export type CacheMap<
+  TEntity extends IEntity = IEntity,
+  TKeys =
+    | WhereUniqueParams<TEntity, keyof TEntity>
+    | WhereParams<TEntity, keyof TEntity>
+    | Record<string, never>,
+  TCacheKeys = TKeys
+> = {
+  get(key: TCacheKeys): TEntity | void;
+  set(key: TCacheKeys, value: TEntity): any;
+  delete(key: TCacheKeys): any;
   clear(): any;
 };

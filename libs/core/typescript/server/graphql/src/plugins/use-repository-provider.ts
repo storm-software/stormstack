@@ -1,19 +1,16 @@
-import type { Plugin } from "@envelop/types";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Plugin } from "@envelop/types";
+import { Repository } from "@open-system/core-server-application/repositories";
 import {
-  Repository,
-  ServiceContext,
   UserContext,
   WhereParams,
-  WhereUniqueParams,
-  createServerContext
-} from "@open-system/core-server-application";
+  WhereUniqueParams
+} from "@open-system/core-server-application/types";
 import { IEntity } from "@open-system/core-server-domain/types";
-import { ArrayElement, Logger } from "@open-system/core-shared-utilities";
-import { createYoga } from "graphql-yoga";
-import { createPlugins } from "../plugins";
+import { ArrayElement } from "@open-system/core-shared-utilities/types";
 import { GraphQLServerContext } from "../types";
 
-export const createGraphQLHandler = async <
+export const useRepositoryProvider = <
   TUser extends UserContext = UserContext,
   TEntities extends Array<IEntity> = Array<IEntity>,
   TNamespace extends ArrayElement<TEntities>["__typename"] = ArrayElement<TEntities>["__typename"],
@@ -54,21 +51,8 @@ export const createGraphQLHandler = async <
     TSelectKeys,
     TCacheKeys
   >
->({
-  injector,
-  env,
-  plugins,
-  context,
-  service,
-  repositoryProviderParams
-}: {
-  env: TServerContext["env"];
-  injector: TServerContext["injector"];
-  plugins?: Array<Plugin<TServerContext>>;
-  context?: TServerContext;
-  service: Omit<ServiceContext, "instanceId"> &
-    Partial<Pick<ServiceContext, "instanceId">>;
-  repositoryProviderParams: Array<{
+>(
+  params: Array<{
     namespace: TNamespace;
     builderFn: (
       context: TServerContext
@@ -77,43 +61,21 @@ export const createGraphQLHandler = async <
       TSelectKeys[TNamespace],
       TCacheKeys
     >;
-  }>;
-}) => {
-  const logger = injector.get(Logger);
-  if (!context) {
-    context = createServerContext<
-      TUser,
-      TEntities,
-      TNamespace,
-      TEntityMapping,
-      TSelectKeys,
-      TCacheKeys,
-      TServerContext
-    >({
-      injector,
-      env,
-      logger,
-      service
-    }) as TServerContext;
-  }
-
-  if (!plugins) {
-    plugins = await createPlugins<
-      TUser,
-      TEntities,
-      TNamespace,
-      TEntityMapping,
-      TSelectKeys,
-      TCacheKeys,
-      TServerContext
-    >({ context, repositoryProviderParams });
-  }
-
-  const server = createYoga<TServerContext>({
-    logging: injector.get(Logger),
-    plugins,
-    context
-  });
-
-  return server;
+  }>
+): Plugin<any> => {
+  return {
+    onContextBuilding({ context, extendContext }) {
+      extendContext({
+        repositories: params.map(({ namespace, builderFn }) => {
+          const repository = builderFn?.(context as any as TServerContext);
+          if (!repository) {
+            return {};
+          }
+          return {
+            [namespace]: repository
+          };
+        })
+      });
+    }
+  };
 };

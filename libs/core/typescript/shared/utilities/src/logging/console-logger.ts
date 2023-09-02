@@ -8,7 +8,7 @@ import {
   printInfo,
   printSuccess,
   printWarning,
-  startGroup,
+  startGroup
 } from "./print";
 
 export class ConsoleLogger extends Logger {
@@ -18,6 +18,13 @@ export class ConsoleLogger extends Logger {
    */
   static success(...message: any[]) {
     printSuccess(message, true, true, false);
+  }
+
+  /**
+   * @param {string} message - The fatal message to be printed.
+   */
+  static fatal(...message: any[]) {
+    printError(message, true, true, true);
   }
 
   /**
@@ -94,8 +101,8 @@ export class ConsoleLogger extends Logger {
     endGroup();
   }
 
-  public constructor() {
-    super();
+  public constructor(_name = "root") {
+    super(_name);
   }
 
   /**
@@ -106,6 +113,15 @@ export class ConsoleLogger extends Logger {
    */
   public success = (...message: any[]) => {
     printSuccess(message, true, true, true);
+  };
+
+  /**
+   * It returns a promise that resolves to void.
+   * @param {string} message - The fatal message to be displayed.
+   * @returns Nothing.
+   */
+  public fatal = (...message: any[]) => {
+    printError(message, true, true, true);
   };
 
   /**
@@ -153,10 +169,28 @@ export class ConsoleLogger extends Logger {
   };
 
   /**
+   * It prints a warning message.
+   * @param {string} message - The trace message to be printed.
+   * @returns Nothing.
+   */
+  public trace = (...message: any[]) => {
+    printInfo(message, true, true, true);
+  };
+
+  /**
    * @param {string} message - The message to be printed.
    * @returns A promise that resolves to void.
    */
   public log = (...message: any[]) => {
     print(message, false, false, undefined, undefined, false);
+  };
+
+  /**
+   * Returns a logger with the provided bindings attached to its log messages
+   * @param bindings Key-value pairs to attach to all messages
+   * @returns The new logger instance
+   */
+  public override withFields = (name: string): ConsoleLogger => {
+    return new ConsoleLogger(name);
   };
 }

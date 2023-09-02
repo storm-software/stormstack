@@ -8,8 +8,8 @@ import pino from "pino";
 export class PinoLogger extends Logger {
   #logger: pino.BaseLogger;
 
-  constructor(private readonly env: EnvManager) {
-    super();
+  constructor(private readonly env: EnvManager, _name = "root") {
+    super(_name);
 
     this.#logger = pino({
       level: this.env.get("LOG_LEVEL") ?? "info",
@@ -43,6 +43,15 @@ export class PinoLogger extends Logger {
    */
   public override success = (...message: any[]) => {
     this.#logger.info(message);
+  };
+
+  /**
+   * It returns a promise that resolves to void.
+   * @param {string} message - The fatal message to be displayed.
+   * @returns Nothing.
+   */
+  public override fatal = (...message: any[]) => {
+    this.#logger.error(message);
   };
 
   /**
@@ -90,10 +99,28 @@ export class PinoLogger extends Logger {
   };
 
   /**
+   * It returns a promise that resolves to void.
+   * @param {string} message - The trace message to be displayed.
+   * @returns Nothing.
+   */
+  public override trace = (...message: any[]) => {
+    this.#logger.debug(message);
+  };
+
+  /**
    * @param {string} message - The message to be printed.
    * @returns A promise that resolves to void.
    */
   public override log = (...message: any[]) => {
     this.#logger.info(message);
+  };
+
+  /**
+   * It prints a message.
+   * @param {string} message - The message to be printed.
+   * @returns Nothing.
+   */
+  public override withFields = (name: string) => {
+    return new PinoLogger(this.env, name);
   };
 }

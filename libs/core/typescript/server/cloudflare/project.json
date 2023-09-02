@@ -5,20 +5,22 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core/typescript/server/cloudflare",
         "tsConfig": "libs/core/typescript/server/cloudflare/tsconfig.lib.json",
         "packageJson": "libs/core/typescript/server/cloudflare/package.json",
         "main": "libs/core/typescript/server/cloudflare/src/index.ts",
-        "assets": [
-          {
-            "glob": "libs/core/typescript/server/cloudflare/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "assets": ["libs/core/typescript/server/cloudflare/*.md"],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "skipTypeCheck": true,
+        "generatePackageJson": true,
+        "format": ["esm", "cjs"],
+        "platform": "node"
       }
     },
     "lint": {

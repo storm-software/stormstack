@@ -1,20 +1,20 @@
 import {
   EventPublisher,
   EventStore,
-  IAggregateRoot,
-  IDomainEvent,
-  MessageBroker,
-} from "@open-system/core-server-services";
+  MessageBroker
+} from "@open-system/core-server-application";
+import { IAggregateRoot, IDomainEvent } from "@open-system/core-server-domain";
+import { Service } from "@open-system/core-shared-injection";
+import { JsonParser } from "@open-system/core-shared-serialization/json-parser";
 import { Logger } from "@open-system/core-shared-utilities";
-import { Injectable } from "graphql-modules";
 import { CompressionTypes, Message } from "kafkajs";
 import { KafkaConfig } from "../environment";
 import {
   KafkaMessageBrokerReadConfig,
-  KafkaMessageBrokerWriteConfig,
+  KafkaMessageBrokerWriteConfig
 } from "../types";
 
-@Injectable()
+@Service()
 export class KafkaEventPublisher extends EventPublisher {
   #config: KafkaConfig;
 
@@ -38,20 +38,17 @@ export class KafkaEventPublisher extends EventPublisher {
   >(
     event: IDomainEvent<TAggregate>
   ): Promise<void> => {
-    event.aggregateId;
     const message = {
       key: `${event.aggregateId}-v${event.aggregateSequence}`,
       headers: {
-        eventType: event.eventType,
-        eventVersion: String(event.integrationEvent.version),
         timestamp: event.timestamp.toISOString(),
         correlationId: event.correlationId,
         aggregateId: event.aggregateId,
         aggregateSequence: String(event.aggregateSequence),
-        aggregateType: event.aggregateType,
+        aggregateType: event.aggregateType
       },
-      value: event.integrationEvent.stringify(),
-      timestamp: event.timestamp.toISOString(),
+      value: JsonParser.stringify(event.integrationEvent),
+      timestamp: event.timestamp.toISOString()
     };
 
     await this.broker.write<Message>(
@@ -59,7 +56,7 @@ export class KafkaEventPublisher extends EventPublisher {
       message,
       {
         compression: CompressionTypes.GZIP,
-        timeout: this.#config.KAFKA_TIMEOUT ?? 100000,
+        timeout: this.#config.KAFKA_TIMEOUT ?? 100000
       }
     );
   };

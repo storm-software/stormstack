@@ -75,3 +75,10 @@ export type EnvProxy = Record<
     MaybePromise<Record<string, any> | string | boolean | number | undefined>
   >
 >;
+
+export type EnvironmentType = "development" | "staging" | "production";
+export const EnvironmentType = {
+  DEVELOPMENT: "development" as EnvironmentType,
+  STAGING: "staging" as EnvironmentType,
+  PRODUCTION: "production" as EnvironmentType
+};

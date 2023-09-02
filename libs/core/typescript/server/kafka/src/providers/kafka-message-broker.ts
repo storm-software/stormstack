@@ -1,14 +1,14 @@
-import { MessageBroker } from "@open-system/core-server-services";
+import { MessageBroker } from "@open-system/core-server-application";
+import { Service } from "@open-system/core-shared-injection";
 import { Logger, UniqueIdGenerator } from "@open-system/core-shared-utilities";
-import { Injectable } from "graphql-modules";
 import { Consumer, Kafka, Message, Producer } from "kafkajs";
 import { KafkaConfig } from "../environment";
 import {
   KafkaMessageBrokerReadConfig,
-  KafkaMessageBrokerWriteConfig,
+  KafkaMessageBrokerWriteConfig
 } from "../types";
 
-@Injectable()
+@Service()
 export class KafkaMessageBroker extends MessageBroker<
   Message,
   KafkaMessageBrokerReadConfig,
@@ -27,15 +27,15 @@ export class KafkaMessageBroker extends MessageBroker<
       sasl: {
         mechanism: "scram-sha-512",
         username: config.KAFKA_USERNAME,
-        password: config.KAFKA_PASSWORD,
+        password: config.KAFKA_PASSWORD
       },
-      ssl: true,
+      ssl: true
     });
 
     this.#groupId = UniqueIdGenerator.generate();
     this.#producer = this.#kafka.producer();
     this.#consumer = this.#kafka.consumer({
-      groupId: this.#groupId,
+      groupId: this.#groupId
     });
   }
 
@@ -50,7 +50,7 @@ export class KafkaMessageBroker extends MessageBroker<
     await this.#producer.send({
       ...config,
       topic: channel,
-      messages: [message],
+      messages: [message]
     });
     await this.#producer.disconnect();
   };
@@ -65,7 +65,7 @@ export class KafkaMessageBroker extends MessageBroker<
     await this.#consumer.subscribe({
       topics: Array.isArray(channel) ? channel : [channel],
       fromBeginning: true,
-      ...config?.subscription,
+      ...config?.subscription
     });
 
     await this.#consumer.run({
@@ -75,7 +75,7 @@ export class KafkaMessageBroker extends MessageBroker<
         this.logger.debug(`Reading data from topic: ${topic}`);
 
         handler(topic, message as TMessage);
-      },
+      }
     });
   };
 }

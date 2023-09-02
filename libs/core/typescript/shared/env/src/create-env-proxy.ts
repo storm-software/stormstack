@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
@@ -102,6 +103,22 @@ export const createEnvProxy = <TOptions extends BaseOptions = BaseOptions>(
         }
 
         return value;
+      },
+      set: (
+        target: Record<string, string | number | boolean>,
+        prop: string | symbol,
+        newValue: any,
+        _: any
+      ): boolean => {
+        const cache = options?.cache ?? EnvCache;
+        if (cache.has(prop as string)) {
+          cache.delete(prop as string);
+        }
+
+        cache.set(prop as string, newValue);
+        target[prop as string] = newValue;
+
+        return true;
       }
     });
   }

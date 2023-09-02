@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  isPrimitive as isBaseTypeExternal,
   isFunction as isFunctionExternal,
   isNumber as isNumberExternal,
   isObject as isObjectExternal,
-  isPrimitive as isPrimitiveExternal,
-  isSymbol as isSymbolExternal,
+  isSymbol as isSymbolExternal
 } from "radash";
 import { MutableRefObject } from "react";
 import zod from "zod";
@@ -54,15 +54,15 @@ export const isSymbol = (obj: unknown): obj is symbol => {
 };
 
 /**
- * Check if the provided value's type is a primary type
+ * Check if the provided value's type is a built-in base type
  * @param obj - The value to type check
- * @returns An indicator specifying if the value provided is a primary type
+ * @returns An indicator specifying if the value provided is a built-in base type
  *
- * @remarks **Primitive Types**: `number`, `string`, `boolean`, `symbol`, `bigint`, `undefined`, `null`
+ * @remarks **Base Types**: `number`, `string`, `boolean`, `symbol`, `bigint`, `undefined`, `null`
  */
-export const isPrimitive = (obj: unknown): boolean => {
+export const isBaseType = (obj: unknown): boolean => {
   try {
-    return isPrimitiveExternal(obj);
+    return isBaseTypeExternal(obj);
   } catch (e) {
     return false;
   }
@@ -361,7 +361,7 @@ export const emptyString = <T extends zod.ZodType>(input: T) => {
   }, input);
 };
 
-export const propertyIsOnObject = (object, property) => {
+export const propertyIsOnObject = (object: any, property: string) => {
   try {
     return property in object;
   } catch (_) {
@@ -370,7 +370,7 @@ export const propertyIsOnObject = (object, property) => {
 };
 
 // Protects from prototype poisoning and unexpected merging up the prototype chain.
-export const propertyIsUnsafe = (target, key) => {
+export const propertyIsUnsafe = (target: any, key: any) => {
   return (
     propertyIsOnObject(target, key) && // Properties are safe to merge if they don't exist in the target yet,
     !(
@@ -384,11 +384,11 @@ export const isMergeableObject = (value: any): boolean => {
   return isNonNullObject(value) && !isSpecialType(value);
 };
 
-export const isNonNullObject = value => {
+export const isNonNullObject = (value: any) => {
   return !!value && typeof value === "object";
 };
 
-export const isSpecialType = value => {
+export const isSpecialType = (value: any) => {
   const stringValue = Object.prototype.toString.call(value);
 
   return (
@@ -399,11 +399,27 @@ export const isSpecialType = value => {
 };
 
 // see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
-export const isReactElement = value => {
+export const isReactElement = (value: any) => {
   return (
     value.$$typeof ===
     (typeof Symbol === "function" && Symbol.for
       ? Symbol.for("react.element")
       : 0xeac7)
+  );
+};
+
+/**
+ * Check if the provided value's type is "array-like"
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the object provided is "array-like"
+ */
+export const isArrayLike = (x: unknown): boolean => {
+  return (
+    isObject(x) &&
+    !isEmpty(x) &&
+    "length" in x &&
+    isNumber(x.length) &&
+    (x.length === 0 ||
+      (x.length > 0 && Object.prototype.hasOwnProperty.call(x, x.length - 1)))
   );
 };

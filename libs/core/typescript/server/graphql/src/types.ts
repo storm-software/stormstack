@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import {
-  EventSourcedServerContext,
-  UserContext
+  CreateServerContextParams,
+  ServerContext,
+  UserContext,
+  WhereParams,
+  WhereUniqueParams
 } from "@open-system/core-server-application";
+import { IEntity } from "@open-system/core-server-domain/types";
+import { ArrayElement } from "@open-system/core-shared-utilities/types";
 import { MergedScalars, SchemaTypes } from "@pothos/core";
 import { AllSelection } from "kysely/dist/cjs/parser/select-parser";
 
@@ -122,12 +127,49 @@ export interface GraphQLHandlerOptions {
   release: string;
 }
 
-export type GraphQLServerContext<TUser extends UserContext = UserContext> =
-  EventSourcedServerContext<TUser> & {
-    request: any;
-    requestId: string;
-    headers: Record<string, string | string[] | undefined>;
-  };
+export type GraphQLServerContext<
+  TUser extends UserContext = UserContext,
+  TEntities extends Array<IEntity> = Array<IEntity>,
+  TNamespace extends ArrayElement<TEntities>["__typename"] = ArrayElement<TEntities>["__typename"],
+  TEntityMapping extends Record<TNamespace, ArrayElement<TEntities>> = Record<
+    TNamespace,
+    ArrayElement<TEntities>
+  >,
+  TSelectKeys extends Record<
+    TNamespace,
+    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
+    | WhereUniqueParams<
+        TEntityMapping[TNamespace],
+        keyof TEntityMapping[TNamespace]
+      >
+    | Record<string, never>
+  > = Record<
+    TNamespace,
+    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
+    | WhereUniqueParams<
+        TEntityMapping[TNamespace],
+        keyof TEntityMapping[TNamespace]
+      >
+    | Record<string, never>
+  >,
+  TCacheKeys = TSelectKeys,
+  TRequest = any
+> = ServerContext<
+  TUser,
+  TEntities,
+  TNamespace,
+  TEntityMapping,
+  TSelectKeys,
+  TCacheKeys
+> & {
+  request: TRequest;
+};
+
+export type CreateGraphQLServerContextParams<
+  TUser extends UserContext = UserContext
+> = CreateServerContextParams<TUser> & {
+  request: any;
+};
 
 export interface CacheStore<T = any> {
   get(key: string): T | undefined;
