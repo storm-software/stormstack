@@ -6,29 +6,15 @@ import {
   isFunction,
   isObject
 } from "@open-system/core-shared-utilities/common/type-checks";
-import {
-  CacheMap,
-  RepositoryOptions,
-  WhereParams,
-  WhereUniqueParams
-} from "../types";
-import { Repository } from "./repository";
+import { BatchLoadKey, CacheMap, RepositoryOptions } from "../types";
+import { RepositoryDataLoader } from "./repository-data-loader";
 
 // Private: Describes a batch of requests
-export type Batch<
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>
-> = {
+export type Batch<TEntity extends IEntity = IEntity> = {
   hasDispatched: boolean;
-  keys: Array<TSelectKeys>;
+  keys: Array<BatchLoadKey<TEntity>>;
   callbacks: Array<{
-    resolve: (value: TEntity) => void;
+    resolve: (value: TEntity | TEntity[]) => void;
     reject: (error: Error) => void;
   }>;
   cacheHits?: Array<() => void>;
@@ -83,26 +69,16 @@ export const enqueuePostPromiseJob =
 
 // Private: Either returns the current batch, or creates and schedules a
 // dispatch of a new batch for the given loader.
-export const getCurrentBatch = <
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TSelectKeys
->(
-  repository: Repository<TEntity, TSelectKeys, TCacheKeys>
-): Batch<TEntity, TSelectKeys> => {
+export const getCurrentBatch = <TEntity extends IEntity = IEntity>(
+  repositoryDataLoader: RepositoryDataLoader<TEntity>
+): Batch<TEntity> => {
   // If there is an existing batch which has not yet dispatched and is within
   // the limit of the batch size, then return it.
-  const existingBatch = repository.batch;
+  const existingBatch = repositoryDataLoader.batch;
   if (
     existingBatch !== null &&
     !existingBatch.hasDispatched &&
-    existingBatch.keys.length < (repository.options.maxBatchSize ?? Infinity)
+    existingBatch.keys.length < (repositoryDataLoader.maxBatchSize ?? Infinity)
   ) {
     return existingBatch;
   }
@@ -111,30 +87,20 @@ export const getCurrentBatch = <
   const newBatch = { hasDispatched: false, keys: [], callbacks: [] };
 
   // Store it on the loader so it may be reused.
-  repository.batch = newBatch;
+  repositoryDataLoader.batch = newBatch;
 
   // Then schedule a task to dispatch this batch of requests.
-  repository.options.batchScheduleFn &&
-    repository.options.batchScheduleFn(() => {
-      dispatchBatch<TEntity, TSelectKeys, TCacheKeys>(repository, newBatch);
+  repositoryDataLoader.batchScheduleFn &&
+    repositoryDataLoader.batchScheduleFn(() => {
+      dispatchBatch<TEntity>(repositoryDataLoader, newBatch);
     });
 
   return newBatch;
 };
 
-export const dispatchBatch = <
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TSelectKeys
->(
-  repository: Repository<TEntity, TSelectKeys, TCacheKeys>,
-  batch: Batch<TEntity, TSelectKeys>
+export const dispatchBatch = <TEntity extends IEntity = IEntity>(
+  repositoryDataLoader: RepositoryDataLoader<TEntity>,
+  batch: Batch<TEntity>
 ) => {
   // Mark this batch as having been dispatched.
   batch.hasDispatched = true;
@@ -149,10 +115,10 @@ export const dispatchBatch = <
   // with the loader as the `this` context.
   let batchPromise;
   try {
-    batchPromise = repository.batchLoadFn(batch.keys);
+    batchPromise = repositoryDataLoader.batchLoadFn(batch.keys);
   } catch (e) {
     return failedDispatch(
-      repository,
+      repositoryDataLoader,
       batch,
       new TypeError(
         "DataLoader must be constructed with a function which accepts " +
@@ -165,7 +131,7 @@ export const dispatchBatch = <
   // Assert the expected response from batchLoadFn
   if (!batchPromise || typeof batchPromise.then !== "function") {
     return failedDispatch(
-      repository,
+      repositoryDataLoader,
       batch,
       new TypeError(
         "DataLoader must be constructed with a function which accepts " +
@@ -211,47 +177,28 @@ export const dispatchBatch = <
       }
     })
     .catch((error: Error) => {
-      failedDispatch(repository, batch, error);
+      failedDispatch(repositoryDataLoader, batch, error);
     });
 };
 
 // Private: do not cache individual loads if the entire batch dispatch fails,
 // but still reject each request so they do not hang.
-export const failedDispatch = <
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TSelectKeys
->(
-  repository: Repository<TEntity, TSelectKeys, TCacheKeys>,
-  batch: Batch<TEntity, TSelectKeys>,
+export const failedDispatch = <TEntity extends IEntity = IEntity>(
+  repositoryDataLoader: RepositoryDataLoader<TEntity>,
+  batch: Batch<TEntity>,
   error: Error
 ) => {
   // Cache hits are resolved, even though the batch failed.
   resolveCacheHits(batch);
   for (let i = 0; i < batch.keys.length; i++) {
-    repository.clear(batch.keys[i]);
+    repositoryDataLoader.clear(batch.keys[i]);
     batch.callbacks[i].reject(error);
   }
 };
 
 // Private: Resolves the Promises for any cache hits in this batch.
-export const resolveCacheHits = <
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>
->(
-  batch: Batch<TEntity, TSelectKeys>
+export const resolveCacheHits = <TEntity extends IEntity = IEntity>(
+  batch: Batch<TEntity>
 ) => {
   if (batch.cacheHits) {
     for (let i = 0; i < batch.cacheHits.length; i++) {
@@ -261,18 +208,8 @@ export const resolveCacheHits = <
 };
 
 // Private: given the DataLoader's options, produce a valid max batch size.
-export const getValidMaxBatchSize = <
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TSelectKeys
->(
-  options: RepositoryOptions<TEntity, TSelectKeys, TCacheKeys>
+export const getValidMaxBatchSize = <TEntity extends IEntity = IEntity>(
+  options: RepositoryOptions<TEntity>
 ): number => {
   const shouldBatch = !options || options.batch !== false;
   if (!shouldBatch) {
@@ -291,18 +228,8 @@ export const getValidMaxBatchSize = <
 };
 
 // Private
-export const getValidBatchScheduleFn = <
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TSelectKeys
->(
-  options: RepositoryOptions<TEntity, TSelectKeys, TCacheKeys>
+export const getValidBatchScheduleFn = <TEntity extends IEntity = IEntity>(
+  options: RepositoryOptions<TEntity>
 ) => {
   const batchScheduleFn = options?.batchScheduleFn;
   if (batchScheduleFn === undefined) {
@@ -317,43 +244,10 @@ export const getValidBatchScheduleFn = <
   return batchScheduleFn;
 };
 
-// Private: given the DataLoader's options, produce a cache key function.
-export const getValidCacheKeyFn = <
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>,
-  TCacheKeys = TSelectKeys
->(
-  options?: RepositoryOptions<TEntity, TSelectKeys, TCacheKeys>
-) => {
-  const cacheKeyFn = options?.cacheKeyFn;
-  if (cacheKeyFn === undefined) {
-    return (key: TSelectKeys) => key as unknown as TCacheKeys;
-  }
-  if (!isFunction(cacheKeyFn)) {
-    throw new TypeError(`cacheKeyFn must be a function: ${cacheKeyFn}`);
-  }
-
-  return cacheKeyFn;
-};
-
 // Private: given the DataLoader's options, produce a CacheMap to be used.
-export const getValidCacheMap = <
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TSelectKeys
->(
-  options: RepositoryOptions<TEntity, keyof TEntity>
-): CacheMap<TEntity, TSelectKeys, TCacheKeys> | null => {
+export const getValidCacheMap = <TEntity extends IEntity = IEntity>(
+  options: RepositoryOptions<TEntity>
+): CacheMap<TEntity> | null => {
   const shouldCache = !options || options.cache !== false;
   if (!shouldCache) {
     return null;
@@ -364,8 +258,9 @@ export const getValidCacheMap = <
   }
   if (cacheMap !== null) {
     const cacheFunctions = ["get", "set", "delete", "clear"];
-    const missingFunctions = cacheFunctions.filter(
-      fnName => cacheMap && !isFunction(cacheMap.get(fnName as keyof TEntity))
+    const missingFunctions: string[] = cacheFunctions.filter(
+      fnName =>
+        cacheMap && !isFunction((cacheMap as Record<string, any>)?.[fnName])
     );
     if (missingFunctions.length !== 0) {
       throw new TypeError(
@@ -373,11 +268,11 @@ export const getValidCacheMap = <
       );
     }
   }
-  return cacheMap as CacheMap<TEntity, TSelectKeys, TCacheKeys>;
+  return cacheMap as CacheMap<TEntity>;
 };
 
 export const getValidName = <TEntity extends IEntity = IEntity>(
-  options: RepositoryOptions<TEntity, keyof TEntity>
+  options: RepositoryOptions<TEntity>
 ): string | null => {
   if (options && options.name) {
     return options.name;

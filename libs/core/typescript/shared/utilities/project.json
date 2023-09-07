@@ -24,6 +24,7 @@
         "metafile": true,
         "minify": true,
         "format": ["esm", "cjs"],
+        "skipTypeCheck": true,
         "platform": "neutral"
       }
     },
@@ -52,5 +53,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["scope:core", "platform:shared", "level:utilities"]
 }

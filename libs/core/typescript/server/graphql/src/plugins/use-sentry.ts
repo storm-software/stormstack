@@ -42,12 +42,13 @@ export const useSentry = <
         )?.kind ??
         "unknown";
 
-      const ctx = args.contextValue as TContext;
-      if (!ctx) {
+      const context = args.contextValue as TContext;
+      if (!context) {
         throw new MissingContextError("Context is missing");
       }
 
-      const clientNameHeaderValue = ctx.headers["graphql-client-name"];
+      const clientNameHeaderValue =
+        context.request.headers["graphql-client-name"];
       const clientName = Array.isArray(clientNameHeaderValue)
         ? clientNameHeaderValue[0]
         : clientNameHeaderValue;
@@ -63,7 +64,7 @@ export const useSentry = <
         operationName,
         variables: JsonParser.stringify(args.variableValues),
         operation: print(args.document),
-        userId: ctx?.user.id
+        userId: context?.user.id
       });
     },
     appendTags: ({ contextValue }) => {

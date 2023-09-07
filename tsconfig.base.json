@@ -268,6 +268,9 @@
       "@open-system/tools-storm-plugins-drizzle": [
         "tools/storm/plugins/drizzle/src/index.ts"
       ],
+      "@open-system/tools-storm-plugins-graphql": [
+        "tools/storm/plugins/graphql/src/index.ts"
+      ],
       "@open-system/tools-storm-plugins-zod": [
         "tools/storm/plugins/zod/src/index.ts"
       ],
@@ -292,9 +295,6 @@
       ],
       "@open-system/tools-storm-schema/plugins/prisma": [
         "tools/storm/schema/src/plugins/prisma/index.ts"
-      ],
-      "@open-system/tools-storm-schema/plugins/zod": [
-        "tools/storm/schema/src/plugins/zod/index.ts"
       ],
       "@open-system/user-management-client-components": [
         "libs/user-management/typescript/client/components/src/index.ts"

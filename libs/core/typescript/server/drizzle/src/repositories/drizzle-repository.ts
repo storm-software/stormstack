@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AggregateParams,
-  BatchLoadFn,
   CreateParams,
   DeleteManyParams,
   DeleteParams,
+  FindCountParams,
   FindFirstParams,
   FindManyParams,
   FindUniqueParams,
@@ -12,60 +13,37 @@ import {
   RepositoryOptions,
   UpdateManyParams,
   UpdateParams,
-  UpsertParams,
-  WhereParams,
-  WhereUniqueParams
+  UpsertParams
 } from "@open-system/core-server-application";
 import { IEntity } from "@open-system/core-server-domain";
+import { EnvManager } from "@open-system/core-shared-env/env-manager";
+import { BaseOptions } from "@open-system/core-shared-env/types";
 import { Service } from "@open-system/core-shared-injection";
 import {
   Logger,
   NotFoundError,
   RequiredError
 } from "@open-system/core-shared-utilities";
+import { sql } from "drizzle-orm/sql";
 import {
   BaseSQLiteDatabase,
   SQLiteTableWithColumns
 } from "drizzle-orm/sqlite-core";
 import { formatWhereParams } from "../utilities/format-params";
 
-@Service(Repository)
+@Service(DrizzleRepository)
 export class DrizzleRepository<
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TSelectKeys
-> extends Repository<TEntity, TSelectKeys, TCacheKeys> {
+  TEntity extends IEntity = IEntity
+> extends Repository<TEntity> {
   constructor(
     protected schema: SQLiteTableWithColumns<any>,
     protected db: BaseSQLiteDatabase<"async", any, any>,
     logger: Logger,
-    options: RepositoryOptions<TEntity, TSelectKeys, TCacheKeys>
+    env: EnvManager<BaseOptions>,
+    options: RepositoryOptions<TEntity>
   ) {
-    super(logger, options);
+    super(logger, env, options);
   }
-
-  public override batchLoadFn: BatchLoadFn<TEntity, TSelectKeys, TCacheKeys> =
-    async (keys: TSelectKeys[]) => {
-      const promises = [];
-
-      keys.map((key: TSelectKeys) => {
-        const where = key as WhereParams<TEntity, keyof TEntity>;
-
-        const promise = this.db
-          .select()
-          .from(this.schema)
-          .where(formatWhereParams<TEntity>(this.schema, where));
-        promises.push(promise);
-      });
-
-      return await Promise.all(promises);
-    };
 
   protected override innerFindUnique = async (
     params: FindUniqueParams<TEntity>
@@ -107,6 +85,20 @@ export class DrizzleRepository<
     }
 
     return results as TEntity[];
+  };
+
+  protected override innerFindCount = async (
+    params: FindCountParams<TEntity>
+  ) => {
+    const results = await this.db
+      .select({ count: sql<number>`count(*)` })
+      .from(this.schema)
+      .where(formatWhereParams<TEntity>(this.schema, params.where));
+    if (!results || results.length === 0) {
+      throw new NotFoundError("records");
+    }
+
+    return results[0].count;
   };
 
   protected override innerCreate = async (params: CreateParams<TEntity>) => {

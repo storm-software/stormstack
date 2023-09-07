@@ -1,18 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import { IAggregateRoot } from "@open-system/core-server-domain";
-import { IEntity } from "@open-system/core-server-domain/types";
+import { IEntity, WithMetadata } from "@open-system/core-server-domain/types";
 import { EnvironmentType } from "@open-system/core-shared-env";
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
 import { Injector } from "@open-system/core-shared-injection/types";
-import { ArrayElement, Logger } from "@open-system/core-shared-utilities";
+import { JsonParser } from "@open-system/core-shared-serialization/json-parser";
+import {
+  DateTime,
+  Logger,
+  UniqueIdGenerator
+} from "@open-system/core-shared-utilities";
+import {
+  ArrayElement,
+  IBaseClass
+} from "@open-system/core-shared-utilities/types";
 import { ICommand } from "./commands";
-import { Repository } from "./repositories";
+import { Repository } from "./repositories/repository";
 
 export const MESSAGE_BROKER_TOKEN = Symbol.for("MESSAGE_BROKER_TOKEN");
 export const EVENT_PUBLISHER_TOKEN = Symbol.for("EVENT_PUBLISHER_TOKEN");
 export const EVENT_STORE_TOKEN = Symbol.for("EVENT_STORE_TOKEN");
 export const REPOSITORY_TOKEN = Symbol.for("REPOSITORY_TOKEN");
+export const REPOSITORY_DATA_LOADER_TOKEN = Symbol.for(
+  "REPOSITORY_DATA_LOADER_TOKEN"
+);
+export const MANAGER_TOKEN = Symbol.for("MANAGER_TOKEN");
 
 export type StringFilter = {
   equals?: string;
@@ -107,158 +120,188 @@ export const SortOrder = {
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
 
+type EntityFieldKeys<TEntity extends IEntity = IEntity> = keyof Omit<
+  TEntity,
+  "__typename"
+>;
+
+type EntityFields<TEntity extends IEntity = IEntity> =
+  TEntity[EntityFieldKeys<TEntity>];
+
+export type EntityKeys<TEntity extends IEntity = IEntity> =
+  EntityFields<TEntity> extends IEntity
+    ? EntityKeys<EntityFields<TEntity>>
+    : EntityFieldKeys<TEntity>;
+
 export type AggregateFieldParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = Partial<Record<TKey, true>>;
+  TEntity extends IEntity = IEntity,
+  TEntityKeys extends EntityKeys<TEntity> = EntityKeys<TEntity>
+> = Partial<Record<TEntityKeys, true>>;
 
 export type AggregateCountFieldParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = AggregateFieldParams<TData, TKey> & {
+  TEntity extends IEntity = IEntity,
+  TEntityKeys extends EntityKeys<TEntity> = EntityKeys<TEntity>
+> = AggregateFieldParams<TEntity, TEntityKeys> & {
   _all?: true;
 };
 
-export type WhereParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = Partial<
-  Record<TKey, StringNullableFilter | DateTimeNullableFilter | BoolFilter>
+type WhereParamsFields<TEntity extends IEntity = IEntity> = {
+  [key in EntityKeys<TEntity>]?:
+    | StringFilter
+    | DateTimeFilter
+    | BoolFilter
+    | NumberFilter
+    | WhereParams<TEntity>;
+};
+
+/*
+Record<
+    EntityKeys<TEntity>,
+    StringNullableFilter | DateTimeNullableFilter | BoolFilter
+  >
+>;*/
+
+export type WhereParams<TEntity extends IEntity = IEntity> =
+  WhereParamsFields<TEntity> & {
+    AND?: Array<WhereParams<TEntity>>;
+    OR?: Array<WhereParams<TEntity>>;
+    NOT?: WhereParams<TEntity> | Array<WhereParams<TEntity>>;
+  };
+
+export type WhereUniqueParams<TEntity extends IEntity = IEntity> = Partial<
+  Omit<WhereParams<TEntity>, "id">
 > & {
-  AND?: WhereParams<TData, TKey> | WhereParams<TData, TKey>[];
-  OR?: WhereParams<TData, TKey>[];
-  NOT?: WhereParams<TData, TKey> | WhereParams<TData, TKey>[];
+  id: string;
 };
 
-export type WhereUniqueParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = Partial<WhereParams<TData, TKey>> & {
-  id?: string;
+type SelectParams<TEntityKeys extends string | number | symbol> = Partial<
+  Record<TEntityKeys, boolean>
+>;
+type SelectUniqueParams<TEntity extends IEntity = IEntity> = SelectParams<
+  EntityKeys<TEntity>
+>;
+
+export type FindUniqueParams<TEntity extends IEntity = IEntity> = {
+  select?: SelectUniqueParams<TEntity>;
+  where: WhereUniqueParams<TEntity>;
 };
 
-export type FindUniqueParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  where: WhereUniqueParams<TData, TKey>;
-};
+type SelectManyParams<TEntity extends IEntity = IEntity> = Partial<
+  Record<EntityKeys<TEntity>, boolean>
+>;
 
-export type FindFirstParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  where?: WhereParams<TData, TKey>;
-  orderBy?: Record<TKey, SortOrder> | Array<Record<TKey, SortOrder>>;
-  cursor?: WhereUniqueParams<TData, TKey>;
+export type FindFirstParams<TEntity extends IEntity = IEntity> = {
+  select?: SelectManyParams<TEntity>;
+  where?: WhereParams<TEntity>;
+  orderBy?:
+    | Record<EntityKeys<TEntity>, SortOrder>
+    | Array<Record<EntityKeys<TEntity>, SortOrder>>;
+  cursor?: WhereUniqueParams<TEntity>;
   take?: number;
   skip?: number;
-  distinct?: TKey | Array<TKey>;
+  distinct?: EntityKeys<TEntity> | Array<EntityKeys<TEntity>>;
 };
 
-export type FindManyParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  where?: WhereParams<TData, TKey>;
-  orderBy?: Record<TKey, SortOrder> | Array<Record<TKey, SortOrder>>;
-  cursor?: WhereUniqueParams<TData, TKey>;
+export type FindManyParams<TEntity extends IEntity = IEntity> = {
+  select?: SelectManyParams<TEntity>;
+  where?: WhereParams<TEntity>;
+  orderBy?:
+    | Record<EntityKeys<TEntity>, SortOrder>
+    | Array<Record<EntityKeys<TEntity>, SortOrder>>;
+  cursor?: WhereUniqueParams<TEntity>;
   take?: number;
   skip?: number;
-  distinct?: TKey | Array<TKey>;
+  distinct?: EntityKeys<TEntity> | Array<EntityKeys<TEntity>>;
 };
 
-export type CreateParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  data: Partial<TData>;
-};
-
-export type UpdateParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  data: Partial<TData>;
-  where: WhereUniqueParams<TData, TKey>;
-};
-
-export type UpdateManyParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  data: Partial<TData>;
-  where?: WhereUniqueParams<TData, TKey>;
-};
-
-export type UpsertParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  create: CreateParams<TData, TKey>["data"];
-  update: UpdateParams<TData, TKey>["data"];
-  where: WhereUniqueParams<TData, TKey>;
-};
-
-export type DeleteParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  where: WhereUniqueParams<TData, TKey>;
-};
-
-export type DeleteManyParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  where?: WhereParams<TData, TKey>;
-};
-
-export type AggregateParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  where?: WhereParams<TData, TKey>;
-  orderBy?: Record<TKey, SortOrder> | Array<Record<TKey, SortOrder>>;
-  cursor?: WhereUniqueParams<TData, TKey>;
+export type FindCountParams<TEntity extends IEntity = IEntity> = {
+  where?: WhereParams<TEntity>;
+  cursor?: WhereUniqueParams<TEntity>;
   take?: number;
   skip?: number;
-  distinct?: TKey | Array<TKey>;
-  _count?: AggregateCountFieldParams<TData, TKey>;
-  _min?: AggregateFieldParams<TData, TKey>;
-  _max?: AggregateFieldParams<TData, TKey>;
+  distinct?: EntityKeys<TEntity> | Array<EntityKeys<TEntity>>;
 };
 
-export type GroupByParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
-> = {
-  select?: Partial<Record<TKey, boolean>>;
-  where?: WhereParams<TData, TKey>;
-  orderBy?: Record<TKey, SortOrder> | Array<Record<TKey, SortOrder>>;
-  cursor?: WhereUniqueParams<TData, TKey>;
+export const DEFAULT_SORT_ORDER = { id: SortOrder.asc };
+
+export type UpdateDataParams<TEntity extends IEntity = IEntity> = Omit<
+  TEntity,
+  | "__typename"
+  | "sequence"
+  | "createdAt"
+  | "createdBy"
+  | "updatedAt"
+  | "updatedBy"
+>;
+
+export type CreateParams<TEntity extends IEntity = IEntity> = {
+  select?: Partial<Record<EntityKeys<TEntity>, boolean>>;
+  data: UpdateDataParams<TEntity>;
+};
+
+export type UpdateParams<TEntity extends IEntity = IEntity> = {
+  select?: SelectManyParams<TEntity>;
+  data: UpdateDataParams<TEntity>;
+  where: WhereUniqueParams<TEntity>;
+};
+
+export type UpdateManyParams<TEntity extends IEntity = IEntity> = {
+  select?: SelectManyParams<TEntity>;
+  data: UpdateDataParams<TEntity>;
+  where?: WhereUniqueParams<TEntity>;
+};
+
+export type UpsertParams<TEntity extends IEntity = IEntity> = {
+  select?: SelectManyParams<TEntity>;
+  create: CreateParams<TEntity>["data"];
+  update: UpdateParams<TEntity>["data"];
+  where: WhereUniqueParams<TEntity>;
+};
+
+export type DeleteParams<TEntity extends IEntity = IEntity> = {
+  select?: SelectManyParams<TEntity>;
+  where: WhereUniqueParams<TEntity>;
+};
+
+export type DeleteManyParams<TEntity extends IEntity = IEntity> = {
+  where?: WhereParams<TEntity>;
+};
+
+export type AggregateParams<TEntity extends IEntity = IEntity> = {
+  select?: SelectManyParams<TEntity>;
+  where?: WhereParams<TEntity>;
+  orderBy?:
+    | Record<EntityKeys<TEntity>, SortOrder>
+    | Array<Record<EntityKeys<TEntity>, SortOrder>>;
+  cursor?: WhereUniqueParams<TEntity>;
   take?: number;
   skip?: number;
-  distinct?: TKey | Array<TKey>;
-  _count?: AggregateCountFieldParams<TData, TKey>;
-  _min?: AggregateFieldParams<TData, TKey>;
-  _max?: AggregateFieldParams<TData, TKey>;
+  distinct?: EntityKeys<TEntity> | Array<EntityKeys<TEntity>>;
+  _count?: AggregateCountFieldParams<TEntity, EntityKeys<TEntity>>;
+  _min?: AggregateFieldParams<TEntity, EntityKeys<TEntity>>;
+  _max?: AggregateFieldParams<TEntity, EntityKeys<TEntity>>;
+};
+
+export type GroupByParams<TEntity extends IEntity = IEntity> = {
+  select?: Partial<Record<EntityKeys<TEntity>, boolean>>;
+  where?: WhereParams<TEntity>;
+  orderBy?:
+    | Record<EntityKeys<TEntity>, SortOrder>
+    | Array<Record<EntityKeys<TEntity>, SortOrder>>;
+  cursor?: WhereUniqueParams<TEntity>;
+  take?: number;
+  skip?: number;
+  distinct?: EntityKeys<TEntity> | Array<EntityKeys<TEntity>>;
+  _count?: AggregateCountFieldParams<TEntity, EntityKeys<TEntity>>;
+  _min?: AggregateFieldParams<TEntity, EntityKeys<TEntity>>;
+  _max?: AggregateFieldParams<TEntity, EntityKeys<TEntity>>;
 };
 
 export type CountParams<
-  TData extends IEntity = IEntity,
-  TKey extends keyof TData = keyof TData
+  TEntity extends IEntity = IEntity,
+  TEntityKeys extends EntityKeys<TEntity> = EntityKeys<TEntity>
 > = {
-  select?: AggregateCountFieldParams<TData, TKey> | true;
+  select?: AggregateCountFieldParams<TEntity, TEntityKeys> | true;
 };
 
 export type UserContext<TContext = {}> = Record<string, any> &
@@ -282,60 +325,80 @@ export type FactoriesContext = {
   ) => ICommand<TRequest>;
 };
 
+export type UtilityContext = {
+  logger: Logger;
+  parser: typeof JsonParser;
+  uniqueIdGenerator: typeof UniqueIdGenerator;
+};
+
+export type RequestContext = {
+  correlationId: string;
+  requestId: string;
+  headers: Record<string, string | string[] | undefined>;
+  startedAt: DateTime;
+  startedBy: string;
+};
+
 export type ServiceContext = {
-  serviceId: string;
-  serviceName: string;
-  serviceUrl: string;
+  id: string;
+  name: string;
+  url: string;
+  version: string;
   instanceId: string;
+  domainName: string;
+};
+
+export type SystemContext = {
+  service: ServiceContext;
+  environment: EnvironmentType;
+  env: EnvManager;
+  startedAt: DateTime;
+  startedBy: string;
 };
 
 export type BaseServerContext<
   TUser extends UserContext = UserContext,
-  TFactories extends FactoriesContext = FactoriesContext
+  TUtils extends UtilityContext = UtilityContext
 > = {
-  correlationId: string;
-  requestId: string;
-  headers: Record<string, string | string[] | undefined>;
-  environment: EnvironmentType;
-  logger: Logger;
+  system: SystemContext;
+  request: RequestContext;
   user: UserContext<TUser>;
-  env: EnvManager;
-  factories?: TFactories;
+  utils: TUtils;
   injector: Injector;
 };
 
-export type ServerContext<
-  TUser extends UserContext = UserContext,
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TNamespace extends ArrayElement<TEntities>["__typename"] = ArrayElement<TEntities>["__typename"],
-  TEntityMapping extends Record<TNamespace, ArrayElement<TEntities>> = Record<
-    TNamespace,
+export type SelectKeys<TEntity extends IEntity = IEntity> =
+  | WhereParams<TEntity>
+  | WhereUniqueParams<TEntity>;
+
+export type EntityName<TEntity extends IEntity = IEntity> =
+  TEntity["__typename"];
+
+/*export type EntityMapping<TEntities extends Array<IEntity> = Array<IEntity>> =
+  Record<
+    Uncapitalize<EntityName<ArrayElement<TEntities>>>,
     ArrayElement<TEntities>
-  >,
-  TSelectKeys extends Record<
-    TNamespace,
-    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
-    | WhereUniqueParams<
-        TEntityMapping[TNamespace],
-        keyof TEntityMapping[TNamespace]
-      >
-    | Record<string, never>
-  > = Record<
-    TNamespace,
-    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
-    | WhereUniqueParams<
-        TEntityMapping[TNamespace],
-        keyof TEntityMapping[TNamespace]
-      >
-    | Record<string, never>
-  >,
-  TCacheKeys = TSelectKeys
-> = BaseServerContext<TUser> & {
-  service: ServiceContext;
-  repositories: Record<
-    TNamespace,
-    Repository<TEntityMapping[TNamespace], TSelectKeys[TNamespace], TCacheKeys>
   >;
+
+export type EntityMappingItem<
+  TEntities extends Array<IEntity> = Array<IEntity>
+> = EntityMapping<TEntities>[keyof EntityMapping<TEntities>];*/
+
+export type RepositoryMappingIndex<TEntity extends IEntity = IEntity> =
+  Uncapitalize<EntityName<TEntity>>;
+
+export type RepositoryMapping<
+  TEntities extends Array<IEntity> = Array<IEntity>
+> = Record<
+  RepositoryMappingIndex<ArrayElement<TEntities>>,
+  Repository<ArrayElement<TEntities>>
+>;
+
+export type ServerContext<
+  TEntities extends Array<IEntity> = Array<IEntity>,
+  TUser extends UserContext = UserContext
+> = BaseServerContext<TUser> & {
+  repositories: RepositoryMapping<TEntities>;
 };
 
 /*export type EventSourcedServerContext<TUser extends UserContext = UserContext> =
@@ -352,60 +415,176 @@ export type CreateServerContextParams<TUser extends UserContext = UserContext> =
     headers?: Record<string, string | string[] | undefined>;
     environment?: EnvironmentType;
     logger?: Logger;
+    parser?: typeof JsonParser;
+    uniqueIdGenerator?: typeof UniqueIdGenerator;
     user?: TUser;
     env: EnvManager;
     injector: Injector;
-    service: Omit<ServiceContext, "instanceId"> &
-      Partial<Pick<ServiceContext, "instanceId">>;
+    serviceId?: ServiceContext["id"];
+    serviceName?: ServiceContext["name"];
+    domainName?: ServiceContext["domainName"];
+    serviceUrl?: ServiceContext["url"];
+    serviceVersion?: ServiceContext["version"];
+    instanceId?: ServiceContext["instanceId"];
   };
+
+export type QueryType = "findUnique" | "findFirst" | "findMany" | "aggregate";
+export const QueryType = {
+  FIND_UNIQUE: "findUnique" as QueryType,
+  FIND_FIRST: "findFirst" as QueryType,
+  FIND_MANY: "findMany" as QueryType,
+  AGGREGATE: "aggregate" as QueryType
+};
+
+export type BatchLoadKey<TEntity extends IEntity = IEntity> = {
+  selector?: {
+    id?: string;
+    where?: SelectKeys<TEntity>;
+  };
+  cursor?: WhereUniqueParams<TEntity>;
+  take?: number;
+  orderBy?:
+    | Record<EntityKeys<TEntity>, SortOrder>
+    | Array<Record<EntityKeys<TEntity>, SortOrder>>;
+  query: QueryType;
+};
 
 /**
  * A Function, which when given an Array of keys, returns a Promise of an Array
  * of values or Errors.
  */
-export type BatchLoadFn<
-  TEntity extends IEntity = IEntity,
-  TKeys =
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | WhereParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCache = TKeys
-> = (keys: Array<TKeys>) => Promise<Array<TEntity | Error>>;
+export type BatchLoadFn<TEntity extends IEntity = IEntity> = (
+  keys: Array<BatchLoadKey<TEntity>>
+) => Promise<Array<TEntity[] | TEntity | Error>>;
 
 /**
  * Optionally turn off batching or caching or provide a cache key function or a
  * custom cache instance.
  */
-export type RepositoryOptions<
-  TEntity extends IEntity = IEntity,
-  TKeys =
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | WhereParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TKeys
-> = {
+export type RepositoryOptions<TEntity extends IEntity = IEntity> = {
   name: string;
   batch?: boolean;
   maxBatchSize?: number;
   batchScheduleFn?: (callback: () => void) => void;
   cache?: boolean;
-  cacheKeyFn?: (key: TKeys) => TCacheKeys;
-  cacheMap?: CacheMap<TEntity, TKeys, TCacheKeys> | null;
+  cacheMap?: CacheMap<TEntity> | null;
 };
 
 /**
  * If a custom cache is provided, it must be of this type (a subset of ES6 Map).
  */
-export type CacheMap<
-  TEntity extends IEntity = IEntity,
-  TKeys =
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | WhereParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TKeys
-> = {
-  get(key: TCacheKeys): TEntity | void;
-  set(key: TCacheKeys, value: TEntity): any;
-  delete(key: TCacheKeys): any;
+export type CacheMap<TEntity extends IEntity = IEntity> = {
+  get(key: BatchLoadKey<TEntity>): TEntity[] | TEntity | void;
+  set(key: BatchLoadKey<TEntity>, value: TEntity | TEntity[]): any;
+  delete(key: BatchLoadKey<TEntity>): any;
   clear(): any;
+};
+
+/**
+ * A base type to define the structure of paginated response data
+ */
+export type PageInfo = {
+  __typename: "PageInfo";
+  /** When paginating forwards, are there more items? */
+  hasNextPage: boolean;
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: boolean;
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: string;
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: string;
+};
+
+export type Model<TEntity extends IEntity = IEntity> = IBaseClass & {
+  __typename: string;
+  id: TEntity["id"];
+};
+
+/**
+ * An object containing the current paginated result data returned from Model at the current cursor position
+ */
+export type ModelEdge<TModel extends Model = Model> = {
+  __typename: `${TModel["__typename"]}Edge`;
+  node: WithMetadata<TModel>;
+  cursor: string;
+};
+
+/**
+ * An object containing the paginated child model data returned from Model
+ */
+export type ModelConnection<TModel extends Model = Model> = {
+  __typename: `${TModel["__typename"]}Connection`;
+  edges: Array<ModelEdge<TModel>>;
+  pageInfo: PageInfo;
+  totalCount: number;
+};
+
+type ModelFieldKeys<TModel extends Model = Model> = keyof Omit<
+  TModel,
+  "__typename"
+>;
+
+type ModelFields<TModel extends Model = Model> = TModel[ModelFieldKeys<TModel>];
+
+export type ModelKeys<TModel extends Model = Model> =
+  ModelFields<TModel> extends Model
+    ? ModelKeys<ModelFields<TModel>>
+    : ModelFieldKeys<TModel>;
+
+type SelectModelParams<TModelKeys extends string | number | symbol> = Partial<
+  Record<TModelKeys, boolean>
+>;
+type SelectUniqueModelParams<TModel extends Model = Model> = SelectModelParams<
+  ModelKeys<TModel>
+>;
+
+type SelectManyModelParams<TModel extends Model = Model> = Partial<
+  Record<ModelKeys<TModel>, boolean>
+>;
+
+type WhereModelParamsFields<TModel extends Model = Model> = {
+  [key in ModelKeys<TModel>]?:
+    | StringFilter
+    | DateTimeFilter
+    | BoolFilter
+    | NumberFilter
+    | WhereModelParams<TModel>;
+};
+
+export type WhereModelParams<TModel extends Model = Model> =
+  WhereModelParamsFields<TModel> & {
+    AND?: Array<WhereModelParams<TModel>>;
+    OR?: Array<WhereModelParams<TModel>>;
+    NOT?: WhereModelParams<TModel> | Array<WhereModelParams<TModel>>;
+  };
+
+export type WhereUniqueModelParams<TModel extends Model = Model> = Partial<
+  Omit<WhereModelParams<TModel>, "id">
+> & {
+  id: string;
+};
+
+export type UniqueModelSelector<TModel extends Model = Model> = {
+  select?: SelectUniqueModelParams<TModel>;
+  where: WhereUniqueModelParams<TModel>;
+};
+
+export type ByIdModelSelector<TModel extends Model = Model> = {
+  select?: SelectUniqueModelParams<TModel>;
+  id: WhereUniqueModelParams<TModel>["id"];
+};
+
+export type ManyModelSelector<TModel extends Model = Model> = {
+  select?: SelectManyModelParams<TModel>;
+  where?: WhereModelParams<TModel>;
+  orderBy?:
+    | Record<ModelKeys<TModel>, SortOrder>
+    | Array<Record<ModelKeys<TModel>, SortOrder>>;
+  cursor?: WhereUniqueModelParams<TModel>;
+  take?: number;
+};
+
+export type CreateModelParams<TModel extends Model = Model> = {
+  select?: Partial<Record<ModelKeys<TModel>, boolean>>;
+  data: TModel;
 };

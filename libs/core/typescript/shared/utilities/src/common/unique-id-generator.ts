@@ -35,7 +35,7 @@ export class UniqueIdGenerator {
    */
   /* c8 ignore end */
 
-  static EPOCH: number = Date.UTC(1970, 0, 1).valueOf();
+  public static EPOCH: number = Date.UTC(1970, 0, 1).valueOf();
 
   /**
    * The id of the shard running this generator.
@@ -46,7 +46,7 @@ export class UniqueIdGenerator {
    */
   /* c8 ignore end */
 
-  static SHARD_ID = 1;
+  public static SHARD_ID = 1;
 
   /**
    * The sequence of the current running generator.
@@ -57,7 +57,7 @@ export class UniqueIdGenerator {
    */
   /* c8 ignore end */
 
-  static SEQUENCE = 1;
+  public static SEQUENCE = 1;
 
   /**
    * Generates a single snowflake.
@@ -66,9 +66,9 @@ export class UniqueIdGenerator {
    */
   /* c8 ignore end */
 
-  static generate({
+  public static generate({
     timestamp = Date.now(),
-    shardId = UniqueIdGenerator.SHARD_ID,
+    shardId = UniqueIdGenerator.SHARD_ID
   }: {
     timestamp?: Date | number;
     shardId?: number;
@@ -91,17 +91,17 @@ export class UniqueIdGenerator {
    * @returns {DeconstructedSnowflake|DeconstructedSnowflake[]}
    */
 
-  static parse(snowflake: SnowflakeResolvable): DeconstructedSnowflake {
+  public static parse(snowflake: SnowflakeResolvable): DeconstructedSnowflake {
     const binary = UniqueIdGenerator.binary(snowflake);
     return {
       timestamp: UniqueIdGenerator.extractBits(snowflake, 1, 41),
       shard_id: UniqueIdGenerator.extractBits(snowflake, 42, 10),
       sequence: UniqueIdGenerator.extractBits(snowflake, 52),
-      binary,
+      binary
     };
   }
 
-  static isValid(snowflake: string) {
+  public static isValid(snowflake: string) {
     if (!/^[\d]{19}$/.test(snowflake)) {
       return false;
     }
@@ -121,7 +121,7 @@ export class UniqueIdGenerator {
    * @returns {bigint}
    */
 
-  static extractBits(
+  public static extractBits(
     snowflake: SnowflakeResolvable,
     start: number,
     length?: number
@@ -141,7 +141,7 @@ export class UniqueIdGenerator {
    * @private
    */
 
-  static binary(snowflake: SnowflakeResolvable): string {
+  public static binary(snowflake: SnowflakeResolvable): string {
     const cached64BitZeros =
       "0000000000000000000000000000000000000000000000000000000000000000";
     const binValue = BigInt(snowflake).toString(2);

@@ -4,7 +4,7 @@ import {
   DOMAIN_EVENT_TOKEN,
   IAggregateRoot,
   IDomainEvent,
-  IIntegrationEvent,
+  IIntegrationEvent
 } from "../types";
 
 export class DomainEvent<
@@ -22,7 +22,7 @@ export class DomainEvent<
     public readonly userId: string,
     public readonly aggregateId: TAggregateRoot["id"],
     public readonly aggregateSequence: TAggregateRoot["sequence"],
-    public readonly aggregateType: TAggregateRoot["objectType"],
+    public readonly aggregateType: TAggregateRoot["__typename"],
     public readonly integrationEvent: TIntegrationEvent
   ) {
     super(DOMAIN_EVENT_TOKEN);

@@ -30,6 +30,9 @@ export type Indexable = {
   [index: IndexType]: any;
 };
 
+export const EMPTY_STRING = "" as const;
+export const EMPTY_OBJECT = {} as const;
+
 export type AnyCase<T extends IndexType> = string extends T
   ? string
   : T extends `${infer F1}${infer F2}${infer R}`
@@ -38,7 +41,7 @@ export type AnyCase<T extends IndexType> = string extends T
       | Lowercase<F2>}${AnyCase<R>}`
   : T extends `${infer F}${infer R}`
   ? `${Uppercase<F> | Lowercase<F>}${AnyCase<R>}`
-  : "";
+  : typeof EMPTY_STRING;
 
 export type Newable<T> = new (...args: never[]) => T;
 
@@ -79,21 +82,18 @@ export interface ILogger {
   debug: (...message: any[]) => any;
 }
 
-export interface IBaseUtilityClass {
-  /**
-   * The object instance Id
-   */
-  objectInstanceId: string;
-
-  /**
-   * A symbol representing the class type
-   */
-  _symbol: symbol;
-
+export interface IBaseClass {
   /**
    * A string representation of the class
    */
-  objectType: string;
+  __typename: string;
+}
+
+export interface IBaseUtilityClass extends IBaseClass {
+  /**
+   * A symbol representing the class type
+   */
+  __symbol: symbol;
 
   /**
    * Returns back a hash code to identify this specific instance
@@ -101,6 +101,17 @@ export interface IBaseUtilityClass {
    * @remarks The combination of class name and Id
    */
   getHashCode: () => string;
+
+  /**
+   * The `isEqualInstance` method is comparing the hash codes of two instances of the `BaseUtilityClass`
+   * class. It takes another instance of `BaseClass` as a parameter and checks if the hash code of
+   * the current instance is equal to the hash code of the other instance. If the hash codes are equal,
+   * it means that the two instances are considered equal.
+   *
+   * @param other - The other instance of `BaseClass` to compare with
+   * @returns A boolean value indicating if the two instances are equal
+   */
+  isEqualInstance: (other: any) => boolean;
 }
 
 export interface IError extends Error {
@@ -539,6 +550,9 @@ export interface IVersioned {
 }
 
 export interface ISequenced {
+  /**
+   * The sequence number (version, or event counter, etc.) of the record
+   */
   sequence: number;
 }
 

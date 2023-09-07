@@ -1,118 +1,41 @@
-import type { Plugin } from "@envelop/types";
-import {
-  Repository,
-  ServiceContext,
-  UserContext,
-  WhereParams,
-  WhereUniqueParams,
-  createServerContext
-} from "@open-system/core-server-application";
+import { UserContext } from "@open-system/core-server-application/types";
 import { IEntity } from "@open-system/core-server-domain/types";
-import { ArrayElement, Logger } from "@open-system/core-shared-utilities";
+import { Injector } from "@open-system/core-shared-injection";
+import { Logger } from "@open-system/core-shared-utilities";
 import { createYoga } from "graphql-yoga";
+import { createGraphQLServerContext } from "../context";
 import { createPlugins } from "../plugins";
-import { GraphQLServerContext } from "../types";
+import { CreateGraphQLHandlerParams } from "../types";
 
 export const createGraphQLHandler = async <
-  TUser extends UserContext = UserContext,
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TNamespace extends ArrayElement<TEntities>["__typename"] = ArrayElement<TEntities>["__typename"],
-  TEntityMapping extends Record<TNamespace, ArrayElement<TEntities>> = Record<
-    TNamespace,
-    ArrayElement<TEntities>
-  >,
-  TSelectKeys extends Record<
-    TNamespace,
-    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
-    | WhereUniqueParams<
-        TEntityMapping[TNamespace],
-        keyof TEntityMapping[TNamespace]
-      >
-    | Record<string, never>
-  > = Record<
-    TNamespace,
-    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
-    | WhereUniqueParams<
-        TEntityMapping[TNamespace],
-        keyof TEntityMapping[TNamespace]
-      >
-    | Record<string, never>
-  >,
-  TCacheKeys = TSelectKeys,
-  TServerContext extends GraphQLServerContext<
-    TUser,
-    TEntities,
-    TNamespace,
-    TEntityMapping,
-    TSelectKeys,
-    TCacheKeys
-  > = GraphQLServerContext<
-    TUser,
-    TEntities,
-    TNamespace,
-    TEntityMapping,
-    TSelectKeys,
-    TCacheKeys
-  >
->({
-  injector,
-  env,
-  plugins,
-  context,
-  service,
-  repositoryProviderParams
-}: {
-  env: TServerContext["env"];
-  injector: TServerContext["injector"];
-  plugins?: Array<Plugin<TServerContext>>;
-  context?: TServerContext;
-  service: Omit<ServiceContext, "instanceId"> &
-    Partial<Pick<ServiceContext, "instanceId">>;
-  repositoryProviderParams: Array<{
-    namespace: TNamespace;
-    builderFn: (
-      context: TServerContext
-    ) => Repository<
-      TEntityMapping[TNamespace],
-      TSelectKeys[TNamespace],
-      TCacheKeys
-    >;
-  }>;
-}) => {
+  TUser extends UserContext = UserContext
+>(
+  params: CreateGraphQLHandlerParams<TEntities, TUser>
+) => {
+  const injector = params.injector ?? Injector;
   const logger = injector.get(Logger);
+
+  let context = params.context;
   if (!context) {
-    context = createServerContext<
-      TUser,
-      TEntities,
-      TNamespace,
-      TEntityMapping,
-      TSelectKeys,
-      TCacheKeys,
-      TServerContext
-    >({
+    context = createGraphQLServerContext<TEntities, TUser>({
+      ...params,
       injector,
-      env,
-      logger,
-      service
-    }) as TServerContext;
+      logger
+    });
   }
 
-  if (!plugins) {
-    plugins = await createPlugins<
-      TUser,
-      TEntities,
-      TNamespace,
-      TEntityMapping,
-      TSelectKeys,
-      TCacheKeys,
-      TServerContext
-    >({ context, repositoryProviderParams });
-  }
-
-  const server = createYoga<TServerContext>({
-    logging: injector.get(Logger),
-    plugins,
+  const plugins = await createPlugins<TEntities, TUser>({
+    ...params,
     context
+  });
+
+  const server = createYoga({
+    logging: logger,
+    healthCheckEndpoint:
+      context.system.env.get("HEALTH_CHECK_PATH") ?? "/health",
+    context,
+    plugins
   });
 
   return server;

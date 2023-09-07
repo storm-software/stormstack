@@ -51,7 +51,7 @@ const nextConfig = {
   nx: {
     // Set this to true if you would like to to use SVGR
     // See: https://github.com/gregberge/svgr
-    svgr: false,
+    svgr: false
   },
 
   swcMinify: true,
@@ -62,7 +62,7 @@ const nextConfig = {
   experimental: {
     serverActions: true,
     serverComponentsExternalPackages: ["redis", "redis-om"],
-    instrumentationHook: true,
+    instrumentationHook: true
 
     /*swcPlugins: [
       [
@@ -81,12 +81,12 @@ const nextConfig = {
     relay: {
       src: "./",
       language: "typescript",
-      artifactDirectory: "./__generated__/relay",
-    },
+      artifactDirectory: "./__generated__/relay"
+    }
   },
 
   devIndicators: {
-    buildActivityPosition: "bottom-right",
+    buildActivityPosition: "bottom-right"
   },
 
   transpilePackages: [
@@ -117,7 +117,7 @@ const nextConfig = {
     "@open-system/engagement-client-data-access",
     "@open-system/engagement-client-rating",
     "@open-system/engagement-client-reaction",
-    "@open-system/engagement-server-data-access",
+    "@open-system/engagement-server-data-access"
   ],
 
   // Disable linting during build => the linter may have optional dev dependencies
@@ -126,12 +126,12 @@ const nextConfig = {
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true
   },
 
   // https://nextjs.org/docs/app/api-reference/next-config-js/typescript
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true
   },
 
   // https://nextjs.org/docs/app/api-reference/next-config-js/poweredByHeader
@@ -156,14 +156,14 @@ const nextConfig = {
                   {
                     name: "preset-default",
                     params: {
-                      overrides: { removeViewBox: false },
-                    },
-                  },
-                ],
+                      overrides: { removeViewBox: false }
+                    }
+                  }
+                ]
               },
-              titleProp: true,
+              titleProp: true
             },
-            test: /\.svg$/,
+            test: /\.svg$/
           },
           {
             test: /\.(eot|ttf|woff|woff2)$/,
@@ -172,12 +172,17 @@ const nextConfig = {
               options: {
                 name: "[name].[ext]",
                 publicPath: "fonts",
-                outputPath: "fonts",
-              },
-            },
+                outputPath: "fonts"
+              }
+            }
           },
-        ],
-      },
+          {
+            test: /\.gz$/,
+            enforce: "pre",
+            use: "gzip-loader"
+          }
+        ]
+      }
     };
   },
 
@@ -186,7 +191,7 @@ const nextConfig = {
       { source: "/healthz", destination: "/api/health" },
       { source: "/api/healthz", destination: "/api/health" },
       { source: "/health", destination: "/api/health" },
-      { source: "/ping", destination: "/api/health" },
+      { source: "/ping", destination: "/api/health" }
     ];
   },
 
@@ -196,7 +201,7 @@ const nextConfig = {
     } catch {
       return [];
     }
-  },
+  }
 
   /*sentry: {
     // For all available options, see:
@@ -238,7 +243,7 @@ const plugins = [
     // Enable Webpack analyzer
     if (ANALYZE) {
       const withBundleAnalyzer = require("@next/bundle-analyzer")({
-        enabled: !!ANALYZE,
+        enabled: !!ANALYZE
       });
       return withBundleAnalyzer(config);
     }
@@ -253,20 +258,20 @@ const plugins = [
           {
             source: "/",
             destination: "/maintenance",
-            permanent: false,
+            permanent: false
           },
           {
             source: "/((?!maintenance|_next|api).*)",
             destination: "/maintenance",
-            permanent: false,
+            permanent: false
           },
-          ...config.redirects,
+          ...config.redirects
         ];
       };
     }
 
     return config;
-  },
+  }
 
   /*config =>
     withSentryConfig(

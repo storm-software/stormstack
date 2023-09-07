@@ -54,7 +54,7 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:core", "platform:server", "level:infrastructure"],
   "implicitDependencies": [
     "core-shared-utilities",
     "core-shared-injection",

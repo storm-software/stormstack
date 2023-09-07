@@ -5,14 +5,21 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/storm/runtime",
         "main": "tools/storm/runtime/src/index.ts",
         "project": "tools/storm/runtime/package.json",
         "tsConfig": "tools/storm/runtime/tsconfig.json",
-        "clean": true,
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": false,
+        "minify": true,
+        "skipTypeCheck": true,
+        "format": ["esm", "cjs"],
+        "external": [".prisma/client/index"],
         "assets": [
           {
             "input": "tools/storm/runtime",
@@ -78,6 +85,6 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:tools", "platform:server"],
   "implicitDependencies": ["tools-storm-language", "core-shared-utilities"]
 }

@@ -90,17 +90,39 @@ export class SchemaGenerator {
   }
 
   public getScalarsSchema(): string {
-    let schema = "";
+    let schema = `
 
-    schema += `
-interface Node {
+interface IEntity {
+  """
+  The identifier of the record
+  """
   id: ID!
+  """
+  The sequence number (version, or event counter, etc.) of the record
+  """
+  sequence: Int!
+  """
+  A timestamp of when the record was created
+  """
+  createdAt: DateTime!
+  """
+  The user who created the record
+  """
+  createdBy: String!
+  """
+  A timestamp of when the record was last updated
+  """
+  updatedAt: DateTime
+  """
+  The user who last updated the record
+  """
+  updatedBy: String
 }
 `;
 
     if (this.hasOperation) {
       schema += `
-interface Error {
+interface IError {
   message: String!
 }
 
@@ -242,7 +264,10 @@ interface Error {
     return scalars.map(scalar => `${scalar}: ${scalar}Resolver`).join(", \n");
   }
 
-  public getFieldSchema(field: DataModelField): string {
+  public getFieldSchema(
+    field: DataModelField,
+    skipConnections = false
+  ): string {
     let schema = "";
     for (const attr of field.attributes) {
       switch (attr.decl.ref?.name) {
@@ -308,15 +333,26 @@ interface Error {
     }
 
     if (
+      !skipConnections &&
       field.type.array &&
       isDataModel(field.type.reference?.ref) &&
       !isEnum(field.type.reference?.ref) &&
-      !isApiModel(field.type.reference?.ref)
+      !isApiModel(field.type.reference?.ref) &&
+      !isInterface(field.type.reference?.ref) &&
+      !isInput(field.type.reference?.ref) &&
+      !isInput(field.$container) &&
+      !isInterface(field.$container) &&
+      !isApiModel(field.$container)
     ) {
       this.hasEdgeConnection = true;
-      return `(selector: ${field.type.reference?.ref.name}sSelectorInput): ${
-        field.type.reference?.ref.name
-      }Connection${!field.type.optional ? "!" : ""}`;
+      return `(
+        after: String
+        before: String
+        first: Int
+        last: Int
+        ): ${field.type.reference?.ref.name}Connection${
+        !field.type.optional ? "!" : ""
+      }`;
     }
 
     if (!schema) {
@@ -418,7 +454,7 @@ An object containing the summary error message and individual input errors (when
           operation.name
         } operation
 """
-type ${upperCaseFirst(operation.name)}Error implements Error {
+type ${upperCaseFirst(operation.name)}Error implements IError {
   message: String!
   inputErrors: ${upperCaseFirst(operation.name)}InputErrors!
 }
@@ -428,7 +464,7 @@ type ${upperCaseFirst(operation.name)}Error implements Error {
 """
 An object containing the error details of the ${operation.name} operation
 """
-type ${upperCaseFirst(operation.name)}Error implements Error {
+type ${upperCaseFirst(operation.name)}Error implements IError {
   message: String!
 }
         `;

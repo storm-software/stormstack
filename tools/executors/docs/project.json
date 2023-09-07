@@ -105,6 +105,6 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:tools", "platform:admin"],
   "implicitDependencies": ["core-shared-utilities", "core-server-utilities"]
 }

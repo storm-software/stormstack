@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/storm/schema",
@@ -15,14 +15,18 @@
           "tools/storm/schema/src/language-server/main.ts",
           "tools/storm/schema/src/plugins/access-policy/index.ts",
           "tools/storm/schema/src/plugins/model-meta/index.ts",
-          "tools/storm/schema/src/plugins/prisma/index.ts",
-          "tools/storm/schema/src/plugins/zod/index.ts"
+          "tools/storm/schema/src/plugins/prisma/index.ts"
         ],
         "project": "tools/storm/schema/package.json",
         "tsConfig": "tools/storm/schema/tsconfig.json",
-        "clean": true,
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": true,
+        "minify": false,
         "skipTypeCheck": true,
-        "updateBuildableProjectDepsInPackageJson": true,
+        "format": ["esm", "cjs"],
+        "external": [".prisma/client/index"],
         "assets": [
           {
             "input": "tools/storm/schema",
@@ -201,7 +205,7 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:tools", "platform:server"],
   "implicitDependencies": [
     "tools-storm-language",
     "tools-storm-runtime",

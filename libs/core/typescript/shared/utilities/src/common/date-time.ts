@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Temporal } from "@js-temporal/polyfill";
 import { IDateTime, Tokens } from "../types";
 import { isBigInt, isDate, isFunction } from "./type-checks";
@@ -32,7 +33,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    * @returns The function isDateTime is returning a boolean value.
    */
   public static isDateTime(obj: unknown): obj is IDateTime {
-    return (obj as IDateTime)?._symbol === Tokens.DATE_TIME;
+    return (obj as IDateTime)?.__symbol === Tokens.DATE_TIME;
   }
 
   /**
@@ -121,7 +122,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
         : Temporal.Now.instant().epochNanoseconds
     );
 
-    this.objectType = "DateTime"; // (this as unknown as object)?.constructor.name;
+    this.__typename = "DateTime"; // (this as unknown as object)?.constructor.name;
   }
 
   /**
@@ -162,22 +163,34 @@ export class DateTime extends Temporal.Instant implements IDateTime {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public readonly objectInstanceId = UniqueIdGenerator.generate();
+  public readonly __id = UniqueIdGenerator.generate();
 
   /**
    * The string identifier of this specific class type
    */
-  public readonly objectType: string;
+  public readonly __typename: string;
 
   /**
    * Readonly field used internally to identify if the object is a DateTime
    */
-  public readonly _symbol = Tokens.DATE_TIME;
+  public readonly __symbol = Tokens.DATE_TIME;
 
   /**
    * Returns back a hash code to identify this specific instance
    *
    * @remarks The combination of class name and Id
    */
-  public getHashCode = () => `${this.objectType}-${this.objectInstanceId}`;
+  public getHashCode = () => `${this.__typename}-${this.__id}`;
+
+  /**
+   * The `isEqualInstance` method is comparing the hash codes of two instances of the `BaseUtilityClass`
+   * class. It takes another instance of `BaseClass` as a parameter and checks if the hash code of
+   * the current instance is equal to the hash code of the other instance. If the hash codes are equal,
+   * it means that the two instances are considered equal.
+   *
+   * @param other - The other instance of `BaseClass` to compare with
+   * @returns A boolean value indicating if the two instances are equal
+   */
+  public isEqualInstance = (other: any): boolean =>
+    this.getHashCode() === (other as DateTime)?.getHashCode();
 }

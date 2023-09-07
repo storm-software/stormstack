@@ -2,9 +2,13 @@
   "name": "@open-system/tools-generators-typescript",
   "generators": "./generators.json",
   "version": "1.0.0",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
   "dependencies": {
+    "@nx/devkit": "16.7.0",
     "fs-extra": "^11.1.1",
     "glob": "^10.3.3",
+    "lodash": "^4.17.21",
     "path-scurry": "^1.10.1"
   },
   "devDependencies": {

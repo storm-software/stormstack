@@ -2,24 +2,44 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import {
   createServerContext,
-  UserContext
-} from "@open-system/core-server-application";
+  extractRequest
+} from "@open-system/core-server-application/context";
+import { UserContext } from "@open-system/core-server-application/types";
+import { IEntity } from "@open-system/core-server-domain/types";
 import {
   CreateGraphQLServerContextParams,
+  GraphQLRequestContext,
   GraphQLServerContext
 } from "../types";
 
 export const createGraphQLServerContext = <
+  TEntities extends Array<IEntity> = Array<IEntity>,
   TUser extends UserContext = UserContext
 >({
-  request,
+  operation,
+  data,
   ...params
-}: CreateGraphQLServerContextParams<TUser>): GraphQLServerContext<TUser> => {
+}: CreateGraphQLServerContextParams<TUser>): GraphQLServerContext<
+  TEntities,
+  TUser
+> => {
+  const serverContext = createServerContext<TEntities, TUser>(params);
+
   return {
-    ...createServerContext(params),
-    request
-  };
+    ...serverContext,
+    request: {
+      ...serverContext.request,
+      operation,
+      data
+    }
+  } as unknown as GraphQLServerContext<TEntities, TUser>;
 };
 
-export const extractRequest = (context?: GraphQLServerContext) =>
-  context?.request;
+export const extractRequestData = <TRequestData = any>(
+  context: GraphQLServerContext
+) => (extractRequest(context) as GraphQLRequestContext<TRequestData>)?.data;
+
+export const extractOperation = (context: GraphQLServerContext) => {
+  const request = extractRequest(context) as GraphQLRequestContext;
+  return request?.operation;
+};

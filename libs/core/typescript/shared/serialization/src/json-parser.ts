@@ -4,7 +4,7 @@ import { BaseUtilityClass } from "@open-system/core-shared-utilities";
 import { parse, registerCustom, stringify } from "superjson";
 import { JSON_PARSER_SYMBOL, JsonValue } from "./types";
 
-@Service()
+@Service(JSON_PARSER_SYMBOL)
 export class JsonParser extends BaseUtilityClass {
   constructor() {
     super(JSON_PARSER_SYMBOL);

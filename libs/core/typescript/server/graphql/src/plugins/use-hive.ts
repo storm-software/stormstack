@@ -1,58 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Plugin } from "@envelop/types";
 import { useHive as useHiveExt } from "@graphql-hive/client";
-import {
-  UserContext,
-  WhereParams,
-  WhereUniqueParams
-} from "@open-system/core-server-application";
+import { UserContext } from "@open-system/core-server-application/types";
 import { IEntity } from "@open-system/core-server-domain/types";
-import { ArrayElement } from "@open-system/core-shared-utilities/types";
 import { GraphQLServerContext } from "../types";
 
 export const useHive = async <
-  TUser extends UserContext = UserContext,
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TNamespace extends ArrayElement<TEntities>["__typename"] = ArrayElement<TEntities>["__typename"],
-  TEntityMapping extends Record<TNamespace, ArrayElement<TEntities>> = Record<
-    TNamespace,
-    ArrayElement<TEntities>
-  >,
-  TSelectKeys extends Record<
-    TNamespace,
-    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
-    | WhereUniqueParams<
-        TEntityMapping[TNamespace],
-        keyof TEntityMapping[TNamespace]
-      >
-    | Record<string, never>
-  > = Record<
-    TNamespace,
-    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
-    | WhereUniqueParams<
-        TEntityMapping[TNamespace],
-        keyof TEntityMapping[TNamespace]
-      >
-    | Record<string, never>
-  >,
-  TCacheKeys = TSelectKeys,
-  TServerContext extends GraphQLServerContext<
-    TUser,
-    TEntities,
-    TNamespace,
-    TEntityMapping,
-    TSelectKeys,
-    TCacheKeys
-  > = GraphQLServerContext<
-    TUser,
-    TEntities,
-    TNamespace,
-    TEntityMapping,
-    TSelectKeys,
-    TCacheKeys
-  >
->(
-  context: TServerContext
-): Promise<Plugin<any>> => {
+  TUser extends UserContext = UserContext
+>(params: {
+  context: GraphQLServerContext<TEntities, TUser>;
+}): Promise<Plugin<GraphQLServerContext<TEntities, TUser>>> => {
+  const context = params.context;
+  const env = context.system.env;
+  const service = context.system.service;
+
   return useHiveExt({
     /**
      * Enable/Disable Hive
@@ -66,12 +28,12 @@ export const useHive = async <
      *
      * Default: false
      */
-    debug: context.env.isDevelopment,
+    debug: env.isDevelopment,
 
     /**
      * Access Token
      */
-    token: (await context.env.getAsync<string>("HIVE_ACCESS_TOKEN")) as string,
+    token: (await env.getAsync<string>("HIVE_ACCESS_TOKEN")) as string,
 
     /**
      * Collects schema usage based on operations
@@ -79,12 +41,15 @@ export const useHive = async <
      * Disabled by default
      */
     usage: {
-      endpoint:
-        (await context.env.getAsync("HIVE_CONTACT_SDL_URL")) ?? undefined,
-      clientInfo(ctx: GraphQLServerContext<TUser>) {
-        const name = ctx.headers["graphql-client-name"] as string;
+      endpoint: (await env.getAsync("HIVE_CONTACT_SDL_URL")) ?? undefined,
+      clientInfo(ctx: GraphQLServerContext<TEntities, TUser>) {
+        const name =
+          (ctx.request.headers["x-graphql-client-name"] as string) ??
+          service.name;
         const version =
-          (ctx.headers["graphql-client-version"] as string) ?? "missing";
+          (ctx.request.headers["x-graphql-client-version"] as string) ??
+          service.version ??
+          "missing";
 
         if (name) {
           return { name, version };
@@ -93,16 +58,7 @@ export const useHive = async <
         return null;
       },
       exclude: ["readiness"]
-    } /*{
-      clientInfo(ctx: { req: Request }) {
-        const name =
-          ctx.req.headers.get("x-graphql-client-name");
-        const version =
-          ctx.req.headers.get("x-graphql-client-version");
-
-        return { name, version };
-      }
-    },*/,
+    },
 
     /**
      * Schema reporting
@@ -113,33 +69,32 @@ export const useHive = async <
       /**
        * The end point to return the metadata
        */
-      endpoint:
-        (await context.env.getAsync("HIVE_CONTACT_METADATA_URL")) ?? undefined,
+      endpoint: (await env.getAsync("HIVE_CONTACT_METADATA_URL")) ?? undefined,
 
       /**
        * Author of current version of the schema
        */
-      author: context.env.repositoryWorker,
+      author: env.repositoryWorker,
 
       /**
        * Commit SHA hash (or any identifier) related to the schema version
        */
-      commit: context.env.get("NX_HEAD") ?? "0.0.1",
+      commit: service.version,
 
       /**
        * URL to the service (use only for distributed schemas)
        */
-      serviceUrl: context.env.serviceUrl,
+      serviceUrl: service.url,
 
       /**
        * Name of the service (use only for distributed schemas)
        */
-      serviceName: context.env.serviceName
+      serviceName: service.name
     }
 
     /**
      * Operations Store
      */
     // operationsStore: undefined
-  }) as Plugin<any>;
+  }) as Plugin<GraphQLServerContext<TEntities, TUser>>;
 };

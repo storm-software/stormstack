@@ -4,19 +4,8 @@
   "sourceRoot": "tools/generators/typescript",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "tools/generators/typescript/**/*.ts",
-          "tools/generators/typescript/generators.json",
-          "tools/generators/typescript/package.json"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
-    },
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/generators/typescript",
@@ -28,7 +17,13 @@
           "tools/generators/typescript/cloudflare-worker/impl.ts",
           "tools/generators/typescript/repo-readme-format/impl.ts"
         ],
-        "clean": true,
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": true,
+        "minify": true,
+        "skipTypeCheck": true,
+        "format": ["esm", "cjs"],
         "assets": [
           {
             "input": "tools/generators/typescript",
@@ -73,6 +68,17 @@
         ]
       }
     },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/generators/typescript/**/*.ts",
+          "tools/generators/typescript/generators.json",
+          "tools/generators/typescript/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
@@ -83,6 +89,6 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:tools", "platform:admin"],
   "implicitDependencies": ["core-shared-utilities", "core-server-utilities"]
 }

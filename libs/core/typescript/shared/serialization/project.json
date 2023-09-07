@@ -53,6 +53,6 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:core", "platform:shared", "level:utilities"],
   "implicitDependencies": ["core-shared-utilities", "core-shared-injection"]
 }

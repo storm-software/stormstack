@@ -19,6 +19,7 @@
         "minify": false,
         "skipTypeCheck": true,
         "format": ["esm", "cjs"],
+        "external": [".prisma/client/index", "graphql"],
         "assets": [
           {
             "input": "tools/storm/plugins/graphql",
@@ -84,10 +85,5 @@
       }
     }
   },
-  "tags": [],
-  "implicitDependencies": [
-    "core-shared-utilities",
-    "tools-storm-language",
-    "tools-storm-schema"
-  ]
+  "tags": ["scope:tools", "platform:server"]
 }

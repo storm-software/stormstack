@@ -21,6 +21,10 @@
   },
   "packageRules": [
     {
+      "matchPackagePatterns": ["^@open-system/"],
+      "enabled": false
+    },
+    {
       "matchPackageNames": ["@nx"],
       "postUpgradeTasks": {
         "commands": [

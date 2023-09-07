@@ -8,7 +8,7 @@ export const name = "GraphQL";
 export default async function run(
   model: Model,
   options: PluginOptions,
-  dmmf: DMMF.Document
+  _dmmf?: DMMF.Document
 ) {
-  return generate(model, options, dmmf);
+  return generate(model, options);
 }

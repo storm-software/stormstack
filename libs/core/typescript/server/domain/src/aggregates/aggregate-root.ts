@@ -8,8 +8,6 @@ import { IAggregateRoot, IDomainEvent, IIntegrationEvent } from "../types";
  * @remarks This class implements core functionality such as the id and symbol properties
  */
 export abstract class AggregateRoot extends Entity implements IAggregateRoot {
-  public override readonly __typename: string = "AggregateRoot";
-
   private _uncommittedEvents = [] as IDomainEvent<typeof this>[];
 
   public get uncommittedEvents() {
@@ -50,10 +48,10 @@ export abstract class AggregateRoot extends Entity implements IAggregateRoot {
       new DomainEvent(
         this.sourceId,
         this.correlationId,
-        this.currentUserId,
+        this.createdBy,
         this.id,
         this.sequence + this._uncommittedEvents.length + 1,
-        this.objectType,
+        this.__typename,
         event
       )
     );

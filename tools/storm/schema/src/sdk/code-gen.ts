@@ -74,7 +74,14 @@ export function createProject(options?: CompilerOptions) {
 export async function saveProject(project: Project) {
   await Promise.all(
     project.getSourceFiles().map(async sf => {
-      await formatFile(sf);
+      const extension = [".graphql", ".gql"].includes(sf.getExtension())
+        ? "graphql"
+        : "typescript";
+      ConsoleLogger.debug(
+        `Saving ${sf.getFilePath()} using the ${extension} parser`
+      );
+
+      await formatFile(sf, extension);
     })
   );
   await project.save();

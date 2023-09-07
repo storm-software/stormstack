@@ -6,7 +6,6 @@ export * from "./deep-copy";
 export * from "./deep-merge";
 export * from "./env-fns";
 export * from "./get";
-// export * from "./get-unique-id";
 export * from "./integer-fns";
 export * from "./is-server";
 export * from "./noop";

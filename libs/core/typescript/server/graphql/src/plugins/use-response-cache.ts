@@ -1,5 +1,5 @@
 import { useResponseCache as useResponseCacheExt } from "@graphql-yoga/plugin-response-cache";
-import { hashSessionId } from "@open-system/core-server-utilities/hash-session-id";
+import { createSHA256Hash } from "@open-system/core-server-utilities/create-hash";
 
 export const useResponseCache = () => {
   return useResponseCacheExt({
@@ -9,7 +9,7 @@ export const useResponseCache = () => {
         request.headers.get("x-api-token");
 
       if (sessionValue != null) {
-        return hashSessionId(sessionValue);
+        return createSHA256Hash(sessionValue);
       }
 
       return null;

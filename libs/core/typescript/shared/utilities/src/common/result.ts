@@ -4,7 +4,7 @@ import {
   IError,
   IResult,
   ResultSourceTypes,
-  Tokens,
+  Tokens
 } from "../types";
 import { BaseUtilityClass } from "./base-utility-class";
 import { DateTime } from "./date-time";
@@ -28,7 +28,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
   >({
     source = ResultSourceTypes.UNKNOWN,
     data,
-    error,
+    error
   }: Partial<IResult<TError, TData>>): Result<TError, TData> => {
     const result = new Result(error, data);
 
@@ -83,7 +83,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
     return Result.create<TError>({
       ...(isObject(params) ? params : {}),
       source,
-      error,
+      error
     });
   };
 
@@ -97,7 +97,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
 
     return Result.error<AbortError>({
       source: ResultSourceTypes.ABORTED,
-      error,
+      error
     });
   };
 
@@ -108,7 +108,7 @@ export class Result<TError extends IError | null = any, TData = unknown>
    */
   public static isResult = (obj: unknown): obj is Result => {
     try {
-      return (obj as Result)?._symbol === Tokens.RESULT;
+      return (obj as Result)?.__symbol === Tokens.RESULT;
     } catch (e) {
       return false;
     }

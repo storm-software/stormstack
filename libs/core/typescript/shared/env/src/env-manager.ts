@@ -3,7 +3,8 @@
 import {
   BaseUtilityClass,
   Logger,
-  isEmpty
+  isEmpty,
+  parseInteger
 } from "@open-system/core-shared-utilities";
 import { createEnvProxy } from "./create-env-proxy";
 import { DEFAULT_OPTIONS } from "./env-manager-options";
@@ -13,8 +14,6 @@ export abstract class EnvManager<
   TOptions extends BaseOptions = BaseOptions
 > extends BaseUtilityClass {
   protected proxy: EnvProxy;
-  serviceUrl: string | undefined;
-  serviceName: string | undefined;
 
   constructor(
     protected readonly logger: Logger,
@@ -106,6 +105,30 @@ export abstract class EnvManager<
 
   public get branchName(): string {
     return this.get<string>("CI_BRANCH") ?? "main";
+  }
+
+  public get serviceId() {
+    return this.get<string>("SERVICE_ID");
+  }
+
+  public get serviceName() {
+    return this.get<string>("SERVICE_NAME");
+  }
+
+  public get serviceUrl() {
+    return this.get<string>("SERVICE_URL");
+  }
+
+  public get serviceVersion() {
+    return this.get<string>("SERVICE_VERSION");
+  }
+
+  public get domainName() {
+    return this.get<string>("DOMAIN_NAME");
+  }
+
+  public get defaultQuerySize() {
+    return parseInteger(this.get<number>("DEFAULT_QUERY_SIZE"), 100);
   }
 
   protected abstract innerGet: <T = any>(name: string) => T | undefined;

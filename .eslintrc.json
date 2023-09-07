@@ -15,6 +15,92 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
+              },
+              /**
+               * Platform type dependency rules
+               */
+              {
+                "sourceTag": "platform:shared",
+                "onlyDependOnLibsWithTags": ["platform:shared"]
+              },
+              {
+                "sourceTag": "platform:server",
+                "onlyDependOnLibsWithTags": [
+                  "platform:server",
+                  "platform:shared"
+                ]
+              },
+              {
+                "sourceTag": "platform:client",
+                "onlyDependOnLibsWithTags": [
+                  "platform:client",
+                  "platform:shared"
+                ]
+              },
+              {
+                "sourceTag": "platform:admin",
+                "onlyDependOnLibsWithTags": [
+                  "platform:admin",
+                  "platform:client",
+                  "platform:server",
+                  "platform:shared"
+                ]
+              },
+              /**
+               * Scope dependency rules
+               */
+              {
+                "sourceTag": "scope:core",
+                "onlyDependOnLibsWithTags": ["scope:core"]
+              },
+              {
+                "sourceTag": "scope:tools",
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:tools"]
+              },
+              {
+                "sourceTag": "scope:docs",
+                "onlyDependOnLibsWithTags": [
+                  "scope:core",
+                  "scope:tools",
+                  "scope:docs"
+                ]
+              },
+              /**
+               * Domain Level dependency rules
+               */
+              {
+                "sourceTag": "level:utilities",
+                "onlyDependOnLibsWithTags": ["level:utilities"]
+              },
+              {
+                "sourceTag": "level:domain",
+                "onlyDependOnLibsWithTags": ["level:utilities", "level:domain"]
+              },
+              {
+                "sourceTag": "level:application",
+                "onlyDependOnLibsWithTags": [
+                  "level:utilities",
+                  "level:domain",
+                  "level:application"
+                ]
+              },
+              {
+                "sourceTag": "level:infrastructure",
+                "onlyDependOnLibsWithTags": [
+                  "level:utilities",
+                  "level:domain",
+                  "level:application",
+                  "level:infrastructure"
+                ]
+              },
+              {
+                "sourceTag": "level:application",
+                "onlyDependOnLibsWithTags": [
+                  "level:utilities",
+                  "level:domain",
+                  "level:application",
+                  "level:infrastructure"
+                ]
               }
             ]
           }

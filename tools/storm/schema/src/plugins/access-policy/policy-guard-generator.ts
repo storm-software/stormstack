@@ -5,7 +5,6 @@ import {
   isBinaryExpr,
   isDataModel,
   isDataModelField,
-  isEnum,
   isExpression,
   isInvocationExpr,
   isMemberAccessExpr,
@@ -38,7 +37,6 @@ import {
   getDataModels,
   getFileHeader,
   getLiteral,
-  getPrismaClientImportSpec,
   hasAttribute,
   hasValidationAttributes,
   PluginError,
@@ -86,13 +84,13 @@ export default class PolicyGenerator {
     });
 
     // import enums
-    const prismaImport = getPrismaClientImportSpec(model, output);
+    /*const prismaImport = getPrismaClientImportSpec(model, output);
     for (const e of model.declarations.filter(d => isEnum(d))) {
       sf.addImportDeclaration({
         namedImports: [{ name: e.name }],
         moduleSpecifier: prismaImport
       });
-    }
+    }*/
 
     const models = getDataModels(model);
 

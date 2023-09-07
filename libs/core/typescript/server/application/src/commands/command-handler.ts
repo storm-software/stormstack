@@ -34,7 +34,7 @@ export const commandHandler =
     ) => Promise<TAggregate>
   ) =>
   async (request: TRequest, context: TContext) => {
-    const command = context.factories?.command<TRequest>(
+    /*const command = context.factories?.command<TRequest>(
       commandId,
       version,
       request
@@ -49,7 +49,7 @@ export const commandHandler =
       ) as any,
       command,
       context
-    );
+    );*/
 
-    return aggregate;
+    return {} as any; //aggregate;
   };

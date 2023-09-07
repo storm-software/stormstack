@@ -3,7 +3,7 @@ import { BoxLogo, Footer } from "@open-system/common-client-components/server";
 import { Link, SocialMediaLinks } from "@open-system/core-client-components";
 import {
   NotificationGroup,
-  ToastGroup,
+  ToastGroup
 } from "@open-system/core-client-notifications";
 import { Analytics } from "@vercel/analytics/react";
 import clsx from "clsx";
@@ -19,7 +19,7 @@ import {
   monaSansExtraBold,
   permanentMarker,
   robotoMono,
-  satoshi,
+  satoshi
 } from "../styles/fonts";
 import RootProvider from "./root-provider";
 
@@ -39,7 +39,7 @@ const contactJsonLd: WithContext<ContactPoint> = {
   availableLanguage: "en",
   areaServed: "Worldwide",
   contactOption: "TollFree",
-  contactType: "customer support",
+  contactType: "customer support"
 };
 
 const architectJsonLd: WithContext<Occupation> = {
@@ -55,7 +55,7 @@ const architectJsonLd: WithContext<Occupation> = {
   responsibilities:
     "Design and develop solutions to complex applications problems, system administration issues, or network concerns. Perform systems management and integration functions.",
   skills:
-    "Data base management system software, Development environment software, Operating system software, Project management software, and Web platform development software.",
+    "Data base management system software, Development environment software, Operating system software, Project management software, and Web platform development software."
 };
 
 const personJsonLd: WithContext<Person> = {
@@ -71,7 +71,7 @@ const personJsonLd: WithContext<Person> = {
   knowsLanguage: "en",
   description:
     "A financial technology developer based out of the New York metropolitan area.",
-  contactPoint: contactJsonLd,
+  contactPoint: contactJsonLd
 };
 
 export const metadata = {
@@ -80,7 +80,7 @@ export const metadata = {
   title: {
     template: `%s - ${title}`,
     default: title,
-    images: [image],
+    images: [image]
   },
   authors: [{ name: "Pat Sullivan", url: "https://patsullivan.org" }],
   metadataBase: new URL("https://patsullivan.org"),
@@ -101,15 +101,15 @@ export const metadata = {
     "architect",
     "engineer",
     "programming",
-    "coding",
+    "coding"
   ],
   creator: "Pat Sullivan",
   publisher: "Pat Sullivan",
   formatDetection: {
     email: false,
     address: false,
-    telephone: false,
-  },
+    telephone: false
+  }
 };
 
 export default function RootLayout(props: {
@@ -120,6 +120,7 @@ export default function RootLayout(props: {
   return (
     <html
       lang="en"
+      suppressHydrationWarning={true}
       className={clsx(
         melody.variable,
         inter.variable,
@@ -148,7 +149,7 @@ export default function RootLayout(props: {
                 { label: "Home", href: "/" },
                 { label: "Contact", href: "/contact" },
                 { label: "About", href: "/about" },
-                { label: "Login", href: "/" },
+                { label: "Login", href: "/" }
               ]}
               footer={
                 <div className="relative flex flex-row-reverse items-center justify-between gap-4">
@@ -186,7 +187,7 @@ export default function RootLayout(props: {
             bottom={
               <div className="flex flex-col items-center justify-center gap-16 lg:flex-row lg:items-start">
                 <div className="flex flex-col gap-2">
-                  <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
+                  <h3 className="text-primary whitespace-nowrap font-label-4 text-4xl underline">
                     Navigation
                   </h3>
                   <div className="flex flex-row gap-16">
@@ -202,14 +203,14 @@ export default function RootLayout(props: {
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
+                  <h3 className="text-primary whitespace-nowrap font-label-4 text-4xl underline">
                     Blog
                   </h3>
                   <Link variant="secondary">Articles</Link>
                   <Link variant="secondary">Latest</Link>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h3 className="whitespace-nowrap font-label-4 text-4xl text-primary underline">
+                  <h3 className="text-primary whitespace-nowrap font-label-4 text-4xl underline">
                     Docs
                   </h3>
                   <Link variant="secondary">Open System</Link>
@@ -223,10 +224,10 @@ export default function RootLayout(props: {
                   <div className="flex w-fit flex-col gap-0.5">
                     <SocialMediaLinks />
                     <div className="flex flex-col text-center">
-                      <p className="font-footer-name text-lg text-primary">
+                      <p className="text-primary font-footer-name text-lg">
                         Patrick J. Sullivan
                       </p>
-                      <p className="text-md font-footer-name text-primary">
+                      <p className="text-md text-primary font-footer-name">
                         New York Metropolitan Area
                       </p>
                     </div>

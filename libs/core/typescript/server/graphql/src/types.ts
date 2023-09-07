@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import {
   CreateServerContextParams,
+  RepositoryMapping,
+  RepositoryMappingIndex,
+  RequestContext,
   ServerContext,
-  UserContext,
-  WhereParams,
-  WhereUniqueParams
+  UserContext
 } from "@open-system/core-server-application";
 import { IEntity } from "@open-system/core-server-domain/types";
-import { ArrayElement } from "@open-system/core-shared-utilities/types";
-import { MergedScalars, SchemaTypes } from "@pothos/core";
-import { AllSelection } from "kysely/dist/cjs/parser/select-parser";
+import { ArrayElement } from "@open-system/core-shared-utilities";
+import { MergedScalars } from "@pothos/core";
 
 export interface PageCursor {
   cursor: string;
@@ -24,14 +24,14 @@ export interface PageCursors {
   last: PageCursor;
 }
 
-export type ApiServerConnection = {
+/*export type ApiServerConnection = {
   pageCursors: PageCursors;
 };
 
 export type TableModel<
   TDatabase,
   TTypename extends keyof TDatabase
-> = AllSelection<TDatabase, TTypename> & { __typename: TTypename | string };
+> = AllSelection<TDatabase, TTypename> & { __typename: TTypename | string };*/
 
 export type SchemaScalars = MergedScalars<any> & {
   UUID: {
@@ -100,7 +100,7 @@ export type SchemaScalars = MergedScalars<any> & {
   };
 };
 
-export type ApiSchemaType<
+/*export type ApiSchemaType<
   PrismaTypes,
   TContext extends GraphQLServerContext = GraphQLServerContext,
   TScalars extends SchemaScalars = SchemaScalars
@@ -112,7 +112,7 @@ export type ApiSchemaType<
     pageCursors: PageCursors;
   };
   PrismaTypes: PrismaTypes;
-};
+};*/
 
 export interface GraphQLHandlerOptions {
   graphiqlEndpoint: string;
@@ -127,49 +127,59 @@ export interface GraphQLHandlerOptions {
   release: string;
 }
 
+export type GraphQLRequestContext<TRequestData = any> = RequestContext & {
+  operation: string;
+  data: TRequestData;
+};
+
 export type GraphQLServerContext<
-  TUser extends UserContext = UserContext,
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TNamespace extends ArrayElement<TEntities>["__typename"] = ArrayElement<TEntities>["__typename"],
-  TEntityMapping extends Record<TNamespace, ArrayElement<TEntities>> = Record<
-    TNamespace,
-    ArrayElement<TEntities>
-  >,
-  TSelectKeys extends Record<
-    TNamespace,
-    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
-    | WhereUniqueParams<
-        TEntityMapping[TNamespace],
-        keyof TEntityMapping[TNamespace]
-      >
-    | Record<string, never>
-  > = Record<
-    TNamespace,
-    | WhereParams<TEntityMapping[TNamespace], keyof TEntityMapping[TNamespace]>
-    | WhereUniqueParams<
-        TEntityMapping[TNamespace],
-        keyof TEntityMapping[TNamespace]
-      >
-    | Record<string, never>
-  >,
-  TCacheKeys = TSelectKeys,
-  TRequest = any
-> = ServerContext<
-  TUser,
-  TEntities,
-  TNamespace,
-  TEntityMapping,
-  TSelectKeys,
-  TCacheKeys
-> & {
-  request: TRequest;
+  TUser extends UserContext = UserContext,
+  TRequestData = any
+> = ServerContext<TEntities, TUser> & {
+  request: GraphQLRequestContext<TRequestData>;
 };
 
 export type CreateGraphQLServerContextParams<
-  TUser extends UserContext = UserContext
+  TUser extends UserContext = UserContext,
+  TRequestData = any
 > = CreateServerContextParams<TUser> & {
-  request: any;
+  operation: string;
+  data: TRequestData;
 };
+
+export type RepositoryPluginParams<
+  TEntities extends Array<IEntity> = Array<IEntity>,
+  TUser extends UserContext = UserContext,
+  TRequestData = any
+> = Array<{
+  namespace: RepositoryMappingIndex<ArrayElement<TEntities>>;
+  builderFn: (
+    context: GraphQLServerContext<TEntities, TUser, TRequestData>
+  ) => RepositoryMapping<TEntities>[RepositoryMappingIndex<
+    ArrayElement<TEntities>
+  >];
+}>;
+
+export type CreateGraphQLServerPluginsParams<
+  TEntities extends Array<IEntity> = Array<IEntity>,
+  TUser extends UserContext = UserContext,
+  TRequestData = any
+> = {
+  repositoryPluginConfig: RepositoryPluginParams<
+    TEntities,
+    TUser,
+    TRequestData
+  >;
+  context: GraphQLServerContext<TEntities, TUser, TRequestData>;
+};
+
+export type CreateGraphQLHandlerParams<
+  TEntities extends Array<IEntity> = Array<IEntity>,
+  TUser extends UserContext = UserContext,
+  TRequestData = any
+> = CreateGraphQLServerContextParams<TUser> &
+  CreateGraphQLServerPluginsParams<TEntities, TUser, TRequestData>;
 
 export interface CacheStore<T = any> {
   get(key: string): T | undefined;

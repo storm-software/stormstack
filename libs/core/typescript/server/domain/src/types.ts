@@ -1,19 +1,51 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  DateTime,
+  IBaseClass,
   IBaseUtilityClass,
   IIdentity,
-  IRelayTypeField,
   ISequenced,
   IVersioned
 } from "@open-system/core-shared-utilities";
 
-export interface IEntity
-  extends ISequenced,
-    IIdentity,
-    IRelayTypeField,
-    IBaseUtilityClass {
-  currentUserId: string;
+export interface IEntity extends ISequenced, IIdentity, IBaseClass {
+  /**
+   * The sequence number (version, or event counter, etc.) of the record
+   */
+  sequence: number;
+
+  /**
+   * A timestamp of when the record was created
+   */
+  createdAt: DateTime;
+
+  /**
+   * The user who created the record
+   */
+  createdBy: string;
+
+  /**
+   * A timestamp of when the record was last updated
+   */
+  updatedAt?: DateTime;
+
+  /**
+   * The user who last updated the record
+   */
+  updatedBy?: string;
 }
+
+export type Metadata = Pick<
+  IEntity,
+  | "__typename"
+  | "sequence"
+  | "createdAt"
+  | "createdBy"
+  | "updatedAt"
+  | "updatedBy"
+>;
+
+export type WithMetadata<TData = any> = TData & Metadata;
 
 export interface IAggregateRoot extends IEntity {
   uncommittedEvents: IDomainEvent<any>[];

@@ -1,49 +1,47 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IEntity } from "@open-system/core-server-domain";
+import { EnvManager } from "@open-system/core-shared-env";
 import { Service } from "@open-system/core-shared-injection";
 import { JsonParser } from "@open-system/core-shared-serialization";
 import {
+  BaseErrorCode,
   BaseUtilityClass,
+  DatabaseError,
+  FieldValidationError,
+  IncorrectTypeError,
   Logger,
-  isArrayLike,
-  isEmpty
+  ModelValidationError,
+  NotFoundError,
+  isError,
+  isValidInteger
 } from "@open-system/core-shared-utilities";
+import { map } from "radash";
 import {
   AggregateParams,
-  BatchLoadFn,
+  BatchLoadKey,
   CreateParams,
   DeleteManyParams,
   DeleteParams,
+  EntityKeys,
+  FindCountParams,
   FindFirstParams,
   FindManyParams,
   FindUniqueParams,
   GroupByParams,
+  QueryType,
   REPOSITORY_TOKEN,
   RepositoryOptions,
+  SortOrder,
   UpdateManyParams,
   UpdateParams,
   UpsertParams,
-  WhereParams,
   WhereUniqueParams
 } from "../types";
-import {
-  Batch,
-  getCurrentBatch,
-  getValidBatchScheduleFn,
-  getValidMaxBatchSize
-} from "./repository-utilities";
+import { RepositoryDataLoader } from "./repository-data-loader";
 
-@Service()
+@Service(Repository)
 export abstract class Repository<
-  TEntity extends IEntity = IEntity,
-  TSelectKeys extends
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never> =
-    | WhereParams<TEntity, keyof TEntity>
-    | WhereUniqueParams<TEntity, keyof TEntity>
-    | Record<string, never>,
-  TCacheKeys = TSelectKeys
+  TEntity extends IEntity = IEntity
 > extends BaseUtilityClass {
   /**
    * The name given to this `Repository` instance. Useful for APM tools.
@@ -52,175 +50,68 @@ export abstract class Repository<
    */
   public name: string | null;
 
-  public cacheMap: Map<TCacheKeys, Promise<TEntity>>;
-
-  public cacheKeyFn: (keys: TSelectKeys) => TCacheKeys;
-
-  public batch: Batch<TEntity, TSelectKeys> | null;
-
-  public get options(): RepositoryOptions<TEntity, TSelectKeys, TCacheKeys> {
+  public get options(): RepositoryOptions<TEntity> {
     return this._options;
   }
 
+  protected dataLoader: RepositoryDataLoader<TEntity>;
+
   constructor(
-    private readonly logger: Logger,
-    private _options: RepositoryOptions<TEntity, TSelectKeys, TCacheKeys>
+    protected readonly logger: Logger,
+    protected readonly env: EnvManager,
+    private _options: RepositoryOptions<TEntity>
   ) {
     super(REPOSITORY_TOKEN);
 
     this.name = this._options.name;
-    this.cacheMap = (this._options.cacheMap ||
-      new Map<TCacheKeys, Promise<TEntity>>()) as any;
-    this.cacheKeyFn =
-      this._options.cacheKeyFn ||
-      (((keys: TSelectKeys) => keys as unknown as TCacheKeys) as any);
-    this.batch = null;
+    this.dataLoader = new RepositoryDataLoader<TEntity>(
+      async (
+        keys: Array<BatchLoadKey<TEntity>>
+      ): Promise<Array<TEntity | TEntity[] | Error>> => {
+        return map(keys, async (key: BatchLoadKey<TEntity>) => {
+          key.take ??= isValidInteger(key.take, true)
+            ? key.take
+            : this.env.defaultQuerySize;
+          key.orderBy ??= { id: SortOrder.asc } as Record<
+            EntityKeys<TEntity>,
+            string
+          >;
 
-    if (!this._options.maxBatchSize) {
-      this._options.maxBatchSize = getValidMaxBatchSize<
-        TEntity,
-        TSelectKeys,
-        TCacheKeys
-      >(this._options);
-    }
+          const handlerFn = this.routeDataLoading(key);
+          if (isError(handlerFn)) {
+            return handlerFn as Error;
+          }
 
-    if (!this._options.batchScheduleFn) {
-      this._options.batchScheduleFn = getValidBatchScheduleFn<
-        TEntity,
-        TSelectKeys,
-        TCacheKeys
-      >(this._options);
-    }
-  }
+          const result = await handlerFn(key);
+          if (isError(result)) {
+            return new DatabaseError(this.name);
+          }
 
-  public abstract batchLoadFn: BatchLoadFn<TEntity, TSelectKeys, TCacheKeys>;
-
-  /**
-   * Loads a key, returning a `Promise` for the value represented by that key.
-   */
-  public load = (
-    key:
-      | WhereParams<TEntity, keyof TEntity>
-      | WhereUniqueParams<TEntity, keyof TEntity>
-      | Record<string, never>
-  ): Promise<TEntity> => {
-    if (isEmpty(key)) {
-      throw new TypeError(
-        "The Repository.load() function must be called with a key value " +
-          `but got: ${String(key)}.`
-      );
-    }
-
-    const batch = getCurrentBatch(this);
-    const cacheMap = this.cacheMap;
-    const cacheKey = this.cacheKeyFn(key as TSelectKeys);
-
-    // If caching and there is a cache-hit, return cached Promise.
-    if (cacheMap) {
-      const cachedPromise = cacheMap.get(cacheKey);
-      if (cachedPromise) {
-        const cacheHits = batch.cacheHits || (batch.cacheHits = []);
-        return new Promise(resolve => {
-          cacheHits.push(() => {
-            resolve(cachedPromise);
-          });
+          return result;
         });
-      }
-    }
-
-    // Otherwise, produce a new Promise for this key, and enqueue it to be
-    // dispatched along with the current batch.
-    batch.keys.push(key as TSelectKeys);
-    const promise: Promise<TEntity> = new Promise((resolve, reject) => {
-      batch.callbacks.push({ resolve, reject });
-    });
-
-    // If caching, cache this promise.
-    if (cacheMap) {
-      cacheMap.set(cacheKey, promise);
-    }
-
-    return promise;
-  };
-
-  /**
-   * Loads multiple keys, promising an array of values:
-   *
-   *     var [ a, b ] = await myLoader.loadMany([ 'a', 'b' ]);
-   *
-   * This is similar to the more verbose:
-   *
-   *     var [ a, b ] = await Promise.all([
-   *       myLoader.load('a'),
-   *       myLoader.load('b')
-   *     ]);
-   *
-   * However it is different in the case where any load fails. Where
-   * Promise.all() would reject, loadMany() always resolves, however each result
-   * is either a value or an Error instance.
-   *
-   *     var [ a, b, c ] = await myLoader.loadMany([ 'a', 'b', 'badkey' ]);
-   *     // c instanceof Error
-   *
-   */
-  public loadMany = (
-    keys: Array<TSelectKeys>
-  ): Promise<Array<TEntity | Error>> => {
-    if (!isArrayLike(keys)) {
-      keys = [];
-      /*throw new TypeError(
-        "The loader.loadMany() function must be called with Array<key> " +
-          `but got: ${keys}.`
-      );*/
-    }
-
-    // Support ArrayLike by using only minimal property access
-    const loadPromises = [];
-    for (const key in keys) {
-      loadPromises.push(
-        this.load(
-          key as
-            | WhereParams<TEntity, keyof TEntity>
-            | WhereUniqueParams<TEntity, keyof TEntity>
-        ).catch(error => error)
-      );
-    }
-
-    return Promise.all(loadPromises);
-  };
-
-  /**
-   * Clears the value at `key` from the cache, if it exists. Returns itself for
-   * method chaining.
-   */
-  public clear = (key: TSelectKeys): this => {
-    const cacheMap = this.cacheMap;
-    if (cacheMap) {
-      const cacheKey = this.cacheKeyFn(key);
-      cacheMap.delete(cacheKey);
-    }
-    return this;
-  };
-
-  /**
-   * Clears the entire cache. To be used when some event results in unknown
-   * invalidations across this particular `DataLoader`. Returns itself for
-   * method chaining.
-   */
-  public clearAll = (): this => {
-    const cacheMap = this.cacheMap;
-    if (cacheMap) {
-      cacheMap.clear();
-    }
-    return this;
-  };
+      },
+      this.logger,
+      this._options
+    );
+  }
 
   public async findUnique(params: FindUniqueParams<TEntity>): Promise<TEntity> {
     this.logger.debug(
       `Finding unique record where - '${JsonParser.stringify(params.where)}'`
     );
 
-    return this.innerFindUnique(params);
+    const result = await this.dataLoader.load({
+      selector: { id: params.where.id as string },
+      query: QueryType.FIND_UNIQUE
+    });
+    if (!result || (Array.isArray(result) && result.length === 0)) {
+      throw new NotFoundError(this.name);
+    }
+    if (isError(result)) {
+      throw result;
+    }
+
+    return Array.isArray(result) ? result[0] : result;
   }
 
   public async findFirst(params: FindFirstParams<TEntity>): Promise<TEntity> {
@@ -228,15 +119,47 @@ export abstract class Repository<
       `Finding first record - '${JsonParser.stringify(params)}'`
     );
 
-    return this.innerFindFirst(params);
+    const result = await this.dataLoader.load({
+      ...params,
+      selector: params,
+      query: QueryType.FIND_FIRST
+    });
+    if (!result || (Array.isArray(result) && result.length === 0)) {
+      throw new NotFoundError(this.name);
+    }
+    if (isError(result)) {
+      throw result;
+    }
+
+    return Array.isArray(result) ? result[0] : result;
   }
 
-  public async findMany(params: FindManyParams<TEntity>): Promise<TEntity[]> {
+  public async findMany(params?: FindManyParams<TEntity>): Promise<TEntity[]> {
     this.logger.debug(
       `Finding many records - '${JsonParser.stringify(params)}'`
     );
 
-    return this.innerFindMany(params);
+    const result = await this.dataLoader.load({
+      ...params,
+      selector: params,
+      query: QueryType.FIND_MANY
+    });
+    if (!result || (Array.isArray(result) && result.length === 0)) {
+      throw new NotFoundError(this.name);
+    }
+    if (isError(result)) {
+      throw result;
+    }
+
+    return Array.isArray(result) ? result : [result];
+  }
+
+  public findCount(params?: FindCountParams<TEntity>): Promise<number> {
+    this.logger.debug(
+      `Finding many records - '${JsonParser.stringify(params)}'`
+    );
+
+    return this.innerFindCount(params);
   }
 
   public async create(params: CreateParams<TEntity>): Promise<TEntity["id"]> {
@@ -295,38 +218,55 @@ export abstract class Repository<
     return this.innerGroupBy(params);
   }
 
-  /**
-   * Adds the provided key and value to the cache. If the key already
-   * exists, no change is made. Returns itself for method chaining.
-   *
-   * To prime the cache with an error at a key, provide an Error instance.
-   */
-  public prime = (
-    key: TSelectKeys,
-    value: TEntity | Promise<TEntity> | Error
-  ): this => {
-    const cacheMap = this.cacheMap;
-    if (cacheMap) {
-      const cacheKey = this.cacheKeyFn(key);
+  protected routeDataLoading = (
+    key: BatchLoadKey<TEntity>
+  ):
+    | ((
+        key: BatchLoadKey<TEntity>
+      ) => Promise<TEntity[] | Error> | Promise<TEntity | Error>)
+    | Error => {
+    this.logger.debug(
+      `Routing to appropriate select function in repository load`
+    );
 
-      // Only add the key if it does not already exist.
-      if (cacheMap.get(cacheKey) === undefined) {
-        // Cache a rejected promise if the value is an Error, in order to match
-        // the behavior of load(key).
-        let promise;
-        if (value instanceof Error) {
-          promise = Promise.reject(value);
-          // Since this is a case where an Error is intentionally being primed
-          // for a given key, we want to disable unhandled promise rejection.
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          promise.catch(() => {});
-        } else {
-          promise = Promise.resolve(value);
+    /*const whereUniqueParams = key.selector.find(
+      (selectorItem: SelectKeys<TEntity>) =>
+        !!(selectorItem as WhereUniqueParams<TEntity>)?.["id"] &&
+        typeof (selectorItem as WhereUniqueParams<TEntity>)?.["id"] === "string"
+    ) as WhereUniqueParams<TEntity>;*/
+
+    switch (key.query) {
+      case QueryType.FIND_UNIQUE:
+        if (!key.selector?.id) {
+          return new ModelValidationError(
+            [
+              new FieldValidationError(
+                ["where", "id"],
+                BaseErrorCode.required_field_missing
+              )
+            ],
+            BaseErrorCode.invalid_request
+          );
         }
-        cacheMap.set(cacheKey, promise);
-      }
+
+        return () =>
+          this.innerFindUnique({
+            where: {
+              id: key.selector?.id as string
+            } as WhereUniqueParams<TEntity>
+          });
+
+      case QueryType.FIND_FIRST:
+        return this.innerFindFirst;
+      case QueryType.FIND_MANY:
+        return this.innerFindMany;
+      case QueryType.AGGREGATE:
+        return this.innerAggregate;
+      default:
+        return new IncorrectTypeError(
+          `Invalid query type provided to repository - received: "${key.query}"`
+        );
     }
-    return this;
   };
 
   protected abstract innerFindUnique: (
@@ -338,8 +278,12 @@ export abstract class Repository<
   ) => Promise<TEntity>;
 
   protected abstract innerFindMany: (
-    params: FindFirstParams<TEntity>
+    params?: FindManyParams<TEntity>
   ) => Promise<TEntity[]>;
+
+  protected abstract innerFindCount: (
+    params?: FindCountParams<TEntity>
+  ) => Promise<number>;
 
   protected abstract innerCreate: (
     params: CreateParams<TEntity>

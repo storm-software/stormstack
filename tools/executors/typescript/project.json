@@ -4,17 +4,6 @@
   "sourceRoot": "tools/executors/typescript",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "tools/executors/typescript/**/*.ts",
-          "tools/executors/typescript/executors.json",
-          "tools/executors/typescript/package.json"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
-    },
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
@@ -38,7 +27,7 @@
         "deleteOutputPath": true,
         "bundle": true,
         "sourcemap": true,
-        "minify": false,
+        "minify": true,
         "skipTypeCheck": true,
         "format": ["esm", "cjs"],
         "assets": [
@@ -80,6 +69,17 @@
         ]
       }
     },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/executors/typescript/**/*.ts",
+          "tools/executors/typescript/executors.json",
+          "tools/executors/typescript/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
     "readme-format": {
       "executor": "@open-system/tools-executors-docs:readme-format",
       "outputs": ["{options.outputFile}"],
@@ -99,11 +99,11 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:tools", "platform:admin"],
   "implicitDependencies": [
-    "tools-async-api-kafka",
-    "tools-storm-schema",
     "core-shared-utilities",
-    "core-server-cloudflare"
+    "core-server-utilities",
+    "tools-async-api-kafka",
+    "tools-storm-schema"
   ]
 }

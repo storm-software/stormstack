@@ -28,6 +28,6 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:docs", "platform:admin"],
   "implicitDependencies": ["tools-executors-docs"]
 }

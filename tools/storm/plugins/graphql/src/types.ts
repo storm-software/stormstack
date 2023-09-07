@@ -1,4 +1,12 @@
-import { Model } from "@open-system/tools-storm-language/ast";
+import {
+  ApiModel,
+  DataModel,
+  Enum,
+  Input,
+  Interface,
+  Model,
+  OperationGroup
+} from "@open-system/tools-storm-language/ast";
 import { DMMF as PrismaDMMF } from "@prisma/generator-helper";
 import { Project } from "ts-morph";
 
@@ -24,3 +32,22 @@ export type AggregateOperationSupport = {
     avg?: boolean;
   };
 };
+
+export type EnrichModelReturn = {
+  dataModels: DataModel[];
+  operationGroups: OperationGroup[];
+  inputs: Input[];
+  apiModels: ApiModel[];
+  interfaces: Interface[];
+  enums: Enum[];
+};
+
+export const ENTITY_CLASS_FIELDS = [
+  "id",
+  "createdAt",
+  "createdBy",
+  "updatedAt",
+  "updatedBy",
+  "sequence"
+] as const;
+export type EntityClassFields = (typeof ENTITY_CLASS_FIELDS)[number];

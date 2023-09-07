@@ -31,6 +31,13 @@ export const parseInteger = (
 export const getRandomInt = (max: number): number =>
   Math.floor(Math.random() * max);
 
+export const isValidInteger = (obj: unknown, mustBePositive = false): boolean =>
+  isEmpty(obj)
+    ? false
+    : typeof obj === "string"
+    ? Number.isInteger(Number(obj)) && (!mustBePositive || Number(obj) > 0)
+    : Number.isInteger(obj) && (!mustBePositive || Number(obj) > 0);
+
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
  * The value is no lower than min (or the next integer greater than min
@@ -57,3 +64,8 @@ export const NumberFromString = zod.preprocess(
 
 export const isNumberString = (obj: unknown) =>
   zod.string().regex(/^\d+$/).safeParse(obj).success;
+
+export const formatNumberDisplay = (value: number): string =>
+  Intl.NumberFormat(process.env.DEFAULT_LOCALE ?? "us")
+    .format(value)
+    .toString();

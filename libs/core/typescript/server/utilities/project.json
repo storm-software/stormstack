@@ -52,6 +52,6 @@
       }
     }
   },
-  "tags": [],
+  "tags": ["scope:core", "platform:server", "level:utilities"],
   "implicitDependencies": ["core-shared-utilities"]
 }

@@ -255,7 +255,7 @@ ${JSON.stringify(plugin)}`
     }
 
     ConsoleLogger.log(
-      chalk.green(chalk.bold("\n👻 All plugins completed successfully!"))
+      chalk.green(chalk.bold("\n⚡ All plugins completed successfully!"))
     );
 
     warnings.forEach(w => ConsoleLogger.warn(chalk.yellow(w)));
@@ -314,7 +314,7 @@ ${JSON.stringify(plugin)}`
     if (pluginModulePath.startsWith("@core/")) {
       pluginModulePath = pluginModulePath.replace(
         /^@core\//,
-        path.join(__dirname, "../../../storm/schema/src/plugins/")
+        path.join(__dirname, "../../../storm/schema/plugins/")
       );
     }
     if (pluginModulePath.startsWith("@plugins/")) {

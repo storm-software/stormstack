@@ -1,1 +1,1 @@
-export * from "./lib/contact-typescript-server-contact-server-attachment";
+export * from "./__generated__/graphql";

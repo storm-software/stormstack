@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:swc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/contact/typescript/server/attachment",
@@ -13,7 +13,12 @@
         "packageJson": "libs/contact/typescript/server/attachment/package.json",
         "main": "libs/contact/typescript/server/attachment/src/index.ts",
         "assets": ["libs/contact/typescript/server/attachment/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "node"
       }
     },
     "lint": {
@@ -49,5 +54,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["scope:contact", "platform:server", "level:infrastructure"]
 }

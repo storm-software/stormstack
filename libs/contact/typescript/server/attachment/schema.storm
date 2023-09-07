@@ -6,7 +6,7 @@ datasource db {
 generator js {
     provider = "prisma-client-js"
     /// Generate into custom location because this repo has multiple prisma schemas
-    output   = "../../../../../../node_modules/.prisma/client/contact-attachment"
+    output   = "../../../../../../node_modules/@prisma/client/contact-attachment"
 }
 
 plugin prisma {
@@ -74,6 +74,9 @@ model Contact {
 
     /// The user who last updated the Contact
     updatedBy String?
+
+    /// The current sequence if the Contact record
+    sequence Int
 
     /// The reason of the Contact
     reason ContactReason @default(Other)
@@ -143,6 +146,9 @@ model ContactAttachment {
     /// The user who last updated the ContactAttachment
     updatedBy String?
 
+    /// The current sequence if the ContactAttachment record
+    sequence Int
+
     /// The name of the file
     name String @length(1, 100)
 
@@ -164,18 +170,3 @@ model ContactAttachment {
     @@unique([name, path])
 }
 
-input AddAttachmentInput {
-    id String @id
-    name String
-    path String
-    status AttachmentStatus
-    contactId String
-}
-
-type Mutation {
-    addAttachment(input: AddAttachmentInput): AddAttachmentResponse
-}
-
-type AddAttachmentResponse {
-    id String
-}

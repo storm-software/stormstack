@@ -11,13 +11,15 @@
   "editor.guides.bracketPairs": "active",
 
   "typescript.tsserver.log": "verbose",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
 
   /******************************
    * eslint / prettier
    ******************************/
   "editor.formatOnSave": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "typescript.tsdk": "node_modules/typescript/lib",
+
   "eslint.validate": [
     "javascript",
     "javascriptreact",

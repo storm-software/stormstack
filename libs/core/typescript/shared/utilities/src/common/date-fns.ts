@@ -19,7 +19,7 @@ export const formatDateTime = (
     ? `${dateTime
         .toZonedDateTime({
           timeZone: timeZone /*?? process.env.DEFAULT_TIMEZONE*/ ?? "UTC",
-          calendar: "gregory",
+          calendar: "gregory"
         })
         .toString(options)}`
     : "";
@@ -40,25 +40,23 @@ export const formatDateTimeISO = (
 ): string =>
   dateTime
     ? `${dateTime
-        .toZonedDateTimeISO(
-          timeZone /*?? process.env.DEFAULT_TIMEZONE*/ ?? "UTC"
-        )
+        .toZonedDateTimeISO(timeZone ?? process.env.DEFAULT_TIMEZONE ?? "UTC")
         .toString(options)}`
     : "";
 
 /**
  * Format a date field
  * @param dateTime
- * @param options
- * @param timeZone
  * @returns
  */
 export const formatDate = (dateTime: DateTime = DateTime.current): string =>
   DateTime.from(dateTime)
     .toZonedDateTimeISO(
       dateTime.toZonedDateTime({
-        timeZone: "America/New_York",
-        calendar: "gregory",
+        timeZone: process.env.DEFAULT_TIMEZONE
+          ? process.env.DEFAULT_TIMEZONE
+          : "America/New_York",
+        calendar: "gregory"
       })
     )
     .toPlainDate()
@@ -76,15 +74,18 @@ function validateDateTime(dateTimeString?: string) {
 
   const RFC_3339_REGEX =
     /^(\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60))(\.\d{1,})?(([Z])|([+|-]([01][0-9]|2[0-3]):[0-5][0-9]))$/;
+
   // Validate the structure of the date-string
   if (!RFC_3339_REGEX.test(dateTimeString)) {
     return false;
   }
+
   // Check if it is a correct date using the javascript Date parse() method.
   const time = Date.parse(dateTimeString);
-  if (time !== time) {
+  if (!time) {
     return false;
   }
+
   // Split the date-time-string up into the string-date and time-string part.
   // and check whether these parts are RFC 3339 compliant.
   const index = dateTimeString.indexOf("T");
@@ -93,7 +94,7 @@ function validateDateTime(dateTimeString?: string) {
   return validateDate(dateString) && validateTime(timeString);
 }
 
-function validateTime(time?: string) {
+export const validateTime = (time?: string) => {
   time = time === null || time === void 0 ? void 0 : time.toUpperCase();
 
   if (!time) {
@@ -103,24 +104,24 @@ function validateTime(time?: string) {
   const TIME_REGEX =
     /^([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(\.\d{1,})?(([Z])|([+|-]([01][0-9]|2[0-3]):[0-5][0-9]))$/;
   return TIME_REGEX.test(time);
-}
+};
 
-function validateDate(datestring: string) {
+export const validateDate = (strDate: string) => {
   const RFC_3339_REGEX = /^(\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]))$/;
-  if (!RFC_3339_REGEX.test(datestring)) {
+  if (!RFC_3339_REGEX.test(strDate)) {
     return false;
   }
   // Verify the correct number of days for
   // the month contained in the date-string.
-  const year = Number(datestring.substr(0, 4));
-  const month = Number(datestring.substr(5, 2));
-  const day = Number(datestring.substr(8, 2));
+  const year = Number(strDate.substr(0, 4));
+  const month = Number(strDate.substr(5, 2));
+  const day = Number(strDate.substr(8, 2));
   switch (month) {
     case 2: // February
-      if (leapYear(year) && day > 29) {
+      if (isLeapYear(year) && day > 29) {
         return false;
       }
-      if (!leapYear(year) && day > 28) {
+      if (!isLeapYear(year) && day > 28) {
         return false;
       }
       return true;
@@ -134,11 +135,11 @@ function validateDate(datestring: string) {
       break;
   }
   return true;
-}
+};
 
-function leapYear(year: number) {
+export const isLeapYear = (year: number): boolean => {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-}
+};
 
 export function parseDateTime(value: number | string | Date): Date {
   if (value instanceof Date) {

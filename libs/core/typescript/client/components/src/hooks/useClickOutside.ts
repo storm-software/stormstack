@@ -1,6 +1,12 @@
 "use client";
 
-import { MutableRefObject, useEffect, useCallback, useRef } from "react";
+import {
+  MutableRefObject,
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef
+} from "react";
 
 export function useClickOutside(
   callbackFn?: () => void
@@ -17,12 +23,40 @@ export function useClickOutside(
     [callbackFn]
   );
   useEffect(() => {
-    document.addEventListener("click", handleClick, true);
+    document.addEventListener("mousedown", handleClick, true);
 
     return () => {
-      document.removeEventListener("click", handleClick, true);
+      document.removeEventListener("mousedown", handleClick, true);
     };
   }, [handleClick]);
 
   return ref;
 }
+
+export const useClickOutsideFromRef = (
+  ref: RefObject<Element>,
+  callback: (event: MouseEvent) => void,
+  outerRef?: RefObject<Element>
+): void => {
+  const handleClick = useCallback(
+    (event: MouseEvent) => {
+      if (
+        outerRef &&
+        outerRef.current &&
+        !outerRef.current.contains(event.target as Node)
+      )
+        return;
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        callback(event);
+      }
+    },
+    [callback, ref, outerRef]
+  );
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  });
+};
