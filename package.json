@@ -30,10 +30,10 @@
     "storm",
     "storm-lang"
   ],
-  "packageManager": "pnpm@8.6.12",
+  "packageManager": "pnpm@8.7.4",
   "engines": {
     "node": ">=18.17.0",
-    "pnpm": ">=8.6.3"
+    "pnpm": ">=8.7.4"
   },
   "scripts": {
     "nx": "nx",
@@ -71,7 +71,9 @@
     "preview:decisions": "pnpm log4brains preview",
     "pre-commit": "lint-staged",
     "commit": "git-cz",
-    "check-circular-deps": "pnpm exec dpdm "
+    "repo-check:manypkg": "pnpm exec manypkg check",
+    "repo-check:circular-deps": "pnpm exec dpdm ",
+    "repo-check": "pnpm repo-check:manypkg && pnpm repo-check:circular-deps"
   },
   "nx": {
     "includedScripts": [
@@ -146,6 +148,7 @@
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@hookform/devtools": "^4.3.1",
+    "@manypkg/cli": "^0.21.0",
     "@mdx-js/react": "1.6.22",
     "@nx-plus/docusaurus": "^15.0.0-rc.0",
     "@nx/cypress": "16.7.0",
