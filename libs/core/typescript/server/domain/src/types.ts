@@ -47,6 +47,8 @@ export type Metadata = Pick<
 
 export type WithMetadata<TData = any> = TData & Metadata;
 
+export type WithoutMetadata<TData = any> = Omit<TData, keyof Metadata>;
+
 export interface IAggregateRoot extends IEntity {
   uncommittedEvents: IDomainEvent<any>[];
   apply: (event: IDomainEvent<any>) => void;

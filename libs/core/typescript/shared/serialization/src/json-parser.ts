@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Service } from "@open-system/core-shared-injection";
-import { BaseUtilityClass } from "@open-system/core-shared-utilities";
+import { Provider } from "@open-system/core-shared-injection";
+import {
+  BaseError,
+  BaseUtilityClass,
+  DateTime
+} from "@open-system/core-shared-utilities";
+import { Decimal } from "decimal.js";
 import { parse, registerCustom, stringify } from "superjson";
 import { JSON_PARSER_SYMBOL, JsonValue } from "./types";
 
-@Service(JSON_PARSER_SYMBOL)
+@Provider(JSON_PARSER_SYMBOL)
 export class JsonParser extends BaseUtilityClass {
   constructor() {
     super(JSON_PARSER_SYMBOL);
@@ -30,3 +35,24 @@ export class JsonParser extends BaseUtilityClass {
     );
   }
 }
+
+JsonParser.register(
+  "Decimal",
+  (value: Decimal) => value.toJSON(),
+  (strValue: string) => new Decimal(strValue),
+  (value: any): value is Decimal => Decimal.isDecimal(value)
+);
+
+JsonParser.register(
+  "DateTime",
+  DateTime.stringify,
+  DateTime.parse,
+  DateTime.isDateTime
+);
+
+JsonParser.register(
+  "BaseError",
+  BaseError.stringify,
+  BaseError.parse,
+  BaseError.isBaseError
+);

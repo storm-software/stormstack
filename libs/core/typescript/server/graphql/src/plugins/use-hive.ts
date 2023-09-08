@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Plugin } from "@envelop/types";
 import { useHive as useHiveExt } from "@graphql-hive/client";
+import { extractSystemInfo } from "@open-system/core-server-application/context/context";
 import { UserContext } from "@open-system/core-server-application/types";
 import { IEntity } from "@open-system/core-server-domain/types";
 import { GraphQLServerContext } from "../types";
@@ -13,7 +14,7 @@ export const useHive = async <
 }): Promise<Plugin<GraphQLServerContext<TEntities, TUser>>> => {
   const context = params.context;
   const env = context.system.env;
-  const service = context.system.service;
+  const info = extractSystemInfo(context);
 
   return useHiveExt({
     /**
@@ -44,11 +45,10 @@ export const useHive = async <
       endpoint: (await env.getAsync("HIVE_CONTACT_SDL_URL")) ?? undefined,
       clientInfo(ctx: GraphQLServerContext<TEntities, TUser>) {
         const name =
-          (ctx.request.headers["x-graphql-client-name"] as string) ??
-          service.name;
+          (ctx.request.headers["x-graphql-client-name"] as string) ?? info.name;
         const version =
           (ctx.request.headers["x-graphql-client-version"] as string) ??
-          service.version ??
+          info.version ??
           "missing";
 
         if (name) {
@@ -79,17 +79,17 @@ export const useHive = async <
       /**
        * Commit SHA hash (or any identifier) related to the schema version
        */
-      commit: service.version,
+      commit: info.version,
 
       /**
        * URL to the service (use only for distributed schemas)
        */
-      serviceUrl: service.url,
+      serviceUrl: info.url,
 
       /**
        * Name of the service (use only for distributed schemas)
        */
-      serviceName: service.name
+      serviceName: info.name
     }
 
     /**

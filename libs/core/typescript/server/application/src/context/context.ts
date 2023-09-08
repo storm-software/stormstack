@@ -1,18 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { IEntity } from "@open-system/core-server-domain/types";
+import { IEntity, WithMetadata } from "@open-system/core-server-domain/types";
 import { Injector } from "@open-system/core-shared-injection";
 import { JSON_PARSER_SYMBOL } from "@open-system/core-shared-serialization";
 import {
   DateTime,
   UniqueIdGenerator
 } from "@open-system/core-shared-utilities/common";
-import { Logger } from "@open-system/core-shared-utilities/logging";
-import { Repository } from "../repositories/repository";
+import {
+  ConsoleLogger,
+  Logger
+} from "@open-system/core-shared-utilities/logging";
+import { Service } from "../services";
 import {
   CreateServerContextParams,
-  RepositoryMappingIndex,
+  IModel,
   ServerContext,
+  ServiceMappingIndex,
   UserContext
 } from "../types";
 
@@ -40,7 +44,7 @@ export const createServerContext = <
   const injector = _injector ?? Injector;
 
   const utils = {
-    logger: logger ?? injector.get(Logger),
+    logger: logger ?? injector.get(Logger) ?? ConsoleLogger,
     parser: parser ?? injector.get(JSON_PARSER_SYMBOL),
     uniqueIdGenerator: uniqueIdGenerator ?? UniqueIdGenerator
   };
@@ -50,8 +54,8 @@ export const createServerContext = <
   const system = {
     env,
     environment: environment ?? env.environment,
-    service: {
-      id: serviceId ?? env.serviceId,
+    info: {
+      serviceId: serviceId ?? env.serviceId,
       name: serviceName ?? env.serviceName,
       version: serviceVersion ?? env.serviceVersion,
       url: serviceUrl ?? env.serviceUrl,
@@ -78,7 +82,7 @@ export const createServerContext = <
     user,
     system,
     utils,
-    repositories: {}
+    services: {}
   } as ServerContext<TEntities, TUser>;
 };
 
@@ -102,14 +106,15 @@ export const extractUserId = (context: ServerContext) =>
 
 export const extractSystem = (context: ServerContext) => context?.system;
 
-export const extractService = (context: ServerContext) =>
-  extractSystem(context)?.service;
+export const extractSystemInfo = (context: ServerContext) =>
+  context?.system?.info;
 
-export const extractRepository = <
+export const extractService = <
   TEntity extends IEntity = IEntity,
+  TModel extends WithMetadata<IModel<TEntity>> = TEntity,
   TUser extends UserContext = UserContext
 >(
   context: ServerContext<Array<TEntity>, TUser>,
-  entityName: RepositoryMappingIndex<TEntity>
-): Repository<TEntity> =>
-  context?.repositories?.[entityName] as Repository<TEntity>;
+  entityName: ServiceMappingIndex<TEntity>
+): Service<TEntity, TModel> =>
+  context?.services?.[entityName] as unknown as Service<TEntity, TModel>;

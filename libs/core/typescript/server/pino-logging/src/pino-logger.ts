@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
-import { Service } from "@open-system/core-shared-injection";
+import { Provider } from "@open-system/core-shared-injection";
 import { Logger } from "@open-system/core-shared-utilities";
 import pino from "pino";
 
-@Service(Logger)
+@Provider(Logger)
 export class PinoLogger extends Logger {
   #logger: pino.BaseLogger;
 

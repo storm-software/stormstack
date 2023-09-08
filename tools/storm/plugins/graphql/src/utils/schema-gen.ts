@@ -92,7 +92,7 @@ export class SchemaGenerator {
   public getScalarsSchema(): string {
     let schema = `
 
-interface IEntity {
+interface IModel {
   """
   The identifier of the record
   """
@@ -101,22 +101,6 @@ interface IEntity {
   The sequence number (version, or event counter, etc.) of the record
   """
   sequence: Int!
-  """
-  A timestamp of when the record was created
-  """
-  createdAt: DateTime!
-  """
-  The user who created the record
-  """
-  createdBy: String!
-  """
-  A timestamp of when the record was last updated
-  """
-  updatedAt: DateTime
-  """
-  The user who last updated the record
-  """
-  updatedBy: String
 }
 `;
 

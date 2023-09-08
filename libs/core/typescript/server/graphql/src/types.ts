@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import {
   CreateServerContextParams,
-  RepositoryMapping,
-  RepositoryMappingIndex,
   RequestContext,
   ServerContext,
+  ServiceMapping,
+  ServiceMappingIndex,
   UserContext
 } from "@open-system/core-server-application";
 import { IEntity } from "@open-system/core-server-domain/types";
@@ -148,17 +148,15 @@ export type CreateGraphQLServerContextParams<
   data: TRequestData;
 };
 
-export type RepositoryPluginParams<
+export type ServicePluginParams<
   TEntities extends Array<IEntity> = Array<IEntity>,
   TUser extends UserContext = UserContext,
   TRequestData = any
 > = Array<{
-  namespace: RepositoryMappingIndex<ArrayElement<TEntities>>;
+  namespace: ServiceMappingIndex<ArrayElement<TEntities>>;
   builderFn: (
     context: GraphQLServerContext<TEntities, TUser, TRequestData>
-  ) => RepositoryMapping<TEntities>[RepositoryMappingIndex<
-    ArrayElement<TEntities>
-  >];
+  ) => ServiceMapping<TEntities>[ServiceMappingIndex<ArrayElement<TEntities>>];
 }>;
 
 export type CreateGraphQLServerPluginsParams<
@@ -166,11 +164,7 @@ export type CreateGraphQLServerPluginsParams<
   TUser extends UserContext = UserContext,
   TRequestData = any
 > = {
-  repositoryPluginConfig: RepositoryPluginParams<
-    TEntities,
-    TUser,
-    TRequestData
-  >;
+  serviceConfig: ServicePluginParams<TEntities, TUser, TRequestData>;
   context: GraphQLServerContext<TEntities, TUser, TRequestData>;
 };
 

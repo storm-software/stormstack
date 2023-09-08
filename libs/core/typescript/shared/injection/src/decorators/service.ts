@@ -3,7 +3,7 @@ import { BaseUtilityClass } from "@open-system/core-shared-utilities/common/base
 import { Injector } from "../injector";
 import { Injectable, InjectableContext } from "./injectable";
 
-export const Service = (baseType?: typeof BaseUtilityClass | any) => {
+export const Provider = (baseType?: typeof BaseUtilityClass | any) => {
   return (target: any, context?: InjectableContext) => {
     if (context?.kind === "class" && baseType) {
       Injector.bind(target).to(baseType);

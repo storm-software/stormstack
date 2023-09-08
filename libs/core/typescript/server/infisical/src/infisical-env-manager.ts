@@ -7,7 +7,7 @@ import {
   BaseOptions,
   EnvironmentType
 } from "@open-system/core-shared-env/types";
-import { Service } from "@open-system/core-shared-injection";
+import { Provider } from "@open-system/core-shared-injection";
 import { Logger, isEmpty, isPromise } from "@open-system/core-shared-utilities";
 import { EnvConfigurationError } from "@open-system/core-shared-utilities/errors/env-configuration-error";
 import { getInfisicalClient } from "./infisical-client";
@@ -35,7 +35,7 @@ export const DEFAULT_OPTIONS: BaseOptions = {
   }
 };
 
-@Service(EnvManager)
+@Provider(EnvManager)
 export class InfisicalEnvManager<
   TOptions extends Omit<BaseOptions, "env"> &
     Required<Pick<BaseOptions, "env">> = Omit<BaseOptions, "env"> &

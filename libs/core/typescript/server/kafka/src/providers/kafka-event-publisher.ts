@@ -4,7 +4,7 @@ import {
   MessageBroker
 } from "@open-system/core-server-application";
 import { IAggregateRoot, IDomainEvent } from "@open-system/core-server-domain";
-import { Service } from "@open-system/core-shared-injection";
+import { Provider } from "@open-system/core-shared-injection";
 import { JsonParser } from "@open-system/core-shared-serialization/json-parser";
 import { Logger } from "@open-system/core-shared-utilities";
 import { CompressionTypes, Message } from "kafkajs";
@@ -14,7 +14,7 @@ import {
   KafkaMessageBrokerWriteConfig
 } from "../types";
 
-@Service()
+@Provider()
 export class KafkaEventPublisher extends EventPublisher {
   #config: KafkaConfig;
 

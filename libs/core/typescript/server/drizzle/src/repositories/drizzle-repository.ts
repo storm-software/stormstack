@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  AggregateParams,
   CreateParams,
   DeleteManyParams,
   DeleteParams,
   FindCountParams,
-  FindFirstParams,
   FindManyParams,
   FindUniqueParams,
-  GroupByParams,
   Repository,
-  RepositoryOptions,
   UpdateManyParams,
   UpdateParams,
   UpsertParams
@@ -18,7 +14,7 @@ import {
 import { IEntity } from "@open-system/core-server-domain";
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
 import { BaseOptions } from "@open-system/core-shared-env/types";
-import { Service } from "@open-system/core-shared-injection";
+import { Provider } from "@open-system/core-shared-injection";
 import {
   Logger,
   NotFoundError,
@@ -31,7 +27,7 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { formatWhereParams } from "../utilities/format-params";
 
-@Service(DrizzleRepository)
+@Provider(DrizzleRepository)
 export class DrizzleRepository<
   TEntity extends IEntity = IEntity
 > extends Repository<TEntity> {
@@ -39,10 +35,9 @@ export class DrizzleRepository<
     protected schema: SQLiteTableWithColumns<any>,
     protected db: BaseSQLiteDatabase<"async", any, any>,
     logger: Logger,
-    env: EnvManager<BaseOptions>,
-    options: RepositoryOptions<TEntity>
+    env: EnvManager<BaseOptions>
   ) {
-    super(logger, env, options);
+    super(logger, env);
   }
 
   protected override innerFindUnique = async (
@@ -59,7 +54,7 @@ export class DrizzleRepository<
     return results[0] as TEntity;
   };
 
-  protected override innerFindFirst = async (
+  /*protected override innerFindFirst = async (
     params: FindFirstParams<TEntity>
   ) => {
     const results = await this.db
@@ -71,7 +66,7 @@ export class DrizzleRepository<
     }
 
     return results[0] as TEntity;
-  };
+  };*/
 
   protected override innerFindMany = async (
     params: FindManyParams<TEntity>
@@ -148,7 +143,7 @@ export class DrizzleRepository<
     }
   };
 
-  protected override innerAggregate = async (
+  /*protected override innerAggregate = async (
     params: AggregateParams<TEntity>
   ) => {
     return (await this.db
@@ -166,5 +161,5 @@ export class DrizzleRepository<
       .where(
         formatWhereParams<TEntity>(this.schema, params.where)
       )) as TEntity[];
-  };
+  };*/
 }

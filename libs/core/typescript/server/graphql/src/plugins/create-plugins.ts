@@ -13,10 +13,10 @@ import { useErrorHandler } from "./use-error-handler";
 import { useHive } from "./use-hive";
 import { useLogger } from "./use-logger";
 import { useReadinessCheck } from "./use-readiness-check";
-import { useRepositoryProvider } from "./use-repository-provider";
 import { useResponseCache } from "./use-response-cache";
 import { useSentry } from "./use-sentry";
 import { useSentryUser } from "./use-sentry-user";
+import { useServiceProvider } from "./use-service-provider";
 
 export const createPlugins = async <
   TEntities extends Array<IEntity> = Array<IEntity>,
@@ -42,6 +42,6 @@ export const createPlugins = async <
     useResponseCache(),
     useReadinessCheck<TEntities, TUser>({ context }),
     await useHive<TEntities, TUser>({ context }),
-    useRepositoryProvider<TEntities, TUser>(params.repositoryPluginConfig)
+    useServiceProvider<TEntities, TUser>(params.serviceConfig)
   ] as Array<Plugin<GraphQLServerContext<TEntities, TUser>>>;
 };

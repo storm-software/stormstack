@@ -374,10 +374,14 @@ ${typesOutput}`),
       plugins: [
         {
           typescriptResolvers: {
+            immutableTypes: true,
+            allowParentTypeOverride: true,
+            skipTypename: false,
+            nonOptionalTypename: true,
             contextType:
               "@open-system/core-server-graphql/types#GraphQLServerContext",
             mappers: {
-              IEntity: "@open-system/core-server-domain/types#IEntity"
+              IModel: "@open-system/core-server-application/types#IModel"
             }
           }
         }

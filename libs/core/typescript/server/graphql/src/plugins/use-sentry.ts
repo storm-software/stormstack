@@ -6,7 +6,7 @@ import type { Plugin } from "@envelop/types";
 import {
   extractCorrelationId,
   extractRequestId,
-  extractService,
+  extractSystemInfo,
   extractUserId
 } from "@open-system/core-server-application";
 import { JsonParser } from "@open-system/core-shared-serialization";
@@ -71,7 +71,7 @@ export const useSentry = <
       const userId = extractUserId(contextValue as TContext);
       const correlationId = extractCorrelationId(contextValue as TContext);
       const requestId = extractRequestId(contextValue as TContext);
-      const service = extractService(contextValue as TContext);
+      const service = extractSystemInfo(contextValue as TContext);
 
       return {
         correlationId,

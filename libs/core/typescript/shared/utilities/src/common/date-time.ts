@@ -33,7 +33,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    * @returns The function isDateTime is returning a boolean value.
    */
   public static isDateTime(obj: unknown): obj is IDateTime {
-    return (obj as IDateTime)?.__symbol === Tokens.DATE_TIME;
+    return (obj as IDateTime)?.__typename === "DateTime";
   }
 
   /**
@@ -101,6 +101,14 @@ export class DateTime extends Temporal.Instant implements IDateTime {
       | undefined = DateTime.current
   ) => new DateTime(dateTime);
 
+  public static parse(strDateTime: string): IDateTime {
+    return DateTime.create(Temporal.Instant.from(strDateTime));
+  }
+
+  public static stringify(dateTime: IDateTime): string {
+    return dateTime.stringify();
+  }
+
   protected constructor(
     dateTime:
       | Temporal.Instant
@@ -158,6 +166,14 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    */
   public asJsDate(): Date {
     return new Date(this.epochMilliseconds);
+  }
+
+  /**
+   * It returns the current `DateTime` object as a string for serialization
+   * @returns A `string` to use for serialization
+   */
+  public stringify(): string {
+    return this.toString();
   }
 
   /**

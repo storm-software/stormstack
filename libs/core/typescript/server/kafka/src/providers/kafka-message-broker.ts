@@ -1,5 +1,5 @@
 import { MessageBroker } from "@open-system/core-server-application";
-import { Service } from "@open-system/core-shared-injection";
+import { Provider } from "@open-system/core-shared-injection";
 import { Logger, UniqueIdGenerator } from "@open-system/core-shared-utilities";
 import { Consumer, Kafka, Message, Producer } from "kafkajs";
 import { KafkaConfig } from "../environment";
@@ -8,7 +8,7 @@ import {
   KafkaMessageBrokerWriteConfig
 } from "../types";
 
-@Service()
+@Provider()
 export class KafkaMessageBroker extends MessageBroker<
   Message,
   KafkaMessageBrokerReadConfig,

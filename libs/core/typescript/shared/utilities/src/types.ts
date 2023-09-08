@@ -259,7 +259,13 @@ export const enum DateTimeFormatTemplates {
 /**
  * Wrap the `Temporal.Instant` object so we can re-use it in other places
  */
-export interface IDateTime extends Temporal.Instant, IBaseUtilityClass {}
+export interface IDateTime extends Temporal.Instant, IBaseUtilityClass {
+  /**
+   * It returns the current `DateTime` object as a string for serialization
+   * @returns A `string` to use for serialization
+   */
+  stringify(): string;
+}
 
 /**
  * Represents an HTTP method.

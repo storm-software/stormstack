@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import { IAggregateRoot } from "@open-system/core-server-domain";
-import { IEntity, WithMetadata } from "@open-system/core-server-domain/types";
+import {
+  IEntity,
+  WithMetadata,
+  WithoutMetadata
+} from "@open-system/core-server-domain/types";
 import { EnvironmentType } from "@open-system/core-shared-env";
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
 import { Injector } from "@open-system/core-shared-injection/types";
@@ -16,7 +20,7 @@ import {
   IBaseClass
 } from "@open-system/core-shared-utilities/types";
 import { ICommand } from "./commands";
-import { Repository } from "./repositories/repository";
+import { Service } from "./services";
 
 export const MESSAGE_BROKER_TOKEN = Symbol.for("MESSAGE_BROKER_TOKEN");
 export const EVENT_PUBLISHER_TOKEN = Symbol.for("EVENT_PUBLISHER_TOKEN");
@@ -25,7 +29,7 @@ export const REPOSITORY_TOKEN = Symbol.for("REPOSITORY_TOKEN");
 export const REPOSITORY_DATA_LOADER_TOKEN = Symbol.for(
   "REPOSITORY_DATA_LOADER_TOKEN"
 );
-export const MANAGER_TOKEN = Symbol.for("MANAGER_TOKEN");
+export const SERVICE_TOKEN = Symbol.for("SERVICE_TOKEN");
 
 export type StringFilter = {
   equals?: string;
@@ -339,8 +343,8 @@ export type RequestContext = {
   startedBy: string;
 };
 
-export type ServiceContext = {
-  id: string;
+export type SystemInfoContext = {
+  serviceId: string;
   name: string;
   url: string;
   version: string;
@@ -349,7 +353,7 @@ export type ServiceContext = {
 };
 
 export type SystemContext = {
-  service: ServiceContext;
+  info: SystemInfoContext;
   environment: EnvironmentType;
   env: EnvManager;
   startedAt: DateTime;
@@ -384,21 +388,24 @@ export type EntityMappingItem<
   TEntities extends Array<IEntity> = Array<IEntity>
 > = EntityMapping<TEntities>[keyof EntityMapping<TEntities>];*/
 
-export type RepositoryMappingIndex<TEntity extends IEntity = IEntity> =
+export type ServiceMappingIndex<TEntity extends IEntity = IEntity> =
   Uncapitalize<EntityName<TEntity>>;
 
-export type RepositoryMapping<
-  TEntities extends Array<IEntity> = Array<IEntity>
+export type ServiceMapping<
+  TEntities extends Array<IEntity> = Array<IEntity>,
+  TModels extends Array<WithMetadata<IModel<IEntity>>> = Array<
+    WithMetadata<IModel<IEntity>>
+  >
 > = Record<
-  RepositoryMappingIndex<ArrayElement<TEntities>>,
-  Repository<ArrayElement<TEntities>>
+  ServiceMappingIndex<ArrayElement<TEntities>>,
+  Service<ArrayElement<TEntities>, ArrayElement<TModels>>
 >;
 
 export type ServerContext<
   TEntities extends Array<IEntity> = Array<IEntity>,
   TUser extends UserContext = UserContext
 > = BaseServerContext<TUser> & {
-  repositories: RepositoryMapping<TEntities>;
+  services: ServiceMapping<TEntities>;
 };
 
 /*export type EventSourcedServerContext<TUser extends UserContext = UserContext> =
@@ -420,12 +427,12 @@ export type CreateServerContextParams<TUser extends UserContext = UserContext> =
     user?: TUser;
     env: EnvManager;
     injector: Injector;
-    serviceId?: ServiceContext["id"];
-    serviceName?: ServiceContext["name"];
-    domainName?: ServiceContext["domainName"];
-    serviceUrl?: ServiceContext["url"];
-    serviceVersion?: ServiceContext["version"];
-    instanceId?: ServiceContext["instanceId"];
+    serviceId?: SystemInfoContext["serviceId"];
+    serviceName?: SystemInfoContext["name"];
+    domainName?: SystemInfoContext["domainName"];
+    serviceUrl?: SystemInfoContext["url"];
+    serviceVersion?: SystemInfoContext["version"];
+    instanceId?: SystemInfoContext["instanceId"];
   };
 
 export type QueryType = "findUnique" | "findFirst" | "findMany" | "aggregate";
@@ -480,10 +487,30 @@ export type CacheMap<TEntity extends IEntity = IEntity> = {
   clear(): any;
 };
 
+export interface IModel<TEntity extends IEntity = IEntity> extends IBaseClass {
+  /**
+   * A string representation of the class
+   */
+  __typename: string;
+
+  id: TEntity["id"];
+
+  sequence: TEntity["sequence"];
+}
+
+/**
+ * An object containing the current paginated result data returned from Model at the current cursor position
+ */
+export type ModelEdge<TModel extends IModel = IModel> = {
+  __typename: `${TModel["__typename"]}Edge`;
+  node: WithMetadata<TModel>;
+  cursor: string;
+};
+
 /**
  * A base type to define the structure of paginated response data
  */
-export type PageInfo = {
+export type PageInfo = IModel & {
   __typename: "PageInfo";
   /** When paginating forwards, are there more items? */
   hasNextPage: boolean;
@@ -495,54 +522,40 @@ export type PageInfo = {
   endCursor: string;
 };
 
-export type Model<TEntity extends IEntity = IEntity> = IBaseClass & {
-  __typename: string;
-  id: TEntity["id"];
-};
-
-/**
- * An object containing the current paginated result data returned from Model at the current cursor position
- */
-export type ModelEdge<TModel extends Model = Model> = {
-  __typename: `${TModel["__typename"]}Edge`;
-  node: WithMetadata<TModel>;
-  cursor: string;
-};
-
 /**
  * An object containing the paginated child model data returned from Model
  */
-export type ModelConnection<TModel extends Model = Model> = {
+export type ModelConnection<TModel extends IModel = IModel> = {
   __typename: `${TModel["__typename"]}Connection`;
   edges: Array<ModelEdge<TModel>>;
   pageInfo: PageInfo;
   totalCount: number;
 };
 
-type ModelFieldKeys<TModel extends Model = Model> = keyof Omit<
+type ModelFieldKeys<TModel extends IModel = IModel> = keyof Omit<
   TModel,
   "__typename"
 >;
 
-type ModelFields<TModel extends Model = Model> = TModel[ModelFieldKeys<TModel>];
+type ModelFields<TModel extends IModel = IModel> =
+  TModel[ModelFieldKeys<TModel>];
 
-export type ModelKeys<TModel extends Model = Model> =
-  ModelFields<TModel> extends Model
+export type ModelKeys<TModel extends IModel = IModel> =
+  ModelFields<TModel> extends IModel
     ? ModelKeys<ModelFields<TModel>>
     : ModelFieldKeys<TModel>;
 
 type SelectModelParams<TModelKeys extends string | number | symbol> = Partial<
   Record<TModelKeys, boolean>
 >;
-type SelectUniqueModelParams<TModel extends Model = Model> = SelectModelParams<
-  ModelKeys<TModel>
->;
+type SelectUniqueModelParams<TModel extends IModel = IModel> =
+  SelectModelParams<ModelKeys<TModel>>;
 
-type SelectManyModelParams<TModel extends Model = Model> = Partial<
+type SelectManyModelParams<TModel extends IModel = IModel> = Partial<
   Record<ModelKeys<TModel>, boolean>
 >;
 
-type WhereModelParamsFields<TModel extends Model = Model> = {
+type WhereModelParamsFields<TModel extends IModel = IModel> = {
   [key in ModelKeys<TModel>]?:
     | StringFilter
     | DateTimeFilter
@@ -551,30 +564,30 @@ type WhereModelParamsFields<TModel extends Model = Model> = {
     | WhereModelParams<TModel>;
 };
 
-export type WhereModelParams<TModel extends Model = Model> =
+export type WhereModelParams<TModel extends IModel = IModel> =
   WhereModelParamsFields<TModel> & {
     AND?: Array<WhereModelParams<TModel>>;
     OR?: Array<WhereModelParams<TModel>>;
     NOT?: WhereModelParams<TModel> | Array<WhereModelParams<TModel>>;
   };
 
-export type WhereUniqueModelParams<TModel extends Model = Model> = Partial<
+export type WhereUniqueModelParams<TModel extends IModel = IModel> = Partial<
   Omit<WhereModelParams<TModel>, "id">
 > & {
   id: string;
 };
 
-export type UniqueModelSelector<TModel extends Model = Model> = {
+export type UniqueModelSelector<TModel extends IModel = IModel> = {
   select?: SelectUniqueModelParams<TModel>;
   where: WhereUniqueModelParams<TModel>;
 };
 
-export type ByIdModelSelector<TModel extends Model = Model> = {
+export type ByIdModelSelector<TModel extends IModel = IModel> = {
   select?: SelectUniqueModelParams<TModel>;
   id: WhereUniqueModelParams<TModel>["id"];
 };
 
-export type ManyModelSelector<TModel extends Model = Model> = {
+export type ManyModelSelector<TModel extends IModel = IModel> = {
   select?: SelectManyModelParams<TModel>;
   where?: WhereModelParams<TModel>;
   orderBy?:
@@ -584,7 +597,19 @@ export type ManyModelSelector<TModel extends Model = Model> = {
   take?: number;
 };
 
-export type CreateModelParams<TModel extends Model = Model> = {
+export type CreateModelData<TModel extends IModel = IModel> = Omit<
+  WithoutMetadata<TModel>,
+  "id"
+>;
+
+export type UpdateModelData<TModel extends IModel = IModel> =
+  WithoutMetadata<TModel>;
+
+export type CreateModelParams<TModel extends IModel = IModel> = {
   select?: Partial<Record<ModelKeys<TModel>, boolean>>;
-  data: TModel;
+  data: CreateModelData<TModel>;
+};
+
+export type CountModelSelector<TModel extends IModel = IModel> = {
+  where?: WhereModelParams<TModel>;
 };

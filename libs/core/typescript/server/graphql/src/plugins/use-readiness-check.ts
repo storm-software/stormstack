@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { extractSystemInfo } from "@open-system/core-server-application/context/context";
 import { UserContext } from "@open-system/core-server-application/types";
 import { IEntity } from "@open-system/core-server-domain/types";
 import { useReadinessCheck as useReadinessCheckExt } from "graphql-yoga";
@@ -17,16 +18,17 @@ export const useReadinessCheck = <
     endpoint: system.env.get("READINESS_CHECK_PATH") ?? "/ready",
     check: async () => {
       const logger = context.utils.logger;
+      const info = extractSystemInfo(context);
 
       try {
         await logger.info(
-          `Running server readiness check - ${system.service.name}-v${system.service.version}`
+          `Running server readiness check - ${info.name}-v${info.version}`
         );
 
         return true;
       } catch (e) {
         await logger.info(
-          `Failed the server readiness check - ${system.service.name}-v${system.service.version}`
+          `Failed the server readiness check - ${info.name}-v${info.version}`
         );
         await logger.error(e);
         return false;
