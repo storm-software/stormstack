@@ -52,6 +52,13 @@
         "packageManager": "pnpm",
         "dependencyCheck": true
       }
+    },
+    "prisma": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma generate",
+        "cwd": "libs/contact/typescript/server/attachment"
+      }
     }
   },
   "tags": ["scope:contact", "platform:server", "level:infrastructure"]

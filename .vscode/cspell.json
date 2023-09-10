@@ -43,6 +43,7 @@
     "endregion",
     "enjoi",
     "esbuild",
+    "espree",
     "eventcatalog",
     "eventsourced",
     "Expando",
@@ -160,15 +161,7 @@
     "wundergraph",
     "zenstack"
   ],
-  "enableFiletypes": [
-    "txt",
-    "js",
-    "jsx",
-    "ts",
-    "tsx",
-    "md",
-    "mdx"
-  ],
+  "enableFiletypes": ["txt", "js", "jsx", "ts", "tsx", "md", "mdx"],
   "ignorePaths": [
     "**/.git/**",
     "**/node_modules/**",
@@ -184,23 +177,17 @@
   // contains English text like package descriptions).
   "useGitignore": true,
   // GitHub Security Advisories
-  "ignoreRegExpList": [
-    "GHSA-[-\\w]+"
-  ],
+  "ignoreRegExpList": ["GHSA-[-\\w]+"],
   "overrides": [
     {
       //Ignore anything in a changelog file that looks like a GitHub username.
       "filename": "**/CHANGELOG*.md",
-      "ignoreRegExpList": [
-        "@[-\\w]+"
-      ]
+      "ignoreRegExpList": ["@[-\\w]+"]
     },
     {
       //Ignore the targets of links in Markdown/MDX files.
       "filename": "'**/*.md*",
-      "ignoreRegExpList": [
-        "\\]\\([^)]+\\)"
-      ]
+      "ignoreRegExpList": ["\\]\\([^)]+\\)"]
     }
   ]
 }

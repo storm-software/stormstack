@@ -23,10 +23,8 @@
         "metafile": true,
         "sourcemap": true,
         "minify": true,
-        "thirdParty": true,
-        "skipTypeCheck": true,
-        "external": ["@swc/wasm"],
         "format": ["esm", "cjs"],
+        "external": ["@swc/core", "nx", "espree"],
         "assets": [
           {
             "input": "tools/generators/typescript",

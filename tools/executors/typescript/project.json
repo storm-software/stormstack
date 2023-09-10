@@ -30,6 +30,7 @@
         "minify": true,
         "skipTypeCheck": true,
         "format": ["esm", "cjs"],
+        "external": [".prisma/client/index"],
         "assets": [
           {
             "input": "tools/executors/typescript",
