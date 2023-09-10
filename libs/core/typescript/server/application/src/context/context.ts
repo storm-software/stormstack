@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { IEntity, WithMetadata } from "@open-system/core-server-domain/types";
+import { IEntity } from "@open-system/core-server-domain/types";
+import { EnvManager } from "@open-system/core-shared-env";
 import { Injector } from "@open-system/core-shared-injection";
 import { JSON_PARSER_SYMBOL } from "@open-system/core-shared-serialization";
 import {
@@ -14,7 +15,6 @@ import {
 import { Service } from "../services";
 import {
   CreateServerContextParams,
-  IModel,
   ServerContext,
   ServiceMappingIndex,
   UserContext
@@ -50,6 +50,7 @@ export const createServerContext = <
   };
 
   const user = { id: utils.uniqueIdGenerator.generate(), ..._user };
+  env ??= injector.get(EnvManager);
 
   const system = {
     env,
@@ -66,7 +67,7 @@ export const createServerContext = <
     startedBy: user.id
   };
 
-  const request = {
+  const process = {
     correlationId: correlationId
       ? correlationId
       : utils.uniqueIdGenerator.generate(),
@@ -77,7 +78,7 @@ export const createServerContext = <
   };
 
   return {
-    request,
+    process,
     injector,
     user,
     system,
@@ -86,16 +87,17 @@ export const createServerContext = <
   } as ServerContext<TEntities, TUser>;
 };
 
-export const extractRequest = (context: ServerContext) => context?.request;
+export const extractCurrentProcess = (context: ServerContext) =>
+  context?.process;
 
 export const extractCorrelationId = (context: ServerContext) =>
-  extractRequest(context)?.correlationId;
+  extractCurrentProcess(context)?.correlationId;
 
 export const extractRequestId = (context: ServerContext) =>
-  extractRequest(context)?.requestId;
+  extractCurrentProcess(context)?.requestId;
 
 export const extractRequestHeaders = (context: ServerContext) =>
-  extractRequest(context)?.headers;
+  extractCurrentProcess(context)?.headers;
 
 export const extractLogger = (context: ServerContext) => context?.utils?.logger;
 
@@ -109,12 +111,13 @@ export const extractSystem = (context: ServerContext) => context?.system;
 export const extractSystemInfo = (context: ServerContext) =>
   context?.system?.info;
 
+export const extractEnv = (context: ServerContext) =>
+  extractSystem(context)?.env;
+
 export const extractService = <
   TEntity extends IEntity = IEntity,
-  TModel extends WithMetadata<IModel<TEntity>> = TEntity,
   TUser extends UserContext = UserContext
 >(
   context: ServerContext<Array<TEntity>, TUser>,
   entityName: ServiceMappingIndex<TEntity>
-): Service<TEntity, TModel> =>
-  context?.services?.[entityName] as unknown as Service<TEntity, TModel>;
+): Service<TEntity> => context?.services?.[entityName] as Service<TEntity>;

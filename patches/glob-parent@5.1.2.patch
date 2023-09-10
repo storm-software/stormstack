@@ -1,0 +1,16 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index fb9de9618b9dd9a7e239c148fc60a55197ab8f6a..0000000000000000000000000000000000000000
+diff --git a/index.js b/index.js
+index 09e257ea306cd41c63cc1a59a86653d098bda0f9..753b67aa37ce41f7165b85819803d692e2155285 100644
+--- a/index.js
++++ b/index.js
+@@ -2,7 +2,7 @@
+ 
+ var isGlob = require('is-glob');
+ var pathPosixDirname = require('path').posix.dirname;
+-var isWin32 = require('os').platform() === 'win32';
++var isWin32 = require('node:os').platform() === 'win32';
+ 
+ var slash = '/';
+ var backslash = /\\/g;

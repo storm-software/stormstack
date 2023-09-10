@@ -1,0 +1,24 @@
+diff --git a/cjs/index.js b/cjs/index.js
+index e956d0de17bc4f52ea8fd99dd7c6c623751994ac..d4c98341d01ed955b258974e6b41d988cde46abe 100644
+--- a/cjs/index.js
++++ b/cjs/index.js
+@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.parseImportLine = exports.extractImportLines = exports.processImports = exports.extractDependencies = exports.processImport = void 0;
+ const tslib_1 = require("tslib");
+ const graphql_1 = require("graphql");
+-const fs_1 = require("fs");
++const fs_1 = require("node:fs");
+ const path_1 = require("path");
+ const resolve_from_1 = tslib_1.__importDefault(require("resolve-from"));
+ const process_1 = require("process");
+diff --git a/esm/index.js b/esm/index.js
+index 6152ccbb764ecfcf225ec0d19f6af13ecaf49ca2..aacbff64c5cc5d7743f601f485f337f42caac092 100644
+--- a/esm/index.js
++++ b/esm/index.js
+@@ -1,5 +1,5 @@
+ import { Source, parse, Kind, print, } from 'graphql';
+-import { readFileSync, realpathSync } from 'fs';
++import { readFileSync, realpathSync } from 'node:fs';
+ import { dirname, join, isAbsolute } from 'path';
+ import resolveFrom from 'resolve-from';
+ import { cwd as cwdFactory } from 'process';

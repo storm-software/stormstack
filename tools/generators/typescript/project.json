@@ -20,9 +20,12 @@
         "platform": "node",
         "deleteOutputPath": true,
         "bundle": true,
+        "metafile": true,
         "sourcemap": true,
         "minify": true,
+        "thirdParty": true,
         "skipTypeCheck": true,
+        "external": ["@swc/wasm"],
         "format": ["esm", "cjs"],
         "assets": [
           {
@@ -90,5 +93,9 @@
     }
   },
   "tags": ["scope:tools", "platform:admin"],
-  "implicitDependencies": ["core-shared-utilities", "core-server-utilities"]
+  "implicitDependencies": [
+    "core-shared-utilities",
+    "core-server-utilities",
+    "core-server-cloudflare"
+  ]
 }

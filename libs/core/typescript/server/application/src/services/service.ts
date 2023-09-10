@@ -1,34 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  IEntity,
-  WithMetadata,
-  WithoutMetadata
-} from "@open-system/core-server-domain/types";
+import { IEntity } from "@open-system/core-server-domain/types";
 import { Provider } from "@open-system/core-shared-injection";
 import {
   BaseUtilityClass,
-  DateTime,
-  isError,
-  isPromise
+  isEmpty,
+  isError
 } from "@open-system/core-shared-utilities/common";
 import {
   BaseError,
-  DatabaseError,
+  BaseErrorCode,
+  FieldValidationError,
+  ModelValidationError,
   NotFoundError
 } from "@open-system/core-shared-utilities/errors";
 import { Logger } from "@open-system/core-shared-utilities/logging";
-import {
-  EMPTY_STRING,
-  MaybePromise
-} from "@open-system/core-shared-utilities/types";
 import { Repository } from "../repositories/repository";
 import {
-  CountModelSelector,
-  CreateModelParams,
+  CreateParams,
   FindCountParams,
   FindManyParams,
-  IModel,
-  ManyModelSelector,
   SERVICE_TOKEN,
   UserContext,
   WhereUniqueParams
@@ -36,8 +26,7 @@ import {
 
 @Provider(Service)
 export abstract class Service<
-  TEntity extends IEntity = IEntity,
-  TModel extends WithMetadata<IModel<TEntity>> = TEntity
+  TEntity extends IEntity = IEntity
 > extends BaseUtilityClass {
   /**
    * The name given to the records used by this `Service` instance.
@@ -77,158 +66,87 @@ export abstract class Service<
     return this.addMetadata<TModel>(model);
   };*/
 
-  public getById = async (id: string): Promise<TModel> => {
-    const results = await this.repository.findUnique({
+  public getById = async (id: string): Promise<TEntity> => {
+    const result = await this.repository.findUnique({
       where: { id } as WhereUniqueParams<TEntity>
     });
 
-    return this.handleResult(results);
+    return this.handleResult<TEntity>(result);
   };
 
   public get = async (
-    selector: ManyModelSelector<TModel>
-  ): Promise<Array<TModel>> => {
-    const results = await this.repository.findMany(
-      selector as FindManyParams<TEntity>
-    );
+    selector: FindManyParams<TEntity>
+  ): Promise<Array<TEntity>> => {
+    const results = await this.repository.findMany(selector);
 
-    return this.handleResults(results);
-
-    /*if (!results || !Array.isArray(results) || results.length === 0) {
-      throw new NotFoundError(this.repository.name);
-    }
-    const entities = this.handleErrorsIfExists(results);
-
-    return map(entities, async (entity: TEntity) => {
-      const model = this.mapEntityToModel(entity);
-      if (isPromise(model)) {
-        return await model;
-      }
-
-      if (isPromise(model)) {
-        model = this.addMetadata<TModel>(await model);
-      }
-
-      return {
-        __typename: `${this.repository.name}Edge`,
-        node: this.addMetadata<TModel>(model),
-        cursor: entity.id
-      } as ModelEdge<TModel>;
-    });
-
-    /*const totalCount = await this.repository.findCount(selector);
-
-    return {
-      __typename: `${this.repository.name}Connection`,
-      edges,
-      pageInfo: {
-        __typename: "PageInfo",
-        hasNextPage:
-          edges.length === selector.take && edges.length < totalCount,
-        hasPreviousPage: !!selector.cursor,
-        startCursor: edges?.[0].cursor as string,
-        endCursor: edges?.at(-1)?.cursor as string
-      },
-      totalCount
-    };*/
+    return this.handleResults<TEntity>(results);
   };
 
   public count = async (
-    selector: CountModelSelector<TModel>
+    selector: FindCountParams<TEntity>
   ): Promise<number> => {
-    const results = await this.repository.findCount(
-      selector as FindCountParams<TEntity>
-    );
+    const result = await this.repository.findCount(selector);
 
-    return results;
+    return this.handleResult<number>(result);
   };
 
   public create = async (
-    params: CreateModelParams<TModel>
-  ): Promise<TModel["id"]> => {
-    let entity = this.mapModelToEntity(params.data as WithoutMetadata<TModel>);
-    if (isPromise(entity)) {
-      entity = await entity;
-    }
+    params: CreateParams<TEntity>
+  ): Promise<TEntity["id"]> => {
+    const result = await this.repository.create(params);
 
-    return this.repository.create({ data: entity });
+    return this.handleResult<TEntity["id"]>(result);
   };
 
-  public abstract mapEntityToModel: (entity: TEntity) => MaybePromise<TModel>;
-
-  public abstract mapModelToEntity: (
-    model: WithoutMetadata<TModel>
-  ) => MaybePromise<TEntity>;
-
-  protected addMetadata = <TData = any>(
-    data: TData,
-    entity?: TEntity
-  ): WithMetadata<TData> => {
-    return {
-      ...data,
-      __typename: entity?.__typename ?? this.name ?? EMPTY_STRING,
-      sequence: entity?.sequence ?? 1,
-      createdAt: entity?.createdAt ?? DateTime.current,
-      createdBy: entity?.createdBy ?? this.user.id,
-      updatedAt: entity?.updatedAt,
-      updatedBy: entity?.updatedBy
-    } as WithMetadata<TData>;
-  };
-
-  protected innerHandleResult = async (
-    entity: TEntity
-  ): Promise<WithMetadata<TModel>> => {
-    let model = this.mapEntityToModel(entity);
-    if (isPromise(model)) {
-      model = await model;
-    }
-
-    return this.addMetadata<TModel>(model, entity);
-  };
-
-  private handleResult = (
-    entity: TEntity | Error
-  ): Promise<WithMetadata<TModel>> => {
-    if (!entity) {
+  private handleResult = <TData = any>(entity: TData | Error): TData => {
+    if (isEmpty(entity)) {
       throw new NotFoundError(this.name);
     }
-    if (isError(entity)) {
+    if (isError(entity) || BaseError.isBaseError(entity)) {
       throw entity as Error;
     }
 
-    return this.innerHandleResult(entity);
+    return entity as TData;
   };
 
-  private handleResults = async (
-    entities: Array<TEntity> | Error
-  ): Promise<Array<WithMetadata<TModel>>> => {
-    if (!entities || !Array.isArray(entities) || entities.length === 0) {
+  private handleResults = <TData = any>(
+    results: Array<TData | Error> | Error
+  ): Array<TData> => {
+    if (isError(results)) {
+      throw results as Error;
+    }
+
+    if (isEmpty(results) || !Array.isArray(results) || results.length === 0) {
       throw new NotFoundError(this.name);
     }
 
-    const { errors, results } = entities.reduce(
+    const { errors, entities } = results.reduce(
       (
         ret: {
-          errors: BaseError[];
-          results: Array<Promise<WithMetadata<TModel>>>;
+          errors: FieldValidationError[];
+          entities: Array<TData>;
         },
         result
       ) => {
-        BaseError.isBaseError(result)
-          ? ret.errors.push(result)
-          : ret.results.push(this.innerHandleResult(result));
+        if (FieldValidationError.isFieldValidationError(result)) {
+          ret.errors.push(result);
+        } else if (isError(result)) {
+          throw result;
+        } else {
+          ret.entities.push(result);
+        }
 
         return ret;
       },
-      { errors: [], results: [] }
+      { errors: [], entities: [] }
     );
     if (errors && errors.length > 0) {
-      throw new DatabaseError(
-        this.name ? `${this.name} Select` : EMPTY_STRING,
-        errors
+      throw new ModelValidationError(
+        errors,
+        BaseErrorCode.database_query_error
       );
     }
 
-    return await Promise.all(results);
+    return entities as Array<TData>;
   };
 }

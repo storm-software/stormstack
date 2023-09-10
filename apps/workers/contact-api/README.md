@@ -1,6 +1,12 @@
+<!-- START header -->
+<!-- END header -->
+
 # worker-contact-api
 
 A Cloudflare Worker to be developed in the Open System monorepo.
+
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 ## Build
 
@@ -45,3 +51,6 @@ Run to see a diagram of the dependencies of your projects.
 ```
 nx graph
 ```
+
+<!-- START footer -->
+<!-- END footer -->

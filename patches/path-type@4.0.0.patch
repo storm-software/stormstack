@@ -1,0 +1,12 @@
+diff --git a/index.js b/index.js
+index b8f34b24ef010719a0d1ec194bae0494a0289f49..e79745d1384d4dc1a478e69d14b8bc29effbf89a 100644
+--- a/index.js
++++ b/index.js
+@@ -1,6 +1,6 @@
+ 'use strict';
+ const {promisify} = require('util');
+-const fs = require('fs');
++const fs = require('node:fs');
+ 
+ async function isType(fsStatType, statsMethodName, filePath) {
+ 	if (typeof filePath !== 'string') {

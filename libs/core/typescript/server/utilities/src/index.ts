@@ -5,4 +5,6 @@ export * from "./execute";
 export * from "./exists";
 export * from "./file-path-fns";
 export * from "./http-fns";
+export * from "./mutex";
 export * from "./package-fns";
+

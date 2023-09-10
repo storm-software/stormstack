@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ExecutorContext,
   readProjectConfiguration,
@@ -10,7 +11,7 @@ import { FsTree } from "nx/src/generators/tree";
 import Path from "path";
 
 export async function runWranglerCommand(
-  options: unknown,
+  options: Record<string, string | boolean | number>,
   context: ExecutorContext,
   command: "dev" | "deploy"
 ) {
@@ -37,7 +38,7 @@ export async function runWranglerCommand(
     );
   }
 
-  const nextCommand = `npx wrangler ${command} ${wranglerOptions.join(
+  const nextCommand = `NO_D1_WARNING=true npx wrangler ${command} ${wranglerOptions.join(
     " "
   )} ${Object.entries(options).reduce(
     (ret: string, [key, value]: [string, string]) => {

@@ -1,0 +1,23 @@
+diff --git a/cjs/hash.js b/cjs/hash.js
+index 1d51d8a6ad7e78330d09aa9bb4b82affa661ab40..d7022af654d392f6c5b386eab90a0d592a6c490a 100644
+--- a/cjs/hash.js
++++ b/cjs/hash.js
+@@ -1,7 +1,7 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.hashOperation = void 0;
+-const crypto_1 = require("crypto");
++const crypto_1 = require("node:crypto");
+ function hashOperation(operation) {
+     return (0, crypto_1.createHash)('md5').update(operation, 'utf8').digest('hex');
+ }
+diff --git a/esm/hash.js b/esm/hash.js
+index 6dd486fadad2e5ab76eb34b31c32f55fdd6fe13b..64009a75bdeb7d08574027ad1b1f74701a982b68 100644
+--- a/esm/hash.js
++++ b/esm/hash.js
+@@ -1,4 +1,4 @@
+-import { createHash } from 'crypto';
++import { createHash } from 'node:crypto';
+ export function hashOperation(operation) {
+     return createHash('md5').update(operation, 'utf8').digest('hex');
+ }

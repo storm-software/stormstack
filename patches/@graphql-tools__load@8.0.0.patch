@@ -1,0 +1,49 @@
+diff --git a/cjs/load-typedefs/collect-sources.js b/cjs/load-typedefs/collect-sources.js
+index 7fb68e15b18f6b7570608434615238c2acc82b54..2ac2c68897291abffe6b76383831161b7b094bd9 100644
+--- a/cjs/load-typedefs/collect-sources.js
++++ b/cjs/load-typedefs/collect-sources.js
+@@ -30,7 +30,7 @@ const load_file_js_1 = require("./load-file.js");
+ const helpers_js_1 = require("../utils/helpers.js");
+ const custom_loader_js_1 = require("../utils/custom-loader.js");
+ const queue_js_1 = require("../utils/queue.js");
+-const module_1 = require("module");
++const module_1 = require("node:module");
+ const process_1 = require("process");
+ const CONCURRENCY_LIMIT = 50;
+ async function collectSources({ pointerOptionMap, options, }) {
+diff --git a/cjs/utils/custom-loader.js b/cjs/utils/custom-loader.js
+index 9e85c39f08fc7b9e568f727332f99c94815f6318..3dc843fd427f86beab552d50922742634e49b79f 100644
+--- a/cjs/utils/custom-loader.js
++++ b/cjs/utils/custom-loader.js
+@@ -1,7 +1,7 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.useCustomLoaderSync = exports.useCustomLoader = exports.getCustomLoaderByPath = void 0;
+-const module_1 = require("module");
++const module_1 = require("node:module");
+ const path_1 = require("path");
+ function getCustomLoaderByPath(path, cwd) {
+     try {
+diff --git a/esm/load-typedefs/collect-sources.js b/esm/load-typedefs/collect-sources.js
+index fadbab777cc041a0508c3c9b4244e86e42e4caaa..d35cf23c9737f63035453b778dd7b3fab9615d68 100644
+--- a/esm/load-typedefs/collect-sources.js
++++ b/esm/load-typedefs/collect-sources.js
+@@ -4,7 +4,7 @@ import { loadFile, loadFileSync } from './load-file.js';
+ import { stringToHash, useStack } from '../utils/helpers.js';
+ import { useCustomLoader, useCustomLoaderSync } from '../utils/custom-loader.js';
+ import { useQueue, useSyncQueue } from '../utils/queue.js';
+-import { createRequire } from 'module';
++import { createRequire } from 'node:module';
+ import { cwd, env } from 'process';
+ const CONCURRENCY_LIMIT = 50;
+ export async function collectSources({ pointerOptionMap, options, }) {
+diff --git a/esm/utils/custom-loader.js b/esm/utils/custom-loader.js
+index b5767b24f1bf29f74438ec1f9b953f408d1de5c7..a97877222f0e90d85959027663b1042614282b5e 100644
+--- a/esm/utils/custom-loader.js
++++ b/esm/utils/custom-loader.js
+@@ -1,4 +1,4 @@
+-import { createRequire } from 'module';
++import { createRequire } from 'node:module';
+ import { join as joinPaths } from 'path';
+ export function getCustomLoaderByPath(path, cwd) {
+     try {

@@ -1,0 +1,14 @@
+diff --git a/index.js b/index.js
+index 44f291c1f0503fb3a98b77aceefe79533ea8f124..9db036e55f7d38b17def127eb38f9265595ed680 100644
+--- a/index.js
++++ b/index.js
+@@ -1,7 +1,7 @@
+ 'use strict';
+ const path = require('path');
+-const Module = require('module');
+-const fs = require('fs');
++const Module = require('node:module');
++const fs = require('node:fs');
+ 
+ const resolveFrom = (fromDirectory, moduleId, silent) => {
+ 	if (typeof fromDirectory !== 'string') {

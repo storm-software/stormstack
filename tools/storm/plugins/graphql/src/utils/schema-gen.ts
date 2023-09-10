@@ -92,7 +92,7 @@ export class SchemaGenerator {
   public getScalarsSchema(): string {
     let schema = `
 
-interface IModel {
+interface IEntity {
   """
   The identifier of the record
   """
@@ -101,6 +101,22 @@ interface IModel {
   The sequence number (version, or event counter, etc.) of the record
   """
   sequence: Int!
+  """
+  A timestamp of when the record was created
+  """
+  createdAt: DateTime!
+  """
+  The user who created the record
+  """
+  createdBy: String!
+  """
+  A timestamp of when the record was last updated
+  """
+  updatedAt: DateTime
+  """
+  The user who last updated the record
+  """
+  updatedBy: String
 }
 `;
 
@@ -460,7 +476,7 @@ A response object containing the successful result data or error details of the 
         operation.name
       } operation
 """
-type ${upperCaseFirst(operation.name)}Result {
+type ${upperCaseFirst(operation.name)}Result @oneOf {
   ok: ${upperCaseFirst(operation.name)}Ok
   error: ${upperCaseFirst(operation.name)}Error
 }

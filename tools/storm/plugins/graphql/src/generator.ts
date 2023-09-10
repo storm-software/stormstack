@@ -93,6 +93,9 @@ export async function generate(model: Model, options: PluginOptions) {
     }
   );
   sfSchema.replaceWithText(writer => {
+    writer.writeLine(
+      "directive @oneOf on INPUT_OBJECT | OBJECT | FIELD_DEFINITION"
+    );
     generateInterfaceSchemas(project, interfaces, writer, generator);
     generateEnumSchemas(project, enums, writer, generator);
     generateOperationSchemas(project, operationGroups, writer, generator);
@@ -324,7 +327,7 @@ async function generateGraphQLTypes(
       await mkdir(typesDir);
     }
 
-    ConsoleLogger.debug("Loading GraphQL schema types codegen");
+    /*ConsoleLogger.debug("Loading GraphQL schema types codegen");
     const typesOutput = await codegen({
       documents: [],
       config: {},
@@ -346,6 +349,11 @@ async function generateGraphQLTypes(
                 output: "string"
               },
               JSON: "{ [key: string]: any }"
+            },
+            contextType:
+              "@open-system/core-server-graphql/types#GraphQLServerContext",
+            mappers: {
+              IEntity: "@open-system/core-server-domain/types#IEntity"
             }
           }
         }
@@ -358,12 +366,12 @@ async function generateGraphQLTypes(
     ConsoleLogger.debug("Writing GraphQL schema types codegen file");
     await fs.writeFile(
       join(output, "types", "schema-types.ts"),
-      await formatString(`/* eslint-disable */
+      await formatString(`/* eslint-disable */ /*
 ${getFileHeader("GraphQL Schema", "//")}
 
 ${typesOutput}`),
       "utf8"
-    );
+    );*/
 
     ConsoleLogger.debug("Loading GraphQL schema resolvers codegen");
     const resolversOutput = await codegen({
@@ -373,20 +381,45 @@ ${typesOutput}`),
       schema: parse(printSchema(schema)),
       plugins: [
         {
+          typescript: {
+            constEnums: true,
+            enumsAsConst: true,
+            enumsAsTypes: true,
+            futureProofEnums: true,
+            futureProofUnions: true,
+            skipTypename: false,
+            nonOptionalTypename: true,
+            scalars: {
+              ID: {
+                input: "string",
+                output: "string"
+              },
+              JSON: "{ [key: string]: any }"
+            },
+            contextType:
+              "@open-system/core-server-graphql/types#GraphQLServerContext",
+            mappers: {
+              IEntity: "@open-system/core-server-domain/types#IEntity"
+            }
+          },
           typescriptResolvers: {
             immutableTypes: true,
             allowParentTypeOverride: true,
             skipTypename: false,
             nonOptionalTypename: true,
+            resolversNonOptionalTypename: true, // or { unionMember: true, interfaceImplementingType: true }
+            defaultMapper: "any",
+            optionalResolveType: false,
             contextType:
               "@open-system/core-server-graphql/types#GraphQLServerContext",
             mappers: {
-              IModel: "@open-system/core-server-application/types#IModel"
+              IEntity: "@open-system/core-server-domain/types#IEntity"
             }
           }
         }
       ],
       pluginMap: {
+        typescript: typescriptPlugin,
         typescriptResolvers: typescriptResolversPlugin
       }
     });

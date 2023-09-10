@@ -3,7 +3,7 @@
   "namespace": "@open-system",
   "private": true,
   "version": "0.0.0",
-  "license": "BSD 2-Clause \"Simplified\" License",
+  "license": "Apache License 2.0",
   "description": "🧪 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries 🧪",
   "homepage": "https://sullivanpj.github.io/open-system/",
   "repository": {
@@ -82,6 +82,7 @@
     ]
   },
   "dependencies": {
+    "@cloudflare/workers-types": "^4.20230904.0",
     "@envelop/graphql-modules": "^5.0.0",
     "@envelop/live-query": "^6.0.0",
     "@envelop/sentry": "^6.0.0",
@@ -138,7 +139,6 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "7.22.5",
-    "@cloudflare/workers-types": "^4.20230710.0",
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
     "@graphql-codegen/add": "^5.0.0",
@@ -200,8 +200,8 @@
     "@swc-jotai/react-refresh": "^0.1.0",
     "@swc-node/register": "^1.6.7",
     "@swc/cli": "^0.1.62",
-    "@swc/core": "^1.3.76",
-    "@swc/helpers": "^0.5.1",
+    "@swc/core": "^1.3.83",
+    "@swc/helpers": "^0.5.2",
     "@swc/jest": "^0.2.29",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.4",
@@ -364,7 +364,36 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@nx/js@16.7.0": "patches/@nx__js@16.7.0.patch"
+      "@nx/js@16.7.0": "patches/@nx__js@16.7.0.patch",
+      "@graphql-hive/client@0.24.1": "patches/@graphql-hive__client@0.24.1.patch",
+      "@graphql-hive/core@0.2.3": "patches/@graphql-hive__core@0.2.3.patch",
+      "@graphql-tools/graphql-file-loader@8.0.0": "patches/@graphql-tools__graphql-file-loader@8.0.0.patch",
+      "@graphql-tools/import@7.0.0": "patches/@graphql-tools__import@7.0.0.patch",
+      "@graphql-tools/load@8.0.0": "patches/@graphql-tools__load@8.0.0.patch",
+      "@nodelib/fs.walk@1.2.8": "patches/@nodelib__fs.walk@1.2.8.patch",
+      "fast-glob@3.3.1": "patches/fast-glob@3.3.1.patch",
+      "glob-parent@5.1.2": "patches/glob-parent@5.1.2.patch",
+      "globby@11.1.0": "patches/globby@11.1.0.patch",
+      "@nodelib/fs.stat@2.0.5": "patches/@nodelib__fs.stat@2.0.5.patch",
+      "@nodelib/fs.scandir@2.1.5": "patches/@nodelib__fs.scandir@2.1.5.patch",
+      "infisical-node@1.4.3": "patches/infisical-node@1.4.3.patch",
+      "merge2@1.4.1": "patches/merge2@1.4.1.patch",
+      "path-type@4.0.0": "patches/path-type@4.0.0.patch",
+      "resolve-from@5.0.0": "patches/resolve-from@5.0.0.patch"
     }
+  },
+  "optionalDependencies": {
+    "@nx/nx-win32-x64-msvc": "^16.8.1",
+    "@swc/core-darwin-arm64": "^1.3.83",
+    "@swc/core-darwin-x64": "^1.3.83",
+    "@swc/core-linux-arm-gnueabihf": "^1.3.83",
+    "@swc/core-linux-arm64-gnu": "^1.3.83",
+    "@swc/core-linux-arm64-musl": "^1.3.83",
+    "@swc/core-linux-x64-gnu": "^1.3.83",
+    "@swc/core-linux-x64-musl": "^1.3.83",
+    "@swc/core-win32-arm64-msvc": "^1.3.83",
+    "@swc/core-win32-ia32-msvc": "^1.3.83",
+    "@swc/core-win32-x64-msvc": "^1.3.83",
+    "@swc/wasm": "^1.3.83"
   }
 }

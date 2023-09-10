@@ -20,7 +20,7 @@ import {
   NotFoundError,
   RequiredError
 } from "@open-system/core-shared-utilities";
-import { sql } from "drizzle-orm/sql";
+import { sql } from "drizzle-orm";
 import {
   BaseSQLiteDatabase,
   SQLiteTableWithColumns
@@ -28,11 +28,12 @@ import {
 import { formatWhereParams } from "../utilities/format-params";
 
 @Provider(DrizzleRepository)
-export class DrizzleRepository<
+export abstract class DrizzleRepository<
   TEntity extends IEntity = IEntity
 > extends Repository<TEntity> {
+  protected abstract schema: SQLiteTableWithColumns<any>;
+
   constructor(
-    protected schema: SQLiteTableWithColumns<any>,
     protected db: BaseSQLiteDatabase<"async", any, any>,
     logger: Logger,
     env: EnvManager<BaseOptions>

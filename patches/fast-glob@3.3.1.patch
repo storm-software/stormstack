@@ -1,0 +1,163 @@
+diff --git a/out/providers/stream.d.ts b/out/providers/stream.d.ts
+index 3d02a1f4449f3bcec071fa8fae106b0723350df3..0775287f0fced73c6c6b779ccf8551dd4ebe29d5 100644
+--- a/out/providers/stream.d.ts
++++ b/out/providers/stream.d.ts
+@@ -1,11 +1,11 @@
+ /// <reference types="node" />
+-import { Readable } from 'stream';
+-import { Task } from '../managers/tasks';
+-import ReaderStream from '../readers/stream';
+-import { ReaderOptions } from '../types';
+-import Provider from './provider';
++import { Readable } from "node:stream";
++import { Task } from "../managers/tasks";
++import ReaderStream from "../readers/stream";
++import { ReaderOptions } from "../types";
++import Provider from "./provider";
+ export default class ProviderStream extends Provider<Readable> {
+-    protected _reader: ReaderStream;
+-    read(task: Task): Readable;
+-    api(root: string, task: Task, options: ReaderOptions): Readable;
++  protected _reader: ReaderStream;
++  read(task: Task): Readable;
++  api(root: string, task: Task, options: ReaderOptions): Readable;
+ }
+diff --git a/out/providers/stream.js b/out/providers/stream.js
+index 85da62eba8abdbfba02b60b4beccf2648adffff9..969b245b4363d73f62dd0fa5c6465d243e640a33 100644
+--- a/out/providers/stream.js
++++ b/out/providers/stream.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-const stream_1 = require("stream");
++const stream_1 = require("node:stream");
+ const stream_2 = require("../readers/stream");
+ const provider_1 = require("./provider");
+ class ProviderStream extends provider_1.default {
+diff --git a/out/readers/reader.d.ts b/out/readers/reader.d.ts
+index 2af16b670160a25810ab235d7a61cb962e10478f..6f65a6c3d259827eec271c161eb1ef1dee69c0b6 100644
+--- a/out/readers/reader.d.ts
++++ b/out/readers/reader.d.ts
+@@ -1,15 +1,15 @@
+ /// <reference types="node" />
+-import * as fs from 'fs';
+-import * as fsStat from '@nodelib/fs.stat';
+-import Settings from '../settings';
+-import { Entry, ErrnoException, Pattern, ReaderOptions } from '../types';
++import * as fs from "node:fs";
++import * as fsStat from "@nodelib/fs.stat";
++import Settings from "../settings";
++import { Entry, ErrnoException, Pattern, ReaderOptions } from "../types";
+ export default abstract class Reader<T> {
+-    protected readonly _settings: Settings;
+-    protected readonly _fsStatSettings: fsStat.Settings;
+-    constructor(_settings: Settings);
+-    abstract dynamic(root: string, options: ReaderOptions): T;
+-    abstract static(patterns: Pattern[], options: ReaderOptions): T;
+-    protected _getFullEntryPath(filepath: string): string;
+-    protected _makeEntry(stats: fs.Stats, pattern: Pattern): Entry;
+-    protected _isFatalError(error: ErrnoException): boolean;
++  protected readonly _settings: Settings;
++  protected readonly _fsStatSettings: fsStat.Settings;
++  constructor(_settings: Settings);
++  abstract dynamic(root: string, options: ReaderOptions): T;
++  abstract static(patterns: Pattern[], options: ReaderOptions): T;
++  protected _getFullEntryPath(filepath: string): string;
++  protected _makeEntry(stats: fs.Stats, pattern: Pattern): Entry;
++  protected _isFatalError(error: ErrnoException): boolean;
+ }
+diff --git a/out/readers/stream.d.ts b/out/readers/stream.d.ts
+index 1c74cac6ed36df0309da97f6c88e21e939bd3a25..afd6fa861a79b61eff659ad834328f447f15134f 100644
+--- a/out/readers/stream.d.ts
++++ b/out/readers/stream.d.ts
+@@ -1,14 +1,14 @@
+ /// <reference types="node" />
+-import { Readable } from 'stream';
+-import * as fsStat from '@nodelib/fs.stat';
+-import * as fsWalk from '@nodelib/fs.walk';
+-import { Pattern, ReaderOptions } from '../types';
+-import Reader from './reader';
++import { Readable } from "node:stream";
++import * as fsStat from "@nodelib/fs.stat";
++import * as fsWalk from "@nodelib/fs.walk";
++import { Pattern, ReaderOptions } from "../types";
++import Reader from "./reader";
+ export default class ReaderStream extends Reader<Readable> {
+-    protected _walkStream: typeof fsWalk.walkStream;
+-    protected _stat: typeof fsStat.stat;
+-    dynamic(root: string, options: ReaderOptions): Readable;
+-    static(patterns: Pattern[], options: ReaderOptions): Readable;
+-    private _getEntry;
+-    private _getStat;
++  protected _walkStream: typeof fsWalk.walkStream;
++  protected _stat: typeof fsStat.stat;
++  dynamic(root: string, options: ReaderOptions): Readable;
++  static(patterns: Pattern[], options: ReaderOptions): Readable;
++  private _getEntry;
++  private _getStat;
+ }
+diff --git a/out/readers/stream.js b/out/readers/stream.js
+index 317c6d5dbdcbd016bf58942e3f4d84c9c8a99997..7131fd0df1e618e39f7aa6021201a2f19197aec8 100644
+--- a/out/readers/stream.js
++++ b/out/readers/stream.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-const stream_1 = require("stream");
++const stream_1 = require("node:stream");
+ const fsStat = require("@nodelib/fs.stat");
+ const fsWalk = require("@nodelib/fs.walk");
+ const reader_1 = require("./reader");
+diff --git a/out/settings.js b/out/settings.js
+index 23f916c8c5cd152e11f3abe612d3462f3e8119f3..91ba25cfb01f0e652de61167d46be680f49e4b79 100644
+--- a/out/settings.js
++++ b/out/settings.js
+@@ -1,8 +1,8 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.DEFAULT_FILE_SYSTEM_ADAPTER = void 0;
+-const fs = require("fs");
+-const os = require("os");
++const fs = require("node:fs");
++const os = require("node:os");
+ /**
+  * The `os.cpus` method can return zero. We expect the number of cores to be greater than zero.
+  * https://github.com/nodejs/node/blob/7faeddf23a98c53896f8b574a6e66589e8fb1eb8/lib/os.js#L106-L107
+diff --git a/out/utils/fs.d.ts b/out/utils/fs.d.ts
+index 64c61ce6c80a1c91cc82ba9b16abbf8684ef7a4c..438b58e6b09bb5d3f6722a97ba386bd9a81fcf0d 100644
+--- a/out/utils/fs.d.ts
++++ b/out/utils/fs.d.ts
+@@ -1,4 +1,7 @@
+ /// <reference types="node" />
+-import * as fs from 'fs';
+-import { Dirent } from '@nodelib/fs.walk';
+-export declare function createDirentFromStats(name: string, stats: fs.Stats): Dirent;
++import * as fs from "node:fs";
++import { Dirent } from "@nodelib/fs.walk";
++export declare function createDirentFromStats(
++  name: string,
++  stats: fs.Stats
++): Dirent;
+diff --git a/out/utils/path.js b/out/utils/path.js
+index 97a7b492ba371d89ad385dea967f788c506c27e7..9ae8b394fb15b99915e8e5a10299e412f13ad20e 100644
+--- a/out/utils/path.js
++++ b/out/utils/path.js
+@@ -1,7 +1,7 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.convertPosixPathToPattern = exports.convertWindowsPathToPattern = exports.convertPathToPattern = exports.escapePosixPath = exports.escapeWindowsPath = exports.escape = exports.removeLeadingDotSegment = exports.makeAbsolute = exports.unixify = void 0;
+-const os = require("os");
++const os = require("node:os");
+ const path = require("path");
+ const IS_WINDOWS_PLATFORM = os.platform() === 'win32';
+ const LEADING_DOT_SEGMENT_CHARACTERS_COUNT = 2; // ./ or .\\
+diff --git a/out/utils/stream.d.ts b/out/utils/stream.d.ts
+index 4daf9137fa88fdd8904731e8030a5e0ec9005c44..1413b4a19da1ee14b5805d0f9979aee24a9c6663 100644
+--- a/out/utils/stream.d.ts
++++ b/out/utils/stream.d.ts
+@@ -1,4 +1,4 @@
+ /// <reference types="node" />
+ /// <reference types="node" />
+-import { Readable } from 'stream';
++import { Readable } from "node:stream";
+ export declare function merge(streams: Readable[]): NodeJS.ReadableStream;

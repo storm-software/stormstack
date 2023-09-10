@@ -113,8 +113,8 @@ export abstract class Repository<
   }*/
 
   public async findMany(
-    params?: FindManyParams<TEntity>
-  ): Promise<TEntity[] | Error> {
+    params: FindManyParams<TEntity>
+  ): Promise<Array<TEntity | Error>> {
     this.logger.debug(
       `Finding many records - '${JsonParser.stringify(params)}'`
     );
@@ -128,7 +128,7 @@ export abstract class Repository<
     return Array.isArray(result) ? result : [result];
   }
 
-  public findCount(params?: FindCountParams<TEntity>): Promise<number> {
+  public findCount(params: FindCountParams<TEntity>): Promise<number> {
     this.logger.debug(
       `Finding the count of records - '${JsonParser.stringify(params)}'`
     );
@@ -246,11 +246,11 @@ export abstract class Repository<
   ) => Promise<TEntity>;*/
 
   protected abstract innerFindMany: (
-    params?: FindManyParams<TEntity>
+    params: FindManyParams<TEntity>
   ) => Promise<TEntity[]>;
 
   protected abstract innerFindCount: (
-    params?: FindCountParams<TEntity>
+    params: FindCountParams<TEntity>
   ) => Promise<number>;
 
   protected abstract innerCreate: (

@@ -26,7 +26,11 @@ import {
   getInterfaces,
   getOperationGroups
 } from "@open-system/tools-storm-schema/sdk/utils";
-import { EnrichModelReturn } from "../types";
+import {
+  ENTITY_CLASS_FIELDS,
+  EnrichModelReturn,
+  EntityClassFields
+} from "../types";
 
 export const enrichModel = (model: Model): EnrichModelReturn => {
   const dataModels = getDataModels(model);
@@ -1606,39 +1610,41 @@ const addMutations = (
     };
 
     dataModel.fields.forEach(field => {
-      const createDataModelInputDataField: DataModelField = {
-        name: field.name,
-        "$container": createDataModelInput,
-        "$type": "DataModelField",
-        attributes: [],
-        comments: [],
-        type: undefined
-      };
-      if (
-        isDataModel(field.type.reference?.ref) ||
-        isEnum(field.type.reference?.ref)
-      ) {
-        createDataModelInputDataField.type = {
-          $container: createDataModelInputDataField,
-          $type: "DataModelFieldType",
-          array: field.type.array,
-          optional: field.type.optional,
-          reference: {
-            ref: field.type.reference.ref,
-            $refText: field.type.reference.ref.name
-          }
+      if (!ENTITY_CLASS_FIELDS.includes(field.name as EntityClassFields)) {
+        const createDataModelInputDataField: DataModelField = {
+          name: field.name,
+          "$container": createDataModelInput,
+          "$type": "DataModelField",
+          attributes: [],
+          comments: [],
+          type: undefined
         };
-      } else {
-        createDataModelInputDataField.type = {
-          $container: createDataModelInputDataField,
-          $type: "DataModelFieldType",
-          array: field.type.array,
-          optional: field.type.optional,
-          type: field.type.type
-        };
-      }
+        if (
+          isDataModel(field.type.reference?.ref) ||
+          isEnum(field.type.reference?.ref)
+        ) {
+          createDataModelInputDataField.type = {
+            $container: createDataModelInputDataField,
+            $type: "DataModelFieldType",
+            array: field.type.array,
+            optional: field.type.optional,
+            reference: {
+              ref: field.type.reference.ref,
+              $refText: field.type.reference.ref.name
+            }
+          };
+        } else {
+          createDataModelInputDataField.type = {
+            $container: createDataModelInputDataField,
+            $type: "DataModelFieldType",
+            array: field.type.array,
+            optional: field.type.optional,
+            type: field.type.type
+          };
+        }
 
-      createDataModelInput.fields.push(createDataModelInputDataField);
+        createDataModelInput.fields.push(createDataModelInputDataField);
+      }
     });
 
     inputs.push(createDataModelInput);

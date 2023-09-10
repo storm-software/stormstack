@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
 import { Provider } from "@open-system/core-shared-injection";
-import { Logger } from "@open-system/core-shared-utilities";
+import { Logger, formatDate } from "@open-system/core-shared-utilities";
 import pino from "pino";
 
 @Provider(Logger)
@@ -11,28 +11,36 @@ export class PinoLogger extends Logger {
   constructor(private readonly env: EnvManager, _name = "root") {
     super(_name);
 
-    this.#logger = pino({
-      level: this.env.get("LOG_LEVEL") ?? "info",
-      formatters: {
-        level: label => {
-          return { level: label.toUpperCase() };
+    this.#logger = pino(
+      {
+        level: this.env.get("LOG_LEVEL") ?? "info",
+        formatters: {
+          level: label => {
+            return { level: label.toUpperCase() };
+          }
+        },
+        errorKey: "error",
+        transport: {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+            colorizeObjects: true,
+            errorLikeObjectKeys: ["err", "error", "exception"],
+            messageKey: "msg",
+            messageFormat:
+              "[{time}] {levelLabel} ({if pid}{pid} - {end}{req.url}): {msg}",
+            singleLine: false,
+            hideObject: false
+          }
         }
       },
-      errorKey: "error",
-      transport: {
-        target: "pino-pretty",
-        options: {
-          colorize: true,
-          colorizeObjects: true,
-          errorLikeObjectKeys: ["err", "error", "exception"],
-          messageKey: "msg",
-          messageFormat:
-            "[{time}] {levelLabel} ({if pid}{pid} - {end}{req.url}): {msg}",
-          singleLine: false,
-          hideObject: false
-        }
-      }
-    });
+      pino.destination({
+        dest: `/logs/${formatDate().replaceAll("/", "-")}`,
+        minLength: 4096,
+        sync: false
+      })
+    );
+    this.#logger.debug(`Logging has been initialized - ${_name}`);
   }
 
   /**

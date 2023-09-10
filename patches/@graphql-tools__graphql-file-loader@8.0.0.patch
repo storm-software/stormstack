@@ -1,0 +1,25 @@
+diff --git a/cjs/index.js b/cjs/index.js
+index efeb61878ffaf40082b2fb73be862d3f9e3cffb6..3f31a5e3d786b5f150cd211afcf236e04fe7c16b 100644
+--- a/cjs/index.js
++++ b/cjs/index.js
+@@ -4,7 +4,7 @@ exports.GraphQLFileLoader = void 0;
+ const tslib_1 = require("tslib");
+ const utils_1 = require("@graphql-tools/utils");
+ const path_1 = require("path");
+-const fs_1 = require("fs");
++const fs_1 = require("node:fs");
+ const process_1 = require("process");
+ const import_1 = require("@graphql-tools/import");
+ const globby_1 = tslib_1.__importDefault(require("globby"));
+diff --git a/esm/index.js b/esm/index.js
+index 3e6f8cc209ed92ff07782c6122755553db940e09..f70c75f4c11ad2dc5829cc5d1295f220d8997da6 100644
+--- a/esm/index.js
++++ b/esm/index.js
+@@ -1,6 +1,6 @@
+ import { isValidPath, parseGraphQLSDL, asArray } from '@graphql-tools/utils';
+ import { isAbsolute, resolve } from 'path';
+-import { readFileSync, promises as fsPromises, existsSync } from 'fs';
++import { readFileSync, promises as fsPromises, existsSync } from 'node:fs';
+ import { cwd as processCwd, env } from 'process';
+ import { processImport } from '@graphql-tools/import';
+ import globby from 'globby';

@@ -13,9 +13,6 @@ import { useErrorHandler } from "./use-error-handler";
 import { useHive } from "./use-hive";
 import { useLogger } from "./use-logger";
 import { useReadinessCheck } from "./use-readiness-check";
-import { useResponseCache } from "./use-response-cache";
-import { useSentry } from "./use-sentry";
-import { useSentryUser } from "./use-sentry-user";
 import { useServiceProvider } from "./use-service-provider";
 
 export const createPlugins = async <
@@ -27,8 +24,8 @@ export const createPlugins = async <
   const context = params.context;
 
   return [
-    useSentry(),
-    useSentryUser(),
+    /*useSentry(),
+    useSentryUser(),*/
     useExtendContext(
       async (ctx: Partial<GraphQLServerContext<TEntities, TUser>>) => ({
         ...params.context,
@@ -39,7 +36,6 @@ export const createPlugins = async <
     useErrorHandler<TEntities, TUser>({ context }),
     useParserCache(),
     useValidationCache(),
-    useResponseCache(),
     useReadinessCheck<TEntities, TUser>({ context }),
     await useHive<TEntities, TUser>({ context }),
     useServiceProvider<TEntities, TUser>(params.serviceConfig)

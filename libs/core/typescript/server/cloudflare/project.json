@@ -17,8 +17,6 @@
         "bundle": true,
         "metafile": true,
         "minify": true,
-        "skipTypeCheck": true,
-        "generatePackageJson": true,
         "format": ["esm", "cjs"],
         "platform": "node"
       }

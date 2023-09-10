@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BoolNullableFilter,
   DateTimeNullableFilter,
@@ -24,38 +25,27 @@ import {
 } from "drizzle-orm";
 import { SQLiteTableWithColumns } from "drizzle-orm/sqlite-core";
 
-export const formatWhereParams = <
-  TEntity extends IEntity = IEntity,
-  TKey extends keyof TEntity = keyof TEntity
->(
+export const formatWhereParams = <TEntity extends IEntity = IEntity>(
   schema: SQLiteTableWithColumns<any>,
-  where: WhereParams<TEntity, TKey>
-): SQL => {
+  where: WhereParams<TEntity>
+): SQL<any> => {
   return Object.entries(where)
     .filter(
-      ([key, value]: [
-        string,
-        WhereParams<TEntity, TKey> | WhereParams<TEntity, TKey>[]
-      ]) => key !== "AND" && key !== "OR" && key !== "NOT"
+      ([key]: [string, WhereParams<TEntity> | WhereParams<TEntity>[]]) =>
+        key !== "AND" && key !== "OR" && key !== "NOT"
     )
     .reduce(
       (
-        ret: SQL | undefined,
-        [key, value]: [
-          string,
-          WhereParams<TEntity, TKey> | WhereParams<TEntity, TKey>[]
-        ]
+        ret: SQL<any>,
+        [key, value]: [string, WhereParams<TEntity> | WhereParams<TEntity>[]]
       ) => {
         // const filter = value as StringNullableFilter | DateTimeNullableFilter | BoolFilter;
         //Object.entries(filter)
-        let sql: SQL | undefined;
+        let sql: SQL<any>;
         if (schema[key].column.dataType === "string") {
           const filter = value as StringNullableFilter;
           Object.entries(filter).reduce(
-            (
-              innerRet: SQL | undefined,
-              [key, value]: [string, string | string[]]
-            ) => {
+            (innerRet: SQL<any>, [key, value]: [string, string | string[]]) => {
               switch (key) {
                 case "equals":
                   sql = eq(schema[key], value);
@@ -103,15 +93,12 @@ export const formatWhereParams = <
 
               return and(innerRet, sql);
             },
-            undefined
+            new SQL([])
           );
         } else if (schema[key].column.dataType === "number") {
           const filter = value as NumberNullableFilter;
           Object.entries(filter).reduce(
-            (
-              innerRet: SQL | undefined,
-              [key, value]: [string, number | number[]]
-            ) => {
+            (innerRet: SQL<any>, [key, value]: [string, number | number[]]) => {
               switch (key) {
                 case "equals":
                   sql = eq(schema[key], value);
@@ -160,15 +147,12 @@ export const formatWhereParams = <
 
               return and(innerRet, sql);
             },
-            undefined
+            new SQL([])
           );
         } else if (schema[key].column.dataType === "Date") {
           const filter = value as DateTimeNullableFilter;
           Object.entries(filter).reduce(
-            (
-              innerRet: SQL | undefined,
-              [key, value]: [string, Date | Date[]]
-            ) => {
+            (innerRet: SQL<any>, [key, value]: [string, Date | Date[]]) => {
               switch (key) {
                 case "equals":
                   if (!Array.isArray(value)) {
@@ -239,13 +223,13 @@ export const formatWhereParams = <
 
               return and(innerRet, sql);
             },
-            undefined
+            new SQL([])
           );
         } else if (schema[key].column.dataType === "boolean") {
           const filter = value as BoolNullableFilter;
           Object.entries(filter).reduce(
             (
-              innerRet: SQL | undefined,
+              innerRet: SQL<any>,
               [key, value]: [string, boolean | boolean[]]
             ) => {
               switch (key) {
@@ -262,12 +246,12 @@ export const formatWhereParams = <
 
               return and(innerRet, sql);
             },
-            undefined
+            new SQL([])
           );
         }
 
         return and(ret, sql);
       },
-      undefined
+      new SQL([])
     );
 };

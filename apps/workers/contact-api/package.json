@@ -1,4 +1,10 @@
 {
   "name": "@open-system/worker-contact-api",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20230904.0",
+    "async_hooks": "^1.0.0",
+    "fs": "0.0.1-security",
+    "wrangler": "^3.2.0"
+  }
 }

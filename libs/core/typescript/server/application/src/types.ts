@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import { IAggregateRoot } from "@open-system/core-server-domain";
-import {
-  IEntity,
-  WithMetadata,
-  WithoutMetadata
-} from "@open-system/core-server-domain/types";
+import { IEntity } from "@open-system/core-server-domain/types";
 import { EnvironmentType } from "@open-system/core-shared-env";
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
 import { Injector } from "@open-system/core-shared-injection/types";
@@ -15,10 +11,7 @@ import {
   Logger,
   UniqueIdGenerator
 } from "@open-system/core-shared-utilities";
-import {
-  ArrayElement,
-  IBaseClass
-} from "@open-system/core-shared-utilities/types";
+import { ArrayElement } from "@open-system/core-shared-utilities/types";
 import { ICommand } from "./commands";
 import { Service } from "./services";
 
@@ -220,9 +213,6 @@ export type FindManyParams<TEntity extends IEntity = IEntity> = {
 
 export type FindCountParams<TEntity extends IEntity = IEntity> = {
   where?: WhereParams<TEntity>;
-  cursor?: WhereUniqueParams<TEntity>;
-  take?: number;
-  skip?: number;
   distinct?: EntityKeys<TEntity> | Array<EntityKeys<TEntity>>;
 };
 
@@ -335,7 +325,7 @@ export type UtilityContext = {
   uniqueIdGenerator: typeof UniqueIdGenerator;
 };
 
-export type RequestContext = {
+export type ProcessContext = {
   correlationId: string;
   requestId: string;
   headers: Record<string, string | string[] | undefined>;
@@ -365,7 +355,7 @@ export type BaseServerContext<
   TUtils extends UtilityContext = UtilityContext
 > = {
   system: SystemContext;
-  request: RequestContext;
+  process: ProcessContext;
   user: UserContext<TUser>;
   utils: TUtils;
   injector: Injector;
@@ -391,15 +381,11 @@ export type EntityMappingItem<
 export type ServiceMappingIndex<TEntity extends IEntity = IEntity> =
   Uncapitalize<EntityName<TEntity>>;
 
-export type ServiceMapping<
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TModels extends Array<WithMetadata<IModel<IEntity>>> = Array<
-    WithMetadata<IModel<IEntity>>
-  >
-> = Record<
-  ServiceMappingIndex<ArrayElement<TEntities>>,
-  Service<ArrayElement<TEntities>, ArrayElement<TModels>>
->;
+export type ServiceMapping<TEntities extends Array<IEntity> = Array<IEntity>> =
+  Record<
+    ServiceMappingIndex<ArrayElement<TEntities>>,
+    Service<ArrayElement<TEntities>>
+  >;
 
 export type ServerContext<
   TEntities extends Array<IEntity> = Array<IEntity>,
@@ -425,7 +411,7 @@ export type CreateServerContextParams<TUser extends UserContext = UserContext> =
     parser?: typeof JsonParser;
     uniqueIdGenerator?: typeof UniqueIdGenerator;
     user?: TUser;
-    env: EnvManager;
+    env?: EnvManager;
     injector: Injector;
     serviceId?: SystemInfoContext["serviceId"];
     serviceName?: SystemInfoContext["name"];
@@ -487,30 +473,19 @@ export type CacheMap<TEntity extends IEntity = IEntity> = {
   clear(): any;
 };
 
-export interface IModel<TEntity extends IEntity = IEntity> extends IBaseClass {
-  /**
-   * A string representation of the class
-   */
-  __typename: string;
-
-  id: TEntity["id"];
-
-  sequence: TEntity["sequence"];
-}
-
 /**
- * An object containing the current paginated result data returned from Model at the current cursor position
+ * An object containing the current paginated result data returned from Entity at the current cursor position
  */
-export type ModelEdge<TModel extends IModel = IModel> = {
-  __typename: `${TModel["__typename"]}Edge`;
-  node: WithMetadata<TModel>;
+export type ModelEdge<TEntity extends IEntity = IEntity> = {
+  __typename: `${TEntity["__typename"]}Edge`;
+  node: TEntity;
   cursor: string;
 };
 
 /**
  * A base type to define the structure of paginated response data
  */
-export type PageInfo = IModel & {
+export type PageInfo = {
   __typename: "PageInfo";
   /** When paginating forwards, are there more items? */
   hasNextPage: boolean;
@@ -525,14 +500,14 @@ export type PageInfo = IModel & {
 /**
  * An object containing the paginated child model data returned from Model
  */
-export type ModelConnection<TModel extends IModel = IModel> = {
-  __typename: `${TModel["__typename"]}Connection`;
-  edges: Array<ModelEdge<TModel>>;
+export type ModelConnection<TEntity extends IEntity = IEntity> = {
+  __typename: `${TEntity["__typename"]}Connection`;
+  edges: Array<ModelEdge<TEntity>>;
   pageInfo: PageInfo;
   totalCount: number;
 };
 
-type ModelFieldKeys<TModel extends IModel = IModel> = keyof Omit<
+/*type ModelFieldKeys<TModel extends IModel = IModel> = keyof Omit<
   TModel,
   "__typename"
 >;
@@ -612,4 +587,4 @@ export type CreateModelParams<TModel extends IModel = IModel> = {
 
 export type CountModelSelector<TModel extends IModel = IModel> = {
   where?: WhereModelParams<TModel>;
-};
+};*/

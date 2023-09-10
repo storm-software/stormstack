@@ -8,6 +8,11 @@
     "@envelop/types": "^4.0.0",
     "@envelop/validation-cache": "^6.0.2",
     "@graphql-hive/client": "^0.24.1",
-    "@sentry/node": "^7.64.0"
+    "@graphql-tools/graphql-file-loader": "^8.0.0",
+    "@graphql-tools/load": "^8.0.0",
+    "@graphql-tools/schema": "^10.0.0",
+    "@sentry/node": "^7.64.0",
+    "async_hooks": "^1.0.0",
+    "inspector": "^0.5.0"
   }
 }

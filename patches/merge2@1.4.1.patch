@@ -1,0 +1,13 @@
+diff --git a/index.js b/index.js
+index 78a61edf0b2eef538732c89dbced53c82010a191..922d7f6c9ba0f44c08a20619476299906efa1707 100644
+--- a/index.js
++++ b/index.js
+@@ -6,7 +6,7 @@
+  * Copyright (c) 2014-2020 Teambition
+  * Licensed under the MIT license.
+  */
+-const Stream = require('stream')
++const Stream = require('node:stream')
+ const PassThrough = Stream.PassThrough
+ const slice = Array.prototype.slice
+ 

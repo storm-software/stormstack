@@ -1,29 +1,26 @@
 import {
-  ContactApiServerContext,
-  builder,
-} from "@open-system/contact-server-graphql";
-import { initContextCache } from "@pothos/core";
-import {
-  YogaInitialContext,
-  YogaServerInstance,
-  createYoga,
-} from "graphql-yoga";
-import { Kysely } from "kysely";
-import { D1Dialect } from "kysely-d1";
+  IContactAttachmentEntity,
+  IContactEntity,
+  createContactGraphQLServerContext,
+  schema
+} from "@open-system/contact-server-attachment";
+import { UserContext } from "@open-system/core-server-application/types";
+import { createGraphQLHandler } from "@open-system/core-server-graphql/server/handler";
+import { Injector } from "@open-system/core-shared-injection";
 
-declare global {
+/*declare global {
   namespace GraphQLModules {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
     interface GlobalContext extends ContactApiServerContext {}
   }
-}
+}*/
 
 interface Env {
   DB: any;
 }
 
 // Create a Yoga instance with a GraphQL schema.
-const yoga: YogaServerInstance<ContactApiServerContext, {}> =
+/*const yoga: YogaServerInstance<ContactApiServerContext, {}> =
   createYoga<ContactApiServerContext>({
     graphqlEndpoint: "graphql",
     schema: builder.toSchema(),
@@ -55,6 +52,21 @@ const handler = {
       return new Response(e?.message, { status: 500 });
     }
   },
-};
+};*/
 
-export default handler;
+const context = createContactGraphQLServerContext({
+  injector: Injector,
+  operation: "contact-graphql"
+});
+
+const yoga = await createGraphQLHandler<
+  Array<IContactEntity | IContactAttachmentEntity>,
+  UserContext
+>({
+  context,
+  schema,
+  injector: Injector,
+  serviceConfig: []
+});
+
+export default { fetch: yoga.fetch };

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import {
   CreateServerContextParams,
-  RequestContext,
+  ProcessContext,
   ServerContext,
   ServiceMapping,
   ServiceMappingIndex,
@@ -11,6 +11,12 @@ import {
 import { IEntity } from "@open-system/core-server-domain/types";
 import { ArrayElement } from "@open-system/core-shared-utilities";
 import { MergedScalars } from "@pothos/core";
+import { FetchAPI, PromiseOrValue, YogaInitialContext } from "graphql-yoga";
+import {
+  GraphiQLOptions,
+  GraphiQLOptionsOrFactory
+} from "graphql-yoga/typings/plugins/use-graphiql";
+import { YogaSchemaDefinition } from "graphql-yoga/typings/plugins/use-schema";
 
 export interface PageCursor {
   cursor: string;
@@ -127,7 +133,7 @@ export interface GraphQLHandlerOptions {
   release: string;
 }
 
-export type GraphQLRequestContext<TRequestData = any> = RequestContext & {
+export type GraphQLRequestContext<TRequestData = any> = ProcessContext & {
   operation: string;
   data: TRequestData;
 };
@@ -138,14 +144,14 @@ export type GraphQLServerContext<
   TRequestData = any
 > = ServerContext<TEntities, TUser> & {
   request: GraphQLRequestContext<TRequestData>;
-};
+} & YogaInitialContext;
 
 export type CreateGraphQLServerContextParams<
   TUser extends UserContext = UserContext,
   TRequestData = any
 > = CreateServerContextParams<TUser> & {
-  operation: string;
-  data: TRequestData;
+  operation?: string;
+  data?: TRequestData;
 };
 
 export type ServicePluginParams<
@@ -171,11 +177,49 @@ export type CreateGraphQLServerPluginsParams<
 export type CreateGraphQLHandlerParams<
   TEntities extends Array<IEntity> = Array<IEntity>,
   TUser extends UserContext = UserContext,
+  TServerContext extends GraphQLServerContext<
+    TEntities,
+    TUser
+  > = GraphQLServerContext<TEntities, TUser>,
   TRequestData = any
 > = CreateGraphQLServerContextParams<TUser> &
-  CreateGraphQLServerPluginsParams<TEntities, TUser, TRequestData>;
+  CreateGraphQLServerPluginsParams<TEntities, TUser, TRequestData> & {
+    /**
+     * Whether the landing page should be shown.
+     */
+    landingPage?: boolean | undefined;
+
+    /**
+     * GraphiQL options
+     *
+     * @default true
+     */
+    graphiql?: GraphiQLOptionsOrFactory<TServerContext> | undefined;
+
+    renderGraphiQL?:
+      | ((options?: GraphiQLOptions) => PromiseOrValue<BodyInit>)
+      | undefined;
+
+    schema?: YogaSchemaDefinition<TServerContext> | undefined;
+
+    fetchAPI?: Partial<Record<keyof FetchAPI, any>> | undefined;
+
+    /**
+     * GraphQL Multipart Request spec support
+     *
+     * @see https://github.com/jaydenseric/graphql-multipart-request-spec
+     *
+     * @default true
+     */
+    multipart?: boolean | undefined;
+  };
 
 export interface CacheStore<T = any> {
   get(key: string): T | undefined;
   set(key: string, value: T): void;
+}
+
+export interface ResolvedGlobalId {
+  type: string;
+  id: string;
 }

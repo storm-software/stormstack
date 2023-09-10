@@ -5,8 +5,7 @@ import {
   installPackagesTask,
   joinPathFragments,
   names,
-  readProjectConfiguration,
-  updateProjectConfiguration,
+  readProjectConfiguration
 } from "@nx/devkit";
 import { applicationGenerator } from "@nx/node";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
@@ -25,7 +24,7 @@ export default async function (
       framework: "none",
       standaloneConfig: true,
       port: null,
-      rootProject: null,
+      rootProject: null
     });
 
     const appName =
@@ -41,7 +40,7 @@ export default async function (
       route: options.route ?? "",
       workers_dev: options.workersDev ?? true,
       compatibility_date: new Date().toISOString().split("T")[0],
-      ...names(options.name),
+      ...names(options.name)
     };
 
     // remove all files that were created except for the config files
@@ -79,7 +78,7 @@ export default async function (
   }
 }
 
-const addTargets = (host: Tree, appName: string) => {
+/*const addTargets = (host: Tree, appName: string) => {
   try {
     const projectConfiguration = readProjectConfiguration(host, appName);
     const packageRoot = projectConfiguration.root;
@@ -94,16 +93,16 @@ const addTargets = (host: Tree, appName: string) => {
           outputPath: `../../../dist/${packageRoot}`,
           tsConfig: `${packageRoot}/tsconfig.json`,
           packageJson: `${packageRoot}/package.json`,
-          main: `${packageSourceRoot}/index.ts`,
-        },
+          main: `${packageSourceRoot}/index.ts`
+        }
       },
       serve: {
         executor:
-          "@open-system/tools-executors-typescript:cloudflare-worker-serve",
+          "@open-system/tools-executors-typescript:cloudflare-worker-serve"
       },
       deploy: {
         executor:
-          "@open-system/tools-executors-typescript:cloudflare-worker-deploy",
+          "@open-system/tools-executors-typescript:cloudflare-worker-deploy"
       },
       "semantic-release": {
         executor: "@theunderscorer/nx-semantic-release:semantic-release",
@@ -111,16 +110,16 @@ const addTargets = (host: Tree, appName: string) => {
           github: true,
           npm: false,
           changelog: true,
-          tagFormat: "worker-" + appName + "-v${VERSION}",
-        },
-      },
+          tagFormat: "worker-" + appName + "-v${VERSION}"
+        }
+      }
     };
 
     updateProjectConfiguration(host, appName, projectConfiguration);
   } catch (e) {
     ConsoleLogger.error(e);
   }
-};
+};*/
 
 /*const updateGitIgnore = (host: Tree) => {
   const requiredIgnores = [".dist"];

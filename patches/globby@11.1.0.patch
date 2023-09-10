@@ -1,0 +1,34 @@
+diff --git a/gitignore.js b/gitignore.js
+index 2f77baaaaa5b1316224b7d0e43bdd428d79c41f7..4616b91e4aecb082fa510a62bc013ce0ccdd09d2 100644
+--- a/gitignore.js
++++ b/gitignore.js
+@@ -1,6 +1,6 @@
+ 'use strict';
+ const {promisify} = require('util');
+-const fs = require('fs');
++const fs = require('node:fs');
+ const path = require('path');
+ const fastGlob = require('fast-glob');
+ const gitIgnore = require('ignore');
+diff --git a/index.js b/index.js
+index b2d503bb15ea6b41cd1212a844bfeb84b6da6822..6598d574063168b510df607cba8da197d1147064 100644
+--- a/index.js
++++ b/index.js
+@@ -1,5 +1,5 @@
+ 'use strict';
+-const fs = require('fs');
++const fs = require('node:fs');
+ const arrayUnion = require('array-union');
+ const merge2 = require('merge2');
+ const fastGlob = require('fast-glob');
+diff --git a/stream-utils.js b/stream-utils.js
+index 98aedc896fd281076600ccd39409328a45447260..88479c11eb00f5adb0b4ed2b6559bcf70c7cbbad 100644
+--- a/stream-utils.js
++++ b/stream-utils.js
+@@ -1,5 +1,5 @@
+ 'use strict';
+-const {Transform} = require('stream');
++const {Transform} = require('node:stream');
+ 
+ class ObjectTransform extends Transform {
+ 	constructor() {

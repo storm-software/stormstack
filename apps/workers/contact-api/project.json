@@ -13,6 +13,9 @@
         "main": "apps/workers/contact-api/src/worker.ts",
         "tsConfig": "apps/workers/contact-api/tsconfig.json",
         "format": ["esm"],
+        "bundle": true,
+        "platform": "node",
+        "external": ["node:*"],
         "assets": [
           {
             "input": "./apps/workers/contact-api",
@@ -25,7 +28,6 @@
         "development": {
           "esbuildOptions": {
             "sourcemap": true,
-            "bundle": false,
             "outdir": "dist/apps/workers/contact-api",
             "outExtension": {
               ".js": ".mjs"
@@ -35,7 +37,6 @@
         "production": {
           "esbuildOptions": {
             "sourcemap": false,
-            "bundle": true,
             "outdir": "dist/apps/workers/contact-api",
             "outExtension": {
               ".js": ".mjs"
@@ -83,7 +84,7 @@
     "deploy-schema": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["wrangler d1 execute contact --file=./db/schema.sql"],
+        "commands": ["NO_D1_WARNING=true wrangler d1 execute contact --file=./db/schema.sql"],
         "cwd": "apps/workers/contact-api",
         "parallel": false
       }

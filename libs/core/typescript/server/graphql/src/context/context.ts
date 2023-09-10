@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import {
-  createServerContext,
-  extractRequest
-} from "@open-system/core-server-application/context";
+import { createServerContext } from "@open-system/core-server-application/context";
 import { UserContext } from "@open-system/core-server-application/types";
 import { IEntity } from "@open-system/core-server-domain/types";
 import {
@@ -28,12 +25,15 @@ export const createGraphQLServerContext = <
   return {
     ...serverContext,
     request: {
-      ...serverContext.request,
       operation,
       data
     }
   } as unknown as GraphQLServerContext<TEntities, TUser>;
 };
+
+export const extractRequest = <TRequestData = any>(
+  context: GraphQLServerContext
+) => context?.request as GraphQLRequestContext<TRequestData>;
 
 export const extractRequestData = <TRequestData = any>(
   context: GraphQLServerContext

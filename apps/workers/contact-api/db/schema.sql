@@ -1,13 +1,13 @@
 -- CreateTable
 CREATE TABLE "Contact" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" TEXT NOT NULL PRIMARY KEY,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdBy" TEXT NOT NULL,
     "updatedAt" DATETIME,
-    "createdBy" INTEGER NOT NULL,
-    "updatedBy" INTEGER,
-    "reason" TEXT NOT NULL,
+    "updatedBy" TEXT,
+    "reason" TEXT NOT NULL DEFAULT 'Other',
     "details" TEXT,
-    "emailId" INTEGER NOT NULL,
+    "email" TEXT NOT NULL,
     "phoneNumber" TEXT,
     "firstName" TEXT,
     "lastName" TEXT,
@@ -20,35 +20,31 @@ CREATE TABLE "Contact" (
     "title" TEXT,
     "companyName" TEXT,
     "url" TEXT,
-    CONSTRAINT "Contact_emailId_fkey" FOREIGN KEY ("emailId") REFERENCES "ContactEmail" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
-CREATE TABLE "ContactEmail" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME,
-    "createdBy" INTEGER NOT NULL,
-    "updatedBy" INTEGER,
-    "email" TEXT NOT NULL
+    "storm_guard" BOOLEAN NOT NULL DEFAULT true,
+    "storm_transaction" TEXT
 );
 
 -- CreateTable
 CREATE TABLE "ContactAttachment" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" TEXT NOT NULL PRIMARY KEY,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdBy" TEXT NOT NULL,
     "updatedAt" DATETIME,
-    "createdBy" INTEGER NOT NULL,
-    "updatedBy" INTEGER,
+    "updatedBy" TEXT,
     "name" TEXT NOT NULL,
     "path" TEXT NOT NULL,
-    "status" TEXT NOT NULL,
-    "contactId" INTEGER NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'Pending',
+    "contactId" TEXT NOT NULL,
+    "storm_guard" BOOLEAN NOT NULL DEFAULT true,
+    "storm_transaction" TEXT,
     CONSTRAINT "ContactAttachment_contactId_fkey" FOREIGN KEY ("contactId") REFERENCES "Contact" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ContactEmail_email_key" ON "ContactEmail"("email");
+CREATE INDEX "Contact_storm_transaction_idx" ON "Contact"("storm_transaction");
+
+-- CreateIndex
+CREATE INDEX "ContactAttachment_storm_transaction_idx" ON "ContactAttachment"("storm_transaction");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ContactAttachment_name_path_key" ON "ContactAttachment"("name", "path");

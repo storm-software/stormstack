@@ -2,10 +2,10 @@ name = "contact-api"
 main = "src/worker.ts"
 workers_dev = true
 
-route = "open-system.io/api/contact"
-
 compatibility_date = "2023-07-10"
+compatibility_flags = [ "nodejs_compat", "streams_enable_constructors" ]
 
+route = "open-system.io/api/contact"
 account_id = "03700f13b61493bbc558dc93ea4980bc"
 
 [build]

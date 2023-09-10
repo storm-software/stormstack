@@ -10,6 +10,14 @@ import { BaseErrorCode } from "./error-codes";
  * @extends {Error}
  */
 export class FieldValidationError extends BaseError {
+  public static isFieldValidationError = (
+    error: unknown
+  ): error is FieldValidationError =>
+    BaseError.isBaseError(error) &&
+    (error as FieldValidationError)?.path &&
+    Array.isArray((error as FieldValidationError)?.path) &&
+    (error as FieldValidationError)?.path?.length > 0;
+
   public override name = "Field Validation Error";
 
   constructor(

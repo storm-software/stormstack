@@ -103,6 +103,7 @@
   "implicitDependencies": [
     "core-shared-utilities",
     "core-server-utilities",
+    "core-server-cloudflare",
     "tools-async-api-kafka",
     "tools-storm-schema"
   ]

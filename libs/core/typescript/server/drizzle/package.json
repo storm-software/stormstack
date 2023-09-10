@@ -3,5 +3,8 @@
   "version": "0.0.1",
   "dependencies": {
     "drizzle-orm": "^0.28.5"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.19.13"
   }
 }

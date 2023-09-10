@@ -1,0 +1,98 @@
+diff --git a/out/index.d.ts b/out/index.d.ts
+index 8864c7bff5d8cb4a3db399a957f5eb49031d3248..8ce42cce2a11e092d97257c832b2cf4a01ffc3f0 100644
+--- a/out/index.d.ts
++++ b/out/index.d.ts
+@@ -1,14 +1,45 @@
+ /// <reference types="node" />
+-import type { Readable } from 'stream';
+-import type { Dirent, FileSystemAdapter } from '@nodelib/fs.scandir';
+-import { AsyncCallback } from './providers/async';
+-import Settings, { DeepFilterFunction, EntryFilterFunction, ErrorFilterFunction, Options } from './settings';
+-import type { Entry } from './types';
++import type { Readable } from "node:stream";
++import type { Dirent, FileSystemAdapter } from "@nodelib/fs.scandir";
++import { AsyncCallback } from "./providers/async";
++import Settings, {
++  DeepFilterFunction,
++  EntryFilterFunction,
++  ErrorFilterFunction,
++  Options,
++} from "./settings";
++import type { Entry } from "./types";
+ declare function walk(directory: string, callback: AsyncCallback): void;
+-declare function walk(directory: string, optionsOrSettings: Options | Settings, callback: AsyncCallback): void;
++declare function walk(
++  directory: string,
++  optionsOrSettings: Options | Settings,
++  callback: AsyncCallback
++): void;
+ declare namespace walk {
+-    function __promisify__(directory: string, optionsOrSettings?: Options | Settings): Promise<Entry[]>;
++  function __promisify__(
++    directory: string,
++    optionsOrSettings?: Options | Settings
++  ): Promise<Entry[]>;
+ }
+-declare function walkSync(directory: string, optionsOrSettings?: Options | Settings): Entry[];
+-declare function walkStream(directory: string, optionsOrSettings?: Options | Settings): Readable;
+-export { walk, walkSync, walkStream, Settings, AsyncCallback, Dirent, Entry, FileSystemAdapter, Options, DeepFilterFunction, EntryFilterFunction, ErrorFilterFunction };
++declare function walkSync(
++  directory: string,
++  optionsOrSettings?: Options | Settings
++): Entry[];
++declare function walkStream(
++  directory: string,
++  optionsOrSettings?: Options | Settings
++): Readable;
++export {
++  walk,
++  walkSync,
++  walkStream,
++  Settings,
++  AsyncCallback,
++  Dirent,
++  Entry,
++  FileSystemAdapter,
++  Options,
++  DeepFilterFunction,
++  EntryFilterFunction,
++  ErrorFilterFunction,
++};
+diff --git a/out/providers/stream.d.ts b/out/providers/stream.d.ts
+index 294185f85dc59d2a40eec8b0fea2d87958e41cdf..4ec69369e2f80e3f7c41cbca87e64385e6f8bb3f 100644
+--- a/out/providers/stream.d.ts
++++ b/out/providers/stream.d.ts
+@@ -1,12 +1,12 @@
+ /// <reference types="node" />
+-import { Readable } from 'stream';
+-import AsyncReader from '../readers/async';
+-import type Settings from '../settings';
++import { Readable } from "node:stream";
++import AsyncReader from "../readers/async";
++import type Settings from "../settings";
+ export default class StreamProvider {
+-    private readonly _root;
+-    private readonly _settings;
+-    protected readonly _reader: AsyncReader;
+-    protected readonly _stream: Readable;
+-    constructor(_root: string, _settings: Settings);
+-    read(): Readable;
++  private readonly _root;
++  private readonly _settings;
++  protected readonly _reader: AsyncReader;
++  protected readonly _stream: Readable;
++  constructor(_root: string, _settings: Settings);
++  read(): Readable;
+ }
+diff --git a/out/providers/stream.js b/out/providers/stream.js
+index 51298b0f58f14b0c9b9f36061cdd0c0b950ba2f3..8f5f9b3aaaf638e98d5b9960806e16697e372b1c 100644
+--- a/out/providers/stream.js
++++ b/out/providers/stream.js
+@@ -1,6 +1,6 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-const stream_1 = require("stream");
++const stream_1 = require("node:stream");
+ const async_1 = require("../readers/async");
+ class StreamProvider {
+     constructor(_root, _settings) {

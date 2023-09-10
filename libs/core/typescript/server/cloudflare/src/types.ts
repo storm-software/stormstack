@@ -1,4 +1,5 @@
 import { UserContext } from "@open-system/core-server-application";
+import { IEntity } from "@open-system/core-server-domain/types";
 import { GraphQLServerContext } from "@open-system/core-server-graphql";
 import { Headers } from "@open-system/core-shared-utilities";
 
@@ -176,5 +177,6 @@ export type R2Objects = {
 );
 
 export type CloudflareApiServerContext<
+  TEntities extends IEntity[] = IEntity[],
   TUser extends UserContext = UserContext
-> = GraphQLServerContext<TUser>;
+> = GraphQLServerContext<TEntities, TUser>;

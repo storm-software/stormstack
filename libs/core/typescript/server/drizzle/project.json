@@ -18,7 +18,8 @@
         "metafile": true,
         "minify": true,
         "format": ["esm", "cjs"],
-        "platform": "node"
+        "platform": "node",
+        "skipLibCheck": true
       }
     },
     "lint": {

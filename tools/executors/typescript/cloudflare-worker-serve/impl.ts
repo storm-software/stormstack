@@ -10,7 +10,11 @@ export default async function (
   try {
     ConsoleLogger.info("Executing Cloudflare Worker Serve executor...");
 
-    await runWranglerCommand(options, context, "dev");
+    await runWranglerCommand(
+      { "minify": false, "log-level": "debug", ...options },
+      {},
+      "dev"
+    );
 
     ConsoleLogger.success(
       `Cloudflare Worker server successfully ran for ${context.projectName}.`
