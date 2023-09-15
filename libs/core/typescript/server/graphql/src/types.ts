@@ -1,22 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
+import type { AllowedOperations } from "@envelop/filter-operation-type";
+import type { GraphQLArmorConfig } from "@escape.tech/graphql-armor-types";
+import { IExecutableSchemaDefinition } from "@graphql-tools/schema/typings/types";
 import {
   CreateServerContextParams,
-  ProcessContext,
-  ServerContext,
-  ServiceMapping,
-  ServiceMappingIndex,
-  UserContext
+  InitialServerContext
 } from "@open-system/core-server-application";
-import { IEntity } from "@open-system/core-server-domain/types";
-import { ArrayElement } from "@open-system/core-shared-utilities";
+import { IEntity } from "@open-system/core-server-domain";
 import { MergedScalars } from "@pothos/core";
-import { FetchAPI, PromiseOrValue, YogaInitialContext } from "graphql-yoga";
-import {
+import { DocumentNode } from "graphql";
+import type {
+  FetchAPI,
   GraphiQLOptions,
-  GraphiQLOptionsOrFactory
-} from "graphql-yoga/typings/plugins/use-graphiql";
+  Plugin,
+  PromiseOrValue,
+  YogaServerInstance,
+  YogaServerOptions
+} from "graphql-yoga";
+import { GraphiQLOptionsOrFactory } from "graphql-yoga/typings/plugins/use-graphiql";
 import { YogaSchemaDefinition } from "graphql-yoga/typings/plugins/use-schema";
+import { GraphQLActiveServerContext, GraphQLServerContext } from "./context";
+import { ExtendContextOptions, ServiceProvidersPluginOptions } from "./plugins";
+import { LoggerPluginOptions } from "./plugins/use-logger";
 
 export interface PageCursor {
   cursor: string;
@@ -29,6 +35,11 @@ export interface PageCursors {
   around: PageCursor[];
   last: PageCursor;
 }
+
+export type ArmorConfig = {
+  logContext?: boolean;
+  logErrors?: boolean;
+} & GraphQLArmorConfig;
 
 /*export type ApiServerConnection = {
   pageCursors: PageCursors;
@@ -133,57 +144,274 @@ export interface GraphQLHandlerOptions {
   release: string;
 }
 
-export type GraphQLRequestContext<TRequestData = any> = ProcessContext & {
-  operation: string;
-  data: TRequestData;
+export interface CacheStore<T = any> {
+  get(key: string): T | undefined;
+  set(key: string, value: T): void;
+}
+
+export interface ResolvedGlobalId {
+  type: string;
+  id: string;
+}
+
+export type Decoded = Record<string, unknown> | null;
+
+interface DecodedWithRoles extends Record<string, unknown> {
+  roles: string | string[];
+}
+
+interface DecodedWithMetadata extends Record<string, unknown> {
+  [key: string]: Record<string, unknown>;
+}
+
+export const AUTH_PROVIDER_HEADER = "auth-provider";
+
+export interface TokenWithRoles {
+  decoded: DecodedWithRoles;
+}
+
+export interface TokenWithMetadata {
+  decoded: DecodedWithMetadata;
+  namespace?: string;
+}
+
+export interface AuthorizationHeader {
+  schema: "Bearer" | "Basic" | string;
+  token: string;
+}
+
+export type AuthContextPayload = [
+  Decoded,
+  { type: string } & AuthorizationHeader,
+  { event: any; context: any }
+];
+
+export type Decoder = (
+  token: string,
+  type: string,
+  req: { event: any; context: any }
+) => Promise<Decoded>;
+
+export type GetCurrentUser = (
+  decoded: AuthContextPayload[0],
+  raw: AuthContextPayload[1],
+  req?: AuthContextPayload[2]
+) => Promise<null | Record<string, unknown> | string>;
+
+export type CorsConfig = {
+  origin?: boolean | string | string[];
+  methods?: string | string[];
+  allowedHeaders?: string | string[];
+  exposedHeaders?: string | string[];
+  credentials?: boolean;
+  maxAge?: number;
 };
 
-export type GraphQLServerContext<
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext,
-  TRequestData = any
-> = ServerContext<TEntities, TUser> & {
-  request: GraphQLRequestContext<TRequestData>;
-} & YogaInitialContext;
-
-export type CreateGraphQLServerContextParams<
-  TUser extends UserContext = UserContext,
-  TRequestData = any
-> = CreateServerContextParams<TUser> & {
-  operation?: string;
-  data?: TRequestData;
+export type SdlGlobImports = {
+  [key: string]: {
+    schema: DocumentNode;
+    resolvers: Record<string, unknown>;
+  };
 };
 
-export type ServicePluginParams<
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext,
-  TRequestData = any
-> = Array<{
-  namespace: ServiceMappingIndex<ArrayElement<TEntities>>;
-  builderFn: (
-    context: GraphQLServerContext<TEntities, TUser, TRequestData>
-  ) => ServiceMapping<TEntities>[ServiceMappingIndex<ArrayElement<TEntities>>];
-}>;
-
-export type CreateGraphQLServerPluginsParams<
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext,
-  TRequestData = any
-> = {
-  serviceConfig: ServicePluginParams<TEntities, TUser, TRequestData>;
-  context: GraphQLServerContext<TEntities, TUser, TRequestData>;
+export type Resolver = (...args: unknown[]) => unknown;
+export type Services = {
+  [funcName: string]: Resolver;
 };
 
-export type CreateGraphQLHandlerParams<
+// e.g. imported service
+// [{ posts_posts: {
+// createPost: () => {..},
+// deletePost: () => {...}
+// }, ]
+export type ServicesGlobImports = {
+  [serviceName: string]: Services;
+};
+
+/*
+We want directivesGlobs type to be an object with this shape:
+But not fully supported in TS
+{
+  schema: DocumentNode // <-- required
+  [string]: StormDirective
+}
+*/
+export type DirectiveGlobImports = Record<string, any>;
+
+export type GenerateGraphiQLHeader = () => string;
+
+export type GraphQLServerInstance<
+  TServerContext extends GraphQLServerContext = GraphQLServerContext
+> = YogaServerInstance<TServerContext, TServerContext>;
+
+export type PluginMapConfiguration = {
+  /**
+   * The extend context plugin is used to extend the context of the GraphQL server.
+   */
+  extendContext?: <
+    TInitialContext extends InitialServerContext = InitialServerContext,
+    TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  >(
+    initialContext: TInitialContext,
+    extendContextOptions?: ExtendContextOptions
+  ) => Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+
+  /**
+   * The logger plugin is used to log the GraphQL server.
+   */
+  logger?: <
+    TInitialContext extends InitialServerContext = InitialServerContext,
+    TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  >(
+    initialContext: TInitialContext,
+    options?: LoggerPluginOptions
+  ) => Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+
+  serviceProviders?: <
+    TEntities extends Array<IEntity> = Array<IEntity>,
+    TInitialContext extends InitialServerContext = InitialServerContext,
+    TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  >(
+    initialContext: TInitialContext,
+    options?: ServiceProvidersPluginOptions<
+      TEntities,
+      TInitialContext,
+      TActiveContext
+    >
+  ) => Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+};
+
+export type GraphQLHandlerPluginOptions<
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext,
-  TServerContext extends GraphQLServerContext<
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+> = CreateServerContextParams & {
+  /**
+   * The plugin map configuration is used to configure the plugins that are used by the GraphQL server.
+   */
+  pluginMap?: PluginMapConfiguration | undefined;
+
+  /**
+   * @description The identifier used in the GraphQL health check response.
+   * It verifies readiness when sent as a header in the readiness check request.
+   *
+   * By default, the identifier is `yoga` as seen in the HTTP response header `x-yoga-id: yoga`
+   */
+  healthCheckId?: string;
+
+  /**
+   * @description Customize GraphQL Context values
+   *
+   */
+  extendContextOptions?: ExtendContextOptions;
+
+  /**
+   * @description Customize GraphQL Logger
+   *
+   * Collect resolver timings, and exposes trace data for
+   * an individual request under extensions as part of the GraphQL response.
+   */
+  loggerOptions?: LoggerPluginOptions;
+
+  /**
+   * @description Customize GraphQL Context values
+   *
+   */
+  serviceProvidersOptions: ServiceProvidersPluginOptions<
     TEntities,
-    TUser
-  > = GraphQLServerContext<TEntities, TUser>,
-  TRequestData = any
-> = CreateGraphQLServerContextParams<TUser> &
-  CreateGraphQLServerPluginsParams<TEntities, TUser, TRequestData> & {
+    TInitialContext,
+    TActiveContext
+  >;
+
+  /**
+   * @description An async function that maps the auth token retrieved from the
+   * request headers to an object.
+   * Is it executed when the `auth-provider` contains one of the supported
+   * providers.
+   */
+  // getCurrentUser?: GetCurrentUser;
+
+  /**
+   * @description A callback when an unhandled exception occurs. Use this to disconnect your prisma instance.
+   */
+  onException?: () => void;
+
+  /**
+   * @description Services passed from the glob import:
+   * import services from 'src/services\/**\/*.{js,ts}'
+   */
+  //services: ServicesGlobImports;
+
+  /**
+   * @description SDLs (schema definitions) passed from the glob import:
+   * import sdls from 'src/graphql\/**\/*.{js,ts}'
+   */
+  //sdls: SdlGlobImports;
+
+  /**
+   * @description Directives passed from the glob import:
+   * import directives from 'src/directives/**\/*.{js,ts}'
+   */
+  directives?: DirectiveGlobImports;
+
+  /**
+   * @description A list of options passed to [makeExecutableSchema]
+   * (https://www.graphql-tools.com/docs/generate-schema/#makeexecutableschemaoptions).
+   */
+  schemaOptions?: Partial<IExecutableSchemaDefinition>;
+
+  /**
+   *  @description Customize GraphQL Armor plugin configuration
+   *
+   * @see https://escape-technologies.github.io/graphql-armor/docs/configuration/examples
+   */
+  armorConfig?: ArmorConfig;
+
+  /**
+   * @description Customize the default error message used to mask errors.
+   *
+   * By default, the masked error message is "Something went wrong"
+   *
+   * @see https://github.com/dotansimha/envelop/blob/main/packages/core/docs/use-masked-errors.md
+   */
+  defaultError?: string;
+
+  /**
+   * @description Only allows the specified operation types (e.g. subscription, query or mutation).
+   *
+   * By default, only allow query and mutation (ie, do not allow subscriptions).
+   *
+   * An array of GraphQL's OperationTypeNode enums:
+   * - OperationTypeNode.SUBSCRIPTION
+   * - OperationTypeNode.QUERY
+   * - OperationTypeNode.MUTATION
+   *
+   * @see https://github.com/dotansimha/envelop/tree/main/packages/plugins/filter-operation-type
+   */
+  allowedOperations?: AllowedOperations;
+
+  /**
+   * @description Allow schema introspection.
+   * By default, schema introspection is disabled in production. Explicitly set this to true or false to override in all environments.
+   */
+  allowIntrospection?: boolean;
+
+  /**
+   * @description Custom Envelop plugins
+   */
+  extraPlugins?: Plugin[];
+};
+
+export type CreateGraphQLHandlerOptions<
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext,
+  TServerContext extends GraphQLServerContext<
+    TInitialContext,
+    TActiveContext
+  > = GraphQLServerContext<TInitialContext, TActiveContext>
+> = YogaServerOptions<TServerContext, TServerContext> &
+  CreateServerContextParams &
+  GraphQLHandlerPluginOptions & {
     /**
      * Whether the landing page should be shown.
      */
@@ -191,16 +419,14 @@ export type CreateGraphQLHandlerParams<
 
     /**
      * GraphiQL options
-     *
-     * @default true
      */
-    graphiql?: GraphiQLOptionsOrFactory<TServerContext> | undefined;
+    graphiql?: GraphiQLOptionsOrFactory<TServerContext>;
 
     renderGraphiQL?:
       | ((options?: GraphiQLOptions) => PromiseOrValue<BodyInit>)
       | undefined;
 
-    schema?: YogaSchemaDefinition<TServerContext> | undefined;
+    schema: YogaSchemaDefinition<TServerContext> | undefined;
 
     fetchAPI?: Partial<Record<keyof FetchAPI, any>> | undefined;
 
@@ -212,14 +438,140 @@ export type CreateGraphQLHandlerParams<
      * @default true
      */
     multipart?: boolean | undefined;
+
+    /**
+     * @description The identifier used in the GraphQL health check response.
+     * It verifies readiness when sent as a header in the readiness check request.
+     *
+     * By default, the identifier is `yoga` as seen in the HTTP response header `x-yoga-id: yoga`
+     */
+    healthCheckId?: string;
+
+    /**
+     * @description Customize GraphQL Logger
+     *
+     * Collect resolver timings, and exposes trace data for
+     * an individual request under extensions as part of the GraphQL response.
+     */
+    // loggerConfig: LoggerConfig;
+
+    /**
+     * @description Modify the resolver and global context.
+     */
+    context?: TServerContext | ((request: any) => TServerContext);
+
+    /**
+     * @description An async function that maps the auth token retrieved from the
+     * request headers to an object.
+     * Is it executed when the `auth-provider` contains one of the supported
+     * providers.
+     */
+    // getCurrentUser?: GetCurrentUser;
+
+    /**
+     * @description A callback when an unhandled exception occurs. Use this to disconnect your prisma instance.
+     */
+    onException?: () => void;
+
+    /**
+     * @description Services passed from the glob import:
+     * import services from 'src/services\/**\/*.{js,ts}'
+     */
+    //services: ServicesGlobImports;
+
+    /**
+     * @description SDLs (schema definitions) passed from the glob import:
+     * import sdls from 'src/graphql\/**\/*.{js,ts}'
+     */
+    //sdls: SdlGlobImports;
+
+    /**
+     * @description Directives passed from the glob import:
+     * import directives from 'src/directives/**\/*.{js,ts}'
+     */
+    directives?: DirectiveGlobImports;
+
+    /**
+     * @description A list of options passed to [makeExecutableSchema]
+     * (https://www.graphql-tools.com/docs/generate-schema/#makeexecutableschemaoptions).
+     */
+    schemaOptions?: Partial<IExecutableSchemaDefinition>;
+
+    /**
+     *  @description Customize GraphQL Armor plugin configuration
+     *
+     * @see https://escape-technologies.github.io/graphql-armor/docs/configuration/examples
+     */
+    armorConfig?: ArmorConfig;
+
+    /**
+     * @description Customize the default error message used to mask errors.
+     *
+     * By default, the masked error message is "Something went wrong"
+     *
+     * @see https://github.com/dotansimha/envelop/blob/main/packages/core/docs/use-masked-errors.md
+     */
+    defaultError?: string;
+
+    /**
+     * @description Only allows the specified operation types (e.g. subscription, query or mutation).
+     *
+     * By default, only allow query and mutation (ie, do not allow subscriptions).
+     *
+     * An array of GraphQL's OperationTypeNode enums:
+     * - OperationTypeNode.SUBSCRIPTION
+     * - OperationTypeNode.QUERY
+     * - OperationTypeNode.MUTATION
+     *
+     * @see https://github.com/dotansimha/envelop/tree/main/packages/plugins/filter-operation-type
+     */
+    allowedOperations?: AllowedOperations;
+
+    /**
+     * @description Custom Envelop plugins
+     */
+    extraPlugins?: Plugin[];
+
+    /**
+     * @description Auth-provider specific token decoder
+     */
+    authDecoder?: Decoder | Decoder[];
+
+    /**
+     * @description Customize the GraphiQL Endpoint that appears in the location bar of the GraphQL Playground
+     *
+     * Defaults to '/graphql' as this value must match the name of the `graphql` function on the api-side.
+     */
+    graphiQLEndpoint?: string;
+
+    /**
+     * @description Allow GraphiQL playground.
+     * By default, GraphiQL playground is disabled in production. Explicitly set this to true or false to override in all environments.
+     */
+    allowGraphiQL?: boolean;
+
+    /**
+     * @description Allow schema introspection.
+     * By default, schema introspection is disabled in production. Explicitly set this to true or false to override in all environments.
+     */
+    allowIntrospection?: boolean;
+
+    /**
+     * @description Function that returns custom headers (as string) for GraphiQL.
+     *
+     * Headers must set auth-provider, Authorization and (if using dbAuth) the encrypted cookie.
+     */
+    generateGraphiQLHeader?: GenerateGraphiQLHeader;
+
+    /**
+     * @description Configure RedwoodRealtime plugin with subscriptions and live queries
+     *
+     * Only supported in a server deploy and not allowed with GraphQLHandler config
+     */
+    // realtime?: RedwoodRealtimeOptions;
+
+    /**
+     * @description Configure OpenTelemetry plugin behavior
+     */
+    // openTelemetryOptions?: RedwoodOpenTelemetryConfig;
   };
-
-export interface CacheStore<T = any> {
-  get(key: string): T | undefined;
-  set(key: string, value: T): void;
-}
-
-export interface ResolvedGlobalId {
-  type: string;
-  id: string;
-}

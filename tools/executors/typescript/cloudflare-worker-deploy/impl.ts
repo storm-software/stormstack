@@ -1,6 +1,6 @@
 import { ExecutorContext } from "@nx/devkit";
-import { runWranglerCommand } from "@open-system/core-server-cloudflare";
-import { ConsoleLogger, formatDate } from "@open-system/core-shared-utilities";
+import { runWranglerDeploy } from "@open-system/core-server-cloudflare/utilities/wrangler-deploy";
+import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
 import { CloudflareWorkerDeployExecutorSchema } from "./schema";
 
 export default async function (
@@ -9,13 +9,8 @@ export default async function (
 ) {
   try {
     ConsoleLogger.info("Executing Cloudflare Worker Deploy executor...");
-    ConsoleLogger.info(formatDate());
 
-    await runWranglerCommand(
-      { "compatibility-date": formatDate() },
-      context,
-      "deploy"
-    );
+    await runWranglerDeploy(context, {});
 
     ConsoleLogger.success(
       `Cloudflare Worker server successfully ran for ${context.projectName}.`

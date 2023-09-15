@@ -1,8 +1,17 @@
+/* eslint-disable import/first */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Stacktracey requires buffer, which Vite does not polyfill by default
+if (typeof window !== "undefined") {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  window.Buffer = window.Buffer || require("node:buffer").Buffer;
+}
+
+import StackTracey from "stacktracey";
+
 import { ZodError, ZodIssue } from "zod";
 import { IError } from "../types";
 import { BaseErrorCode } from "./error-codes";
-import { FieldValidationError } from "./field-validation-error";
 
 /**
  *
@@ -49,21 +58,27 @@ export class BaseError extends ZodError implements IError {
       Array.isArray(baseError.issues) &&
       baseError.issues.length > 0
     ) {
-      result.issues = baseError.issues.map((issue: ZodIssue) => {
-        let error!: BaseError;
-        if (!BaseError.isBaseError(issue)) {
+      result.issues = baseError.issues.reduce(
+        (ret: string[], issue: ZodIssue) => {
+          let error!: BaseError;
+          /*if (!BaseError.isBaseError(issue)) {
           error = new FieldValidationError(
             issue.path,
             issue.code,
             issue.message,
             issue.fatal
-          );
-        } else {
-          error = issue as BaseError;
-        }
+          )
+        } else {;*/
+          if (BaseError.isBaseError(issue)) {
+            error = issue as BaseError;
 
-        return BaseError.stringify(error);
-      });
+            ret.push(BaseError.stringify(error));
+          }
+
+          return ret;
+        },
+        []
+      );
     }
 
     return JSON.stringify(result);
@@ -118,4 +133,8 @@ export class BaseError extends ZodError implements IError {
   ) => {
     issues.forEach(issue => this.addIssue(issue));
   };
+
+  public override get stack(): string {
+    return new StackTracey(this.stack).withSources().toString();
+  }
 }

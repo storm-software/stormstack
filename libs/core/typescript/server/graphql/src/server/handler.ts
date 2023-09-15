@@ -1,50 +1,55 @@
-import { extractSystem } from "@open-system/core-server-application/context/context";
-import { UserContext } from "@open-system/core-server-application/types";
-import { IEntity } from "@open-system/core-server-domain/types";
+import {
+  InitialServerContext,
+  createServerContext,
+  extractSystem
+} from "@open-system/core-server-application/context";
 import { Injector } from "@open-system/core-shared-injection";
-import { Logger } from "@open-system/core-shared-utilities";
+import { Logger } from "@open-system/core-shared-utilities/logging/logger";
+import * as fetchAPI from "@whatwg-node/node-fetch";
 import { createYoga } from "graphql-yoga";
-import { createGraphQLServerContext } from "../context";
+import { GraphQLActiveServerContext, GraphQLServerContext } from "../context";
 import { createPlugins } from "../plugins";
-import { CreateGraphQLHandlerParams, GraphQLServerContext } from "../types";
+import { CreateGraphQLHandlerOptions, GraphQLServerInstance } from "../types";
 
 export const createGraphQLHandler = async <
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext,
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext,
   TServerContext extends GraphQLServerContext<
-    TEntities,
-    TUser
-  > = GraphQLServerContext<TEntities, TUser>
+    TInitialContext,
+    TActiveContext
+  > = GraphQLServerContext<TInitialContext, TActiveContext>
 >(
-  params: CreateGraphQLHandlerParams<TEntities, TUser, TServerContext>
-) => {
-  const injector = params.injector ?? Injector;
+  options: CreateGraphQLHandlerOptions<
+    TInitialContext,
+    TActiveContext,
+    TServerContext
+  >
+): Promise<GraphQLServerInstance<TServerContext>> => {
+  const injector = options.injector ?? Injector;
   const logger = injector.get(Logger);
 
-  let context = params.context;
-  if (!context) {
-    context = createGraphQLServerContext<TEntities, TUser>({
-      ...params,
-      injector,
-      logger
-    });
-  }
+  const context = await createServerContext<TInitialContext>({
+    ...options,
+    injector,
+    logger
+  });
 
-  const plugins = await createPlugins<TEntities, TUser>({
-    ...params,
+  const plugins = await createPlugins({
+    ...options,
     context
   });
 
   const system = extractSystem(context);
-  const yoga = createYoga<TServerContext>({
-    ...params,
+  const yoga = createYoga<TServerContext, TServerContext>({
+    ...options,
     id: system.info.serviceId,
     multipart: true,
     logging: logger,
-    graphqlEndpoint: system.env.get("GRAPHQL_PATH") ?? "/graphql",
-    healthCheckEndpoint: system.env.get("HEALTH_CHECK_PATH") ?? "/health",
-    context,
-    plugins
+    graphqlEndpoint: context.env.get("GRAPHQL_PATH") ?? "/graphql",
+    healthCheckEndpoint: context.env.get("HEALTH_CHECK_PATH") ?? "/healthcheck",
+    context: context as unknown as TServerContext,
+    plugins,
+    fetchAPI
   });
 
   return yoga;

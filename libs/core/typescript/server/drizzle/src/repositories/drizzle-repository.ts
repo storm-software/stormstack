@@ -7,16 +7,14 @@ import {
   FindManyParams,
   FindUniqueParams,
   Repository,
+  ServerContext,
   UpdateManyParams,
   UpdateParams,
   UpsertParams
 } from "@open-system/core-server-application";
 import { IEntity } from "@open-system/core-server-domain";
-import { EnvManager } from "@open-system/core-shared-env/env-manager";
-import { BaseOptions } from "@open-system/core-shared-env/types";
 import { Provider } from "@open-system/core-shared-injection";
 import {
-  Logger,
   NotFoundError,
   RequiredError
 } from "@open-system/core-shared-utilities";
@@ -25,6 +23,7 @@ import {
   BaseSQLiteDatabase,
   SQLiteTableWithColumns
 } from "drizzle-orm/sqlite-core";
+import { BindingsWithDatabase } from "../types";
 import { formatWhereParams } from "../utilities/format-params";
 
 @Provider(DrizzleRepository)
@@ -32,13 +31,19 @@ export abstract class DrizzleRepository<
   TEntity extends IEntity = IEntity
 > extends Repository<TEntity> {
   protected abstract schema: SQLiteTableWithColumns<any>;
+  protected bindings!: BindingsWithDatabase<TEntity, typeof this.schema>;
 
-  constructor(
-    protected db: BaseSQLiteDatabase<"async", any, any>,
-    logger: Logger,
-    env: EnvManager<BaseOptions>
-  ) {
-    super(logger, env);
+  protected get db(): BaseSQLiteDatabase<"async", TEntity, typeof this.schema> {
+    return this.bindings.database;
+  }
+
+  constructor(context: ServerContext) {
+    super(context);
+
+    this.bindings = context.bindings as BindingsWithDatabase<
+      TEntity,
+      typeof this.schema
+    >;
   }
 
   protected override innerFindUnique = async (
@@ -98,50 +103,63 @@ export abstract class DrizzleRepository<
   };
 
   protected override innerCreate = async (params: CreateParams<TEntity>) => {
-    return this.db.insert(this.schema).values(params.data);
+    const result = await this.db.insert(this.schema).values(params.data);
+
+    return result.id;
   };
 
   protected override innerDelete = async (params: DeleteParams<TEntity>) => {
-    return this.db
+    const result = await this.db
       .delete(this.schema)
       .where(formatWhereParams<TEntity>(this.schema, params.where));
+
+    return result.id;
   };
 
   protected override innerDeleteMany = async (
     params: DeleteManyParams<TEntity>
   ) => {
-    return this.db
+    const result = await this.db
       .delete(this.schema)
       .where(formatWhereParams<TEntity>(this.schema, params.where));
+
+    return [result.id];
   };
 
   protected override innerUpdate = async (params: UpdateParams<TEntity>) => {
-    return this.db
+    const result = await this.db
       .update(this.schema)
       .set(params.data)
       .where(formatWhereParams<TEntity>(this.schema, params.where));
+
+    return result.id;
   };
 
   protected override innerUpdateMany = async (
     params: UpdateManyParams<TEntity>
   ) => {
-    return this.db
+    const result = await this.db
       .update(this.schema)
       .set(params.data)
       .where(formatWhereParams<TEntity>(this.schema, params.where));
+
+    return [result.id];
   };
 
   protected override innerUpsert = async (params: UpsertParams<TEntity>) => {
+    let result;
     if (params.update) {
-      return this.db
+      result = await this.db
         .update(this.schema)
         .set(params.update)
         .where(formatWhereParams<TEntity>(this.schema, params.where));
     } else if (params.create) {
-      return this.db.insert(this.schema).values(params.create);
+      result = await this.db.insert(this.schema).values(params.create);
     } else {
       throw new RequiredError("No update or create data provided");
     }
+
+    return result;
   };
 
   /*protected override innerAggregate = async (

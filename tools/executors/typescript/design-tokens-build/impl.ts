@@ -92,7 +92,7 @@ export default async function (
                       id: name,
                       type: "color",
                       name,
-                      ...token,
+                      ...token
                     });
 
                     verbose &&
@@ -102,7 +102,7 @@ export default async function (
                             id: name,
                             type: "color",
                             name,
-                            ...token,
+                            ...token
                           },
                           null,
                           2
@@ -135,10 +135,10 @@ export default async function (
                             ?.replaceAll(/[_]/g, "")
                             ?.replaceAll(/\s/g, ""),
                           value: {
-                            ...token.value,
-                          },
-                        },
-                      },
+                            ...token.value
+                          }
+                        }
+                      }
                     };
 
                     ret.push(item);
@@ -164,7 +164,7 @@ export default async function (
                       id: name,
                       name,
                       ...token,
-                      type: "measurement",
+                      type: "measurement"
                     };
 
                     ret.push(item);
@@ -235,7 +235,7 @@ export default async function (
                             offsetX: shadow.offsetX,
                             offsetY: shadow.offsetY,
                             blur: shadow.radius,
-                            spread: shadow.spread,
+                            spread: shadow.spread
                           }))
                         : [
                             {
@@ -245,9 +245,9 @@ export default async function (
                               offsetX: token.value.offsetX,
                               offsetY: token.value.offsetY,
                               blur: token.value.radius,
-                              spread: token.value.spread,
-                            },
-                          ],
+                              spread: token.value.spread
+                            }
+                          ]
                     };
 
                     ret.push(item);
@@ -259,7 +259,7 @@ export default async function (
                 },
                 []
               )
-            : []),
+            : [])
           /*...(dataArray["size"]
             ? Object.entries(dataArray["size"]).reduce(
                 (
@@ -288,8 +288,8 @@ export default async function (
           formatConfig: {
             objectName: "extend",
             exportDefault: true,
-            module: "commonjs",
-          },
+            module: "commonjs"
+          }
         },
         { _: null }
       ));
@@ -335,7 +335,7 @@ export default async function (
                 name: `${token.value.fontFamily
                   .replaceAll(/[_]/g, "")
                   .replaceAll(/\s/g, "")}`,
-                ...token,
+                ...token
               });
             }
 
@@ -349,7 +349,7 @@ export default async function (
           fontsPath,
           fontDisplay: "fallback",
           genericFamily: "sans-serif",
-          includeFontWeight: true,
+          includeFontWeight: true
         }
       );
 

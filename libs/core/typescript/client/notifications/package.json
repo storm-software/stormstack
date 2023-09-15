@@ -1,4 +1,7 @@
 {
   "name": "@open-system/core-client-notifications",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "dependencies": {
+    "stacktracey": "^2.1.8"
+  }
 }

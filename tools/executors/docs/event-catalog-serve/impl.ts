@@ -1,14 +1,10 @@
 import { ExecutorContext, workspaceRoot } from "@nx/devkit";
 import { createAsyncIterable } from "@nx/devkit/src/utils/async-iterable";
 import { waitForPortOpen } from "@nx/web/src/utils/wait-for-port-open";
-import {
-  copyFile,
-  copyFiles,
-  executeAsync,
-} from "@open-system/core-server-utilities";
+import { copyFile, copyFiles } from "@open-system/core-server-utilities";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
 import { fork } from "child_process";
-import { ensureDirSync, existsSync } from "fs-extra";
+import { ensureDirSync, existsSync, removeSync } from "fs-extra";
 import Path from "path";
 import { EventCatalogServeExecutorSchema } from "./schema";
 
@@ -30,11 +26,7 @@ export default async function* (
       "dist"
     );
     if (existsSync(outputPath)) {
-      result = await executeAsync(`rmdir /S /Q "${outputPath}" `);
-      if (result) {
-        ConsoleLogger.error(result);
-        return { success: false };
-      }
+      removeSync(outputPath);
     }
 
     const packagePath = Path.join(__dirname, ".event-catalog");
@@ -109,7 +101,7 @@ export default async function* (
           ["dev", "-p", `${port}`, "-H", `${hostname ?? "localhost"}`],
           {
             cwd: outputPath,
-            stdio: "inherit",
+            stdio: "inherit"
           }
         );
 
@@ -136,7 +128,7 @@ export default async function* (
         try {
           next({
             success: true,
-            baseUrl: `http://${hostname ?? "localhost"}:${port}`,
+            baseUrl: `http://${hostname ?? "localhost"}:${port}`
           });
         } catch (e) {
           ConsoleLogger.error("Error in process");

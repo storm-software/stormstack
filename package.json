@@ -36,6 +36,7 @@
     "pnpm": ">=8.7.4"
   },
   "scripts": {
+    "help": "nx help",
     "nx": "nx",
     "preinstall": "node -e \"if(process.env.CI == 'true') {console.log('Skipping preinstall...'); process.exit(1)}\" || npx -y only-allow pnpm",
     "install:csb": "corepack enable && pnpm install --frozen-lockfile",
@@ -61,6 +62,7 @@
     "test": "nx test",
     "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
     "start": "nx serve",
+    "dep-graph": "nx dep-graph",
     "relay": "relay-compiler --watch",
     "wundergraph": "wunderctl up --debug",
     "add:contributors": "all-contributors add",
@@ -69,11 +71,12 @@
     "generate:contributors": "all-contributors generate",
     "add:decisions": "pnpm log4brains adr new",
     "preview:decisions": "pnpm log4brains preview",
-    "pre-commit": "lint-staged",
-    "commit": "git-cz",
     "repo-check:manypkg": "pnpm exec manypkg check",
     "repo-check:circular-deps": "pnpm exec dpdm ",
-    "repo-check": "pnpm repo-check:manypkg && pnpm repo-check:circular-deps"
+    "repo-check": "pnpm repo-check:manypkg && pnpm repo-check:circular-deps",
+    "pre-commit": "lint-staged",
+    "commit": "git-cz",
+    "release": "release-it"
   },
   "nx": {
     "includedScripts": [
@@ -83,6 +86,8 @@
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20230904.0",
+    "@commitlint/config-nx-scopes": "^17.6.4",
+    "@commitlint/cz-commitlint": "^17.7.1",
     "@envelop/graphql-modules": "^5.0.0",
     "@envelop/live-query": "^6.0.0",
     "@envelop/sentry": "^6.0.0",
@@ -92,6 +97,7 @@
     "@js-temporal/polyfill": "^0.4.4",
     "@next/bundle-analyzer": "^13.4.7",
     "@pothos/core": "^3.30.0",
+    "@release-it/bumper": "^5.1.0",
     "@vercel/analytics": "^1.0.1",
     "@vercel/edge-config": "^0.2.1",
     "@vercel/otel": "^0.3.0",
@@ -100,9 +106,12 @@
     "attr-accept": "^2.2.2",
     "bcryptjs": "^2.4.3",
     "clsx": "^1.1.1",
+    "commitizen": "^4.3.0",
+    "conventional-changelog-conventionalcommits": "^7.0.2",
     "core-js": "^3.30.1",
     "dotenv": "^16.0.3",
     "file-selector": "^0.6.0",
+    "git-cz": "^4.9.0",
     "graphql": "^16.8.0",
     "graphql-modules": "^2.1.2",
     "graphql-scalars": "^1.22.2",
@@ -127,6 +136,7 @@
     "redis-om": "^0.4.0-beta.3",
     "regenerator-runtime": "0.14.0",
     "relay-runtime": "^15.0.0",
+    "release-it": "^16.1.5",
     "rimraf": "^5.0.0",
     "schema-dts": "^1.1.2",
     "superjson": "^1.13.1",
@@ -291,7 +301,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.81.0",
     "webpack-merge": "^5.8.0",
-    "wrangler": "^3.2.0",
+    "wrangler": "^3.7.0",
     "zod-prisma": "^0.5.4",
     "zod-prisma-types": "^2.7.4"
   },
@@ -316,7 +326,7 @@
       "pnpm nx format"
     ],
     "**/*.{js,cjs,mjs,ts,tsx}": [
-      "pnpm eslint --fix"
+      "pnpm nx format:write --uncommitted"
     ],
     "**/*.{js,jsx,ts,tsx,json,css,scss,md,mdx,yml,yaml,graphql,html}": [
       "pnpm prettier --write"
@@ -328,8 +338,33 @@
       "pnpm typecheck"
     ],
     "**/README.md": [
-      "pnpm exec nx generate @open-system/tools-generators-typescript:repo-readme-format --templatePath=\"libs/core/config/src/readme-templates\" --no-interactive"
+      "pnpm nx generate @open-system/tools-generators-typescript:repo-readme-format --templatePath=\"libs/core/config/src/readme-templates\" --no-interactive"
     ]
+  },
+  "release-it": {
+    "dry-run": false,
+    "git": {
+      "tagMatch": "[!@]*",
+      "tagName": "v${version}",
+      "commitMessage": "ci(repo): Release ${version}",
+      "requireCleanWorkingDir": true
+    },
+    "npm": {
+      "publish": false
+    },
+    "hooks": {
+      "after:bump": "pnpm install --filter ./apps/web/shell --lockfile-only"
+    },
+    "plugins": {
+      "@release-it/bumper": {
+        "out": [
+          {
+            "file": "apps/web/shell/package.json",
+            "path": "version"
+          }
+        ]
+      }
+    }
   },
   "relay": {
     "src": "./",
@@ -379,7 +414,11 @@
       "infisical-node@1.4.3": "patches/infisical-node@1.4.3.patch",
       "merge2@1.4.1": "patches/merge2@1.4.1.patch",
       "path-type@4.0.0": "patches/path-type@4.0.0.patch",
-      "resolve-from@5.0.0": "patches/resolve-from@5.0.0.patch"
+      "resolve-from@5.0.0": "patches/resolve-from@5.0.0.patch",
+      "memjs@1.3.1": "patches/memjs@1.3.1.patch",
+      "@whatwg-node/fetch@0.9.12": "patches/@whatwg-node__fetch@0.9.12.patch",
+      "@whatwg-node/node-fetch@0.4.18": "patches/@whatwg-node__node-fetch@0.4.18.patch",
+      "graphql-yoga@4.0.4": "patches/graphql-yoga@4.0.4.patch"
     }
   },
   "optionalDependencies": {

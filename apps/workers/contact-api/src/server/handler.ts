@@ -1,12 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { InitialServerContext } from "@open-system/core-server-application";
+import { CloudflareServerBindings } from "@open-system/core-server-cloudflare/types";
 import {
-  IContactAttachmentEntity,
-  IContactEntity,
-  createContactGraphQLServerContext,
-  schema
-} from "@open-system/contact-server-attachment";
-import { UserContext } from "@open-system/core-server-application/types";
-import { createGraphQLHandler } from "@open-system/core-server-graphql/server/handler";
-import { Injector } from "@open-system/core-shared-injection";
+  GraphQLActiveServerContext,
+  GraphQLServerContext
+} from "@open-system/core-server-graphql/context";
+import { createServer } from "./server";
 
 /*declare global {
   namespace GraphQLModules {
@@ -15,7 +14,7 @@ import { Injector } from "@open-system/core-shared-injection";
   }
 }*/
 
-interface Env {
+export interface Env extends CloudflareServerBindings {
   DB: any;
 }
 
@@ -54,19 +53,28 @@ const handler = {
   },
 };*/
 
-const context = createContactGraphQLServerContext({
+/*const context = createGraphQLServerContext({
   injector: Injector,
   operation: "contact-graphql"
-});
+});*/
 
-const yoga = await createGraphQLHandler<
-  Array<IContactEntity | IContactAttachmentEntity>,
-  UserContext
->({
-  context,
-  schema,
-  injector: Injector,
-  serviceConfig: []
-});
+export const handler = async (
+  request: Request,
+  env: Env,
+  context: Partial<
+    GraphQLServerContext<InitialServerContext, GraphQLActiveServerContext>
+  >
+) => {
+  try {
+    const server = await createServer();
 
-export default { fetch: yoga.fetch };
+    return server.fetch(request as any, env as any, context);
+  } catch (e) {
+    return new Response((e as Error)?.message, {
+      status: 500,
+      ...(e as Error)
+    });
+  }
+};
+
+// export default { fetch: yoga.fetch };

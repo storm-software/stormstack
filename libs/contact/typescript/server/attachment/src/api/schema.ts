@@ -1,13 +1,22 @@
-import { createSchema } from "@open-system/core-server-graphql/schema";
+import { CloudflareServerBindingsContext } from "@open-system/core-server-cloudflare/types";
 import {
-  IContactAttachmentEntity,
-  IContactEntity
-} from "../__generated__/graphql/entities";
+  GraphQLActiveServerContext,
+  GraphQLServerContext
+} from "@open-system/core-server-graphql/context";
+import { createSchema } from "@open-system/core-server-graphql/schema";
 import { resolvers } from "../__generated__/graphql/resolvers";
+import { typeDefs } from "../__generated__/graphql/schema.graphql";
+import { ContactGraphQLInitialServerContext } from "../context/context";
 
 export const schema = createSchema<
-  Array<IContactEntity | IContactAttachmentEntity>
+  ContactGraphQLInitialServerContext,
+  GraphQLActiveServerContext,
+  GraphQLServerContext<
+    ContactGraphQLInitialServerContext,
+    GraphQLActiveServerContext,
+    CloudflareServerBindingsContext
+  >
 >({
-  typeDefs: "./src/__generated__/graphql/schema.graphql",
+  typeDefs, //"./src/__generated__/graphql/schema.graphql",
   resolvers
 });

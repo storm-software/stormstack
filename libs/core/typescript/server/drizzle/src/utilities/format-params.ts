@@ -41,10 +41,10 @@ export const formatWhereParams = <TEntity extends IEntity = IEntity>(
       ) => {
         // const filter = value as StringNullableFilter | DateTimeNullableFilter | BoolFilter;
         //Object.entries(filter)
-        let sql: SQL<any>;
+        let sql: SQL<any> = new SQL([]);
         if (schema[key].column.dataType === "string") {
           const filter = value as StringNullableFilter;
-          Object.entries(filter).reduce(
+          sql = Object.entries(filter).reduce(
             (innerRet: SQL<any>, [key, value]: [string, string | string[]]) => {
               switch (key) {
                 case "equals":
@@ -97,7 +97,7 @@ export const formatWhereParams = <TEntity extends IEntity = IEntity>(
           );
         } else if (schema[key].column.dataType === "number") {
           const filter = value as NumberNullableFilter;
-          Object.entries(filter).reduce(
+          sql = Object.entries(filter).reduce(
             (innerRet: SQL<any>, [key, value]: [string, number | number[]]) => {
               switch (key) {
                 case "equals":
@@ -151,12 +151,19 @@ export const formatWhereParams = <TEntity extends IEntity = IEntity>(
           );
         } else if (schema[key].column.dataType === "Date") {
           const filter = value as DateTimeNullableFilter;
-          Object.entries(filter).reduce(
-            (innerRet: SQL<any>, [key, value]: [string, Date | Date[]]) => {
+          sql = Object.entries(filter).reduce(
+            (
+              innerRet: SQL<any>,
+              [key, value]: [string, string | Date | string[] | Date[] | null]
+            ) => {
+              if (!value) {
+                return innerRet;
+              }
+
               switch (key) {
                 case "equals":
                   if (!Array.isArray(value)) {
-                    sql = eq(schema[key], value.getMilliseconds());
+                    sql = eq(schema[key], new Date(value).getMilliseconds());
                   }
                   break;
                 case "not":
@@ -164,22 +171,22 @@ export const formatWhereParams = <TEntity extends IEntity = IEntity>(
                   break;
                 case "lt":
                   if (!Array.isArray(value)) {
-                    sql = eq(schema[key], value.getMilliseconds());
+                    sql = eq(schema[key], new Date(value).getMilliseconds());
                   }
                   break;
                 case "lte":
                   if (!Array.isArray(value)) {
-                    sql = lte(schema[key], value.getMilliseconds());
+                    sql = lte(schema[key], new Date(value).getMilliseconds());
                   }
                   break;
                 case "gt":
                   if (!Array.isArray(value)) {
-                    sql = gt(schema[key], value.getMilliseconds());
+                    sql = gt(schema[key], new Date(value).getMilliseconds());
                   }
                   break;
                 case "gte":
                   if (!Array.isArray(value)) {
-                    sql = gte(schema[key], value.getMilliseconds());
+                    sql = gte(schema[key], new Date(value).getMilliseconds());
                   }
                   break;
                 case "in":
@@ -187,7 +194,7 @@ export const formatWhereParams = <TEntity extends IEntity = IEntity>(
                     schema[key],
                     Array.isArray(value)
                       ? value.map(d => d.getMilliseconds())
-                      : [value.getMilliseconds()]
+                      : [new Date(value).getMilliseconds()]
                   );
                   break;
                 case "notIn":
@@ -195,15 +202,15 @@ export const formatWhereParams = <TEntity extends IEntity = IEntity>(
                     schema[key],
                     Array.isArray(value)
                       ? value.map(d => d.getMilliseconds())
-                      : [value.getMilliseconds()]
+                      : [new Date(value).getMilliseconds()]
                   );
                   break;
                 case "between":
                   if (Array.isArray(value) && value.length >= 2) {
                     sql = between(
                       schema[key],
-                      value[0].getMilliseconds(),
-                      value[1].getMilliseconds()
+                      new Date(value[0]).getMilliseconds(),
+                      new Date(value[1]).getMilliseconds()
                     );
                   }
                   break;
@@ -211,8 +218,8 @@ export const formatWhereParams = <TEntity extends IEntity = IEntity>(
                   if (Array.isArray(value) && value.length >= 2) {
                     sql = notBetween(
                       schema[key],
-                      value[0].getMilliseconds(),
-                      value[1].getMilliseconds()
+                      new Date(value[0]).getMilliseconds(),
+                      new Date(value[1]).getMilliseconds()
                     );
                   }
                   break;
@@ -227,11 +234,15 @@ export const formatWhereParams = <TEntity extends IEntity = IEntity>(
           );
         } else if (schema[key].column.dataType === "boolean") {
           const filter = value as BoolNullableFilter;
-          Object.entries(filter).reduce(
+          sql = Object.entries(filter).reduce(
             (
               innerRet: SQL<any>,
-              [key, value]: [string, boolean | boolean[]]
+              [key, value]: [string, boolean | boolean[] | null]
             ) => {
+              if (!value) {
+                return innerRet;
+              }
+
               switch (key) {
                 case "equals":
                   sql = eq(schema[key], value);

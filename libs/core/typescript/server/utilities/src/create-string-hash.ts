@@ -73,7 +73,7 @@ export function unbase64(input: Base64String): string {
        * Previously we used Node's API for parsing Base64 and following code
        * Buffer.from(i, 'utf8').toString('base64')
        * That silently ignored incorrect input and returned empty string instead
-       * Let's keep this behaviour for a time being and hopefully fix it in the future.
+       * Let's keep this behavior for a time being and hopefully fix it in the future.
        */
       return "";
     }
@@ -169,7 +169,7 @@ function fromCodePoint(code: number): string {
      * Previously we used Node's API for parsing Base64 and following code
      * Buffer.from(i, 'base64').toString('utf8')
      * That silently ignored incorrect input and returned empty string instead
-     * Let's keep this behaviour for a time being and hopefully fix it in the future.
+     * Let's keep this behavior for a time being and hopefully fix it in the future.
      */
     return "";
   }

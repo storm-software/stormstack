@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { extractSystemInfo } from "@open-system/core-server-application/context/context";
-import { UserContext } from "@open-system/core-server-application/types";
-import { IEntity } from "@open-system/core-server-domain/types";
+import { Plugin } from "@envelop/types";
+import { extractSystemInfo } from "@open-system/core-server-application/context";
+import { InitialServerContext } from "@open-system/core-server-application/context/initial-context";
 import { useReadinessCheck as useReadinessCheckExt } from "graphql-yoga";
-import { GraphQLServerContext } from "../types";
+import {
+  GraphQLActiveServerContext,
+  GraphQLServerContext
+} from "../context/context";
 
 export const useReadinessCheck = <
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext
->(params: {
-  context: GraphQLServerContext<TEntities, TUser>;
-}) => {
-  const context = params.context;
-  const system = context.system;
-
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+>(
+  initialContext: TInitialContext
+): Plugin<GraphQLServerContext<TInitialContext, TActiveContext>> => {
   return useReadinessCheckExt({
-    endpoint: system.env.get("READINESS_CHECK_PATH") ?? "/ready",
+    endpoint: initialContext.env.get("READINESS_CHECK_PATH") ?? "/readiness",
     check: async () => {
-      const logger = context.utils.logger;
-      const info = extractSystemInfo(context);
+      const logger = initialContext.utils.logger;
+      const info = extractSystemInfo(initialContext);
 
       try {
         await logger.info(
@@ -34,5 +34,5 @@ export const useReadinessCheck = <
         return false;
       }
     }
-  });
+  }) as Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
 };

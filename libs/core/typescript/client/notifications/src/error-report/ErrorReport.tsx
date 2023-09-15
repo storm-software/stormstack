@@ -6,12 +6,15 @@ import {
   MessageBar,
   MessageBarVariants,
   Modal,
-  ModalVariants,
+  ModalVariants
 } from "@open-system/design-system-components";
 import AlertIcon from "../../assets/alert-triangle.svg";
+import { StackTrace } from "../stack-trace";
 import { ErrorReportProps } from "../types";
 
 export function ErrorReport({ error, errorInfo, reset }: ErrorReportProps) {
+  const message = error?.message ?? "An error occured during processing.";
+
   return (
     <div className="relative h-full min-h-screen w-full">
       <AlertIcon
@@ -26,11 +29,16 @@ export function ErrorReport({ error, errorInfo, reset }: ErrorReportProps) {
             <MessageBar
               className="w-full min-w-fit flex-1"
               variant={MessageBarVariants.ERROR}
-              message={error?.message ?? "An error occured during processing."}
-              details={errorInfo?.componentStack}
+              message={message}
+              details={
+                <StackTrace
+                  stack={errorInfo?.componentStack}
+                  message={message}
+                />
+              }
             />
             <div className="flex flex-1">
-              <p className="text-lg font-body-1 text-primary">
+              <p className="text-primary font-body-1 text-lg">
                 User experience is always my top priority, but unfortunately
                 errors can happen from time to time. I would greatly appreciate
                 it if you could submit an error report detailing your previous

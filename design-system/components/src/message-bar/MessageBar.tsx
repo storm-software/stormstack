@@ -12,7 +12,7 @@ import {
   getBorderStyle,
   getCloseButtonStyle,
   getDefaultTitle,
-  getTextStyle,
+  getTextStyle
 } from "./MessageBar.utils";
 
 export type MessageBarProps = PropsWithBase<{
@@ -29,7 +29,7 @@ export type MessageBarProps = PropsWithBase<{
   /**
    * The text message displayed in an expandable section of the message bar
    */
-  details?: string;
+  details?: string | JSX.Element | null;
 
   /**
    * An indicator specifying if the "close icon" is displayed (allowing the user to manually close the message bar)
@@ -53,7 +53,7 @@ export const MessageBar = ({
   message,
   details,
   showCloseIcon = true,
-  variant = MessageBarVariants.INFO,
+  variant = MessageBarVariants.INFO
 }: MessageBarProps) => {
   return (
     <div
@@ -73,7 +73,7 @@ export const MessageBar = ({
           <span className="inline-block h-fit">
             {variant === MessageBarVariants.SUCCESS ? (
               <SuccessIcon
-                className={clsx("h-[4.5rem] w-[4.5rem] fill-success/5")}
+                className={clsx("fill-success/5 h-[4.5rem] w-[4.5rem]")}
               />
             ) : (
               <svg width="45" height="45" viewBox="0 0 25 25" fill="none">
@@ -98,10 +98,10 @@ export const MessageBar = ({
                 className={clsx(getTextStyle(variant), "text-2xl")}>
                 {`${getDefaultTitle(variant)}:`}
               </Heading>
-              <p className="flex-1 font-header-6 text-lg font-bold text-primary">
+              <p className="text-primary flex-1 font-header-6 text-lg font-bold">
                 {message}
               </p>
-              {details && <p className="font-body-1 text-body-1">{details}</p>}
+              {details && <p className="text-body-1 font-body-1">{details}</p>}
             </div>
           </div>
           {showCloseIcon && onClose && (

@@ -1,0 +1,10 @@
+diff --git a/lib/memjs/server.js b/lib/memjs/server.js
+index b2bf5c095bee16bf0a2f4c2a8b57418f20c522b9..9b7fc6a964f4e98dcabaad02013e6c2e286cea35 100644
+--- a/lib/memjs/server.js
++++ b/lib/memjs/server.js
+@@ -1,4 +1,4 @@
+-var net = require('net');
++var net = require('node:net');
+ var events = require('events');
+ var util = require('util');
+ var makeRequestBuffer = require('./utils').makeRequestBuffer;

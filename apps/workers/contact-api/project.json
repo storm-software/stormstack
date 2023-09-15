@@ -5,49 +5,50 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/esbuild:esbuild",
+      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/workers/contact-api",
-        "main": "apps/workers/contact-api/src/worker.ts",
+        "main": "apps/workers/contact-api/src/index.ts",
         "tsConfig": "apps/workers/contact-api/tsconfig.json",
-        "format": ["esm"],
-        "bundle": true,
-        "platform": "node",
-        "external": ["node:*"],
         "assets": [
           {
             "input": "./apps/workers/contact-api",
             "glob": "**/*.toml",
             "output": "."
           }
-        ]
+        ],
+        "polyfillNode": true,
+        "skipTypeCheck": true
       },
       "configurations": {
         "development": {
+          "minify": false,
           "esbuildOptions": {
-            "sourcemap": true,
-            "outdir": "dist/apps/workers/contact-api",
-            "outExtension": {
-              ".js": ".mjs"
-            }
+            "sourcemap": true
           }
         },
         "production": {
+          "minify": true,
           "esbuildOptions": {
-            "sourcemap": false,
-            "outdir": "dist/apps/workers/contact-api",
-            "outExtension": {
-              ".js": ".mjs"
-            }
+            "sourcemap": false
           }
         }
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["NO_D1_WARNING=true wrangler dev --env dev"],
+        "cwd": "apps/workers/contact-api",
+        "parallel": false
       }
     },
     "serve": {
       "executor": "@open-system/tools-executors-typescript:cloudflare-worker-serve",
       "defaultConfiguration": "development",
+      "verbose": true,
       "options": {
         "buildTarget": "worker-contact-api:serve"
       },
@@ -84,7 +85,9 @@
     "deploy-schema": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["NO_D1_WARNING=true wrangler d1 execute contact --file=./db/schema.sql"],
+        "commands": [
+          "NO_D1_WARNING=true wrangler d1 execute contact --file=./db/schema.sql"
+        ],
         "cwd": "apps/workers/contact-api",
         "parallel": false
       }

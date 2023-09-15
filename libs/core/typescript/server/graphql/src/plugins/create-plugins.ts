@@ -1,43 +1,103 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useExtendContext } from "@envelop/core";
+import { useDisableIntrospection } from "@envelop/disable-introspection";
 import { useParserCache } from "@envelop/parser-cache";
 import type { Plugin } from "@envelop/types";
 import { useValidationCache } from "@envelop/validation-cache";
-import { UserContext } from "@open-system/core-server-application/types";
+import { InitialServerContext } from "@open-system/core-server-application";
 import { IEntity } from "@open-system/core-server-domain/types";
-import {
-  CreateGraphQLServerPluginsParams,
-  GraphQLServerContext
-} from "../types";
+import { GraphQLActiveServerContext, GraphQLServerContext } from "../context";
+import { GraphQLHandlerPluginOptions, PluginMapConfiguration } from "../types";
 import { useErrorHandler } from "./use-error-handler";
-import { useHive } from "./use-hive";
+import { useExtendGraphQLServerContext } from "./use-extend-graphql-server-context";
 import { useLogger } from "./use-logger";
 import { useReadinessCheck } from "./use-readiness-check";
-import { useServiceProvider } from "./use-service-provider";
+import { useServiceProviders } from "./use-service-provider";
+
+export const DefaultPluginMap: Required<PluginMapConfiguration> = {
+  /**
+   * The extend context plugin is used to extend the context of the GraphQL server.
+   */
+  extendContext: useExtendGraphQLServerContext,
+
+  /**
+   * The logger plugin is used to log messages to the Pino (by default).
+   */
+  logger: useLogger,
+
+  /**
+   * The error handler plugin is used to handle errors thrown by the GraphQL server.
+   */
+  serviceProviders: useServiceProviders
+};
 
 export const createPlugins = async <
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext
->(
-  params: CreateGraphQLServerPluginsParams<TEntities, TUser>
-) => {
-  const context = params.context;
+  TInitialContext extends InitialServerContext<TEntities> = InitialServerContext<TEntities>,
+  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+>({
+  pluginMap = {},
+  context,
+  allowIntrospection,
+  loggerOptions,
+  extendContextOptions,
+  serviceProvidersOptions
+}: GraphQLHandlerPluginOptions<TEntities, TInitialContext, TActiveContext> & {
+  context: TInitialContext;
+}): Promise<
+  Array<Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>>
+> => {
+  // Important: Plugins are executed in order of their usage, and inject functionality serially,
+  // so the order here matters
+  const plugins: Array<
+    Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>
+  > = [];
+
+  try {
+    if (
+      context.env.isDevelopment && (allowIntrospection ?? true)
+        ? false
+        : !allowIntrospection
+    ) {
+      plugins.push(
+        useDisableIntrospection() as Plugin<
+          GraphQLServerContext<TInitialContext, TActiveContext>
+        >
+      );
+    }
+
+    plugins.push(
+      pluginMap["extendContext"]?.(context, extendContextOptions) ??
+        DefaultPluginMap["extendContext"](context, extendContextOptions)
+    );
+
+    plugins.push(
+      pluginMap["logger"]?.(context, loggerOptions) ??
+        DefaultPluginMap["logger"](context, loggerOptions)
+    );
+
+    // Add other plugins here
+
+    plugins.push(
+      pluginMap["serviceProviders"]?.(context, serviceProvidersOptions) ??
+        DefaultPluginMap["serviceProviders"](context, serviceProvidersOptions)
+    );
+  } catch (error) {
+    context.utils.logger.error(error);
+  }
 
   return [
     /*useSentry(),
     useSentryUser(),*/
-    useExtendContext(
-      async (ctx: Partial<GraphQLServerContext<TEntities, TUser>>) => ({
-        ...params.context,
-        ...ctx
-      })
-    ),
-    useLogger<TEntities, TUser>({ context }),
-    useErrorHandler<TEntities, TUser>({ context }),
-    useParserCache(),
-    useValidationCache(),
-    useReadinessCheck<TEntities, TUser>({ context }),
-    await useHive<TEntities, TUser>({ context }),
-    useServiceProvider<TEntities, TUser>(params.serviceConfig)
-  ] as Array<Plugin<GraphQLServerContext<TEntities, TUser>>>;
+
+    ...plugins,
+    useErrorHandler<TInitialContext, TActiveContext>(context),
+    useParserCache() as Plugin<
+      GraphQLServerContext<TInitialContext, TActiveContext>
+    >,
+    useValidationCache() as Plugin<
+      GraphQLServerContext<TInitialContext, TActiveContext>
+    >,
+    useReadinessCheck<TInitialContext, TActiveContext>(context)
+    /*await useHive<TInitialContext, TActiveContext>(context)*/
+  ];
 };

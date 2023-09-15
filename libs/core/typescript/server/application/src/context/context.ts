@@ -1,123 +1,149 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { IEntity } from "@open-system/core-server-domain/types";
-import { EnvManager } from "@open-system/core-shared-env";
-import { Injector } from "@open-system/core-shared-injection";
-import { JSON_PARSER_SYMBOL } from "@open-system/core-shared-serialization";
-import {
-  DateTime,
-  UniqueIdGenerator
-} from "@open-system/core-shared-utilities/common";
-import {
-  ConsoleLogger,
-  Logger
-} from "@open-system/core-shared-utilities/logging";
-import { Service } from "../services";
-import {
-  CreateServerContextParams,
-  ServerContext,
-  ServiceMappingIndex,
-  UserContext
-} from "../types";
+import { DateTime } from "@open-system/core-shared-utilities/common/date-time";
+import { HttpMethod } from "@open-system/core-shared-utilities/types";
+import { HeaderMap } from "./headers-map";
+import { InitialServerContext } from "./initial-context";
 
-export const createServerContext = <
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext
->({
-  correlationId,
-  requestId,
-  headers = {},
-  environment,
-  logger,
-  parser,
-  env,
-  user: _user,
-  injector: _injector,
-  uniqueIdGenerator,
-  serviceId,
-  serviceName,
-  serviceVersion,
-  domainName,
-  serviceUrl,
-  instanceId
-}: CreateServerContextParams<TUser>): ServerContext<TEntities, TUser> => {
-  const injector = _injector ?? Injector;
-
-  const utils = {
-    logger: logger ?? injector.get(Logger) ?? ConsoleLogger,
-    parser: parser ?? injector.get(JSON_PARSER_SYMBOL),
-    uniqueIdGenerator: uniqueIdGenerator ?? UniqueIdGenerator
+export type UserContext<TContext = any> = Record<string, any> &
+  TContext & {
+    id: string;
+    name?: string;
+    email?: string;
   };
 
-  const user = { id: utils.uniqueIdGenerator.generate(), ..._user };
-  env ??= injector.get(EnvManager);
-
-  const system = {
-    env,
-    environment: environment ?? env.environment,
-    info: {
-      serviceId: serviceId ?? env.serviceId,
-      name: serviceName ?? env.serviceName,
-      version: serviceVersion ?? env.serviceVersion,
-      url: serviceUrl ?? env.serviceUrl,
-      domainName: domainName ?? env.domainName,
-      instanceId: instanceId ?? utils.uniqueIdGenerator.generate()
-    },
-    startedAt: DateTime.current,
-    startedBy: user.id
-  };
-
-  const process = {
-    correlationId: correlationId
-      ? correlationId
-      : utils.uniqueIdGenerator.generate(),
-    requestId: requestId ? requestId : utils.uniqueIdGenerator.generate(),
-    headers,
-    startedAt: DateTime.current,
-    startedBy: user.id
-  };
-
-  return {
-    process,
-    injector,
-    user,
-    system,
-    utils,
-    services: {}
-  } as ServerContext<TEntities, TUser>;
+export type RequestContext<TRequest = any> = TRequest & {
+  requestId: string;
+  startedAt: DateTime;
+  startedBy: string;
 };
 
-export const extractCurrentProcess = (context: ServerContext) =>
-  context?.process;
+export interface HttpRequest<TBody = unknown> {
+  /**
+   * The HTTP method of the request.
+   *
+   * @remarks Value is capitalized
+   * @example GET, POST, PATCH, DELETE
+   */
+  method: HttpMethod;
 
-export const extractCorrelationId = (context: ServerContext) =>
-  extractCurrentProcess(context)?.correlationId;
+  /**
+   * lowercase header name, multiple headers joined with ', '
+   */
+  headers: HeaderMap;
 
-export const extractRequestId = (context: ServerContext) =>
-  extractCurrentProcess(context)?.requestId;
+  /**
+   * The URL of the Http request
+   */
+  url: URL;
 
-export const extractRequestHeaders = (context: ServerContext) =>
-  extractCurrentProcess(context)?.headers;
+  /**
+   * The part of the URL after the question mark (not including the #fragment),
+   * or the empty string if there is no question mark. Including the question
+   * mark in this string is allowed but not required. Do not %-decode this
+   * string. You can get this from a standard Node request with
+   * `url.parse(request.url).search ?? ''`.
+   */
+  search: string;
 
-export const extractLogger = (context: ServerContext) => context?.utils?.logger;
+  /**
+   * read by your body-parser or whatever. we poke at it to make it into
+   * the right real type.
+   */
+  body: TBody;
+}
 
-export const extractUser = (context: ServerContext) => context?.user;
+export type HttpRequestContext<TRequest extends HttpRequest = HttpRequest> =
+  RequestContext<TRequest>;
 
-export const extractUserId = (context: ServerContext) =>
-  extractUser(context)?.id;
+export type ActiveContext<
+  TRequest extends HttpRequest = HttpRequest,
+  TUser extends UserContext<any> = UserContext<any>
+> = {
+  correlationId: string;
+  user: TUser;
+  request: HttpRequestContext;
+  startedAt: DateTime;
+  startedBy: string;
+};
 
-export const extractSystem = (context: ServerContext) => context?.system;
+export type ActiveServerContext = ActiveContext<HttpRequest, UserContext>;
 
-export const extractSystemInfo = (context: ServerContext) =>
-  context?.system?.info;
+export type ServerContext<
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends ActiveServerContext = ActiveServerContext,
+  TBindings = unknown
+> = TInitialContext & {
+  active: TActiveContext;
+  bindings?: TBindings;
+};
 
-export const extractEnv = (context: ServerContext) =>
-  extractSystem(context)?.env;
+export type ExtendServerContextParams<
+  TRequest extends HttpRequest = HttpRequest,
+  TUser extends UserContext<any> = UserContext<any>,
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TBindings = unknown
+> = {
+  initialContext: TInitialContext;
+  correlationId?: string;
+  requestId?: string;
+  request: TRequest;
+  headers?: Record<string, string | string[] | undefined>;
+  user: TUser;
+  bindings?: TBindings;
+};
 
-export const extractService = <
-  TEntity extends IEntity = IEntity,
-  TUser extends UserContext = UserContext
->(
-  context: ServerContext<Array<TEntity>, TUser>,
-  entityName: ServiceMappingIndex<TEntity>
-): Service<TEntity> => context?.services?.[entityName] as Service<TEntity>;
+export const extendServerContext = async <
+  TRequest extends HttpRequest = HttpRequest,
+  TUser extends UserContext<any> = UserContext<any>,
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends ActiveContext<TRequest, TUser> = ActiveContext<
+    TRequest,
+    TUser
+  >,
+  TBindings = unknown
+>({
+  initialContext,
+  correlationId,
+  requestId,
+  request,
+  headers = {},
+  user,
+  bindings
+}: ExtendServerContextParams<
+  TRequest,
+  TUser,
+  TInitialContext,
+  TBindings
+>): Promise<ServerContext<TInitialContext, TActiveContext>> => {
+  const uniqueIdGenerator = initialContext.utils.uniqueIdGenerator;
+  const method = request.method.toUpperCase();
+
+  const url = request.url
+    ? new URL(request.url)
+    : initialContext.system.info.url;
+
+  return {
+    ...initialContext,
+    bindings: bindings ?? initialContext.bindings,
+    active: {
+      correlationId: correlationId ?? uniqueIdGenerator.generate(),
+      user,
+      request: {
+        requestId: requestId ?? uniqueIdGenerator.generate(),
+        method,
+        headers: headers ? HeaderMap.normalize(headers) : new HeaderMap(),
+        url,
+        body:
+          request instanceof Request
+            ? method === "GET"
+              ? request.body
+              : await request.json()
+            : {},
+        search: url.search ?? ""
+      },
+      startedAt: DateTime.current,
+      startedBy: (user as UserContext<any>)?.id
+    } as TActiveContext
+  };
+};

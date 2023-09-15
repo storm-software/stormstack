@@ -1,0 +1,17 @@
+diff --git a/dist/create-node-ponyfill.js b/dist/create-node-ponyfill.js
+index 38f410823104db29fa4ac3caff775575f35ebddc..5766cd5f4f0f252af4cde6207906bc5091162a08 100644
+--- a/dist/create-node-ponyfill.js
++++ b/dist/create-node-ponyfill.js
+@@ -8,9 +8,9 @@ module.exports = function createNodePonyfill(opts = {}) {
+   }
+ 
+   // Bun and Deno already have a Fetch API
+-  if (globalThis.Deno || process.versions.bun) {
+-    return globalThis;
+-  }
++  // if (globalThis.Deno || process.versions.bun) {
++  //   return globalThis;
++  // }
+ 
+   const newNodeFetch = require('@whatwg-node/node-fetch');
+ 

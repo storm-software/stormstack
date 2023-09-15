@@ -4,6 +4,7 @@ import {
 } from "@envelop/sentry";
 import type { Plugin } from "@envelop/types";
 import {
+  InitialServerContext,
   extractCorrelationId,
   extractRequestId,
   extractSystemInfo,
@@ -11,14 +12,19 @@ import {
 } from "@open-system/core-server-application";
 import { JsonParser } from "@open-system/core-shared-serialization";
 import { MissingContextError } from "@open-system/core-shared-utilities";
-import { DefinitionNode, Kind, print } from "graphql";
-import { GraphQLServerContext } from "../types";
+import { print } from "graphql";
+import {
+  GraphQLActiveServerContext,
+  GraphQLServerContext
+} from "../context/context";
 
 export const useSentry = <
-  TContext extends GraphQLServerContext = GraphQLServerContext
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
 >(
+  initialContext: TInitialContext,
   options: SentryPluginOptions = {}
-): Plugin<TContext> => {
+): Plugin<GraphQLServerContext<TInitialContext, TActiveContext>> => {
   return useSentryExt({
     startTransaction: false,
     renameTransaction: false,
@@ -34,21 +40,18 @@ export const useSentry = <
     configureScope(args, scope) {
       const transaction = scope.getTransaction();
 
-      // Get the operation name from the request, or use the operation name from the document.
-      const operationName =
-        args.operationName ??
-        args.document.definitions.find(
-          (def: DefinitionNode) => def.kind === Kind.OPERATION_DEFINITION
-        )?.kind ??
-        "unknown";
-
-      const context = args.contextValue as TContext;
+      const context = args.contextValue as GraphQLServerContext<
+        TInitialContext,
+        TActiveContext
+      >;
       if (!context) {
         throw new MissingContextError("Context is missing");
       }
 
-      const clientNameHeaderValue =
-        context.request.headers["graphql-client-name"];
+      const operationName = args.operationName ?? "unknown";
+      const clientNameHeaderValue = context.request.headers.get(
+        "graphql-client-name"
+      );
       const clientName = Array.isArray(clientNameHeaderValue)
         ? clientNameHeaderValue[0]
         : clientNameHeaderValue;
@@ -61,17 +64,27 @@ export const useSentry = <
       }
 
       scope.setContext("Extra Info", {
+        eventIdKey: context.system.info.serviceId,
         operationName,
+        transactionName: context.system.info.domainName,
         variables: JsonParser.stringify(args.variableValues),
         operation: print(args.document),
-        userId: context?.user.id
+        userId: context?.active.user.id
       });
     },
     appendTags: ({ contextValue }) => {
-      const userId = extractUserId(contextValue as TContext);
-      const correlationId = extractCorrelationId(contextValue as TContext);
-      const requestId = extractRequestId(contextValue as TContext);
-      const service = extractSystemInfo(contextValue as TContext);
+      const context = contextValue as GraphQLServerContext<
+        TInitialContext,
+        TActiveContext
+      >;
+      if (!context) {
+        throw new MissingContextError("Context is missing");
+      }
+
+      const userId = extractUserId(context);
+      const correlationId = extractCorrelationId(context);
+      const requestId = extractRequestId(context);
+      const service = extractSystemInfo(context);
 
       return {
         correlationId,
@@ -85,5 +98,5 @@ export const useSentry = <
       return args.operationName === "readiness";
     },
     ...options
-  }) as Plugin<TContext>;
+  }) as Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
 };

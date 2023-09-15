@@ -1,7 +1,7 @@
 import {
   base64,
   unbase64
-} from "@open-system/core-server-utilities/create-hash";
+} from "@open-system/core-server-utilities/create-string-hash";
 import { GraphQLID } from "graphql";
 import { ResolvedGlobalId } from "../types";
 

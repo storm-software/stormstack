@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  ExecutorContext,
-  readProjectConfiguration,
-  workspaceRoot
-} from "@nx/devkit";
+import { ExecutorContext } from "@nx/devkit";
 import { executeAsync } from "@open-system/core-server-utilities/execute";
-import { ConfigurationError } from "@open-system/core-shared-utilities";
+import {
+  ConfigurationError,
+  EMPTY_STRING
+} from "@open-system/core-shared-utilities";
 import { isSet } from "@open-system/core-shared-utilities/common/type-checks";
 import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
-import { FsTree } from "nx/src/generators/tree";
-import Path from "path";
+import { WranglerCommand } from "../types";
 
 export async function runWranglerCommand(
-  options: Record<string, string | boolean | number>,
   context: ExecutorContext,
-  command: "dev" | "deploy"
+  command: WranglerCommand,
+  options: Record<string, string | boolean | number> = {},
+  script?: string
 ) {
   const { projectName } = context;
 
@@ -23,22 +22,9 @@ export async function runWranglerCommand(
     throw new ConfigurationError("projectName");
   }
 
-  const tree = new FsTree(process.cwd(), false);
-  const projectConfiguration = readProjectConfiguration(tree, projectName);
-  const configuration = projectConfiguration?.targets?.["build"]?.options ?? {};
-
-  const wranglerOptions = [];
-  if (command === "deploy") {
-    wranglerOptions.push(
-      Path.join(workspaceRoot, configuration.outputPath, "worker.mjs")
-    );
-  } else if (command === "dev") {
-    wranglerOptions.push(Path.join(workspaceRoot, configuration.main));
-  }
-
-  const nextCommand = `NO_D1_WARNING=true npx wrangler ${command} ${wranglerOptions.join(
-    " "
-  )} ${Object.entries(options).reduce(
+  const nextCommand = `cross-env NO_D1_WARNING=true wrangler ${command}${
+    script ? ` ${script}` : EMPTY_STRING
+  } ${Object.entries(options).reduce(
     (ret: string, [key, value]: [string, string | number | boolean]) => {
       if (isSet(key) && isSet(value)) {
         ret += ` --${key}=${value} `;

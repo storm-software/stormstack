@@ -2,7 +2,7 @@
   "dryRun": false,
   "changelog": true,
   "changelogFile": "${PROJECT_DIR}/CHANGELOG.md",
-  "commitMessage": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+  "commitMessage": "chore(repo): Changelogs created for v${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
   "linkCompare": true,
   "linkReferences": true,
   "npm": true,
@@ -11,5 +11,23 @@
   "gitAssets": ["${WORKSPACE_DIR}/LICENSE"],
   "tagFormat": "${PROJECT_NAME}-v${version}",
   "repositoryUrl": "https://github.com/sullivanpj/open-system",
-  "branches": ["main", "alpha", "beta"]
+  "branches": [
+    "main",
+    "alpha",
+    "beta",
+    {
+      "name": "[\\s\\S]+",
+      "prerelease": true
+    }
+  ],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [{ "type": "refactor", "release": "patch" }]
+      }
+    ],
+    "@semantic-release/release-notes-generator"
+  ]
 }

@@ -14,13 +14,13 @@ import {
   NotFoundError
 } from "@open-system/core-shared-utilities/errors";
 import { Logger } from "@open-system/core-shared-utilities/logging";
+import { UserContext } from "../context";
 import { Repository } from "../repositories/repository";
 import {
   CreateParams,
   FindCountParams,
   FindManyParams,
   SERVICE_TOKEN,
-  UserContext,
   WhereUniqueParams
 } from "../types";
 

@@ -1,20 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Plugin } from "@envelop/types";
 import { useHive as useHiveExt } from "@graphql-hive/client";
-import { extractSystemInfo } from "@open-system/core-server-application/context/context";
-import { UserContext } from "@open-system/core-server-application/types";
+import {
+  HttpRequest,
+  UserContext,
+  extractRequestHeaders,
+  extractSystem
+} from "@open-system/core-server-application/context";
+import { InitialServerContext } from "@open-system/core-server-application/context/initial-context";
 import { IEntity } from "@open-system/core-server-domain/types";
-import { GraphQLServerContext } from "../types";
+import { GraphQLActiveContext, GraphQLServerContext } from "../context";
 
 export const useHive = async <
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext
->(params: {
-  context: GraphQLServerContext<TEntities, TUser>;
-}): Promise<Plugin<GraphQLServerContext<TEntities, TUser>>> => {
-  const context = params.context;
-  const env = context.system.env;
-  const info = extractSystemInfo(context);
+  TInitialContext extends InitialServerContext<
+    Array<IEntity>
+  > = InitialServerContext<Array<IEntity>>,
+  TActiveContext extends GraphQLActiveContext<
+    HttpRequest,
+    UserContext
+  > = GraphQLActiveContext<HttpRequest, UserContext>
+>(
+  initialContext: TInitialContext
+): Promise<Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>> => {
+  const env = initialContext.env;
+  const info = extractSystem(initialContext).info;
 
   return useHiveExt({
     /**
@@ -43,11 +52,15 @@ export const useHive = async <
      */
     usage: {
       endpoint: (await env.getAsync("HIVE_CONTACT_SDL_URL")) ?? undefined,
-      clientInfo(ctx: GraphQLServerContext<TEntities, TUser>) {
+      clientInfo(
+        context: GraphQLServerContext<TInitialContext, TActiveContext>
+      ) {
+        const headers = extractRequestHeaders(context);
+
         const name =
-          (ctx.request.headers["x-graphql-client-name"] as string) ?? info.name;
+          (headers.get("x-graphql-client-name") as string) ?? info.name;
         const version =
-          (ctx.request.headers["x-graphql-client-version"] as string) ??
+          (headers.get("x-graphql-client-version") as string) ??
           info.version ??
           "missing";
 
@@ -96,5 +109,5 @@ export const useHive = async <
      * Operations Store
      */
     // operationsStore: undefined
-  }) as Plugin<GraphQLServerContext<TEntities, TUser>>;
+  }) as Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
 };

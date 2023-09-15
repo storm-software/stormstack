@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IEntity } from "@open-system/core-server-domain";
-import { EnvManager } from "@open-system/core-shared-env";
 import { Provider } from "@open-system/core-shared-injection";
 import { JsonParser } from "@open-system/core-shared-serialization";
 import {
@@ -15,6 +14,7 @@ import {
   isValidInteger
 } from "@open-system/core-shared-utilities";
 import { map } from "radash";
+import { ActiveContext, ServerContext } from "../context";
 import {
   BatchLoadKey,
   CreateParams,
@@ -42,12 +42,14 @@ export abstract class Repository<
   protected dataLoader: RepositoryDataLoader<TEntity>;
 
   protected readonly options!: RepositoryOptions<TEntity>;
+  protected readonly logger: Logger;
+  protected readonly active: ActiveContext;
 
-  constructor(
-    protected readonly logger: Logger,
-    protected readonly env: EnvManager
-  ) {
+  constructor(context: ServerContext) {
     super(REPOSITORY_TOKEN);
+
+    this.logger = context.utils.logger;
+    this.active = context.active;
 
     this.dataLoader = new RepositoryDataLoader<TEntity>(
       async (
@@ -56,7 +58,7 @@ export abstract class Repository<
         return map(keys, async (key: BatchLoadKey<TEntity>) => {
           key.take ??= isValidInteger(key.take, true)
             ? key.take
-            : this.env.defaultQuerySize;
+            : context.env.defaultQuerySize;
           key.orderBy ??= { id: SortOrder.asc } as Record<
             EntityKeys<TEntity>,
             string
@@ -71,7 +73,8 @@ export abstract class Repository<
         });
       },
       this.logger,
-      this.options
+      this.options,
+      context.system.info.instanceId
     );
   }
 

@@ -2,7 +2,7 @@ import Generator from "@asyncapi/generator";
 import { ExecutorContext } from "@nx/devkit";
 import { executeAsync } from "@open-system/core-server-utilities";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
-import { existsSync } from "fs-extra";
+import { existsSync, removeSync } from "fs-extra";
 import glob from "glob";
 import Path from "path";
 import { EventLibraryExecutorSchema } from "./schema";
@@ -52,11 +52,7 @@ export default async function (
       );
 
       if (existsSync(domainOutputPath)) {
-        const result = await executeAsync(`rmdir /S /Q "${domainOutputPath}" `);
-        if (result) {
-          ConsoleLogger.error(result);
-          return { success: false };
-        }
+        removeSync(domainOutputPath);
       } else {
         const result = await executeAsync(`mkdir ${domainOutputPath}`);
         if (SpeechRecognitionResult) {
@@ -70,9 +66,9 @@ export default async function (
         domainOutputPath,
         {
           templateParams: {
-            outputPath: domainOutputPath,
+            outputPath: domainOutputPath
           },
-          forceWrite: true,
+          forceWrite: true
         }
       );
 

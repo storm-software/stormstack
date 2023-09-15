@@ -23,14 +23,19 @@
           "tools/executors/typescript/event-library/impl.ts",
           "tools/executors/typescript/storm-generate/impl.ts"
         ],
-        "platform": "node",
         "deleteOutputPath": true,
         "bundle": true,
         "sourcemap": true,
-        "minify": true,
+        "minify": false,
         "skipTypeCheck": true,
         "format": ["esm", "cjs"],
-        "external": [".prisma/client/index"],
+        "external": [
+          ".prisma/client/index",
+          "@swc/core",
+          "@swc-node/register",
+          "@nx/nx-win32-x64-msvc",
+          "espree"
+        ],
         "assets": [
           {
             "input": "tools/executors/typescript",

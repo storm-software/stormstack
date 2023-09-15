@@ -3,32 +3,34 @@ import {
   isGraphQLError,
   useErrorHandler as useErrorHandlerExt
 } from "@envelop/core";
-import { UserContext } from "@open-system/core-server-application/types";
-import { IEntity } from "@open-system/core-server-domain/types";
-import { GraphQLServerContext } from "../types";
+import { InitialServerContext } from "@open-system/core-server-application/context/initial-context";
+import {
+  GraphQLActiveServerContext,
+  GraphQLServerContext
+} from "../context/context";
 
 export const useErrorHandler = <
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext
->(params: {
-  context: GraphQLServerContext<TEntities, TUser>;
-}) => {
-  return useErrorHandlerExt<GraphQLServerContext<TEntities, TUser>>(
-    ({ errors, context: ctx }) => {
-      // Not sure what changed, but the `context` is now an object with a contextValue property.
-      // We previously relied on the `context` being the `contextValue` itself.
-      /*const ctx = (
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+>(
+  initialContext: TInitialContext
+) => {
+  return useErrorHandlerExt<
+    GraphQLServerContext<TInitialContext, TActiveContext>
+  >(({ errors, context }) => {
+    // Not sure what changed, but the `context` is now an object with a contextValue property.
+    // We previously relied on the `context` being the `contextValue` itself.
+    /*const ctx = (
       "contextValue" in context ? context.contextValue : context
     ) as Context;*/
 
-      const context = (ctx?.contextValue ??
-        ctx ??
-        params.context) as GraphQLServerContext<TEntities, TUser>;
-      for (const error of errors) {
-        if (isGraphQLError(error)) {
-          context.utils.logger.error(error);
-        }
+    const ctx = (context?.contextValue ??
+      context ??
+      initialContext) as GraphQLServerContext<TInitialContext, TActiveContext>;
+    for (const error of errors) {
+      if (isGraphQLError(error)) {
+        ctx.utils.logger.error(error);
       }
     }
-  );
+  });
 };

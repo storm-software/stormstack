@@ -1,4 +1,4 @@
-import { IAggregateRoot } from "@open-system/core-server-domain";
+/*import { IAggregateRoot } from "@open-system/core-server-domain";
 import { ServerContext } from "../types";
 import { ICommand } from "./command";
 
@@ -33,8 +33,8 @@ export const commandHandler =
       context: TContext
     ) => Promise<TAggregate>
   ) =>
-  async (request: TRequest, context: TContext) => {
-    /*const command = context.factories?.command<TRequest>(
+  async (request: TRequest, context: TContext) => {*/
+/*const command = context.factories?.command<TRequest>(
       commandId,
       version,
       request
@@ -51,5 +51,5 @@ export const commandHandler =
       context
     );*/
 
-    return {} as any; //aggregate;
-  };
+/* return {} as any; //aggregate;
+  };*/

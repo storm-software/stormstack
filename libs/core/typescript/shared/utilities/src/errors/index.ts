@@ -4,6 +4,7 @@ export * from "./configuration-error";
 export * from "./database-error";
 export * from "./env-configuration-error";
 export * from "./error-codes";
+export * from "./error-fns";
 export * from "./field-validation-error";
 export * from "./file-loading-error";
 export * from "./incorrect-type-error";

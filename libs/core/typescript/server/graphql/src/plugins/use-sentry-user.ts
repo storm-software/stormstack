@@ -1,22 +1,35 @@
 import type { Plugin } from "@envelop/types";
 import {
-  ServerContext,
-  extractUserId
+  InitialServerContext,
+  extractUser
 } from "@open-system/core-server-application";
 import * as Sentry from "@sentry/node";
-import { GraphQLServerContext } from "../types";
+import {
+  GraphQLActiveServerContext,
+  GraphQLServerContext
+} from "../context/context";
 
 export const useSentryUser = <
-  TContext extends ServerContext = GraphQLServerContext
->(): Plugin<TContext> => {
+  TInitialContext extends InitialServerContext = InitialServerContext,
+  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+>(
+  _: TInitialContext
+): Plugin<GraphQLServerContext<TInitialContext, TActiveContext>> => {
   return {
-    onExecute({ args }) {
-      const userId = extractUserId(args.contextValue);
-      if (userId) {
+    onExecute(params) {
+      const context = params.args.contextValue as GraphQLServerContext<
+        TInitialContext,
+        TActiveContext
+      >;
+      const user = extractUser(context);
+      if (user) {
         Sentry.configureScope(scope => {
           scope.setUser({
-            id: userId
+            id: user.id,
+            username: user.name,
+            email: user.email
           });
+          scope.setContext("context", context);
         });
       }
     }

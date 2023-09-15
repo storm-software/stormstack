@@ -1,6 +1,6 @@
 import { ExecutorContext, runExecutor } from "@nx/devkit";
 import { ConsoleLogger } from "@open-system/core-shared-utilities";
-import { executeAsync } from "@open-system/core-server-utilities";
+import { removeSync } from "fs-extra";
 import { DesignComponentsBuildExecutorSchema } from "./schema";
 
 export default async function (
@@ -17,10 +17,8 @@ export default async function (
     let result;
     if (clean) {
       ConsoleLogger.info("Cleaning previous design components build...");
+      removeSync("dist/design-system/components/stencil/dist/collection");
 
-      result = await executeAsync(
-        `rimraf dist/design-system/components/stencil/dist/collection`
-      );
       if (result) {
         ConsoleLogger.error(result);
         return { success: false };
@@ -33,12 +31,12 @@ export default async function (
       {
         project: context.projectName,
         target: baseBuildTarget,
-        configuration: "build",
+        configuration: "build"
       },
       {
         ...options,
         clean: undefined,
-        baseBuildTarget: undefined,
+        baseBuildTarget: undefined
       },
       context
     )) {

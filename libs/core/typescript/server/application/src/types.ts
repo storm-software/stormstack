@@ -1,20 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { IAggregateRoot } from "@open-system/core-server-domain";
 import { IEntity } from "@open-system/core-server-domain/types";
-import { EnvironmentType } from "@open-system/core-shared-env";
-import { EnvManager } from "@open-system/core-shared-env/env-manager";
-import { Injector } from "@open-system/core-shared-injection/types";
-import { JsonParser } from "@open-system/core-shared-serialization/json-parser";
-import {
-  DateTime,
-  Logger,
-  UniqueIdGenerator
-} from "@open-system/core-shared-utilities";
-import { ArrayElement } from "@open-system/core-shared-utilities/types";
-import { ICommand } from "./commands";
-import { Service } from "./services";
-
 export const MESSAGE_BROKER_TOKEN = Symbol.for("MESSAGE_BROKER_TOKEN");
 export const EVENT_PUBLISHER_TOKEN = Symbol.for("EVENT_PUBLISHER_TOKEN");
 export const EVENT_STORE_TOKEN = Symbol.for("EVENT_STORE_TOKEN");
@@ -23,6 +9,9 @@ export const REPOSITORY_DATA_LOADER_TOKEN = Symbol.for(
   "REPOSITORY_DATA_LOADER_TOKEN"
 );
 export const SERVICE_TOKEN = Symbol.for("SERVICE_TOKEN");
+export const SYSTEM_TOKEN = Symbol.for("SYSTEM_TOKEN");
+export const CACHE_TOKEN = Symbol.for("CACHE_TOKEN");
+export const BINDINGS_TOKEN = Symbol.for("BINDINGS_TOKEN");
 
 export type StringFilter = {
   equals?: string;
@@ -298,128 +287,12 @@ export type CountParams<
   select?: AggregateCountFieldParams<TEntity, TEntityKeys> | true;
 };
 
-export type UserContext<TContext = {}> = Record<string, any> &
-  TContext & {
-    id: string;
-    name?: string;
-    email?: string;
-  };
-
-export type FactoriesContext = {
-  aggregate: <TAggregate extends IAggregateRoot = IAggregateRoot>(
-    request: any,
-    sourceId: string,
-    correlationId: string,
-    userId: string
-  ) => TAggregate;
-  command: <TRequest>(
-    commandId: string,
-    version: number,
-    request: TRequest
-  ) => ICommand<TRequest>;
-};
-
-export type UtilityContext = {
-  logger: Logger;
-  parser: typeof JsonParser;
-  uniqueIdGenerator: typeof UniqueIdGenerator;
-};
-
-export type ProcessContext = {
-  correlationId: string;
-  requestId: string;
-  headers: Record<string, string | string[] | undefined>;
-  startedAt: DateTime;
-  startedBy: string;
-};
-
-export type SystemInfoContext = {
-  serviceId: string;
-  name: string;
-  url: string;
-  version: string;
-  instanceId: string;
-  domainName: string;
-};
-
-export type SystemContext = {
-  info: SystemInfoContext;
-  environment: EnvironmentType;
-  env: EnvManager;
-  startedAt: DateTime;
-  startedBy: string;
-};
-
-export type BaseServerContext<
-  TUser extends UserContext = UserContext,
-  TUtils extends UtilityContext = UtilityContext
-> = {
-  system: SystemContext;
-  process: ProcessContext;
-  user: UserContext<TUser>;
-  utils: TUtils;
-  injector: Injector;
-};
-
-export type SelectKeys<TEntity extends IEntity = IEntity> =
-  | WhereParams<TEntity>
-  | WhereUniqueParams<TEntity>;
-
-export type EntityName<TEntity extends IEntity = IEntity> =
-  TEntity["__typename"];
-
-/*export type EntityMapping<TEntities extends Array<IEntity> = Array<IEntity>> =
-  Record<
-    Uncapitalize<EntityName<ArrayElement<TEntities>>>,
-    ArrayElement<TEntities>
-  >;
-
-export type EntityMappingItem<
-  TEntities extends Array<IEntity> = Array<IEntity>
-> = EntityMapping<TEntities>[keyof EntityMapping<TEntities>];*/
-
-export type ServiceMappingIndex<TEntity extends IEntity = IEntity> =
-  Uncapitalize<EntityName<TEntity>>;
-
-export type ServiceMapping<TEntities extends Array<IEntity> = Array<IEntity>> =
-  Record<
-    ServiceMappingIndex<ArrayElement<TEntities>>,
-    Service<ArrayElement<TEntities>>
-  >;
-
-export type ServerContext<
-  TEntities extends Array<IEntity> = Array<IEntity>,
-  TUser extends UserContext = UserContext
-> = BaseServerContext<TUser> & {
-  services: ServiceMapping<TEntities>;
-};
-
 /*export type EventSourcedServerContext<TUser extends UserContext = UserContext> =
   ServerContext<TUser> & {
     eventStore: EventStore;
     snapshotStore: any;
     eventPublisher: EventPublisher;
   };*/
-
-export type CreateServerContextParams<TUser extends UserContext = UserContext> =
-  {
-    correlationId?: string;
-    requestId?: string;
-    headers?: Record<string, string | string[] | undefined>;
-    environment?: EnvironmentType;
-    logger?: Logger;
-    parser?: typeof JsonParser;
-    uniqueIdGenerator?: typeof UniqueIdGenerator;
-    user?: TUser;
-    env?: EnvManager;
-    injector: Injector;
-    serviceId?: SystemInfoContext["serviceId"];
-    serviceName?: SystemInfoContext["name"];
-    domainName?: SystemInfoContext["domainName"];
-    serviceUrl?: SystemInfoContext["url"];
-    serviceVersion?: SystemInfoContext["version"];
-    instanceId?: SystemInfoContext["instanceId"];
-  };
 
 export type QueryType = "findUnique" | "findFirst" | "findMany" | "aggregate";
 export const QueryType = {
@@ -428,6 +301,13 @@ export const QueryType = {
   FIND_MANY: "findMany" as QueryType,
   AGGREGATE: "aggregate" as QueryType
 };
+
+export type SelectKeys<TEntity extends IEntity = IEntity> =
+  | WhereParams<TEntity>
+  | WhereUniqueParams<TEntity>;
+
+export type EntityName<TEntity extends IEntity = IEntity> =
+  TEntity["__typename"];
 
 export type BatchLoadKey<TEntity extends IEntity = IEntity> = {
   selector?: {

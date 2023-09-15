@@ -1,5 +1,5 @@
 import { useResponseCache as useResponseCacheExt } from "@graphql-yoga/plugin-response-cache";
-import { createSHA256Hash } from "@open-system/core-server-utilities/create-hash";
+import { createSHA256Hash } from "@open-system/core-server-utilities/create-string-hash";
 
 export const useResponseCache = () => {
   return useResponseCacheExt({

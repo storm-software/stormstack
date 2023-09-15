@@ -4,7 +4,12 @@
   "dependencies": {
     "@cloudflare/workers-types": "^4.20230904.0",
     "async_hooks": "^1.0.0",
+    "buffer": "^6.0.3",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
     "fs": "0.0.1-security",
-    "wrangler": "^3.2.0"
+    "http": "0.0.1-security",
+    "process": "^0.11.10",
+    "wrangler": "^3.2.0",
+    "zlib": "^1.0.5"
   }
 }

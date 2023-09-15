@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
 import { Provider } from "@open-system/core-shared-injection";
-import { Logger, formatDate } from "@open-system/core-shared-utilities";
+import {
+  formatDate,
+  titleCase
+} from "@open-system/core-shared-utilities/common";
+import { Logger } from "@open-system/core-shared-utilities/logging";
 import pino from "pino";
 
 @Provider(Logger)
@@ -13,10 +17,10 @@ export class PinoLogger extends Logger {
 
     this.#logger = pino(
       {
-        level: this.env.get("LOG_LEVEL") ?? "info",
+        level: this.env.get("LOG_LEVEL") || "info",
         formatters: {
           level: label => {
-            return { level: label.toUpperCase() };
+            return { level: titleCase(label) };
           }
         },
         errorKey: "error",
@@ -35,7 +39,10 @@ export class PinoLogger extends Logger {
         }
       },
       pino.destination({
-        dest: `/logs/${formatDate().replaceAll("/", "-")}`,
+        dest: `${this.env.get("LOG_PATH")}/${formatDate().replaceAll(
+          "/",
+          "-"
+        )}`,
         minLength: 4096,
         sync: false
       })

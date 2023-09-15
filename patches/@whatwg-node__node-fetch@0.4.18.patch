@@ -1,0 +1,567 @@
+diff --git a/cjs/Body.js b/cjs/Body.js
+index e2a347f38175d4a10045afd470bf644ee13be419..36d2b140d89d22cd97bb9a10e04bd2fd5d847a71 100644
+--- a/cjs/Body.js
++++ b/cjs/Body.js
+@@ -2,7 +2,7 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.PonyfillBody = void 0;
+ const tslib_1 = require("tslib");
+-const stream_1 = require("stream");
++const stream_1 = require("node:stream");
+ const busboy_1 = tslib_1.__importDefault(require("busboy"));
+ const Blob_js_1 = require("./Blob.js");
+ const File_js_1 = require("./File.js");
+diff --git a/cjs/ReadableStream.js b/cjs/ReadableStream.js
+index f4de06a9b31e47e1cf65127314d98c0b5192b521..871d9d903bd1f70e7d3e07a188dc839e300e7ffa 100644
+--- a/cjs/ReadableStream.js
++++ b/cjs/ReadableStream.js
+@@ -1,7 +1,7 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.PonyfillReadableStream = void 0;
+-const stream_1 = require("stream");
++const stream_1 = require("node:stream");
+ function createController(desiredSize, readable) {
+     let chunks = [];
+     let _closed = false;
+diff --git a/cjs/fetch.js b/cjs/fetch.js
+index 7e7032b9c73261d16bc12c09e2700d5925c1f474..18695318428af1823afad168d572dd46a444d78d 100644
+--- a/cjs/fetch.js
++++ b/cjs/fetch.js
+@@ -1,8 +1,8 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.fetchPonyfill = void 0;
+-const fs_1 = require("fs");
+-const url_1 = require("url");
++// const fs_1 = require("fs");
++//const url_1 = require("url");
+ const fetchCurl_js_1 = require("./fetchCurl.js");
+ const fetchNodeHttp_js_1 = require("./fetchNodeHttp.js");
+ const Request_js_1 = require("./Request.js");
+@@ -10,9 +10,9 @@ const Response_js_1 = require("./Response.js");
+ const utils_js_1 = require("./utils.js");
+ const BASE64_SUFFIX = ';base64';
+ function getResponseForFile(url) {
+-    const path = (0, url_1.fileURLToPath)(url);
+-    const readable = (0, fs_1.createReadStream)(path);
+-    return new Response_js_1.PonyfillResponse(readable);
++    // const path = (0, url_1.fileURLToPath)(url);
++    // const readable = (0, fs_1.createReadStream)(path);
++    return new Response_js_1.PonyfillResponse(url);
+ }
+ function getResponseForDataUri(url) {
+     const [mimeType = 'text/plain', ...datas] = url.substring(5).split(',');
+diff --git a/cjs/fetchNodeHttp.js b/cjs/fetchNodeHttp.js
+index b723390e2fd8b18a72b2abbd2bd0672f7d8d3e55..6695dc348596fb7d57363bd58228aa9255057a80 100644
+--- a/cjs/fetchNodeHttp.js
++++ b/cjs/fetchNodeHttp.js
+@@ -2,8 +2,8 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.fetchNodeHttp = void 0;
+ const http_1 = require("http");
+-const https_1 = require("https");
+-const stream_1 = require("stream");
++const https_1 = require("node:https");
++const stream_1 = require("node:stream");
+ const zlib_1 = require("zlib");
+ const AbortError_js_1 = require("./AbortError.js");
+ const Request_js_1 = require("./Request.js");
+@@ -58,9 +58,9 @@ function fetchNodeHttp(fetchRequest) {
+                     case 'deflate':
+                         responseBody = nodeResponse.pipe((0, zlib_1.createInflate)());
+                         break;
+-                    case 'br':
++                    /*case 'br':
+                         responseBody = nodeResponse.pipe((0, zlib_1.createBrotliDecompress)());
+-                        break;
++                        break;*/
+                 }
+                 if (nodeResponse.headers.location) {
+                     if (fetchRequest.redirect === 'error') {
+diff --git a/esm/Body.js b/esm/Body.js
+index 43285b9b420ca18dba7caf40203a0bfcf549a9ad..2162c3552971919ae60f49228fcb6eb7143ea6ae 100644
+--- a/esm/Body.js
++++ b/esm/Body.js
+@@ -1,4 +1,4 @@
+-import { Readable } from 'stream';
++import { Readable } from 'node:stream';
+ import busboy from 'busboy';
+ import { PonyfillBlob } from './Blob.js';
+ import { PonyfillFile } from './File.js';
+diff --git a/esm/ReadableStream.js b/esm/ReadableStream.js
+index c91333417828daf744db0bab7ecfbb4d24cc506b..2d8323fc1f8ace87767083d33cf1aa39af8e3600 100644
+--- a/esm/ReadableStream.js
++++ b/esm/ReadableStream.js
+@@ -1,4 +1,4 @@
+-import { Readable } from 'stream';
++import { Readable } from 'node:stream';
+ function createController(desiredSize, readable) {
+     let chunks = [];
+     let _closed = false;
+diff --git a/esm/fetch.js b/esm/fetch.js
+index e885c10e8e051a9eb7cc6c1f6fa9c83c95820ccb..887dd451eb58ad610ebedee7b2b7c33700796853 100644
+--- a/esm/fetch.js
++++ b/esm/fetch.js
+@@ -1,5 +1,5 @@
+-import { createReadStream } from 'fs';
+-import { fileURLToPath } from 'url';
++// import { createReadStream } from 'fs';
++// import { fileURLToPath } from 'url';
+ import { fetchCurl } from './fetchCurl.js';
+ import { fetchNodeHttp } from './fetchNodeHttp.js';
+ import { PonyfillRequest } from './Request.js';
+@@ -7,9 +7,9 @@ import { PonyfillResponse } from './Response.js';
+ import { fakePromise } from './utils.js';
+ const BASE64_SUFFIX = ';base64';
+ function getResponseForFile(url) {
+-    const path = fileURLToPath(url);
+-    const readable = createReadStream(path);
+-    return new PonyfillResponse(readable);
++    // const path = fileURLToPath(url);
++    // const readable = createReadStream(path);
++    return new PonyfillResponse(url);
+ }
+ function getResponseForDataUri(url) {
+     const [mimeType = 'text/plain', ...datas] = url.substring(5).split(',');
+diff --git a/esm/fetchNodeHttp.js b/esm/fetchNodeHttp.js
+index 21920fc8157628c3c75bab16328cc261152172ae..0f56f0b1b67ced2c2b05c4440a02c2c239532c8e 100644
+--- a/esm/fetchNodeHttp.js
++++ b/esm/fetchNodeHttp.js
+@@ -1,7 +1,7 @@
+ import { request as httpRequest } from 'http';
+-import { request as httpsRequest } from 'https';
+-import { Readable } from 'stream';
+-import { createBrotliDecompress, createGunzip, createInflate } from 'zlib';
++import { request as httpsRequest } from 'node:https';
++import { Readable } from 'node:stream';
++import { /*createBrotliDecompress,*/ createGunzip, createInflate } from 'zlib';
+ import { PonyfillAbortError } from './AbortError.js';
+ import { PonyfillRequest } from './Request.js';
+ import { PonyfillResponse } from './Response.js';
+@@ -55,9 +55,9 @@ export function fetchNodeHttp(fetchRequest) {
+                     case 'deflate':
+                         responseBody = nodeResponse.pipe(createInflate());
+                         break;
+-                    case 'br':
++                    /*case 'br':
+                         responseBody = nodeResponse.pipe(createBrotliDecompress());
+-                        break;
++                        break;*/
+                 }
+                 if (nodeResponse.headers.location) {
+                     if (fetchRequest.redirect === 'error') {
+diff --git a/typings/Body.d.cts b/typings/Body.d.cts
+index 2fce26c41ca431b125608a06c2b9b768740f78c5..bf5ffffc2903d9d9482eac8322be79d07b609434 100644
+--- a/typings/Body.d.cts
++++ b/typings/Body.d.cts
+@@ -1,41 +1,45 @@
+ /// <reference types="node" />
+ /// <reference types="node" />
+-import { Readable } from 'stream';
+-import { PonyfillBlob } from './Blob.cjs';
+-import { PonyfillFormData } from './FormData.cjs';
+-import { PonyfillReadableStream } from './ReadableStream.cjs';
+-export type BodyPonyfillInit = XMLHttpRequestBodyInit | Readable | PonyfillReadableStream<Uint8Array> | AsyncIterable<Uint8Array>;
++import { Readable } from "node:stream";
++import { PonyfillBlob } from "./Blob.cjs";
++import { PonyfillFormData } from "./FormData.cjs";
++import { PonyfillReadableStream } from "./ReadableStream.cjs";
++export type BodyPonyfillInit =
++  | XMLHttpRequestBodyInit
++  | Readable
++  | PonyfillReadableStream<Uint8Array>
++  | AsyncIterable<Uint8Array>;
+ export interface FormDataLimits {
+-    fieldNameSize?: number;
+-    fieldSize?: number;
+-    fields?: number;
+-    fileSize?: number;
+-    files?: number;
+-    parts?: number;
+-    headerSize?: number;
++  fieldNameSize?: number;
++  fieldSize?: number;
++  fields?: number;
++  fileSize?: number;
++  files?: number;
++  parts?: number;
++  headerSize?: number;
+ }
+ export interface PonyfillBodyOptions {
+-    formDataLimits?: FormDataLimits;
++  formDataLimits?: FormDataLimits;
+ }
+ export declare class PonyfillBody<TJSON = any> implements Body {
+-    private bodyInit;
+-    private options;
+-    bodyUsed: boolean;
+-    contentType: string | null;
+-    contentLength: number | null;
+-    constructor(bodyInit: BodyPonyfillInit | null, options?: PonyfillBodyOptions);
+-    private bodyType?;
+-    private _bodyFactory;
+-    private _generatedBody;
+-    private _buffer?;
+-    private generateBody;
+-    get body(): PonyfillReadableStream<Uint8Array> | null;
+-    _collectChunksFromReadable(): Promise<Uint8Array[]>;
+-    blob(): Promise<PonyfillBlob>;
+-    formData(opts?: {
+-        formDataLimits: FormDataLimits;
+-    }): Promise<PonyfillFormData>;
+-    arrayBuffer(): Promise<Buffer>;
+-    json(): Promise<TJSON>;
+-    text(): Promise<string>;
++  private bodyInit;
++  private options;
++  bodyUsed: boolean;
++  contentType: string | null;
++  contentLength: number | null;
++  constructor(bodyInit: BodyPonyfillInit | null, options?: PonyfillBodyOptions);
++  private bodyType?;
++  private _bodyFactory;
++  private _generatedBody;
++  private _buffer?;
++  private generateBody;
++  get body(): PonyfillReadableStream<Uint8Array> | null;
++  _collectChunksFromReadable(): Promise<Uint8Array[]>;
++  blob(): Promise<PonyfillBlob>;
++  formData(opts?: {
++    formDataLimits: FormDataLimits;
++  }): Promise<PonyfillFormData>;
++  arrayBuffer(): Promise<Buffer>;
++  json(): Promise<TJSON>;
++  text(): Promise<string>;
+ }
+diff --git a/typings/Body.d.ts b/typings/Body.d.ts
+index 0d3cf7f32a834f8e9c11473470e113bfd1a8d0fd..e734ef9a2ef52c35cfbe3f8a4efbcafdc66a6ff9 100644
+--- a/typings/Body.d.ts
++++ b/typings/Body.d.ts
+@@ -1,41 +1,45 @@
+ /// <reference types="node" />
+ /// <reference types="node" />
+-import { Readable } from 'stream';
+-import { PonyfillBlob } from './Blob.js';
+-import { PonyfillFormData } from './FormData.js';
+-import { PonyfillReadableStream } from './ReadableStream.js';
+-export type BodyPonyfillInit = XMLHttpRequestBodyInit | Readable | PonyfillReadableStream<Uint8Array> | AsyncIterable<Uint8Array>;
++import { Readable } from "node:stream";
++import { PonyfillBlob } from "./Blob.js";
++import { PonyfillFormData } from "./FormData.js";
++import { PonyfillReadableStream } from "./ReadableStream.js";
++export type BodyPonyfillInit =
++  | XMLHttpRequestBodyInit
++  | Readable
++  | PonyfillReadableStream<Uint8Array>
++  | AsyncIterable<Uint8Array>;
+ export interface FormDataLimits {
+-    fieldNameSize?: number;
+-    fieldSize?: number;
+-    fields?: number;
+-    fileSize?: number;
+-    files?: number;
+-    parts?: number;
+-    headerSize?: number;
++  fieldNameSize?: number;
++  fieldSize?: number;
++  fields?: number;
++  fileSize?: number;
++  files?: number;
++  parts?: number;
++  headerSize?: number;
+ }
+ export interface PonyfillBodyOptions {
+-    formDataLimits?: FormDataLimits;
++  formDataLimits?: FormDataLimits;
+ }
+ export declare class PonyfillBody<TJSON = any> implements Body {
+-    private bodyInit;
+-    private options;
+-    bodyUsed: boolean;
+-    contentType: string | null;
+-    contentLength: number | null;
+-    constructor(bodyInit: BodyPonyfillInit | null, options?: PonyfillBodyOptions);
+-    private bodyType?;
+-    private _bodyFactory;
+-    private _generatedBody;
+-    private _buffer?;
+-    private generateBody;
+-    get body(): PonyfillReadableStream<Uint8Array> | null;
+-    _collectChunksFromReadable(): Promise<Uint8Array[]>;
+-    blob(): Promise<PonyfillBlob>;
+-    formData(opts?: {
+-        formDataLimits: FormDataLimits;
+-    }): Promise<PonyfillFormData>;
+-    arrayBuffer(): Promise<Buffer>;
+-    json(): Promise<TJSON>;
+-    text(): Promise<string>;
++  private bodyInit;
++  private options;
++  bodyUsed: boolean;
++  contentType: string | null;
++  contentLength: number | null;
++  constructor(bodyInit: BodyPonyfillInit | null, options?: PonyfillBodyOptions);
++  private bodyType?;
++  private _bodyFactory;
++  private _generatedBody;
++  private _buffer?;
++  private generateBody;
++  get body(): PonyfillReadableStream<Uint8Array> | null;
++  _collectChunksFromReadable(): Promise<Uint8Array[]>;
++  blob(): Promise<PonyfillBlob>;
++  formData(opts?: {
++    formDataLimits: FormDataLimits;
++  }): Promise<PonyfillFormData>;
++  arrayBuffer(): Promise<Buffer>;
++  json(): Promise<TJSON>;
++  text(): Promise<string>;
+ }
+diff --git a/typings/ReadableStream.d.cts b/typings/ReadableStream.d.cts
+index 5f8976a3b93d198fbcda74b1c4456a2f5c5cb2f6..20cc8ddc12a974e44f427c39f427caf61f6c8677 100644
+--- a/typings/ReadableStream.d.cts
++++ b/typings/ReadableStream.d.cts
+@@ -1,20 +1,29 @@
+ /// <reference types="node" />
+-import { Readable } from 'stream';
++import { Readable } from "node:stream";
+ export declare class PonyfillReadableStream<T> implements ReadableStream<T> {
+-    readable: Readable;
+-    constructor(underlyingSource?: UnderlyingSource<T> | Readable | ReadableStream<T> | PonyfillReadableStream<T>);
+-    cancel(reason?: any): Promise<void>;
+-    locked: boolean;
+-    getReader(options: {
+-        mode: 'byob';
+-    }): ReadableStreamBYOBReader;
+-    getReader(): ReadableStreamDefaultReader<T>;
+-    [Symbol.asyncIterator](): AsyncIterableIterator<any>;
+-    tee(): [ReadableStream<T>, ReadableStream<T>];
+-    pipeTo(destination: WritableStream<T>): Promise<void>;
+-    pipeThrough<T2>({ writable, readable, }: {
+-        writable: WritableStream<T>;
+-        readable: ReadableStream<T2>;
+-    }): ReadableStream<T2>;
+-    static [Symbol.hasInstance](instance: unknown): instance is PonyfillReadableStream<unknown>;
++  readable: Readable;
++  constructor(
++    underlyingSource?:
++      | UnderlyingSource<T>
++      | Readable
++      | ReadableStream<T>
++      | PonyfillReadableStream<T>
++  );
++  cancel(reason?: any): Promise<void>;
++  locked: boolean;
++  getReader(options: { mode: "byob" }): ReadableStreamBYOBReader;
++  getReader(): ReadableStreamDefaultReader<T>;
++  [Symbol.asyncIterator](): AsyncIterableIterator<any>;
++  tee(): [ReadableStream<T>, ReadableStream<T>];
++  pipeTo(destination: WritableStream<T>): Promise<void>;
++  pipeThrough<T2>({
++    writable,
++    readable,
++  }: {
++    writable: WritableStream<T>;
++    readable: ReadableStream<T2>;
++  }): ReadableStream<T2>;
++  static [Symbol.hasInstance](
++    instance: unknown
++  ): instance is PonyfillReadableStream<unknown>;
+ }
+diff --git a/typings/ReadableStream.d.ts b/typings/ReadableStream.d.ts
+index 5f8976a3b93d198fbcda74b1c4456a2f5c5cb2f6..20cc8ddc12a974e44f427c39f427caf61f6c8677 100644
+--- a/typings/ReadableStream.d.ts
++++ b/typings/ReadableStream.d.ts
+@@ -1,20 +1,29 @@
+ /// <reference types="node" />
+-import { Readable } from 'stream';
++import { Readable } from "node:stream";
+ export declare class PonyfillReadableStream<T> implements ReadableStream<T> {
+-    readable: Readable;
+-    constructor(underlyingSource?: UnderlyingSource<T> | Readable | ReadableStream<T> | PonyfillReadableStream<T>);
+-    cancel(reason?: any): Promise<void>;
+-    locked: boolean;
+-    getReader(options: {
+-        mode: 'byob';
+-    }): ReadableStreamBYOBReader;
+-    getReader(): ReadableStreamDefaultReader<T>;
+-    [Symbol.asyncIterator](): AsyncIterableIterator<any>;
+-    tee(): [ReadableStream<T>, ReadableStream<T>];
+-    pipeTo(destination: WritableStream<T>): Promise<void>;
+-    pipeThrough<T2>({ writable, readable, }: {
+-        writable: WritableStream<T>;
+-        readable: ReadableStream<T2>;
+-    }): ReadableStream<T2>;
+-    static [Symbol.hasInstance](instance: unknown): instance is PonyfillReadableStream<unknown>;
++  readable: Readable;
++  constructor(
++    underlyingSource?:
++      | UnderlyingSource<T>
++      | Readable
++      | ReadableStream<T>
++      | PonyfillReadableStream<T>
++  );
++  cancel(reason?: any): Promise<void>;
++  locked: boolean;
++  getReader(options: { mode: "byob" }): ReadableStreamBYOBReader;
++  getReader(): ReadableStreamDefaultReader<T>;
++  [Symbol.asyncIterator](): AsyncIterableIterator<any>;
++  tee(): [ReadableStream<T>, ReadableStream<T>];
++  pipeTo(destination: WritableStream<T>): Promise<void>;
++  pipeThrough<T2>({
++    writable,
++    readable,
++  }: {
++    writable: WritableStream<T>;
++    readable: ReadableStream<T2>;
++  }): ReadableStream<T2>;
++  static [Symbol.hasInstance](
++    instance: unknown
++  ): instance is PonyfillReadableStream<unknown>;
+ }
+diff --git a/typings/Request.d.cts b/typings/Request.d.cts
+index d0d1993c54e78c900789a7a62db7dff3e14f9827..7551d5f34c82de4de14af9c1c2fe5c887ab8f58d 100644
+--- a/typings/Request.d.cts
++++ b/typings/Request.d.cts
+@@ -1,33 +1,44 @@
+ /// <reference types="node" />
+-import { Agent } from 'http';
+-import { BodyPonyfillInit, PonyfillBody, PonyfillBodyOptions } from './Body.cjs';
+-import { PonyfillHeadersInit } from './Headers.cjs';
+-export type RequestPonyfillInit = PonyfillBodyOptions & Omit<RequestInit, 'body' | 'headers'> & {
++import { Agent } from "http";
++import {
++  BodyPonyfillInit,
++  PonyfillBody,
++  PonyfillBodyOptions,
++} from "./Body.cjs";
++import { PonyfillHeadersInit } from "./Headers.cjs";
++export type RequestPonyfillInit = PonyfillBodyOptions &
++  Omit<RequestInit, "body" | "headers"> & {
+     body?: BodyPonyfillInit | null;
+     headers?: PonyfillHeadersInit;
+     headersSerializer?: HeadersSerializer;
+     agent?: Agent;
+-};
+-type HeadersSerializer = (headers: Headers, onContentLength?: (contentLength: string) => void) => string[];
+-export declare class PonyfillRequest<TJSON = any> extends PonyfillBody<TJSON> implements Request {
+-    constructor(input: RequestInfo | URL, options?: RequestPonyfillInit);
+-    headersSerializer?: HeadersSerializer;
+-    cache: RequestCache;
+-    credentials: RequestCredentials;
+-    destination: RequestDestination;
+-    headers: Headers;
+-    integrity: string;
+-    keepalive: boolean;
+-    method: string;
+-    mode: RequestMode;
+-    priority: string;
+-    redirect: RequestRedirect;
+-    referrer: string;
+-    referrerPolicy: ReferrerPolicy;
+-    url: string;
+-    agent?: Agent;
+-    private _signal;
+-    get signal(): AbortSignal;
+-    clone(): PonyfillRequest<TJSON>;
++  };
++type HeadersSerializer = (
++  headers: Headers,
++  onContentLength?: (contentLength: string) => void
++) => string[];
++export declare class PonyfillRequest<TJSON = any>
++  extends PonyfillBody<TJSON>
++  implements Request
++{
++  constructor(input: RequestInfo | URL, options?: RequestPonyfillInit);
++  headersSerializer?: HeadersSerializer;
++  cache: RequestCache;
++  credentials: RequestCredentials;
++  destination: RequestDestination;
++  headers: Headers;
++  integrity: string;
++  keepalive: boolean;
++  method: string;
++  mode: RequestMode;
++  priority: string;
++  redirect: RequestRedirect;
++  referrer: string;
++  referrerPolicy: ReferrerPolicy;
++  url: string;
++  agent?: Agent;
++  private _signal;
++  get signal(): AbortSignal;
++  clone(): PonyfillRequest<TJSON>;
+ }
+ export {};
+diff --git a/typings/Request.d.ts b/typings/Request.d.ts
+index d6b9628d2238d35ea41bdd6708e7c5fcae0d5e11..6f5be73e1efdd832198a8adde2199ed86f1a7433 100644
+--- a/typings/Request.d.ts
++++ b/typings/Request.d.ts
+@@ -1,33 +1,40 @@
+ /// <reference types="node" />
+-import { Agent } from 'http';
+-import { BodyPonyfillInit, PonyfillBody, PonyfillBodyOptions } from './Body.js';
+-import { PonyfillHeadersInit } from './Headers.js';
+-export type RequestPonyfillInit = PonyfillBodyOptions & Omit<RequestInit, 'body' | 'headers'> & {
++import { Agent } from "http";
++import { BodyPonyfillInit, PonyfillBody, PonyfillBodyOptions } from "./Body.js";
++import { PonyfillHeadersInit } from "./Headers.js";
++export type RequestPonyfillInit = PonyfillBodyOptions &
++  Omit<RequestInit, "body" | "headers"> & {
+     body?: BodyPonyfillInit | null;
+     headers?: PonyfillHeadersInit;
+     headersSerializer?: HeadersSerializer;
+     agent?: Agent;
+-};
+-type HeadersSerializer = (headers: Headers, onContentLength?: (contentLength: string) => void) => string[];
+-export declare class PonyfillRequest<TJSON = any> extends PonyfillBody<TJSON> implements Request {
+-    constructor(input: RequestInfo | URL, options?: RequestPonyfillInit);
+-    headersSerializer?: HeadersSerializer;
+-    cache: RequestCache;
+-    credentials: RequestCredentials;
+-    destination: RequestDestination;
+-    headers: Headers;
+-    integrity: string;
+-    keepalive: boolean;
+-    method: string;
+-    mode: RequestMode;
+-    priority: string;
+-    redirect: RequestRedirect;
+-    referrer: string;
+-    referrerPolicy: ReferrerPolicy;
+-    url: string;
+-    agent?: Agent;
+-    private _signal;
+-    get signal(): AbortSignal;
+-    clone(): PonyfillRequest<TJSON>;
++  };
++type HeadersSerializer = (
++  headers: Headers,
++  onContentLength?: (contentLength: string) => void
++) => string[];
++export declare class PonyfillRequest<TJSON = any>
++  extends PonyfillBody<TJSON>
++  implements Request
++{
++  constructor(input: RequestInfo | URL, options?: RequestPonyfillInit);
++  headersSerializer?: HeadersSerializer;
++  cache: RequestCache;
++  credentials: RequestCredentials;
++  destination: RequestDestination;
++  headers: Headers;
++  integrity: string;
++  keepalive: boolean;
++  method: string;
++  mode: RequestMode;
++  priority: string;
++  redirect: RequestRedirect;
++  referrer: string;
++  referrerPolicy: ReferrerPolicy;
++  url: string;
++  agent?: Agent;
++  private _signal;
++  get signal(): AbortSignal;
++  clone(): PonyfillRequest<TJSON>;
+ }
+ export {};

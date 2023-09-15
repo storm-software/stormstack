@@ -6,6 +6,7 @@ import {
   isArrayLike,
   isEmpty
 } from "@open-system/core-shared-utilities";
+import { MemCacheClient } from "../providers/mem-cache-client";
 import {
   BatchLoadFn,
   BatchLoadKey,
@@ -34,7 +35,7 @@ import {
 export class RepositoryDataLoader<
   TEntity extends IEntity = IEntity
 > extends BaseUtilityClass {
-  protected cacheMap: Map<BatchLoadKey<TEntity>, Promise<TEntity | TEntity[]>>;
+  protected cacheMap: MemCacheClient;
 
   public batch: Batch<TEntity> | null;
   public maxBatchSize?: number | undefined;
@@ -43,12 +44,13 @@ export class RepositoryDataLoader<
   constructor(
     public readonly batchLoadFn: BatchLoadFn<TEntity>,
     protected readonly logger: Logger,
-    private readonly _options: RepositoryOptions<TEntity>
+    private readonly _options: RepositoryOptions<TEntity>,
+    protected readonly instanceId?: string
   ) {
     super(REPOSITORY_DATA_LOADER_TOKEN);
 
     this.cacheMap = (this._options.cacheMap ||
-      new Map<BatchLoadKey<TEntity>, Promise<TEntity | TEntity[]>>()) as any;
+      new MemCacheClient(instanceId ?? "default")) as any;
     this.batch = null;
 
     this.maxBatchSize =
@@ -74,9 +76,11 @@ export class RepositoryDataLoader<
     const batch = getCurrentBatch(this);
     const cacheMap = this.cacheMap;
 
+    const cacheKey = cacheMap.toCacheKey(key);
+
     // If caching and there is a cache-hit, return cached Promise.
     if (cacheMap) {
-      const cachedPromise = cacheMap.get(key);
+      const cachedPromise = cacheMap.get(cacheKey);
       if (cachedPromise) {
         const cacheHits = batch.cacheHits || (batch.cacheHits = []);
         return new Promise(resolve => {
@@ -98,7 +102,7 @@ export class RepositoryDataLoader<
 
     // If caching, cache this promise.
     if (cacheMap) {
-      cacheMap.set(key, promise);
+      cacheMap.set(cacheKey, promise);
     }
 
     return promise;
@@ -146,10 +150,10 @@ export class RepositoryDataLoader<
    * Clears the value at `key` from the cache, if it exists. Returns itself for
    * method chaining.
    */
-  public clear = (key: BatchLoadKey<TEntity>): this => {
+  public clear = async (key: BatchLoadKey<TEntity>): Promise<this> => {
     const cacheMap = this.cacheMap;
     if (cacheMap) {
-      cacheMap.delete(key);
+      await cacheMap.del(cacheMap.toCacheKey(key));
     }
     return this;
   };
@@ -159,10 +163,10 @@ export class RepositoryDataLoader<
    * invalidations across this particular `DataLoader`. Returns itself for
    * method chaining.
    */
-  public clearAll = (): this => {
+  public clearAll = async (): Promise<this> => {
     const cacheMap = this.cacheMap;
     if (cacheMap) {
-      cacheMap.clear();
+      await cacheMap.delAll();
     }
     return this;
   };
@@ -180,7 +184,7 @@ export class RepositoryDataLoader<
     const cacheMap = this.cacheMap;
     if (cacheMap) {
       // Only add the key if it does not already exist.
-      if (cacheMap.get(key) === undefined) {
+      if (cacheMap.get(cacheMap.toCacheKey(key)) === undefined) {
         // Cache a rejected promise if the value is an Error, in order to match
         // the behavior of load(key).
         let promise;
@@ -194,7 +198,7 @@ export class RepositoryDataLoader<
           promise = Promise.resolve(value);
         }
 
-        cacheMap.set(key, promise);
+        cacheMap.set(cacheMap.toCacheKey(key), promise);
       }
     }
     return this;

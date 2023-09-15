@@ -1,22 +1,36 @@
 name = "contact-api"
-main = "src/worker.ts"
+# main = "src/index.ts"
+main = "./index.mjs"
+
+# ip = "127.0.0.1"
+# port = 4008
+# local_protocol="http"
+
 workers_dev = true
+usage_model = "bundled"
 
 compatibility_date = "2023-07-10"
-compatibility_flags = [ "nodejs_compat", "streams_enable_constructors" ]
+# compatibility_flags = [ "nodejs_compat" ]
+node_compat = true
 
-route = "open-system.io/api/contact"
+# rules = [
+#  { type = "ESModule", globs = ["@whatwg-node/fetch"] }
+# ]
+
+# route = "open-system.io/api/contact"
 account_id = "03700f13b61493bbc558dc93ea4980bc"
 
 [build]
-command = "npx nx run worker-contact-api:build:production"
+command = "pnpm exec nx run worker-contact-api:build:development"
 cwd = "C:\\Development\\open-system"
-
+watch_dir = "C:\\Development\\open-system\\apps\\worker-contact-api"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "contact"
 database_id = "b5cc61dc-9d74-430c-b456-d55321620302"
 
-
-
+[dev]
+ip = "127.0.0.1"
+port = 4080
+local_protocol = "http"

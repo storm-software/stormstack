@@ -1,12 +1,6 @@
-import { UserContext } from "@open-system/core-server-application";
-import { IEntity } from "@open-system/core-server-domain/types";
-import { GraphQLServerContext } from "@open-system/core-server-graphql";
-import { Headers } from "@open-system/core-shared-utilities";
-
-export interface BaseCloudflareEnv {
-  USERNAME: string;
-  PASSWORD: string;
-}
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Headers } from "@open-system/core-shared-utilities/types";
+import { DrizzleD1Database } from "drizzle-orm/d1";
 
 /*export type CloudflareSingleFileRequest = Request<{
   file: any;
@@ -176,7 +170,39 @@ export type R2Objects = {
     }
 );
 
-export type CloudflareApiServerContext<
-  TEntities extends IEntity[] = IEntity[],
-  TUser extends UserContext = UserContext
-> = GraphQLServerContext<TEntities, TUser>;
+export interface CloudflareServerBindings {
+  DB?: D1Database;
+}
+
+export interface CloudflareServerBindingsContext {
+  env: CloudflareServerBindings;
+  database?: DrizzleD1Database<Record<string, any>>;
+}
+
+/*export type CloudflareGraphQLServerContext<
+  TEnv extends CloudflareBindings = CloudflareBindings,
+  TEntities extends IEntity[] = IEntity[]
+> = GraphQLServerContext<
+  InitialServerContext<TEntities>,
+  GraphQLActiveServerContext
+> & {
+  system: CloudflareSystemContext<TEnv>;
+};*/
+
+export type WranglerCommand =
+  | "dev"
+  | "deploy"
+  | "d1"
+  | "generate"
+  | "init"
+  | "docs"
+  | "publish";
+export const WranglerCommand = {
+  DEV: "dev" as WranglerCommand,
+  DEPLOY: "deploy" as WranglerCommand,
+  D1: "d1" as WranglerCommand,
+  GENERATE: "generate" as WranglerCommand,
+  INIT: "init" as WranglerCommand,
+  DOCS: "docs" as WranglerCommand,
+  PUBLISH: "publish" as WranglerCommand
+};

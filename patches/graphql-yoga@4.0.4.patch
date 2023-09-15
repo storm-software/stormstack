@@ -1,0 +1,291 @@
+diff --git a/cjs/plugins/request-parser/get.js b/cjs/plugins/request-parser/get.js
+index 25f00a3db0d41dcbed982db7d6df1b630d4d60b4..98f8b41fc5d4b18ed6da278bfe1e7918a36b4c0a 100644
+--- a/cjs/plugins/request-parser/get.js
++++ b/cjs/plugins/request-parser/get.js
+@@ -1,7 +1,7 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.parseGETRequest = exports.isGETRequest = void 0;
+-const fetch_1 = require("@whatwg-node/fetch");
++const fetch_1 = require("@whatwg-node/node-fetch");
+ const utils_js_1 = require("./utils.js");
+ function isGETRequest(request) {
+     return request.method === 'GET';
+diff --git a/cjs/plugins/request-parser/utils.js b/cjs/plugins/request-parser/utils.js
+index 3cc8ca2f4b54cc99e9f8af2c5c60d839273a33a6..582f39d24aa3f4645fa85dee71ebdb5740684149 100644
+--- a/cjs/plugins/request-parser/utils.js
++++ b/cjs/plugins/request-parser/utils.js
+@@ -1,7 +1,7 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.isContentTypeMatch = exports.parseURLSearchParams = exports.handleURLSearchParams = void 0;
+-const fetch_1 = require("@whatwg-node/fetch");
++const fetch_1 = require("@whatwg-node/node-fetch");
+ function handleURLSearchParams(searchParams) {
+     const operationName = searchParams.get('operationName') || undefined;
+     const query = searchParams.get('query') || undefined;
+diff --git a/cjs/server.js b/cjs/server.js
+index 696f41eeed47aa15b0b762e2327142188eb00b71..a95b0cd1dbc4519562aa27ea3712c684b7932ee4 100644
+--- a/cjs/server.js
++++ b/cjs/server.js
+@@ -7,7 +7,7 @@ const graphql_1 = require("graphql");
+ const core_1 = require("@envelop/core");
+ const executor_1 = require("@graphql-tools/executor");
+ const logger_1 = require("@graphql-yoga/logger");
+-const defaultFetchAPI = tslib_1.__importStar(require("@whatwg-node/fetch"));
++const defaultFetchAPI = tslib_1.__importStar(require("@whatwg-node/node-fetch"));
+ const server_1 = require("@whatwg-node/server");
+ const error_js_1 = require("./error.js");
+ const get_js_1 = require("./plugins/request-parser/get.js");
+diff --git a/esm/plugins/request-parser/get.js b/esm/plugins/request-parser/get.js
+index 4ec8ce536274ae0486d16adacdd54e24c76b5856..60a2253383b818ad3d23584cc3eba79131dcfa74 100644
+--- a/esm/plugins/request-parser/get.js
++++ b/esm/plugins/request-parser/get.js
+@@ -1,4 +1,4 @@
+-import { URLSearchParams } from '@whatwg-node/fetch';
++import { URLSearchParams } from '@whatwg-node/node-fetch';
+ import { handleURLSearchParams } from './utils.js';
+ export function isGETRequest(request) {
+     return request.method === 'GET';
+diff --git a/esm/plugins/request-parser/utils.js b/esm/plugins/request-parser/utils.js
+index 0d8cae1cd3f2c6fc8175c09040acd2eb831323b3..cde2703ce2f147f59c15a56e91d4ca9fe3bed690 100644
+--- a/esm/plugins/request-parser/utils.js
++++ b/esm/plugins/request-parser/utils.js
+@@ -1,4 +1,4 @@
+-import { URLSearchParams } from '@whatwg-node/fetch';
++import { URLSearchParams } from '@whatwg-node/node-fetch';
+ export function handleURLSearchParams(searchParams) {
+     const operationName = searchParams.get('operationName') || undefined;
+     const query = searchParams.get('query') || undefined;
+diff --git a/esm/server.js b/esm/server.js
+index 6f946eb8297efb0267fb91cb2b0334d4b2eedd69..46018370f1c0612a27802c601c93b64ec25751c8 100644
+--- a/esm/server.js
++++ b/esm/server.js
+@@ -3,7 +3,7 @@ import { parse, specifiedRules, validate } from 'graphql';
+ import { envelop, useEngine, useExtendContext, useMaskedErrors, } from '@envelop/core';
+ import { normalizedExecutor } from '@graphql-tools/executor';
+ import { createLogger } from '@graphql-yoga/logger';
+-import * as defaultFetchAPI from '@whatwg-node/fetch';
++import * as defaultFetchAPI from '@whatwg-node/node-fetch';
+ import { createServerAdapter, useCORS, useErrorHandling, } from '@whatwg-node/server';
+ import { handleError } from './error.js';
+ import { isGETRequest, parseGETRequest } from './plugins/request-parser/get.js';
+diff --git a/package.json b/package.json
+index 23ec93c7987cce4e4e76c354584fe11d9c5b3b98..76b7422498b353bfeb6662eea198597b7ccb3679 100644
+--- a/package.json
++++ b/package.json
+@@ -13,7 +13,7 @@
+     "@graphql-tools/utils": "^10.0.0",
+     "@graphql-yoga/logger": "^1.0.0",
+     "@graphql-yoga/subscription": "^4.0.0",
+-    "@whatwg-node/fetch": "^0.9.7",
++    "@whatwg-node/node-fetch": "^0.4.18",
+     "@whatwg-node/server": "^0.9.1",
+     "dset": "^3.1.1",
+     "lru-cache": "^10.0.0",
+diff --git a/typings/types.d.cts b/typings/types.d.cts
+index 49ec5718669224a6e3ec69783cd38d83107d3393..6eb4aff6581fc8af80b577c97a8e4c4e07532a7c 100644
+--- a/typings/types.d.cts
++++ b/typings/types.d.cts
+@@ -1,52 +1,61 @@
+-import type { GraphQLSchema } from 'graphql';
+-import type { PromiseOrValue } from '@envelop/core';
+-import type { createFetch } from '@whatwg-node/fetch';
++import type { GraphQLSchema } from "graphql";
++import type { PromiseOrValue } from "@envelop/core";
++import type { createFetch } from "@whatwg-node/node-fetch";
+ export type GraphQLSchemaWithContext<TContext> = GraphQLSchema & {
+-    _context?: TContext;
++  _context?: TContext;
+ };
+-export interface GraphQLParams<TVariables = Record<string, any>, TExtensions = Record<string, any>> {
+-    operationName?: string;
+-    query?: string;
+-    variables?: TVariables;
+-    extensions?: TExtensions;
++export interface GraphQLParams<
++  TVariables = Record<string, any>,
++  TExtensions = Record<string, any>
++> {
++  operationName?: string;
++  query?: string;
++  variables?: TVariables;
++  extensions?: TExtensions;
+ }
+ export interface YogaInitialContext {
+-    /**
+-     * GraphQL Parameters
+-     */
+-    params: GraphQLParams;
+-    /**
+-     * An object describing the HTTP request.
+-     */
+-    request: Request;
++  /**
++   * GraphQL Parameters
++   */
++  params: GraphQLParams;
++  /**
++   * An object describing the HTTP request.
++   */
++  request: Request;
+ }
+-export type CORSOptions = {
+-    origin?: string[] | string;
+-    methods?: string[];
+-    allowedHeaders?: string[];
+-    exposedHeaders?: string[];
+-    credentials?: boolean;
+-    maxAge?: number;
+-} | false;
+-declare global {
+-    interface ReadableStream<R = any> {
+-        [Symbol.asyncIterator]: () => AsyncIterator<R>;
++export type CORSOptions =
++  | {
++      origin?: string[] | string;
++      methods?: string[];
++      allowedHeaders?: string[];
++      exposedHeaders?: string[];
++      credentials?: boolean;
++      maxAge?: number;
+     }
++  | false;
++declare global {
++  interface ReadableStream<R = any> {
++    [Symbol.asyncIterator]: () => AsyncIterator<R>;
++  }
+ }
+ export type FetchAPI = ReturnType<typeof createFetch>;
+ export interface FetchEvent extends Event {
+-    request: Request;
+-    respondWith(response: PromiseOrValue<Response>): void;
++  request: Request;
++  respondWith(response: PromiseOrValue<Response>): void;
+ }
+ export type YogaMaskedErrorOpts = {
+-    maskError: MaskError;
+-    errorMessage: string;
+-    isDev?: boolean;
++  maskError: MaskError;
++  errorMessage: string;
++  isDev?: boolean;
+ };
+-export type MaskError = (error: unknown, message: string, isDev?: boolean) => Error;
++export type MaskError = (
++  error: unknown,
++  message: string,
++  isDev?: boolean
++) => Error;
+ export type MaybeArray<T> = T | T[];
+ export interface GraphQLHTTPExtensions {
+-    spec?: boolean;
+-    status?: number;
+-    headers?: Record<string, string>;
++  spec?: boolean;
++  status?: number;
++  headers?: Record<string, string>;
+ }
+diff --git a/typings/types.d.ts b/typings/types.d.ts
+index 49ec5718669224a6e3ec69783cd38d83107d3393..6eb4aff6581fc8af80b577c97a8e4c4e07532a7c 100644
+--- a/typings/types.d.ts
++++ b/typings/types.d.ts
+@@ -1,52 +1,61 @@
+-import type { GraphQLSchema } from 'graphql';
+-import type { PromiseOrValue } from '@envelop/core';
+-import type { createFetch } from '@whatwg-node/fetch';
++import type { GraphQLSchema } from "graphql";
++import type { PromiseOrValue } from "@envelop/core";
++import type { createFetch } from "@whatwg-node/node-fetch";
+ export type GraphQLSchemaWithContext<TContext> = GraphQLSchema & {
+-    _context?: TContext;
++  _context?: TContext;
+ };
+-export interface GraphQLParams<TVariables = Record<string, any>, TExtensions = Record<string, any>> {
+-    operationName?: string;
+-    query?: string;
+-    variables?: TVariables;
+-    extensions?: TExtensions;
++export interface GraphQLParams<
++  TVariables = Record<string, any>,
++  TExtensions = Record<string, any>
++> {
++  operationName?: string;
++  query?: string;
++  variables?: TVariables;
++  extensions?: TExtensions;
+ }
+ export interface YogaInitialContext {
+-    /**
+-     * GraphQL Parameters
+-     */
+-    params: GraphQLParams;
+-    /**
+-     * An object describing the HTTP request.
+-     */
+-    request: Request;
++  /**
++   * GraphQL Parameters
++   */
++  params: GraphQLParams;
++  /**
++   * An object describing the HTTP request.
++   */
++  request: Request;
+ }
+-export type CORSOptions = {
+-    origin?: string[] | string;
+-    methods?: string[];
+-    allowedHeaders?: string[];
+-    exposedHeaders?: string[];
+-    credentials?: boolean;
+-    maxAge?: number;
+-} | false;
+-declare global {
+-    interface ReadableStream<R = any> {
+-        [Symbol.asyncIterator]: () => AsyncIterator<R>;
++export type CORSOptions =
++  | {
++      origin?: string[] | string;
++      methods?: string[];
++      allowedHeaders?: string[];
++      exposedHeaders?: string[];
++      credentials?: boolean;
++      maxAge?: number;
+     }
++  | false;
++declare global {
++  interface ReadableStream<R = any> {
++    [Symbol.asyncIterator]: () => AsyncIterator<R>;
++  }
+ }
+ export type FetchAPI = ReturnType<typeof createFetch>;
+ export interface FetchEvent extends Event {
+-    request: Request;
+-    respondWith(response: PromiseOrValue<Response>): void;
++  request: Request;
++  respondWith(response: PromiseOrValue<Response>): void;
+ }
+ export type YogaMaskedErrorOpts = {
+-    maskError: MaskError;
+-    errorMessage: string;
+-    isDev?: boolean;
++  maskError: MaskError;
++  errorMessage: string;
++  isDev?: boolean;
+ };
+-export type MaskError = (error: unknown, message: string, isDev?: boolean) => Error;
++export type MaskError = (
++  error: unknown,
++  message: string,
++  isDev?: boolean
++) => Error;
+ export type MaybeArray<T> = T | T[];
+ export interface GraphQLHTTPExtensions {
+-    spec?: boolean;
+-    status?: number;
+-    headers?: Record<string, string>;
++  spec?: boolean;
++  status?: number;
++  headers?: Record<string, string>;
+ }
