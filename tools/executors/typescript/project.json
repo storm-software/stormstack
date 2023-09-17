@@ -16,7 +16,6 @@
           "tools/executors/typescript/cloudflare-worker-build/impl.ts",
           "tools/executors/typescript/cloudflare-worker-deploy/impl.ts",
           "tools/executors/typescript/cloudflare-worker-serve/impl.ts",
-          "tools/executors/typescript/design-tokens-build/impl.ts",
           "tools/executors/typescript/design-components-clean/impl.ts",
           "tools/executors/typescript/client-api-sync/impl.ts",
           "tools/executors/typescript/client-gql-sync/impl.ts",
@@ -108,6 +107,7 @@
   "tags": ["scope:tools", "platform:admin"],
   "implicitDependencies": [
     "core-shared-utilities",
+    "core-shared-logging",
     "core-server-utilities",
     "core-server-cloudflare",
     "tools-async-api-kafka",

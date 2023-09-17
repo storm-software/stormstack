@@ -38,7 +38,7 @@ export abstract class DrizzleRepository<
   }
 
   constructor(context: ServerContext) {
-    super(context);
+    super(context.utils.logger, context.env);
 
     this.bindings = context.bindings as BindingsWithDatabase<
       TEntity,
@@ -109,9 +109,9 @@ export abstract class DrizzleRepository<
   };
 
   protected override innerDelete = async (params: DeleteParams<TEntity>) => {
-    const result = await this.db
-      .delete(this.schema)
-      .where(formatWhereParams<TEntity>(this.schema, params.where));
+    const result = await (this.db.delete(this.schema) as any).where(
+      formatWhereParams<TEntity>(this.schema, params.where)
+    );
 
     return result.id;
   };
@@ -119,9 +119,9 @@ export abstract class DrizzleRepository<
   protected override innerDeleteMany = async (
     params: DeleteManyParams<TEntity>
   ) => {
-    const result = await this.db
-      .delete(this.schema)
-      .where(formatWhereParams<TEntity>(this.schema, params.where));
+    const result = await (this.db.delete(this.schema) as any).where(
+      formatWhereParams<TEntity>(this.schema, params.where)
+    );
 
     return [result.id];
   };

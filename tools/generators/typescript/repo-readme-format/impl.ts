@@ -2,14 +2,14 @@ import {
   ProjectConfiguration,
   Tree,
   getProjects,
-  joinPathFragments,
+  joinPathFragments
 } from "@nx/devkit";
 import {
   execute,
   findFileName,
-  findFilePath,
+  findFilePath
 } from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import { existsSync, readdirSync } from "fs";
 import { ReadMeFormatGeneratorSchema } from "./schema";
 

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Provider } from "@open-system/core-shared-injection";
 import {
   BaseError,
   BaseUtilityClass,
@@ -9,7 +8,6 @@ import { Decimal } from "decimal.js";
 import { parse, registerCustom, stringify } from "superjson";
 import { JSON_PARSER_SYMBOL, JsonValue } from "./types";
 
-@Provider(JSON_PARSER_SYMBOL)
 export class JsonParser extends BaseUtilityClass {
   constructor() {
     super(JSON_PARSER_SYMBOL);

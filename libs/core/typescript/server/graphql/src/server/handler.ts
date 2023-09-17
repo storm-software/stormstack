@@ -4,7 +4,7 @@ import {
   extractSystem
 } from "@open-system/core-server-application/context";
 import { Injector } from "@open-system/core-shared-injection";
-import { Logger } from "@open-system/core-shared-utilities/logging/logger";
+import { Logger } from "@open-system/core-shared-logging/logger";
 import * as fetchAPI from "@whatwg-node/node-fetch";
 import { createYoga } from "graphql-yoga";
 import { GraphQLActiveServerContext, GraphQLServerContext } from "../context";

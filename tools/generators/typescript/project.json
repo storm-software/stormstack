@@ -93,6 +93,7 @@
   "tags": ["scope:tools", "platform:admin"],
   "implicitDependencies": [
     "core-shared-utilities",
+    "core-shared-logging",
     "core-server-utilities",
     "core-server-cloudflare"
   ]

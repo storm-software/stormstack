@@ -1,6 +1,6 @@
 import { ExecutorContext } from "@nx/devkit";
 import { runWranglerServe } from "@open-system/core-server-cloudflare";
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
+import { ConsoleLogger } from "@open-system/core-shared-logging";
 
 export default async function (options: any, context: ExecutorContext) {
   try {

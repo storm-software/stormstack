@@ -1,6 +1,6 @@
 import { ExecutorContext } from "@nx/devkit";
-import { executeAsync } from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { executeAsync } from "@open-system/core-server-utilities/execute";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import { existsSync } from "fs";
 import Path from "path";
 import { ClientApiSyncExecutorSchema } from "./schema";

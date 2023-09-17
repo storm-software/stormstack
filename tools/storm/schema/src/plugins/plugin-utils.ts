@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging/console-logger";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import type { PolicyOperationKind } from "@open-system/tools-storm-runtime";
 import fs from "fs";
 import path from "path";

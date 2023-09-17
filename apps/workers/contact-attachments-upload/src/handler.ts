@@ -1,12 +1,12 @@
 export { Headers } from "@open-system/core-client-data-access";
 export {
-  BaseCloudflareEnv,
+  CloudflareServerBindings,
   R2Bucket,
-  R2ListOptions,
-} from "@open-system/core-shared-cloudflare";
-export { ConsoleLogger } from "@open-system/core-shared-utilities";
+  R2ListOptions
+} from "@open-system/core-server-cloudflare";
+export { ConsoleLogger } from "@open-system/core-shared-logging";
 
-interface Env extends BaseCloudflareEnv {
+interface Env extends CloudflareServerBindings {
   CONTACT_ATTACHMENTS_BUCKET: R2Bucket;
 }
 
@@ -16,8 +16,8 @@ function objectNotFound(objectName: string): Response {
     {
       status: 404,
       headers: {
-        "content-type": "text/html; charset=UTF-8",
-      },
+        "content-type": "text/html; charset=UTF-8"
+      }
     }
   );
 }
@@ -43,22 +43,22 @@ export async function handleRequest(
         prefix: url.searchParams.get("prefix") ?? undefined,
         delimiter: url.searchParams.get("delimiter") ?? undefined,
         cursor: url.searchParams.get("cursor") ?? undefined,
-        include: ["customMetadata", "httpMetadata"],
+        include: ["customMetadata", "httpMetadata"]
       };
       ConsoleLogger.log(JSON.stringify(options));
 
       const listing = await bucket.list(options);
       return new Response(JSON.stringify(listing), {
         headers: {
-          "content-type": "application/json; charset=UTF-8",
-        },
+          "content-type": "application/json; charset=UTF-8"
+        }
       });
     }
 
     if (request.method === "GET") {
       const object = await bucket.get(objectName, {
         range: request.headers,
-        onlyIf: request.headers,
+        onlyIf: request.headers
       });
 
       if (object === null) {
@@ -81,7 +81,7 @@ export async function handleRequest(
         : 304;
       return new Response(object.body, {
         headers,
-        status,
+        status
       });
     }
 
@@ -95,17 +95,17 @@ export async function handleRequest(
     object.writeHttpMetadata(headers);
     headers.set("etag", object.httpEtag);
     return new Response(null, {
-      headers,
+      headers
     });
   }
   if (request.method === "PUT" || request.method == "POST") {
     const object = await bucket.put(objectName, request.body, {
-      httpMetadata: request.headers,
+      httpMetadata: request.headers
     });
     return new Response(null, {
       headers: {
-        "etag": object.httpEtag,
-      },
+        "etag": object.httpEtag
+      }
     });
   }
   if (request.method === "DELETE") {
@@ -114,6 +114,6 @@ export async function handleRequest(
   }
 
   return new Response(`Unsupported method`, {
-    status: 400,
+    status: 400
   });
 }

@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { LazyInjected } from "@open-system/core-shared-injection/decorators/lazy-injected";
+import { Logger } from "@open-system/core-shared-logging/logger";
 import {
   BaseUtilityClass,
-  Logger,
   isEmpty,
   parseInteger
 } from "@open-system/core-shared-utilities";
@@ -15,23 +16,23 @@ export abstract class EnvManager<
 > extends BaseUtilityClass {
   protected proxy: EnvProxy;
 
-  constructor(
-    protected readonly logger: Logger,
-    public readonly options = DEFAULT_OPTIONS as TOptions
-  ) {
+  @LazyInjected(Logger)
+  protected logger!: Logger;
+
+  constructor(public readonly options = DEFAULT_OPTIONS as TOptions) {
     super(ENV_TOKEN);
 
     this.proxy = createEnvProxy({ ...DEFAULT_OPTIONS, ...this.options });
   }
 
   public get = <T = any>(name: string): T | undefined => {
-    this.logger.debug(`Getting environment variable "${name}".`);
+    this.logger?.debug(`Getting environment variable "${name}".`);
 
     return this.innerGet<T>(name);
   };
 
   public getAsync = <T = any>(name: string): Promise<T | undefined> => {
-    this.logger.debug(
+    this.logger?.debug(
       `Getting external environment variable/secret "${name}".`
     );
 
@@ -42,7 +43,9 @@ export abstract class EnvManager<
     name: string,
     value: T
   ) => {
-    this.logger.debug(`Updating environment variable "${name}" to "${value}".`);
+    this.logger?.debug(
+      `Updating environment variable "${name}" to "${value}".`
+    );
     this.proxy[name] = value;
   };
 
@@ -57,7 +60,7 @@ export abstract class EnvManager<
   public get environment(): EnvironmentType {
     const _environment = this.get<EnvironmentType>("NODE_ENV");
     if (isEmpty(_environment)) {
-      this.logger.error("Environment variable NODE_ENV is not defined.");
+      this.logger?.error("Environment variable NODE_ENV is not defined.");
     }
 
     // Default to production since the rules are stricter.

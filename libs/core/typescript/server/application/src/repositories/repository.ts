@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IEntity } from "@open-system/core-server-domain";
-import { Provider } from "@open-system/core-shared-injection";
+import { EnvManager } from "@open-system/core-shared-env";
+import { Injected, Provider } from "@open-system/core-shared-injection";
+import { Logger } from "@open-system/core-shared-logging/logger";
 import { JsonParser } from "@open-system/core-shared-serialization";
 import {
   BaseErrorCode,
   BaseUtilityClass,
   FieldValidationError,
   IncorrectTypeError,
-  Logger,
   ModelValidationError,
   NotFoundError,
   isError,
   isValidInteger
 } from "@open-system/core-shared-utilities";
 import { map } from "radash";
-import { ActiveContext, ServerContext } from "../context";
 import {
   BatchLoadKey,
   CreateParams,
@@ -43,13 +43,14 @@ export abstract class Repository<
 
   protected readonly options!: RepositoryOptions<TEntity>;
   protected readonly logger: Logger;
-  protected readonly active: ActiveContext;
 
-  constructor(context: ServerContext) {
+  constructor(
+    @Injected(Logger) _logger: Logger,
+    @Injected(EnvManager) _env: EnvManager
+  ) {
     super(REPOSITORY_TOKEN);
 
-    this.logger = context.utils.logger;
-    this.active = context.active;
+    this.logger = _logger;
 
     this.dataLoader = new RepositoryDataLoader<TEntity>(
       async (
@@ -58,7 +59,7 @@ export abstract class Repository<
         return map(keys, async (key: BatchLoadKey<TEntity>) => {
           key.take ??= isValidInteger(key.take, true)
             ? key.take
-            : context.env.defaultQuerySize;
+            : _env.defaultQuerySize;
           key.orderBy ??= { id: SortOrder.asc } as Record<
             EntityKeys<TEntity>,
             string
@@ -74,7 +75,7 @@ export abstract class Repository<
       },
       this.logger,
       this.options,
-      context.system.info.instanceId
+      _env.serviceId
     );
   }
 

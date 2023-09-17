@@ -9,7 +9,7 @@ import {
 import { InfisicalEnvManager } from "@open-system/core-server-infisical";
 import { PinoLogger } from "@open-system/core-server-pino-logging";
 import { EnvManager } from "@open-system/core-shared-env/env-manager";
-import { Logger } from "@open-system/core-shared-utilities/logging/logger";
+import { Logger } from "@open-system/core-shared-logging/logger";
 import {
   GraphQLActiveServerContext,
   GraphQLServerContext

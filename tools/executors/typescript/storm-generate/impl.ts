@@ -1,5 +1,5 @@
 import { ExecutorContext, workspaceRoot } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import { generateAction } from "@open-system/tools-storm-schema";
 import { existsSync } from "fs";
 import { removeSync } from "fs-extra";

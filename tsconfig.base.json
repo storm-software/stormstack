@@ -197,6 +197,12 @@
       "@open-system/core-shared-injection/*": [
         "libs/core/typescript/shared/injection/src/*"
       ],
+      "@open-system/core-shared-logging": [
+        "libs/core/typescript/shared/logging/src/index.ts"
+      ],
+      "@open-system/core-shared-logging/*": [
+        "libs/core/typescript/shared/logging/src/*"
+      ],
       "@open-system/core-shared-serialization": [
         "libs/core/typescript/shared/serialization/src/index.ts"
       ],

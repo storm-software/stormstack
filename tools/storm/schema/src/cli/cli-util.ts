@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging/console-logger";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import {
   isDataSource,
   isPlugin,

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Logger } from "@open-system/core-shared-logging/logger";
 import {
   IIdentity,
-  Logger,
-  UniqueIdGenerator,
+  UniqueIdGenerator
 } from "@open-system/core-shared-utilities";
 import { AggregateRoot } from "./aggregate-root";
 

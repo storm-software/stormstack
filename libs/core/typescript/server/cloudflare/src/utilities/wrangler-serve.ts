@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext, workspaceRoot } from "@nx/devkit";
 import { ConfigurationError } from "@open-system/core-shared-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
+import { ConsoleLogger } from "@open-system/core-shared-logging";
 import Path from "path";
 import { WranglerCommand } from "../types";
 import { runWranglerCommand } from "./wrangler";
@@ -30,6 +30,6 @@ export async function runWranglerServe(
       "no-bundle": false,
       ...options
     },
-    Path.join(workspaceRoot, buildTarget?.options?.outputPath, "index.mjs")
+    Path.join(workspaceRoot, buildTarget?.options?.outputPath, "index.js")
   );
 }

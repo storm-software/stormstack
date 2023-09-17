@@ -8,7 +8,7 @@ import {
   readProjectConfiguration
 } from "@nx/devkit";
 import { applicationGenerator } from "@nx/node";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import { CloudflareWorkerGeneratorSchema } from "./schema";
 
 export default async function (

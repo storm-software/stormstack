@@ -10,6 +10,7 @@ import {
   GraphQLActiveServerContext,
   GraphQLServerContext
 } from "@open-system/core-server-graphql/context";
+import { bindService } from "@open-system/core-shared-injection/utilities/bind-service";
 import {
   IContactAttachmentEntity,
   IContactEntity
@@ -41,17 +42,14 @@ export const useExtendContactGraphQLServerContext = <
     async onContextBuilding(params) {
       const pluginHook = await basePlugin.onContextBuilding?.(params);
 
-      params.context.injector
-        .bind<Repository<IContactAttachmentEntity>>(
-          Repository<IContactAttachmentEntity>
-        )
-        .to(ContactAttachmentRepository)
-        .inSingletonScope();
-
-      params.context.injector
-        .bind<Repository<IContactEntity>>(Repository<IContactEntity>)
-        .to(ContactRepository)
-        .inSingletonScope();
+      bindService<Repository<IContactAttachmentEntity>>(
+        Repository<IContactAttachmentEntity>,
+        ContactAttachmentRepository
+      );
+      bindService<Repository<IContactEntity>>(
+        Repository<IContactEntity>,
+        ContactRepository
+      );
 
       return pluginHook;
     }

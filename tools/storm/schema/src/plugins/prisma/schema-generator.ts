@@ -4,7 +4,7 @@ import {
 } from "@open-system/core-server-utilities/execute";
 import { exists } from "@open-system/core-server-utilities/exists";
 import { findFilePath } from "@open-system/core-server-utilities/file-path-fns";
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
+import { ConsoleLogger } from "@open-system/core-shared-logging";
 import {
   ArrayExpr,
   AstNode,

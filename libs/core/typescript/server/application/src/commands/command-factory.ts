@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Logger, UniqueIdGenerator } from "@open-system/core-shared-utilities";
+import { Logger } from "@open-system/core-shared-logging/logger";
+import { UniqueIdGenerator } from "@open-system/core-shared-utilities/common";
 import { ICommand } from "./command";
 
 export const commandFactory =

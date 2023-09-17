@@ -5,9 +5,9 @@ import {
   NumberNullableFilter,
   StringNullableFilter,
   WhereParams
-} from "@open-system/core-server-application";
+} from "@open-system/core-server-application/types";
 import { IEntity } from "@open-system/core-server-domain/types";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import {
   SQL,
   and,

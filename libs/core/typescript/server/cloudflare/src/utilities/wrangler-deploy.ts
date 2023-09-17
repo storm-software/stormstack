@@ -2,7 +2,7 @@
 import { ExecutorContext, workspaceRoot } from "@nx/devkit";
 import { formatDate } from "@open-system/core-shared-utilities/common/date-fns";
 import { ConfigurationError } from "@open-system/core-shared-utilities/errors";
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
+import { ConsoleLogger } from "@open-system/core-shared-logging";
 import Path from "path";
 import { WranglerCommand } from "../types";
 import { runWranglerCommand } from "./wrangler";
@@ -33,6 +33,6 @@ export async function runWranglerDeploy(
       "no-bundle": false,
       ...options
     },
-    Path.join(workspaceRoot, buildTarget?.options?.outputPath, "index.mjs")
+    Path.join(workspaceRoot, buildTarget?.options?.outputPath, "index.js")
   );
 }

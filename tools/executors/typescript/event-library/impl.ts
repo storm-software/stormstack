@@ -1,7 +1,7 @@
 import Generator from "@asyncapi/generator";
 import { ExecutorContext } from "@nx/devkit";
 import { executeAsync } from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import { existsSync, removeSync } from "fs-extra";
 import glob from "glob";
 import Path from "path";

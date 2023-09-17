@@ -3,13 +3,13 @@ import * as typescriptPlugin from "@graphql-codegen/typescript";
 import * as typescriptResolversPlugin from "@graphql-codegen/typescript-resolvers";
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { loadSchema } from "@graphql-tools/load";
+import { ConsoleLogger } from "@open-system/core-shared-logging";
 import {
   constantCase,
   kebabCase,
   lowerCaseFirst,
   upperCaseFirst
 } from "@open-system/core-shared-utilities/common/string-fns";
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
 import {
   ApiModel,
   DataModel,

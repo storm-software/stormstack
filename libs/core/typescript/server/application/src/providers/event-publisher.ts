@@ -1,5 +1,6 @@
 import { IAggregateRoot, IDomainEvent } from "@open-system/core-server-domain";
-import { BaseUtilityClass, Logger } from "@open-system/core-shared-utilities";
+import { Logger } from "@open-system/core-shared-logging/logger";
+import { BaseUtilityClass } from "@open-system/core-shared-utilities/common";
 import { EVENT_PUBLISHER_TOKEN } from "../types";
 import { EventStore } from "./event-store";
 import { MessageBroker } from "./message-broker";

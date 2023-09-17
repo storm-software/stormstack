@@ -35,11 +35,6 @@
       "schema": "../../../dist/tools/executors/typescript/client-api-joi-sync/schema.json",
       "description": "Sync up TypeScript client-side Joi validator project code and types based on an OpenApi spec."
     },
-    "design-tokens-build": {
-      "implementation": "../../../dist/tools/executors/typescript/design-tokens-build/impl",
-      "schema": "../../../dist/tools/executors/typescript/design-tokens-build/schema.json",
-      "description": "Build the latest design tokens code from the extracted figma JSON."
-    },
     "storm-generate": {
       "implementation": "../../../dist/tools/executors/typescript/storm-generate/impl",
       "schema": "../../../dist/tools/executors/typescript/storm-generate/schema.json",

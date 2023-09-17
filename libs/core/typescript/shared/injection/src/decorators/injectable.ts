@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import "reflect-metadata";
+
 import { injectable } from "inversify";
 
 export type InjectableContext = {

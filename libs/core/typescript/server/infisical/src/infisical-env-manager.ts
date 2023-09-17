@@ -8,7 +8,10 @@ import {
   EnvironmentType
 } from "@open-system/core-shared-env/types";
 import { Provider } from "@open-system/core-shared-injection";
-import { Logger, isEmpty, isPromise } from "@open-system/core-shared-utilities";
+import {
+  isEmpty,
+  isPromise
+} from "@open-system/core-shared-utilities/common/type-checks";
 import { EnvConfigurationError } from "@open-system/core-shared-utilities/errors/env-configuration-error";
 import { getInfisicalClient } from "./infisical-client";
 
@@ -41,8 +44,8 @@ export class InfisicalEnvManager<
     Required<Pick<BaseOptions, "env">> = Omit<BaseOptions, "env"> &
     Required<Pick<BaseOptions, "env">>
 > extends EnvManager<TOptions> {
-  constructor(logger: Logger, options = DEFAULT_OPTIONS) {
-    super(logger, { ...DEFAULT_OPTIONS, ...options } as TOptions);
+  constructor() {
+    super(DEFAULT_OPTIONS as TOptions);
   }
 
   public override get environment(): EnvironmentType {

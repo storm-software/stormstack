@@ -1,6 +1,6 @@
 name = "contact-api"
 # main = "src/index.ts"
-main = "./index.mjs"
+main = "./index.js"
 
 # ip = "127.0.0.1"
 # port = 4008

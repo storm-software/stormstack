@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.4",
-    "chalk": "4.1.0",
     "stacktracey": "^2.1.8",
     "type-detect": "^4.0.8"
   },

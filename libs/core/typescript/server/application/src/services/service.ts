@@ -13,7 +13,7 @@ import {
   ModelValidationError,
   NotFoundError
 } from "@open-system/core-shared-utilities/errors";
-import { Logger } from "@open-system/core-shared-utilities/logging";
+import { Logger } from "@open-system/core-shared-logging";
 import { UserContext } from "../context";
 import { Repository } from "../repositories/repository";
 import {

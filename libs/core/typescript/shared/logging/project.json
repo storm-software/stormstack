@@ -1,0 +1,55 @@
+{
+  "name": "core-shared-logging",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/typescript/shared/logging/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/core/typescript/shared/logging",
+        "main": "libs/core/typescript/shared/logging/src/index.ts",
+        "tsConfig": "libs/core/typescript/shared/logging/tsconfig.lib.json",
+        "assets": ["libs/core/typescript/shared/logging/*.md"],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/core/typescript/shared/logging/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/core/typescript/shared/logging/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "core-shared-logging-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:core", "platform:shared", "level:utilities"],
+  "implicitDependencies": ["core-shared-utilities"]
+}

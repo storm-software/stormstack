@@ -3,7 +3,7 @@ import { buildEsbuildOptions } from "@nx/esbuild/src/executors/esbuild/lib/build
 import { normalizeOptions } from "@nx/esbuild/src/executors/esbuild/lib/normalize";
 import { EsBuildExecutorOptions } from "@nx/esbuild/src/executors/esbuild/schema";
 import { copyFile } from "@open-system/core-server-utilities/copy-files";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import { build } from "esbuild";
 import { polyfillNode } from "esbuild-plugin-polyfill-node";
 import { existsSync } from "fs";

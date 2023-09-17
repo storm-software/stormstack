@@ -74,7 +74,9 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    * @param {DateTime} dateTime - DateTime
    * @returns A PlainDate object.
    */
-  public static getPlainDate(dateTime: DateTime): Temporal.PlainDate {
+  public static getPlainDate(
+    dateTime: DateTime = DateTime.current
+  ): Temporal.PlainDate {
     return Temporal.PlainDate.from(
       dateTime.toZonedDateTimeISO(Temporal.Now.timeZoneId())
     );
@@ -85,7 +87,9 @@ export class DateTime extends Temporal.Instant implements IDateTime {
    * @param {DateTime} dateTime - DateTime
    * @returns A PlainTime object.
    */
-  public static getPlainTime(dateTime: DateTime): Temporal.PlainTime {
+  public static getPlainTime(
+    dateTime: DateTime = DateTime.current
+  ): Temporal.PlainTime {
     return Temporal.PlainTime.from(
       dateTime.toZonedDateTimeISO(Temporal.Now.timeZoneId())
     );

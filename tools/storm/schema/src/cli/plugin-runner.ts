@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging/console-logger";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import { isPlugin, Plugin } from "@open-system/tools-storm-language/ast";
 import type { DMMF } from "@prisma/generator-helper";
 import chalk from "chalk";

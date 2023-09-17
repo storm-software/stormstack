@@ -1,8 +1,8 @@
 import { IAggregateRoot, IDomainEvent } from "@open-system/core-server-domain";
+import { Logger } from "@open-system/core-shared-logging/logger";
 import {
   ArrayElement,
-  BaseUtilityClass,
-  Logger
+  BaseUtilityClass
 } from "@open-system/core-shared-utilities";
 import { EVENT_STORE_TOKEN } from "../types";
 

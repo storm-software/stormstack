@@ -1,6 +1,6 @@
 import { Provider } from "@open-system/core-shared-injection";
 // import Redlock, { ResourceLockedError } from 'redlock';
-import { Logger } from "@open-system/core-shared-utilities/logging";
+import { Logger } from "@open-system/core-shared-logging";
 // import type { Redis } from './redis';
 // import { REDIS_INSTANCE } from './redis';
 

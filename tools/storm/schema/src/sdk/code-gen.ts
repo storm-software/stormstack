@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
+import { ConsoleLogger } from "@open-system/core-shared-logging";
 import prettier, { Options } from "prettier";
 import {
   CompilerOptions,

@@ -16,8 +16,6 @@ export const Tokens = {
   COOKIE_PARSER: Symbol.for("OS_COOKIE_PARSER_SYMBOL")
 };
 
-export const LOGGER_SYMBOL = Symbol.for("OS_LOGGER_SYMBOL");
-
 /**
  * The valid types of the index for an `Indexable` type object
  */

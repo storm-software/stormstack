@@ -6,7 +6,7 @@ import {
   EMPTY_STRING
 } from "@open-system/core-shared-utilities";
 import { isSet } from "@open-system/core-shared-utilities/common/type-checks";
-import { ConsoleLogger } from "@open-system/core-shared-utilities/logging";
+import { ConsoleLogger } from "@open-system/core-shared-logging";
 import { WranglerCommand } from "../types";
 
 export async function runWranglerCommand(

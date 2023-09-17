@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import "reflect-metadata";
+
 import { inject } from "inversify";
 import { ServiceIdentifierOrFunc } from "inversify/lib/annotation/lazy_service_identifier";
 
