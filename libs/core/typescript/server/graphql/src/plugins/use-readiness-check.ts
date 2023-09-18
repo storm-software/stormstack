@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Plugin } from "@envelop/types";
 import { extractSystemInfo } from "@open-system/core-server-application/context";
-import { InitialServerContext } from "@open-system/core-server-application/context/initial-context";
+import { GlobalServerContext } from "@open-system/core-server-application/context/global-context";
 import { useReadinessCheck as useReadinessCheckExt } from "graphql-yoga";
 import {
-  GraphQLActiveServerContext,
+  GraphQLExecutionServerContext,
   GraphQLServerContext
 } from "../context/context";
 
 export const useReadinessCheck = <
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  TGlobalContext extends GlobalServerContext = GlobalServerContext,
+  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
 >(
-  initialContext: TInitialContext
-): Plugin<GraphQLServerContext<TInitialContext, TActiveContext>> => {
+  initialContext: TGlobalContext
+): Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>> => {
   return useReadinessCheckExt({
     endpoint: initialContext.env.get("READINESS_CHECK_PATH") ?? "/readiness",
     check: async () => {
@@ -21,18 +21,18 @@ export const useReadinessCheck = <
       const info = extractSystemInfo(initialContext);
 
       try {
-        await logger.info(
+        logger.info(
           `Running server readiness check - ${info.name}-v${info.version}`
         );
 
         return true;
       } catch (e) {
-        await logger.info(
+        logger.info(
           `Failed the server readiness check - ${info.name}-v${info.version}`
         );
-        await logger.error(e);
+        logger.error(e);
         return false;
       }
     }
-  }) as Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+  }) as Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>;
 };

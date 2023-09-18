@@ -19,6 +19,7 @@
     "@whatwg-node/node-fetch": "^0.4.18",
     "@whatwg-node/server-plugin-cookies": "^1.0.2",
     "async_hooks": "^1.0.0",
-    "inspector": "^0.5.0"
+    "inspector": "^0.5.0",
+    "urlpattern-polyfill": "^9.0.0"
   }
 }

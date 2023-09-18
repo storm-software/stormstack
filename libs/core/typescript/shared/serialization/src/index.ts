@@ -1,2 +1,3 @@
-export * from "./json-parser";
+export * from "./parser";
+export * from "./proxy";
 export * from "./types";

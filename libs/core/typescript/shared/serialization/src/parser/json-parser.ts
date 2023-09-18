@@ -6,7 +6,7 @@ import {
 } from "@open-system/core-shared-utilities";
 import { Decimal } from "decimal.js";
 import { parse, registerCustom, stringify } from "superjson";
-import { JSON_PARSER_SYMBOL, JsonValue } from "./types";
+import { JSON_PARSER_SYMBOL, JsonValue } from "../types";
 
 export class JsonParser extends BaseUtilityClass {
   constructor() {

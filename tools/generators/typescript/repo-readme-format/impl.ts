@@ -4,11 +4,11 @@ import {
   getProjects,
   joinPathFragments
 } from "@nx/devkit";
+import { execute } from "@open-system/core-server-utilities/execute";
 import {
-  execute,
   findFileName,
   findFilePath
-} from "@open-system/core-server-utilities";
+} from "@open-system/core-server-utilities/file-path-fns";
 import { ConsoleLogger } from "@open-system/core-shared-logging/console";
 import { existsSync, readdirSync } from "fs";
 import { ReadMeFormatGeneratorSchema } from "./schema";

@@ -1,34 +1,35 @@
 import { IEntity } from "@open-system/core-server-domain/types";
 import { Service } from "../services";
 import {
-  ActiveServerContext,
+  ExecutionServerContext,
   HttpRequest,
   HttpRequestContext,
   RequestContext,
   ServerContext
 } from "./context";
 import {
-  InitialServerContext,
+  GlobalServerContext,
   ServiceMappingIndex,
   UtilityContext
-} from "./initial-context";
+} from "./global-context";
 
-export const extractActive = (
-  context: ServerContext<InitialServerContext, ActiveServerContext>
-): ActiveServerContext => context?.active;
+export const extractExecution = (
+  context: ServerContext<GlobalServerContext, ExecutionServerContext>
+): ExecutionServerContext => context?.execution;
 
 export const extractRequest = <TRequest extends HttpRequest = HttpRequest>(
-  context: ServerContext<InitialServerContext, ActiveServerContext>
+  context: ServerContext<GlobalServerContext, ExecutionServerContext>
 ): HttpRequestContext<TRequest> =>
-  extractActive(context)?.request as HttpRequestContext<TRequest>;
+  extractExecution(context)?.request as HttpRequestContext<TRequest>;
 
 export const extractCorrelationId = (
-  context: ServerContext<InitialServerContext, ActiveServerContext>
-): ActiveServerContext["correlationId"] =>
-  extractActive(context)?.correlationId as ActiveServerContext["correlationId"];
+  context: ServerContext<GlobalServerContext, ExecutionServerContext>
+): ExecutionServerContext["correlationId"] =>
+  extractExecution(context)
+    ?.correlationId as ExecutionServerContext["correlationId"];
 
 export const extractRequestId = <TRequest extends HttpRequest = HttpRequest>(
-  context: ServerContext<InitialServerContext, ActiveServerContext>
+  context: ServerContext<GlobalServerContext, ExecutionServerContext>
 ): RequestContext<TRequest>["requestId"] =>
   extractRequest<TRequest>(context)
     ?.requestId as RequestContext<TRequest>["requestId"];
@@ -36,32 +37,32 @@ export const extractRequestId = <TRequest extends HttpRequest = HttpRequest>(
 export const extractRequestHeaders = <
   TRequest extends HttpRequest = HttpRequest
 >(
-  context: ServerContext<InitialServerContext, ActiveServerContext>
+  context: ServerContext<GlobalServerContext, ExecutionServerContext>
 ): RequestContext<TRequest>["headers"] =>
   extractRequest<TRequest>(context)?.headers;
 
-export const extractLogger = (context: InitialServerContext) =>
+export const extractLogger = (context: GlobalServerContext) =>
   context?.utils?.logger;
 
 export const extractUser = (
-  context: ServerContext<InitialServerContext, ActiveServerContext>
-): ActiveServerContext["user"] => context?.active?.user;
+  context: ServerContext<GlobalServerContext, ExecutionServerContext>
+): ExecutionServerContext["user"] => context?.execution?.user;
 
 export const extractUserId = (
-  context: ServerContext<InitialServerContext, ActiveServerContext>
+  context: ServerContext<GlobalServerContext, ExecutionServerContext>
 ): string => extractUser(context)?.id;
 
-export const extractSystem = (context: InitialServerContext) => context?.system;
+export const extractSystem = (context: GlobalServerContext) => context?.system;
 
-export const extractSystemInfo = (context: InitialServerContext) =>
+export const extractSystemInfo = (context: GlobalServerContext) =>
   context?.system?.info;
 
-export const extractEnv = (context: InitialServerContext) => context?.env;
+export const extractEnv = (context: GlobalServerContext) => context?.env;
 
 export const extractService = <
   TEntity extends IEntity = IEntity,
   TUtils extends UtilityContext = UtilityContext
 >(
-  context: InitialServerContext<Array<TEntity>, TUtils>,
+  context: GlobalServerContext<Array<TEntity>, TUtils>,
   entityName: ServiceMappingIndex<TEntity>
 ): Service<TEntity> => context?.services?.[entityName] as Service<TEntity>;

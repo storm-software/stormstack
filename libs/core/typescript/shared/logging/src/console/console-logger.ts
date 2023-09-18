@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Provider } from "@open-system/core-shared-injection/decorators";
+import { formatLog } from "../format";
 import { Logger } from "../logger";
 import {
   endGroup,
-  print,
   printError,
+  printFatal,
   printInfo,
   printSuccess,
   printWarning,
@@ -26,7 +27,7 @@ export class ConsoleLogger extends Logger {
    * @param {string} message - The fatal message to be printed.
    */
   static fatal(...message: any[]) {
-    printError(message, true, true, true);
+    printFatal(message, true, true, true);
   }
 
   /**
@@ -79,7 +80,7 @@ export class ConsoleLogger extends Logger {
    * @param {string} message - The message to be printed.
    */
   static log(...message: any[]) {
-    print(message, false, false, undefined, undefined, false);
+    console.log(formatLog(message, false, false, undefined, undefined, false));
   }
 
   /**
@@ -123,7 +124,7 @@ export class ConsoleLogger extends Logger {
    * @returns Nothing.
    */
   public fatal = (...message: any[]) => {
-    printError(message, true, true, true);
+    printFatal(message, true, true, true);
   };
 
   /**
@@ -184,7 +185,7 @@ export class ConsoleLogger extends Logger {
    * @returns A promise that resolves to void.
    */
   public log = (...message: any[]) => {
-    print(message, false, false, undefined, undefined, false);
+    console.log(formatLog(message, false, false, undefined, undefined, false));
   };
 
   /**

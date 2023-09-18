@@ -3,5 +3,6 @@ import * as InjectionInterfaces from "../types";
 
 export const Injector: InjectionInterfaces.Injector = new Container({
   autoBindInjectable: true,
-  skipBaseClassChecks: true
+  skipBaseClassChecks: true,
+  defaultScope: InjectionInterfaces.BindingScopeEnum.SINGLETON
 });

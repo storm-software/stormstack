@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import {
-  ActiveContext,
+  ExecutionContext,
+  GlobalServerContext,
   HttpRequest,
-  InitialServerContext,
   ServerContext,
   UserContext
 } from "@open-system/core-server-application/context";
@@ -14,47 +14,48 @@ export type GraphQLRequest<TVariables = any> = HttpRequest<
   GraphQLParams<TVariables>
 >;
 
-export type GraphQLActiveContext<
+export type GraphQLExecutionContext<
   TVariables = any,
   TRequest extends GraphQLRequest<TVariables> = GraphQLRequest<TVariables>,
   TUser extends UserContext<any> = UserContext<any>
-> = ActiveContext<TRequest, TUser> & {
+> = ExecutionContext<TRequest, TUser> & {
   operationName: string;
 };
 
-export type GraphQLActiveServerContext = GraphQLActiveContext<
+export type GraphQLExecutionServerContext = GraphQLExecutionContext<
   any,
   GraphQLRequest<any>,
   UserContext<any>
 >;
 
 export type GraphQLServerContext<
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext,
+  TGlobalContext extends GlobalServerContext = GlobalServerContext,
+  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext,
   TBindings = unknown
-> = ServerContext<TInitialContext, TActiveContext> & {
-  active: GraphQLActiveServerContext;
+> = ServerContext<TGlobalContext, TExecutionContext> & {
+  execution: GraphQLExecutionServerContext;
   bindings?: TBindings;
 } & YogaInitialContext;
 
-export const extractActive = (
+export const extractExecution = (
   context: GraphQLServerContext<
-    InitialServerContext<Array<IEntity>>,
-    GraphQLActiveServerContext
+    GlobalServerContext<Array<IEntity>>,
+    GraphQLExecutionServerContext
   >
-) => context?.active as GraphQLActiveServerContext;
+) => context?.execution as GraphQLExecutionServerContext;
 
 export const extractGraphQLRequest = (
   context: GraphQLServerContext<
-    InitialServerContext<Array<IEntity>>,
-    GraphQLActiveServerContext
+    GlobalServerContext<Array<IEntity>>,
+    GraphQLExecutionServerContext
   >
-): GraphQLActiveServerContext["request"] => extractActive(context)?.request;
+): GraphQLExecutionServerContext["request"] =>
+  extractExecution(context)?.request;
 
 export const extractOperationName = (
   context: GraphQLServerContext<
-    InitialServerContext<Array<IEntity>>,
-    GraphQLActiveServerContext
+    GlobalServerContext<Array<IEntity>>,
+    GraphQLExecutionServerContext
   >
-): GraphQLActiveServerContext["operationName"] =>
-  extractActive(context)?.operationName;
+): GraphQLExecutionServerContext["operationName"] =>
+  extractExecution(context)?.operationName;

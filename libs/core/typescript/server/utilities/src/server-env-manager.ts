@@ -13,33 +13,14 @@ import {
   isPromise
 } from "@open-system/core-shared-utilities/common/type-checks";
 import { EnvConfigurationError } from "@open-system/core-shared-utilities/errors/env-configuration-error";
-import { getInfisicalClient } from "./infisical-client";
 
-export const DEFAULT_OPTIONS: BaseOptions = {
+export const DEFAULT_OPTIONS: Partial<BaseOptions> = {
   ...DEFAULT_SHARED_OPTIONS,
-  isServer: true,
-  handler: async (
-    prop: string,
-    options: Omit<BaseOptions, "env"> & Required<Pick<BaseOptions, "env">>
-  ) => {
-    const { INFISICAL_TOKEN, INFISICAL_ENVIRONMENT, NODE_ENV } = options.env;
-    if (!INFISICAL_TOKEN || typeof INFISICAL_TOKEN !== "string") {
-      throw new EnvConfigurationError(
-        "INFISICAL_TOKEN",
-        `The environment variable "INFISICAL_TOKEN" is required to connect to the Infisical system.`
-      );
-    }
-
-    return await getInfisicalClient(INFISICAL_TOKEN).getSecret(prop, {
-      environment: (INFISICAL_ENVIRONMENT ?? NODE_ENV) as string,
-      path: "/",
-      type: "shared"
-    });
-  }
+  isServer: true
 };
 
 @Provider(EnvManager)
-export class InfisicalEnvManager<
+export class ServerEnvManager<
   TOptions extends Omit<BaseOptions, "env"> &
     Required<Pick<BaseOptions, "env">> = Omit<BaseOptions, "env"> &
     Required<Pick<BaseOptions, "env">>

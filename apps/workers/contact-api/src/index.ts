@@ -3,32 +3,35 @@
 import "reflect-metadata";
 import "./dependencies";
 
-import { InitialServerContext } from "@open-system/core-server-application";
-import { CloudflareServerBindings } from "@open-system/core-server-cloudflare/types";
-import {
-  GraphQLActiveServerContext,
-  GraphQLServerContext
-} from "@open-system/core-server-graphql/context";
+import { ConsoleLogger } from "@open-system/core-shared-logging/console/console-logger";
+import { formatErrorLog } from "@open-system/core-shared-logging/format/format-log";
+import { isError } from "@open-system/core-shared-utilities/common/type-checks";
 import { createServer } from "./server";
 
-export interface Env extends CloudflareServerBindings {
+export interface Env {
   DB: any;
 }
 
 export default {
-  async fetch(
-    request: Request,
-    env: Env,
-    context: Partial<
-      GraphQLServerContext<InitialServerContext, GraphQLActiveServerContext>
-    >
-  ) {
+  async fetch(request: Request, env: Env) {
     try {
+      ConsoleLogger.debug("Server bindings", env);
+
       const server = await createServer();
 
-      return server.fetch(request as any, env as any, context);
+      const result = await server.fetch(request as any, env as any);
+      if (isError(result)) {
+        ConsoleLogger.error(result);
+        return new Response(formatErrorLog(result), {
+          status: 500,
+          ...(result as Error)
+        });
+      }
+
+      return result;
     } catch (e) {
-      return new Response((e as Error)?.message, {
+      ConsoleLogger.fatal(e);
+      return new Response(formatErrorLog(e as Error), {
         status: 500,
         ...(e as Error)
       });

@@ -4,7 +4,7 @@ import {
 } from "@envelop/sentry";
 import type { Plugin } from "@envelop/types";
 import {
-  InitialServerContext,
+  GlobalServerContext,
   extractCorrelationId,
   extractRequestId,
   extractSystemInfo,
@@ -14,13 +14,13 @@ import { JsonParser } from "@open-system/core-shared-serialization";
 import { MissingContextError } from "@open-system/core-shared-utilities";
 import { print } from "graphql";
 import {
-  GraphQLActiveServerContext,
+  GraphQLExecutionServerContext,
   GraphQLServerContext
 } from "../context/context";
 
 export const useSentry = <
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  TInitialContext extends GlobalServerContext = GlobalServerContext,
+  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
 >(
   initialContext: TInitialContext,
   options: SentryPluginOptions = {}
@@ -69,7 +69,7 @@ export const useSentry = <
         transactionName: context.system.info.domainName,
         variables: JsonParser.stringify(args.variableValues),
         operation: print(args.document),
-        userId: context?.active.user.id
+        userId: context?.execution.user.id
       });
     },
     appendTags: ({ contextValue }) => {

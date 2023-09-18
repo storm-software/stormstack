@@ -5,7 +5,7 @@ import type { GraphQLArmorConfig } from "@escape.tech/graphql-armor-types";
 import { IExecutableSchemaDefinition } from "@graphql-tools/schema/typings/types";
 import {
   CreateServerContextParams,
-  InitialServerContext
+  GlobalServerContext
 } from "@open-system/core-server-application";
 import { IEntity } from "@open-system/core-server-domain";
 import { MergedScalars } from "@pothos/core";
@@ -20,7 +20,7 @@ import type {
 } from "graphql-yoga";
 import { GraphiQLOptionsOrFactory } from "graphql-yoga/typings/plugins/use-graphiql";
 import { YogaSchemaDefinition } from "graphql-yoga/typings/plugins/use-schema";
-import { GraphQLActiveServerContext, GraphQLServerContext } from "./context";
+import { GraphQLExecutionServerContext, GraphQLServerContext } from "./context";
 import { ExtendContextOptions, ServiceProvidersPluginOptions } from "./plugins";
 import { LoggerPluginOptions } from "./plugins/use-logger";
 
@@ -249,8 +249,8 @@ export type PluginMapConfiguration = {
    * The extend context plugin is used to extend the context of the GraphQL server.
    */
   extendContext?: <
-    TInitialContext extends InitialServerContext = InitialServerContext,
-    TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+    TInitialContext extends GlobalServerContext = GlobalServerContext,
+    TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
   >(
     initialContext: TInitialContext,
     extendContextOptions?: ExtendContextOptions
@@ -260,8 +260,8 @@ export type PluginMapConfiguration = {
    * The logger plugin is used to log the GraphQL server.
    */
   logger?: <
-    TInitialContext extends InitialServerContext = InitialServerContext,
-    TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+    TInitialContext extends GlobalServerContext = GlobalServerContext,
+    TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
   >(
     initialContext: TInitialContext,
     options?: LoggerPluginOptions
@@ -269,8 +269,8 @@ export type PluginMapConfiguration = {
 
   serviceProviders?: <
     TEntities extends Array<IEntity> = Array<IEntity>,
-    TInitialContext extends InitialServerContext = InitialServerContext,
-    TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+    TInitialContext extends GlobalServerContext = GlobalServerContext,
+    TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
   >(
     initialContext: TInitialContext,
     options?: ServiceProvidersPluginOptions<
@@ -283,8 +283,8 @@ export type PluginMapConfiguration = {
 
 export type GraphQLHandlerPluginOptions<
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  TInitialContext extends GlobalServerContext = GlobalServerContext,
+  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
 > = CreateServerContextParams & {
   /**
    * The plugin map configuration is used to configure the plugins that are used by the GraphQL server.
@@ -403,8 +403,8 @@ export type GraphQLHandlerPluginOptions<
 };
 
 export type CreateGraphQLHandlerOptions<
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext,
+  TInitialContext extends GlobalServerContext = GlobalServerContext,
+  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext,
   TServerContext extends GraphQLServerContext<
     TInitialContext,
     TActiveContext

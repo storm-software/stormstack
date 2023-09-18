@@ -7,21 +7,21 @@ import {
   extractRequestHeaders,
   extractSystem
 } from "@open-system/core-server-application/context";
-import { InitialServerContext } from "@open-system/core-server-application/context/initial-context";
+import { GlobalServerContext } from "@open-system/core-server-application/context/global-context";
 import { IEntity } from "@open-system/core-server-domain/types";
-import { GraphQLActiveContext, GraphQLServerContext } from "../context";
+import { GraphQLExecutionContext, GraphQLServerContext } from "../context";
 
 export const useHive = async <
-  TInitialContext extends InitialServerContext<
+  TGlobalContext extends GlobalServerContext<
     Array<IEntity>
-  > = InitialServerContext<Array<IEntity>>,
-  TActiveContext extends GraphQLActiveContext<
+  > = GlobalServerContext<Array<IEntity>>,
+  TExecutionContext extends GraphQLExecutionContext<
     HttpRequest,
     UserContext
-  > = GraphQLActiveContext<HttpRequest, UserContext>
+  > = GraphQLExecutionContext<HttpRequest, UserContext>
 >(
-  initialContext: TInitialContext
-): Promise<Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>> => {
+  initialContext: TGlobalContext
+): Promise<Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>> => {
   const env = initialContext.env;
   const info = extractSystem(initialContext).info;
 
@@ -53,7 +53,7 @@ export const useHive = async <
     usage: {
       endpoint: (await env.getAsync("HIVE_CONTACT_SDL_URL")) ?? undefined,
       clientInfo(
-        context: GraphQLServerContext<TInitialContext, TActiveContext>
+        context: GraphQLServerContext<TGlobalContext, TExecutionContext>
       ) {
         const headers = extractRequestHeaders(context);
 
@@ -109,5 +109,5 @@ export const useHive = async <
      * Operations Store
      */
     // operationsStore: undefined
-  }) as Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+  }) as Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>;
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Resolvable value types for a valid Snowflake.
  * * string
@@ -5,6 +6,8 @@
  * * bigint
  * @type {SnowflakeResolvable}
  */
+
+import { IncorrectTypeError } from "../errors/incorrect-type-error";
 
 type SnowflakeResolvable = string;
 
@@ -25,6 +28,15 @@ interface DeconstructedSnowflake {
   binary: string;
 }
 
+export type GenerateParams = {
+  timestamp?: Date | number;
+  shardId?: number;
+};
+
+export interface IUniqueIdGenerator {
+  generate: (params?: GenerateParams) => string;
+}
+
 export class UniqueIdGenerator {
   /**
    * The generators epoch timestamp in milliseconds.
@@ -33,8 +45,6 @@ export class UniqueIdGenerator {
    *
    * @type {number}
    */
-  /* c8 ignore end */
-
   public static EPOCH: number = Date.UTC(1970, 0, 1).valueOf();
 
   /**
@@ -44,8 +54,6 @@ export class UniqueIdGenerator {
    *
    * @type {number}
    */
-  /* c8 ignore end */
-
   public static SHARD_ID = 1;
 
   /**
@@ -55,8 +63,6 @@ export class UniqueIdGenerator {
    *
    * @type {number}
    */
-  /* c8 ignore end */
-
   public static SEQUENCE = 1;
 
   /**
@@ -64,15 +70,10 @@ export class UniqueIdGenerator {
    * @param {Date|number} [timestamp = Date.now] - Timestamp to generate from
    * @returns {bigint}
    */
-  /* c8 ignore end */
-
   public static generate({
     timestamp = Date.now(),
     shardId = UniqueIdGenerator.SHARD_ID
-  }: {
-    timestamp?: Date | number;
-    shardId?: number;
-  } = {}): string {
+  }: GenerateParams = {}): string {
     if (timestamp instanceof Date) timestamp = timestamp.valueOf();
     else timestamp = new Date(timestamp).valueOf();
 
@@ -90,7 +91,6 @@ export class UniqueIdGenerator {
    * @param {SnowflakeResolvable|SnowflakeResolvable[]} snowflake - Snowflake(s) to deconstruct
    * @returns {DeconstructedSnowflake|DeconstructedSnowflake[]}
    */
-
   public static parse(snowflake: SnowflakeResolvable): DeconstructedSnowflake {
     const binary = UniqueIdGenerator.binary(snowflake);
     return {
@@ -120,7 +120,6 @@ export class UniqueIdGenerator {
    * @param {number|bigint} length - Number of bits to extract before stopping
    * @returns {bigint}
    */
-
   public static extractBits(
     snowflake: SnowflakeResolvable,
     start: number,
@@ -140,7 +139,6 @@ export class UniqueIdGenerator {
    * @returns {string}
    * @private
    */
-
   public static binary(snowflake: SnowflakeResolvable): string {
     const cached64BitZeros =
       "0000000000000000000000000000000000000000000000000000000000000000";
@@ -150,3 +148,25 @@ export class UniqueIdGenerator {
       : binValue;
   }
 }
+
+export const uniqueIdGenerator = new Proxy<IUniqueIdGenerator>(
+  {} as IUniqueIdGenerator,
+  {
+    get: async (target: IUniqueIdGenerator, prop: string) => {
+      switch (prop) {
+        case "generate":
+          return UniqueIdGenerator.generate;
+        default:
+          throw new IncorrectTypeError("Invalid prop used on JsonParser");
+      }
+    },
+    set: (
+      target: IUniqueIdGenerator,
+      prop: string | symbol,
+      newValue: any,
+      _: any
+    ): boolean => {
+      return true;
+    }
+  }
+);

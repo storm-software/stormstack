@@ -169,7 +169,7 @@ export default async function (
             _stream_writable: false,
             assert: false,
             "assert/strict": false,
-            async_hooks: false,
+            async_hooks: true,
             buffer: false,
             child_process: false,
             cluster: false,

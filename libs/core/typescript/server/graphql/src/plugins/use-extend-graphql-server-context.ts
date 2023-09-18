@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { OnContextBuildingEventPayload, Plugin } from "@envelop/types";
 import {
+  GlobalServerContext,
   HttpRequest,
-  InitialServerContext,
   UserContext,
-  extendServerContext
+  clearExecutionContext,
+  extendServerContext,
+  setGlobalServerContext
 } from "@open-system/core-server-application";
-import { InfisicalEnvManager } from "@open-system/core-server-infisical";
-import { PinoLogger } from "@open-system/core-server-pino-logging";
-import { EnvManager } from "@open-system/core-shared-env/env-manager";
-import { Logger } from "@open-system/core-shared-logging/logger";
 import {
-  GraphQLActiveServerContext,
+  GraphQLExecutionServerContext,
   GraphQLServerContext
 } from "../context/context";
 
@@ -21,72 +19,62 @@ export type ExtendContextOptions = {
 };
 
 export const useExtendGraphQLServerContext = <
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext,
+  TGlobalContext extends GlobalServerContext = GlobalServerContext,
+  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext,
   TBindings = any
 >(
-  initialContext: TInitialContext,
+  initialContext: TGlobalContext,
   options: ExtendContextOptions = {
     shouldBindLoggerToInjector: true,
     shouldBindEnvManagerToInjector: true
   }
-): Plugin<GraphQLServerContext<TInitialContext, TActiveContext, TBindings>> => {
+): Plugin<
+  GraphQLServerContext<TGlobalContext, TExecutionContext, TBindings>
+> => {
   return {
-    async onPluginInit() {
-      if (options?.shouldBindLoggerToInjector) {
-        initialContext.injector.isBound(Logger)
-          ? initialContext.injector
-              .rebind(Logger)
-              .to(PinoLogger)
-              .inSingletonScope()
-          : initialContext.injector
-              .bind(Logger)
-              .to(PinoLogger)
-              .inSingletonScope();
+    /*async onPluginInit() {
+      if (
+        options?.shouldBindLoggerToInjector &&
+        !initialContext.injector.isBound(Logger)
+      ) {
+        bindService(Logger, ConsoleLogger, initialContext.injector);
       }
 
-      if (options?.shouldBindEnvManagerToInjector) {
-        initialContext.injector.isBound(EnvManager)
-          ? initialContext.injector
-              .rebind(EnvManager)
-              .to(InfisicalEnvManager)
-              .inSingletonScope()
-          : initialContext.injector
-              .bind(EnvManager)
-              .to(InfisicalEnvManager)
-              .inSingletonScope();
+      if (
+        options?.shouldBindEnvManagerToInjector &&
+        !initialContext.injector.isBound(EnvManager)
+      ) {
+        bindService(EnvManager, EnvManager, initialContext.injector);
       }
-    },
+    },*/
     async onContextBuilding({
       context,
       extendContext
     }: OnContextBuildingEventPayload<
-      GraphQLServerContext<TInitialContext, TActiveContext, TBindings>
+      GraphQLServerContext<TGlobalContext, TExecutionContext, TBindings>
     >) {
       const extended = (await extendServerContext<
         HttpRequest,
         UserContext<any>,
-        InitialServerContext,
-        TActiveContext,
+        GlobalServerContext,
+        TExecutionContext,
         TBindings
       >({
-        initialContext: initialContext as TInitialContext,
-        request: context.active.request,
+        initialContext: clearExecutionContext(initialContext) as TGlobalContext,
+        request: context.execution.request,
         user: {
           id: "423424223211",
           name: "Pat Sullivan",
           email: "john.johnson@email.com"
         },
         bindings: context?.bindings
-      })) as GraphQLServerContext<TInitialContext, TActiveContext, TBindings>;
+      })) as GraphQLServerContext<TGlobalContext, TExecutionContext, TBindings>;
 
-      extended.active.operationName = context.params.operationName ?? "unknown";
-      extended.active.request.body = context.params;
+      extended.execution.operationName =
+        context.params.operationName ?? "unknown";
+      extended.execution.request.body = context.params;
 
-      extendContext({
-        ...initialContext,
-        ...extended
-      });
+      extendContext(setGlobalServerContext(extended));
     }
   };
 };

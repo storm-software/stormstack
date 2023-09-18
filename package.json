@@ -301,7 +301,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.81.0",
     "webpack-merge": "^5.8.0",
-    "wrangler": "^3.7.0",
+    "wrangler": "^3.8.0",
     "zod-prisma": "^0.5.4",
     "zod-prisma-types": "^2.7.4"
   },

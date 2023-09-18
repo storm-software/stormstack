@@ -1,38 +1,32 @@
 import {
-  InitialServerContext,
+  GlobalServerContext,
   createServerContext,
   extractSystem
 } from "@open-system/core-server-application/context";
-import { Injector } from "@open-system/core-shared-injection";
-import { Logger } from "@open-system/core-shared-logging/logger";
-import * as fetchAPI from "@whatwg-node/node-fetch";
 import { createYoga } from "graphql-yoga";
-import { GraphQLActiveServerContext, GraphQLServerContext } from "../context";
+import {
+  GraphQLExecutionServerContext,
+  GraphQLServerContext
+} from "../context";
 import { createPlugins } from "../plugins";
 import { CreateGraphQLHandlerOptions, GraphQLServerInstance } from "../types";
+import { fetchAPI } from "./fetch-api";
 
 export const createGraphQLHandler = async <
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext,
+  TGlobalContext extends GlobalServerContext = GlobalServerContext,
+  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext,
   TServerContext extends GraphQLServerContext<
-    TInitialContext,
-    TActiveContext
-  > = GraphQLServerContext<TInitialContext, TActiveContext>
+    TGlobalContext,
+    TExecutionContext
+  > = GraphQLServerContext<TGlobalContext, TExecutionContext>
 >(
   options: CreateGraphQLHandlerOptions<
-    TInitialContext,
-    TActiveContext,
+    TGlobalContext,
+    TExecutionContext,
     TServerContext
   >
 ): Promise<GraphQLServerInstance<TServerContext>> => {
-  const injector = options.injector ?? Injector;
-  const logger = injector.get(Logger);
-
-  const context = await createServerContext<TInitialContext>({
-    ...options,
-    injector,
-    logger
-  });
+  const context = await createServerContext<TGlobalContext>(options);
 
   const plugins = await createPlugins({
     ...options,
@@ -44,7 +38,7 @@ export const createGraphQLHandler = async <
     ...options,
     id: system.info.serviceId,
     multipart: true,
-    logging: logger,
+    logging: context.utils.logger,
     graphqlEndpoint: context.env.get("GRAPHQL_PATH") ?? "/graphql",
     healthCheckEndpoint: context.env.get("HEALTH_CHECK_PATH") ?? "/healthcheck",
     context: context as unknown as TServerContext,

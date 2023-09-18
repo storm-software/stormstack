@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { InitialServerContext } from "@open-system/core-server-application";
 import { CloudflareServerBindings } from "@open-system/core-server-cloudflare/types";
 import {
-  GraphQLActiveServerContext,
-  GraphQLServerContext
-} from "@open-system/core-server-graphql/context";
+  ConsoleLogger,
+  formatErrorLog
+} from "@open-system/core-shared-logging";
+import { isError } from "@open-system/core-shared-utilities/common/type-checks";
 import { createServer } from "./server";
 
 /*declare global {
@@ -58,19 +58,25 @@ const handler = {
   operation: "contact-graphql"
 });*/
 
-export const handler = async (
-  request: Request,
-  env: Env,
-  context: Partial<
-    GraphQLServerContext<InitialServerContext, GraphQLActiveServerContext>
-  >
-) => {
+export const handler = async (request: Request, env: Env) => {
   try {
+    ConsoleLogger.debug("Server bindings", env);
+
     const server = await createServer();
 
-    return server.fetch(request as any, env as any, context);
+    const result = await server.fetch(request as any, env as any);
+    if (isError(result)) {
+      ConsoleLogger.error(result);
+      return new Response(formatErrorLog(result), {
+        status: 500,
+        ...(result as Error)
+      });
+    }
+
+    return result;
   } catch (e) {
-    return new Response((e as Error)?.message, {
+    ConsoleLogger.fatal(e);
+    return new Response(formatErrorLog(e as Error), {
       status: 500,
       ...(e as Error)
     });

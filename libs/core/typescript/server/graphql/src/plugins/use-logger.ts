@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLogger as useLoggerExt } from "@envelop/core";
 import { Plugin } from "@envelop/types";
-import { InitialServerContext } from "@open-system/core-server-application/context/initial-context";
+import { GlobalServerContext } from "@open-system/core-server-application/context/global-context";
 import {
-  GraphQLActiveServerContext,
+  GraphQLExecutionServerContext,
   GraphQLServerContext
 } from "../context/context";
 
@@ -13,8 +13,8 @@ export type LoggerPluginOptions = {
 };
 
 export const useLogger = <
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  TInitialContext extends GlobalServerContext = GlobalServerContext,
+  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
 >(
   initialContext: TInitialContext,
   options?: LoggerPluginOptions
@@ -28,9 +28,9 @@ export const useLogger = <
         >) ?? initialContext;
 
       const logger = context.utils.logger;
-      await logger.info(`Event triggered: ${eventName}`);
+      logger.info(`Event triggered: ${eventName}`);
 
-      await logger.debug(context.utils.parser.stringify(args));
+      logger.debug(context.utils.parser.stringify(args));
     },
     skipIntrospection: options?.skipIntrospection ?? true
   }) as Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Plugin } from "@envelop/types";
 import {
-  InitialServerContext,
+  GlobalServerContext,
   Repository
 } from "@open-system/core-server-application";
 import { useExtendCloudflareGraphQLServerContext } from "@open-system/core-server-cloudflare/plugins";
 import { CloudflareServerBindingsContext } from "@open-system/core-server-cloudflare/types";
 import {
-  GraphQLActiveServerContext,
+  GraphQLExecutionServerContext,
   GraphQLServerContext
 } from "@open-system/core-server-graphql/context";
 import { bindService } from "@open-system/core-shared-injection/utilities/bind-service";
@@ -21,8 +21,8 @@ import {
 } from "../__generated__/graphql/repositories";
 
 export const useExtendContactGraphQLServerContext = <
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  TInitialContext extends GlobalServerContext = GlobalServerContext,
+  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
 >(
   initialContext: TInitialContext
 ): Plugin<

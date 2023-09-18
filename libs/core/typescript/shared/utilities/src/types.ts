@@ -29,6 +29,7 @@ export type Indexable = {
 };
 
 export const EMPTY_STRING = "" as const;
+export const NEWLINE_STRING = "\r\n" as const;
 export const EMPTY_OBJECT = {} as const;
 
 export type AnyCase<T extends IndexType> = string extends T

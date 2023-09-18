@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { DateTime } from "@open-system/core-shared-utilities/common/date-time";
 import { HttpMethod } from "@open-system/core-shared-utilities/types";
+import { GlobalServerContext } from "./global-context";
 import { HeaderMap } from "./headers-map";
-import { InitialServerContext } from "./initial-context";
 
 export type UserContext<TContext = any> = Record<string, any> &
   TContext & {
@@ -56,7 +56,7 @@ export interface HttpRequest<TBody = unknown> {
 export type HttpRequestContext<TRequest extends HttpRequest = HttpRequest> =
   RequestContext<TRequest>;
 
-export type ActiveContext<
+export type ExecutionContext<
   TRequest extends HttpRequest = HttpRequest,
   TUser extends UserContext<any> = UserContext<any>
 > = {
@@ -67,21 +67,21 @@ export type ActiveContext<
   startedBy: string;
 };
 
-export type ActiveServerContext = ActiveContext<HttpRequest, UserContext>;
+export type ExecutionServerContext = ExecutionContext<HttpRequest, UserContext>;
 
 export type ServerContext<
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends ActiveServerContext = ActiveServerContext,
+  TInitialContext extends GlobalServerContext = GlobalServerContext,
+  TExecutionContext extends ExecutionServerContext = ExecutionServerContext,
   TBindings = unknown
 > = TInitialContext & {
-  active: TActiveContext;
+  execution: TExecutionContext;
   bindings?: TBindings;
 };
 
 export type ExtendServerContextParams<
   TRequest extends HttpRequest = HttpRequest,
   TUser extends UserContext<any> = UserContext<any>,
-  TInitialContext extends InitialServerContext = InitialServerContext,
+  TInitialContext extends GlobalServerContext = GlobalServerContext,
   TBindings = unknown
 > = {
   initialContext: TInitialContext;
@@ -96,43 +96,50 @@ export type ExtendServerContextParams<
 export const extendServerContext = async <
   TRequest extends HttpRequest = HttpRequest,
   TUser extends UserContext<any> = UserContext<any>,
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends ActiveContext<TRequest, TUser> = ActiveContext<
+  TGlobalContext extends GlobalServerContext = GlobalServerContext,
+  TExecutionContext extends ExecutionContext<
     TRequest,
     TUser
-  >,
+  > = ExecutionContext<TRequest, TUser>,
   TBindings = unknown
 >({
   initialContext,
   correlationId,
   requestId,
   request,
-  headers = {},
+  headers: _headers = {},
   user,
   bindings
 }: ExtendServerContextParams<
   TRequest,
   TUser,
-  TInitialContext,
+  TGlobalContext,
   TBindings
->): Promise<ServerContext<TInitialContext, TActiveContext>> => {
+>): Promise<ServerContext<TGlobalContext, TExecutionContext>> => {
   const uniqueIdGenerator = initialContext.utils.uniqueIdGenerator;
   const method = request.method.toUpperCase();
 
   const url = request.url
     ? new URL(request.url)
-    : initialContext.system.info.url;
+    : new URL(initialContext.system.info.url);
+  const headers = _headers ? HeaderMap.normalize(_headers) : new HeaderMap();
 
-  return {
+  const context = {
     ...initialContext,
     bindings: bindings ?? initialContext.bindings,
-    active: {
-      correlationId: correlationId ?? uniqueIdGenerator.generate(),
+    execution: {
+      correlationId:
+        correlationId ??
+        headers.get("x-correlation-id") ??
+        uniqueIdGenerator.generate(),
       user,
       request: {
-        requestId: requestId ?? uniqueIdGenerator.generate(),
+        requestId:
+          requestId ??
+          headers.get("x-request-id") ??
+          uniqueIdGenerator.generate(),
         method,
-        headers: headers ? HeaderMap.normalize(headers) : new HeaderMap(),
+        headers,
         url,
         body:
           request instanceof Request
@@ -144,6 +151,19 @@ export const extendServerContext = async <
       },
       startedAt: DateTime.current,
       startedBy: (user as UserContext<any>)?.id
-    } as TActiveContext
+    } as TExecutionContext
   };
+
+  context.utils.logger.debug("Execution Context Value: \n", context);
+
+  return context;
+};
+
+export const clearExecutionContext = <
+  TGlobalContext extends GlobalServerContext = GlobalServerContext
+>(
+  context: TGlobalContext & { execution?: Pick<ServerContext, "execution"> }
+): TGlobalContext => {
+  delete context.execution;
+  return context;
 };

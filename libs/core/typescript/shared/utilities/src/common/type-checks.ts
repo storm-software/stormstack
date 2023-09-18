@@ -8,7 +8,7 @@ import {
 } from "radash";
 import { MutableRefObject } from "react";
 import zod from "zod";
-import { SelectOption } from "../types";
+import { EMPTY_STRING, SelectOption } from "../types";
 
 /**
  * Check if the provided value's type is `number`
@@ -33,6 +33,19 @@ export const isNumber = (obj: unknown): obj is number => {
 export const isString = (obj: unknown): obj is string => {
   try {
     return typeof obj === "string";
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * Determine if the type is string and is empty
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the value provided is of type `""`
+ */
+export const isEmptyString = (obj: unknown): obj is string => {
+  try {
+    return isString(obj) && obj === EMPTY_STRING;
   } catch (e) {
     return false;
   }
@@ -216,6 +229,19 @@ export const isEmptyObject = (obj: unknown) => {
 export const isSet = (obj: unknown): obj is NonNullable<unknown> => {
   try {
     return !isEmpty(obj);
+  } catch (e) {
+    return false;
+  }
+};
+
+/**
+ * The inverse of the `isEmptyObject` function
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the value provided is **NOT** of type `null` or `undefined` or `{}`
+ */
+export const isNotEmpty = (obj: unknown): obj is NonNullable<unknown> => {
+  try {
+    return !isEmpty(obj) && !isEmptyString(obj) && !isEmptyObject(obj);
   } catch (e) {
     return false;
   }

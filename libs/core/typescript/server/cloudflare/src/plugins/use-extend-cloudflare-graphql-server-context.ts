@@ -2,11 +2,11 @@
 import type { Plugin } from "@envelop/types";
 import {
   BINDINGS_TOKEN,
-  InitialServerContext
+  GlobalServerContext
 } from "@open-system/core-server-application";
 import { isDrizzleSqliteDB } from "@open-system/core-server-drizzle/utilities";
 import {
-  GraphQLActiveServerContext,
+  GraphQLExecutionServerContext,
   GraphQLServerContext
 } from "@open-system/core-server-graphql/context";
 import {
@@ -18,8 +18,8 @@ import { DrizzleD1Database, drizzle } from "drizzle-orm/d1";
 import { CloudflareServerBindingsContext } from "../types";
 
 export const useExtendCloudflareGraphQLServerContext = <
-  TInitialContext extends InitialServerContext = InitialServerContext,
-  TActiveContext extends GraphQLActiveServerContext = GraphQLActiveServerContext
+  TInitialContext extends GlobalServerContext = GlobalServerContext,
+  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
 >(
   initialContext: TInitialContext,
   options?: ExtendContextOptions

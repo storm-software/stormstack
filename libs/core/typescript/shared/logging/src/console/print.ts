@@ -1,102 +1,5 @@
-import {
-  DateTime,
-  formatDateTime,
-  isBaseType,
-  isEmpty,
-  isError,
-  isObject,
-  isProduction
-} from "@open-system/core-shared-utilities/common";
 import chalk from "chalk";
-
-/**
- * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
- * (defaults to `true`), a `newLineAfter` of type `boolean` (defaults to `true`), and an optional
- * `prefix` of type `string`
- * @param {string} message - string - The message to print
- * @param [newLine=true] - boolean - Whether to print a new line before the message.
- * @param [newLineAfter=true] - boolean
- * @param {string} [prefix] - The prefix to use for the message.
- */
-export const print = (
-  message: unknown | unknown[],
-  newLine = true,
-  newLineAfter = true,
-  prefix?: string,
-  postfix?: string,
-  stackTrace: string | boolean | undefined = false
-): string => {
-  return `${newLine ? "\n" : ""}${prefix ? `${prefix} ` : ""}${
-    Array.isArray(message)
-      ? message.reduce((ret, m, i) => {
-          ret += formatLine(m) + (i < message.length - 1 ? "\n" : "");
-          return ret;
-        }, "")
-      : formatLine(message)
-  }${postfix ? postfix : ""}${
-    !isProduction()
-      ? "\n" +
-        chalk.bold("Timestamp: ") +
-        formatDateTime(
-          DateTime.current,
-          { smallestUnit: "milliseconds", calendarName: "never" },
-          "UTC"
-        ) +
-        (stackTrace !== false
-          ? "\n" +
-            chalk.bold("Stack Trace: ") +
-            (typeof stackTrace === "string"
-              ? stackTrace
-              : (message as Error)?.stack
-              ? (message as Error)?.stack
-              : new Error().stack?.substring(6) ?? "")
-          : "")
-      : ""
-  }${newLineAfter ? "\n" : ""}`;
-};
-
-/**
- * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
- * (defaults to `true`), a `newLineAfter` of type `boolean` (defaults to `true`), and an optional
- * `prefix` of type `string`
- * @param {string} message - string - The message to print
- * @param [newLine=true] - boolean - Whether to print a new line before the message.
- * @param [newLineAfter=true] - boolean
- * @param {string} [prefix] - The prefix to use for the message.
- */
-const format = (message: unknown): string =>
-  isEmpty(message)
-    ? "<Empty>"
-    : !isBaseType(message) && !isObject(message) && !isError(message)
-    ? "<Object>"
-    : isError(message)
-    ? (message as Error)?.name && (message as Error)?.message
-      ? `${(message as Error)?.name}: ${(message as Error)?.message}`
-      : (message as Error)?.name
-      ? (message as Error)?.name
-      : (message as Error)?.message
-      ? (message as Error)?.message
-      : "<Error>"
-    : isObject(message)
-    ? JSON.stringify(message)
-    : (message as string);
-
-/**
- * `print` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
- * (defaults to `true`), a `newLineAfter` of type `boolean` (defaults to `true`), and an optional
- * `prefix` of type `string`
- * @param {string} message - string - The message to print
- * @param [newLine=true] - boolean - Whether to print a new line before the message.
- * @param [newLineAfter=true] - boolean
- * @param {string} [prefix] - The prefix to use for the message.
- */
-const formatLine = (message: unknown): string =>
-  Array.isArray(message)
-    ? message.reduce((ret, m, i) => {
-        ret += formatLine(m) + (i < message.length - 1 ? ", " : "");
-        return ret;
-      }, "")
-    : format(message);
+import { formatLog } from "../format";
 
 /**
  * It takes a message, a boolean for whether or not to print a new line before the message, a boolean
@@ -113,11 +16,11 @@ export const printInfo = (
   stackTrace: boolean | undefined = false
 ) => {
   console.info(
-    print(
+    formatLog(
       message,
       newLine,
       newLineAfter,
-      chalk.bold.blue(" > " + chalk.bgBlue.whiteBright(" i ") + " INFO -"),
+      chalk.bold.blue("> " + chalk.bgBlue.whiteBright(" i ") + " INFO -"),
       undefined,
       stackTrace
     )
@@ -150,12 +53,12 @@ export const printSuccess = (
   stackTrace: boolean | undefined = false
 ) => {
   console.info(
-    print(
+    formatLog(
       message,
       newLine,
       newLineAfter,
       chalk.bold.green(
-        " > " + chalk.bold.bgGreen.whiteBright(" ✓ ") + " SUCCESS -"
+        "> " + chalk.bold.bgGreen.whiteBright(" ✓ ") + " SUCCESS -"
       ),
       undefined,
       stackTrace
@@ -176,11 +79,11 @@ export const printWarning = (
   stackTrace: boolean | undefined = true
 ) => {
   console.warn(
-    print(
+    formatLog(
       message,
       newLine,
       newLineAfter,
-      chalk.bold.yellow(" > " + chalk.bgYellow.blackBright(" ▲ ") + " WARN -"),
+      chalk.bold.yellow("> " + chalk.bgYellow.blackBright(" ▲ ") + " WARN -"),
       undefined,
       stackTrace
     )
@@ -198,17 +101,18 @@ export const printError = (
   message: unknown[] | Error,
   newLine: boolean | undefined = true,
   newLineAfter: boolean | undefined = true,
-  stackTrace: boolean | undefined = true
+  stackTrace: boolean | undefined = true,
+  prefix = "ERROR"
 ) => {
   const error = message as Error;
   console.error(message);
   console.error(
-    print(
+    formatLog(
       error?.message ? error.message : message,
       newLine,
       newLineAfter,
       chalk.bold.red(
-        ` > ${chalk.bgRed.whiteBright(" ! ")} ERROR ${chalk.italic(
+        `> ${chalk.bgRed.whiteBright(" ! ")} ${prefix} ${chalk.italic(
           error?.name ? `(${error.name}) ` : ""
         )}-`
       ),
@@ -216,6 +120,22 @@ export const printError = (
       stackTrace !== false ? error.stack : false
     )
   );
+};
+
+/**
+ * It prints a message to the console, optionally with a new line before and/or after the message, and
+ * optionally with a symbol after the message.
+ * @param {string} message - string - The message to print
+ * @param [newLine=true] - boolean - whether to print a new line before the message
+ * @param [newLineAfter=true] - boolean
+ */
+export const printFatal = (
+  message: unknown[] | Error,
+  newLine: boolean | undefined = true,
+  newLineAfter: boolean | undefined = true,
+  stackTrace: boolean | undefined = true
+) => {
+  printError(message, newLine, newLineAfter, stackTrace, "FATAL");
 };
 
 /**

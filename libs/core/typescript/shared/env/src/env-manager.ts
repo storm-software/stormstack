@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { LazyInjected } from "@open-system/core-shared-injection/decorators/lazy-injected";
-import { Logger } from "@open-system/core-shared-logging/logger";
 import {
   BaseUtilityClass,
-  isEmpty,
+  EMPTY_STRING,
+  isNotEmpty,
   parseInteger
 } from "@open-system/core-shared-utilities";
 import { createEnvProxy } from "./create-env-proxy";
@@ -16,9 +15,6 @@ export abstract class EnvManager<
 > extends BaseUtilityClass {
   protected proxy: EnvProxy;
 
-  @LazyInjected(Logger)
-  protected logger!: Logger;
-
   constructor(public readonly options = DEFAULT_OPTIONS as TOptions) {
     super(ENV_TOKEN);
 
@@ -26,15 +22,30 @@ export abstract class EnvManager<
   }
 
   public get = <T = any>(name: string): T | undefined => {
-    this.logger?.debug(`Getting environment variable "${name}".`);
+    // this.logger?.debug(`Getting environment variable "${name}".`);
 
     return this.innerGet<T>(name);
   };
 
+  public getWithDefault<T = any>(name: string, defaultValue: T): T;
+  public getWithDefault<T = any>(
+    name: string,
+    defaultValue: undefined
+  ): T | undefined {
+    //this.logger?.debug(`Getting environment variable "${name}".`);
+
+    const value = this.get<T>(name);
+    if (isNotEmpty(value)) {
+      return defaultValue ?? undefined;
+    }
+
+    return value;
+  }
+
   public getAsync = <T = any>(name: string): Promise<T | undefined> => {
-    this.logger?.debug(
+    /*this.logger?.debug(
       `Getting external environment variable/secret "${name}".`
-    );
+    );*/
 
     return this.innerGetAsync<T>(name);
   };
@@ -43,25 +54,25 @@ export abstract class EnvManager<
     name: string,
     value: T
   ) => {
-    this.logger?.debug(
+    /*this.logger?.debug(
       `Updating environment variable "${name}" to "${value}".`
-    );
+    );*/
     this.proxy[name] = value;
   };
 
   public get defaultLocale() {
-    return this.get<string>("DEFAULT_LOCALE");
+    return this.getWithDefault<string>("DEFAULT_LOCALE", "en-US");
   }
 
   public get defaultTimezone() {
-    return this.get<string>("DEFAULT_TIMEZONE");
+    return this.getWithDefault<string>("DEFAULT_TIMEZONE", "America/New_York");
   }
 
   public get environment(): EnvironmentType {
     const _environment = this.get<EnvironmentType>("NODE_ENV");
-    if (isEmpty(_environment)) {
+    /*if (isEmpty(_environment)) {
       this.logger?.error("Environment variable NODE_ENV is not defined.");
-    }
+    }*/
 
     // Default to production since the rules are stricter.
     return _environment ?? EnvironmentType.PRODUCTION;
@@ -70,7 +81,7 @@ export abstract class EnvManager<
   public get isDevelopment(): boolean {
     return (
       this.environment === EnvironmentType.DEVELOPMENT ||
-      this.get("GITPOD_WORKSPACE_ID") !== undefined
+      !isNotEmpty(this.get("GITPOD_WORKSPACE_ID"))
     );
   }
 
@@ -87,51 +98,54 @@ export abstract class EnvManager<
   public get baseUrl() {
     return this.isDevelopment
       ? "http://localhost:3000"
-      : this.get<string>("BASE_URL");
+      : this.getWithDefault<string>("BASE_URL", EMPTY_STRING);
   }
 
   public get isCI(): boolean {
-    return !!this.get<boolean>("CI");
+    return !!this.getWithDefault<boolean>("CI", false);
   }
 
   public get repositoryOwner() {
-    return this.get<string>("CI_REPO_OWNER") ?? "sullivanpj";
+    return this.getWithDefault<string>("CI_REPO_OWNER", "sullivanpj");
   }
 
   public get repositoryWorker(): string {
-    return this.get<string>("CI_REPO_WORKER") ?? "🤖 Open-System Bot";
+    return this.getWithDefault<string>("CI_REPO_WORKER", "🤖 Open-System Bot");
   }
 
   public get repositoryName(): string {
-    return this.get<string>("CI_REPO_NAME") ?? "open-system";
+    return this.getWithDefault<string>("CI_REPO_NAME", "open-system");
   }
 
   public get branchName(): string {
-    return this.get<string>("CI_BRANCH") ?? "main";
+    return this.getWithDefault<string>("CI_BRANCH", "main");
   }
 
   public get serviceId() {
-    return this.get<string>("SERVICE_ID");
+    return this.getWithDefault<string>("SERVICE_ID", EMPTY_STRING);
   }
 
   public get serviceName() {
-    return this.get<string>("SERVICE_NAME");
+    return this.getWithDefault<string>("SERVICE_NAME", EMPTY_STRING);
   }
 
   public get serviceUrl() {
-    return this.get<string>("SERVICE_URL");
+    return this.getWithDefault<string>("SERVICE_URL", EMPTY_STRING);
   }
 
   public get serviceVersion() {
-    return this.get<string>("SERVICE_VERSION");
+    return this.getWithDefault<string>("SERVICE_VERSION", "0.0.1");
   }
 
   public get domainName() {
-    return this.get<string>("DOMAIN_NAME");
+    return this.getWithDefault<string>("DOMAIN_NAME", "core");
   }
 
   public get defaultQuerySize() {
-    return parseInteger(this.get<number>("DEFAULT_QUERY_SIZE"), 100);
+    return parseInteger(
+      this.getWithDefault<number>("DEFAULT_QUERY_SIZE", 100),
+      100
+    );
   }
 
   protected abstract innerGet: <T = any>(name: string) => T | undefined;

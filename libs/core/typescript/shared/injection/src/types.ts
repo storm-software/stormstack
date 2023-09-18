@@ -16,11 +16,11 @@ export type ServiceIdentifier<T = unknown> =
 export type TargetType = "ConstructorArgument" | "ClassProperty" | "Variable";
 
 export type BindingScope = "Singleton" | "Transient" | "Request";
-export interface BindingScopeEnum {
-  Request: BindingScope;
-  Singleton: BindingScope;
-  Transient: BindingScope;
-}
+export const BindingScopeEnum = {
+  REQUEST: "Request" as BindingScope,
+  SINGLETON: "Singleton" as BindingScope,
+  TRANSIENT: "Transient" as BindingScope
+};
 
 export type BindingType =
   | "ConstantValue"
