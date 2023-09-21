@@ -257,6 +257,7 @@
       "@open-system/tools-async-api-rabbitmq": [
         "dist/tools/async-api/rabbitmq/index.ts"
       ],
+      "@open-system/tools-devops-config/*": ["tools/devops/config/src/*"],
       "@open-system/tools-executors-docs": ["tools/executors/docs/index.ts"],
       "@open-system/tools-executors-typescript": [
         "tools/executors/typescript/index.ts"

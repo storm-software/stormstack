@@ -4,7 +4,7 @@ import {
   BaseUtilityClass,
   EMPTY_STRING,
   isNotEmpty,
-  parseInteger
+  parseInteger,
 } from "@open-system/core-shared-utilities";
 import { createEnvProxy } from "./create-env-proxy";
 import { DEFAULT_OPTIONS } from "./env-manager-options";
@@ -115,6 +115,13 @@ export abstract class EnvManager<
 
   public get repositoryName(): string {
     return this.getWithDefault<string>("CI_REPO_NAME", "open-system");
+  }
+
+  public get repositoryUrl(): string {
+    return this.getWithDefault<string>(
+      "CI_REPO_URL",
+      "https://github.com/sullivanpj/open-system"
+    );
   }
 
   public get branchName(): string {

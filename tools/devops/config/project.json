@@ -1,0 +1,95 @@
+{
+  "name": "tools-devops-config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/devops/config/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/devops/config",
+        "tsConfig": "tools/devops/config/tsconfig.json",
+        "project": "tools/devops/config/package.json",
+        "main": "tools/devops/config/src/prettier/index.ts",
+        "additionalEntryPoints": [
+          "tools/devops/config/src/cspell/index.ts",
+          "tools/devops/config/src/nx-release/index.ts",
+          "tools/devops/config/src/release-it/index.ts",
+          "tools/devops/config/src/relay/index.ts",
+          "tools/devops/config/src/eslint/graphql/index.ts",
+          "tools/devops/config/src/eslint/javascript/index.ts",
+          "tools/devops/config/src/eslint/json/index.ts",
+          "tools/devops/config/src/eslint/jest/index.ts",
+          "tools/devops/config/src/eslint/next/index.ts",
+          "tools/devops/config/src/eslint/react/index.ts",
+          "tools/devops/config/src/eslint/typescript/index.ts"
+        ],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": false,
+        "minify": false,
+        "skipTypeCheck": false,
+        "format": ["cjs"],
+        "esbuildOptions": {
+          "outExtension": {
+            ".js": ".js"
+          }
+        },
+        "assets": [
+          {
+            "input": "tools/devops/config",
+            "glob": "README.md",
+            "output": "/"
+          },
+          {
+            "input": "tools/devops/config",
+            "glob": "CHANGELOG.md",
+            "output": "/"
+          },
+          {
+            "input": "",
+            "glob": "LICENSE",
+            "output": "/"
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "cspell/**/*.dictionary.txt",
+            "output": "."
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "lint-staged/**/*.js",
+            "output": "."
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "commitlint/**/*.js",
+            "output": "."
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "prettier/.prettierignore",
+            "output": "."
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "prettier/.prettierignore_staged",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-devops-config-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:tools", "platform:server"],
+  "implicitDependencies": []
+}

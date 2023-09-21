@@ -77,7 +77,7 @@
     [
       "relay",
       {
-        "artifactDirectory": "./apps/web/shell/__generated__/relay",
+        "artifactDirectory": "./libs/common/client/data-access__generated__/relay",
         "extensions": ["ts", "tsx"]
       }
     ]

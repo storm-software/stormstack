@@ -54,7 +54,7 @@ services:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
     networks:
-     - network-microservice
+      - network-microservice
     ports:
       - 2181:2181
     environment:
@@ -70,7 +70,7 @@ services:
     hostname: broker
     container_name: broker
     networks:
-     - network-microservice
+      - network-microservice
     depends_on:
       - zookeeper
     ports:
@@ -99,11 +99,11 @@ services:
     image: confluentinc/cp-kafka:latest
     depends_on:
       - broker
-    entrypoint: [ '/bin/sh', '-c' ]
+    entrypoint: ["/bin/sh", "-c"]
     networks:
-     - network-microservice
+      - network-microservice
     volumes:
-       - ./message.json:/data/message.json
+      - ./message.json:/data/message.json
     command: |
       "
       # blocks until kafka is reachable
@@ -217,7 +217,7 @@ services:
     ports:
       - 8080:8080
     networks:
-     - network-microservice
+      - network-microservice
     depends_on:
       - broker
     environment:
@@ -231,29 +231,26 @@ services:
         condition: always
         delay: 5s
 
+  # kafka-ui:
+  #   container_name: kafka-ui
+  #   image: provectuslabs/kafka-ui:latest
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #    - network-microservice
+  #   depends_on:
+  #     - broker
+  #   environment:
+  #     KAFKA_CLUSTERS_0_NAME: cluster-0
+  #     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ${KAFKA_HOST}
+  #     KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+  #     KAFKA_CLUSTERS_0_KSQLDBSERVER: http://ksqldb-server:8088
+  #     KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+  #     DYNAMIC_CONFIG_ENABLED: true
 
-  kafka-ui:
-    container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - 8080:8080
-    networks:
-     - network-microservice
-    depends_on:
-      - broker
-    environment:
-      KAFKA_CLUSTERS_0_NAME: cluster-0
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ${KAFKA_HOST}
-      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
-      KAFKA_CLUSTERS_0_KSQLDBSERVER: http://ksqldb-server:8088
-      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
-      DYNAMIC_CONFIG_ENABLED: true
-
-
-      #KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schemaregistry:8085
-      #KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: first
-      #KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083
-
+  #KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schemaregistry:8085
+  #KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: first
+  #KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083
 
   # reaction.read-db:
   #  container_name: reaction.read-db
@@ -274,7 +271,6 @@ volumes:
   read-data:
   #snapshot-data:
   #  driver: local
-
 
   # reaction.read-db:
   #  container_name: reaction.read-db
@@ -319,19 +315,19 @@ volumes:
   #    KAFKA_BROKER_ID: 1
   #    KAFKA_MIN_INSYNC_REPLICAS: 1
 
- # kafka-ui:
- #   container_name: kafka-ui
- #   image: provectuslabs/kafka-ui:latest
- #   ports:
- #     - 8084:8080
- #   networks:
- #     - network-microservice
- #   environment:
- #     - KAFKA_CLUSTERS_0_NAME=network-microservice
- #     - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=PLAINTEXT://kafka:29092
-    #  - KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://schema-registry:8081
-    #  - KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME=debezium
-    #  - KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS=http://debezium-connect:8083
+  # kafka-ui:
+  #   container_name: kafka-ui
+  #   image: provectuslabs/kafka-ui:latest
+  #   ports:
+  #     - 8084:8080
+  #   networks:
+  #     - network-microservice
+  #   environment:
+  #     - KAFKA_CLUSTERS_0_NAME=network-microservice
+  #     - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=PLAINTEXT://kafka:29092
+  #  - KAFKA_CLUSTERS_0_SCHEMAREGISTRY=http://schema-registry:8081
+  #  - KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME=debezium
+  #  - KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS=http://debezium-connect:8083
   #  depends_on:
   #    - zookeeper
   #    - kafka

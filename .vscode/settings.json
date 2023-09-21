@@ -3,6 +3,8 @@
    * relay graph-ql
    ******************************/
   "relay.autoStartCompiler": true,
+  "relay.rootDirectory": "../",
+  "relay.pathToConfig": "../dist/tools/devops/config/relay/index.js",
 
   /******************************
    * bracket pair colorization
@@ -263,22 +265,5 @@
    ******************************/
   "commitizen.capitalizeWindowsDriveLetter": true,
   "commitizen.autoSync": false,
-  "commitizen.showOutputChannel": "always",
-
-  /******************************
-   * CSpell
-   ******************************/
-  "cSpell.words": [
-    "asyncapi",
-    "bundlewatch",
-    "clsx",
-    "commitlint",
-    "compat",
-    "heroicons",
-    "nrwl",
-    "opentelemetry",
-    "radash",
-    "redocusaurus",
-    "tailwindcss"
-  ]
+  "commitizen.showOutputChannel": "always"
 }
