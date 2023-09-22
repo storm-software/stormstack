@@ -1,5 +1,17 @@
-const config = {
+module.exports = {
   language: "en",
+  dictionaries: ["open-system"],
+  dictionaryDefinitions: [
+    {
+      // The name of the dictionary is used to look it up.
+      name: "open-system",
+      // Path to the custom word file. Relative to this `cspell.json` file.
+      path: "./open-system.dictionary.txt",
+      // Some editor extensions will use `addWords` for adding words to your
+      // personal dictionary.
+      addWords: true,
+    },
+  ],
   enableFiletypes: ["txt", "js", "jsx", "ts", "tsx", "md", "mdx"],
   ignorePaths: [
     "**/.git/**",
@@ -30,5 +42,3 @@ const config = {
     },
   ],
 };
-
-export default config;

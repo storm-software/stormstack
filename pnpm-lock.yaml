@@ -41,6 +41,12 @@ patchedDependencies:
   "@whatwg-node/node-fetch@0.4.18":
     hash: dwwg2srptyitbssp45zjg6sbc4
     path: patches/@whatwg-node__node-fetch@0.4.18.patch
+  busboy@1.6.0:
+    hash: 2uaic7z7ehdja6rs77q2zutujm
+    path: patches/busboy@1.6.0.patch
+  esbuild-plugin-polyfill-node@0.3.0:
+    hash: 62bglurrmsf2u2aw2p3l3gyhyi
+    path: patches/esbuild-plugin-polyfill-node@0.3.0.patch
   fast-glob@3.3.1:
     hash: wq7w7k5hzaxinly3lzq6dm2j74
     path: patches/fast-glob@3.3.1.patch
@@ -135,6 +141,9 @@ importers:
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
+      check-dependency-version-consistency:
+        specifier: ^4.1.0
+        version: 4.1.0
       clsx:
         specifier: ^1.1.1
         version: 1.2.1
@@ -753,8 +762,8 @@ importers:
         specifier: ^5.8.0
         version: 5.9.0
       wrangler:
-        specifier: ^3.8.0
-        version: 3.8.0
+        specifier: ^3.9.0
+        version: 3.9.0
       zod-prisma:
         specifier: ^0.5.4
         version: 0.5.4(prisma@5.2.0)(zod@3.22.2)
@@ -767,6 +776,9 @@ importers:
       "@cloudflare/workers-types":
         specifier: ^4.20230904.0
         version: 4.20230904.0
+      "@whatwg-node/node-fetch":
+        specifier: ^0.4.18
+        version: 0.4.18(patch_hash=dwwg2srptyitbssp45zjg6sbc4)
       async_hooks:
         specifier: ^1.0.0
         version: 1.0.0
@@ -775,7 +787,7 @@ importers:
         version: 6.0.3
       esbuild-plugin-polyfill-node:
         specifier: ^0.3.0
-        version: 0.3.0(esbuild@0.18.20)
+        version: 0.3.0(patch_hash=62bglurrmsf2u2aw2p3l3gyhyi)(esbuild@0.18.20)
       fs:
         specifier: 0.0.1-security
         version: 0.0.1-security
@@ -789,8 +801,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       wrangler:
-        specifier: ^3.2.0
-        version: 3.7.0
+        specifier: ^3.9.0
+        version: 3.9.0
       zlib:
         specifier: ^1.0.5
         version: 1.0.5
@@ -891,6 +903,9 @@ importers:
 
   libs/core/typescript/server/application:
     dependencies:
+      async_hooks:
+        specifier: ^1.0.0
+        version: 1.0.0
       memjs:
         specifier: ^1.3.1
         version: 1.3.1(patch_hash=fczx4zfzyabzn2pdixcfkcbbwe)
@@ -1021,6 +1036,9 @@ importers:
       "@types/fs-extra":
         specifier: ^11.0.1
         version: 11.0.1
+      "@whatwg-node/node-fetch":
+        specifier: ^0.4.18
+        version: 0.4.18(patch_hash=dwwg2srptyitbssp45zjg6sbc4)
       fs:
         specifier: 0.0.1-security
         version: 0.0.1-security
@@ -1217,7 +1235,7 @@ importers:
         version: 0.18.20
       esbuild-plugin-polyfill-node:
         specifier: ^0.3.0
-        version: 0.3.0(esbuild@0.18.20)
+        version: 0.3.0(patch_hash=62bglurrmsf2u2aw2p3l3gyhyi)(esbuild@0.18.20)
       fs-extra:
         specifier: ^11.1.1
         version: 11.1.1
@@ -21277,7 +21295,6 @@ packages:
       {
         integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==,
       }
-    dev: true
 
   /@types/jsdom@20.0.1:
     resolution:
@@ -22472,7 +22489,7 @@ packages:
     dependencies:
       "@peculiar/webcrypto": 1.4.3
       "@whatwg-node/node-fetch": 0.3.6
-      busboy: 1.6.0
+      busboy: 1.6.0(patch_hash=2uaic7z7ehdja6rs77q2zutujm)
       urlpattern-polyfill: 8.0.2
       web-streams-polyfill: 3.2.1
     dev: true
@@ -22495,7 +22512,7 @@ packages:
       }
     dependencies:
       "@whatwg-node/events": 0.0.3
-      busboy: 1.6.0
+      busboy: 1.6.0(patch_hash=2uaic7z7ehdja6rs77q2zutujm)
       fast-querystring: 1.1.2
       fast-url-parser: 1.1.3
       tslib: 2.6.2
@@ -22509,7 +22526,7 @@ packages:
     engines: { node: ">=16.0.0" }
     dependencies:
       "@whatwg-node/events": 0.1.1
-      busboy: 1.6.0
+      busboy: 1.6.0(patch_hash=2uaic7z7ehdja6rs77q2zutujm)
       fast-querystring: 1.1.2
       fast-url-parser: 1.1.3
       tslib: 2.6.2
@@ -23928,7 +23945,6 @@ packages:
         integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==,
       }
     engines: { node: ">=8" }
-    dev: true
 
   /astring@1.8.6:
     resolution:
@@ -24788,6 +24804,7 @@ packages:
     dependencies:
       bindings: 1.5.0
       prebuild-install: 7.1.1
+    dev: false
 
   /big-integer@1.6.51:
     resolution:
@@ -24881,6 +24898,7 @@ packages:
       }
     dependencies:
       file-uri-to-path: 1.0.0
+    dev: false
 
   /bl@4.1.0:
     resolution:
@@ -25431,7 +25449,7 @@ packages:
       - debug
     dev: true
 
-  /busboy@1.6.0:
+  /busboy@1.6.0(patch_hash=2uaic7z7ehdja6rs77q2zutujm):
     resolution:
       {
         integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==,
@@ -25439,6 +25457,7 @@ packages:
     engines: { node: ">=10.16.0" }
     dependencies:
       streamsearch: 1.1.0
+    patched: true
 
   /bytes@3.0.0:
     resolution:
@@ -25953,6 +25972,25 @@ packages:
         integrity: sha512-6dVyOOYjpfFcL1Y4qChrAoQLRHvj2ziyhcm0QJlhOcAhykL/k1kTUPbeo+87MNRTRdk2OIIsIXbuF3x2wi5EXg==,
       }
     engines: { node: ">=4.0.0" }
+    dev: false
+
+  /check-dependency-version-consistency@4.1.0:
+    resolution:
+      {
+        integrity: sha512-xghkzKgMxpAfeP9OJfVrErtv8BU4h5kHYQyheHC0j0RYRVNWti0qI3+HkFgWBKejq2UE2wOnoWZlvDKFj6jFoA==,
+      }
+    engines: { node: ^16.0.0 || ^18.0.0 || >=20.0.0 }
+    hasBin: true
+    dependencies:
+      "@types/js-yaml": 4.0.5
+      chalk: 5.3.0
+      commander: 10.0.1
+      edit-json-file: 1.7.0
+      globby: 13.2.2
+      js-yaml: 4.1.0
+      semver: 7.5.4
+      table: 6.8.1
+      type-fest: 3.13.1
     dev: false
 
   /check-more-types@2.24.0:
@@ -29462,6 +29500,7 @@ packages:
         integrity: sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==,
       }
     engines: { node: ">=8" }
+    dev: false
 
   /detect-newline@3.1.0:
     resolution:
@@ -30150,6 +30189,19 @@ packages:
       jsbn: 0.1.1
       safer-buffer: 2.1.2
 
+  /edit-json-file@1.7.0:
+    resolution:
+      {
+        integrity: sha512-eIkLJ9i4ija7b2TbaLHy3scyjWFLzwM2Wa6kHbV4ppVLcCqn7FzqnO1vmCG3dLrkd+teWE3mvACfv166mO0VZg==,
+      }
+    dependencies:
+      find-value: 1.0.12
+      iterate-object: 1.3.4
+      r-json: 1.2.10
+      set-value: 4.1.0
+      w-json: 1.3.10
+    dev: false
+
   /ee-first@1.1.1:
     resolution:
       {
@@ -30722,7 +30774,7 @@ packages:
       }
     dev: true
 
-  /esbuild-plugin-polyfill-node@0.3.0(esbuild@0.18.20):
+  /esbuild-plugin-polyfill-node@0.3.0(patch_hash=62bglurrmsf2u2aw2p3l3gyhyi)(esbuild@0.18.20):
     resolution:
       {
         integrity: sha512-SHG6CKUfWfYyYXGpW143NEZtcVVn8S/WHcEOxk62LuDXnY4Zpmc+WmxJKN6GMTgTClXJXhEM5KQlxKY6YjbucQ==,
@@ -30734,6 +30786,7 @@ packages:
       esbuild: 0.18.20
       import-meta-resolve: 3.0.0
     dev: false
+    patched: true
 
   /esbuild-register@3.4.2(esbuild@0.18.20):
     resolution:
@@ -31617,6 +31670,7 @@ packages:
         integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==,
       }
     engines: { node: ">=6" }
+    dev: false
 
   /expand-tilde@2.0.2:
     resolution:
@@ -32249,6 +32303,7 @@ packages:
       {
         integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==,
       }
+    dev: false
 
   /filelist@1.0.4:
     resolution:
@@ -32489,6 +32544,13 @@ packages:
       locate-path: 7.2.0
       path-exists: 5.0.0
     dev: true
+
+  /find-value@1.0.12:
+    resolution:
+      {
+        integrity: sha512-OCpo8LTk8eZ2sdDCwbU2Lc3ivYsdM6yod6jP2jHcNEFcjPhkgH0+POzTIol7xx1LZgtbI5rkO5jqxsG5MWtPjQ==,
+      }
+    dev: false
 
   /find-versions@5.1.0:
     resolution:
@@ -33469,6 +33531,7 @@ packages:
       {
         integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==,
       }
+    dev: false
 
   /github-slugger@1.5.0:
     resolution:
@@ -36615,6 +36678,14 @@ packages:
         integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==,
       }
 
+  /is-primitive@3.0.1:
+    resolution:
+      {
+        integrity: sha512-GljRxhWvlCNRfZyORiH77FwdFwGcMO620o37EOYC0ORWdq+WYNVqW0w2Juzew4M+L81l6/QS3t5gkkihyRqv9w==,
+      }
+    engines: { node: ">=0.10.0" }
+    dev: false
+
   /is-promise@2.2.2:
     resolution:
       {
@@ -37084,6 +37155,13 @@ packages:
     resolution:
       {
         integrity: sha512-t91HubM4ZDQ70M9wqp+pcNpu8OyJ9UAtXntT/Bcsvp5tZMnz9vRa+IunKXeI8AnfZMTv0jNuVEmGeLSMjVvfPw==,
+      }
+    dev: false
+
+  /iterate-object@1.3.4:
+    resolution:
+      {
+        integrity: sha512-4dG1D1x/7g8PwHS9aK6QV5V94+ZvyP4+d19qDv43EzImmrndysIl4prmJ1hWWIGCqrZHyaHBm6BSEWHOLnpoNw==,
       }
     dev: false
 
@@ -39496,6 +39574,13 @@ packages:
       }
     dev: false
 
+  /lodash.truncate@4.4.2:
+    resolution:
+      {
+        integrity: sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==,
+      }
+    dev: false
+
   /lodash.union@4.6.0:
     resolution:
       {
@@ -41854,6 +41939,31 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /miniflare@3.20230918.0:
+    resolution:
+      {
+        integrity: sha512-Dd29HB7ZlT1CXB2tPH8nW6fBOOXi/m7qFZHjKm2jGS+1OaGfrv0PkT5UspWW5jQi8rWI87xtordAUiIJkwWqRw==,
+      }
+    engines: { node: ">=16.13" }
+    dependencies:
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      capnp-ts: 0.7.0
+      exit-hook: 2.2.1
+      glob-to-regexp: 0.4.1
+      source-map-support: 0.5.21
+      stoppable: 1.1.0
+      undici: 5.24.0
+      workerd: 1.20230904.0
+      ws: 8.14.1
+      youch: 3.3.1
+      zod: 3.22.2
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
 
   /minim@0.23.8:
     resolution:
@@ -42361,6 +42471,7 @@ packages:
       {
         integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==,
       }
+    dev: false
 
   /native-url@0.3.4:
     resolution:
@@ -42680,7 +42791,7 @@ packages:
       "@next/env": 13.4.19
       "@opentelemetry/api": 1.4.1
       "@swc/helpers": 0.5.1
-      busboy: 1.6.0
+      busboy: 1.6.0(patch_hash=2uaic7z7ehdja6rs77q2zutujm)
       caniuse-lite: 1.0.30001532
       postcss: 8.4.14
       react: 18.2.0
@@ -42834,6 +42945,7 @@ packages:
     engines: { node: ">=10" }
     dependencies:
       semver: 7.5.4
+    dev: false
 
   /node-abort-controller@3.1.1:
     resolution:
@@ -46558,6 +46670,7 @@ packages:
       simple-get: 4.0.1
       tar-fs: 2.1.1
       tunnel-agent: 0.6.0
+    dev: false
 
   /prelude-ls@1.1.2:
     resolution:
@@ -47443,6 +47556,13 @@ packages:
         integrity: sha512-FeUlLe40ROXHVWLZkzmeR2PNYWdkvTXEXhW6FX8axRv1ODt8Gxed3APrE1Qb5i1n70ZzZGRmvs0jY3v/BRcJQQ==,
       }
     dev: true
+
+  /r-json@1.2.10:
+    resolution:
+      {
+        integrity: sha512-hu9vyLjSlHXT62NAS7DjI9WazDlvjN0lgp3n431dCVnirVcLkZIpzSwA3orhZEKzdDD2jqNYI+w0yG0aFf4kpA==,
+      }
+    dev: false
 
   /radash@11.0.0:
     resolution:
@@ -50741,6 +50861,17 @@ packages:
     engines: { node: ">=6.9" }
     dev: false
 
+  /set-value@4.1.0:
+    resolution:
+      {
+        integrity: sha512-zTEg4HL0RwVrqcWs3ztF+x1vkxfm0lP+MQQFPiMJTKVceBwEV0A569Ou8l9IYQG8jOZdMVI1hGsc0tmeD2o/Lw==,
+      }
+    engines: { node: ">=11.0" }
+    dependencies:
+      is-plain-object: 2.0.4
+      is-primitive: 3.0.1
+    dev: false
+
   /setimmediate@1.0.5:
     resolution:
       {
@@ -50981,6 +51112,7 @@ packages:
       {
         integrity: sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q==,
       }
+    dev: false
 
   /simple-eval@1.0.0:
     resolution:
@@ -51001,6 +51133,7 @@ packages:
       decompress-response: 6.0.0
       once: 1.4.0
       simple-concat: 1.0.1
+    dev: false
 
   /simple-git@2.48.0:
     resolution:
@@ -51145,7 +51278,6 @@ packages:
       ansi-styles: 4.3.0
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
-    dev: true
 
   /slice-ansi@5.0.0:
     resolution:
@@ -52899,6 +53031,20 @@ packages:
       typical: 5.2.0
       wordwrapjs: 4.0.1
     dev: true
+
+  /table@6.8.1:
+    resolution:
+      {
+        integrity: sha512-Y4X9zqrCftUhMeH2EptSSERdVKt/nEdijTOacGD/97EKjhQ/Qs8RTlEGABSJNNN8lac9kheH+af7yAkEWlgneA==,
+      }
+    engines: { node: ">=10.0.0" }
+    dependencies:
+      ajv: 8.12.0
+      lodash.truncate: 4.4.2
+      slice-ansi: 4.0.0
+      string-width: 4.2.3
+      strip-ansi: 6.0.1
+    dev: false
 
   /tailwindcss@3.3.3(ts-node@10.9.1):
     resolution:
@@ -54679,7 +54825,7 @@ packages:
       }
     engines: { node: ">=12.18" }
     dependencies:
-      busboy: 1.6.0
+      busboy: 1.6.0(patch_hash=2uaic7z7ehdja6rs77q2zutujm)
     dev: true
 
   /undici@5.24.0:
@@ -54689,7 +54835,7 @@ packages:
       }
     engines: { node: ">=14.0" }
     dependencies:
-      busboy: 1.6.0
+      busboy: 1.6.0(patch_hash=2uaic7z7ehdja6rs77q2zutujm)
 
   /unherit@1.1.3:
     resolution:
@@ -56044,6 +56190,13 @@ packages:
       - supports-color
     dev: false
 
+  /w-json@1.3.10:
+    resolution:
+      {
+        integrity: sha512-XadVyw0xE+oZ5FGApXsdswv96rOhStzKqL53uSe5UaTadABGkWIg1+DTx8kiZ/VqTZTBneoL0l65RcPe4W3ecw==,
+      }
+    dev: false
+
   /w3c-hr-time@1.0.2:
     resolution:
       {
@@ -56852,10 +57005,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /wrangler@3.8.0:
+  /wrangler@3.9.0:
     resolution:
       {
-        integrity: sha512-sTdD+6fMEpM9ROxv+gcyxgTKpnf7tB5ftRV5+wupsdljWkow5C00UCWU/IWSOUfuitAGAj1PWATjKfrRp9Bk9w==,
+        integrity: sha512-Ho1A76KxbqfcRgCsuN6xGar3BVPyn4oVWM9zx0HvEVhT9wQ7n/LvB6GlPdXKABqEBYhVe/oTH72S5TgWl0DgaA==,
       }
     engines: { node: ">=16.13.0" }
     hasBin: true
@@ -56866,11 +57019,12 @@ packages:
       blake3-wasm: 2.1.5
       chokidar: 3.5.3
       esbuild: 0.17.19
-      miniflare: 3.20230904.0
+      miniflare: 3.20230918.0
       nanoid: 3.3.6
       path-to-regexp: 6.2.1
       selfsigned: 2.1.1
-      source-map: 0.7.4
+      source-map: 0.6.1
+      source-map-support: 0.5.21
       xxhash-wasm: 1.0.2
     optionalDependencies:
       fsevents: 2.3.3
@@ -56878,7 +57032,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: true
 
   /wrap-ansi@6.2.0:
     resolution:

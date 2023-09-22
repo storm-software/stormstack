@@ -1,0 +1,187 @@
+diff --git a/README.md b/README.md
+index 654af30455614e47ad22cf53d1235f7c928bf42a..339568787569a72738b51f49ff23a6aaf8e2cded 100644
+--- a/README.md
++++ b/README.md
+@@ -84,11 +84,11 @@ http.createServer((req, res) => {
+ * Save all incoming files to disk:
+ 
+ ```js
+-const { randomFillSync } = require('crypto');
+-const fs = require('fs');
+-const http = require('http');
+-const os = require('os');
+-const path = require('path');
++const { randomFillSync } = require('node:crypto');
++const fs = require('node:fs');
++const http = require('node:http');
++const os = require('node:os');
++const path = require('node:path');
+ 
+ const busboy = require('busboy');
+ 
+diff --git a/bench/bench-multipart-fields-100mb-big.js b/bench/bench-multipart-fields-100mb-big.js
+index ef15729ea65c38a6c470d7abe63211efb0945c22..9c588cbc3769b7c75ae4f0e930fb5892f2278fee 100644
+--- a/bench/bench-multipart-fields-100mb-big.js
++++ b/bench/bench-multipart-fields-100mb-big.js
+@@ -85,7 +85,7 @@ switch (moduleName) {
+   }
+ 
+   case 'multiparty': {
+-    const { Readable } = require('stream');
++    const { Readable } = require('node:stream');
+ 
+     const { Form } = require('multiparty');
+ 
+diff --git a/bench/bench-multipart-fields-100mb-small.js b/bench/bench-multipart-fields-100mb-small.js
+index f32d421c735d323b2b0d7ef478b1d612a939b1a5..b0c85c7e6b4e13383109d0782ee67ae9aa7c1755 100644
+--- a/bench/bench-multipart-fields-100mb-small.js
++++ b/bench/bench-multipart-fields-100mb-small.js
+@@ -79,7 +79,7 @@ switch (moduleName) {
+   }
+ 
+   case 'multiparty': {
+-    const { Readable } = require('stream');
++    const { Readable } = require('node:stream');
+ 
+     const { Form } = require('multiparty');
+ 
+diff --git a/bench/bench-multipart-files-100mb-big.js b/bench/bench-multipart-files-100mb-big.js
+index b46bdee02cdded28483eb8bba655e56695abd6fa..a483463ff113049a675210c169782b33f42f866a 100644
+--- a/bench/bench-multipart-files-100mb-big.js
++++ b/bench/bench-multipart-files-100mb-big.js
+@@ -90,7 +90,7 @@ switch (moduleName) {
+   }
+ 
+   case 'multiparty': {
+-    const { Readable } = require('stream');
++    const { Readable } = require('node:stream');
+ 
+     const { Form } = require('multiparty');
+ 
+diff --git a/bench/bench-multipart-files-100mb-small.js b/bench/bench-multipart-files-100mb-small.js
+index 46b5dffb0c74d8e06000f8ee453ecdb4b2d5a0ec..c00cddf705b76f92b2021dd5373e07458b365ec2 100644
+--- a/bench/bench-multipart-files-100mb-small.js
++++ b/bench/bench-multipart-files-100mb-small.js
+@@ -84,7 +84,7 @@ switch (moduleName) {
+   }
+ 
+   case 'multiparty': {
+-    const { Readable } = require('stream');
++    const { Readable } = require('node:stream');
+ 
+     const { Form } = require('multiparty');
+ 
+diff --git a/lib/types/multipart.js b/lib/types/multipart.js
+index cc0d7bb6638a12cb0572c95d515a10d6ddbb68cb..d43c4a30c27124371d18b16b51bcafe333d62927 100644
+--- a/lib/types/multipart.js
++++ b/lib/types/multipart.js
+@@ -1,6 +1,6 @@
+ 'use strict';
+ 
+-const { Readable, Writable } = require('stream');
++const { Readable, Writable } = require('node:stream');
+ 
+ const StreamSearch = require('streamsearch');
+ 
+diff --git a/lib/types/urlencoded.js b/lib/types/urlencoded.js
+index 5c463a25899a72ab94b17f0a29b937e0c0c3ee97..b2981af857fa299941a5e5a9f80920b520d6d042 100644
+--- a/lib/types/urlencoded.js
++++ b/lib/types/urlencoded.js
+@@ -1,6 +1,6 @@
+ 'use strict';
+ 
+-const { Writable } = require('stream');
++const { Writable } = require('node:stream');
+ 
+ const { getDecoder } = require('../utils.js');
+ 
+diff --git a/test/common.js b/test/common.js
+index fb82ad81b1b9ef0e07164e6bfecd8391264ef2c2..ab0b8f088b210cf911063c0ccc7ec4ce3af03059 100644
+--- a/test/common.js
++++ b/test/common.js
+@@ -1,7 +1,7 @@
+ 'use strict';
+ 
+-const assert = require('assert');
+-const { inspect } = require('util');
++const assert = require('node:assert');
++const { inspect } = require('node:util');
+ 
+ const mustCallChecks = [];
+ 
+diff --git a/test/test-types-multipart-charsets.js b/test/test-types-multipart-charsets.js
+index ed9c38aeb6c1f3f85c9eb0efa071349504dbfde6..564655b5e6cecfaae7083001893632cdb3c2613f 100644
+--- a/test/test-types-multipart-charsets.js
++++ b/test/test-types-multipart-charsets.js
+@@ -1,7 +1,7 @@
+ 'use strict';
+ 
+-const assert = require('assert');
+-const { inspect } = require('util');
++const assert = require('node:assert');
++const { inspect } = require('node:util');
+ 
+ const { mustCall } = require(`${__dirname}/common.js`);
+ 
+diff --git a/test/test-types-multipart-stream-pause.js b/test/test-types-multipart-stream-pause.js
+index df7268a4b17f73af6e1087785e45a8fec2445703..ddd5abd8ca6cb8b5b8abcd3c9fb51bfb071eca48 100644
+--- a/test/test-types-multipart-stream-pause.js
++++ b/test/test-types-multipart-stream-pause.js
+@@ -1,8 +1,8 @@
+ 'use strict';
+ 
+-const assert = require('assert');
+-const { randomFillSync } = require('crypto');
+-const { inspect } = require('util');
++const assert = require('node:assert');
++const { randomFillSync } = require('node:crypto');
++const { inspect } = require('node:util');
+ 
+ const busboy = require('..');
+ 
+diff --git a/test/test-types-multipart.js b/test/test-types-multipart.js
+index 9755642ad9060cbcdb2e2e97c1d3b484815d355d..554d989246747ed0aaaa135c16fd4c1b8e1c6279 100644
+--- a/test/test-types-multipart.js
++++ b/test/test-types-multipart.js
+@@ -1,7 +1,7 @@
+ 'use strict';
+ 
+-const assert = require('assert');
+-const { inspect } = require('util');
++const assert = require('node:assert');
++const { inspect } = require('node:util');
+ 
+ const busboy = require('..');
+ 
+diff --git a/test/test-types-urlencoded.js b/test/test-types-urlencoded.js
+index c35962b973f29a69951ed7eae08c0abe6dfbb7da..582edb2ff6676902881b65157df5dd6b6fa8d6e9 100644
+--- a/test/test-types-urlencoded.js
++++ b/test/test-types-urlencoded.js
+@@ -1,8 +1,8 @@
+ 'use strict';
+ 
+-const assert = require('assert');
+-const { transcode } = require('buffer');
+-const { inspect } = require('util');
++const assert = require('node:assert');
++const { transcode } = require('node:buffer');
++const { inspect } = require('node:util');
+ 
+ const busboy = require('..');
+ 
+diff --git a/test/test.js b/test/test.js
+index d0380f29de7842d0f5451b79c93c77067b421324..ab122a05eae17c13fc2b16d863db08147dd05703 100644
+--- a/test/test.js
++++ b/test/test.js
+@@ -1,8 +1,8 @@
+ 'use strict';
+ 
+-const { spawnSync } = require('child_process');
+-const { readdirSync } = require('fs');
+-const { join } = require('path');
++const { spawnSync } = require('node:child_process');
++const { readdirSync } = require('node:fs');
++const { join } = require('node:path');
+ 
+ const files = readdirSync(__dirname).sort();
+ for (const filename of files) {

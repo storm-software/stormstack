@@ -53,9 +53,10 @@
     "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
     "build:wundergraph": "wunderctl generate",
     "build": "pnpm run build:wundergraph && relay-compiler && nx run-many -t build --all --parallel 4",
-    "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore",
+    "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore --config=dist/tools/devops/config/cspell/config.js",
     "lint:language": "cross-env FORCE_COLOR=1 alex . !**/CODE_OF_CONDUCT.md --quiet",
-    "lint": "pnpm lint:language",
+    "lint:dependency-versions": "cross-env FORCE_COLOR=1 check-dependency-version-consistency . --fix",
+    "lint": "pnpm lint:language && lint:dependency-versions",
     "format": "nx format:write && pnpm doctoc --github README.md",
     "typecheck": "pnpm run -r typecheck",
     "analyze": "cross-env ANALYZE=true npm run build",
@@ -107,6 +108,7 @@
     "@wundergraph/sdk": "^0.175.0",
     "attr-accept": "^2.2.2",
     "bcryptjs": "^2.4.3",
+    "check-dependency-version-consistency": "^4.1.0",
     "clsx": "^1.1.1",
     "commitizen": "^4.3.0",
     "core-js": "^3.30.1",
@@ -302,7 +304,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.81.0",
     "webpack-merge": "^5.8.0",
-    "wrangler": "^3.8.0",
+    "wrangler": "^3.9.0",
     "zod-prisma": "^0.5.4",
     "zod-prisma-types": "^2.7.4"
   },
@@ -358,7 +360,9 @@
       "memjs@1.3.1": "patches/memjs@1.3.1.patch",
       "@whatwg-node/fetch@0.9.12": "patches/@whatwg-node__fetch@0.9.12.patch",
       "@whatwg-node/node-fetch@0.4.18": "patches/@whatwg-node__node-fetch@0.4.18.patch",
-      "graphql-yoga@4.0.4": "patches/graphql-yoga@4.0.4.patch"
+      "graphql-yoga@4.0.4": "patches/graphql-yoga@4.0.4.patch",
+      "esbuild-plugin-polyfill-node@0.3.0": "patches/esbuild-plugin-polyfill-node@0.3.0.patch",
+      "busboy@1.6.0": "patches/busboy@1.6.0.patch"
     }
   },
   "optionalDependencies": {

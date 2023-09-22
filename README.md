@@ -24,28 +24,28 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 ## Table of Contents
 
-- [Quick Features](#quick-features)
-  - [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-  - [Build](#build)
-  - [Development Server](#development-server)
-- [Storm - Model-Driven Development](#storm---model-driven-development)
-- [Environment Configuration Help](#environment-configuration-help)
-  - [Plug-Ins](#plug-ins)
-  - [Generate an Application](#generate-an-application)
-  - [Generate a Library](#generate-a-library)
-  - [Code Scaffolding](#code-scaffolding)
-- [Testing](#testing)
-  - [Running Unit Tests](#running-unit-tests)
-  - [Running End-to-End Tests](#running-end-to-end-tests)
-  - [Understand your workspace](#understand-your-workspace)
-- [☁ Nx Cloud](#-nx-cloud)
-  - [Distributed Computation Caching \& Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [Support](#support)
-- [License](#license)
-- [Contributors ✨](#contributors-)
+-   [Quick Features](#quick-features)
+    -   [Tech Stack](#tech-stack)
+-   [Getting Started](#getting-started)
+    -   [Build](#build)
+    -   [Development Server](#development-server)
+-   [Storm - Model-Driven Development](#storm---model-driven-development)
+-   [Environment Configuration Help](#environment-configuration-help)
+    -   [Plug-Ins](#plug-ins)
+    -   [Generate an Application](#generate-an-application)
+    -   [Generate a Library](#generate-a-library)
+    -   [Code Scaffolding](#code-scaffolding)
+-   [Testing](#testing)
+    -   [Running Unit Tests](#running-unit-tests)
+    -   [Running End-to-End Tests](#running-end-to-end-tests)
+    -   [Understand your workspace](#understand-your-workspace)
+-   [☁ Nx Cloud](#-nx-cloud)
+    -   [Distributed Computation Caching \& Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
+-   [Roadmap](#roadmap)
+-   [Contributing](#contributing)
+-   [Support](#support)
+-   [License](#license)
+-   [Contributors ✨](#contributors-)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -55,16 +55,16 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 The following are some of the features/publishable code that are included in this repository:
 
-- Transport/protocol/backend agnostic data fetching (REST, GraphQL, promises, whatever!)
-- Auto Caching + Refetching (stale-while-revalidate, Window Refocus, Polling/Realtime)
-- Parallel + Dependent Queries
-- Mutations + Reactive Query Refetching
-- Multi-layer Cache + Automatic Garbage Collection
-- Paginated + Cursor-based Queries
-- Load-More + Infinite Scroll Queries w/ Scroll Recovery
-- Request Cancellation
-- React Suspense + Fetch-As-You-Render Query Prefetching
-- Dedicated Devtools
+-   Transport/protocol/backend agnostic data fetching (REST, GraphQL, promises, whatever!)
+-   Auto Caching + Refetching (stale-while-revalidate, Window Refocus, Polling/Realtime)
+-   Parallel + Dependent Queries
+-   Mutations + Reactive Query Refetching
+-   Multi-layer Cache + Automatic Garbage Collection
+-   Paginated + Cursor-based Queries
+-   Load-More + Infinite Scroll Queries w/ Scroll Recovery
+-   Request Cancellation
+-   React Suspense + Fetch-As-You-Render Query Prefetching
+-   Dedicated Devtools
 
 ## Tech Stack
 
@@ -108,16 +108,16 @@ If you run into any issues while trying to run any of the above steps, please re
 
 Some of the plug-ins used by this repository are:
 
-- [@nx/next](https://nx.dev/packages/next)
-- [@nx/react](https://nx.dev/packages/react)
-- [@nx/lint](https://nx.dev/linter/overview)
-- [@nx/js](https://nx.dev/js/overview)
-- [@nx/node](https://nodejs.org)
-- [@nx/web](https://nx.dev/web/overview)
-- [@nx/storybook](https://nx.dev/storybook/overview-react)
-- [@nx/cypress](https://nx.dev/packages/cypress)
-- [@nx/jest](https://nx.dev/packages/jest)
-- And more...
+-   [@nx/next](https://nx.dev/packages/next)
+-   [@nx/react](https://nx.dev/packages/react)
+-   [@nx/lint](https://nx.dev/linter/overview)
+-   [@nx/js](https://nx.dev/js/overview)
+-   [@nx/node](https://nodejs.org)
+-   [@nx/web](https://nx.dev/web/overview)
+-   [@nx/storybook](https://nx.dev/storybook/overview-react)
+-   [@nx/cypress](https://nx.dev/packages/cypress)
+-   [@nx/jest](https://nx.dev/packages/jest)
+-   And more...
 
 ## Generate an Application
 
@@ -180,10 +180,10 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 
 See the [open issues](https://github.com/sullivanpj/open-system/issues) for a list of proposed features (and known issues).
 
-- [Top Feature Requests](https://github.com/sullivanpj/open-system/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
-- [Top Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
-- [Newest Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
-  <br /><br />
+-   [Top Feature Requests](https://github.com/sullivanpj/open-system/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+-   [Top Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+-   [Newest Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+    <br /><br />
 
 # Contributing
 
@@ -191,10 +191,10 @@ First off, thanks for taking the time to contribute! Contributions are what make
 
 Please try to create bug reports that are:
 
-- _Reproducible._ Include steps to reproduce the problem.
-- _Specific._ Include as much detail as possible: which version, what environment, etc.
-- _Unique._ Do not duplicate existing opened issues.
-- _Scoped to a Single Bug._ One bug per report.
+-   _Reproducible._ Include steps to reproduce the problem.
+-   _Specific._ Include as much detail as possible: which version, what environment, etc.
+-   _Unique._ Do not duplicate existing opened issues.
+-   _Scoped to a Single Bug._ One bug per report.
 
 Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
 
@@ -205,9 +205,9 @@ You can use [markdownlint-cli](https://github.com/sullivanpj/open-system/markdow
 
 Reach out to the maintainer at one of the following places:
 
-- [Contact](https://www.patsullivan.org/contact)
-- [GitHub discussions](https://github.com/sullivanpj/open-system/discussions)
-- <contact@patsullivan.org>
+-   [Contact](https://www.patsullivan.org/contact)
+-   [GitHub discussions](https://github.com/sullivanpj/open-system/discussions)
+-   <contact@patsullivan.org>
 
 # License
 
@@ -250,7 +250,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 <h1 align="center"></h1>
 <br />
 <div align="center">
-  <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.png" width="100%"/>
+  <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.gif" width="100%"/>
 </div>
 <div align="center">
 <a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  |  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  | <a href="https://github.com/sullivanpj" target="_blank">GitHub</a>  |  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>

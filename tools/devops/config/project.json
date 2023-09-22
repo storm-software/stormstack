@@ -13,7 +13,6 @@
         "project": "tools/devops/config/package.json",
         "main": "tools/devops/config/src/prettier/index.ts",
         "additionalEntryPoints": [
-          "tools/devops/config/src/cspell/index.ts",
           "tools/devops/config/src/nx-release/index.ts",
           "tools/devops/config/src/release-it/index.ts",
           "tools/devops/config/src/relay/index.ts",
@@ -55,6 +54,11 @@
           {
             "input": "tools/devops/config/src",
             "glob": "cspell/**/*.dictionary.txt",
+            "output": "."
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "cspell/**/config.js",
             "output": "."
           },
           {

@@ -1,6 +1,7 @@
 # Base CSpell dictionary for the Open System repository
 
 Akka
+Ponyfill
 Antiforgery
 APIKEY
 applogs

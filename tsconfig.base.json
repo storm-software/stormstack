@@ -356,6 +356,7 @@
       ]
     }
   },
+  "include": ["reset.d.ts"],
   "exclude": ["node_modules", "tmp"],
   "references": [
     {

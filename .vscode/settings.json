@@ -7,15 +7,34 @@
   "relay.pathToConfig": "../dist/tools/devops/config/relay/index.js",
 
   /******************************
+   * VS Code Search
+   ******************************/
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/.tamagui": true,
+    "**/.next": true,
+    "**/dist": true
+  },
+
+  /******************************
    * bracket pair colorization
    ******************************/
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
+  "editor.tabCompletion": "on",
 
+  /******************************
+   * Typescript
+   ******************************/
   "typescript.tsserver.log": "verbose",
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
 
+  /******************************
+   * Tailwind CSS
+   ******************************/
   "tailwindCSS.experimental.classRegex": [
     [
       "cva(?:<[^>]*>)?(([^)]*))",
