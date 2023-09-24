@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLogger as useLoggerExt } from "@envelop/core";
 import { Plugin } from "@envelop/types";
-import { GlobalServerContext } from "@open-system/core-server-application/context/global-context";
+import { GlobalContext } from "@open-system/core-server-application/context/global-context";
 import {
-  GraphQLExecutionServerContext,
+  GraphQLExecutionContext,
   GraphQLServerContext
 } from "../context/context";
 
@@ -13,19 +13,19 @@ export type LoggerPluginOptions = {
 };
 
 export const useLogger = <
-  TInitialContext extends GlobalServerContext = GlobalServerContext,
-  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+  TGlobalContext extends GlobalContext = GlobalContext,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext
 >(
-  initialContext: TInitialContext,
+  globalContext: TGlobalContext,
   options?: LoggerPluginOptions
-): Plugin<GraphQLServerContext<TInitialContext, TActiveContext>> => {
+): Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>> => {
   return useLoggerExt({
     logFn: async (eventName, args) => {
       const context =
         (args.contextValue as GraphQLServerContext<
-          TInitialContext,
-          TActiveContext
-        >) ?? initialContext;
+          TGlobalContext,
+          TExecutionContext
+        >) ?? globalContext;
 
       const logger = context.utils.logger;
       logger.info(`Event triggered: ${eventName}`);
@@ -33,5 +33,5 @@ export const useLogger = <
       logger.debug(context.utils.parser.stringify(args));
     },
     skipIntrospection: options?.skipIntrospection ?? true
-  }) as Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+  }) as Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>;
 };

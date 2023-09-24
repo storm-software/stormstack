@@ -72,6 +72,9 @@
       "@open-system/contact-server-attachment": [
         "libs/contact/typescript/server/attachment/src/index.ts"
       ],
+      "@open-system/contact-server-attachment/*": [
+        "libs/contact/typescript/server/attachment/src/*"
+      ],
       "@open-system/contact-server-graphql": [
         "libs/contact/typescript/server/graphql/src/index.ts"
       ],

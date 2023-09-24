@@ -18,7 +18,7 @@ export const formatDateTime = (
   dateTime
     ? `${dateTime
         .toZonedDateTime({
-          timeZone: timeZone /*?? process.env.DEFAULT_TIMEZONE*/ ?? "UTC",
+          timeZone: timeZone ?? process.env.DEFAULT_TIMEZONE ?? "UTC",
           calendar: "gregory"
         })
         .toString(options)}`
@@ -171,3 +171,4 @@ export function parseDateTime(value: number | string | Date): Date {
       JSON.stringify(value)
   );
 }
+export { DateTime };

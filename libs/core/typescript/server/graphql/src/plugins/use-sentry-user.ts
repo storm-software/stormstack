@@ -1,17 +1,17 @@
 import type { Plugin } from "@envelop/types";
 import {
-  GlobalServerContext,
+  GlobalContext,
   extractUser
 } from "@open-system/core-server-application";
 import * as Sentry from "@sentry/node";
 import {
-  GraphQLExecutionServerContext,
+  GraphQLExecutionContext,
   GraphQLServerContext
 } from "../context/context";
 
 export const useSentryUser = <
-  TInitialContext extends GlobalServerContext = GlobalServerContext,
-  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+  TInitialContext extends GlobalContext = GlobalContext,
+  TActiveContext extends GraphQLExecutionContext = GraphQLExecutionContext
 >(
   _: TInitialContext
 ): Plugin<GraphQLServerContext<TInitialContext, TActiveContext>> => {

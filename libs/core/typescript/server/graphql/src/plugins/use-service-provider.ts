@@ -2,20 +2,20 @@
 import { Plugin } from "@envelop/types";
 import { ServiceMapping } from "@open-system/core-server-application/context";
 import {
-  GlobalServerContext,
+  GlobalContext,
   ServiceMappingIndex
 } from "@open-system/core-server-application/context/global-context";
 import { IEntity } from "@open-system/core-server-domain/types";
 import { ArrayElement } from "@open-system/core-shared-utilities/types";
 import {
-  GraphQLExecutionServerContext,
+  GraphQLExecutionContext,
   GraphQLServerContext
 } from "../context/context";
 
 export type ServiceProvidersPluginOptions<
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TInitialContext extends GlobalServerContext = GlobalServerContext,
-  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+  TInitialContext extends GlobalContext = GlobalContext,
+  TActiveContext extends GraphQLExecutionContext = GraphQLExecutionContext
 > = {
   services: Array<{
     namespace: ServiceMappingIndex<ArrayElement<TEntities>>;
@@ -29,8 +29,8 @@ export type ServiceProvidersPluginOptions<
 
 export const useServiceProviders = <
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TInitialContext extends GlobalServerContext = GlobalServerContext,
-  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+  TInitialContext extends GlobalContext = GlobalContext,
+  TActiveContext extends GraphQLExecutionContext = GraphQLExecutionContext
 >(
   initialContext: TInitialContext,
   options?: ServiceProvidersPluginOptions<

@@ -57,17 +57,17 @@ Run `nx test tools-storm-plugins-graphql` to execute the unit tests via [Jest](h
 
 See the [open issues](https://github.com/sullivanpj/open-system/issues) for a list of proposed features (and known issues).
 
-- [Top Feature Requests](https://github.com/sullivanpj/open-system/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
-- [Top Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
-- [Newest Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+-   [Top Feature Requests](https://github.com/sullivanpj/open-system/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+-   [Top Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+-   [Newest Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
 
 ## Support
 
 Reach out to the maintainer at one of the following places:
 
-- [Contact](https://www.patsullivan.org/contact)
-- [GitHub discussions](https://github.com/sullivanpj/open-system/discussions)
-- <contact@patsullivan.org>
+-   [Contact](https://www.patsullivan.org/contact)
+-   [GitHub discussions](https://github.com/sullivanpj/open-system/discussions)
+-   <contact@patsullivan.org>
 
 ## License
 
@@ -85,10 +85,10 @@ First off, thanks for taking the time to contribute! Contributions are what make
 
 Please try to create bug reports that are:
 
-- _Reproducible._ Include steps to reproduce the problem.
-- _Specific._ Include as much detail as possible: which version, what environment, etc.
-- _Unique._ Do not duplicate existing opened issues.
-- _Scoped to a Single Bug._ One bug per report.
+-   _Reproducible._ Include steps to reproduce the problem.
+-   _Specific._ Include as much detail as possible: which version, what environment, etc.
+-   _Unique._ Do not duplicate existing opened issues.
+-   _Scoped to a Single Bug._ One bug per report.
 
 Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
 
@@ -125,7 +125,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 <br />
 <br />
 <div align="center">
-  <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.png" width="100%"/>
+  <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.gif" width="100%"/>
 </div>
 <div align="center">
 <a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  |  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  | <a href="https://github.com/sullivanpj" target="_blank">GitHub</a>  |  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>

@@ -12,7 +12,12 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "esModuleInterop": true,
-    "types": ["node", "@cloudflare/workers-types", "reflect-metadata"]
+    "types": [
+      "node",
+      "@cloudflare/workers-types",
+      "@whatwg-node/node-fetch",
+      "reflect-metadata"
+    ]
   },
   "exclude": [
     "node_modules",

@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Plugin } from "@envelop/types";
 import { extractSystemInfo } from "@open-system/core-server-application/context";
-import { GlobalServerContext } from "@open-system/core-server-application/context/global-context";
+import { GlobalContext } from "@open-system/core-server-application/context/global-context";
 import { useReadinessCheck as useReadinessCheckExt } from "graphql-yoga";
 import {
-  GraphQLExecutionServerContext,
+  GraphQLExecutionContext,
   GraphQLServerContext
 } from "../context/context";
 
 export const useReadinessCheck = <
-  TGlobalContext extends GlobalServerContext = GlobalServerContext,
-  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+  TGlobalContext extends GlobalContext = GlobalContext,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext
 >(
   initialContext: TGlobalContext
 ): Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>> => {

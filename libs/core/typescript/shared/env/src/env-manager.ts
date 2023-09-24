@@ -4,7 +4,7 @@ import {
   BaseUtilityClass,
   EMPTY_STRING,
   isNotEmpty,
-  parseInteger,
+  parseInteger
 } from "@open-system/core-shared-utilities";
 import { createEnvProxy } from "./create-env-proxy";
 import { DEFAULT_OPTIONS } from "./env-manager-options";
@@ -75,7 +75,11 @@ export abstract class EnvManager<
     }*/
 
     // Default to production since the rules are stricter.
-    return _environment ?? EnvironmentType.PRODUCTION;
+    return (
+      _environment ??
+      this.get<EnvironmentType>("ENVIRONMENT") ??
+      EnvironmentType.PRODUCTION
+    );
   }
 
   public get isDevelopment(): boolean {

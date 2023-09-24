@@ -1,80 +1,95 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { OnContextBuildingEventPayload, Plugin } from "@envelop/types";
 import {
-  GlobalServerContext,
-  HttpRequest,
-  UserContext,
-  clearExecutionContext,
-  extendServerContext,
-  setGlobalServerContext
+  ExtendServerContextFn,
+  GlobalContext,
+  extendServerContext
 } from "@open-system/core-server-application";
 import {
-  GraphQLExecutionServerContext,
-  GraphQLServerContext
+  GraphQLExecutionContext,
+  GraphQLServerContext,
+  extendGraphQLServerContext
 } from "../context/context";
 
-export type ExtendContextOptions = {
+export type ExtendContextOptions<
+  TGlobalContext extends GlobalContext = GlobalContext,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext,
+  TServerContext extends GraphQLServerContext<
+    TGlobalContext,
+    TExecutionContext
+  > = GraphQLServerContext<TGlobalContext, TExecutionContext>
+> = {
   shouldBindLoggerToInjector?: boolean;
   shouldBindEnvManagerToInjector?: boolean;
+  plugin?:
+    | ExtendServerContextFn<TGlobalContext, TExecutionContext, TServerContext>
+    | ExtendServerContextFn<
+        TGlobalContext,
+        TExecutionContext,
+        TServerContext
+      >[];
 };
 
 export const useExtendGraphQLServerContext = <
-  TGlobalContext extends GlobalServerContext = GlobalServerContext,
-  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext,
-  TBindings = any
+  TGlobalContext extends GlobalContext = GlobalContext,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext,
+  TServerContext extends GraphQLServerContext<
+    TGlobalContext,
+    TExecutionContext
+  > = GraphQLServerContext<TGlobalContext, TExecutionContext>
 >(
-  initialContext: TGlobalContext,
-  options: ExtendContextOptions = {
+  globalContext: TGlobalContext,
+  options: ExtendContextOptions<
+    TGlobalContext,
+    TExecutionContext,
+    TServerContext
+  > = {
     shouldBindLoggerToInjector: true,
     shouldBindEnvManagerToInjector: true
   }
-): Plugin<
-  GraphQLServerContext<TGlobalContext, TExecutionContext, TBindings>
-> => {
+): Plugin<TServerContext> => {
   return {
-    /*async onPluginInit() {
-      if (
-        options?.shouldBindLoggerToInjector &&
-        !initialContext.injector.isBound(Logger)
-      ) {
-        bindService(Logger, ConsoleLogger, initialContext.injector);
-      }
-
-      if (
-        options?.shouldBindEnvManagerToInjector &&
-        !initialContext.injector.isBound(EnvManager)
-      ) {
-        bindService(EnvManager, EnvManager, initialContext.injector);
-      }
-    },*/
     async onContextBuilding({
       context,
       extendContext
-    }: OnContextBuildingEventPayload<
-      GraphQLServerContext<TGlobalContext, TExecutionContext, TBindings>
-    >) {
-      const extended = (await extendServerContext<
-        HttpRequest,
-        UserContext<any>,
-        GlobalServerContext,
-        TExecutionContext,
-        TBindings
-      >({
-        initialContext: clearExecutionContext(initialContext) as TGlobalContext,
-        request: context.execution.request,
-        user: {
-          id: "423424223211",
-          name: "Pat Sullivan",
-          email: "john.johnson@email.com"
-        },
-        bindings: context?.bindings
-      })) as GraphQLServerContext<TGlobalContext, TExecutionContext, TBindings>;
+    }: OnContextBuildingEventPayload<TServerContext>) {
+      let serverContext!: TServerContext;
+      if (options.plugin) {
+        serverContext = await extendServerContext<
+          TGlobalContext,
+          TExecutionContext,
+          TServerContext
+        >(
+          globalContext,
+          context.execution,
+          (Array.isArray(options.plugin)
+            ? [extendGraphQLServerContext, ...options.plugin]
+            : [
+                extendGraphQLServerContext,
+                options.plugin
+              ]) as ExtendServerContextFn<
+            TGlobalContext,
+            TExecutionContext,
+            TServerContext
+          >[]
+        );
+      } else {
+        serverContext = await extendServerContext<
+          TGlobalContext,
+          TExecutionContext,
+          TServerContext
+        >(
+          globalContext,
+          context.execution,
+          extendGraphQLServerContext as unknown as ExtendServerContextFn<
+            TGlobalContext,
+            TExecutionContext,
+            TServerContext
+          >
+        );
+      }
 
-      extended.execution.operationName =
-        context.params.operationName ?? "unknown";
-      extended.execution.request.body = context.params;
-
-      extendContext(setGlobalServerContext(extended));
+      extendContext(serverContext);
     }
   };
 };

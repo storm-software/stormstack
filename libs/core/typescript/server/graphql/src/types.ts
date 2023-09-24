@@ -4,23 +4,20 @@ import type { AllowedOperations } from "@envelop/filter-operation-type";
 import type { GraphQLArmorConfig } from "@escape.tech/graphql-armor-types";
 import { IExecutableSchemaDefinition } from "@graphql-tools/schema/typings/types";
 import {
-  CreateServerContextParams,
-  GlobalServerContext
+  CreateGlobalContextParams,
+  GlobalContext
 } from "@open-system/core-server-application";
 import { IEntity } from "@open-system/core-server-domain";
 import { MergedScalars } from "@pothos/core";
 import { DocumentNode } from "graphql";
 import type {
   FetchAPI,
-  GraphiQLOptions,
   Plugin,
-  PromiseOrValue,
   YogaServerInstance,
   YogaServerOptions
 } from "graphql-yoga";
-import { GraphiQLOptionsOrFactory } from "graphql-yoga/typings/plugins/use-graphiql";
 import { YogaSchemaDefinition } from "graphql-yoga/typings/plugins/use-schema";
-import { GraphQLExecutionServerContext, GraphQLServerContext } from "./context";
+import { GraphQLExecutionContext, GraphQLServerContext } from "./context";
 import { ExtendContextOptions, ServiceProvidersPluginOptions } from "./plugins";
 import { LoggerPluginOptions } from "./plugins/use-logger";
 
@@ -249,43 +246,47 @@ export type PluginMapConfiguration = {
    * The extend context plugin is used to extend the context of the GraphQL server.
    */
   extendContext?: <
-    TInitialContext extends GlobalServerContext = GlobalServerContext,
-    TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+    TGlobalContext extends GlobalContext = GlobalContext,
+    TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext
   >(
-    initialContext: TInitialContext,
-    extendContextOptions?: ExtendContextOptions
-  ) => Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+    initialContext: TGlobalContext,
+    extendContextOptions?: ExtendContextOptions<
+      TGlobalContext,
+      TExecutionContext,
+      GraphQLServerContext<TGlobalContext, TExecutionContext>
+    >
+  ) => Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>;
 
   /**
    * The logger plugin is used to log the GraphQL server.
    */
   logger?: <
-    TInitialContext extends GlobalServerContext = GlobalServerContext,
-    TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+    TGlobalContext extends GlobalContext = GlobalContext,
+    TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext
   >(
-    initialContext: TInitialContext,
+    initialContext: TGlobalContext,
     options?: LoggerPluginOptions
-  ) => Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+  ) => Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>;
 
   serviceProviders?: <
     TEntities extends Array<IEntity> = Array<IEntity>,
-    TInitialContext extends GlobalServerContext = GlobalServerContext,
-    TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+    TGlobalContext extends GlobalContext = GlobalContext,
+    TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext
   >(
-    initialContext: TInitialContext,
+    initialContext: TGlobalContext,
     options?: ServiceProvidersPluginOptions<
       TEntities,
-      TInitialContext,
-      TActiveContext
+      TGlobalContext,
+      TExecutionContext
     >
-  ) => Plugin<GraphQLServerContext<TInitialContext, TActiveContext>>;
+  ) => Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>;
 };
 
 export type GraphQLHandlerPluginOptions<
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TInitialContext extends GlobalServerContext = GlobalServerContext,
-  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
-> = CreateServerContextParams & {
+  TGlobalContext extends GlobalContext = GlobalContext,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext
+> = CreateGlobalContextParams & {
   /**
    * The plugin map configuration is used to configure the plugins that are used by the GraphQL server.
    */
@@ -303,7 +304,11 @@ export type GraphQLHandlerPluginOptions<
    * @description Customize GraphQL Context values
    *
    */
-  extendContextOptions?: ExtendContextOptions;
+  extendContextOptions?: ExtendContextOptions<
+    TGlobalContext,
+    TExecutionContext,
+    GraphQLServerContext<TGlobalContext, TExecutionContext>
+  >;
 
   /**
    * @description Customize GraphQL Logger
@@ -319,8 +324,8 @@ export type GraphQLHandlerPluginOptions<
    */
   serviceProvidersOptions: ServiceProvidersPluginOptions<
     TEntities,
-    TInitialContext,
-    TActiveContext
+    TGlobalContext,
+    TExecutionContext
   >;
 
   /**
@@ -370,7 +375,7 @@ export type GraphQLHandlerPluginOptions<
   /**
    * @description Customize the default error message used to mask errors.
    *
-   * By default, the masked error message is "Something went wrong"
+   * By default, the masked error message is "An unexpected error occured while processing the request"
    *
    * @see https://github.com/dotansimha/envelop/blob/main/packages/core/docs/use-masked-errors.md
    */
@@ -403,28 +408,19 @@ export type GraphQLHandlerPluginOptions<
 };
 
 export type CreateGraphQLHandlerOptions<
-  TInitialContext extends GlobalServerContext = GlobalServerContext,
-  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext,
+  TGlobalContext extends GlobalContext = GlobalContext,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext,
   TServerContext extends GraphQLServerContext<
-    TInitialContext,
-    TActiveContext
-  > = GraphQLServerContext<TInitialContext, TActiveContext>
+    TGlobalContext,
+    TExecutionContext
+  > = GraphQLServerContext<TGlobalContext, TExecutionContext>
 > = YogaServerOptions<TServerContext, TServerContext> &
-  CreateServerContextParams &
+  CreateGlobalContextParams &
   GraphQLHandlerPluginOptions & {
     /**
      * Whether the landing page should be shown.
      */
     landingPage?: boolean | undefined;
-
-    /**
-     * GraphiQL options
-     */
-    graphiql?: GraphiQLOptionsOrFactory<TServerContext>;
-
-    renderGraphiQL?:
-      | ((options?: GraphiQLOptions) => PromiseOrValue<BodyInit>)
-      | undefined;
 
     schema: YogaSchemaDefinition<TServerContext> | undefined;
 
@@ -458,7 +454,7 @@ export type CreateGraphQLHandlerOptions<
     /**
      * @description Modify the resolver and global context.
      */
-    context?: TServerContext | ((request: any) => TServerContext);
+    // context?: TServerContext | ((request: any) => TServerContext);
 
     /**
      * @description An async function that maps the auth token retrieved from the
@@ -561,7 +557,7 @@ export type CreateGraphQLHandlerOptions<
      *
      * Headers must set auth-provider, Authorization and (if using dbAuth) the encrypted cookie.
      */
-    generateGraphiQLHeader?: GenerateGraphiQLHeader;
+    //generateGraphiQLHeader?: GenerateGraphiQLHeader;
 
     /**
      * @description Configure RedwoodRealtime plugin with subscriptions and live queries

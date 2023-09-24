@@ -10,7 +10,9 @@ import {
   findFilePath
 } from "@open-system/core-server-utilities/file-path-fns";
 import { ConsoleLogger } from "@open-system/core-shared-logging/console";
+import prettierConfig from "@open-system/tools-devops-config/prettier/config";
 import { existsSync, readdirSync } from "fs";
+import { Options, format } from "prettier";
 import { ReadMeFormatGeneratorSchema } from "./schema";
 
 export default function (tree: Tree, options?: ReadMeFormatGeneratorSchema) {
@@ -18,7 +20,7 @@ export default function (tree: Tree, options?: ReadMeFormatGeneratorSchema) {
     ConsoleLogger.showTitle();
     ConsoleLogger.info("Executing Repo ReadMe Formatting generator...");
     ConsoleLogger.info(`Current Working Dir: ${process.cwd()}`);
-    const { outputPath, templatePath, clean } = options;
+    const { outputPath, templatePath, clean, prettier } = options;
 
     if (!existsSync(templatePath)) {
       ConsoleLogger.error(
@@ -97,6 +99,12 @@ export default function (tree: Tree, options?: ReadMeFormatGeneratorSchema) {
                   packageJson.version
                 );
               }
+            }
+
+            if (prettier) {
+              ConsoleLogger.info(`Formatting output with Prettier`);
+
+              newContent = format(newContent, prettierConfig as Options);
             }
 
             ConsoleLogger.info(

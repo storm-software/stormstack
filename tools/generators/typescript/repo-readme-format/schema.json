@@ -21,6 +21,11 @@
       "type": "boolean",
       "description": "Delete README file in the output prior to formatting new content.",
       "default": false
+    },
+    "prettier": {
+      "type": "boolean",
+      "description": "Should use prettier to format the README.md files.",
+      "default": true
     }
   },
   "required": ["templatePath"]

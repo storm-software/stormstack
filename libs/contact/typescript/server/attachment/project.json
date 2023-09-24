@@ -61,5 +61,11 @@
       }
     }
   },
-  "tags": ["scope:contact", "platform:server", "level:infrastructure"]
+  "tags": ["scope:contact", "platform:server", "level:infrastructure"],
+  "implicitDependencies": [
+    "core-shared-injection",
+    "core-shared-env",
+    "core-server-application",
+    "core-server-graphql"
+  ]
 }

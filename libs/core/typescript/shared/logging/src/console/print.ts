@@ -20,7 +20,7 @@ export const printInfo = (
       message,
       newLine,
       newLineAfter,
-      chalk.bold.blue("📢 " + chalk.bgBlue.whiteBright(" i ") + " INFO -"),
+      chalk.bold.blue("> " + chalk.bgBlue.whiteBright(" i ") + " INFO -"),
       undefined,
       stackTrace
     )
@@ -58,7 +58,7 @@ export const printSuccess = (
       newLine,
       newLineAfter,
       chalk.bold.green(
-        "📢 " + chalk.bold.bgGreen.whiteBright(" ✓ ") + " SUCCESS -"
+        "> " + chalk.bold.bgGreen.whiteBright(" ✓ ") + " SUCCESS -"
       ),
       undefined,
       stackTrace
@@ -83,7 +83,7 @@ export const printWarning = (
       message,
       newLine,
       newLineAfter,
-      chalk.bold.yellow("📢 " + chalk.bgYellow.blackBright(" ▲ ") + " WARN -"),
+      chalk.bold.yellow("> " + chalk.bgYellow.blackBright(" ▲ ") + " WARN -"),
       undefined,
       stackTrace
     )
@@ -112,7 +112,7 @@ export const printError = (
       newLine,
       newLineAfter,
       chalk.bold.red(
-        `📢  ${chalk.bgRed.whiteBright(" ! ")} ${prefix} ${chalk.italic(
+        `> ${chalk.bgRed.whiteBright(" ! ")} ${prefix} ${chalk.italic(
           error?.name ? `(${error.name}) ` : ""
         )}-`
       ),

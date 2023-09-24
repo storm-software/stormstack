@@ -19,8 +19,9 @@
             "output": "."
           }
         ],
+        "skipTypeCheck": true,
         "polyfillNode": true,
-        "skipTypeCheck": true
+        "platform": "node"
       },
       "configurations": {
         "development": {
@@ -113,5 +114,9 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": [
+    "core-server-cloudflare",
+    "contact-server-attachment"
+  ]
 }

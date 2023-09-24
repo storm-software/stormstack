@@ -4,7 +4,7 @@ import {
 } from "@envelop/sentry";
 import type { Plugin } from "@envelop/types";
 import {
-  GlobalServerContext,
+  GlobalContext,
   extractCorrelationId,
   extractRequestId,
   extractSystemInfo,
@@ -14,13 +14,13 @@ import { JsonParser } from "@open-system/core-shared-serialization";
 import { MissingContextError } from "@open-system/core-shared-utilities";
 import { print } from "graphql";
 import {
-  GraphQLExecutionServerContext,
+  GraphQLExecutionContext,
   GraphQLServerContext
 } from "../context/context";
 
 export const useSentry = <
-  TInitialContext extends GlobalServerContext = GlobalServerContext,
-  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+  TInitialContext extends GlobalContext = GlobalContext,
+  TActiveContext extends GraphQLExecutionContext = GraphQLExecutionContext
 >(
   initialContext: TInitialContext,
   options: SentryPluginOptions = {}

@@ -1,13 +1,10 @@
 import { IExecutableSchemaDefinition } from "@graphql-tools/schema";
-import { GlobalServerContext } from "@open-system/core-server-application/context";
+import { GlobalContext } from "@open-system/core-server-application/context";
 import {
   GraphQLSchemaWithContext,
   createSchema as createSchemaExt
 } from "graphql-yoga";
-import {
-  GraphQLExecutionServerContext,
-  GraphQLServerContext
-} from "../context";
+import { GraphQLExecutionContext, GraphQLServerContext } from "../context";
 
 /*export const createSchema = <
   TInitialContext extends InitialServerContext = InitialServerContext,
@@ -32,8 +29,8 @@ import {
 };*/
 
 export const createSchema = <
-  TInitialContext extends GlobalServerContext = GlobalServerContext,
-  TActiveContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext,
+  TInitialContext extends GlobalContext = GlobalContext,
+  TActiveContext extends GraphQLExecutionContext = GraphQLExecutionContext,
   TServerContext extends GraphQLServerContext<
     TInitialContext,
     TActiveContext

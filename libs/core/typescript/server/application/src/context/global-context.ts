@@ -4,6 +4,7 @@ import { ServerEnvManager } from "@open-system/core-server-utilities/server-env-
 import { EnvManager, EnvironmentType } from "@open-system/core-shared-env";
 import { Injector } from "@open-system/core-shared-injection/injector/injector";
 import { Injector as InjectorType } from "@open-system/core-shared-injection/types";
+import { bindConstant } from "@open-system/core-shared-injection/utilities/bind-service";
 import { ConsoleLogger, Logger } from "@open-system/core-shared-logging";
 import { IJsonParser } from "@open-system/core-shared-serialization";
 import {
@@ -62,7 +63,7 @@ export type ServiceMapping<TEntities extends Array<IEntity> = Array<IEntity>> =
     Service<ArrayElement<TEntities>>
   >;
 
-export type GlobalServerContext<
+export type GlobalContext<
   TEntities extends Array<IEntity> = Array<IEntity>,
   TUtils extends UtilityContext = UtilityContext,
   TBindings = unknown
@@ -76,7 +77,7 @@ export type GlobalServerContext<
   bindings?: TBindings;
 };
 
-export type CreateServerContextParams<TBindings = unknown> = {
+export type CreateGlobalContextParams<TBindings = unknown> = {
   environment?: EnvironmentType;
   logger?: Logger;
   parser?: IJsonParser;
@@ -92,12 +93,12 @@ export type CreateServerContextParams<TBindings = unknown> = {
   bindings?: TBindings;
 };
 
-export const createGlobalServerContextProxy = <
-  TGlobalServerContext extends GlobalServerContext = GlobalServerContext
+export const createGlobalContextProxy = <
+  TGlobalContext extends GlobalContext = GlobalContext
 >(
-  target: TGlobalServerContext
+  target: TGlobalContext
 ) => {
-  return new Proxy<TGlobalServerContext>(target, {
+  return new Proxy<TGlobalContext>(target, {
     get: (_target, property: string) => {
       const store = getGlobalContextStore().getStore();
       const ctx: Record<string, any> = store?.get("context") || {};
@@ -111,14 +112,14 @@ export const createGlobalServerContextProxy = <
       const store = getGlobalContextStore().getStore();
       const ctx: Record<string, any> = store?.get("context") || {};
       ctx[property] = newVal;
-      store?.set("context", ctx as TGlobalServerContext);
+      store?.set("context", ctx as TGlobalContext);
       return true;
     }
   });
 };
 
-export const createServerContext = <
-  TGlobalServerContext extends GlobalServerContext = GlobalServerContext
+export const createGlobalContext = <
+  TGlobalContext extends GlobalContext = GlobalContext
 >({
   environment,
   logger,
@@ -133,24 +134,25 @@ export const createServerContext = <
   serviceUrl,
   instanceId,
   bindings
-}: CreateServerContextParams<
-  TGlobalServerContext["bindings"]
->): TGlobalServerContext => {
-  const globalServerContext = getGlobalServerContext<TGlobalServerContext>();
-  if (globalServerContext?.isInitialized) {
-    return globalServerContext;
+}: CreateGlobalContextParams<
+  TGlobalContext["bindings"]
+> = {}): TGlobalContext => {
+  const globalContext = getGlobalContext<TGlobalContext>();
+  if (globalContext?.isInitialized) {
+    return globalContext;
   }
 
   const injector = _injector ?? Injector;
   const utils = {
-    logger: logger ?? injector.get(Logger) ?? ConsoleLogger,
+    logger: logger ?? injector.get<Logger>(Logger) ?? ConsoleLogger,
     parser: parser ?? parser,
     uniqueIdGenerator: _uniqueIdGenerator ?? uniqueIdGenerator
   };
 
-  const env: EnvManager = injector.isBound(EnvManager)
-    ? injector.get(EnvManager)
-    : new ServerEnvManager({ env: _env });
+  const env: EnvManager =
+    !_env && injector.isBound(EnvManager)
+      ? injector.get(EnvManager)
+      : new ServerEnvManager({ env: _env });
   const system = {
     environment: environment ?? env?.environment,
     info: {
@@ -164,7 +166,7 @@ export const createServerContext = <
     startedAt: DateTime.current,
     startedBy: "System"
   };
-  injector.bind(SYSTEM_TOKEN).toConstantValue(system);
+  bindConstant(SYSTEM_TOKEN, system, injector);
 
   const newContext = {
     isInitialized: true,
@@ -174,24 +176,24 @@ export const createServerContext = <
     utils,
     bindings,
     services: {}
-  } as TGlobalServerContext;
+  } as TGlobalContext;
 
   utils.logger.debug("Context Value: \n", newContext);
 
-  return setGlobalServerContext<TGlobalServerContext>(newContext);
+  return setGlobalContext<TGlobalContext>(newContext);
 };
 
-let _globalServerContext!: GlobalServerContext;
-export const getGlobalServerContext = <
-  TGlobalServerContext extends GlobalServerContext = GlobalServerContext
->(): TGlobalServerContext => {
-  if (!_globalServerContext) {
-    _globalServerContext = createGlobalServerContextProxy<TGlobalServerContext>(
-      { isInitialized: false } as TGlobalServerContext
-    );
+let GLOBAL_CONTEXT!: GlobalContext;
+export const getGlobalContext = <
+  TGlobalContext extends GlobalContext = GlobalContext
+>(): TGlobalContext => {
+  if (!GLOBAL_CONTEXT) {
+    GLOBAL_CONTEXT = createGlobalContextProxy<TGlobalContext>({
+      isInitialized: false
+    } as TGlobalContext);
   }
 
-  return _globalServerContext as TGlobalServerContext;
+  return GLOBAL_CONTEXT as TGlobalContext;
 };
 
 /**
@@ -202,20 +204,19 @@ export const getGlobalServerContext = <
  * If you wish to extend the context simply use the `context` object directly,
  * such as `context.magicNumber = 1`, or `setContext({ ...context, magicNumber: 1 })`
  */
-export const setGlobalServerContext = <
-  TGlobalServerContext extends GlobalServerContext = GlobalServerContext
+export const setGlobalContext = <
+  TGlobalContext extends GlobalContext = GlobalContext
 >(
-  newContext: TGlobalServerContext
-): TGlobalServerContext => {
+  newContext: TGlobalContext
+): TGlobalContext => {
   // re-init the proxy against the new context object,
   // so things like `console.log(context)` is the actual object,
   // not one initialized earlier.
-  _globalServerContext =
-    createGlobalServerContextProxy<TGlobalServerContext>(newContext);
+  GLOBAL_CONTEXT = createGlobalContextProxy<TGlobalContext>(newContext);
 
   // Replace the value of context stored in the current async store
   const store = getGlobalContextStore().getStore();
   store?.set("context", newContext);
 
-  return _globalServerContext as TGlobalServerContext;
+  return GLOBAL_CONTEXT as TGlobalContext;
 };

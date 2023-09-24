@@ -3,15 +3,15 @@ import { useDisableIntrospection } from "@envelop/disable-introspection";
 import { useParserCache } from "@envelop/parser-cache";
 import type { Plugin } from "@envelop/types";
 import { useValidationCache } from "@envelop/validation-cache";
-import { GlobalServerContext } from "@open-system/core-server-application";
+import { GlobalContext } from "@open-system/core-server-application";
 import { IEntity } from "@open-system/core-server-domain/types";
-import {
-  GraphQLExecutionServerContext,
-  GraphQLServerContext
-} from "../context";
+import { GraphQLExecutionContext, GraphQLServerContext } from "../context";
 import { GraphQLHandlerPluginOptions, PluginMapConfiguration } from "../types";
 import { useErrorHandler } from "./use-error-handler";
-import { useExtendGraphQLServerContext } from "./use-extend-graphql-server-context";
+import {
+  ExtendContextOptions,
+  useExtendGraphQLServerContext
+} from "./use-extend-graphql-server-context";
 import { useLogger } from "./use-logger";
 import { useServiceProviders } from "./use-service-provider";
 
@@ -34,22 +34,22 @@ export const DefaultPluginMap: Required<PluginMapConfiguration> = {
 
 export const createPlugins = async <
   TEntities extends Array<IEntity> = Array<IEntity>,
-  TGlobalContext extends GlobalServerContext<TEntities> = GlobalServerContext<TEntities>,
-  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+  TGlobalContext extends GlobalContext<TEntities> = GlobalContext<TEntities>,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext
 >({
   pluginMap = {},
   context,
-  allowIntrospection,
   loggerOptions,
   extendContextOptions,
-  serviceProvidersOptions
+  serviceProvidersOptions,
+  allowIntrospection
 }: GraphQLHandlerPluginOptions<TEntities, TGlobalContext, TExecutionContext> & {
   context: TGlobalContext;
 }): Promise<
   Array<Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>>
 > => {
-  // Important: Plugins are executed in order of their usage, and inject functionality serially,
-  // so the order here matters
+  // Important: Plugins are executed in order of their usage, and inject
+  // functionality serially, so the order here matters
   const plugins: Array<
     Plugin<GraphQLServerContext<TGlobalContext, TExecutionContext>>
   > = [];
@@ -68,23 +68,42 @@ export const createPlugins = async <
     }
 
     plugins.push(
-      pluginMap["extendContext"]?.(context, extendContextOptions) ??
-        DefaultPluginMap["extendContext"](context, extendContextOptions)
+      pluginMap?.["extendContext"]?.(
+        context,
+        extendContextOptions as ExtendContextOptions<
+          TGlobalContext,
+          TExecutionContext,
+          GraphQLServerContext<TGlobalContext, TExecutionContext>
+        >
+      ) ??
+        DefaultPluginMap["extendContext"](
+          context,
+          extendContextOptions as ExtendContextOptions<
+            TGlobalContext,
+            TExecutionContext,
+            GraphQLServerContext<TGlobalContext, TExecutionContext>
+          >
+        )
     );
 
     plugins.push(
-      pluginMap["logger"]?.(context, loggerOptions) ??
+      pluginMap?.["logger"]?.(context, loggerOptions) ??
         DefaultPluginMap["logger"](context, loggerOptions)
     );
 
     // Add other plugins here
 
     plugins.push(
-      pluginMap["serviceProviders"]?.(context, serviceProvidersOptions) ??
+      pluginMap?.["serviceProviders"]?.(context, serviceProvidersOptions) ??
         DefaultPluginMap["serviceProviders"](context, serviceProvidersOptions)
     );
   } catch (error) {
-    context.utils.logger.error(error);
+    if (context?.utils?.logger) {
+      context.utils.logger.error(error);
+    } else {
+      console.error("Missing logger in context");
+      console.error(error);
+    }
   }
 
   return [

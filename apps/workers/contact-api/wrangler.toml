@@ -10,8 +10,8 @@ workers_dev = true
 usage_model = "bundled"
 
 compatibility_date = "2023-07-10"
-# compatibility_flags = [ "nodejs_compat" ]
-node_compat = true
+compatibility_flags = [ "nodejs_compat" ]
+# node_compat = true
 
 # rules = [
 #  { type = "ESModule", globs = ["@whatwg-node/fetch"] }
@@ -23,7 +23,7 @@ account_id = "03700f13b61493bbc558dc93ea4980bc"
 [build]
 command = "pnpm exec nx run worker-contact-api:build:development"
 cwd = "C:\\Development\\open-system"
-watch_dir = "C:\\Development\\open-system\\apps\\worker-contact-api"
+watch_dir = "./"
 
 [[d1_databases]]
 binding = "DB"

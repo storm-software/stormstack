@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OnExecuteDoneEventPayload } from "@envelop/core";
-import { GlobalServerContext } from "@open-system/core-server-application/context/global-context";
-import { isError } from "@open-system/core-shared-utilities/common/type-checks";
+import { GlobalContext } from "@open-system/core-server-application/context/global-context";
+import { isError, isString } from "@open-system/core-shared-utilities";
+import { BaseError } from "@open-system/core-shared-utilities/errors/base-error";
+import { GraphQLError } from "graphql";
+import { handleStreamOrSingleExecutionResult } from "graphql-yoga";
+import { createGraphQLError } from "../api/graphql-error";
 import {
-  createGraphQLError,
-  handleStreamOrSingleExecutionResult
-} from "graphql-yoga";
-import {
-  GraphQLExecutionServerContext,
+  GraphQLExecutionContext,
   GraphQLServerContext
 } from "../context/context";
 
 export const useErrorHandler = <
-  TGlobalContext extends GlobalServerContext = GlobalServerContext,
-  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext
+  TGlobalContext extends GlobalContext = GlobalContext,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext
 >(
   context: TGlobalContext
 ) => {
@@ -28,41 +28,34 @@ export const useErrorHandler = <
           return handleStreamOrSingleExecutionResult(
             payload,
             ({ result, setResult }) => {
-              // Not sure what changed, but the `context` is now an object with a contextValue property.
-              // We previously relied on the `context` being the `contextValue` itself.
-              /*const ctx = (
-                "contextValue" in context ? context.contextValue : context
-              ) as Context;*/
-
-              /* const ctx = (context?.contextValue ??
-                context ??
-                initialContext) as GraphQLServerContext<
-                TGlobalContext,
-                TExecutionContext
-              >;
-              for (const error of errors) {
-                if (isGraphQLError(error)) {
-                  ctx.utils.logger.error(error);
-                }
-              }*/
-
               const logger = context.utils.logger;
-              logger.error(
-                "An error occurred while executing the server request."
-              );
+              const errors = result.errors?.reduce(
+                (ret: GraphQLError[], error) => {
+                  let graphQLError: GraphQLError | undefined;
+                  if (
+                    error.originalError &&
+                    BaseError.isBaseError(error.originalError)
+                  ) {
+                    logger.debug(
+                      `'Converting ${error.originalError.name} (error code: ${error.originalError.code}) to GraphQLError`
+                    );
 
-              const errors = result.errors?.map(error => {
-                if (isError(error.originalError)) {
-                  logger.error(error.originalError);
-                  return createGraphQLError(error.message, {
-                    extensions: error.extensions,
-                    originalError: error
-                  });
-                } else {
-                  logger.error(error);
-                  return error;
-                }
-              });
+                    graphQLError = createGraphQLError(error, {
+                      originalError: error
+                    });
+                  } else if (isError(error) || isString(error)) {
+                    graphQLError = createGraphQLError(error);
+                  }
+
+                  if (graphQLError) {
+                    logger.error(graphQLError);
+                    ret.push(error);
+                  }
+
+                  return ret;
+                },
+                []
+              );
 
               setResult({
                 data: result.data,

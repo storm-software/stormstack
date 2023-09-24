@@ -3,32 +3,74 @@
 import "reflect-metadata";
 import "./dependencies";
 
+import { extendContactServerContext } from "@open-system/contact-server-attachment";
+import { schema } from "@open-system/contact-server-attachment/api";
+import { handleCloudflareGraphQLRequest } from "@open-system/core-server-cloudflare/server/handler";
+import { isPonyfillBody } from "@open-system/core-server-utilities/type-checks";
 import { ConsoleLogger } from "@open-system/core-shared-logging/console/console-logger";
 import { formatErrorLog } from "@open-system/core-shared-logging/format/format-log";
-import { isError } from "@open-system/core-shared-utilities/common/type-checks";
-import { createServer } from "./server";
+import {
+  HttpHeaderTypes,
+  HttpMediaTypes,
+  HttpMethod
+} from "@open-system/core-shared-utilities/types";
 
 export interface Env {
   DB: any;
 }
 
+globalThis.Buffer = Buffer;
+globalThis.TransformStream = TransformStream;
+globalThis.ReadableStream = ReadableStream;
+globalThis.WritableStream = WritableStream;
+
+/*addEventListener("unhandledrejection", (event) => {
+  ConsoleLogger.error(globalContextStore.getStore(), "unhandled rejection!");
+  ConsoleLogger.error(event);
+});*/
+
 export default {
-  async fetch(request: Request, env: Env) {
+  async fetch(request: Request, env: Env): Promise<Response> {
     try {
-      ConsoleLogger.debug("Server bindings", env);
+      const response = await handleCloudflareGraphQLRequest(
+        request,
+        {
+          schema,
+          serviceProvidersOptions: {
+            services: []
+          },
+          extendContextOptions: {
+            plugin: extendContactServerContext
+          }
+        },
+        env
+      );
 
-      const server = await createServer();
+      /*let { readable, writable } = new TransformStream();
+      response.body.pipeTo(writable);*/
 
-      const result = await server.fetch(request as any, env as any);
-      if (isError(result)) {
-        ConsoleLogger.error(result);
-        return new Response(formatErrorLog(result), {
-          status: 500,
-          ...(result as Error)
-        });
+      const headers: HeadersInit = response.headers;
+      let contentType!: string;
+
+      if (isPonyfillBody(response)) {
+        contentType = response.contentType;
+        headers.set(HttpHeaderTypes.CONTENT_TYPE, response.contentType);
+      } else if (headers.has(HttpHeaderTypes.CONTENT_TYPE)) {
+        contentType = headers.get(HttpHeaderTypes.CONTENT_TYPE)!;
       }
 
-      return result;
+      return new Response(
+        contentType === HttpMediaTypes.TEXT ||
+        contentType === HttpMediaTypes.HTML ||
+        request.method === HttpMethod.GET
+          ? await response.text()
+          : await response.json(),
+        {
+          status: response.status,
+          statusText: response.statusText,
+          headers
+        }
+      );
     } catch (e) {
       ConsoleLogger.fatal(e);
       return new Response(formatErrorLog(e as Error), {

@@ -1,18 +1,14 @@
 import { AsyncLocalStorage } from "node:async_hooks";
-import { GlobalServerContext } from "./global-context";
+import { GlobalContext } from "./global-context";
 
-let GlobalContextStore: AsyncLocalStorage<Map<string, GlobalServerContext>>;
+let GlobalContextStore: AsyncLocalStorage<Map<string, GlobalContext>>;
 
 /**
  * This returns a AsyncLocalStorage instance, not the actual store
  */
 export const getGlobalContextStore = () => {
   if (!GlobalContextStore) {
-    GlobalContextStore = new AsyncLocalStorage<
-      Map<string, GlobalServerContext>
-    >();
+    GlobalContextStore = new AsyncLocalStorage<Map<string, GlobalContext>>();
   }
-  return GlobalContextStore as AsyncLocalStorage<
-    Map<string, GlobalServerContext>
-  >;
+  return GlobalContextStore as AsyncLocalStorage<Map<string, GlobalContext>>;
 };

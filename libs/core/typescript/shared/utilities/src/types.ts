@@ -373,12 +373,20 @@ export interface HttpFetchApi {
   forced?: boolean;
 }
 
+export type HttpMediaTypes =
+  | "application/json"
+  | "application/octet-stream"
+  | "application/x-www-form-urlencoded"
+  | "text/plain"
+  | "text/html"
+  | "application/graphql-response+json";
 export const HttpMediaTypes = {
-  JSON: "application/json",
-  OCTET_STREAM: "application/octet-stream",
-  FORM: "application/x-www-form-urlencoded",
-  TEXT: "text/plain",
-  HTML: "text/html"
+  JSON: "application/json" as HttpMediaTypes,
+  OCTET_STREAM: "application/octet-stream" as HttpMediaTypes,
+  FORM: "application/x-www-form-urlencoded" as HttpMediaTypes,
+  TEXT: "text/plain" as HttpMediaTypes,
+  HTML: "text/html" as HttpMediaTypes,
+  GRAPHQL_RESPONSE_JSON: "application/graphql-response+json" as HttpMediaTypes
 };
 
 export type HttpMethods = "DELETE" | "GET" | "HEAD" | "POST" | "PUT" | "PATCH";

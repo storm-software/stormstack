@@ -7,14 +7,14 @@ import {
   extractRequestHeaders,
   extractSystem
 } from "@open-system/core-server-application/context";
-import { GlobalServerContext } from "@open-system/core-server-application/context/global-context";
+import { GlobalContext } from "@open-system/core-server-application/context/global-context";
 import { IEntity } from "@open-system/core-server-domain/types";
 import { GraphQLExecutionContext, GraphQLServerContext } from "../context";
 
 export const useHive = async <
-  TGlobalContext extends GlobalServerContext<
+  TGlobalContext extends GlobalContext<Array<IEntity>> = GlobalContext<
     Array<IEntity>
-  > = GlobalServerContext<Array<IEntity>>,
+  >,
   TExecutionContext extends GraphQLExecutionContext<
     HttpRequest,
     UserContext

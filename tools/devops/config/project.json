@@ -11,9 +11,8 @@
         "outputPath": "dist/tools/devops/config",
         "tsConfig": "tools/devops/config/tsconfig.json",
         "project": "tools/devops/config/package.json",
-        "main": "tools/devops/config/src/prettier/index.ts",
+        "main": "tools/devops/config/src/nx-release/index.ts",
         "additionalEntryPoints": [
-          "tools/devops/config/src/nx-release/index.ts",
           "tools/devops/config/src/release-it/index.ts",
           "tools/devops/config/src/relay/index.ts",
           "tools/devops/config/src/eslint/graphql/index.ts",
@@ -69,6 +68,11 @@
           {
             "input": "tools/devops/config/src",
             "glob": "commitlint/**/*.js",
+            "output": "."
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "prettier/**/config.js",
             "output": "."
           },
           {

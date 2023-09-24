@@ -8,6 +8,6 @@
     "@nx/devkit": "16.7.0",
     "drizzle-orm": "^0.28.5",
     "pnpapi": "^0.0.0",
-    "wrangler": "^3.7.0"
+    "wrangler": "^3.9.0"
   }
 }

@@ -1,6 +1,6 @@
 import { CloudflareServerBindingsContext } from "@open-system/core-server-cloudflare/types";
 import {
-  GraphQLExecutionServerContext,
+  GraphQLExecutionContext,
   GraphQLServerContext
 } from "@open-system/core-server-graphql/context";
 import { createSchema } from "@open-system/core-server-graphql/schema";
@@ -10,10 +10,10 @@ import { ContactGraphQLInitialServerContext } from "../context/context";
 
 export const schema = createSchema<
   ContactGraphQLInitialServerContext,
-  GraphQLExecutionServerContext,
+  GraphQLExecutionContext,
   GraphQLServerContext<
     ContactGraphQLInitialServerContext,
-    GraphQLExecutionServerContext,
+    GraphQLExecutionContext,
     CloudflareServerBindingsContext
   >
 >({

@@ -1,4 +1,4 @@
-const config = {
+module.exports = {
   plugins: ["prettier-plugin-packagejson", "prettier-plugin-tailwindcss"],
   trailingComma: "none",
   tabWidth: 2,
@@ -10,7 +10,5 @@ const config = {
   printWidth: 80,
   bracketSpacing: true,
   arrowParens: "avoid",
-  endOfLine: "lf",
+  endOfLine: "lf"
 };
-
-export default config;

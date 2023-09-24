@@ -1,23 +1,8 @@
 {
   "name": "open-system",
-  "namespace": "@open-system",
-  "private": true,
   "version": "0.0.0",
-  "license": "Apache License 2.0",
+  "private": true,
   "description": "🧪 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries 🧪",
-  "homepage": "https://sullivanpj.github.io/open-system/",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/sullivanpj/open-system.git"
-  },
-  "bugs": {
-    "url": "https://github.com/sullivanpj/open-system/issues"
-  },
-  "author": {
-    "email": "contact@patsullivan.org",
-    "name": "Pat Sullivan",
-    "url": "https://patsullivan.org"
-  },
   "keywords": [
     "pat",
     "patrick",
@@ -30,61 +15,77 @@
     "storm",
     "storm-lang"
   ],
-  "packageManager": "pnpm@8.7.4",
-  "engines": {
-    "node": ">=18.17.0",
-    "pnpm": ">=8.7.4"
+  "homepage": "https://sullivanpj.github.io/open-system/",
+  "bugs": {
+    "url": "https://github.com/sullivanpj/open-system/issues"
   },
-  "prettier": "./dist/tools/devops/config/prettier",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/sullivanpj/open-system.git"
+  },
+  "license": "Apache License 2.0",
+  "author": {
+    "name": "Pat Sullivan",
+    "email": "contact@patsullivan.org",
+    "url": "https://patsullivan.org"
+  },
   "scripts": {
-    "help": "nx help",
-    "nx": "nx",
-    "preinstall": "node -e \"if(process.env.CI == 'true') {console.log('Skipping preinstall...'); process.exit(1)}\" || npx -y only-allow pnpm",
-    "install:csb": "corepack enable && pnpm install --frozen-lockfile",
-    "prepare:husky": "is-ci || husky install",
-    "prepare": "pnpm prepare:husky && npx patch-package -y",
-    "clean:apps": "rimraf dist/apps",
-    "clean:libs": "rimraf dist/libs",
-    "clean:tools": "rimraf dist/tools",
-    "clean": "rimraf dist",
+    "add:contributors": "all-contributors add",
+    "add:decisions": "pnpm log4brains adr new",
+    "analyze": "cross-env ANALYZE=true npm run build",
+    "build": "pnpm run build:wundergraph && relay-compiler && nx run-many -t build --all --parallel 4",
+    "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
     "build:tools": "cross-env FORCE_COLOR=1 pnpm nx run tools-executors-typescript:build && pnpm nx run tools-executors-docs:build && pnpm nx run design-system-tokens:build:open-system",
     "build:tools-ci": "pnpm nx run tools-executors-typescript:build && pnpm nx run design-system-tokens:style-dictionary",
     "build:web-deploy": "pnpm run build:tools-ci && pnpm nx run web-shell:build:production",
-    "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
     "build:wundergraph": "wunderctl generate",
-    "build": "pnpm run build:wundergraph && relay-compiler && nx run-many -t build --all --parallel 4",
-    "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore --config=dist/tools/devops/config/cspell/config.js",
-    "lint:language": "cross-env FORCE_COLOR=1 alex . !**/CODE_OF_CONDUCT.md --quiet",
-    "lint:dependency-versions": "cross-env FORCE_COLOR=1 check-dependency-version-consistency . --fix",
-    "lint": "pnpm lint:language && lint:dependency-versions",
-    "format": "nx format:write && pnpm doctoc --github README.md",
-    "typecheck": "pnpm run -r typecheck",
-    "analyze": "cross-env ANALYZE=true npm run build",
-    "test:storybook": "cross-env FORCE_COLOR=1 test-storybook",
-    "test": "nx test",
-    "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
-    "start": "nx serve",
-    "dep-graph": "nx dep-graph",
-    "relay": "relay-compiler ./dist/tools/devops/config/relay --watch",
-    "wundergraph": "wunderctl up --debug",
-    "add:contributors": "all-contributors add",
-    "generate": "graphql-codegen --config graphql-codegen.ts",
-    "generate:graphql": "graphql-codegen --config graphql-codegen.ts",
-    "generate:contributors": "all-contributors generate",
-    "add:decisions": "pnpm log4brains adr new",
-    "preview:decisions": "pnpm log4brains preview",
-    "repo-check:manypkg": "pnpm exec manypkg check",
-    "repo-check:circular-deps": "pnpm exec dpdm ",
-    "repo-check": "pnpm repo-check:manypkg && pnpm repo-check:circular-deps",
-    "pre-commit": "lint-staged --config ./dist/tools/devops/config/lint-staged/index.js",
+    "clean": "rimraf dist",
+    "clean:apps": "rimraf dist/apps",
+    "clean:libs": "rimraf dist/libs",
+    "clean:tools": "rimraf dist/tools",
     "commit": "git-cz",
-    "release": "release-it --config ./dist/tools/devops/config/release-it/index.js"
+    "dep-graph": "nx dep-graph",
+    "format": "nx format:write && pnpm doctoc --github README.md",
+    "generate": "graphql-codegen --config graphql-codegen.ts",
+    "generate:contributors": "all-contributors generate",
+    "generate:graphql": "graphql-codegen --config graphql-codegen.ts",
+    "help": "nx help",
+    "preinstall": "node -e \"if(process.env.CI == 'true') {console.log('Skipping preinstall...'); process.exit(1)}\" || npx -y only-allow pnpm",
+    "install:csb": "corepack enable && pnpm install --frozen-lockfile",
+    "lint": "pnpm lint:language && lint:dependency-versions",
+    "lint:dependency-versions": "cross-env FORCE_COLOR=1 check-dependency-version-consistency . --fix",
+    "lint:language": "cross-env FORCE_COLOR=1 alex . !**/CODE_OF_CONDUCT.md --quiet",
+    "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore --config=dist/tools/devops/config/cspell/config.js",
+    "nx": "nx",
+    "pre-commit": "lint-staged --concurrent false --config ./dist/tools/devops/config/lint-staged/index.js",
+    "prepare": "pnpm prepare:husky && npx patch-package -y",
+    "prepare:husky": "is-ci || husky install",
+    "preview:decisions": "pnpm log4brains preview",
+    "relay": "relay-compiler ./dist/tools/devops/config/relay --watch",
+    "release": "release-it --config ./dist/tools/devops/config/release-it/index.js",
+    "repo-check": "pnpm repo-check:manypkg && pnpm repo-check:circular-deps",
+    "repo-check:circular-deps": "pnpm exec dpdm ",
+    "repo-check:manypkg": "pnpm exec manypkg check",
+    "start": "nx serve",
+    "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
+    "test": "nx test",
+    "test:storybook": "cross-env FORCE_COLOR=1 test-storybook",
+    "typecheck": "pnpm run -r typecheck",
+    "wundergraph": "wunderctl up --debug"
   },
-  "nx": {
-    "includedScripts": [
-      "lint",
-      "format"
-    ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --concurrent false --config ./dist/tools/devops/config/lint-staged/index.js"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
+  "prettier": "./dist/tools/devops/config/prettier/config.js",
+  "resolutions": {
+    "graphql": "^16.8.0"
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20230904.0",
@@ -308,21 +309,24 @@
     "zod-prisma": "^0.5.4",
     "zod-prisma-types": "^2.7.4"
   },
-  "resolutions": {
-    "graphql": "^16.8.0"
+  "optionalDependencies": {
+    "@nx/nx-win32-x64-msvc": "^16.8.1",
+    "@swc/core-darwin-arm64": "^1.3.83",
+    "@swc/core-darwin-x64": "^1.3.83",
+    "@swc/core-linux-arm-gnueabihf": "^1.3.83",
+    "@swc/core-linux-arm64-gnu": "^1.3.83",
+    "@swc/core-linux-arm64-musl": "^1.3.83",
+    "@swc/core-linux-x64-gnu": "^1.3.83",
+    "@swc/core-linux-x64-musl": "^1.3.83",
+    "@swc/core-win32-arm64-msvc": "^1.3.83",
+    "@swc/core-win32-ia32-msvc": "^1.3.83",
+    "@swc/core-win32-x64-msvc": "^1.3.83",
+    "@swc/wasm": "^1.3.83"
   },
-  "nextBundleAnalysis": {
-    "buildOutputDirectory": "dist/apps/web/shell/.next"
-  },
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/cz-commitlint"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged --config ./dist/tools/devops/config/lint-staged/index.js"
-    }
+  "packageManager": "pnpm@8.7.4",
+  "engines": {
+    "node": ">=18.17.0",
+    "pnpm": ">=8.7.4"
   },
   "bundlewatch": {
     "files": [
@@ -338,6 +342,16 @@
         "beta"
       ]
     }
+  },
+  "namespace": "@open-system",
+  "nextBundleAnalysis": {
+    "buildOutputDirectory": "dist/apps/web/shell/.next"
+  },
+  "nx": {
+    "includedScripts": [
+      "lint",
+      "format"
+    ]
   },
   "pnpm": {
     "patchedDependencies": {
@@ -364,19 +378,5 @@
       "esbuild-plugin-polyfill-node@0.3.0": "patches/esbuild-plugin-polyfill-node@0.3.0.patch",
       "busboy@1.6.0": "patches/busboy@1.6.0.patch"
     }
-  },
-  "optionalDependencies": {
-    "@nx/nx-win32-x64-msvc": "^16.8.1",
-    "@swc/core-darwin-arm64": "^1.3.83",
-    "@swc/core-darwin-x64": "^1.3.83",
-    "@swc/core-linux-arm-gnueabihf": "^1.3.83",
-    "@swc/core-linux-arm64-gnu": "^1.3.83",
-    "@swc/core-linux-arm64-musl": "^1.3.83",
-    "@swc/core-linux-x64-gnu": "^1.3.83",
-    "@swc/core-linux-x64-musl": "^1.3.83",
-    "@swc/core-win32-arm64-msvc": "^1.3.83",
-    "@swc/core-win32-ia32-msvc": "^1.3.83",
-    "@swc/core-win32-x64-msvc": "^1.3.83",
-    "@swc/wasm": "^1.3.83"
   }
 }

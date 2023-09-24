@@ -1,20 +1,22 @@
 import {
-  GlobalServerContext,
-  createServerContext,
+  GlobalContext,
+  createGlobalContext,
   extractSystem
 } from "@open-system/core-server-application/context";
-import { createYoga } from "graphql-yoga";
+import { EMPTY_STRING } from "@open-system/core-shared-utilities";
 import {
-  GraphQLExecutionServerContext,
-  GraphQLServerContext
-} from "../context";
+  isSet,
+  isString
+} from "@open-system/core-shared-utilities/common/type-checks";
+import { createYoga } from "graphql-yoga";
+import { GraphQLExecutionContext, GraphQLServerContext } from "../context";
 import { createPlugins } from "../plugins";
 import { CreateGraphQLHandlerOptions, GraphQLServerInstance } from "../types";
-import { fetchAPI } from "./fetch-api";
+//import { fetchAPI } from "./fetch-api";
 
 export const createGraphQLHandler = async <
-  TGlobalContext extends GlobalServerContext = GlobalServerContext,
-  TExecutionContext extends GraphQLExecutionServerContext = GraphQLExecutionServerContext,
+  TGlobalContext extends GlobalContext = GlobalContext,
+  TExecutionContext extends GraphQLExecutionContext = GraphQLExecutionContext,
   TServerContext extends GraphQLServerContext<
     TGlobalContext,
     TExecutionContext
@@ -26,7 +28,7 @@ export const createGraphQLHandler = async <
     TServerContext
   >
 ): Promise<GraphQLServerInstance<TServerContext>> => {
-  const context = await createServerContext<TGlobalContext>(options);
+  const context = await createGlobalContext<TGlobalContext>(options);
 
   const plugins = await createPlugins({
     ...options,
@@ -34,16 +36,33 @@ export const createGraphQLHandler = async <
   });
 
   const system = extractSystem(context);
+  const isDevelopment = context.env.isDevelopment;
+
   const yoga = createYoga<TServerContext, TServerContext>({
     ...options,
-    id: system.info.serviceId,
+    id: system?.info?.serviceId,
     multipart: true,
-    logging: context.utils.logger,
+    maskedErrors: isSet(options.maskedErrors)
+      ? options.maskedErrors
+      : !isDevelopment,
+    landingPage: isSet(options.landingPage)
+      ? options.landingPage
+      : isDevelopment,
+    graphiql:
+      (!isSet(options.allowGraphiQL) && isDevelopment) || options.allowGraphiQL
+        ? {
+            title: `⚡ Storm Cloud ${
+              isString(system?.info?.serviceId)
+                ? ` - ${system?.info?.serviceId} `
+                : EMPTY_STRING
+            }- GraphQL Playground`,
+            subscriptionsProtocol: "GRAPHQL_SSE"
+          }
+        : false,
+    logging: context.utils.logger ?? context.env.get("LOG_LEVEL"),
     graphqlEndpoint: context.env.get("GRAPHQL_PATH") ?? "/graphql",
     healthCheckEndpoint: context.env.get("HEALTH_CHECK_PATH") ?? "/healthcheck",
-    context: context as unknown as TServerContext,
-    plugins,
-    fetchAPI
+    plugins
   });
 
   return yoga;
