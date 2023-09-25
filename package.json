@@ -184,7 +184,7 @@
     "@nx/workspace": "16.7.0",
     "@nxkit/style-dictionary": "^3.0.2",
     "@opentelemetry/api": "^1.4.1",
-    "@opentelemetry/instrumentation": "^0.40.0",
+    "@opentelemetry/instrumentation": "^0.41.2",
     "@opentelemetry/otlp-exporter-base": "^0.41.2",
     "@opentelemetry/resources": "^1.14.0",
     "@opentelemetry/sdk-trace-node": "^1.14.0",
