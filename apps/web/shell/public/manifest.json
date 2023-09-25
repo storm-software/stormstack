@@ -1,13 +1,13 @@
 {
-  "name": "Pat Sullivan Development",
-  "short_name": "PS Dev.",
+  "name": "Storm Cloud",
+  "short_name": "Storm",
   "description": "Next PWA example using next-pwa",
   "orientation": "portrait",
   "id": "/",
   "scope": "/",
   "start_url": "/",
-  "theme_color": "#10B981",
-  "background_color": "#121212",
+  "theme_color": "#10b981",
+  "background_color": "#1d232a",
   "display": "standalone",
   "icons": [
     {

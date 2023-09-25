@@ -4,6 +4,6 @@ If you believe you have found a security vulnerability in this repository, we en
 
 We will investigate all legitimate reports and do our best to quickly fix the problem.
 
-Email `Patrick.Joseph.Sullivan@ProtonMail.com` to disclose any security vulnerabilities.
+Email `admin@stormcloud.dev` to disclose any security vulnerabilities.
 
-https://sullivanpj.com/security
+<https://stormcloud.dev/security>

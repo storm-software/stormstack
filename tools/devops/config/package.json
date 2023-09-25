@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/tools-devops-config",
+  "name": "@stormstack/tools-devops-config",
   "version": "0.0.1",
   "dependencies": {
     "@commitlint/config-conventional": "^17.6.1",

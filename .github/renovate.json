@@ -22,7 +22,7 @@
   },
   "packageRules": [
     {
-      "matchPackagePatterns": ["^@open-system/"],
+      "matchPackagePatterns": ["^@stormstack/"],
       "enabled": false
     },
     {

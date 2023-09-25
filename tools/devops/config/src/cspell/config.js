@@ -1,12 +1,12 @@
 module.exports = {
   language: "en",
-  dictionaries: ["open-system"],
+  dictionaries: ["storm"],
   dictionaryDefinitions: [
     {
       // The name of the dictionary is used to look it up.
-      name: "open-system",
+      name: "storm",
       // Path to the custom word file. Relative to this `cspell.json` file.
-      path: "./open-system.dictionary.txt",
+      path: "./storm.dictionary.txt",
       // Some editor extensions will use `addWords` for adding words to your
       // personal dictionary.
       addWords: true,

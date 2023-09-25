@@ -1,44 +1,52 @@
 {
-  "name": "open-system",
+  "name": "stormstack",
+  "namespace": "@stormstack",
   "version": "0.0.0",
   "private": true,
-  "description": "🧪 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries 🧪",
+  "description": "⚡The Storm Stack monorepo contains utility applications, tools, and various libraries to create modern and scalable web applications.",
   "keywords": [
-    "pat",
-    "patrick",
-    "sullivan",
+    "storm",
+    "stormstack",
+    "storm-stack",
+    "forecast",
+    "forecast-lang",
+    "forecast-model",
+    "impact",
+    "nextjs",
+    "prisma",
+    "zenstack",
+    "hasura",
+    "strapi",
+    "graphql",
     "sullivanpj",
-    "open-system",
     "open",
     "system",
-    "monorepo",
-    "storm",
-    "storm-lang"
+    "monorepo"
   ],
-  "homepage": "https://sullivanpj.github.io/open-system/",
+  "homepage": "https://stormstack.github.io/stormstack/",
   "bugs": {
-    "url": "https://github.com/sullivanpj/open-system/issues"
+    "url": "https://github.com/stormstack/stormstack/issues",
+    "email": "contact@stormcloud.dev"
   },
   "repository": {
     "type": "github",
-    "url": "https://github.com/sullivanpj/open-system.git"
+    "url": "https://github.com/stormstack/stormstack.git"
   },
   "license": "Apache License 2.0",
   "author": {
-    "name": "Pat Sullivan",
-    "email": "contact@patsullivan.org",
-    "url": "https://patsullivan.org"
+    "name": "Storm Software",
+    "email": "contact@stormcloud.dev",
+    "url": "https://stormcloud.dev"
   },
   "scripts": {
     "add:contributors": "all-contributors add",
     "add:decisions": "pnpm log4brains adr new",
     "analyze": "cross-env ANALYZE=true npm run build",
-    "build": "pnpm run build:wundergraph && relay-compiler && nx run-many -t build --all --parallel 4",
+    "build": "pnpm run relay-compiler && nx run-many -t build --all --parallel 4",
     "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
     "build:tools": "cross-env FORCE_COLOR=1 pnpm nx run tools-executors-typescript:build && pnpm nx run tools-executors-docs:build && pnpm nx run design-system-tokens:build:open-system",
     "build:tools-ci": "pnpm nx run tools-executors-typescript:build && pnpm nx run design-system-tokens:style-dictionary",
     "build:web-deploy": "pnpm run build:tools-ci && pnpm nx run web-shell:build:production",
-    "build:wundergraph": "wunderctl generate",
     "clean": "rimraf dist",
     "clean:apps": "rimraf dist/apps",
     "clean:libs": "rimraf dist/libs",
@@ -70,8 +78,7 @@
     "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
     "test": "nx test",
     "test:storybook": "cross-env FORCE_COLOR=1 test-storybook",
-    "typecheck": "pnpm run -r typecheck",
-    "wundergraph": "wunderctl up --debug"
+    "typecheck": "pnpm run -r typecheck"
   },
   "husky": {
     "hooks": {
@@ -100,13 +107,10 @@
     "@heroicons/react": "^2.0.18",
     "@js-temporal/polyfill": "^0.4.4",
     "@next/bundle-analyzer": "^13.4.7",
-    "@pothos/core": "^3.30.0",
     "@release-it/bumper": "^5.1.0",
     "@vercel/analytics": "^1.0.1",
     "@vercel/edge-config": "^0.2.1",
     "@vercel/otel": "^0.3.0",
-    "@wundergraph/react-relay": "^0.4.0",
-    "@wundergraph/sdk": "^0.175.0",
     "attr-accept": "^2.2.2",
     "bcryptjs": "^2.4.3",
     "check-dependency-version-consistency": "^4.1.0",
@@ -116,7 +120,6 @@
     "dotenv": "^16.0.3",
     "file-selector": "^0.6.0",
     "graphql": "^16.8.0",
-    "graphql-modules": "^2.1.2",
     "graphql-scalars": "^1.22.2",
     "graphql-sse": "^2.2.0",
     "graphql-yoga": "^4.0.3",
@@ -124,8 +127,6 @@
     "inquirer": "8",
     "jotai": "^2.1.0",
     "jotai-molecules": "^1.1.1",
-    "kysely": "^0.26.0",
-    "kysely-d1": "^0.3.0",
     "lottie-web": "^5.12.0",
     "next": "^13.4.4",
     "next-auth": "^4.22.3",
@@ -188,12 +189,6 @@
     "@opentelemetry/resources": "^1.14.0",
     "@opentelemetry/sdk-trace-node": "^1.14.0",
     "@opentelemetry/semantic-conventions": "^1.14.0",
-    "@pothos/plugin-errors": "^3.11.1",
-    "@pothos/plugin-prisma": "^3.53.0",
-    "@pothos/plugin-prisma-utils": "^0.10.0",
-    "@pothos/plugin-relay": "^3.43.0",
-    "@pothos/plugin-simple-objects": "^3.7.0",
-    "@pothos/plugin-validation": "^3.9.2",
     "@prisma/client": "^5.2.0",
     "@prisma/generator-helper": "^5.2.0",
     "@react-pdf/renderer": "^3.1.9",
@@ -282,8 +277,6 @@
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "prisma": "^5.2.0",
-    "prisma-generator-pothos-codegen": "^0.5.8",
-    "prisma-kysely": "^1.5.0",
     "react-pdf-tailwind": "^2.1.0",
     "react-refresh": "^0.14.0",
     "reflect-metadata": "^0.1.13",
@@ -294,8 +287,6 @@
     "storybook": "^7.0.7",
     "storybook-addon-swc": "^1.2.0",
     "style-loader": "^3.3.2",
-    "stylus": "0.59.0",
-    "stylus-loader": "^7.1.0",
     "swc-loader": "^0.2.3",
     "tailwindcss": "^3.3.2",
     "tinycolor2": "^1.6.0",
@@ -305,23 +296,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.81.0",
     "webpack-merge": "^5.8.0",
-    "wrangler": "^3.9.0",
-    "zod-prisma": "^0.5.4",
-    "zod-prisma-types": "^2.7.4"
-  },
-  "optionalDependencies": {
-    "@nx/nx-win32-x64-msvc": "^16.8.1",
-    "@swc/core-darwin-arm64": "^1.3.83",
-    "@swc/core-darwin-x64": "^1.3.83",
-    "@swc/core-linux-arm-gnueabihf": "^1.3.83",
-    "@swc/core-linux-arm64-gnu": "^1.3.83",
-    "@swc/core-linux-arm64-musl": "^1.3.83",
-    "@swc/core-linux-x64-gnu": "^1.3.83",
-    "@swc/core-linux-x64-musl": "^1.3.83",
-    "@swc/core-win32-arm64-msvc": "^1.3.83",
-    "@swc/core-win32-ia32-msvc": "^1.3.83",
-    "@swc/core-win32-x64-msvc": "^1.3.83",
-    "@swc/wasm": "^1.3.83"
+    "wrangler": "^3.9.0"
   },
   "packageManager": "pnpm@8.7.4",
   "engines": {
@@ -343,7 +318,6 @@
       ]
     }
   },
-  "namespace": "@open-system",
   "nextBundleAnalysis": {
     "buildOutputDirectory": "dist/apps/web/shell/.next"
   },
@@ -372,8 +346,6 @@
       "path-type@4.0.0": "patches/path-type@4.0.0.patch",
       "resolve-from@5.0.0": "patches/resolve-from@5.0.0.patch",
       "memjs@1.3.1": "patches/memjs@1.3.1.patch",
-      "@whatwg-node/fetch@0.9.12": "patches/@whatwg-node__fetch@0.9.12.patch",
-      "@whatwg-node/node-fetch@0.4.18": "patches/@whatwg-node__node-fetch@0.4.18.patch",
       "graphql-yoga@4.0.4": "patches/graphql-yoga@4.0.4.patch",
       "esbuild-plugin-polyfill-node@0.3.0": "patches/esbuild-plugin-polyfill-node@0.3.0.patch",
       "busboy@1.6.0": "patches/busboy@1.6.0.patch"

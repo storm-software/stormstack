@@ -25,7 +25,6 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "**/*.jsx",
-    "src/lint-stage/index.ss"
+    "**/*.jsx"
   ]
 }

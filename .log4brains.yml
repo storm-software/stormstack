@@ -1,5 +1,5 @@
 project:
-  name: open-system
+  name: stormstack
   tz: America/New_York
   adrFolder: ./docs/decisions
   packages: []
