@@ -5,7 +5,7 @@
 </div>
 
 <br /> 
-The <b>⚡StormStack</b> monorepo contains utility applications, tools, and various libraries used to create modern, scalable web applications.<b>With the assistance of StormStack's <a href="#forecast---model-driven-development">Forecast modelling</a>, a developer could create and a fully featured, serverless back-end without writing any actual code themselves.</b>
+The <b>⚡StormStack</b> monorepo contains utility applications, tools, and various libraries used to create modern, scalable web applications. <b>With the assistance of StormStack's <a href="#forecast---model-driven-development">Forecast modelling</a>, a developer could create and a fully featured, serverless back-end without writing any actual code themselves.</b>
 <br /> 
 StormStack is built using <a href="https://nx.dev/" target="_blank">Nx</a>, a set of extensible dev tools for monorepos, which helps you develop like Google, Facebook, and Microsoft. Building on top of Nx, the Open System provides a set of tools and patterns that help you scale your monorepo to many teams while keeping the codebase maintainable.
 

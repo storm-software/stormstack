@@ -3,6 +3,11 @@
 stormstack
 stormcloud
 Akka
+hasura
+strapi
+npmjs
+maxage
+unpublish
 Ponyfill
 Antiforgery
 APIKEY

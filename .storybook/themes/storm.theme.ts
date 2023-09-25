@@ -1,7 +1,7 @@
 import { create } from "@storybook/theming";
 
 export default create({
-  base: "light",
+  base: "dark",
 
   colorPrimary: "#6366F1",
   colorSecondary: "#10B981",
@@ -27,7 +27,7 @@ export default create({
   inputTextColor: "#8B949E",
   inputBorderRadius: 2,
 
-  brandTitle: "Open System",
-  brandUrl: "https://github.com/sullivanpj/open-system",
-  brandImage: require("../../assets/logo-inverse.svg"),
+  brandTitle: "StormStack",
+  brandUrl: "https://github.com/stormstack/stormstack",
+  brandImage: require("../../assets/logo/storm-logo.svg"),
 });

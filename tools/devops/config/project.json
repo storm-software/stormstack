@@ -57,7 +57,7 @@
           },
           {
             "input": "tools/devops/config/src",
-            "glob": "cspell/**/config.js",
+            "glob": "cspell/**/index.js",
             "output": "."
           },
           {
@@ -72,7 +72,7 @@
           },
           {
             "input": "tools/devops/config/src",
-            "glob": "prettier/**/config.js",
+            "glob": "prettier/**/index.js",
             "output": "."
           },
           {
@@ -83,6 +83,16 @@
           {
             "input": "tools/devops/config/src",
             "glob": "prettier/.prettierignore_staged",
+            "output": "."
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "tsconfig/tsconfig.root.json",
+            "output": "."
+          },
+          {
+            "input": "tools/devops/config/src",
+            "glob": "tsconfig/reset.d.ts",
             "output": "."
           }
         ]

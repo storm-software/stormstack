@@ -1,5 +1,5 @@
 const { fontFamily } = require("tailwindcss/defaultTheme");
-const preset = require("./dist/design-system/tokens/tailwind.config");
+//const preset = require("./dist/design-system/tokens/tailwind.config");
 const plugin = require("tailwindcss/plugin");
 const { join } = require("path");
 // const { createGlobPatternsForDependencies } = require("@nx/react/tailwind");
@@ -16,15 +16,15 @@ module.exports = {
     join(
       __dirname,
       "design-system/components/**/*!(*.stories|*.spec).{ts,tsx,html}"
-    ),
+    )
   ],
-  "presets": [preset],
+  "presets": [],
   "darkMode": ["class", "[data-mode='dark']"],
   "experimental": {
-    "optimizeUniversalDefaults": true,
+    "optimizeUniversalDefaults": true
   },
   "future": {
-    "hoverOnlyWhenSupported": true,
+    "hoverOnlyWhenSupported": true
   },
   "blocklist": [],
   "theme": {
@@ -47,19 +47,19 @@ module.exports = {
         "rating-label": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "footer-name": ["var(--font-permanent-marker)", ...fontFamily.sans],
         "footer-copyright": ["var(--font-mona-sans)", ...fontFamily.sans],
-        "vhs": ["var(--font-roboto-mono)", ...fontFamily.mono],
+        "vhs": ["var(--font-roboto-mono)", ...fontFamily.mono]
       },
       "textShadow": {
         "sm": "0 1px 2px var(--tw-shadow-color)",
         "DEFAULT": "0 2px 4px var(--tw-shadow-color)",
-        "lg": "0 0 80px rgba(var(--tw-shadow-color), 0.8), 0 0 32px rgba(var(--tw-shadow-color), 0.3)",
+        "lg": "0 0 80px rgba(var(--tw-shadow-color), 0.8), 0 0 32px rgba(var(--tw-shadow-color), 0.3)"
       },
       "backgroundImage": {
         "bg-radial": "radial-gradient(var(--tw-gradient-stops))",
         "bg-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "bg-footer": "url(/static/images/bg-footer.svg)",
-        "bg-windows": "url(/static/images/bg-windows.svg)",
+        "bg-windows": "url(/static/images/bg-windows.svg)"
       },
       "zIndex": {
         "bg": 2,
@@ -81,7 +81,7 @@ module.exports = {
         "toast": 180,
         "progress": 200,
         "loading": 250,
-        "highest": 999,
+        "highest": 999
       },
       "animation": {
         "marquee": "marquee 25s linear infinite",
@@ -102,55 +102,55 @@ module.exports = {
         "loading": "loading 2s ease-in-out infinite",
         "spin-n-grow": "spin-n-grow 1.2s 2s ease-out",
         "flicker": "flicker 2s ease-out 0.15s both",
-        "flicker-2": "flicker 1.5s ease-out 0.15s both",
+        "flicker-2": "flicker 1.5s ease-out 0.15s both"
       },
       "keyframes": {
         "marquee": {
           "0%": { "transform": "translateX(0%)" },
-          "100%": { "transform": "translateX(-100%)" },
+          "100%": { "transform": "translateX(-100%)" }
         },
         "marquee2": {
           "0%": { "transform": "translateX(100%)" },
-          "100%": { "transform": "translateX(0%)" },
+          "100%": { "transform": "translateX(0%)" }
         },
         "wave": {
           "0%": { "transform": "translateX(0)" },
-          "100%": { "transform": "translateX(-50%)" },
+          "100%": { "transform": "translateX(-50%)" }
         },
         "bubble": {
           "0%": {
             "transform": "translateY(5%)",
-            "opacity": 0.1,
+            "opacity": 0.1
           },
           "70%": {
-            "transform": "translateX(2.5%)",
+            "transform": "translateX(2.5%)"
           },
           "80%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "100%": {
             "transform": "translateY(-160vh)",
-            "opacity": 0,
-          },
+            "opacity": 0
+          }
         },
         "scan": {
           "0%": {
             "transform": "translateY(0px)",
-            "opacity": 0.4,
+            "opacity": 0.4
           },
           "50%": {
             "transform": "translateY(75px)",
-            "opacity": 1,
+            "opacity": 1
           },
           "100%": {
             "transform": "translateY(0px)",
-            "opacity": 0.4,
-          },
+            "opacity": 0.4
+          }
         },
         "float": {
           "0%": { "transform": "translateY(0)" },
           "50%": { "transform": "translateY(-15px)" },
-          "100%": { "transform": "translateY(0)" },
+          "100%": { "transform": "translateY(0)" }
         },
         "loading": {
           "0%": { "transform": "translateX(0)" },
@@ -159,20 +159,20 @@ module.exports = {
           "50%": { "transform": "translateX(0)" },
           "67%": { "transform": "translateX(-100%)" },
           "83%": { "transform": "translateX(-100%)" },
-          "100%": { "transform": "translateX(0%)" },
+          "100%": { "transform": "translateX(0%)" }
         },
         "spin-n-grow": {
           "0%": { "transform": "scale(0); rotate(290deg);" },
-          "100%": { "transform": "scale(1); rotate(0deg);" },
+          "100%": { "transform": "scale(1); rotate(0deg);" }
         },
         "arrow": {
           "0%": { "transform": "translateX(0px)" },
           "50%": { "transform": "translateX(110%)" },
           "50.01%": { "transform": "translateX(-110%)" },
-          "100%": { "transform": "translateX(0px)" },
+          "100%": { "transform": "translateX(0px)" }
         },
         "ripple": {
-          "to": { "transform": "scale(4)", "opacity": "0" },
+          "to": { "transform": "scale(4)", "opacity": "0" }
         },
         "flash": {
           "0%": { "opacity": "100%" },
@@ -182,107 +182,107 @@ module.exports = {
           "74%": { "opacity": "0%" },
           "75%": { "opacity": "100%" },
           "76%": { "opacity": "100%" },
-          "100%": { "opacity": "100%" },
+          "100%": { "opacity": "100%" }
         },
         "tv-static": {
           "0%": {
-            "transform": "translateX(0px,0px)",
+            "transform": "translateX(0px,0px)"
           },
           "10%": {
-            "transform": "translate(-100px, 100px)",
+            "transform": "translate(-100px, 100px)"
           },
           "20%": {
-            "transform": "translate(150px, -100px)",
+            "transform": "translate(150px, -100px)"
           },
           "30%": {
-            "transform": "translate(-100px,100px)",
+            "transform": "translate(-100px,100px)"
           },
           "40%": {
-            "transform": "translate(100px, -150px)",
+            "transform": "translate(100px, -150px)"
           },
           "50%": {
-            "transform": "translate(-100px, 200px)",
+            "transform": "translate(-100px, 200px)"
           },
           "60%": {
-            "transform": "translate(-200px, -100px)",
+            "transform": "translate(-200px, -100px)"
           },
           "70%": {
-            "transform": "translateY(50px, 100px)",
+            "transform": "translateY(50px, 100px)"
           },
           "80%": {
-            "transform": "translate(100px, -150px)",
+            "transform": "translate(100px, -150px)"
           },
           "90%": {
-            "transform": "translate(0px, 200px)",
+            "transform": "translate(0px, 200px)"
           },
           "100%": {
-            "transform": "translate(-100px, 100px)",
-          },
+            "transform": "translate(-100px, 100px)"
+          }
         },
         "flicker": {
           "0%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "10%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "10.1%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "20.6%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "30%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "30.1%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "30.5%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "30.6%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "50%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "55%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "55.1%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "60%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "60.1%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "65%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "65.1%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "77%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "77.1%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "85%": {
-            "opacity": 1,
+            "opacity": 1
           },
           "85.1%": {
-            "opacity": 0,
+            "opacity": 0
           },
           "100%": {
-            "opacity": 1,
-          },
-        },
-      },
-    },
+            "opacity": 1
+          }
+        }
+      }
+    }
   },
   "variants": {},
   "plugins": [
@@ -292,11 +292,11 @@ module.exports = {
       matchUtilities(
         {
           "text-shadow": value => ({
-            "textShadow": value,
-          }),
+            "textShadow": value
+          })
         },
         { "values": theme("textShadow") }
       );
-    }),
-  ],
+    })
+  ]
 };

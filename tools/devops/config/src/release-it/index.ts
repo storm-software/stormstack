@@ -3,7 +3,7 @@ const config = {
   git: {
     tagMatch: "[!@]*",
     tagName: "v${version}",
-    commitMessage: "chore(repo): Publish Release v${version}",
+    commitMessage: "release(repo): Changelogs generated v${version}",
     requireCleanWorkingDir: true,
   },
   npm: {

@@ -19,8 +19,7 @@
     "strapi",
     "graphql",
     "sullivanpj",
-    "open",
-    "system",
+    "open-system",
     "monorepo"
   ],
   "homepage": "https://stormstack.github.io/stormstack/",
@@ -65,7 +64,7 @@
     "lint:language": "cross-env FORCE_COLOR=1 alex . !**/CODE_OF_CONDUCT.md --quiet",
     "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore --config=dist/tools/devops/config/cspell/config.js",
     "nx": "nx",
-    "pre-commit": "lint-staged --concurrent false --config ./dist/tools/devops/config/lint-staged/index.js",
+    "pre-commit": "lint-staged --concurrent false --config @stormstack/tools-devops-config/lint-staged",
     "prepare": "pnpm prepare:husky && npx patch-package -y",
     "prepare:husky": "is-ci || husky install",
     "preview:decisions": "pnpm log4brains preview",
@@ -82,7 +81,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged --concurrent false --config ./dist/tools/devops/config/lint-staged/index.js"
+      "pre-commit": "lint-staged --concurrent false --config @stormstack/tools-devops-config/lint-staged"
     }
   },
   "config": {
@@ -90,7 +89,7 @@
       "path": "@commitlint/cz-commitlint"
     }
   },
-  "prettier": "./dist/tools/devops/config/prettier/config.js",
+  "prettier": "./dist/tools/devops/config/prettier/index.js",
   "resolutions": {
     "graphql": "^16.8.0"
   },
@@ -108,6 +107,7 @@
     "@js-temporal/polyfill": "^0.4.4",
     "@next/bundle-analyzer": "^13.4.7",
     "@release-it/bumper": "^5.1.0",
+    "@storybook/theming": "^7.4.5",
     "@vercel/analytics": "^1.0.1",
     "@vercel/edge-config": "^0.2.1",
     "@vercel/otel": "^0.3.0",
@@ -217,7 +217,6 @@
     "@tailwindcss/typography": "^0.5.9",
     "@testing-library/react": "14.0.0",
     "@theunderscorer/nx-semantic-release": "^2.3.0",
-    "@total-typescript/ts-reset": "^0.4.2",
     "@types/jest": "29.5.3",
     "@types/node": "^20.3.3",
     "@types/react": "18.2.20",
@@ -294,6 +293,7 @@
     "ts-node": "^10.9.1",
     "typescript": "5.2.0-beta",
     "url-loader": "^4.1.1",
+    "verdaccio": "^5.0.4",
     "webpack": "^5.81.0",
     "webpack-merge": "^5.8.0",
     "wrangler": "^3.9.0"
