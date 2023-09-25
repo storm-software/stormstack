@@ -1,7 +1,0 @@
-import { HttpServerConfiguration } from "@open-system/core-utilities";
-
-{{#servers}}
-export const server{{-index}} = new HttpServerConfiguration<{ {{#variables}} "{{name}}": {{#enumValues}}"{{.}}"{{^-last}} | {{/-last}}{{/enumValues}}{{^enumValues}}string{{/enumValues}}{{^-last}},{{/-last}} {{/variables}} }>("{{url}}", { {{#variables}} "{{name}}": "{{defaultValue}}" {{^-last}},{{/-last}}{{/variables}} })
-{{/servers}}
-
-export const servers = [{{#servers}}server{{-index}}{{^-last}}, {{/-last}}{{/servers}}];
