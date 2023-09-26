@@ -1,10 +1,10 @@
-import { NavigationMenu } from "@open-system/common-client-components";
-import { BoxLogo, Footer } from "@open-system/common-client-components/server";
-import { Link, SocialMediaLinks } from "@open-system/core-client-components";
+import { NavigationMenu } from "@stormstack/common-client-components";
+import { BoxLogo, Footer } from "@stormstack/common-client-components/server";
+import { Link, SocialMediaLinks } from "@stormstack/core-client-components";
 import {
   NotificationGroup,
   ToastGroup
-} from "@open-system/core-client-notifications";
+} from "@stormstack/core-client-notifications";
 import { Analytics } from "@vercel/analytics/react";
 import clsx from "clsx";
 import { ReactNode } from "react";
@@ -138,9 +138,9 @@ export default function RootLayout(props: {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
-      <body className="relative h-fit min-h-screen">
+      <body className="h-fit min-h-screen relative">
         <RootProvider>
-          <nav className="fixed top-0 z-nav h-0 w-full overflow-visible">
+          <nav className="top-0 h-0 w-full fixed z-nav overflow-visible">
             <ToastGroup />
             <NotificationGroup />
 
@@ -152,9 +152,9 @@ export default function RootLayout(props: {
                 { label: "Login", href: "/" }
               ]}
               footer={
-                <div className="relative flex flex-row-reverse items-center justify-between gap-4">
+                <div className="gap-4 relative flex flex-row-reverse items-center justify-between">
                   <SocialMediaLinks />
-                  <Link className="absolute -bottom-5 left-[42%] h-[9.5rem] w-[10rem]">
+                  <Link className="-bottom-5 absolute left-[42%] h-[9.5rem] w-[10rem]">
                     <BoxLogo
                       className="h-[9.5rem] w-[10rem]"
                       colorScheme="light"
@@ -167,7 +167,7 @@ export default function RootLayout(props: {
 
           <div id="root-portal" />
 
-          <div className="h-fit min-h-[60vh] w-full">{props.children}</div>
+          <div className="h-fit w-full min-h-[60vh]">{props.children}</div>
 
           {props.rating}
           {props.cookie}
@@ -175,9 +175,9 @@ export default function RootLayout(props: {
           <Analytics />
           <Footer
             top={
-              <div className="flex flex-row gap-16">
+              <div className="gap-16 flex flex-row">
                 <ContactFooterForm />
-                <div className="hidden flex-row items-center justify-center lg:flex">
+                <div className="lg:flex hidden flex-row items-center justify-center">
                   <Link className="h-[20rem] w-[28rem]">
                     <BoxLogo className="h-[20rem] w-[28rem]" />
                   </Link>
@@ -185,46 +185,46 @@ export default function RootLayout(props: {
               </div>
             }
             bottom={
-              <div className="flex flex-col items-center justify-center gap-16 lg:flex-row lg:items-start">
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-primary whitespace-nowrap font-label-4 text-4xl underline">
+              <div className="gap-16 lg:flex-row lg:items-start flex flex-col items-center justify-center">
+                <div className="gap-2 flex flex-col">
+                  <h3 className="text-primary text-4xl whitespace-nowrap font-label-4 underline">
                     Navigation
                   </h3>
-                  <div className="flex flex-row gap-16">
-                    <div className="flex flex-col gap-1">
+                  <div className="gap-16 flex flex-row">
+                    <div className="gap-1 flex flex-col">
                       <Link variant="secondary">Home</Link>
                       <Link variant="secondary">About</Link>
                       <Link variant="secondary">Contact</Link>
                     </div>
-                    <div className="flex flex-col gap-1">
+                    <div className="gap-1 flex flex-col">
                       <Link variant="secondary">Projects</Link>
                       <Link variant="secondary">Privacy</Link>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-primary whitespace-nowrap font-label-4 text-4xl underline">
+                <div className="gap-1 flex flex-col">
+                  <h3 className="text-primary text-4xl whitespace-nowrap font-label-4 underline">
                     Blog
                   </h3>
                   <Link variant="secondary">Articles</Link>
                   <Link variant="secondary">Latest</Link>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-primary whitespace-nowrap font-label-4 text-4xl underline">
+                <div className="gap-1 flex flex-col">
+                  <h3 className="text-primary text-4xl whitespace-nowrap font-label-4 underline">
                     Docs
                   </h3>
                   <Link variant="secondary">Open System</Link>
                   <Link variant="secondary">Design System</Link>
                   <Link variant="secondary">Storybook</Link>
                 </div>
-                <div className="flex h-full flex-col items-center">
+                <div className="h-full flex flex-col items-center">
                   {/*<PdfResumeDownloadLink />*/}
                 </div>
-                <div className="flex flex-1 flex-col items-center justify-center sm:flex-row">
-                  <div className="flex w-fit flex-col gap-0.5">
+                <div className="flex-1 sm:flex-row flex flex-col items-center justify-center">
+                  <div className="w-fit gap-0.5 flex flex-col">
                     <SocialMediaLinks />
                     <div className="flex flex-col text-center">
-                      <p className="text-primary font-footer-name text-lg">
+                      <p className="text-primary text-lg font-footer-name">
                         Patrick J. Sullivan
                       </p>
                       <p className="text-md text-primary font-footer-name">

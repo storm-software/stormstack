@@ -1,4 +1,4 @@
-import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
+import { upperCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   DataModel,
   DataModelField,
@@ -12,7 +12,7 @@ import {
   isEnum,
   isInput,
   isInterface
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 
 export class SchemaGenerator {
   // Usage flags

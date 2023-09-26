@@ -1,6 +1,6 @@
-import { getFileHeader } from "@open-system/tools-storm-schema/sdk/code-gen";
-import { AUXILIARY_FIELDS } from "@open-system/tools-storm-schema/sdk/constants";
 import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
+import { getFileHeader } from "@stormstack/tools-storm-schema/sdk/code-gen";
+import { AUXILIARY_FIELDS } from "@stormstack/tools-storm-schema/sdk/constants";
 import { join } from "path";
 import { Project } from "ts-morph";
 

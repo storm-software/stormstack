@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-shared-logging";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import prettier, { Options } from "prettier";
 import {
   CompilerOptions,
@@ -131,8 +131,8 @@ ${commentStart} and should not be manually updated. Any changes made to
 ${commentStart} this file will be overwritten the next time the schema is
 ${commentStart} generated.
 ${commentStart}
-${commentStart} Repository: https://github.com/sullivanpj/open-system
-${commentStart} Documentation: https://sullivanpj.github.io/open-system/
+${commentStart} Repository: https://github.com/stormstack/stormstack
+${commentStart} Documentation: https://stormstack.github.io/stormstack/
 ${commentStart} Contact: https://patsullivan.org/contact
 ${commentStart}
 ${commentStart} -------------------------------------------------------------------

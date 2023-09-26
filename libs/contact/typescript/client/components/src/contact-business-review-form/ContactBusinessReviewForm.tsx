@@ -1,16 +1,16 @@
 "use client";
 
-import { AddressText } from "@open-system/common-client-address";
-import { ContactFormSegments } from "@open-system/contact-client-data-access";
-import { Contact } from "@open-system/contact-shared-data-access";
-import { Link, PhoneNumberText } from "@open-system/core-client-components";
-import { useFormValues } from "@open-system/core-client-data-access";
-import { formatBoolean } from "@open-system/core-shared-utilities";
+import { AddressText } from "@stormstack/common-client-address";
+import { ContactFormSegments } from "@stormstack/contact-client-data-access";
+import { Contact } from "@stormstack/contact-shared-data-access";
+import { Link, PhoneNumberText } from "@stormstack/core-client-components";
+import { useFormValues } from "@stormstack/core-client-data-access";
+import { formatBoolean } from "@stormstack/core-shared-utilities";
 import {
   BaseComponentProps,
   FieldText,
-  LinkVariants,
-} from "@open-system/design-system-components";
+  LinkVariants
+} from "@stormstack/design-system-components";
 import { BaseContactReviewForm } from "../base-contact-review-form";
 import { ContactFormStepReview } from "../contact-form-step-review";
 
@@ -29,7 +29,7 @@ export function ContactBusinessReviewForm({
           <ContactFormStepReview
             name={ContactFormSegments.PERSONAL_INFO}
             label="Personal Information">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid-cols-2 gap-3 grid">
               <FieldText name="First name">{values.firstName}</FieldText>
               <FieldText name="Last name">{values.lastName}</FieldText>
               <FieldText name="Email address">{values.email}</FieldText>
@@ -54,8 +54,8 @@ export function ContactBusinessReviewForm({
           <ContactFormStepReview
             name={ContactFormSegments.DETAILS}
             label="Business Opportunity Details">
-            <div className="flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-3">
+            <div className="gap-4 flex flex-col">
+              <div className="grid-cols-2 gap-3 grid">
                 {values.companyName && (
                   <FieldText name="Organization name">
                     {values.companyName}

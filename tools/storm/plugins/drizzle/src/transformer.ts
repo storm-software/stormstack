@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
 import {
   constantCase,
   kebabCase
-} from "@open-system/core-shared-utilities/common/string-fns";
-import { Model } from "@open-system/tools-storm-language/ast";
+} from "@stormstack/core-shared-utilities/common/string-fns";
+import { Model } from "@stormstack/tools-storm-language/ast";
 import {
   AUXILIARY_FIELDS,
   getFileHeader
-} from "@open-system/tools-storm-schema/sdk";
-import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
+} from "@stormstack/tools-storm-schema/sdk";
 import { join } from "path";
 import { Project } from "ts-morph";
 import { AggregateOperationSupport, TransformerParams } from "./types";

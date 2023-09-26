@@ -1,7 +1,7 @@
 "use client";
 
-import { InputAutoCompleteTypes } from "@open-system/design-system-components";
-import { Input, InputProps } from "@open-system/core-client-form";
+import { InputAutoCompleteTypes } from "@stormstack/design-system-components";
+import { Input, InputProps } from "@stormstack/core-client-form";
 
 export type FirstNameInputProps = Partial<Omit<InputProps, "min" | "max">>;
 

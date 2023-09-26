@@ -4,7 +4,7 @@ import {
   DataModelField,
   ReferenceExpr,
   isLiteralExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import {
   AstNode,
   DiagnosticInfo,

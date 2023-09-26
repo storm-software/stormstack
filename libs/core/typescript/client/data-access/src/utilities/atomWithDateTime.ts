@@ -1,4 +1,4 @@
-import { DateTime, isDevelopment } from "@open-system/core-shared-utilities";
+import { DateTime, isDevelopment } from "@stormstack/core-shared-utilities";
 import { atom } from "jotai";
 
 export const atomWithDateTime = (initialValue = DateTime.current) => {

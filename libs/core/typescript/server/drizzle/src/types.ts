@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IEntity } from "@open-system/core-server-domain/types";
+import { IEntity } from "@stormstack/core-server-domain/types";
 import { BaseSQLiteDatabase } from "drizzle-orm/sqlite-core";
 
 export type BindingsWithDatabase<

@@ -1,16 +1,16 @@
 "use client";
 
-import { Link } from "@open-system/core-client-components";
+import { Link } from "@stormstack/core-client-components";
 import {
   NotificationMessage,
   useNotificationsValue,
-  useSetNotifications,
-} from "@open-system/core-client-data-access";
+  useSetNotifications
+} from "@stormstack/core-client-data-access";
 import {
   LinkVariants,
   Notification,
-  NotificationVariants,
-} from "@open-system/design-system-components";
+  NotificationVariants
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -33,10 +33,10 @@ export const NotificationGroup = () => {
     ? createPortal(
         <div
           className={clsx(
-            "fixed z-notification flex h-0 w-full flex-row-reverse overflow-visible",
+            "h-0 w-full fixed z-notification flex flex-row-reverse overflow-visible",
             { "pr-6 pt-6": messages && messages.length }
           )}>
-          <div className="flex flex-col gap-2">
+          <div className="gap-2 flex flex-col">
             {messages.map((message: NotificationMessage) => (
               <Notification
                 key={message.id}
@@ -46,7 +46,7 @@ export const NotificationGroup = () => {
                 body={message.message}
                 actions={
                   message.link && (
-                    <div className="flex w-full flex-row-reverse">
+                    <div className="w-full flex flex-row-reverse">
                       <Link
                         variant={LinkVariants.QUATERNARY}
                         href={message.link.href}>

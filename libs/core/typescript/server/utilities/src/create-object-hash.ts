@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Original implementation: https://github.com/vercel/swr/blob/e81d22f4121743c75b6b0998cc0bbdbe659889c1/_internal/utils/hash.ts
 
-import { JsonParser } from "@open-system/core-shared-serialization";
-import { isSet } from "@open-system/core-shared-utilities";
+import { JsonParser } from "@stormstack/core-shared-serialization";
+import { isSet } from "@stormstack/core-shared-utilities";
 
 // use WeakMap to store the object->key mapping
 // so the objects can be garbage collected.

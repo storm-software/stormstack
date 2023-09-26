@@ -1,9 +1,9 @@
-import { IsServer } from "@open-system/core-shared-utilities";
+import { IsServer } from "@stormstack/core-shared-utilities";
 import type {
   Client,
   ClientResponse,
   ResponseError,
-  SubscriptionRequestOptions,
+  SubscriptionRequestOptions
 } from "@wundergraph/sdk/client";
 // import { fetchQuery as relayFetchQuery } from "react-relay";
 import {
@@ -24,7 +24,7 @@ import {
   Variables,
   VariablesOf,
   createOperationDescriptor,
-  getRequest,
+  getRequest
 } from "relay-runtime";
 import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
 import { SerializablePreloadedQuery } from "../types";
@@ -48,7 +48,7 @@ export interface CreateWunderGraphRelayOptions {
 }
 
 export const createRelayUtilities = ({
-  client,
+  client
 }: CreateWunderGraphRelayOptions) => {
   const fetchQuery: FetchFunction = async (
     params: RequestParameters,
@@ -60,15 +60,15 @@ export const createRelayUtilities = ({
       operationKind === "query" || operationKind === "PreloadedQuery"
         ? await client.query({
             operationName: `relay/${id}`,
-            input: variables,
+            input: variables
           })
         : await client.mutate({
             operationName: `relay/${id}`,
-            input: variables,
+            input: variables
           });
     return {
       ...response,
-      errors: response.error ? [response.error] : [],
+      errors: response.error ? [response.error] : []
     };
   };
 
@@ -81,12 +81,12 @@ export const createRelayUtilities = ({
           {
             operationName: `relay/${id}`,
             input: variables,
-            abortSignal: abort.signal,
+            abortSignal: abort.signal
           },
           response => {
             const graphQLResponse = {
               ...response,
-              errors: response.error ? [response.error] : [],
+              errors: response.error ? [response.error] : []
             };
             sink.next(graphQLResponse);
           }
@@ -145,7 +145,7 @@ export const createRelayUtilities = ({
     return new Environment({
       network: createNetwork(),
       store: new Store(new RecordSource()),
-      isServer: IsServer,
+      isServer: IsServer
     });
   };
 
@@ -190,7 +190,7 @@ export const createRelayUtilities = ({
 
     return {
       queryResponse: queryResponse as Awaited<T["response"]>,
-      initialRecords,
+      initialRecords
     };
   };
 
@@ -213,7 +213,7 @@ export const createRelayUtilities = ({
 
     const { data, error } = await client.query({
       operationName: `relay/${id}`,
-      input: variables,
+      input: variables
     });
 
     if (error) {
@@ -243,7 +243,7 @@ export const createRelayUtilities = ({
     const params = operationDescriptor?.request?.node?.params;
     const { data, error } = await client.query({
       operationName: `relay/${params?.id}`,
-      input: variables,
+      input: variables
     });
 
     if (error) {
@@ -255,8 +255,8 @@ export const createRelayUtilities = ({
       variables,
       response: {
         data,
-        errors: error ? [error] : null,
-      } as GraphQLResponse,
+        errors: error ? [error] : null
+      } as GraphQLResponse
     };
   };
 
@@ -284,6 +284,6 @@ export const createRelayUtilities = ({
     createNetwork,
     getEnvironment,
     initEnvironment,
-    createEnvironment,
+    createEnvironment
   };
 };

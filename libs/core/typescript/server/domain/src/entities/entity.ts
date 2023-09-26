@@ -1,5 +1,5 @@
-import { BaseClass } from "@open-system/core-shared-utilities/common/base-class";
-import { DateTime } from "@open-system/core-shared-utilities/common/date-time";
+import { BaseClass } from "@stormstack/core-shared-utilities/common/base-class";
+import { DateTime } from "@stormstack/core-shared-utilities/common/date-time";
 import { ENTITY_TOKEN, IEntity } from "../types";
 
 export abstract class Entity extends BaseClass implements IEntity {

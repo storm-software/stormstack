@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Logger } from "@open-system/core-shared-logging/logger";
-import { UniqueIdGenerator } from "@open-system/core-shared-utilities/common";
+import { Logger } from "@stormstack/core-shared-logging/logger";
+import { UniqueIdGenerator } from "@stormstack/core-shared-utilities/common";
 import { ICommand } from "./command";
 
 export const commandFactory =

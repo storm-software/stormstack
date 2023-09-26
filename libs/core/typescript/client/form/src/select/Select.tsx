@@ -1,17 +1,17 @@
 "use client";
 
 import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "@stormstack/core-client-data-access";
+import {
   Select as OsSelect,
-  SelectProps,
-} from "@open-system/design-system-components";
+  SelectProps
+} from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  useFieldErrors,
-  useFieldValue,
-  useIsSubmitting,
-  useFieldRegistration,
-} from "@open-system/core-client-data-access";
 
 export function Select({ name, required, disabled, ...props }: SelectProps) {
   const { trigger } = useFormContext();
@@ -29,7 +29,7 @@ export function Select({ name, required, disabled, ...props }: SelectProps) {
       {...props}
       {...register({
         required: required ? "This field is required." : undefined,
-        disabled: useIsSubmitting() || disabled,
+        disabled: useIsSubmitting() || disabled
       })}
       value={value}
       errors={errors as Record<string, string>}

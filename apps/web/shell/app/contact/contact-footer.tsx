@@ -1,18 +1,15 @@
 "use client";
 
-import { ContactResetModal } from "@open-system/contact-client-components";
+import { ContactResetModal } from "@stormstack/contact-client-components";
 import {
   ContactFormProgressStep,
   ContactFormSegments,
   contactFormProgressAtom,
-  useSetContactFormProgress,
-} from "@open-system/contact-client-data-access";
-import { Link, ModalReference } from "@open-system/core-client-components";
-import {
-  useFieldValue,
-  useIsValid,
-} from "@open-system/core-client-data-access";
-import { SubmitButton } from "@open-system/core-client-form";
+  useSetContactFormProgress
+} from "@stormstack/contact-client-data-access";
+import { Link, ModalReference } from "@stormstack/core-client-components";
+import { useFieldValue, useIsValid } from "@stormstack/core-client-data-access";
+import { SubmitButton } from "@stormstack/core-client-form";
 import {
   ArrowIcon,
   BaseComponentProps,
@@ -20,8 +17,8 @@ import {
   ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
   ButtonVariants,
-  getButtonSvgStrokeStyle,
-} from "@open-system/design-system-components";
+  getButtonSvgStrokeStyle
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { useAtomValue } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
@@ -60,8 +57,8 @@ export default function ContactFooter(props: BaseComponentProps) {
 
   return (
     <>
-      <div className="flex w-full flex-row items-center justify-between">
-        <div className="flex flex-row-reverse gap-6">
+      <div className="w-full flex flex-row items-center justify-between">
+        <div className="gap-6 flex flex-row-reverse">
           {index > 0 && index < items.length && (
             <Button
               variant={ButtonVariants.QUARTERNARY}
@@ -79,7 +76,7 @@ export default function ContactFooter(props: BaseComponentProps) {
               rounding={ButtonCornerRoundingTypes.PARTIAL}
               transitionDirection={ButtonTransitionDirections.NONE}
               hoverText="Back">
-              <div className="flex flex-row items-center gap-1">
+              <div className="gap-1 flex flex-row items-center">
                 <ArrowIcon
                   className={clsx(
                     "stroke-[2.5]",
@@ -87,7 +84,7 @@ export default function ContactFooter(props: BaseComponentProps) {
                   )}
                   isReverse={true}
                 />
-                <div className="flex flex-1">Previous</div>
+                <div className="flex-1 flex">Previous</div>
               </div>
             </Button>
           )}
@@ -101,8 +98,8 @@ export default function ContactFooter(props: BaseComponentProps) {
             rounding={ButtonCornerRoundingTypes.PARTIAL}
             transitionDirection={ButtonTransitionDirections.NONE}
             hoverText="Next">
-            <div className="flex flex-row items-center gap-1">
-              <div className="flex flex-1">Continue</div>
+            <div className="gap-1 flex flex-row items-center">
+              <div className="flex-1 flex">Continue</div>
               <ArrowIcon
                 className={clsx(
                   "stroke-[2.5]",
@@ -120,8 +117,8 @@ export default function ContactFooter(props: BaseComponentProps) {
             rounding={ButtonCornerRoundingTypes.PARTIAL}
             transitionDirection={ButtonTransitionDirections.NONE}
             hoverText="Next">
-            <div className="flex flex-row items-center gap-1">
-              <div className="flex flex-1">Continue</div>
+            <div className="gap-1 flex flex-row items-center">
+              <div className="flex-1 flex">Continue</div>
               <ArrowIcon
                 className={clsx(
                   "stroke-[2.5]",

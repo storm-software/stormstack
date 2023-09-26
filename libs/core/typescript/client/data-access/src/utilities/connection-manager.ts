@@ -1,5 +1,5 @@
+import { IsServer } from "@stormstack/core-shared-utilities";
 import { Subscribable } from "./subscribable";
-import { IsServer } from "@open-system/core-shared-utilities";
 
 type SetupFn = (
   setOnline: (online?: boolean) => void

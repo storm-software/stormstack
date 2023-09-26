@@ -2,10 +2,10 @@ import { Linter } from "eslint";
 import {
   RESTRICTED_GLOBALS,
   RESTRICTED_MODULES,
-  RESTRICTED_SYNTAX,
+  RESTRICTED_SYNTAX
 } from "../constants";
 import importRules from "../rules/import";
-import openSystemRules from "../rules/open-system";
+import stormRules from "../rules/storm";
 import tsDocsRules from "../rules/ts-docs";
 import unicornRules from "../rules/unicorn";
 
@@ -15,14 +15,14 @@ const config: Linter.Config = {
     {
       files: ["*.ts", "*.tsx"],
       extends: ["plugin:@nx/typescript"],
-      rules: {},
-    },
+      rules: {}
+    }
   ],
   parser: "@typescript-eslint/parser",
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
+    "prettier"
   ],
   plugins: ["sonarjs", "unicorn", "promise", "import", "eslint-plugin-tsdoc"],
   rules: {
@@ -72,8 +72,8 @@ const config: Linter.Config = {
       "error",
       {
         argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_", // allow underscores in destructuring
-      },
+        varsIgnorePattern: "^_" // allow underscores in destructuring
+      }
     ],
 
     // Enforce the style of numeric separators by correctly grouping digits
@@ -92,8 +92,8 @@ const config: Linter.Config = {
       {
         disallowTemplateShorthand: true,
         // in TypeScript `!!` is preferable https://www.typescriptlang.org/docs/handbook/2/narrowing.html#truthiness-narrowing
-        boolean: false,
-      },
+        boolean: false
+      }
     ],
     // Disallow specified modules when loaded by `import` declarations
     // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-restricted-import.md
@@ -115,7 +115,7 @@ const config: Linter.Config = {
     "logical-assignment-operators": [
       "error",
       "always",
-      { enforceForIfStatements: true },
+      { enforceForIfStatements: true }
     ],
     "@typescript-eslint/prefer-optional-chain": "error",
     yoda: "error",
@@ -137,8 +137,8 @@ const config: Linter.Config = {
     ...importRules,
     ...unicornRules,
     ...tsDocsRules,
-    ...openSystemRules,
-  },
+    ...stormRules
+  }
 };
 
 export default config;

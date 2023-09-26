@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 "use client";
 
-import { isEmptyObject } from "@open-system/core-shared-utilities";
+import { isEmptyObject } from "@stormstack/core-shared-utilities";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef } from "react";
@@ -13,7 +13,7 @@ import {
   getBorderStyle,
   getFieldSvgFillStyle,
   getIsBorderDisplayed,
-  getPulseBackgroundStyle,
+  getPulseBackgroundStyle
 } from "./FieldWrapper.utils";
 import { FieldWrapperLabel } from "./field-wrapper-label";
 
@@ -102,7 +102,7 @@ export const FieldWrapper = ({
   noBorder = false,
   ripple = true,
   noDisabledIcon = false,
-  heightClassName = "h-fit",
+  heightClassName = "h-fit"
 }: FieldWrapperProps) => {
   const isBorderDisplayed = getIsBorderDisplayed(
     !isEmptyObject(errors),
@@ -118,18 +118,18 @@ export const FieldWrapper = ({
   return (
     <div
       className={clsx(
-        "duration-600 min-h-input-h relative flex flex-1 flex-row items-center gap-xs pl-5 pt-1 transition ease-in-out",
+        "duration-600 min-h-input-h flex-1 gap-xs pl-5 pt-1 transition ease-in-out relative flex flex-row items-center",
         {
           "py-1.5":
             labelPlacement === FieldLabelPlacementTypes.LEFT ||
-            labelPlacement === FieldLabelPlacementTypes.RIGHT,
+            labelPlacement === FieldLabelPlacementTypes.RIGHT
         },
         className,
         heightClassName
       )}>
       <motion.div
         className={clsx(
-          "absolute bottom-0 left-0 top-0 flex w-[5px] flex-row items-center overflow-y-hidden"
+          "bottom-0 left-0 top-0 absolute flex w-[5px] flex-row items-center overflow-y-hidden"
         )}
         initial={false}
         animate={isBorderDisplayed ? "opened" : "closed"}
@@ -143,7 +143,7 @@ export const FieldWrapper = ({
             strokeWidth={2}
             variants={{
               opened: { d: "M 1 260 L 1 0" },
-              closed: { d: "M 1 250 L 1 250" },
+              closed: { d: "M 1 250 L 1 250" }
             }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           />
@@ -155,16 +155,16 @@ export const FieldWrapper = ({
             strokeWidth={2}
             variants={{
               opened: { d: "M 1 240 L 1 500" },
-              closed: { d: "M 1 250 L 1 250" },
+              closed: { d: "M 1 250 L 1 250" }
             }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           />
         </svg>
       </motion.div>
 
-      <div className="flex w-full flex-row items-center gap-3">
+      <div className="w-full gap-3 flex flex-row items-center">
         {labelPlacement === FieldLabelPlacementTypes.LEFT && (
-          <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
+          <div className="grow gap-xxxs pl-xxxs flex flex-row whitespace-normal">
             <FieldWrapperLabel
               name={name}
               label={label}
@@ -177,12 +177,12 @@ export const FieldWrapper = ({
           </div>
         )}
 
-        <div className="flex h-fit grow flex-col gap-xxs self-start pt-0.5">
+        <div className="h-fit grow gap-xxs pt-0.5 flex flex-col self-start">
           <div className="flex flex-row">
             <>
               {labelPlacement === FieldLabelPlacementTypes.TOP && (
                 <>
-                  <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
+                  <div className="grow gap-xxxs pl-xxxs flex flex-row whitespace-normal">
                     <FieldWrapperLabel
                       name={name}
                       label={label}
@@ -195,10 +195,10 @@ export const FieldWrapper = ({
                   </div>
 
                   {(!isEmptyObject(errors) || warning || info) && (
-                    <div className="relative flex h-5 w-5 pr-xxxs">
+                    <div className="h-5 w-5 pr-xxxs relative flex">
                       <span
                         className={clsx(
-                          "absolute z-20 inline-flex h-full w-full animate-ping rounded-full opacity-75",
+                          "z-20 h-full w-full animate-ping rounded-full opacity-75 absolute inline-flex",
                           getPulseBackgroundStyle(
                             !isEmptyObject(errors),
                             !!warning,
@@ -206,9 +206,9 @@ export const FieldWrapper = ({
                           )
                         )}
                       />
-                      <span className="z-30 inline-flex h-fit">
+                      <span className="z-30 h-fit inline-flex">
                         <svg
-                          className="inline-flex h-5 w-5"
+                          className="h-5 w-5 inline-flex"
                           viewBox="0 0 25 25"
                           tabIndex={-1}>
                           <path
@@ -232,12 +232,12 @@ export const FieldWrapper = ({
             </>
           </div>
 
-          <div className="relative flex flex-1">
+          <div className="flex-1 relative flex">
             {ripple ? (
-              <div className="ripple-container-dark relative h-full w-full overflow-hidden rounded-xl">
+              <div className="ripple-container-dark h-full w-full rounded-xl relative overflow-hidden">
                 <div
                   ref={innerRef}
-                  className="ripple-inner relative h-full w-full rounded-xl">
+                  className="ripple-inner h-full w-full rounded-xl relative">
                   {children}
                 </div>
               </div>
@@ -246,7 +246,7 @@ export const FieldWrapper = ({
             )}
 
             {disabled && !noDisabledIcon && (
-              <div className="absolute right-3 top-1/4">
+              <div className="right-3 top-1/4 absolute">
                 <svg
                   width="20"
                   height="20"
@@ -268,7 +268,7 @@ export const FieldWrapper = ({
               </div>
             )}
           </div>
-          <div className="flex flex-row gap-0.5 pb-xxs pl-xxxs">
+          <div className="gap-0.5 pb-xxs pl-xxxs flex flex-row">
             <AnimatePresence>
               {isEmptyObject(errors) ? (
                 <>
@@ -282,7 +282,7 @@ export const FieldWrapper = ({
                           !!info,
                           focused
                         ),
-                        "flex h-fit text-message-1 font-message-1 italic antialiased"
+                        "h-fit text-message-1 font-message-1 flex italic antialiased"
                       )}
                       htmlFor={name}
                       initial={{ opacity: 0 }}
@@ -305,7 +305,7 @@ export const FieldWrapper = ({
                             role="alert"
                             className={clsx(
                               getFieldTextStyle(true, false, false, focused),
-                              "flex text-message-1 font-message-1 italic leading-message-1 antialiased"
+                              "text-message-1 font-message-1 leading-message-1 flex italic antialiased"
                             )}
                             htmlFor={name}
                             initial={{ opacity: 0 }}
@@ -324,7 +324,7 @@ export const FieldWrapper = ({
         </div>
         {labelPlacement === FieldLabelPlacementTypes.RIGHT && (
           <>
-            <div className="flex grow flex-row gap-xxxs whitespace-normal pl-xxxs">
+            <div className="grow gap-xxxs pl-xxxs flex flex-row whitespace-normal">
               <FieldWrapperLabel
                 name={name}
                 label={label}
@@ -338,7 +338,7 @@ export const FieldWrapper = ({
 
             {(!isEmptyObject(errors) || warning || info) && (
               <div className="pr-xxxs">
-                <span className="inline-block h-fit animate-bounce">
+                <span className="h-fit animate-bounce inline-block">
                   <svg width="20" height="20" viewBox="0 0 25 25" fill="none">
                     <path
                       fillRule="evenodd"

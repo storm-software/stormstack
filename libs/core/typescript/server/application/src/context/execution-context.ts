@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { DateTime } from "@open-system/core-shared-utilities/common/date-time";
-import { HttpMethod } from "@open-system/core-shared-utilities/types";
+import { DateTime } from "@stormstack/core-shared-utilities/common/date-time";
+import { HttpMethod } from "@stormstack/core-shared-utilities/types";
 import { GlobalContext } from "./global-context";
 import { HeaderMap } from "./headers-map";
 

@@ -23,10 +23,10 @@
     "**/*.stories.tsx"
   ],
   "paths": {
-    "@open-system/core-shared-utilities": [
+    "@stormstack/core-shared-utilities": [
       "libs/core/typescript/utilities/src/index.ts"
     ],
-    "@open-system/core-shared-utilities/*": [
+    "@stormstack/core-shared-utilities/*": [
       "libs/core/typescript/shared/utilities/src/*"
     ]
   },

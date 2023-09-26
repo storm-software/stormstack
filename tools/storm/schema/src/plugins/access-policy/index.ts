@@ -1,4 +1,4 @@
-import { Model } from "@open-system/tools-storm-language/ast";
+import { Model } from "@stormstack/tools-storm-language/ast";
 import { PluginOptions } from "../../sdk";
 import PolicyGenerator from "./policy-guard-generator";
 

@@ -1,4 +1,4 @@
-import { ProgressTrackerItemType } from "@open-system/core-client-components";
+import { ProgressTrackerItemType } from "@stormstack/core-client-components";
 import { DEFAULT_BUSINESS_CONTACT_STEPS } from "../types";
 
 export const getDefaultContactSteps = (

@@ -81,7 +81,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "readme-format": {
-      "executor": "@open-system/tools-executors-docs:readme-format",
+      "executor": "@stormstack/tools-executors-docs:readme-format",
       "outputs": ["{options.outputFile}"],
       "options": {
         "outputPath": "tools/executors/typescript",

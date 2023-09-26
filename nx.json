@@ -3,8 +3,8 @@
   "affected": {
     "defaultBase": "main"
   },
-  "cli": {
-    "defaultCollection": "@nx/next"
+  "workspaceLayout": {
+    "projectNameAndRootFormat": "as-provided"
   },
   "tasksRunnerOptions": {
     "cloud": {
@@ -19,7 +19,9 @@
           "build-storybook"
         ],
         "accessToken": "YzE2MTRhZTItYjEzMS00OGE3LWE4ZTMtNWYzNjc4ZGY0NzA2fHJlYWQtb25seQ==",
-        "parallel": 5
+        "cacheDirectory": "node_modules/.cache/nx",
+        "parallel": 1,
+        "useLightClient": true
       }
     },
     "default": {
@@ -34,17 +36,43 @@
           "build-storybook",
           "build-custom-server"
         ],
-        "parallel": 5
+        "parallel": 5,
+        "cacheDirectory": "node_modules/.cache/nx"
       }
     }
   },
-  "defaultBase": "main",
-  "pluginsConfig": {
-    "@nx/js": {
-      "analyzeSourceFiles": false
+  "release": {
+    "groups": {
+      "npm": {
+        "projects": [
+          "tools/devops/*",
+          "tools/executors/*",
+          "tools/generators/*",
+          "tools/storm/*",
+          "design-system/*",
+          "libs/core/*",
+          "libs/common/*",
+          "libs/contact/*",
+          "libs/engagement/*",
+          "libs/user-management/*",
+          "apps/web/*",
+          "apps/workers/*"
+        ],
+        "version": {
+          "generatorOptions": {
+            "packageRoot": "dist/{projectRoot}",
+            "currentVersionResolver": "registry"
+          }
+        }
+      }
     }
   },
   "targetDependencies": {
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    },
     "build": [
       {
         "target": "build",
@@ -96,7 +124,7 @@
     ],
     "globalNonBuildAffectingConfig": [
       "{workspaceRoot}/.log4brains.yml",
-      "{workspaceRoot}/.nxreleaserc.json",
+      "{workspaceRoot}/nxrelease.config.js",
       "{workspaceRoot}/.eslintrc.json",
       "{workspaceRoot}/jest.config.ts",
       "{workspaceRoot}/testing/jest-preset.js"

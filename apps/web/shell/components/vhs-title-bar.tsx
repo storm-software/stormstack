@@ -2,8 +2,8 @@
 
 import {
   getRandomInt,
-  getRandomIntRange,
-} from "@open-system/core-shared-utilities";
+  getRandomIntRange
+} from "@stormstack/core-shared-utilities";
 import { useEffect, useState } from "react";
 
 export default function VhsTitleBar() {
@@ -32,8 +32,8 @@ export default function VhsTitleBar() {
   }, [hours, minutes, seconds, setSeconds, setMinutes, setHours]);
 
   return (
-    <div className="m-auto flex items-center bg-black/40 px-12 py-3">
-      <p className="vhs-text text-3xl slashed-zero leading-none text-primary/70">
+    <div className="m-auto bg-black/40 px-12 py-3 flex items-center">
+      <p className="vhs-text text-3xl leading-none text-primary/70 slashed-zero">
         TCR 11-10 {hours === null ? 19 : hours < 10 ? `0${hours}` : hours}:
         {minutes === null ? 37 : minutes < 10 ? `0${minutes}` : minutes}:
         {seconds === null ? 11 : seconds < 10 ? `0${seconds}` : seconds}

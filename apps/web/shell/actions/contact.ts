@@ -1,8 +1,8 @@
 "use server";
 
-import { Contact } from "@open-system/contact-shared-data-access";
-import { FormSubmitHandlerParams } from "@open-system/core-shared-data-access";
-import { ServerResult } from "@open-system/core-shared-utilities";
+import { Contact } from "@stormstack/contact-shared-data-access";
+import { FormSubmitHandlerParams } from "@stormstack/core-shared-data-access";
+import { ServerResult } from "@stormstack/core-shared-utilities";
 import { revalidateTag } from "next/cache";
 
 export async function subscribe(
@@ -13,7 +13,7 @@ export async function subscribe(
 
   return {
     data: {},
-    status: 200,
+    status: 200
   };
 }
 
@@ -25,6 +25,6 @@ export async function addContact(
 
   return {
     data: {},
-    status: 200,
+    status: 200
   };
 }

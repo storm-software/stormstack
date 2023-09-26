@@ -2,19 +2,19 @@
 
 import {
   MAX_ATTACHMENTS_COUNT,
-  MAX_ATTACHMENT_SIZE,
-} from "@open-system/contact-shared-data-access";
+  MAX_ATTACHMENT_SIZE
+} from "@stormstack/contact-shared-data-access";
 import {
   FileUpload,
   Input,
   Textarea,
-  UrlInput,
-} from "@open-system/core-client-form";
+  UrlInput
+} from "@stormstack/core-client-form";
 import {
   BaseComponentProps,
   InputAutoCompleteTypes,
-  TextareaSizes,
-} from "@open-system/design-system-components";
+  TextareaSizes
+} from "@stormstack/design-system-components";
 import { BaseContactForm } from "../base-contact-form";
 
 export function ContactBusinessDetailsForm({

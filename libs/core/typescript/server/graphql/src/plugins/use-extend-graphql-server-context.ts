@@ -4,7 +4,7 @@ import {
   ExtendServerContextFn,
   GlobalContext,
   extendServerContext
-} from "@open-system/core-server-application";
+} from "@stormstack/core-server-application";
 import {
   GraphQLExecutionContext,
   GraphQLServerContext,

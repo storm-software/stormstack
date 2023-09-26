@@ -4,12 +4,12 @@ import {
   useFieldErrors,
   useFieldRegistration,
   useFieldValue,
-  useIsSubmitting,
-} from "@open-system/core-client-data-access";
+  useIsSubmitting
+} from "@stormstack/core-client-data-access";
 import {
   Input as OsInput,
-  InputProps as OsInputProps,
-} from "@open-system/design-system-components";
+  InputProps as OsInputProps
+} from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { UseFormRegisterReturn, useFormContext } from "react-hook-form";
 import { ValidationPropType } from "../types";
@@ -52,7 +52,7 @@ export function Input({
             value: minLength,
             message: `${
               label ? label : "Field"
-            } must be longer than ${minLength} characters.`,
+            } must be longer than ${minLength} characters.`
           }
         : minLength
       : undefined,
@@ -62,11 +62,11 @@ export function Input({
             value: maxLength,
             message: `${
               label ? label : "Field"
-            } must be no more than ${maxLength} characters.`,
+            } must be no more than ${maxLength} characters.`
           }
         : maxLength
       : undefined,
-    pattern,
+    pattern
   }) ?? {}) as UseFormRegisterReturn<string>;
 
   useEffect(() => {

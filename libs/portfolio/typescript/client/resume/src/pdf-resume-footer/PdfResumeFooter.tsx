@@ -1,5 +1,5 @@
-import { PdfText, pdfTw, PdfView } from "@open-system/core-client-pdf";
-import { DateTime } from "@open-system/core-shared-utilities";
+import { PdfText, pdfTw, PdfView } from "@stormstack/core-client-pdf";
+import { DateTime } from "@stormstack/core-shared-utilities";
 
 export function PdfResumeFooter() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Heading } from "@open-system/design-system-components";
+import { Heading } from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
 import { useCallback, useState } from "react";
@@ -23,8 +23,8 @@ const top: Variants = {
     transition: {
       duration: 1.5,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   closed: {
     rotate: "210deg",
@@ -33,9 +33,9 @@ const top: Variants = {
     y: 0,
     scale: 1,
     transition: {
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const leftSide: Variants = {
@@ -50,8 +50,8 @@ const leftSide: Variants = {
     transition: {
       duration: 0.5,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   closed: {
     rotate: "-30deg",
@@ -60,9 +60,9 @@ const leftSide: Variants = {
     y: 0,
     scale: 1,
     transition: {
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const rightSide: Variants = {
@@ -77,8 +77,8 @@ const rightSide: Variants = {
     transition: {
       duration: 0.5,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   closed: {
     rotate: "90deg",
@@ -87,9 +87,9 @@ const rightSide: Variants = {
     y: 0,
     scale: 1,
     transition: {
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 export default function StackLayer({
@@ -113,9 +113,9 @@ export default function StackLayer({
       transition: {
         duration: 1.5,
         stiffness: 1000,
-        velocity: -100,
-      },
-    },
+        velocity: -100
+      }
+    }
   };
 
   return (
@@ -131,7 +131,7 @@ export default function StackLayer({
         variants={rightSide}
         initial={false}
         className={clsx(
-          "z-[114] h-[300px] w-[46px] origin-[0%_0%] border-2 border-slate-900 bg-teal-500",
+          "border-2 border-slate-900 bg-teal-500 z-[114] h-[300px] w-[46px] origin-[0%_0%]",
           { "cursor-pointer": !opened }
         )}
       />
@@ -140,15 +140,15 @@ export default function StackLayer({
         variants={leftSide}
         initial={false}
         className={clsx(
-          "relative bottom-[300px] z-[115] h-[40px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-600",
+          "border-2 border-slate-900 bg-teal-600 relative bottom-[300px] z-[115] h-[40px] w-[350px] origin-[0%_0%]",
           { "cursor-pointer": !opened }
         )}
       />
-      <div className="relative bottom-[320px] z-10 h-[0px] w-[550px] origin-[0%_0%] -rotate-[30deg] -skew-x-[30deg] scale-y-[0.864]">
-        <div className="absolute -right-36 w-full rotate-[26deg] skew-x-[26deg] text-2xl">
+      <div className="z-10 relative bottom-[320px] h-[0px] w-[550px] origin-[0%_0%] -rotate-[30deg] -skew-x-[30deg] scale-y-[0.864]">
+        <div className="-right-36 w-full text-2xl absolute rotate-[26deg] skew-x-[26deg]">
           <div
             onClick={handleOpen}
-            className="flex h-16 cursor-pointer items-center justify-end bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 text-3xl font-label-2 text-primary transition-all hover:scale-x-150 hover:text-4xl hover:text-active-yellow">
+            className="h-16 cursor-pointer bg-gradient-to-l from-teal-500 via-teal-500/25 to-transparent pr-8 text-3xl text-primary transition-all hover:scale-x-150 hover:text-4xl hover:text-active-yellow flex items-center justify-end font-label-2">
             <p className="cursor-pointer">{header}</p>
           </div>
         </div>
@@ -158,17 +158,17 @@ export default function StackLayer({
         variants={top}
         initial={false}
         className={clsx(
-          "relative bottom-[340px] z-modal h-[300px] w-[350px] origin-[0%_0%] border-2 border-slate-900 bg-teal-400 p-2",
+          "border-2 border-slate-900 bg-teal-400 p-2 relative bottom-[340px] z-modal h-[300px] w-[350px] origin-[0%_0%]",
           { "cursor-pointer": !opened }
         )}>
         <div
           onClick={handleClose}
-          className="absolute right-1 top-1 z-modal m-1 cursor-pointer border-[1px] border-slate-900 hover:border-slate-500 rounded-full p-1 font-semibold text-slate-900 transition-colors hover:text-slate-500">
+          className="right-1 top-1 m-1 cursor-pointer border-slate-900 hover:border-slate-500 rounded-full p-1 font-semibold text-slate-900 transition-colors hover:text-slate-500 absolute z-modal border-[1px]">
           <XMarkIcon className="h-3 w-3 cursor-pointer" />
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="gap-3 flex flex-col">
           <Heading level={3}>{header}</Heading>
-          <p className="text-sm font-body-1 text-slate-800">
+          <p className="text-sm text-slate-800 font-body-1">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut

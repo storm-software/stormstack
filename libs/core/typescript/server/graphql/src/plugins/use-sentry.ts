@@ -9,9 +9,9 @@ import {
   extractRequestId,
   extractSystemInfo,
   extractUserId
-} from "@open-system/core-server-application";
-import { JsonParser } from "@open-system/core-shared-serialization";
-import { MissingContextError } from "@open-system/core-shared-utilities";
+} from "@stormstack/core-server-application";
+import { JsonParser } from "@stormstack/core-shared-serialization";
+import { MissingContextError } from "@stormstack/core-shared-utilities";
 import { print } from "graphql";
 import {
   GraphQLExecutionContext,

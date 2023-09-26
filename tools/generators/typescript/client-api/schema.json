@@ -1,14 +1,14 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "title": "Open System - Client API Application Generate",
+  "title": "StormStack - Client API Application Generate",
   "description": "Generate Web API application project code and Data Contracts based on an OpenApi spec",
   "type": "object",
   "properties": {
     "generator": {
       "type": "string",
       "description": "The OpenAPITools generator you want to use",
-      "default": "open-system-typescript-client"
+      "default": "stormstack-typescript-client"
     },
     "sourceRoot": {
       "type": "string",

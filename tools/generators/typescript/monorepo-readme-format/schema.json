@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "id": "repo-readme-format",
-  "title": "Open System - Repo ReadMe Formatter Generator",
+  "id": "monorepo-readme-format",
+  "title": "StormStack - Monorepo ReadMe Formatter Generator",
   "description": "Format all the ReadMe files in the workspace using template files from a provided directory.",
   "type": "object",
   "properties": {

@@ -1,8 +1,8 @@
-/*import { loadSerializableQuery } from "@open-system/core-data-access/server";*/
+/*import { loadSerializableQuery } from "@stormstack/core-data-access/server";*/
 // import { graphql } from "react-relay";
 import { graphql } from "relay-runtime";
 import PagesRatingQueryNode, {
-  pagesRatingQuery as PagesRatingQueryType,
+  pagesRatingQuery as PagesRatingQueryType
 } from "../../__generated__/relay/pagesRatingQuery.graphql";
 import ContentRatingForm from "../../components/ContentRatingForm";
 import PageProvider from "../../components/PageProvider";
@@ -57,7 +57,7 @@ export default async function Page() {
     typeof PagesRatingQueryNode,
     PagesRatingQueryType
   >(PagesRatingQuery, {
-    contentId: PAGE_ID,
+    contentId: PAGE_ID
   });
 
   /*const response = await fetchSSRQuery<PagesRatingQueryType>(
@@ -68,7 +68,7 @@ export default async function Page() {
   );*/
 
   return (
-    <div className="fixed right-0 top-0 z-rating flex h-screen w-fit flex-row items-center">
+    <div className="right-0 top-0 h-screen w-fit fixed z-rating flex flex-row items-center">
       <PageProvider>
         <ContentRatingForm
           contentId={PAGE_ID}

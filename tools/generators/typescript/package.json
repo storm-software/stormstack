@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/tools-generators-typescript",
+  "name": "@stormstack/tools-generators-typescript",
   "generators": "./generators.json",
   "version": "1.0.0",
   "main": "./index.js",

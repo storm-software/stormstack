@@ -2,8 +2,8 @@ import {
   EnvConfigurationError,
   HttpHeaderTypes,
   HttpMediaTypes,
-  HttpMethod,
-} from "@open-system/core-shared-utilities";
+  HttpMethod
+} from "@stormstack/core-shared-utilities";
 
 const { VIRUS_TOTAL_API_URL, VIRUS_TOTAL_API_KEY } = process.env;
 
@@ -22,8 +22,8 @@ export async function postFileVirusAnalysis(
     body: file,
     headers: {
       [HttpHeaderTypes.ACCEPT]: HttpMediaTypes.JSON,
-      [HttpHeaderTypes.X_APIKEY]: VIRUS_TOTAL_API_KEY,
-    },
+      [HttpHeaderTypes.X_APIKEY]: VIRUS_TOTAL_API_KEY
+    }
   });
   return await response.json();
 }

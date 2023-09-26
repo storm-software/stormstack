@@ -1,6 +1,6 @@
 import { Linter } from "eslint";
 import importRules from "../rules/import";
-import openSystemRules from "../rules/open-system";
+import stormRules from "../rules/storm";
 import unicornRules from "../rules/unicorn";
 
 const config: Linter.Config = {
@@ -13,10 +13,10 @@ const config: Linter.Config = {
       rules: {
         ...importRules,
         ...unicornRules,
-        ...openSystemRules,
-      },
-    },
-  ],
+        ...stormRules
+      }
+    }
+  ]
 };
 
 export default config;

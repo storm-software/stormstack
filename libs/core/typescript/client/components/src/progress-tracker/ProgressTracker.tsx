@@ -2,8 +2,8 @@
 
 import {
   ProgressTracker as OsProgressTracker,
-  ProgressTrackerProps as OsProgressTrackerProps,
-} from "@open-system/design-system-components";
+  ProgressTrackerProps as OsProgressTrackerProps
+} from "@stormstack/design-system-components";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { ProgressTrackerItemType } from "./ProgressTracker.types";
@@ -39,7 +39,7 @@ export const ProgressTracker = ({
       {...props}
       items={items.map((item: ProgressTrackerItemType) => ({
         onClick: () => item.pathname && handleClick(item.pathname),
-        ...item,
+        ...item
       }))}
     />
   );

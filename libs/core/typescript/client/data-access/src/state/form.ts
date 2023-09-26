@@ -1,32 +1,32 @@
 import {
   readAsDataURLAsync,
-  readAsTextAsync,
-} from "@open-system/core-client-utilities";
+  readAsTextAsync
+} from "@stormstack/core-client-utilities";
 import {
   FileFormFieldConfig,
   FormFieldConfig,
   MAX_ATTACHMENTS_COUNT,
   MAX_ATTACHMENT_SIZE,
-  ScopedObjectState,
-} from "@open-system/core-shared-data-access";
+  ScopedObjectState
+} from "@stormstack/core-shared-data-access";
 import {
   UniqueIdGenerator,
   isDevelopment,
   isEmpty,
-  isFunction,
-} from "@open-system/core-shared-utilities";
+  isFunction
+} from "@stormstack/core-shared-utilities";
 import { Getter, PrimitiveAtom, Setter, atom } from "jotai";
 import { createScope, molecule } from "jotai-molecules";
 import { RESET, atomFamily, atomWithReset, splitAtom } from "jotai/utils";
 import {
   checkFileUploadValidations,
-  isFormFieldEqual,
+  isFormFieldEqual
 } from "../../../../shared/data-access/src/utilities/form-utils";
 import { SetStateActionWithReset } from "../types";
 import {
   ListAction,
   ListResetAction,
-  atomWithList,
+  atomWithList
 } from "../utilities/atomWithList";
 import { currentUserIdAtom } from "./current-user-id";
 
@@ -50,8 +50,8 @@ export const DefaultFileFormFieldConfig: Omit<
     ".webp",
     ".svg",
     ".txt",
-    ".json",
-  ],
+    ".json"
+  ]
 };
 
 export const formFieldConfigFamily = atomFamily(
@@ -60,7 +60,7 @@ export const formFieldConfigFamily = atomFamily(
       field,
       formId,
       type: "input",
-      valueType: "string",
+      valueType: "string"
     });
     if (isDevelopment()) {
       baseAtom.debugPrivate = true;
@@ -94,7 +94,7 @@ export const formFieldConfigFamily = atomFamily(
               ? config.allowedFiles
               : DefaultFileFormFieldConfig.allowedFiles,
             field,
-            formId,
+            formId
           } as FileFormFieldConfig);
         }
       }
@@ -182,7 +182,7 @@ export const fileUploadFamily = atomFamily(
 
               const [dataUrl, data] = await Promise.all([
                 dataUrlPromise,
-                dataPromise,
+                dataPromise
               ]);
 
               typeof dataUrl === "string" && (uploadedFile.dataUrl = dataUrl);
@@ -204,7 +204,7 @@ export const fileUploadFamily = atomFamily(
       (get, set, action: FileUploadAction) => {
         const errorMessageAtom = fileUploadErrorMessageFamily({
           field,
-          formId,
+          formId
         });
         if (
           action.type === "include" &&
@@ -221,11 +221,11 @@ export const fileUploadFamily = atomFamily(
                 if (existingFile.originalFileName === file.name) {
                   set(fileAtomAtoms, {
                     type: "remove",
-                    atom: existingFileAtom,
+                    atom: existingFileAtom
                   });
                   set(errorMessageAtom, {
                     type: "remove",
-                    id: existingFile.id,
+                    id: existingFile.id
                   });
                 }
               }
@@ -250,14 +250,14 @@ export const fileUploadFamily = atomFamily(
                         currentUserIdAtom
                       )}-${UniqueIdGenerator.generate()}.${file.type}`,
                       originalFileName: file.name,
-                      errors: errors[file.name],
-                    },
+                      errors: errors[file.name]
+                    }
                   });
 
                 if (errors[file.name].length > 0) {
                   set(errorMessageAtom, {
                     type: "add",
-                    item: { id: file.name },
+                    item: { id: file.name }
                   });
                 }
               }
@@ -276,7 +276,7 @@ export const fileUploadFamily = atomFamily(
               set(fileAtomAtoms, { type: "remove", atom: existingFileAtom });
               set(errorMessageAtom, {
                 type: "remove",
-                id: existingFile.originalFileName,
+                id: existingFile.originalFileName
               });
             }
           }

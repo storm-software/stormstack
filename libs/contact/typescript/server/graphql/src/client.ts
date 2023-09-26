@@ -1,6 +1,6 @@
 /* eslint-disable no-var */
-import { ConfigManager } from "@open-system/core-shared-utilities";
 import { PrismaClient } from "@prisma/client/contact";
+import { ConfigManager } from "@stormstack/core-shared-utilities";
 
 declare global {
   var prisma: PrismaClient | undefined;
@@ -9,7 +9,7 @@ declare global {
 export const prisma: PrismaClient =
   global.prisma ||
   new PrismaClient({
-    log: ["error", "info", "query", "warn"],
+    log: ["error", "info", "query", "warn"]
   });
 
 if (ConfigManager.instance.isDevelopment) global.prisma = prisma;

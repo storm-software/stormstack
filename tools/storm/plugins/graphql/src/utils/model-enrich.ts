@@ -2,7 +2,7 @@ import {
   constantCase,
   lowerCaseFirst,
   upperCaseFirst
-} from "@open-system/core-shared-utilities/common/string-fns";
+} from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   ApiModel,
   DataModel,
@@ -18,14 +18,14 @@ import {
   OperationInputParam,
   isDataModel,
   isEnum
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import {
   getApiModels,
   getDataModels,
   getInputs,
   getInterfaces,
   getOperationGroups
-} from "@open-system/tools-storm-schema/sdk/utils";
+} from "@stormstack/tools-storm-schema/sdk/utils";
 import {
   ENTITY_CLASS_FIELDS,
   EnrichModelReturn,

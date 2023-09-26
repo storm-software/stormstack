@@ -1,16 +1,16 @@
-import { atomWithWebStorage } from "@open-system/core-client-data-access";
+import { atomWithWebStorage } from "@stormstack/core-client-data-access";
 import {
   UniqueIdGenerator,
-  isDevelopment,
-} from "@open-system/core-shared-utilities";
-import { Rate, TotalRate } from "@open-system/engagement-shared-data-access";
+  isDevelopment
+} from "@stormstack/core-shared-utilities";
+import { Rate, TotalRate } from "@stormstack/engagement-shared-data-access";
 import { atomFamily } from "jotai/utils";
 
 export const rateFamily = atomFamily((contentId: string) => {
   const baseAtom = atomWithWebStorage<Rate>(`user-rate-${contentId}`, {
     id: UniqueIdGenerator.generate(),
     contentId,
-    rate: 0,
+    rate: 0
   });
   if (isDevelopment()) {
     baseAtom.debugPrivate = true;
@@ -24,7 +24,7 @@ export const totalRateFamily = atomFamily((contentId: string) => {
     id: UniqueIdGenerator.generate(),
     contentId,
     rate: 0,
-    count: 0,
+    count: 0
   });
   if (isDevelopment()) {
     baseAtom.debugPrivate = true;

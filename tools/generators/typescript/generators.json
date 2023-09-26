@@ -10,10 +10,15 @@
       "schema": "../../../dist/tools/generators/typescript/cloudflare-worker/schema.json",
       "description": "Generate Cloudflare worker"
     },
-    "repo-readme-format": {
+    "monorepo-readme-format": {
       "implementation": "../../../dist/tools/generators/typescript/repo-readme-format/impl",
       "schema": "../../../dist/tools/generators/typescript/repo-readme-format/schema.json",
       "description": "Format the ReadMe files in the workspace using template files from a provided directory"
+    },
+    "monorepo-release": {
+      "implementation": "../../../dist/tools/generators/typescript/monorepo-release/impl",
+      "schema": "../../../dist/tools/generators/typescript/monorepo-release/schema.json",
+      "description": "Publish the repository's packages both locally and publicly."
     }
   }
 }

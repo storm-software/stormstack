@@ -1,4 +1,4 @@
-import { IncorrectTypeError } from "@open-system/core-shared-utilities";
+import { IncorrectTypeError } from "@stormstack/core-shared-utilities";
 import { JsonParser } from "../parser";
 import { IJsonParser } from "../types";
 

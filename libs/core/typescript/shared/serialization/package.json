@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-shared-serialization",
+  "name": "@stormstack/core-shared-serialization",
   "version": "0.0.1",
   "type": "commonjs",
   "dependencies": {

@@ -1,8 +1,8 @@
-import { isPlugin, Model } from "@open-system/tools-storm-language/ast";
+import { isPlugin, Model } from "@stormstack/tools-storm-language/ast";
 import {
   DefaultWorkspaceManager,
   interruptAndCheck,
-  LangiumDocument,
+  LangiumDocument
 } from "langium";
 import path from "path";
 import { CancellationToken, WorkspaceFolder } from "vscode-languageserver";

@@ -3,7 +3,7 @@ import {
   BaseError,
   BaseUtilityClass,
   DateTime
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import { Decimal } from "decimal.js";
 import { parse, registerCustom, stringify } from "superjson";
 import { JSON_PARSER_SYMBOL, JsonValue } from "../types";

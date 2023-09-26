@@ -2,11 +2,11 @@ import {
   EventPublisher,
   EventStore,
   MessageBroker
-} from "@open-system/core-server-application";
-import { IAggregateRoot, IDomainEvent } from "@open-system/core-server-domain";
-import { Provider } from "@open-system/core-shared-injection";
-import { JsonParser } from "@open-system/core-shared-serialization/json-parser";
-import { Logger } from "@open-system/core-shared-utilities";
+} from "@stormstack/core-server-application";
+import { IAggregateRoot, IDomainEvent } from "@stormstack/core-server-domain";
+import { Provider } from "@stormstack/core-shared-injection";
+import { JsonParser } from "@stormstack/core-shared-serialization/json-parser";
+import { Logger } from "@stormstack/core-shared-utilities";
 import { CompressionTypes, Message } from "kafkajs";
 import { KafkaConfig } from "../environment";
 import {

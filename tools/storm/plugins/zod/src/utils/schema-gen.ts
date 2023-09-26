@@ -1,22 +1,22 @@
 /* eslint-disable no-useless-escape */
-import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
+import { upperCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   DataModel,
   DataModelField,
   DataModelFieldAttribute,
   isEnum
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import {
   ExpressionContext,
   PluginError,
   getAttributeArg,
   getAttributeArgLiteral,
   getLiteral
-} from "@open-system/tools-storm-schema/sdk";
+} from "@stormstack/tools-storm-schema/sdk";
 import {
   TypeScriptExpressionTransformer,
   TypeScriptExpressionTransformerError
-} from "@open-system/tools-storm-schema/utils/typescript-expression-transformer";
+} from "@stormstack/tools-storm-schema/utils/typescript-expression-transformer";
 import { name } from "..";
 
 export function makeFieldSchema(field: DataModelField) {

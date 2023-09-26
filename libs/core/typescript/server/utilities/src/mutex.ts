@@ -1,6 +1,6 @@
-import { Provider } from "@open-system/core-shared-injection";
+import { Provider } from "@stormstack/core-shared-injection";
 // import Redlock, { ResourceLockedError } from 'redlock';
-import { Logger } from "@open-system/core-shared-logging";
+import { Logger } from "@stormstack/core-shared-logging";
 // import type { Redis } from './redis';
 // import { REDIS_INSTANCE } from './redis';
 

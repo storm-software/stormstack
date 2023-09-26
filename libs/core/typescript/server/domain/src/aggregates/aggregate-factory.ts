@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Logger } from "@open-system/core-shared-logging/logger";
+import { Logger } from "@stormstack/core-shared-logging/logger";
 import {
   IIdentity,
   UniqueIdGenerator
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import { AggregateRoot } from "./aggregate-root";
 
 export const aggregateFactory =

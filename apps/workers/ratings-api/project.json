@@ -5,7 +5,7 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-build",
+      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
@@ -38,7 +38,7 @@
       }
     },
     "serve": {
-      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-serve",
+      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-serve",
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "worker-ratings-api:serve"
@@ -74,7 +74,7 @@
       }
     },
     "deploy": {
-      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-deploy",
+      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-deploy",
       "defaultConfiguration": "production",
       "name": "worker-ratings-api",
       "tsconfig": "apps/workers/ratings-api/tsconfig.json",

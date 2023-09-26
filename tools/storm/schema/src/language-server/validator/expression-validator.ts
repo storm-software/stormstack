@@ -3,8 +3,8 @@ import {
   Expression,
   ExpressionType,
   isBinaryExpr,
-  isEnum,
-} from "@open-system/tools-storm-language/ast";
+  isEnum
+} from "@stormstack/tools-storm-language/ast";
 import { ValidationAcceptor } from "langium";
 import { isAuthInvocation } from "../../utils/ast-utils";
 import { AstValidator } from "../types";
@@ -31,7 +31,7 @@ export default class ExpressionValidator implements AstValidator<Expression> {
         );
       } else {
         accept("error", "expression cannot be resolved", {
-          node: expr,
+          node: expr
         });
       }
     }
@@ -60,13 +60,13 @@ export default class ExpressionValidator implements AstValidator<Expression> {
           !isEnum(expr.left.$resolvedType?.decl)
         ) {
           accept("error", 'left operand of "in" must be of scalar type', {
-            node: expr.left,
+            node: expr.left
           });
         }
 
         if (!expr.right.$resolvedType?.array) {
           accept("error", 'right operand of "in" must be an array', {
-            node: expr.right,
+            node: expr.right
           });
         }
         break;
@@ -93,7 +93,7 @@ export default class ExpressionValidator implements AstValidator<Expression> {
             "error",
             `invalid operand type for "${expr.operator}" operator`,
             {
-              node: expr.left,
+              node: expr.left
             }
           );
           return;
@@ -106,7 +106,7 @@ export default class ExpressionValidator implements AstValidator<Expression> {
             "error",
             `invalid operand type for "${expr.operator}" operator`,
             {
-              node: expr.right,
+              node: expr.right
             }
           );
           return;

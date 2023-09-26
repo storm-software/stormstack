@@ -7,14 +7,14 @@ import {
   useFieldValue,
   useFileUploadErrors,
   useFileUploadList,
-  useIsSubmitting,
-} from "@open-system/core-client-data-access";
-import { FormFieldConfig } from "@open-system/core-shared-data-access";
+  useIsSubmitting
+} from "@stormstack/core-client-data-access";
+import { FormFieldConfig } from "@stormstack/core-shared-data-access";
 import {
   FileUploadProps,
   FileUpload as OsFileUpload,
-  Skeleton,
-} from "@open-system/design-system-components";
+  Skeleton
+} from "@stormstack/design-system-components";
 import { Atom } from "jotai";
 import { Suspense, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -42,7 +42,7 @@ export function FileUpload({
   useFileUploadErrors({ field: name });
 
   const [field, setField] = useState<Partial<FormFieldConfig>>({
-    type: "file",
+    type: "file"
   });
   useEffect(() => {
     const nextField = register({
@@ -54,7 +54,7 @@ export function FileUpload({
       maxSizeInBytes,
       allowedFiles,
       validator,
-      required: required ? "This field is required." : undefined,
+      required: required ? "This field is required." : undefined
     });
     setField(nextField);
   }, [
@@ -67,7 +67,7 @@ export function FileUpload({
     name,
     register,
     required,
-    validator,
+    validator
   ]);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export function FileUpload({
   }, [name, trigger]);
 
   const [fileAtoms, { include, exclude, reset }] = useFileUploadList({
-    field: name,
+    field: name
   });
 
   return (
@@ -99,7 +99,7 @@ export function FileUpload({
       errors={errors}
       disabled={useIsSubmitting() || disabled}>
       {fileAtoms && fileAtoms.length > 0 && (
-        <ul className="flex h-fit flex-col gap-1 p-4 pt-0">
+        <ul className="h-fit gap-1 p-4 pt-0 flex flex-col">
           {fileAtoms.map((fileAtom: Atom<Promise<FileUploadState>>) => (
             <Suspense
               key={`${fileAtom}`}

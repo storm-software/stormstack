@@ -1,12 +1,12 @@
-import { BaseComponentProps } from "@open-system/design-system-components";
-import { Link } from "@open-system/core-client-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
+import { Link } from "@stormstack/core-client-components";
 import clsx from "clsx";
 
 export function Barcode({ className, ...props }: BaseComponentProps) {
   return (
     <Link>
-      <div className={clsx("group relative h-fit w-fit px-5 py-3", className)}>
-        <div className="relative flex h-24 w-fit flex-row items-center justify-center gap-0.5 rounded-lg bg-primary p-3 border-[3px] border-gray-600">
+      <div className={clsx("h-fit w-fit px-5 py-3 group relative", className)}>
+        <div className="h-24 w-fit gap-0.5 rounded-lg bg-primary p-3 border-gray-600 relative flex flex-row items-center justify-center border-[3px]">
           <div className="h-full w-0.5 bg-black" />
           <div className="h-full w-0.5 bg-black" />
           <div className="h-full w-1.5 bg-black" />
@@ -18,8 +18,8 @@ export function Barcode({ className, ...props }: BaseComponentProps) {
           <div className="h-full w-1.5 bg-black" />
           <div className="h-full w-1 bg-black" />
 
-          <div className="flex h-full flex-col gap-0.5">
-            <div className="flex flex-1 grow flex-row gap-0.5">
+          <div className="h-full gap-0.5 flex flex-col">
+            <div className="flex-1 grow gap-0.5 flex flex-row">
               <div className="h-full w-1.5 bg-black" />
               <div className="h-full w-0.5 bg-black" />
               <div className="h-full w-1 bg-black" />
@@ -36,7 +36,7 @@ export function Barcode({ className, ...props }: BaseComponentProps) {
               <div className="h-full w-1 bg-black" />
               <div className="h-full w-0.5 bg-black" />
             </div>
-            <div className="w-full text-center font-bold leading-3 text-tertiary">
+            <div className="w-full font-bold leading-3 text-tertiary text-center">
               P.S. Dev.
             </div>
           </div>
@@ -55,7 +55,7 @@ export function Barcode({ className, ...props }: BaseComponentProps) {
           <div className="h-full w-1 bg-black" />
         </div>
 
-        <div className="group-hover:flex hidden absolute left-0 right-0 top-6 animate-scan z-content h-1 w-full bg-red-500 transition-all" />
+        <div className="left-0 right-0 top-6 h-1 w-full bg-red-500 transition-all absolute z-content hidden animate-scan group-hover:flex" />
       </div>
     </Link>
   );

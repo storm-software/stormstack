@@ -3,15 +3,15 @@ import {
   createGraphQLError as createGraphQLErrorExt,
   relocatedError as relocatedErrorExt
 } from "@graphql-tools/utils";
-import { JsonParser } from "@open-system/core-shared-serialization";
+import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
   BaseError,
   IncorrectTypeError
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import {
   isError,
   isString
-} from "@open-system/core-shared-utilities/common/type-checks";
+} from "@stormstack/core-shared-utilities/common/type-checks";
 import { ASTNode, GraphQLError, Source } from "graphql";
 
 type Maybe<T> = null | undefined | T;

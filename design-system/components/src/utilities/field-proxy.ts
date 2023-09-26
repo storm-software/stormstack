@@ -1,4 +1,4 @@
-import { BaseUtilityClass } from "@open-system/core-shared-utilities";
+import { BaseUtilityClass } from "@stormstack/core-shared-utilities";
 import { RefObject } from "react";
 import { FieldProxyConfig } from "../types";
 
@@ -47,7 +47,7 @@ export class FieldProxy<
     obj: unknown
   ): obj is FieldProxy<TValue, TRef> => {
     try {
-      return (obj as FieldProxy<TValue, TRef>)?._symbol === FIELD_PROXY_SYMBOL;
+      return (obj as FieldProxy<TValue, TRef>)?.__symbol === FIELD_PROXY_SYMBOL;
     } catch (e) {
       return false;
     }

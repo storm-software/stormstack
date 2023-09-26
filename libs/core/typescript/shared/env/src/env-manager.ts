@@ -5,7 +5,7 @@ import {
   EMPTY_STRING,
   isNotEmpty,
   parseInteger
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import { createEnvProxy } from "./create-env-proxy";
 import { DEFAULT_OPTIONS } from "./env-manager-options";
 import { BaseOptions, ENV_TOKEN, EnvProxy, EnvironmentType } from "./types";
@@ -114,17 +114,17 @@ export abstract class EnvManager<
   }
 
   public get repositoryWorker(): string {
-    return this.getWithDefault<string>("CI_REPO_WORKER", "🤖 Open-System Bot");
+    return this.getWithDefault<string>("CI_REPO_WORKER", "🤖 Storm Bot");
   }
 
   public get repositoryName(): string {
-    return this.getWithDefault<string>("CI_REPO_NAME", "open-system");
+    return this.getWithDefault<string>("CI_REPO_NAME", "stormstack");
   }
 
   public get repositoryUrl(): string {
     return this.getWithDefault<string>(
       "CI_REPO_URL",
-      "https://github.com/sullivanpj/open-system"
+      "https://github.com/stormstack/stormstack"
     );
   }
 

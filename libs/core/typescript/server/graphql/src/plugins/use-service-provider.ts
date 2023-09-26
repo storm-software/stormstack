@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Plugin } from "@envelop/types";
-import { ServiceMapping } from "@open-system/core-server-application/context";
+import { ServiceMapping } from "@stormstack/core-server-application/context";
 import {
   GlobalContext,
   ServiceMappingIndex
-} from "@open-system/core-server-application/context/global-context";
-import { IEntity } from "@open-system/core-server-domain/types";
-import { ArrayElement } from "@open-system/core-shared-utilities/types";
+} from "@stormstack/core-server-application/context/global-context";
+import { IEntity } from "@stormstack/core-server-domain/types";
+import { ArrayElement } from "@stormstack/core-shared-utilities/types";
 import {
   GraphQLExecutionContext,
   GraphQLServerContext

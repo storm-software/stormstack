@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ScopedObjectState } from "@open-system/core-shared-data-access";
-import { ToastVariants } from "@open-system/design-system-components";
+import { ScopedObjectState } from "@stormstack/core-shared-data-access";
+import { ToastVariants } from "@stormstack/design-system-components";
 import { Getter, Setter, atom } from "jotai";
 import { ListAction, atomWithList, atomWithWebStorage } from "../utilities";
 
@@ -16,7 +16,7 @@ const toastMessagesStorageAtom = atomWithWebStorage<ToastMessage[]>(
   []
 );
 const toastMessageListAtom = atomWithList<ToastMessage>([], {
-  allowDuplicates: false,
+  allowDuplicates: false
 });
 
 export const toastMessagesAtom = atom<

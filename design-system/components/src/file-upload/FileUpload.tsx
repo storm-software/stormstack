@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-shared-utilities";
+import { isEmptyObject } from "@stormstack/core-shared-utilities";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
 import {
@@ -11,7 +11,7 @@ import {
   useCallback,
   useImperativeHandle,
   useRef,
-  useState,
+  useState
 } from "react";
 import { FieldWrapper, FieldWrapperLabel } from "../field-wrapper";
 import { Link } from "../link";
@@ -129,7 +129,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       useFsAccessApi,
       onAddFiles,
       onResetFiles,
-      ...props,
+      ...props
     });
     useImperativeHandle(
       ref,
@@ -162,11 +162,11 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
         <div
           {...getRootProps({})}
           className={clsx(
-            "dashed-lg flex h-full flex-col rounded-xl transition-colors",
+            "dashed-lg h-full rounded-xl transition-colors flex flex-col",
             className
           )}>
           <FieldWrapperLabel
-            className="flex h-full w-full grow cursor-pointer flex-row items-center justify-center py-5 align-middle"
+            className="h-full w-full grow cursor-pointer py-5 flex flex-row items-center justify-center align-middle"
             name={name}
             label={
               <>
@@ -231,7 +231,7 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
               noDrag,
               noDragEventsBubbling,
               useFsAccessApi,
-              autoFocus,
+              autoFocus
             })}></input>
         </div>
       </FieldWrapper>

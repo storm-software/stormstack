@@ -1,5 +1,5 @@
-import { BaseComponentProps } from "@open-system/design-system-components";
 import { Text } from "@react-pdf/renderer";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { HyphenationCallback, PdfNodeProps } from "../types";
 
 export type PdfTextProps = BaseComponentProps &

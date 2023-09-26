@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IEntity } from "@open-system/core-server-domain/types";
-import { Logger } from "@open-system/core-shared-logging/logger";
+import { IEntity } from "@stormstack/core-server-domain/types";
+import { Logger } from "@stormstack/core-shared-logging/logger";
 import {
   BaseUtilityClass,
   isArrayLike,
   isEmpty
-} from "@open-system/core-shared-utilities/common";
+} from "@stormstack/core-shared-utilities/common";
 import { MemCacheClient } from "../providers/mem-cache-client";
 import {
   BatchLoadFn,

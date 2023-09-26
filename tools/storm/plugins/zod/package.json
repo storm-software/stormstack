@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/tools-storm-plugins-zod",
+  "name": "@stormstack/tools-storm-plugins-zod",
   "version": "0.0.1",
   "dependencies": {
     "@prisma/generator-helper": "^5.2.0",

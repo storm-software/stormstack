@@ -7,12 +7,12 @@ if (typeof window !== "undefined") {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 }
 
-import { envManager } from "@open-system/core-shared-env/env-manager";
+import { envManager } from "@stormstack/core-shared-env/env-manager";
 import {
   hideStackLine,
   shouldHideEntry,
   toVSCodeURL
-} from "@open-system/core-shared-utilities/errors";
+} from "@stormstack/core-shared-utilities/errors";
 import StackTracey from "stacktracey";
 
 function renderHighlightedLine(text: string, column: number) {

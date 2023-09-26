@@ -16,7 +16,7 @@ import {
   isModel,
   isOperation,
   isReferenceExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import { AstNode, LangiumDocuments, Mutable, getDocument } from "langium";
 import { URI, Utils } from "vscode-uri";
 import { isFromStdlib } from "../language-server/utils";

@@ -15,7 +15,8 @@
         "additionalEntryPoints": [
           "tools/generators/typescript/client-api/impl.ts",
           "tools/generators/typescript/cloudflare-worker/impl.ts",
-          "tools/generators/typescript/repo-readme-format/impl.ts"
+          "tools/generators/typescript/monorepo-readme-format/impl.ts",
+          "tools/generators/typescript/monorepo-release/impl.ts"
         ],
         "platform": "node",
         "deleteOutputPath": true,

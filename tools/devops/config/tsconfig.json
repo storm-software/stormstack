@@ -2,7 +2,9 @@
   "extends": "./src/tsconfig/tsconfig.root.json",
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
-    "strict": false
+    "rootDir": "../../../",
+    "baseUrl": "../../../",
+    "strict": false,
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]

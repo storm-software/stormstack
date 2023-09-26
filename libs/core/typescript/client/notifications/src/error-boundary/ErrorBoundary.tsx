@@ -1,7 +1,7 @@
 "use client";
 
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { ConsoleLogger } from "@stormstack/core-shared-utilities";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { Component, ErrorInfo } from "react";
 import { ErrorReport } from "../error-report/ErrorReport";
 

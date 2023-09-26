@@ -1,7 +1,7 @@
 "use client";
 
 import { SpeakerWaveIcon, WifiIcon } from "@heroicons/react/24/outline";
-import { DateTime } from "@open-system/core-shared-utilities";
+import { DateTime } from "@stormstack/core-shared-utilities";
 import { useCallback, useEffect, useState } from "react";
 import StartMenu from "./start-menu";
 import TaskbarItem from "./taskbar-item";
@@ -24,7 +24,7 @@ export default function Taskbar({
   windowState,
   setStartMenuOpened,
   setStartMenuClosed,
-  startMenuState,
+  startMenuState
 }: TaskbarProps) {
   const toggleStartMenuOpened = useCallback(
     () =>
@@ -40,16 +40,16 @@ export default function Taskbar({
   }, []);
 
   return (
-    <div className="flex h-12 min-h-fit w-full flex-row items-center justify-between bg-black/50">
+    <div className="h-12 min-h-fit w-full bg-black/50 flex flex-row items-center justify-between">
       {startMenuState !== StartMenuStateTypes.CLOSED && (
         <StartMenu
           setClosed={setStartMenuClosed}
           setWindowOpened={setWindowOpened}
         />
       )}
-      <div className="flex h-full flex-row gap-1">
+      <div className="h-full gap-1 flex flex-row">
         <div
-          className="flex h-full w-fit cursor-pointer items-center px-5 hover:bg-gray-700"
+          className="h-full w-fit cursor-pointer px-5 hover:bg-gray-700 flex items-center"
           onClick={toggleStartMenuOpened}>
           <WindowsStartIcon />
         </div>
@@ -61,10 +61,10 @@ export default function Taskbar({
           />
         )}
       </div>
-      <div className="flex h-full w-fit flex-row items-center gap-2 px-5 text-white">
-        <WifiIcon className="hidden h-1/2 w-fit md:block" />
-        <SpeakerWaveIcon className="hidden h-1/2 w-fit md:block" />
-        <div className="grid h-full w-fit grid-cols-1 content-center whitespace-nowrap py-2 text-center text-xs leading-normal">
+      <div className="h-full w-fit gap-2 px-5 text-white flex flex-row items-center">
+        <WifiIcon className="h-1/2 w-fit md:block hidden" />
+        <SpeakerWaveIcon className="h-1/2 w-fit md:block hidden" />
+        <div className="h-full w-fit grid-cols-1 py-2 text-xs leading-normal grid content-center whitespace-nowrap text-center">
           <time>
             {current
               ?.getPlainTime()

@@ -1,8 +1,8 @@
 import {
   Address,
-  AddressConstants,
-} from "@open-system/common-shared-data-access";
-import { MoleculeObjectKeys } from "@open-system/core-client-data-access";
+  AddressConstants
+} from "@stormstack/common-shared-data-access";
+import { MoleculeObjectKeys } from "@stormstack/core-client-data-access";
 import { atom } from "jotai";
 import { createScope, molecule } from "jotai-molecules";
 
@@ -72,6 +72,6 @@ export const AddressMolecule = molecule((_, getScope) => {
     stateAtom,
     countryCodeAtom,
     postalCodeAtom,
-    formattedAddressLinesAtom,
+    formattedAddressLinesAtom
   };
 });

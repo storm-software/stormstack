@@ -1,10 +1,10 @@
-import { DateTime } from "@open-system/core-shared-utilities/common/date-time";
-import { deepCopy } from "@open-system/core-shared-utilities/common/deep-copy";
-import { isFunction } from "@open-system/core-shared-utilities/common/type-checks";
+import { DateTime } from "@stormstack/core-shared-utilities/common/date-time";
+import { deepCopy } from "@stormstack/core-shared-utilities/common/deep-copy";
+import { isFunction } from "@stormstack/core-shared-utilities/common/type-checks";
 import {
   HttpMethod,
   MaybePromise
-} from "@open-system/core-shared-utilities/types";
+} from "@stormstack/core-shared-utilities/types";
 import { reduce } from "radash";
 import {
   ExecutionContext,

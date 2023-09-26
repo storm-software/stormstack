@@ -13,17 +13,17 @@ import {
   TypeScriptExportType,
   constrainMetaModel,
   defaultGeneratorOptions,
-  split,
+  split
 } from "@asyncapi/modelina";
 import {
   defaultEnumKeyConstraints,
-  defaultEnumValueConstraints,
+  defaultEnumValueConstraints
 } from "../constrainer/EnumConstrainer";
 import { defaultModelNameConstraints } from "../constrainer/ModelNameConstrainer";
 import { defaultPropertyKeyConstraints } from "../constrainer/PropertyKeyConstrainer";
 import {
   TS_DEFAULT_PRESET,
-  TypeScriptPreset,
+  TypeScriptPreset
 } from "../presets/typescript-preset";
 import { ClassRenderer } from "../renderers/ClassRenderer";
 import { EnumRenderer } from "../renderers/EnumRenderer";
@@ -107,14 +107,14 @@ export const TypeScriptDefaultTypeMapping: TypeScriptTypeMapping = {
       case "map":
         return `Map<${keyType}, ${constrainedModel.value.type}>`;
     }
-  },
+  }
 };
 
 export const TypeScriptDefaultConstraints = {
   enumKey: defaultEnumKeyConstraints(),
   enumValue: defaultEnumValueConstraints(),
   modelName: defaultModelNameConstraints(),
-  propertyKey: defaultPropertyKeyConstraints(),
+  propertyKey: defaultPropertyKeyConstraints()
 };
 
 /**
@@ -139,14 +139,14 @@ export class TypeScriptEventsGenerator extends AbstractGenerator<
     dependencyManager: () => {
       return new TypeScriptDependencyManager({
         ...TypeScriptEventsGenerator.defaultOptions,
-        dependencyManager: null,
+        dependencyManager: null
       });
-    },
+    }
   };
 
   public static defaultCompleteModelOptions: TypeScriptEventsRenderCompleteModelOptions =
     {
-      exportType: "default",
+      exportType: "default"
     };
 
   /**
@@ -190,7 +190,7 @@ export class TypeScriptEventsGenerator extends AbstractGenerator<
     //These are the models that we have separate renderers for
     const metaModelsToSplit: SplitOptions = {
       splitEnum: true,
-      splitObject: true,
+      splitObject: true
     };
     return split(model, metaModelsToSplit);
   }
@@ -201,7 +201,7 @@ export class TypeScriptEventsGenerator extends AbstractGenerator<
   ): ConstrainedMetaModel {
     const optionsToUse = TypeScriptEventsGenerator.getOptions({
       ...this.options,
-      ...options,
+      ...options
     });
     const dependencyManagerToUse = this.getDependencyManager(optionsToUse);
     return constrainMetaModel<
@@ -211,7 +211,7 @@ export class TypeScriptEventsGenerator extends AbstractGenerator<
       metaModel: model,
       dependencyManager: dependencyManagerToUse,
       options: { ...this.options },
-      constrainedName: "", //This is just a placeholder, it will be constrained within the function
+      constrainedName: "" //This is just a placeholder, it will be constrained within the function
     });
   }
 
@@ -235,14 +235,14 @@ export class TypeScriptEventsGenerator extends AbstractGenerator<
 
     const optionsToUse = TypeScriptEventsGenerator.getOptions({
       ...this.options,
-      ...options,
+      ...options
     });
     const dependencyManagerToUse = new TypeScriptDependencyManager(
       optionsToUse
     );
     const outputModel = await this.render(model, inputModel, {
       ...optionsToUse,
-      dependencyManager: dependencyManagerToUse,
+      dependencyManager: dependencyManagerToUse
     });
     const modelDependencies = model.getNearestDependencies();
 
@@ -265,14 +265,14 @@ export class TypeScriptEventsGenerator extends AbstractGenerator<
 
     const outputContent = `${[
       ...modelDependencyImports,
-      ...outputModel.dependencies,
+      ...outputModel.dependencies
     ].join("\n")}
 ${modelCode}`;
 
     return RenderOutput.toRenderOutput({
       result: outputContent,
       renderedName: outputModel.renderedName,
-      dependencies: outputModel.dependencies,
+      dependencies: outputModel.dependencies
     });
   }
 
@@ -286,7 +286,7 @@ ${modelCode}`;
   ): Promise<RenderOutput> {
     const optionsToUse = TypeScriptEventsGenerator.getOptions({
       ...this.options,
-      ...options,
+      ...options
     });
     if (model instanceof ConstrainedObjectModel) {
       if (this.options.modelType === "interface") {
@@ -306,14 +306,14 @@ ${modelCode}`;
   ): Promise<RenderOutput> {
     const optionsToUse = TypeScriptEventsGenerator.getOptions({
       ...this.options,
-      ...options,
+      ...options
     });
     const dependencyManagerToUse = new TypeScriptDependencyManager(
       optionsToUse
     );
     dependencyManagerToUse.addTypeScriptDependency(
       "{ IIntegrationEvent, IntegrationEvent }",
-      "@open-system/core-server-services"
+      "@stormstack/core-server-services"
     );
 
     const schemaName = `${
@@ -339,7 +339,7 @@ ${modelCode}`;
     return RenderOutput.toRenderOutput({
       result,
       renderedName: model.name,
-      dependencies: dependencyManagerToUse.dependencies,
+      dependencies: dependencyManagerToUse.dependencies
     });
   }
 
@@ -350,7 +350,7 @@ ${modelCode}`;
   ): Promise<RenderOutput> {
     const optionsToUse = TypeScriptEventsGenerator.getOptions({
       ...this.options,
-      ...options,
+      ...options
     });
     const dependencyManagerToUse = this.getDependencyManager(optionsToUse);
     const presets = this.getPresets("interface");
@@ -366,7 +366,7 @@ ${modelCode}`;
     return RenderOutput.toRenderOutput({
       result,
       renderedName: model.name,
-      dependencies: dependencyManagerToUse.dependencies,
+      dependencies: dependencyManagerToUse.dependencies
     });
   }
 
@@ -377,7 +377,7 @@ ${modelCode}`;
   ): Promise<RenderOutput> {
     const optionsToUse = TypeScriptEventsGenerator.getOptions({
       ...this.options,
-      ...options,
+      ...options
     });
     const dependencyManagerToUse = this.getDependencyManager(optionsToUse);
     const presets = this.getPresets("enum");
@@ -393,7 +393,7 @@ ${modelCode}`;
     return RenderOutput.toRenderOutput({
       result,
       renderedName: model.name,
-      dependencies: dependencyManagerToUse.dependencies,
+      dependencies: dependencyManagerToUse.dependencies
     });
   }
 
@@ -404,7 +404,7 @@ ${modelCode}`;
   ): Promise<RenderOutput> {
     const optionsToUse = TypeScriptEventsGenerator.getOptions({
       ...this.options,
-      ...options,
+      ...options
     });
     const dependencyManagerToUse = this.getDependencyManager(optionsToUse);
     const presets = this.getPresets("type");
@@ -420,7 +420,7 @@ ${modelCode}`;
     return RenderOutput.toRenderOutput({
       result,
       renderedName: model.name,
-      dependencies: dependencyManagerToUse.dependencies,
+      dependencies: dependencyManagerToUse.dependencies
     });
   }
 }

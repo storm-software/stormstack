@@ -3,13 +3,13 @@
 import {
   ContactFormProgressStep,
   contactFormProgressAtom,
-  useSetContactFormProgress,
-} from "@open-system/contact-client-data-access";
-import { ProgressTracker } from "@open-system/core-client-components";
+  useSetContactFormProgress
+} from "@stormstack/contact-client-data-access";
+import { ProgressTracker } from "@stormstack/core-client-components";
 import {
   BaseComponentProps,
-  ProgressTrackerItemStatus,
-} from "@open-system/design-system-components";
+  ProgressTrackerItemStatus
+} from "@stormstack/design-system-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAtomValue } from "jotai";
 import { usePathname } from "next/navigation";
@@ -38,7 +38,7 @@ export function ContactFormProgressTracker({
     <AnimatePresence>
       {items && items.length > 0 && (
         <motion.div
-          className="flex flex-col gap-12"
+          className="gap-12 flex flex-col"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}

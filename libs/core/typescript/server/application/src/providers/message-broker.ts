@@ -1,5 +1,5 @@
-import { Logger } from "@open-system/core-shared-logging/logger";
-import { BaseUtilityClass } from "@open-system/core-shared-utilities/common";
+import { Logger } from "@stormstack/core-shared-logging/logger";
+import { BaseUtilityClass } from "@stormstack/core-shared-utilities/common";
 import { MESSAGE_BROKER_TOKEN } from "../types";
 
 export abstract class MessageBroker<

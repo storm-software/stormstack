@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Provider } from "@open-system/core-shared-injection/decorators";
+import { Provider } from "@stormstack/core-shared-injection/decorators";
 import { formatLog } from "../format";
 import { Logger } from "../logger";
 import {

@@ -1,5 +1,5 @@
 import { ExecutorContext, runExecutor } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-utilities";
 import { removeSync } from "fs-extra";
 import { DesignComponentsBuildExecutorSchema } from "./schema";
 

@@ -1,7 +1,7 @@
-import { ScopedObjectState } from "@open-system/core-shared-data-access";
+import { ScopedObjectState } from "@stormstack/core-shared-data-access";
 
 export const AddressConstants = {
-  DOMESTIC_COUNTRY_CODE: "US",
+  DOMESTIC_COUNTRY_CODE: "US"
 };
 
 export interface Address extends ScopedObjectState {

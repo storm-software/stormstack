@@ -17,8 +17,8 @@ import {
   isEnum,
   isLiteralExpr,
   isReferenceExpr,
-  ReferenceExpr,
-} from "@open-system/tools-storm-language/ast";
+  ReferenceExpr
+} from "@stormstack/tools-storm-language/ast";
 import { AstNode, ValidationAcceptor } from "langium";
 import pluralize from "pluralize";
 import { resolved } from "../../sdk";
@@ -51,7 +51,7 @@ export function validateDuplicatedDeclarations(
       }
 
       accept("error", `Duplicated declaration name "${name}"`, {
-        node: errorField,
+        node: errorField
       });
     }
   }
@@ -265,7 +265,7 @@ export function validateAttributeApplication(
       paramDecl = decl.params.find(p => p.default && !filledParams.has(p));
       if (!paramDecl) {
         accept("error", `Unexpected unnamed argument`, {
-          node: arg,
+          node: arg
         });
         return false;
       }
@@ -276,7 +276,7 @@ export function validateAttributeApplication(
           "error",
           `Attribute "${decl.name}" doesn't have a parameter named "${arg.name}"`,
           {
-            node: arg,
+            node: arg
           }
         );
         return false;
@@ -285,14 +285,14 @@ export function validateAttributeApplication(
 
     if (!assignableToAttributeParam(arg, paramDecl, attr)) {
       accept("error", `Value is not assignable to parameter`, {
-        node: arg,
+        node: arg
       });
       return false;
     }
 
     if (filledParams.has(paramDecl)) {
       accept("error", `Parameter "${paramDecl.name}" is already provided`, {
-        node: arg,
+        node: arg
       });
       return false;
     }

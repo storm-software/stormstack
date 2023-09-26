@@ -1,7 +1,7 @@
 import {
   IIntegrationEvent,
-  IntegrationEvent,
-} from "@open-system/core-server-services";
+  IntegrationEvent
+} from "@stormstack/core-server-services";
 import { userVisitedEventSchema } from "./user-visited-event.schema";
 
 @Event()

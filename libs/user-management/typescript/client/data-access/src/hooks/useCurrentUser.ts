@@ -1,4 +1,4 @@
-import { DateTime } from "@open-system/core-shared-utilities";
+import { DateTime } from "@stormstack/core-shared-utilities";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback } from "react";
 import {
@@ -8,7 +8,7 @@ import {
   lastActiveOnAtom,
   storeVisitAtom,
   userNameAtom,
-  userTypeAtom,
+  userTypeAtom
 } from "../state/current-user";
 
 export const useCurrentUserName = (): string =>

@@ -1,10 +1,10 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
-import { useStoreVisit } from "@open-system/user-management-client-data-access";
+import { BaseComponentProps } from "@stormstack/design-system-components";
+import { useStoreVisit } from "@stormstack/user-management-client-data-access";
 import {
   useIsHeaderDisplayedValue,
-  useSetIsHeaderDisplayed,
+  useSetIsHeaderDisplayed
 } from "../hooks/useHeaderState";
 import { default as DevClient } from "./dev/client";
 

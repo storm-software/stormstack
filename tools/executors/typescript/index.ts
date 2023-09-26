@@ -1,7 +1,7 @@
 import { NxPlugin } from "@nx/devkit";
 
 const nxPlugin: NxPlugin = {
-  name: "@open-system/tools-executors-typescript",
+  name: "@stormstack/tools-executors-typescript"
 };
 
 export default nxPlugin;

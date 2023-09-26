@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-server-kafka",
+  "name": "@stormstack/core-server-kafka",
   "version": "0.0.1",
   "dependencies": {
     "kafkajs": "^2.2.4"

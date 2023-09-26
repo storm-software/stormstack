@@ -1,6 +1,6 @@
 import { ExecutorContext } from "@nx/devkit";
-import { executeAsync, findFileName } from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { executeAsync, findFileName } from "@stormstack/core-server-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import doctoc from "doctoc";
 import fs from "fs";
 import { existsSync, readFileSync, writeFileSync } from "fs-extra";

@@ -1,10 +1,10 @@
-import { get, isEmptyObject } from "@open-system/core-shared-utilities";
+import { get, isEmptyObject } from "@stormstack/core-shared-utilities";
 import { useFormContext } from "react-hook-form";
 
 export function useFieldErrors(name?: string, excludeRequired = true) {
   const {
     getFieldState,
-    formState: { errors, touchedFields, isSubmitted },
+    formState: { errors, touchedFields, isSubmitted }
   } = useFormContext();
 
   let errorList: Record<string, string> = (get(errors, name) as any)?.types;

@@ -2,12 +2,12 @@ import {
   GlobalContext,
   createGlobalContext,
   extractSystem
-} from "@open-system/core-server-application/context";
-import { EMPTY_STRING } from "@open-system/core-shared-utilities";
+} from "@stormstack/core-server-application/context";
+import { EMPTY_STRING } from "@stormstack/core-shared-utilities";
 import {
   isSet,
   isString
-} from "@open-system/core-shared-utilities/common/type-checks";
+} from "@stormstack/core-shared-utilities/common/type-checks";
 import { createYoga } from "graphql-yoga";
 import { GraphQLExecutionContext, GraphQLServerContext } from "../context";
 import { createPlugins } from "../plugins";

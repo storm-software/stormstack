@@ -1,4 +1,4 @@
-import { ScopedObjectState } from "@open-system/core-shared-data-access";
+import { ScopedObjectState } from "@stormstack/core-shared-data-access";
 import { WritableAtom, useSetAtom } from "jotai";
 import { useCallback } from "react";
 import { ListAction } from "../utilities/atomWithList";

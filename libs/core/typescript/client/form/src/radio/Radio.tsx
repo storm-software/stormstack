@@ -1,18 +1,18 @@
 "use client";
 
 import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "@stormstack/core-client-data-access";
+import {
   Radio as OsRadio,
   RadioOption as OsRadioOption,
-  RadioProps as OsRadioProps,
-} from "@open-system/design-system-components";
+  RadioProps as OsRadioProps
+} from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  useFieldErrors,
-  useFieldValue,
-  useIsSubmitting,
-  useFieldRegistration,
-} from "@open-system/core-client-data-access";
 import { RadioOption } from "./Radio.types";
 
 export type RadioProps = OsRadioProps & {
@@ -52,7 +52,7 @@ export function Radio({
           {...option}
           {...register({
             required: required ? "This field is required." : undefined,
-            disabled: isSubmitting || option.disabled,
+            disabled: isSubmitting || option.disabled
           })}
           name={option.name}
           required={required}

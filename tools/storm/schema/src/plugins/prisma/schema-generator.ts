@@ -1,10 +1,10 @@
 import {
   execute,
   executeAsync
-} from "@open-system/core-server-utilities/execute";
-import { exists } from "@open-system/core-server-utilities/exists";
-import { findFilePath } from "@open-system/core-server-utilities/file-path-fns";
-import { ConsoleLogger } from "@open-system/core-shared-logging";
+} from "@stormstack/core-server-utilities/execute";
+import { exists } from "@stormstack/core-server-utilities/exists";
+import { findFilePath } from "@stormstack/core-server-utilities/file-path-fns";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import {
   ArrayExpr,
   AstNode,
@@ -26,11 +26,11 @@ import {
   isInvocationExpr,
   isLiteralExpr,
   isReferenceExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import {
   PRISMA_MINIMUM_VERSION,
   getPrismaVersion
-} from "@open-system/tools-storm-runtime";
+} from "@stormstack/tools-storm-runtime";
 import { mkdirSync, readFileSync } from "fs";
 import { writeFile } from "fs/promises";
 import { lt } from "semver";

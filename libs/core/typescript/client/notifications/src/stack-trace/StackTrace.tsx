@@ -7,7 +7,7 @@ if (typeof window !== "undefined") {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 }
 
-import { isString } from "@open-system/core-shared-utilities/common/type-checks";
+import { isString } from "@stormstack/core-shared-utilities/common/type-checks";
 import StackTracey from "stacktracey";
 import { StackTraceLine } from "./StackTraceLine";
 

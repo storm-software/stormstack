@@ -1,6 +1,6 @@
 {
   "asyncapi": "2.6.0",
-  "id": "https://user-management-visit.open-system.workers.dev",
+  "id": "https://user-management-visit.stormstack.workers.dev",
   "info": {
     "title": "User Management - Visit Service",
     "version": "1.0",
@@ -49,7 +49,7 @@
       ]
     },
     "user-management-api": {
-      "url": "https://user-management-api.open-system.workers.dev",
+      "url": "https://user-management-api.stormstack.workers.dev",
       "description": "User Management API Server",
       "protocol": "kafka",
       "tags": [
@@ -70,7 +70,7 @@
     }
   },
   "channels": {
-    "open-system.user-management.user-visited": {
+    "stormstack.user-management.user-visited": {
       "description": "A channel used to exchange messages about user visits to the application",
       "publish": {
         "summary": "Produce event data when a user visits to the application",

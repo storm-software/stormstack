@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { lowerCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
+import { lowerCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
 import path from "path";
 import { FieldInfo } from "../types";
 import { ModelMeta } from "./types";

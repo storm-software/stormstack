@@ -1,13 +1,13 @@
-import { ConsoleLogger } from "@open-system/core-shared-logging";
+import type { DMMF } from "@prisma/generator-helper";
+import { getDMMF as getDMMF5 } from "@prisma/internals";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import {
   GeneratorDecl,
   Model,
   Plugin,
   isGeneratorDecl,
   isPlugin
-} from "@open-system/tools-storm-language/ast";
-import type { DMMF } from "@prisma/generator-helper";
-import { getDMMF as getDMMF5 } from "@prisma/internals";
+} from "@stormstack/tools-storm-language/ast";
 import { dirname, isAbsolute, posix, relative, resolve, sep } from "path";
 import { getLiteral } from "./utils";
 

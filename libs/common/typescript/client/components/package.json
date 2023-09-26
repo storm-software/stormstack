@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/common-client-components",
+  "name": "@stormstack/common-client-components",
   "version": "0.0.1",
   "main": "./index.js",
   "module": "./index.mjs",

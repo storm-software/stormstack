@@ -1,4 +1,4 @@
-import { createRelayUtilities } from "@open-system/core-shared-data-access";
+import { createRelayUtilities } from "@stormstack/core-shared-data-access";
 import { Client } from "./client";
 
 export const {
@@ -12,5 +12,5 @@ export const {
   createNetwork,
   getEnvironment,
   initEnvironment,
-  createEnvironment,
+  createEnvironment
 } = createRelayUtilities({ client: Client });

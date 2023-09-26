@@ -1,10 +1,10 @@
 "use client";
 
-import { formatPhoneNumber } from "@open-system/core-shared-data-access";
+import { formatPhoneNumber } from "@stormstack/core-shared-data-access";
 import {
   FieldText,
-  FieldTextProps,
-} from "@open-system/design-system-components";
+  FieldTextProps
+} from "@stormstack/design-system-components";
 
 export type PhoneNumberTextProps = FieldTextProps & {
   phoneNumber?: string;

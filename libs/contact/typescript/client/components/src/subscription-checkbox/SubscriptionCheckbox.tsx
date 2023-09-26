@@ -1,8 +1,8 @@
 "use client";
 
-import { Link } from "@open-system/core-client-components";
-import { Checkbox } from "@open-system/core-client-form";
-import { CheckboxProps } from "@open-system/design-system-components";
+import { Link } from "@stormstack/core-client-components";
+import { Checkbox } from "@stormstack/core-client-form";
+import { CheckboxProps } from "@stormstack/design-system-components";
 
 export type SubscriptionCheckboxProps = Partial<CheckboxProps>;
 

@@ -11,13 +11,13 @@ import {
   UpdateManyParams,
   UpdateParams,
   UpsertParams
-} from "@open-system/core-server-application";
-import { IEntity } from "@open-system/core-server-domain";
-import { Provider } from "@open-system/core-shared-injection";
+} from "@stormstack/core-server-application";
+import { IEntity } from "@stormstack/core-server-domain";
+import { Provider } from "@stormstack/core-shared-injection";
 import {
   NotFoundError,
   RequiredError
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import { sql } from "drizzle-orm";
 import {
   BaseSQLiteDatabase,

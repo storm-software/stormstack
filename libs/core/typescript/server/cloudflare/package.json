@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-server-cloudflare",
+  "name": "@stormstack/core-server-cloudflare",
   "version": "0.0.1",
   "dependencies": {
     "@cloudflare/d1": "^1.4.1",

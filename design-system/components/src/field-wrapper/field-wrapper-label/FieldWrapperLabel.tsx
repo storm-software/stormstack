@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-shared-utilities";
+import { isEmptyObject } from "@stormstack/core-shared-utilities";
 import clsx from "clsx";
 import { PropsWithBase } from "../../types";
 import { getFieldTextStyle } from "../../utilities/field-style-utils";
@@ -25,14 +25,14 @@ export const FieldWrapperLabel = ({
   errors = null,
   warning = null,
   focused = false,
-  required = false,
+  required = false
 }: FieldWrapperLabelProps) => {
   return (
     <>
       <label
         className={clsx(
           getFieldTextStyle(!isEmptyObject(errors), !!warning, !!info, focused),
-          "text-label-1 font-label-1 leading-label-1 antialiased transition-all",
+          "text-label-1 leading-label-1 transition-all font-label-1 antialiased",
           { "font-bold": !isEmptyObject(errors) },
           { "text-lg": focused },
           className
@@ -42,7 +42,7 @@ export const FieldWrapperLabel = ({
       </label>
       {label && required && (
         <label
-          className="p-[1px] font-extrabold leading-none text-red-500"
+          className="font-extrabold leading-none text-red-500 p-[1px]"
           htmlFor={name}>
           *
         </label>

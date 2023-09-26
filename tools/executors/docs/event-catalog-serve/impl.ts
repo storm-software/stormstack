@@ -1,8 +1,8 @@
 import { ExecutorContext, workspaceRoot } from "@nx/devkit";
 import { createAsyncIterable } from "@nx/devkit/src/utils/async-iterable";
 import { waitForPortOpen } from "@nx/web/src/utils/wait-for-port-open";
-import { copyFile, copyFiles } from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { copyFile, copyFiles } from "@stormstack/core-server-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import { fork } from "child_process";
 import { ensureDirSync, existsSync, removeSync } from "fs-extra";
 import Path from "path";

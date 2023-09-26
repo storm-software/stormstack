@@ -1,7 +1,4 @@
-import {
-  getRandomIntRange,
-  IsServer,
-} from "@open-system/core-shared-utilities";
+import { getRandomIntRange, IsServer } from "@stormstack/core-shared-utilities";
 import { MutableRefObject, useCallback } from "react";
 
 // ammount to add on each button press
@@ -19,7 +16,7 @@ const terminalVelocity = 3;
 const colors = [
   { front: "#7b5cff", back: "#6245e0" }, // Purple
   { front: "#b3c7ff", back: "#8fa5e5" }, // Light Blue
-  { front: "#5c86ff", back: "#345dd1" }, // Darker Blue
+  { front: "#5c86ff", back: "#345dd1" } // Darker Blue
 ];
 
 // helper function to get initial velocities for confetti
@@ -48,7 +45,7 @@ class Confetto {
   public color = colors[Math.floor(getRandomIntRange(0, colors.length - 1))];
   public dimensions = {
     x: getRandomIntRange(5, 9 - 1),
-    y: getRandomIntRange(8, 15 - 1),
+    y: getRandomIntRange(8, 15 - 1)
   };
   public position = {
     x:
@@ -64,12 +61,12 @@ class Confetto {
             this.canvas.height / 2 + this.button.offsetHeight / 2 + 8,
             this.canvas.height / 2 + 1.5 * this.button.offsetHeight - 8 - 1
           )
-        : 0,
+        : 0
   };
   public rotation = getRandomIntRange(0, 2 * Math.PI - 1);
   public scale = {
     x: 1,
-    y: 1,
+    y: 1
   };
   public velocity = initConfettoVelocity([-9, 9], [6, 11]);
 
@@ -112,11 +109,11 @@ class Sequin {
             this.canvas.height / 2 + this.button.offsetHeight / 2 + 8,
             this.canvas.height / 2 + 1.5 * this.button.offsetHeight - 8 - 1
           )
-        : 0,
+        : 0
   };
   public velocity = {
     x: getRandomIntRange(-6, 6 - 1),
-    y: getRandomIntRange(-8, -12 - 1),
+    y: getRandomIntRange(-8, -12 - 1)
   };
 
   constructor(public canvas: HTMLCanvasElement, public button: HTMLElement) {}
@@ -260,7 +257,7 @@ export const useConfetti = (
     canvas?.width,
     confetti,
     ctx,
-    sequins,
+    sequins
   ]);
 
   // cycle through button states when clicked

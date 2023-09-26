@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-server-pino-logging",
+  "name": "@stormstack/core-server-pino-logging",
   "version": "0.0.1",
   "dependencies": {
     "pino": "^8.14.2",

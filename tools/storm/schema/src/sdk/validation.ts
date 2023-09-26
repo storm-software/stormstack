@@ -2,7 +2,7 @@ import type {
   DataModel,
   DataModelAttribute,
   DataModelFieldAttribute
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 
 function isValidationAttribute(
   attr: DataModelAttribute | DataModelFieldAttribute

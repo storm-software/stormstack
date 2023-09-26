@@ -1,7 +1,7 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
-import { Link } from "@open-system/core-client-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
+import { Link } from "@stormstack/core-client-components";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -11,17 +11,17 @@ const variants = {
     transition: {
       duration: 2,
       delay: 2,
-      ease: [0, 0.71, 0.2, 1.01],
-    },
+      ease: [0, 0.71, 0.2, 1.01]
+    }
   },
   hidden: {
     opacity: 0,
     transition: {
       duration: 1,
       delay: 0,
-      ease: [0, 0.71, 0.2, 1.01],
-    },
-  },
+      ease: [0, 0.71, 0.2, 1.01]
+    }
+  }
 };
 
 export function SideTitle({ className, ...props }: BaseComponentProps) {
@@ -44,16 +44,16 @@ export function SideTitle({ className, ...props }: BaseComponentProps) {
   return (
     <AnimatePresence>
       <motion.div
-        className="sticky left-16 top-[21.6rem] z-content-mid-low h-0 w-0 whitespace-nowrap"
+        className="left-16 h-0 w-0 sticky top-[21.6rem] z-content-mid-low whitespace-nowrap"
         variants={variants}
         initial={false}
         animate={isHidden ? "hidden" : "shown"}>
-        <div className="flex -rotate-90 flex-col">
+        <div className="-rotate-90 flex flex-col">
           <Link>
-            <h1 className="font-app-title-1 text-6xl leading-none text-primary">
+            <h1 className="text-6xl leading-none text-primary font-app-title-1">
               Pat Sullivan
               <br />
-              <span className="bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-gradient-to via-gradient-via to-gradient-from text-transparent bg-clip-text">
                 Development
               </span>
             </h1>

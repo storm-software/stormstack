@@ -1,17 +1,17 @@
 "use client";
 
-import { Link } from "@open-system/core-client-components";
-import { useFormValues } from "@open-system/core-client-data-access";
-import { EmailInput, PhoneNumberInput } from "@open-system/core-client-form";
-import {
-  Accordion,
-  BaseComponentProps,
-} from "@open-system/design-system-components";
 import {
   AddressInputFields,
   FirstNameInput,
-  LastNameInput,
-} from "@open-system/common-client-address";
+  LastNameInput
+} from "@stormstack/common-client-address";
+import { Link } from "@stormstack/core-client-components";
+import { useFormValues } from "@stormstack/core-client-data-access";
+import { EmailInput, PhoneNumberInput } from "@stormstack/core-client-form";
+import {
+  Accordion,
+  BaseComponentProps
+} from "@stormstack/design-system-components";
 import { BaseContactForm } from "../base-contact-form";
 import { SubscriptionCheckbox } from "../subscription-checkbox";
 

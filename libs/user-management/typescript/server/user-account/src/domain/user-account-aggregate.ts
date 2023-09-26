@@ -1,9 +1,9 @@
 import {
   AggregateRoot,
   IAggregateRoot,
-  IDomainEvent,
-} from "@open-system/core-server-services";
-import { UserTypes } from "@open-system/user-management-shared-data-access";
+  IDomainEvent
+} from "@stormstack/core-server-services";
+import { UserTypes } from "@stormstack/user-management-shared-data-access";
 
 /**
  * A base abstract class to be inherited by all utility classes added.

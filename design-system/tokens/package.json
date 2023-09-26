@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/design-system-tokens",
+  "name": "@stormstack/design-system-tokens",
   "version": "0.0.1",
   "type": "commonjs",
   "devDependencies": {

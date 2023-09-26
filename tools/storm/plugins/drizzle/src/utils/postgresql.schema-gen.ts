@@ -1,8 +1,8 @@
 import {
   constantCase,
   lowerCaseFirst
-} from "@open-system/core-shared-utilities/common/string-fns";
-import { DataModelField, isEnum } from "@open-system/tools-storm-language/ast";
+} from "@stormstack/core-shared-utilities/common/string-fns";
+import { DataModelField, isEnum } from "@stormstack/tools-storm-language/ast";
 import { SchemaGenerator } from "./schema-gen";
 
 export class PostgresqlSchemaGenerator extends SchemaGenerator {

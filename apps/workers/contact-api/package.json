@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/worker-contact-api",
+  "name": "@stormstack/worker-contact-api",
   "version": "0.0.1",
   "dependencies": {
     "@cloudflare/workers-types": "^4.20230904.0",

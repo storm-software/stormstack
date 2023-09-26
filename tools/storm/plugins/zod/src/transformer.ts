@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
-import { Model } from "@open-system/tools-storm-language/ast";
-import { getPrismaVersion } from "@open-system/tools-storm-runtime";
+import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
+import { upperCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
+import { Model } from "@stormstack/tools-storm-language/ast";
+import { getPrismaVersion } from "@stormstack/tools-storm-runtime";
 import {
   AUXILIARY_FIELDS,
   getFileHeader,
   getPrismaClientImportSpec
-} from "@open-system/tools-storm-schema/sdk";
+} from "@stormstack/tools-storm-schema/sdk";
 import {
   checkModelHasModelRelation,
   findModelByName,
   isAggregateInputType
-} from "@open-system/tools-storm-schema/sdk/dmmf-helpers";
-import indentString from "@open-system/tools-storm-schema/sdk/utils";
-import type { DMMF as PrismaDMMF } from "@prisma/generator-helper";
+} from "@stormstack/tools-storm-schema/sdk/dmmf-helpers";
+import indentString from "@stormstack/tools-storm-schema/sdk/utils";
 import { join, resolve } from "path";
 import * as semver from "semver";
 import { Project } from "ts-morph";

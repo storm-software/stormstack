@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
 import { useIsHeaderDisplayedValue } from "../hooks/useHeaderState";
@@ -12,16 +12,16 @@ const container: Variants = {
     transition: {
       duration: 2,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   closed: {
     y: "150vh",
     transition: {
       duration: 1,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 export default function HeaderBottom({
@@ -35,15 +35,15 @@ export default function HeaderBottom({
     <motion.div
       className={clsx(
         className,
-        "absolute left-0 right-0 z-content flex h-[150vh] w-full flex-col"
+        "left-0 right-0 w-full absolute z-content flex h-[150vh] flex-col"
       )}
       variants={container}
       initial={false}
       animate={isAppHeaderDisplayed ? "closed" : "opened"}>
-      <div className="relative flex h-0 w-full">
-        <Wave className="absolute -bottom-12 left-0 right-0 h-96 min-w-full fill-bg-primary stroke-gray-700 stroke-2" />
+      <div className="h-0 w-full relative flex">
+        <Wave className="-bottom-12 left-0 right-0 h-96 min-w-full fill-bg-primary stroke-gray-700 stroke-2 absolute" />
       </div>
-      <div className="relative flex h-full min-h-fit w-full flex-row items-end justify-center bg-bg-primary px-20">
+      <div className="h-full min-h-fit w-full bg-bg-primary px-20 relative flex flex-row items-end justify-center">
         {children}
       </div>
     </motion.div>

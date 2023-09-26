@@ -6,7 +6,7 @@
 <div align="center"><img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/open-system.logo-green.svg" width="100%" title="Open System" altText="Open System" /></div>
 
 <div align="center">
-<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://github.com/sullivanpj/open-system" target="_blank">Repository</a>  |  <a href="https://sullivanpj.github.io/open-system/" target="_blank">Documentation</a>  |  <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a> | <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=enhancement&template=feature-request.yml&title=Feature Request%3A+">Request a Feature</a> | <a href="https://github.com/sullivanpj/open-system/issues/new?assignees=&labels=documentation&template=documentation.yml&title=Documentation Request%3A+">Request Documentation</a> | <a href="https://github.com/sullivanpj/open-system/discussions">Ask a Question</a>
+<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://github.com/stormstack/stormstack" target="_blank">Repository</a>  |  <a href="https://stormstack.github.io/stormstack/" target="_blank">Documentation</a>  |  <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a> | <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=enhancement&template=feature-request.yml&title=Feature Request%3A+">Request a Feature</a> | <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=documentation&template=documentation.yml&title=Documentation Request%3A+">Request Documentation</a> | <a href="https://github.com/stormstack/stormstack/discussions">Ask a Question</a>
 </div>
 
 <br />
@@ -58,18 +58,18 @@ Run `nx test core-shared-injection` to execute the unit tests via [Jest](https:/
 
 ## Roadmap
 
-See the [open issues](https://github.com/sullivanpj/open-system/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/stormstack/stormstack/issues) for a list of proposed features (and known issues).
 
--   [Top Feature Requests](https://github.com/sullivanpj/open-system/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
--   [Top Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
--   [Newest Bugs](https://github.com/sullivanpj/open-system/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+-   [Top Feature Requests](https://github.com/stormstack/stormstack/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+-   [Top Bugs](https://github.com/stormstack/stormstack/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+-   [Newest Bugs](https://github.com/stormstack/stormstack/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
 
 ## Support
 
 Reach out to the maintainer at one of the following places:
 
 -   [Contact](https://www.patsullivan.org/contact)
--   [GitHub discussions](https://github.com/sullivanpj/open-system/discussions)
+-   [GitHub discussions](https://github.com/stormstack/stormstack/discussions)
 -   <contact@patsullivan.org>
 
 ## License
@@ -95,7 +95,7 @@ Please try to create bug reports that are:
 
 Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
 
-You can use [markdownlint-cli](https://github.com/sullivanpj/open-system/markdownlint-cli) to check for common markdown style inconsistency.
+You can use [markdownlint-cli](https://github.com/stormstack/stormstack/markdownlint-cli) to check for common markdown style inconsistency.
 
 ## Contributors
 
@@ -106,7 +106,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/sullivanpj/open-system/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/sullivanpj/open-system/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/sullivanpj/open-system/commits?author=sullivanpj" title="Tests">⚠️</a></td>
+      <td align="center"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Tests">⚠️</a></td>
       <td align="center"><a href="https://tylerbenning.com/"><img src="https://avatars.githubusercontent.com/u/7265547?v=4?s=100" width="100px;" alt="Tyler Benning"/><br /><sub><b>Tyler Benning</b></sub></a><br /><a href="#design-tbenning" title="Design">🎨</a></td>
     </tr>
   </tbody>

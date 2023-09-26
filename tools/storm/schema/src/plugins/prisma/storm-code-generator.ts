@@ -16,8 +16,8 @@ import {
   ReferenceArg,
   ReferenceExpr,
   ThisExpr,
-  UnaryExpr,
-} from "@open-system/tools-storm-language/ast";
+  UnaryExpr
+} from "@stormstack/tools-storm-language/ast";
 import { resolved } from "../../sdk";
 
 /**
@@ -33,7 +33,7 @@ export default class StormCodeGenerator {
   constructor(options?: Partial<StormCodeOptions>) {
     this.options = {
       binaryExprNumberOfSpaces: options?.binaryExprNumberOfSpaces ?? 1,
-      unaryExprNumberOfSpaces: options?.unaryExprNumberOfSpaces ?? 0,
+      unaryExprNumberOfSpaces: options?.unaryExprNumberOfSpaces ?? 0
     };
   }
   generateAttribute(ast: DataModelAttribute | DataModelFieldAttribute): string {

@@ -45,7 +45,7 @@
       }
     },
     "generate": {
-      "executor": "@open-system/tools-executors-typescript:storm-generate",
+      "executor": "@stormstack/tools-executors-typescript:storm-generate",
       "options": {
         "outputPath": "libs/contact/typescript/server/attachment/src/__generated__",
         "schema": "schema.storm",

@@ -1,6 +1,6 @@
 "use server";
 
-import { UniqueIdGenerator } from "@open-system/core-shared-utilities";
+import { UniqueIdGenerator } from "@stormstack/core-shared-utilities";
 import { cookies } from "next/headers";
 
 export async function addUser() {

@@ -1,7 +1,7 @@
 "use client";
 
-import { Link } from "@open-system/core-client-components";
-import { Heading } from "@open-system/design-system-components";
+import { Link } from "@stormstack/core-client-components";
+import { Heading } from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { motion, useInView } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -11,22 +11,22 @@ const Layers = {
   NONE: "none",
   INFRASTRUCTURE: "infrastructure",
   APPLICATION: "application",
-  DOMAIN: "domain",
+  DOMAIN: "domain"
 };
 
 const layerVariants = {
   initial: {
     opacity: 0,
-    scale: 0,
+    scale: 0
   },
   none: {
     opacity: 1,
     scale: 1,
     transition: {
       duration: 1,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const infrastructureLayerVariants = {
@@ -37,25 +37,25 @@ const infrastructureLayerVariants = {
     transition: {
       duration: 1.5,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   application: {
     opacity: 1,
     scale: 1,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   domain: {
     opacity: 1,
     scale: 1,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const applicationLayerVariants = {
@@ -64,16 +64,16 @@ const applicationLayerVariants = {
     ...layerVariants.none,
     transition: {
       ...layerVariants.none.transition,
-      delay: 1,
-    },
+      delay: 1
+    }
   },
   infrastructure: {
     opacity: 1,
     scale: 0.4,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   application: {
     opacity: 1,
@@ -81,17 +81,17 @@ const applicationLayerVariants = {
     transition: {
       duration: 1.5,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   domain: {
     opacity: 1,
     scale: 1.2,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const domainLayerVariants = {
@@ -100,24 +100,24 @@ const domainLayerVariants = {
     ...layerVariants.none,
     transition: {
       ...layerVariants.none.transition,
-      delay: 2,
-    },
+      delay: 2
+    }
   },
   infrastructure: {
     opacity: 1,
     scale: 0.8,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   application: {
     opacity: 1,
     scale: 0.3,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   domain: {
     opacity: 1,
@@ -125,15 +125,15 @@ const domainLayerVariants = {
     transition: {
       duration: 1.5,
       stiffness: 1000,
-      velocity: -100,
-    },
-  },
+      velocity: -100
+    }
+  }
 };
 
 const layerHeadingVariants = {
   initial: {
     opacity: 0,
-    scale: 0,
+    scale: 0
   },
   none: {
     opacity: 1,
@@ -141,9 +141,9 @@ const layerHeadingVariants = {
     fontSize: 36,
     transition: {
       duration: 1,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const infrastructureLayerHeadingVariants = {
@@ -154,25 +154,25 @@ const infrastructureLayerHeadingVariants = {
     transition: {
       duration: 1.5,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   application: {
     opacity: 1,
     fontSize: "36px",
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   domain: {
     opacity: 1,
     fontSize: "36px",
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const applicationLayerHeadingVariants = {
@@ -181,16 +181,16 @@ const applicationLayerHeadingVariants = {
     ...layerHeadingVariants.none,
     transition: {
       ...layerHeadingVariants.none.transition,
-      delay: 1,
-    },
+      delay: 1
+    }
   },
   infrastructure: {
     opacity: 1,
     fontSize: "36px",
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   application: {
     opacity: 1,
@@ -198,17 +198,17 @@ const applicationLayerHeadingVariants = {
     transition: {
       duration: 1.5,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   domain: {
     opacity: 1,
     fontSize: "36px",
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const domainLayerHeadingVariants = {
@@ -217,24 +217,24 @@ const domainLayerHeadingVariants = {
     ...layerHeadingVariants.none,
     transition: {
       ...layerHeadingVariants.none.transition,
-      delay: 2,
-    },
+      delay: 2
+    }
   },
   infrastructure: {
     opacity: 1,
     fontSize: "36px",
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   application: {
     opacity: 1,
     fontSize: "36px",
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   domain: {
     opacity: 1,
@@ -242,9 +242,9 @@ const domainLayerHeadingVariants = {
     transition: {
       duration: 1.5,
       stiffness: 1000,
-      velocity: -100,
-    },
-  },
+      velocity: -100
+    }
+  }
 };
 
 const layerBodyVariants = {
@@ -255,17 +255,17 @@ const layerBodyVariants = {
     transition: {
       duration: 1.5,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   closed: {
     opacity: 0,
     scale: 0,
     height: 0,
     transition: {
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 export default function LayeredDesign() {
@@ -288,32 +288,32 @@ export default function LayeredDesign() {
   }, []);
 
   return (
-    <div className="flex w-full max-w-[65rem] flex-col items-center justify-center gap-20">
+    <div className="w-full gap-20 flex max-w-[65rem] flex-col items-center justify-center">
       <Heading level={4} className="text-5xl leading-10">
         Clearly define the code structure
       </Heading>
 
-      <div ref={ref} className="flex w-fit flex-row items-center gap-10">
+      <div ref={ref} className="w-fit gap-10 flex flex-row items-center">
         <div className="w-fit">
           <motion.div
             className={clsx(
-              "transition-color flex h-96 w-96 items-center justify-center rounded-full bg-secondary",
+              "transition-color h-96 w-96 rounded-full bg-secondary flex items-center justify-center",
               { "border-8 border-highlight-1": layer === Layers.INFRASTRUCTURE }
             )}
             variants={infrastructureLayerVariants}
             animate={layer}>
             <motion.div
               className={clsx(
-                "transition-color flex h-72 w-72 items-center justify-center rounded-full bg-tertiary",
+                "transition-color h-72 w-72 rounded-full bg-tertiary flex items-center justify-center",
                 { "border-8 border-highlight-1": layer === Layers.APPLICATION }
               )}
               variants={applicationLayerVariants}
               animate={layer}>
               <motion.div
                 className={clsx(
-                  "transition-color flex h-44 w-44 items-center justify-center rounded-full bg-quaternary",
+                  "transition-color h-44 w-44 rounded-full bg-quaternary flex items-center justify-center",
                   {
-                    "border-8 border-highlight-1": layer === Layers.DOMAIN,
+                    "border-8 border-highlight-1": layer === Layers.DOMAIN
                   }
                 )}
                 variants={domainLayerVariants}
@@ -321,10 +321,10 @@ export default function LayeredDesign() {
             </motion.div>
           </motion.div>
         </div>
-        <motion.div layout className="flex h-fit w-fit flex-col gap-6">
-          <div className="flex h-fit flex-col gap-3">
+        <motion.div layout className="h-fit w-fit gap-6 flex flex-col">
+          <div className="h-fit gap-3 flex flex-col">
             <motion.div
-              className="transition-color font-label-4 text-4xl text-secondary hover:cursor-pointer hover:text-highlight-1 hover:underline"
+              className="transition-color text-4xl text-secondary hover:cursor-pointer hover:text-highlight-1 font-label-4 hover:underline"
               onClick={handleInfrastructureClick}
               variants={infrastructureLayerHeadingVariants}
               animate={layer}>
@@ -334,7 +334,7 @@ export default function LayeredDesign() {
               initial={false}
               variants={layerBodyVariants}
               animate={layer === Layers.INFRASTRUCTURE ? "opened" : "closed"}>
-              <p className="font-body-1 text-body-1">
+              <p className="text-body-1 font-body-1">
                 That convert JSON/YAML API contracts into REST API controllers,
                 GraphQL end points, RabbitMQ or Kafka queue
                 publishers/consumers, Redux-Query API reducers, and .NET Core
@@ -342,9 +342,9 @@ export default function LayeredDesign() {
               </p>
             </motion.div>
           </div>
-          <div className="flex h-fit flex-col gap-3">
+          <div className="h-fit gap-3 flex flex-col">
             <motion.div
-              className="transition-color font-label-4 text-4xl text-tertiary hover:cursor-pointer hover:text-highlight-1 hover:underline"
+              className="transition-color text-4xl text-tertiary hover:cursor-pointer hover:text-highlight-1 font-label-4 hover:underline"
               onClick={handleApplicationClick}
               variants={applicationLayerHeadingVariants}
               animate={layer}>
@@ -354,7 +354,7 @@ export default function LayeredDesign() {
               initial={false}
               variants={layerBodyVariants}
               animate={layer === Layers.APPLICATION ? "opened" : "closed"}>
-              <p className="font-body-1 text-body-1">
+              <p className="text-body-1 font-body-1">
                 That convert JSON/YAML API contracts into REST API controllers,
                 GraphQL end points, RabbitMQ or Kafka queue
                 publishers/consumers, Redux-Query API reducers, and .NET Core
@@ -362,9 +362,9 @@ export default function LayeredDesign() {
               </p>
             </motion.div>
           </div>
-          <div className="flex h-fit flex-col gap-3">
+          <div className="h-fit gap-3 flex flex-col">
             <motion.div
-              className="transition-color font-label-4 text-4xl text-quaternary hover:cursor-pointer hover:text-highlight-1 hover:underline"
+              className="transition-color text-4xl text-quaternary hover:cursor-pointer hover:text-highlight-1 font-label-4 hover:underline"
               onClick={handleDomainClick}
               variants={domainLayerHeadingVariants}
               animate={layer}>
@@ -374,7 +374,7 @@ export default function LayeredDesign() {
               initial={false}
               variants={layerBodyVariants}
               animate={layer === Layers.DOMAIN ? "opened" : "closed"}>
-              <p className="font-body-1 text-body-1">
+              <p className="text-body-1 font-body-1">
                 That convert JSON/YAML API contracts into REST API controllers,
                 GraphQL end points, RabbitMQ or Kafka queue
                 publishers/consumers, Redux-Query API reducers, and .NET Core
@@ -384,7 +384,7 @@ export default function LayeredDesign() {
           </div>
         </motion.div>
       </div>
-      <p className="font-body-1 text-body-1">
+      <p className="text-body-1 font-body-1">
         Using a{" "}
         <Link
           href="https://cardoai.com/what-is-hexagonal-architecture-should-you-use-it/"

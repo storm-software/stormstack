@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
 import { PDFViewer as PDFViewerExt } from "@react-pdf/renderer";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 
 export type PdfViewerProps = BaseComponentProps & {
   width?: number | string;

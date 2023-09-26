@@ -1,5 +1,5 @@
-import { CookiePolicyBanner } from "@open-system/user-management-client-components";
-import { getUserCookie } from "@open-system/user-management-server-data-access";
+import { CookiePolicyBanner } from "@stormstack/user-management-client-components";
+import { getUserCookie } from "@stormstack/user-management-server-data-access";
 import { agreeToPrivacyPolicy } from "./actions";
 
 // export const revalidate = 60;

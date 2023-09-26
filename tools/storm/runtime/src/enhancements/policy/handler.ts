@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
+import { upperCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
 import { fromZodError } from "zod-validation-error";
 import { CrudFailureReason, PRISMA_TX_FLAG } from "../../constants";
 import {
@@ -8,13 +8,13 @@ import {
   DbClientContract,
   DbOperations,
   FieldInfo,
-  PolicyOperationKind,
+  PolicyOperationKind
 } from "../../types";
 import { ModelDataVisitor } from "../model-data-visitor";
 import { resolveField } from "../model-meta";
 import {
   NestedWriteVisitor,
-  NestedWriteVisitorContext,
+  NestedWriteVisitorContext
 } from "../nested-write-visitor";
 import { PrismaProxyHandler } from "../proxy";
 import type { ModelMeta, PolicyDef, ZodSchemas } from "../types";
@@ -22,7 +22,7 @@ import {
   enumerate,
   formatObject,
   getIdFields,
-  prismaClientValidationError,
+  prismaClientValidationError
 } from "../utils";
 import { Logger } from "./logger";
 import { PolicyUtil } from "./policy-utils";
@@ -228,7 +228,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
         // make a create args only containing data and ID selection
         const createArgs: any = {
           data: args.data,
-          select: this.utils.makeIdSelection(this.model),
+          select: this.utils.makeIdSelection(this.model)
         };
 
         if (this.shouldLogQuery) {
@@ -280,7 +280,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
         path: context.nestingPath
           .map(p => p.field)
           .filter((f): f is FieldInfo => !!f),
-        ids: idFields.map(f => f.name),
+        ids: idFields.map(f => f.name)
       });
     };
 
@@ -392,7 +392,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
             await this.utils.checkPolicyForUnique(model, args, "update", db);
           }
         }
-      },
+      }
     });
 
     await visitor.visit(model, "create", args);
@@ -434,7 +434,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
         postCreateChecks.set(key, {
           model,
           operation: "create",
-          uniqueFilter: scalarData,
+          uniqueFilter: scalarData
         });
       }
     });
@@ -468,7 +468,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
       async createMany() {
         hasNestedCreateOrConnect = true;
         return false;
-      },
+      }
     });
 
     await visitor.visit(this.model, "create", args);
@@ -589,7 +589,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
         }
         return await db[model].create({
           select: this.utils.makeIdSelection(model),
-          data: item,
+          data: item
         });
       })
     );
@@ -602,8 +602,8 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
       postWriteChecks: createResult.map(item => ({
         model,
         operation: "create" as PolicyOperationKind,
-        uniqueFilter: item,
-      })),
+        uniqueFilter: item
+      }))
     };
   }
 
@@ -677,14 +677,14 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
         if (preValueSelect && Object.keys(preValueSelect).length > 0) {
           preValue = await db[model].findFirst({
             where: uniqueFilter,
-            select: preValueSelect,
+            select: preValueSelect
           });
         }
         postWriteChecks.push({
           model,
           operation: "postUpdate",
           uniqueFilter,
-          preValue,
+          preValue
         });
       }
     };
@@ -708,14 +708,14 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
           createData = {
             ...createData,
             [context.field.backLink]: {
-              connect: reversedQuery[context.field.backLink],
-            },
+              connect: reversedQuery[context.field.backLink]
+            }
           };
         } else {
           // otherwise, the reverse query is translated to foreign key setting, merge it to the create data
           createData = {
             ...createData,
-            ...reversedQuery,
+            ...reversedQuery
           };
         }
       }
@@ -867,7 +867,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
               model,
               operation: "postUpdate" as PolicyOperationKind,
               uniqueFilter: preValue,
-              preValue: preValueSelect ? preValue : undefined,
+              preValue: preValueSelect ? preValue : undefined
             }))
           );
         }
@@ -962,7 +962,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
         const reversedQuery = await this.utils.buildReversedQuery(context);
         const findCurrSetArgs = {
           select: this.utils.makeIdSelection(model),
-          where: reversedQuery,
+          where: reversedQuery
         };
         if (this.shouldLogQuery) {
           this.logger.info(
@@ -1002,7 +1002,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
         // inject delete guard
         const guard = await this.utils.getAuthGuard(model, "delete");
         context.parent.deleteMany = this.utils.and(args, guard);
-      },
+      }
     });
 
     await visitor.visit(this.model, "update", args);
@@ -1016,7 +1016,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
     const result = await db[this.model].update({
       where: args.where,
       data: args.data,
-      select: this.utils.makeIdSelection(this.model),
+      select: this.utils.makeIdSelection(this.model)
     });
 
     return { result, postWriteChecks };
@@ -1071,7 +1071,7 @@ export class PolicyProxyHandler<DbClient extends DbClientContract>
             model: this.model,
             operation: "postUpdate" as PolicyOperationKind,
             uniqueFilter: this.utils.getEntityIds(this.model, preValue),
-            preValue: preValueSelect ? preValue : undefined,
+            preValue: preValueSelect ? preValue : undefined
           }))
         );
 

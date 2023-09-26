@@ -1,6 +1,6 @@
 "use client";
 
-import { SerializablePreloadedQuery } from "@open-system/core-data-access/types";
+import { SerializablePreloadedQuery } from "@stormstack/core-data-access/types";
 import { usePreloadedQuery } from "react-relay";
 import { ConcreteRequest, graphql } from "relay-runtime";
 import { clientRatingQuery as ClientRatingQueryType } from "../../__generated__/relay/clientRatingQuery.graphql";
@@ -8,7 +8,7 @@ import ContentRatingForm from "../../components/ContentRatingForm";
 // import PageProvider from "../../components/PageProvider";
 import {
   RelayProvider,
-  useSerializablePreloadedQuery,
+  useSerializablePreloadedQuery
 } from "../../relay/hooks";
 import { getEnvironment } from "../../relay/utilities";
 

@@ -1,11 +1,11 @@
 "use client";
 
-import { openDataInNewTab } from "@open-system/core-client-utilities";
-import { FileUploadState } from "@open-system/core-client-data-access";
+import { FileUploadState } from "@stormstack/core-client-data-access";
+import { openDataInNewTab } from "@stormstack/core-client-utilities";
 import {
   FileUploadItem as OsFileUploadItem,
-  PropsWithBase,
-} from "@open-system/design-system-components";
+  PropsWithBase
+} from "@stormstack/design-system-components";
 import { Atom, useAtomValue } from "jotai";
 import { useCallback } from "react";
 
@@ -72,7 +72,7 @@ export const FileUploadItem = ({
           dataUrl: fileState.dataUrl,
           data: fileState.data,
           error: fileState.errors?.join("\r\n"),
-          type: fileState.file.type,
+          type: fileState.file.type
         },
         `Pat Sullivan Development - Viewing ${fileState.file.name}`
       );

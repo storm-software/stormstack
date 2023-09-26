@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-shared-injection",
+  "name": "@stormstack/core-shared-injection",
   "version": "0.0.1",
   "type": "commonjs",
   "dependencies": {

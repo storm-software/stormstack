@@ -1,10 +1,10 @@
 import { ExecutorContext } from "@nx/devkit";
-// import { ConsoleLogger } from "@open-system/core-utilities";
+// import { ConsoleLogger } from "@stormstack/core-utilities";
 //import { generateGraphQL } from "@confluentinc/ksqldb-graphql";
 /*import { codegen } from "@graphql-codegen/core";
 import * as schemaAstPlugin from "@graphql-codegen/schema-ast";
 import * as timePlugin from "@graphql-codegen/time";*/
-//import { buildKsqlDBGraphQL } from "@open-system/core-typescript-kafka";
+//import { buildKsqlDBGraphQL } from "@stormstack/core-typescript-kafka";
 import { ClientGraphQLSyncExecutorSchema } from "./schema";
 
 const {
@@ -12,7 +12,7 @@ const {
   KAFKA_KSQL_PORT,
   KAFKA_KSQL_PROTOCOL,
   KAFKA_KSQL_API_KEY,
-  KAFKA_KSQL_API_SECRET,
+  KAFKA_KSQL_API_SECRET
 } = process.env;
 
 export default async function (

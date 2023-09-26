@@ -1,18 +1,18 @@
 "use client";
 
 import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "@stormstack/core-client-data-access";
+import {
   Rating as OsRating,
   RatingOption as OsRatingOption,
-  RatingProps as OsRatingProps,
-} from "@open-system/design-system-components";
+  RatingProps as OsRatingProps
+} from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  useFieldErrors,
-  useFieldValue,
-  useIsSubmitting,
-  useFieldRegistration,
-} from "@open-system/core-client-data-access";
 
 export type RatingProps = OsRatingProps & {
   /**
@@ -54,7 +54,7 @@ export function Rating({
             key={optionValue}
             {...register({
               required: required ? "This field is required." : undefined,
-              disabled: isSubmitting,
+              disabled: isSubmitting
             })}
             name={optionValue.toString()}
             value={optionValue}

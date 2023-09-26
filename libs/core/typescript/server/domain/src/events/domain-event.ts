@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseUtilityClass } from "@open-system/core-shared-utilities";
+import { BaseUtilityClass } from "@stormstack/core-shared-utilities";
 import {
   DOMAIN_EVENT_TOKEN,
   IAggregateRoot,

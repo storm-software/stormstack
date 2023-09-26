@@ -1,7 +1,7 @@
 "use server";
 
-import { FormSubmitHandlerParams } from "@open-system/core-shared-data-access";
-import { Rate } from "@open-system/engagement-shared-data-access";
+import { FormSubmitHandlerParams } from "@stormstack/core-shared-data-access";
+import { Rate } from "@stormstack/engagement-shared-data-access";
 import { revalidateTag } from "next/cache";
 
 export async function giveRating(request: FormSubmitHandlerParams<Rate>) {
@@ -14,9 +14,9 @@ export async function giveRating(request: FormSubmitHandlerParams<Rate>) {
       method: "post",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(request.data),
+      body: JSON.stringify(request.data)
     }
   );
 
@@ -24,6 +24,6 @@ export async function giveRating(request: FormSubmitHandlerParams<Rate>) {
 
   return {
     data: {},
-    status: 200,
+    status: 200
   };
 }

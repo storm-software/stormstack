@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseUtilityClass } from "@open-system/core-shared-utilities/common/base-utility-class";
+import { BaseUtilityClass } from "@stormstack/core-shared-utilities/common/base-utility-class";
 import { CACHE_TOKEN } from "../types";
 
 export abstract class CacheClient extends BaseUtilityClass {

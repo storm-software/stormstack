@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DateTime, isObject } from "@open-system/core-shared-utilities";
+import { DateTime, isObject } from "@stormstack/core-shared-utilities";
 
 export type SerializedObject = { value: string; _type: string };
 
@@ -9,7 +9,7 @@ export const serialize = <TValue = any>(obj: TValue): TValue => {
   } else if (DateTime.isDateTime(obj)) {
     return {
       value: (obj as any)?.toString(),
-      _type: "DateTime",
+      _type: "DateTime"
     } as TValue;
   } else {
     return Object.entries(obj).reduce(

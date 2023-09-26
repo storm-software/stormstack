@@ -1,4 +1,4 @@
-import { isInvocationExpr } from "@open-system/tools-storm-language/ast";
+import { isInvocationExpr } from "@stormstack/tools-storm-language/ast";
 import { AstNode } from "langium/lib/syntax-tree";
 import { isFromStdlib } from "../../language-server/utils";
 

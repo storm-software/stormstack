@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-client-pdf",
+  "name": "@stormstack/core-client-pdf",
   "version": "0.0.1",
   "main": "./index.js",
   "module": "./index.mjs",

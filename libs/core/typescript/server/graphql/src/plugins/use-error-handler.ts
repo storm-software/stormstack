@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OnExecuteDoneEventPayload } from "@envelop/core";
-import { GlobalContext } from "@open-system/core-server-application/context/global-context";
-import { isError, isString } from "@open-system/core-shared-utilities";
-import { BaseError } from "@open-system/core-shared-utilities/errors/base-error";
+import { GlobalContext } from "@stormstack/core-server-application/context/global-context";
+import { isError, isString } from "@stormstack/core-shared-utilities";
+import { BaseError } from "@stormstack/core-shared-utilities/errors/base-error";
 import { GraphQLError } from "graphql";
 import { handleStreamOrSingleExecutionResult } from "graphql-yoga";
 import { createGraphQLError } from "../api/graphql-error";

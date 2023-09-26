@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/contact-server-attachment",
+  "name": "@stormstack/contact-server-attachment",
   "version": "0.0.1",
   "dependencies": {
     "@envelop/types": "^4.0.0",

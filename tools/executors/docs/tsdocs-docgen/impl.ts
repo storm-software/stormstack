@@ -4,8 +4,8 @@
   ExtractorResult,
 } from "@microsoft/api-extractor";*/
 import { ExecutorContext } from "@nx/devkit";
-import { executeAsync } from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { executeAsync } from "@stormstack/core-server-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import { createReadStream, readdir } from "fs";
 import { existsSync, writeFile } from "fs-extra";
 import Path from "path";
@@ -57,7 +57,7 @@ const documentExecutor = async (
           const output = [];
           const lines = createInterface({
             input,
-            crlfDelay: Infinity,
+            crlfDelay: Infinity
           });
 
           lines.on("line", line => {
@@ -167,7 +167,7 @@ const documentExecutor = async (
                 const output = [];
                 const lines = createInterface({
                   input,
-                  crlfDelay: Infinity,
+                  crlfDelay: Infinity
                 });
 
                 let title = "";
@@ -210,7 +210,7 @@ const documentExecutor = async (
                       `id: ${id}`,
                       `title: ${title}`,
                       `hide_title: true`,
-                      "---",
+                      "---"
                     ];
 
                     writeFile(

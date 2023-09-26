@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-shared-utilities";
+import { isEmptyObject } from "@stormstack/core-shared-utilities";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
 import {
@@ -9,19 +9,19 @@ import {
   ForwardedRef,
   forwardRef,
   useCallback,
-  useState,
+  useState
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
 import { BaseFieldProps } from "../types";
 import {
   getInputFillColor,
   getInputTextStyle,
-  getStrokeStyle,
+  getStrokeStyle
 } from "../utilities";
 import {
   InputAutoCompleteTypes,
   InputModeTypes,
-  InputTypes,
+  InputTypes
 } from "./Input.types";
 
 export type InputProps = BaseFieldProps & {
@@ -181,12 +181,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ),
             getInputFillColor(disabled),
             {
-              "ring-1 ring-active ring-offset-0": focused,
+              "ring-1 ring-active ring-offset-0": focused
             },
             {
-              "focus:shadow-active-glow": focused && glow,
+              "focus:shadow-active-glow": focused && glow
             },
-            "w-full rounded-xl font-label-1 leading-label-1 transition-all duration-300 ease-in-out focus:ring-0 focus:ring-active focus:ring-offset-0",
+            "w-full rounded-xl leading-label-1 transition-all duration-300 ease-in-out focus:ring-0 focus:ring-active focus:ring-offset-0 font-label-1",
             getInputTextStyle(
               !isEmptyObject(errors),
               !!warning,
@@ -197,11 +197,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ),
             { "border-3": disabled },
             {
-              "border-1 shadow-sm hover:shadow-active-glow": !disabled && glow,
+              "border-1 shadow-sm hover:shadow-active-glow": !disabled && glow
             },
             {
               "hover:border-hover-link-2 hover:ring-0 hover:ring-hover-link-2 hover:ring-offset-0":
-                !disabled,
+                !disabled
             },
             className
           )}

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IEntity } from "@open-system/core-server-domain/types";
+import { IEntity } from "@stormstack/core-server-domain/types";
 import {
   isArrayLike,
   isFunction,
   isObject
-} from "@open-system/core-shared-utilities/common/type-checks";
+} from "@stormstack/core-shared-utilities/common/type-checks";
 import { BatchLoadKey, CacheMap, RepositoryOptions } from "../types";
 import { RepositoryDataLoader } from "./repository-data-loader";
 

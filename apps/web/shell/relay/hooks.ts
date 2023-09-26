@@ -1,4 +1,4 @@
-import { createRelayHooks } from "@open-system/core-client-data-access";
+import { createRelayHooks } from "@stormstack/core-client-data-access";
 import { Client } from "./client";
 
 export const {
@@ -6,5 +6,5 @@ export const {
   useSubscribeTo,
   useSerializablePreloadedQuery,
   useLiveQuery,
-  useEnvironment,
+  useEnvironment
 } = createRelayHooks({ client: Client });

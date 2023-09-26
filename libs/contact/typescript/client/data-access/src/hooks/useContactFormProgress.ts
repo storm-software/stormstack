@@ -1,14 +1,14 @@
 import {
   useAtomList,
-  useFormValues,
-} from "@open-system/core-client-data-access";
-import { ProgressTrackerItemStatus } from "@open-system/design-system-components";
+  useFormValues
+} from "@stormstack/core-client-data-access";
+import { ProgressTrackerItemStatus } from "@stormstack/design-system-components";
 import { useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import {
   ContactFormProgressStep,
-  contactFormProgressAtom,
+  contactFormProgressAtom
 } from "../state/contact-form-progress";
 import { getDefaultContactSteps } from "../utilities/get-default-contact-steps";
 import { useResetContact, useSetContact } from "./useContact";
@@ -41,7 +41,7 @@ export const useSetContactFormProgress =
               ? ProgressTrackerItemStatus.ACTIVE
               : index > i
               ? ProgressTrackerItemStatus.COMPLETE
-              : ProgressTrackerItemStatus.PENDING,
+              : ProgressTrackerItemStatus.PENDING
         }));
 
         contactFormStepList &&
@@ -88,6 +88,6 @@ export const useSetContactFormProgress =
       next: handleNext,
       previous: handlePrevious,
       goToStep: handleGoToStep,
-      reset: handleReset,
+      reset: handleReset
     };
   };

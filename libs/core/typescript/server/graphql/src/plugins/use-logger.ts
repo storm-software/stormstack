@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLogger as useLoggerExt } from "@envelop/core";
 import { Plugin } from "@envelop/types";
-import { GlobalContext } from "@open-system/core-server-application/context/global-context";
+import { GlobalContext } from "@stormstack/core-server-application/context/global-context";
 import {
   GraphQLExecutionContext,
   GraphQLServerContext

@@ -1,5 +1,5 @@
-import { BaseComponentProps } from "@open-system/design-system-components";
 import { Svg } from "@react-pdf/renderer";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { PdfNodeProps } from "../types";
 
 export type PdfSvgProps = BaseComponentProps &

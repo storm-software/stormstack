@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IEntity } from "@open-system/core-server-domain/types";
-import { Provider } from "@open-system/core-shared-injection";
+import { IEntity } from "@stormstack/core-server-domain/types";
+import { Provider } from "@stormstack/core-shared-injection";
+import { Logger } from "@stormstack/core-shared-logging";
 import {
   BaseUtilityClass,
   isEmpty,
   isError
-} from "@open-system/core-shared-utilities/common";
+} from "@stormstack/core-shared-utilities/common";
 import {
   BaseError,
   BaseErrorCode,
   FieldValidationError,
   ModelValidationError,
   NotFoundError
-} from "@open-system/core-shared-utilities/errors";
-import { Logger } from "@open-system/core-shared-logging";
+} from "@stormstack/core-shared-utilities/errors";
 import { UserContext } from "../context";
 import { Repository } from "../repositories/repository";
 import {

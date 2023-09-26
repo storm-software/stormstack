@@ -2,8 +2,8 @@ import {
   DataModel,
   DataModelField,
   Model,
-  isDataModel,
-} from "@open-system/tools-storm-language/ast";
+  isDataModel
+} from "@stormstack/tools-storm-language/ast";
 import {
   AstReflection,
   CodeActionProvider,
@@ -12,7 +12,7 @@ import {
   LangiumDocuments,
   LangiumServices,
   MaybePromise,
-  getDocument,
+  getDocument
 } from "langium";
 
 import {
@@ -20,7 +20,7 @@ import {
   CodeActionKind,
   CodeActionParams,
   Command,
-  Diagnostic,
+  Diagnostic
 } from "vscode-languageserver";
 import { IssueCodes } from "./constants";
 import { StormFormatter } from "./storm-formatter";
@@ -166,13 +166,13 @@ export class StormCodeActionProvider implements CodeActionProvider {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     start: lastField.$cstNode!.range.end,
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    end: lastField.$cstNode!.range.end,
+                    end: lastField.$cstNode!.range.end
                   },
-                  newText,
-                },
-              ],
-            },
-          },
+                  newText
+                }
+              ]
+            }
+          }
         };
       }
     }

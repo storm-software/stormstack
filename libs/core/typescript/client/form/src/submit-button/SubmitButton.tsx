@@ -1,12 +1,12 @@
 "use client";
 
-import { useIsValid } from "@open-system/core-client-data-access";
+import { useIsValid } from "@stormstack/core-client-data-access";
 import {
   Button,
   ButtonProps,
   ButtonTransitionDirections,
-  ButtonTypes,
-} from "@open-system/design-system-components";
+  ButtonTypes
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-hook-form";
@@ -45,7 +45,7 @@ export function SubmitButton({
     isSubmitSuccessful,
     isSubmitting,
     isValid,
-    isValidating,
+    isValidating
   ]);
 
   return (
@@ -57,8 +57,8 @@ export function SubmitButton({
       disabled={isDisabled}
       {...props}
       transitionDirection={ButtonTransitionDirections.NONE}>
-      <div className="flex flex-row items-center gap-1">
-        <div className="flex flex-1">{children}</div>
+      <div className="gap-1 flex flex-row items-center">
+        <div className="flex-1 flex">{children}</div>
         <SubmitButtonIcon
           inverse={!!inverse}
           isDisabled={isDisabled}

@@ -2,8 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": "../../../../../",
-    "baseUrl": "../../../../../",
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,

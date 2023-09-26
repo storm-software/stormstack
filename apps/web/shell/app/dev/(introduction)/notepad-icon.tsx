@@ -1,4 +1,4 @@
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 
 export interface NotepadIconProps extends BaseComponentProps {
   className?: string;
@@ -9,7 +9,7 @@ export interface NotepadIconProps extends BaseComponentProps {
 export default function NotepadIcon({
   className,
   height,
-  width,
+  width
 }: NotepadIconProps) {
   return (
     <svg

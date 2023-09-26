@@ -1,5 +1,5 @@
-import { Contact } from "@open-system/contact-shared-data-access";
-import { DateTime } from "@open-system/core-shared-utilities";
+import { Contact } from "@stormstack/contact-shared-data-access";
+import { DateTime } from "@stormstack/core-shared-utilities";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback } from "react";
 import { INITIAL_CONTACT, contactAtom } from "../state/contact";
@@ -16,7 +16,7 @@ export const useSetContact = (): ((contact: Partial<Contact>) => void) => {
     (contact: Partial<Contact>) => {
       setContact({
         ...contact,
-        draftSavedDateTime: DateTime.current,
+        draftSavedDateTime: DateTime.current
       } as unknown as Contact);
     },
     [setContact]

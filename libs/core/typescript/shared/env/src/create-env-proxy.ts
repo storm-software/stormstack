@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import {
-  isFunction,
-  isPromise,
-  noop
-} from "@open-system/core-shared-utilities";
+import { isFunction, isPromise, noop } from "@stormstack/core-shared-utilities";
 import { DEFAULT_OPTIONS } from "./env-manager-options";
 import { BaseOptions, EnvProxy } from "./types";
 

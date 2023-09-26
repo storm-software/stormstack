@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Headers } from "@open-system/core-shared-utilities/types";
+import { Headers } from "@stormstack/core-shared-utilities/types";
 import { DrizzleD1Database } from "drizzle-orm/d1";
 
 /*export type CloudflareSingleFileRequest = Request<{

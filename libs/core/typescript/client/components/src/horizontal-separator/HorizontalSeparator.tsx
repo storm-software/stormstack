@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useRef } from "react";
@@ -13,7 +13,7 @@ export function HorizontalSeparator({ className }: BaseComponentProps) {
     <div
       ref={ref}
       className={clsx(
-        "z-bg flex h-[80px] w-full flex-col items-center justify-center gap-4",
+        "w-full gap-4 z-bg flex h-[80px] flex-col items-center justify-center",
         className
       )}>
       <AnimatePresence>
@@ -36,7 +36,7 @@ export function HorizontalSeparator({ className }: BaseComponentProps) {
                   <motion.stop
                     stopColor="#14b8a6"
                     animate={{
-                      stopColor: ["#7330DB", "#6366F1", "#10B981"],
+                      stopColor: ["#7330DB", "#6366F1", "#10B981"]
                     }}
                     transition={{
                       yoyo: Infinity,
@@ -44,14 +44,14 @@ export function HorizontalSeparator({ className }: BaseComponentProps) {
                       duration: 2,
                       repeatType: "reverse",
                       repeat: Infinity,
-                      repeatDelay: 1,
+                      repeatDelay: 1
                     }}
                     offset="0%"
                   />
                   <motion.stop
                     stopColor="#8b5cf6"
                     animate={{
-                      stopColor: ["#10B981", "#6366F1", "#7330DB"],
+                      stopColor: ["#10B981", "#6366F1", "#7330DB"]
                     }}
                     transition={{
                       yoyo: Infinity,
@@ -59,7 +59,7 @@ export function HorizontalSeparator({ className }: BaseComponentProps) {
                       duration: 1,
                       repeatType: "reverse",
                       repeat: Infinity,
-                      repeatDelay: 1,
+                      repeatDelay: 1
                     }}
                     offset="100%"
                   />

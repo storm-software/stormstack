@@ -1,8 +1,8 @@
 "use client";
 
 /* eslint-disable react/jsx-no-useless-fragment */
-import { BaseComponentProps } from "@open-system/design-system-components";
-import { PdfDownloadLink } from "@open-system/core-client-pdf";
+import { PdfDownloadLink } from "@stormstack/core-client-pdf";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { useEffect, useState } from "react";
 import { PdfResume } from "../pdf-resume";
 

@@ -5,7 +5,7 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-build",
+      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
@@ -14,9 +14,9 @@
         "format": ["cjs"],
         "external": [
           "@cloudflare/workers-types",
-          "@open-system/core-shared-utilities",
-          "@open-system/core-client-data-access",
-          "@open-system/core-server-cloudflare"
+          "@stormstack/core-shared-utilities",
+          "@stormstack/core-client-data-access",
+          "@stormstack/core-server-cloudflare"
         ],
         "main": "apps/workers/contact-attachments-upload/src/index.ts",
         "tsConfig": "apps/workers/contact-attachments-upload/tsconfig.json",
@@ -51,7 +51,7 @@
       }
     },
     "serve": {
-      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-serve",
+      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-serve",
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "worker-contact-attachments-upload:serve"
@@ -87,7 +87,7 @@
       }
     },
     "deploy": {
-      "executor": "@open-system/tools-executors-typescript:cloudflare-worker-deploy",
+      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-deploy",
       "defaultConfiguration": "production",
       "tsconfig": "apps/workers/contact-attachments-upload/tsconfig.json",
       "options": {

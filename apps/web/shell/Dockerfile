@@ -47,7 +47,7 @@ ENV CI=true
 RUN npx nx build tools-executors-typescript --configuration=design-tokens-build --verbose
 
 # Run design tokens build prior to linting so tailwindcss is configured
-RUN npx nx build design-system-tokens --configuration=open-system
+RUN npx nx build design-system-tokens --configuration=impact
 
 RUN npx nx run web-shell:build:production
 

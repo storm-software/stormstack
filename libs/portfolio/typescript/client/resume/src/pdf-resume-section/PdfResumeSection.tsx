@@ -1,5 +1,5 @@
-import { BaseComponentProps } from "@open-system/design-system-components";
-import { PdfText, pdfTw, PdfView } from "@open-system/core-client-pdf";
+import { PdfText, pdfTw, PdfView } from "@stormstack/core-client-pdf";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import clsx from "clsx";
 
 export type PdfResumeSectionProps = BaseComponentProps & {

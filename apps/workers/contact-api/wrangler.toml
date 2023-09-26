@@ -17,12 +17,12 @@ compatibility_flags = [ "nodejs_compat" ]
 #  { type = "ESModule", globs = ["@whatwg-node/fetch"] }
 # ]
 
-# route = "open-system.io/api/contact"
+# route = "stormcloud.services/api/contact"
 account_id = "03700f13b61493bbc558dc93ea4980bc"
 
 [build]
 command = "pnpm exec nx run worker-contact-api:build:development"
-cwd = "C:\\Development\\open-system"
+cwd = "C:\\Development\\stormstack"
 watch_dir = "./"
 
 [[d1_databases]]

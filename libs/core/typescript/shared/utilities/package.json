@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-shared-utilities",
+  "name": "@stormstack/core-shared-utilities",
   "version": "0.0.1",
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.4",

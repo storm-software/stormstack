@@ -1,17 +1,17 @@
 "use client";
 
 import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "@stormstack/core-client-data-access";
+import {
   Textarea as OsTextarea,
-  TextareaProps as OsTextareaProps,
-} from "@open-system/design-system-components";
+  TextareaProps as OsTextareaProps
+} from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  useFieldErrors,
-  useFieldValue,
-  useIsSubmitting,
-  useFieldRegistration,
-} from "@open-system/core-client-data-access";
 import { ValidationPropType } from "../types";
 
 export type TextareaProps = Omit<OsTextareaProps, "minLength" | "maxLength"> & {
@@ -49,7 +49,7 @@ export function Textarea({
                 value: minLength,
                 message: `${
                   label ? label : "Field"
-                } must be longer than ${minLength} characters.`,
+                } must be longer than ${minLength} characters.`
               }
             : minLength
           : undefined,
@@ -59,11 +59,11 @@ export function Textarea({
                 value: maxLength,
                 message: `${
                   label ? label : "Field"
-                } must be no more than ${maxLength} characters.`,
+                } must be no more than ${maxLength} characters.`
               }
             : maxLength
           : undefined,
-        disabled: useIsSubmitting() || disabled,
+        disabled: useIsSubmitting() || disabled
       })}
       label={label}
       required={required}

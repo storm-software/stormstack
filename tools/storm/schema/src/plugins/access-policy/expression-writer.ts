@@ -18,7 +18,7 @@ import {
   isOperationGroup,
   isReferenceExpr,
   isThisExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import { CodeBlockWriter } from "ts-morph";
 import { name } from ".";
 import {

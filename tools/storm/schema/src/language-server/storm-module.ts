@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   StormGeneratedModule,
-  StormGeneratedSharedModule,
-} from "@open-system/tools-storm-language/module";
+  StormGeneratedSharedModule
+} from "@stormstack/tools-storm-language/module";
 import {
   DefaultAstNodeDescriptionProvider,
   DefaultAstNodeLocator,
@@ -46,7 +46,7 @@ import {
   ValidationRegistry,
   createCompletionParser,
   createGrammarConfig,
-  inject,
+  inject
 } from "langium";
 import { TextDocuments } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -59,7 +59,7 @@ import { StormScopeComputation, StormScopeProvider } from "./storm-scope";
 import StormWorkspaceManager from "./storm-workspace-manager";
 import {
   StormValidationRegistry,
-  StormValidator,
+  StormValidator
 } from "./validator/storm-validator";
 
 /**
@@ -89,17 +89,17 @@ export const StormModule: Module<
   references: {
     ScopeComputation: services => new StormScopeComputation(services),
     Linker: services => new StormLinker(services),
-    ScopeProvider: services => new StormScopeProvider(services),
+    ScopeProvider: services => new StormScopeProvider(services)
   },
   validation: {
     ValidationRegistry: services => new StormValidationRegistry(services),
-    StormValidator: services => new StormValidator(services),
+    StormValidator: services => new StormValidator(services)
   },
   lsp: {
     Formatter: () => new StormFormatter(),
     CodeActionProvider: services => new StormCodeActionProvider(services),
-    DefinitionProvider: services => new StormDefinitionProvider(services),
-  },
+    DefinitionProvider: services => new StormDefinitionProvider(services)
+  }
 };
 
 // this duplicates createDefaultSharedModule except that a custom WorkspaceManager is used
@@ -110,7 +110,7 @@ export function createSharedModule(
     ServiceRegistry: () => new DefaultServiceRegistry(),
     lsp: {
       Connection: () => context.connection,
-      LanguageServer: services => new DefaultLanguageServer(services),
+      LanguageServer: services => new DefaultLanguageServer(services)
     },
     workspace: {
       LangiumDocuments: services => new DefaultLangiumDocuments(services),
@@ -123,8 +123,8 @@ export function createSharedModule(
       FileSystemProvider: services => context.fileSystemProvider(services),
       MutexLock: () => new MutexLock(),
       ConfigurationProvider: services =>
-        new DefaultConfigurationProvider(services),
-    },
+        new DefaultConfigurationProvider(services)
+    }
   };
 }
 
@@ -186,7 +186,7 @@ export function createDefaultModule(
   return {
     documentation: {
       DocumentationProvider: services =>
-        new JSDocDocumentationProvider(services),
+        new JSDocDocumentationProvider(services)
     },
     parser: {
       GrammarConfig: services => createGrammarConfig(services),
@@ -194,7 +194,7 @@ export function createDefaultModule(
       CompletionParser: services => createCompletionParser(services),
       ValueConverter: () => new DefaultValueConverter(),
       TokenBuilder: () => new DefaultTokenBuilder(),
-      Lexer: services => new DefaultLexer(services),
+      Lexer: services => new DefaultLexer(services)
     },
     lsp: {
       CompletionProvider: services => new DefaultCompletionProvider(services),
@@ -207,30 +207,30 @@ export function createDefaultModule(
       DefinitionProvider: services => new DefaultDefinitionProvider(services),
       DocumentHighlightProvider: services =>
         new DefaultDocumentHighlightProvider(services),
-      RenameProvider: services => new DefaultRenameProvider(services),
+      RenameProvider: services => new DefaultRenameProvider(services)
     },
     workspace: {
       AstNodeLocator: () => new DefaultAstNodeLocator(),
       AstNodeDescriptionProvider: services =>
         new DefaultAstNodeDescriptionProvider(services),
       ReferenceDescriptionProvider: services =>
-        new DefaultReferenceDescriptionProvider(services),
+        new DefaultReferenceDescriptionProvider(services)
     },
     references: {
       Linker: services => new DefaultLinker(services),
       NameProvider: () => new DefaultNameProvider(),
       ScopeProvider: services => new DefaultScopeProvider(services),
       ScopeComputation: services => new DefaultScopeComputation(services),
-      References: services => new DefaultReferences(services),
+      References: services => new DefaultReferences(services)
     },
     serializer: {
-      JsonSerializer: services => new DefaultJsonSerializer(services),
+      JsonSerializer: services => new DefaultJsonSerializer(services)
     },
     validation: {
       DocumentValidator: services => new DefaultDocumentValidator(services),
-      ValidationRegistry: services => new ValidationRegistry(services),
+      ValidationRegistry: services => new ValidationRegistry(services)
     },
-    shared: () => context.shared,
+    shared: () => context.shared
   };
 }
 

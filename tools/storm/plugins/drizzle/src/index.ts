@@ -1,6 +1,6 @@
-import { Model } from "@open-system/tools-storm-language/ast";
-import { PluginOptions } from "@open-system/tools-storm-schema/sdk";
 import type { DMMF } from "@prisma/generator-helper";
+import { Model } from "@stormstack/tools-storm-language/ast";
+import { PluginOptions } from "@stormstack/tools-storm-schema/sdk";
 import { generate } from "./generator";
 
 export const name = "Drizzle";

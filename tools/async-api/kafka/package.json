@@ -1,7 +1,7 @@
 {
-  "name": "@open-system/tools-async-api-kafka",
+  "name": "@stormstack/tools-async-api-kafka",
   "version": "0.0.1",
-  "description": "A template package for Async-API Kafka TypeScript code generation from the Open-System repository.",
+  "description": "A template package for Async-API Kafka TypeScript code generation from the StormStack repository.",
   "scripts": {
     "get-version": "echo $npm_package_version",
     "gen-readme-toc": "markdown-toc -i README.md",

@@ -9,7 +9,7 @@ import {
   isReferenceExpr,
   Model,
   ReferenceExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import { AstNode } from "langium";
 import { resolved } from "../sdk";
 import { STD_LIB_MODULE_NAME } from "./constants";

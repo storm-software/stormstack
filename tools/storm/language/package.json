@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/tools-storm-language",
+  "name": "@stormstack/tools-storm-language",
   "version": "0.0.1",
   "dependencies": {
     "langium": "1.2.1",

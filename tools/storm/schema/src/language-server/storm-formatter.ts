@@ -5,7 +5,7 @@ import {
   LangiumDocument
 } from "langium";
 
-import * as ast from "@open-system/tools-storm-language/ast";
+import * as ast from "@stormstack/tools-storm-language/ast";
 import { FormattingOptions, Range, TextEdit } from "vscode-languageserver";
 
 export class StormFormatter extends AbstractFormatter {

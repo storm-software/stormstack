@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IEntity } from "@open-system/core-server-domain";
-import { ServerEnvManager } from "@open-system/core-server-utilities/server-env-manager";
-import { EnvManager, EnvironmentType } from "@open-system/core-shared-env";
-import { Injector } from "@open-system/core-shared-injection/injector/injector";
-import { Injector as InjectorType } from "@open-system/core-shared-injection/types";
-import { bindConstant } from "@open-system/core-shared-injection/utilities/bind-service";
-import { ConsoleLogger, Logger } from "@open-system/core-shared-logging";
-import { IJsonParser } from "@open-system/core-shared-serialization";
+import { IEntity } from "@stormstack/core-server-domain";
+import { ServerEnvManager } from "@stormstack/core-server-utilities/server-env-manager";
+import { EnvManager, EnvironmentType } from "@stormstack/core-shared-env";
+import { Injector } from "@stormstack/core-shared-injection/injector/injector";
+import { Injector as InjectorType } from "@stormstack/core-shared-injection/types";
+import { bindConstant } from "@stormstack/core-shared-injection/utilities/bind-service";
+import { ConsoleLogger, Logger } from "@stormstack/core-shared-logging";
+import { IJsonParser } from "@stormstack/core-shared-serialization";
 import {
   ArrayElement,
   DateTime,
   IUniqueIdGenerator,
   UniqueIdGenerator,
   uniqueIdGenerator
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import { Service } from "../services";
 import { EntityName, SYSTEM_TOKEN } from "../types";
 import { getGlobalContextStore } from "./global-context-store";

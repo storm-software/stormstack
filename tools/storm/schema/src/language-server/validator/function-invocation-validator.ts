@@ -10,7 +10,7 @@ import {
   isDataModelAttribute,
   isDataModelFieldAttribute,
   isLiteralExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import { AstNode, ValidationAcceptor } from "langium";
 import { P, match } from "ts-pattern";
 import {

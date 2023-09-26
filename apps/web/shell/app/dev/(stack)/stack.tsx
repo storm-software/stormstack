@@ -1,7 +1,7 @@
 "use client";
 
-import { Link } from "@open-system/core-client-components";
-import { Heading } from "@open-system/design-system-components";
+import { Link } from "@stormstack/core-client-components";
+import { Heading } from "@stormstack/design-system-components";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import StackLayer from "./stack-layer";
@@ -15,18 +15,18 @@ export default function Page() {
   return (
     <section
       ref={ref}
-      className="z-content flex w-full snap-center snap-always flex-col items-center justify-center gap-20 overflow-hidden">
-      <div className="flex h-[75rem] w-fit flex-col gap-20 px-10">
+      className="w-full gap-20 z-content flex snap-center snap-always flex-col items-center justify-center overflow-hidden">
+      <div className="w-fit gap-20 px-10 flex h-[75rem] flex-col">
         <motion.div
-          className="flex w-fit max-w-[65rem] flex-col gap-20"
+          className="w-fit gap-20 flex max-w-[65rem] flex-col"
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.75, duration: 1.5 }}>
-          <div className="flex flex-col gap-5">
+          <div className="gap-5 flex flex-col">
             <Heading level={2}>Full Stack Development</Heading>
 
-            <p className="font-body-1 text-body-1">
+            <p className="text-body-1 font-body-1">
               I feel nowadays the phrase{" "}
               <Link
                 href="https://www.geeksforgeeks.org/what-is-full-stack-development/"
@@ -45,33 +45,33 @@ export default function Page() {
         <div ref={ref}>
           {isInView && (
             <motion.ul
-              className="relative flex w-full flex-col pt-12"
+              className="w-full pt-12 relative flex flex-col"
               initial={{ opacity: 0 }}
               animate="hidden"
               variants={list}
               transition={{ duration: 1, delay: 1 }}>
               <StackLayer
-                className="absolute left-[25%] top-[600px] z-10"
+                className="z-10 absolute left-[25%] top-[600px]"
                 header="Hardware"
                 delay={0.4}
               />
               <StackLayer
-                className="absolute left-[25%] top-[525px] z-20"
+                className="z-20 absolute left-[25%] top-[525px]"
                 header="Database"
                 delay={0.3}
               />
               <StackLayer
-                className="absolute left-[25%] top-[450px] z-30"
+                className="z-30 absolute left-[25%] top-[450px]"
                 header="Server-Side"
                 delay={0.2}
               />
               <StackLayer
-                className="absolute left-[25%] top-[375px] z-40"
+                className="z-40 absolute left-[25%] top-[375px]"
                 header="Client-Side"
                 delay={0.1}
               />
               <StackLayer
-                className="absolute left-[25%] top-[300px] z-50"
+                className="z-50 absolute left-[25%] top-[300px]"
                 header="Design System"
                 delay={0}
               />

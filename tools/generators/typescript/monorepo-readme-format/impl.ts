@@ -4,13 +4,13 @@ import {
   getProjects,
   joinPathFragments
 } from "@nx/devkit";
-import { execute } from "@open-system/core-server-utilities/execute";
+import { execute } from "@stormstack/core-server-utilities/execute";
 import {
   findFileName,
   findFilePath
-} from "@open-system/core-server-utilities/file-path-fns";
-import { ConsoleLogger } from "@open-system/core-shared-logging/console";
-import prettierConfig from "@open-system/tools-devops-config/prettier/config";
+} from "@stormstack/core-server-utilities/file-path-fns";
+import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
+import prettierConfig from "@stormstack/tools-devops-config/prettier";
 import { existsSync, readdirSync } from "fs";
 import { Options, format } from "prettier";
 import { ReadMeFormatGeneratorSchema } from "./schema";

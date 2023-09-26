@@ -5,26 +5,14 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/core/typescript/client/utilities/**/*.{ts,tsx,js,jsx}"
-        ]
-      }
-    },
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/core/typescript/client/utilities",
+       "outputPath": "dist/libs/core/typescript/client/utilities",
         "tsConfig": "libs/core/typescript/client/utilities/tsconfig.lib.json",
         "project": "libs/core/typescript/client/utilities/package.json",
-        "entryFile": "libs/core/typescript/client/utilities/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
-        "rollupConfig": "@nx/react/plugins/bundle-rollup",
-        "compiler": "swc",
+        "main": "libs/core/typescript/client/utilities/src/index.ts",
         "assets": [
           {
             "glob": "libs/core/typescript/client/utilities/README.md",
@@ -32,7 +20,21 @@
             "output": "."
           }
         ],
-        "updateBuildableProjectDepsInPackageJson": true
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "browser"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/core/typescript/client/utilities/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "test": {
@@ -49,5 +51,6 @@
         }
       }
     }
-  }
+  },
+  "implicitDependencies": ["core-shared-utilities"]
 }

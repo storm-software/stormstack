@@ -1,8 +1,8 @@
-import { ScopedObjectState } from "@open-system/core-shared-data-access";
+import { ScopedObjectState } from "@stormstack/core-shared-data-access";
 import {
   UniqueIdGenerator,
-  isDevelopment,
-} from "@open-system/core-shared-utilities";
+  isDevelopment
+} from "@stormstack/core-shared-utilities";
 import { Atom, WritableAtom } from "jotai";
 import { atomWithReducer, splitAtom } from "jotai/utils";
 

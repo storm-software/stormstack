@@ -4,7 +4,7 @@ import {
   OperationGroup,
   ReferenceExpr,
   isLiteralExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import { ValidationAcceptor } from "langium";
 import { AstValidator } from "../types";
 import {

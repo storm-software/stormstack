@@ -1,4 +1,4 @@
-import { FormFieldConfig } from "@open-system/core-shared-data-access";
+import { FormFieldConfig } from "@stormstack/core-shared-data-access";
 import { useSetAtom } from "jotai";
 import { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
@@ -17,7 +17,7 @@ export const useFieldRegistration = (field: string) => {
     (config: Partial<FormFieldConfig>) => {
       const props = register(field, {
         shouldUnregister: false,
-        ...config,
+        ...config
       } as any);
       setFormFieldConfig(config);
 

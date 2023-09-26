@@ -8,6 +8,8 @@ strapi
 npmjs
 maxage
 unpublish
+preid
+nxrelease
 Ponyfill
 Antiforgery
 APIKEY

@@ -1,8 +1,5 @@
-import {
-  ConsoleLogger,
-  FileLoadingError,
-  isEmpty,
-} from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
+import { FileLoadingError, isEmpty } from "@stormstack/core-shared-utilities";
 
 export function readAsTextAsync(file: File) {
   const fr = new FileReader();
@@ -64,7 +61,7 @@ export const openFileInNewTab = async (
       dataUrl: typeof dataUrl === "string" ? dataUrl : undefined,
       data: typeof data === "string" ? data : undefined,
       error,
-      type,
+      type
     },
     title
   );

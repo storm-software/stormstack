@@ -1,12 +1,12 @@
 "use client";
 
-import { AddressText } from "@open-system/common-client-address";
-import { ContactFormSegments } from "@open-system/contact-client-data-access";
-import { Contact } from "@open-system/contact-shared-data-access";
-import { PhoneNumberText } from "@open-system/core-client-components";
-import { useFormValues } from "@open-system/core-client-data-access";
-import { DateTime } from "@open-system/core-shared-utilities";
-import { Accordion, FieldText } from "@open-system/design-system-components";
+import { AddressText } from "@stormstack/common-client-address";
+import { ContactFormSegments } from "@stormstack/contact-client-data-access";
+import { Contact } from "@stormstack/contact-shared-data-access";
+import { PhoneNumberText } from "@stormstack/core-client-components";
+import { useFormValues } from "@stormstack/core-client-data-access";
+import { DateTime } from "@stormstack/core-shared-utilities";
+import { Accordion, FieldText } from "@stormstack/design-system-components";
 import Envelope from "../../assets/envelope.svg";
 import { BaseContactForm, BaseContactFormProps } from "../base-contact-form";
 import { ContactFormStepReview } from "../contact-form-step-review";
@@ -38,7 +38,7 @@ export function BaseContactReviewForm({
           summary="Your Input"
           opened={true}
           showBottomDivider={true}>
-          <div className="flex flex-col gap-4">
+          <div className="gap-4 flex flex-col">
             <ContactFormStepReview
               className="mt-3"
               name={ContactFormSegments.REASON}
@@ -51,10 +51,10 @@ export function BaseContactReviewForm({
           </div>
         </Accordion>
       }>
-      <div className="relative flex pb-32">
-        <output className="text-md flex h-fit min-h-[34rem] flex-col gap-2 hyphens-auto border-4 border-black bg-slate-100 px-6 py-8 font-body-1 text-slate-800">
-          <div className="flex grow flex-col gap-1 break-all">
-            <div className="flex flex-row justify-between gap-2">
+      <div className="pb-32 relative flex">
+        <output className="text-md h-fit gap-2 border-4 border-black bg-slate-100 px-6 py-8 text-slate-800 flex min-h-[34rem] flex-col hyphens-auto font-body-1">
+          <div className="grow gap-1 flex flex-col break-all">
+            <div className="gap-2 flex flex-row justify-between">
               <p>Hey Pat,</p>
               <p>{DateTime.current?.getPlainDate().toLocaleString()}</p>
             </div>
@@ -62,7 +62,7 @@ export function BaseContactReviewForm({
           </div>
 
           <div className="mb-3 flex flex-row-reverse">
-            <div className="flex flex-col gap-0">
+            <div className="gap-0 flex flex-col">
               <p>Regards,</p>
               {(values.firstName || values.lastName) && (
                 <p className="text-lg font-bold">
@@ -90,7 +90,7 @@ export function BaseContactReviewForm({
           </div>
         </output>
         <Envelope
-          className="absolute -bottom-3 left-0 rotate-12"
+          className="-bottom-3 left-0 rotate-12 absolute"
           height={180}
           width={450}
         />

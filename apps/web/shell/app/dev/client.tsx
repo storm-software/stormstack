@@ -1,7 +1,7 @@
 "use client";
 
-import { HorizontalSeparator } from "@open-system/core-client-components";
-import { Spinner } from "@open-system/design-system-components";
+import { HorizontalSeparator } from "@stormstack/core-client-components";
+import { Spinner } from "@stormstack/design-system-components";
 import { useInView } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
@@ -12,10 +12,10 @@ const Stack = dynamic(() => import("./(stack)/stack"), {
     <div
       aria-label="Loading..."
       role="status"
-      className="flex h-full w-full items-center justify-center">
+      className="h-full w-full flex items-center justify-center">
       <Spinner className="h-20 w-20" />
     </div>
-  ),
+  )
 });
 
 const Technologies = dynamic(() => import("./(technologies)/technologies"), {
@@ -23,10 +23,10 @@ const Technologies = dynamic(() => import("./(technologies)/technologies"), {
     <div
       aria-label="Loading..."
       role="status"
-      className="flex h-[375vh] w-full items-center justify-center">
+      className="w-full flex h-[375vh] items-center justify-center">
       <Spinner className="h-20 w-20" />
     </div>
-  ),
+  )
 });
 
 const Architecture = dynamic(() => import("./(architecture)/architecture"), {
@@ -34,10 +34,10 @@ const Architecture = dynamic(() => import("./(architecture)/architecture"), {
     <div
       aria-label="Loading..."
       role="status"
-      className="flex h-[375vh] w-full items-center justify-center">
+      className="w-full flex h-[375vh] items-center justify-center">
       <Spinner className="h-20 w-20" />
     </div>
-  ),
+  )
 });
 
 export default function Client() {
@@ -50,7 +50,7 @@ export default function Client() {
   const isTechnologiesInView = useInView(technologiesRef, { once: true });
 
   return (
-    <main className="relative flex flex-col gap-16">
+    <main className="gap-16 relative flex flex-col">
       <div ref={introductionRef}>
         <Introduction />
       </div>

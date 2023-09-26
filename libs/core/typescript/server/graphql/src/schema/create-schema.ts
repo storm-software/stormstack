@@ -1,5 +1,5 @@
 import { IExecutableSchemaDefinition } from "@graphql-tools/schema";
-import { GlobalContext } from "@open-system/core-server-application/context";
+import { GlobalContext } from "@stormstack/core-server-application/context";
 import {
   GraphQLSchemaWithContext,
   createSchema as createSchemaExt

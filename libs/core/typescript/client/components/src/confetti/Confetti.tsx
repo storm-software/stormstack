@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseRefComponentProps } from "@open-system/design-system-components";
+import { BaseRefComponentProps } from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { ForwardedRef, MutableRefObject, forwardRef } from "react";
 // import BoxLogo from "../../../../../../assets/box-logo-primary.svg";

@@ -23,7 +23,7 @@
   "packageRules": [
     {
       "matchPackagePatterns": ["^@stormstack/"],
-      "enabled": false
+      "enabled": true
     },
     {
       "matchPackageNames": ["@nx"],

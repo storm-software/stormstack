@@ -8,5 +8,6 @@ export * from "./file-path-fns";
 export * from "./http-fns";
 export * from "./mutex";
 export * from "./package-fns";
+export * from "./semver-fns";
 export * from "./server-env-manager";
 export * from "./type-checks";

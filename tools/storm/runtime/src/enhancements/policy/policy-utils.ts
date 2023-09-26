@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { deepCopy } from "@stormstack/core-shared-utilities/common/deep-copy";
 import {
   lowerCaseFirst,
-  upperCaseFirst,
-} from "@open-system/core-shared-utilities/common/string-fns";
-import { deepCopy } from "@open-system/core-shared-utilities/common/deep-copy";
+  upperCaseFirst
+} from "@stormstack/core-shared-utilities/common/string-fns";
 import { fromZodError } from "zod-validation-error";
 import {
   AUXILIARY_FIELDS,
   CrudFailureReason,
-  PrismaErrorCode,
+  PrismaErrorCode
 } from "../../constants";
 import {
   AuthUser,
   DbClientContract,
   DbOperations,
   FieldInfo,
-  PolicyOperationKind,
+  PolicyOperationKind
 } from "../../types";
 import { getVersion } from "../../version";
 import { getFields, resolveField } from "../model-meta";
@@ -26,7 +26,7 @@ import type {
   ModelMeta,
   PolicyDef,
   PolicyFunc,
-  ZodSchemas,
+  ZodSchemas
 } from "../types";
 import {
   enumerate,
@@ -35,7 +35,7 @@ import {
   getModelFields,
   prismaClientKnownRequestError,
   prismaClientUnknownRequestError,
-  prismaClientValidationError,
+  prismaClientValidationError
 } from "../utils";
 import { Logger } from "./logger";
 
@@ -723,7 +723,7 @@ export class PolicyUtil {
     }
     const existing = await db[model].findFirst({
       where: uniqueFilter,
-      select: this.makeIdSelection(model),
+      select: this.makeIdSelection(model)
     });
     if (!existing && throwIfNotFound) {
       throw this.notFound(model);
@@ -746,7 +746,7 @@ export class PolicyUtil {
     const readArgs = {
       select: selectInclude.select,
       include: selectInclude.include,
-      where: uniqueFilter,
+      where: uniqueFilter
     };
     const error = this.deniedByPolicy(
       model,
@@ -794,7 +794,7 @@ export class PolicyUtil {
       {
         clientVersion: getVersion(),
         code: PrismaErrorCode.CONSTRAINED_FAILED,
-        meta: { reason },
+        meta: { reason }
       }
     );
   }
@@ -805,20 +805,20 @@ export class PolicyUtil {
       `entity not found for model ${model}`,
       {
         clientVersion: getVersion(),
-        code: "P2025",
+        code: "P2025"
       }
     );
   }
 
   validationError(message: string) {
     return prismaClientValidationError(this.db, message, {
-      clientVersion: getVersion(),
+      clientVersion: getVersion()
     });
   }
 
   unknownError(message: string) {
     return prismaClientUnknownRequestError(this.db, message, {
-      clientVersion: getVersion(),
+      clientVersion: getVersion()
     });
   }
 

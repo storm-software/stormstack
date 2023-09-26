@@ -1,8 +1,9 @@
+import { ConnectorType, DMMF } from "@prisma/generator-helper";
 import {
   kebabCase,
   lowerCaseFirst,
   upperCaseFirst
-} from "@open-system/core-shared-utilities/common/string-fns";
+} from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   DataModel,
   DataSource,
@@ -11,10 +12,10 @@ import {
   isDataModel,
   isDataSource,
   isEnum
-} from "@open-system/tools-storm-language/ast";
-import { getDefaultOutputFolder } from "@open-system/tools-storm-schema/plugins/plugin-utils";
-import { PrismaModel } from "@open-system/tools-storm-schema/plugins/prisma/prisma-builder";
-import PrismaSchemaGenerator from "@open-system/tools-storm-schema/plugins/prisma/schema-generator";
+} from "@stormstack/tools-storm-language/ast";
+import { getDefaultOutputFolder } from "@stormstack/tools-storm-schema/plugins/plugin-utils";
+import { PrismaModel } from "@stormstack/tools-storm-schema/plugins/prisma/prisma-builder";
+import PrismaSchemaGenerator from "@stormstack/tools-storm-schema/plugins/prisma/schema-generator";
 import {
   AUXILIARY_FIELDS,
   PluginOptions,
@@ -25,8 +26,7 @@ import {
   getLiteral,
   resolvePath,
   saveProject
-} from "@open-system/tools-storm-schema/sdk";
-import { ConnectorType, DMMF } from "@prisma/generator-helper";
+} from "@stormstack/tools-storm-schema/sdk";
 import { promises as fs } from "fs";
 import { join } from "path";
 import { Project } from "ts-morph";
@@ -207,10 +207,10 @@ async function generateModelSchema(
     writer.writeLine(getFileHeader("Drizzle ORM"));
     writer.writeLine(generator.importStatement);
     writer.writeLine(
-      `import { UniqueIdGenerator } from "@open-system/core-shared-utilities/common/unique-id-generator";`
+      `import { UniqueIdGenerator } from "@stormstack/core-shared-utilities/common/unique-id-generator";`
     );
     writer.writeLine(
-      `import { DateTime } from "@open-system/core-shared-utilities/common/date-time";`
+      `import { DateTime } from "@stormstack/core-shared-utilities/common/date-time";`
     );
 
     // import enum schemas
@@ -316,10 +316,10 @@ async function generateModelSchema(
     writer.writeLine(getFileHeader("Drizzle ORM"));
     writer.writeLine(generator.importStatement);
     writer.writeLine(
-      `import { UniqueIdGenerator } from "@open-system/core-shared-utilities/common/unique-id-generator";`
+      `import { UniqueIdGenerator } from "@stormstack/core-shared-utilities/common/unique-id-generator";`
     );
     writer.writeLine(
-      `import { DateTime } from "@open-system/core-shared-utilities/common/date-time";`
+      `import { DateTime } from "@stormstack/core-shared-utilities/common/date-time";`
     );
 
     // import enum schemas

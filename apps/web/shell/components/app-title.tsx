@@ -1,7 +1,7 @@
 "use client";
 
-import { Heading } from "@open-system/design-system-components";
-import { BoxLogo } from "@open-system/common-client-components";
+import { Heading } from "@stormstack/design-system-components";
+import { BoxLogo } from "@stormstack/common-client-components";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion";
 import { useIsHeaderDisplayedValue } from "../hooks/useHeaderState";
@@ -12,16 +12,16 @@ const container: Variants = {
     transition: {
       duration: 1,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   closed: {
     y: 0,
     transition: {
       duration: 1,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const wrapper: Variants = {
@@ -30,16 +30,16 @@ const wrapper: Variants = {
     transition: {
       duration: 1,
       stiffness: 1000,
-      velocity: -100,
-    },
+      velocity: -100
+    }
   },
   closed: {
     height: 500,
     transition: {
       duration: 1,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 export default function AppTitle() {
@@ -47,12 +47,12 @@ export default function AppTitle() {
 
   return (
     <motion.div
-      className="absolute left-0 right-0 flex w-full flex-col"
+      className="left-0 right-0 w-full absolute flex flex-col"
       variants={container}
       initial={false}
       animate={isAppHeaderDisplayed ? "closed" : "opened"}>
       <motion.div
-        className="relative flex w-full flex-row items-center justify-center"
+        className="w-full relative flex flex-row items-center justify-center"
         variants={wrapper}
         initial={false}
         animate={isAppHeaderDisplayed ? "closed" : "opened"}>
@@ -60,18 +60,18 @@ export default function AppTitle() {
           className={clsx(
             { "title-text h-[24rem]": isAppHeaderDisplayed },
             { "h-[21rem]": !isAppHeaderDisplayed },
-            "grid h-fit w-fit grid-cols-1"
+            "h-fit w-fit grid-cols-1 grid"
           )}>
           <h1
             id="title-text-1"
             className={clsx(
               { "text-8xl": isAppHeaderDisplayed },
               { "text-7xl": !isAppHeaderDisplayed },
-              "col-start-1 row-start-1 whitespace-pre font-header-1 leading-none text-primary transition-all"
+              "col-start-1 row-start-1 leading-none text-primary transition-all whitespace-pre font-header-1"
             )}>
             Pat Sullivan
             <br />
-            <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to text-transparent bg-clip-text">
               Development
             </span>
           </h1>
@@ -79,19 +79,19 @@ export default function AppTitle() {
             <>
               <h1
                 id="title-text-2"
-                className="col-start-1 row-start-1 whitespace-pre text-8xl font-header-1 leading-none text-primary transition-all">
+                className="col-start-1 row-start-1 text-8xl leading-none text-primary transition-all whitespace-pre font-header-1">
                 Pat Sullivan
                 <br />
-                <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to text-transparent bg-clip-text">
                   Development
                 </span>
               </h1>
               <h1
                 id="title-text-3"
-                className="col-start-1 row-start-1 whitespace-pre text-8xl font-header-1 leading-none text-primary transition-all">
+                className="col-start-1 row-start-1 text-8xl leading-none text-primary transition-all whitespace-pre font-header-1">
                 Pat Sullivan
                 <br />
-                <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to text-transparent bg-clip-text">
                   Development
                 </span>
               </h1>
@@ -102,9 +102,9 @@ export default function AppTitle() {
         <div className="w-fit">
           <BoxLogo
             className={clsx(
-              { "h-[29rem] w-full": isAppHeaderDisplayed },
-              { "h-[20rem] w-full": !isAppHeaderDisplayed },
-              "animate-flicker transition-all delay-300"
+              { "w-full h-[29rem]": isAppHeaderDisplayed },
+              { "w-full h-[20rem]": !isAppHeaderDisplayed },
+              "transition-all delay-300 animate-flicker"
             )}
           />
         </div>
@@ -112,16 +112,16 @@ export default function AppTitle() {
 
       <div
         className={clsx(
-          { "flex flex-row opacity-100": isAppHeaderDisplayed },
-          { "hidden opacity-0": !isAppHeaderDisplayed },
-          "justify-center transition-opacity"
+          { "opacity-100 flex flex-row": isAppHeaderDisplayed },
+          { "opacity-0 hidden": !isAppHeaderDisplayed },
+          "transition-opacity justify-center"
         )}>
         <div className="align-center animate-flicker-2">
           <Heading
             level={4}
-            className="text-border text-center text-5xl leading-none text-white">
+            className="text-border text-5xl leading-none text-white text-center">
             Software designed for{" "}
-            <span className="text-glow-purple bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
+            <span className="text-glow-purple bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to text-transparent bg-clip-text">
               tomorrow&apos;s
             </span>{" "}
             brands

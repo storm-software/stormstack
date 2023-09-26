@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { Link } from "../link";
 
@@ -11,7 +11,7 @@ export function MediumLink({ className, ...props }: BaseComponentProps) {
       inNewTab={true}
       href="https://github.com/sullivanpj">
       <svg
-        className="h-[6.5rem] w-[5rem] fill-primary opacity-100 transition-all hover:translate-y-0.5 hover:scale-110 hover:fill-secondary"
+        className="fill-primary opacity-100 transition-all hover:translate-y-0.5 hover:scale-110 hover:fill-secondary h-[6.5rem] w-[5rem]"
         viewBox="0 0 100 100"
         width="100px"
         height="100px">

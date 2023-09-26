@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-server-application",
+  "name": "@stormstack/core-server-application",
   "version": "0.0.1",
   "dependencies": {
     "async_hooks": "^1.0.0",

@@ -1,4 +1,4 @@
-import { Rate, TotalRate } from "@open-system/engagement-shared-data-access";
+import { Rate, TotalRate } from "@stormstack/engagement-shared-data-access";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useMemo } from "react";
 import { rateFamily, totalRateFamily } from "../state/rate";

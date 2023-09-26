@@ -1,18 +1,18 @@
-import { ContactFormProgressTracker } from "@open-system/contact-client-components";
-import { Breadcrumb } from "@open-system/core-client-components";
-import { Module } from "@open-system/design-system-components";
+import { ContactFormProgressTracker } from "@stormstack/contact-client-components";
+import { Breadcrumb } from "@stormstack/core-client-components";
+import { Module } from "@stormstack/design-system-components";
 import { ReactNode } from "react";
 import ContactFooter from "./contact-footer";
 import ContactForm from "./contact-form";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="background-gradient relative z-20 flex min-h-screen w-full flex-col gap-12 px-20 pt-12">
+    <div className="background-gradient z-20 min-h-screen w-full gap-12 px-20 pt-12 relative flex flex-col">
       <Breadcrumb
         variant="primary"
         items={[
           { pathname: "/contact", label: "Contact" },
-          { pathname: "/contact/business", label: "Business Opportunity" },
+          { pathname: "/contact/business", label: "Business Opportunity" }
         ]}
       />
 
@@ -22,8 +22,8 @@ export default function Layout({ children }: { children: ReactNode }) {
           header={
             <>
               It&apos;s a{" "}
-              <span className="bg-gradient-to-r from-primary to-primary bg-[length:100%_8px] bg-bottom bg-no-repeat px-1">
-                <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary to-primary bg-bottom px-1 bg-[length:100%_8px] bg-no-repeat">
+                <span className="bg-gradient-to-r from-gradient-from via-gradient-via to-gradient-to text-transparent bg-clip-text">
                   pleasure
                 </span>
               </span>{" "}
@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </>
           }
           footer={<ContactFooter />}>
-          <div className="relative flex min-h-[20rem] flex-row items-center gap-10 pt-10">
+          <div className="gap-10 pt-10 relative flex min-h-[20rem] flex-row items-center">
             {children}
             <ContactFormProgressTracker />
           </div>

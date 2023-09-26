@@ -1,16 +1,15 @@
 /* eslint-disable no-continue */
-import { MaybePromise } from "@pothos/core";
+/*import { MaybePromise } from "@pothos/core";
 import {
   DefaultConnectionArguments,
   offsetToCursor,
   resolveOffsetConnection,
-} from "@pothos/plugin-relay";
-import { PageCursor, PageCursors } from "../types";
+} from "@pothos/plugin-relay";*/
 
 const DEFAULT_MAX_AROUND = 3;
 
 // This is a fairly simple implementation that may not account for all edge cases.
-export async function resolveWindowedConnection<T>(
+/*export async function resolveWindowedConnection<T>(
   options: {
     args: DefaultConnectionArguments;
     defaultSize?: number;
@@ -71,3 +70,4 @@ export async function resolveWindowedConnection<T>(
 
   return { ...result, pageCursors };
 }
+*/

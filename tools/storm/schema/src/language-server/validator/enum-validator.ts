@@ -1,9 +1,9 @@
-import { Enum, EnumField } from "@open-system/tools-storm-language/ast";
+import { Enum, EnumField } from "@stormstack/tools-storm-language/ast";
 import { ValidationAcceptor } from "langium";
 import { AstValidator } from "../types";
 import {
   validateAttributeApplication,
-  validateDuplicatedDeclarations,
+  validateDuplicatedDeclarations
 } from "./utils";
 
 /**

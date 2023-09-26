@@ -1,4 +1,4 @@
-import { MessageTypes } from "@open-system/core-data-access";
+import { MessageTypes } from "@stormstack/core-data-access";
 import { render } from "@testing-library/react";
 import { Toast } from "./Toast";
 

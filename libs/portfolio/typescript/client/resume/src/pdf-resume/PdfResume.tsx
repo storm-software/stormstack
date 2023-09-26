@@ -2,8 +2,8 @@ import {
   PdfDocument,
   PdfPage,
   pdfTw,
-  PdfView,
-} from "@open-system/core-client-pdf";
+  PdfView
+} from "@stormstack/core-client-pdf";
 import { PdfResumeFooter } from "../pdf-resume-footer";
 import { PdfResumeHeading } from "../pdf-resume-heading";
 import { PdfResumeItem } from "../pdf-resume-item";

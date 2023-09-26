@@ -3,7 +3,7 @@
 import {
   InputAutoCompleteTypes,
   InputTypes
-} from "@open-system/design-system-components";
+} from "@stormstack/design-system-components";
 import { Input, InputProps } from "../input";
 
 export type PhoneNumberInputProps = Partial<Omit<InputProps, "min" | "max">>;

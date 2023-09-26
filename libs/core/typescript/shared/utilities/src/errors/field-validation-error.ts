@@ -10,6 +10,8 @@ import { BaseErrorCode } from "./error-codes";
  * @extends {Error}
  */
 export class FieldValidationError extends BaseError {
+  public path!: Array<string | number>;
+
   public static isFieldValidationError = (
     error: unknown
   ): error is FieldValidationError =>
@@ -21,13 +23,15 @@ export class FieldValidationError extends BaseError {
   public override name = "Field Validation Error";
 
   constructor(
-    public path: Array<string | number>,
+    path: string | number | Array<string | number>,
     code = BaseErrorCode.field_validation_error,
     message = "Field validation errors occured.",
     public fatal = true,
     extendedMessage?: string
   ) {
     super(code, message, extendedMessage);
+
+    this.path = Array.isArray(path) ? path : [path];
   }
 
   public toZodIssue = () =>

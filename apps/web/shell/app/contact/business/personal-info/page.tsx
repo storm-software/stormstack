@@ -1,4 +1,4 @@
-import { ContactBusinessPersonalInfoForm } from "@open-system/contact-client-components";
+import { ContactBusinessPersonalInfoForm } from "@stormstack/contact-client-components";
 
 export default function Page() {
   return <ContactBusinessPersonalInfoForm />;

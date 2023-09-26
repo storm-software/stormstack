@@ -1,5 +1,5 @@
-import { BaseComponentProps } from "@open-system/design-system-components";
 import { Document } from "@react-pdf/renderer";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { PDFVersion } from "../types";
 
 interface OnPdfRenderProps {
@@ -23,7 +23,7 @@ export function PdfDocument({
   language = "en-US",
   isUIComponent = false,
   creator = "Open-System",
-  producer = "Open-System",
+  producer = "Storm Software (stormcloud.dev)",
   pdfVersion = "1.3",
   children,
   ...props

@@ -1,5 +1,5 @@
-import { deserialize, serialize } from "@open-system/core-shared-data-access";
-import { isDevelopment, isFunction } from "@open-system/core-shared-utilities";
+import { deserialize, serialize } from "@stormstack/core-shared-data-access";
+import { isDevelopment, isFunction } from "@stormstack/core-shared-utilities";
 import { Getter, Setter, WritableAtom, atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { SetStateAction } from "../types";

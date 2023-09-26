@@ -4,26 +4,26 @@ import {
   DataModelField,
   isDataModel,
   isLiteralExpr,
-  ReferenceExpr,
-} from "@open-system/tools-storm-language/ast";
+  ReferenceExpr
+} from "@stormstack/tools-storm-language/ast";
 import {
   AstNode,
   DiagnosticInfo,
   getDocument,
-  ValidationAcceptor,
+  ValidationAcceptor
 } from "langium";
 import {
   analyzePolicies,
   getLiteral,
   getModelIdFields,
-  getModelUniqueFields,
+  getModelUniqueFields
 } from "../../sdk";
 import { IssueCodes, SCALAR_TYPES } from "../constants";
 import { AstValidator } from "../types";
 import { getUniqueFields } from "../utils";
 import {
   validateAttributeApplication,
-  validateDuplicatedDeclarations,
+  validateDuplicatedDeclarations
 } from "./utils";
 
 /**
@@ -61,7 +61,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
           "error",
           "Model must include a field with @id or @unique attribute, or a model-level @@id or @@unique attribute to use access policies",
           {
-            node: dm,
+            node: dm
           }
         );
       }
@@ -70,7 +70,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
         "error",
         "Model cannot have both field-level @id and model-level @@id attributes",
         {
-          node: dm,
+          node: dm
         }
       );
     } else if (idFields.length > 1) {
@@ -78,7 +78,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
         "error",
         "Model can include at most one field with @id attribute",
         {
-          node: dm,
+          node: dm
         }
       );
     } else {
@@ -86,7 +86,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
       fieldsToCheck.forEach(idField => {
         if (idField.type.optional) {
           accept("error", "Field with @id attribute must not be optional", {
-            node: idField,
+            node: idField
           });
         }
         if (
@@ -95,7 +95,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
           !SCALAR_TYPES.includes(idField.type.type)
         ) {
           accept("error", "Field with @id attribute must be of scalar type", {
-            node: idField,
+            node: idField
           });
         }
       });
@@ -129,7 +129,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
       typeof field.type.unsupported.value.value !== "string"
     ) {
       accept("error", "Unsupported type argument must be a string literal", {
-        node: field.type.unsupported,
+        node: field.type.unsupported
       });
     }
 
@@ -168,7 +168,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
         if (fields.length === 0) {
           if (accept) {
             accept("error", `"fields" value cannot be emtpy`, {
-              node: arg,
+              node: arg
             });
           }
           valid = false;
@@ -178,7 +178,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
         if (references.length === 0) {
           if (accept) {
             accept("error", `"references" value cannot be emtpy`, {
-              node: arg,
+              node: arg
             });
           }
           valid = false;
@@ -193,7 +193,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
       } else {
         if (accept) {
           accept("error", `Both "fields" and "references" must be provided`, {
-            node: relAttr,
+            node: relAttr
           });
         }
       }
@@ -212,14 +212,14 @@ export default class DataModelValidator implements AstValidator<DataModel> {
           if (!fields[i].$resolvedType) {
             if (accept) {
               accept("error", `field reference is unresolved`, {
-                node: fields[i],
+                node: fields[i]
               });
             }
           }
           if (!references[i].$resolvedType) {
             if (accept) {
               accept("error", `field reference is unresolved`, {
-                node: references[i],
+                node: references[i]
               });
             }
           }
@@ -235,7 +235,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
                 "error",
                 `values of "references" and "fields" must have the same type`,
                 {
-                  node: relAttr,
+                  node: relAttr
                 }
               );
             }
@@ -310,7 +310,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
       const node = field.$isInherited ? field.$container : field;
       const info: DiagnosticInfo<AstNode, string> = {
         node,
-        code: IssueCodes.MissingOppositeRelation,
+        code: IssueCodes.MissingOppositeRelation
       };
 
       let relationFieldDocUri: string;
@@ -334,7 +334,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
         relationFieldName: field.name,
         relationDataModelName,
         relationFieldDocUri,
-        dataModelName: field.$container.name,
+        dataModelName: field.$container.name
       };
 
       info.data = data;
@@ -380,7 +380,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
           "error",
           '"fields" and "references" must be provided only on one side of relation field',
           {
-            node: oppositeField,
+            node: oppositeField
           }
         );
         return;
@@ -396,7 +396,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
           "error",
           '"fields" and "references" must be provided only on one side of relation field',
           {
-            node: field,
+            node: field
           }
         );
         return;
@@ -421,7 +421,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
 
     if (!relationOwner.type.array && !relationOwner.type.optional) {
       accept("error", "Relation field needs to be list or optional", {
-        node: relationOwner,
+        node: relationOwner
       });
       return;
     }
@@ -479,7 +479,7 @@ export default class DataModelValidator implements AstValidator<DataModel> {
           {
             node: model,
             property: "superTypes",
-            index,
+            index
           }
         );
     });

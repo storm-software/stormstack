@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithBase } from "@open-system/design-system-components";
+import { PropsWithBase } from "@stormstack/design-system-components";
 import PlusIcon from "../../assets/heart-plus.svg";
 
 export type LikeButtonProps = PropsWithBase<{
@@ -45,21 +45,21 @@ export function LikeButton({ contentId, count, ...props }: LikeButtonProps) {
   }, [addReaction, contentId, dispatch, reactions, removeReaction, router]);*/
 
   return (
-    <div className="group h-fit w-fit cursor-pointer">
-      <div className="relative mb-7 group-hover:animate-bounce">
+    <div className="h-fit w-fit cursor-pointer group">
+      <div className="mb-7 group-hover:animate-bounce relative">
         <PlusIcon className="w-32" />
         {/*reactions[contentId] ? (
           <CheckIcon className="w-32" />
         ) : (
           <PlusIcon className="w-32" />
         )*/}
-        <div className="absolute top-10 flex w-full justify-center text-center">
+        <div className="top-10 w-full absolute flex justify-center text-center">
           <p className="inset-0 mx-auto cursor-pointer font-like-label text-3xl text-primary transition duration-300 group-hover:text-quaternary">
             {count}
           </p>
         </div>
       </div>
-      <div className="absolute bottom-0 flex w-full justify-center px-4 pb-2">
+      <div className="bottom-0 w-full px-4 pb-2 absolute flex justify-center">
         <p className="cursor-pointer font-like-label text-2xl text-primary transition duration-300 group-hover:text-quaternary group-hover:underline">
           Like {/*reactions[contentId] ? "Liked" : "Like"*/}
         </p>

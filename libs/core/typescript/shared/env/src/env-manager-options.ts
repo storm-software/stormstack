@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { EnvConfigurationError } from "@open-system/core-shared-utilities/errors/env-configuration-error";
+import { EnvConfigurationError } from "@stormstack/core-shared-utilities/errors/env-configuration-error";
 import { BaseOptions } from "./types";
 
 export const DEFAULT_OPTIONS: BaseOptions = {

@@ -1,13 +1,13 @@
 "use client";
 
-import { Link } from "@open-system/core-client-components";
-import { Heading } from "@open-system/design-system-components";
+import { Link } from "@stormstack/core-client-components";
+import { Heading } from "@stormstack/design-system-components";
 import {
   AnimatePresence,
   motion,
   useScroll,
   useSpring,
-  useTransform,
+  useTransform
 } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -95,24 +95,24 @@ export default function Technologies() {
   );
 
   return (
-    <div ref={containerRef} className="relative z-content h-[375vh] w-full">
+    <div ref={containerRef} className="w-full relative z-content h-[375vh]">
       <AnimatePresence>
         {currentGroup?.name && (
           <motion.div
-            className="fixed left-40 top-20 z-rating flex flex-col gap-6"
+            className="left-40 top-20 gap-6 fixed z-rating flex flex-col"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
               duration: 1,
               delay: 0.2,
-              ease: [0, 0.71, 0.2, 1.01],
+              ease: [0, 0.71, 0.2, 1.01]
             }}>
-            <Heading level={4} className="whitespace-nowrap text-5xl">
+            <Heading level={4} className="text-5xl whitespace-nowrap">
               {currentGroup?.name}
             </Heading>
             {currentGroup?.summary && (
-              <p className="w-full font-body-1 text-body-1 lg:w-1/2">
+              <p className="w-full text-body-1 lg:w-1/2 font-body-1">
                 {currentGroup?.summary}
               </p>
             )}
@@ -120,14 +120,14 @@ export default function Technologies() {
         )}
       </AnimatePresence>
 
-      <div className="sticky left-0 right-0 top-10 overflow-hidden">
-        <Heading level={2} className="absolute bottom-20 left-44">
+      <div className="left-0 right-0 top-10 sticky overflow-hidden">
+        <Heading level={2} className="bottom-20 left-44 absolute">
           Technologies
         </Heading>
         <motion.section
           ref={scrollRef}
           style={{ x }}
-          className="relative flex w-fit flex-row gap-[45rem] pl-[100vw]">
+          className="w-fit relative flex flex-row gap-[45rem] pl-[100vw]">
           <TechnologyGroup
             name="Design System / Modeling"
             summary={

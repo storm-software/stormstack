@@ -1,4 +1,4 @@
-import { ProgressTrackerItemType as OsProgressTrackerItemType } from "@open-system/design-system-components";
+import { ProgressTrackerItemType as OsProgressTrackerItemType } from "@stormstack/design-system-components";
 
 export type ProgressTrackerItemType =
   | (Omit<OsProgressTrackerItemType, "onClick"> &

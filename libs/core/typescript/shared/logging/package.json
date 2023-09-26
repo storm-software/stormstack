@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-shared-logging",
+  "name": "@stormstack/core-shared-logging",
   "version": "0.0.1",
   "dependencies": {
     "chalk": "4.1.0"

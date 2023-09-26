@@ -1,4 +1,4 @@
-import { ScopedObjectState } from "@open-system/core-shared-data-access";
+import { ScopedObjectState } from "@stormstack/core-shared-data-access";
 import { PrimitiveAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { GraphQLResponse, OperationType, VariablesOf } from "relay-runtime";
@@ -62,12 +62,12 @@ export const MessageTypes = {
   WARNING: "warning" as MessageTypes,
   ERROR: "error" as MessageTypes,
   INFO: "info" as MessageTypes,
-  SUCCESS: "success" as MessageTypes,
+  SUCCESS: "success" as MessageTypes
 };
 
 export type AlertSubmitType = "none" | "toast" | "notification";
 export const AlertSubmitType = {
   NONE: "none" as AlertSubmitType,
   TOAST: "toast" as AlertSubmitType,
-  NOTIFICATION: "notification" as AlertSubmitType,
+  NOTIFICATION: "notification" as AlertSubmitType
 };

@@ -2,8 +2,8 @@
 
 import {
   Modal as DesignComponentModal,
-  ModalProps as DesignComponentModalProps,
-} from "@open-system/design-system-components";
+  ModalProps as DesignComponentModalProps
+} from "@stormstack/design-system-components";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ForwardedRef,
@@ -12,7 +12,7 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState,
+  useState
 } from "react";
 import { createPortal } from "react-dom";
 import { ModalReference } from "../types";
@@ -51,7 +51,7 @@ export const Modal = forwardRef<ModalReference, ModalProps>(
       () => ({
         opened,
         close: handleClose,
-        open: handleOpen,
+        open: handleOpen
       }),
       [handleClose, handleOpen, opened]
     );
@@ -78,16 +78,16 @@ export const Modal = forwardRef<ModalReference, ModalProps>(
             {opened && (
               <div
                 ref={overlayRef}
-                className="fixed z-modal flex h-full w-full items-center bg-black/50 backdrop-blur-sm">
+                className="h-full w-full bg-black/50 backdrop-blur-sm fixed z-modal flex items-center">
                 <motion.div
                   ref={modalRef}
-                  className="m-auto relative z-20 h-fit w-fit flex justify-center"
+                  className="m-auto z-20 h-fit w-fit relative flex justify-center"
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
                   transition={{
                     duration: 0.5,
-                    ease: [0, 0.71, 0.2, 1.01],
+                    ease: [0, 0.71, 0.2, 1.01]
                   }}>
                   <DesignComponentModal {...props} onClose={handleClose}>
                     {children}

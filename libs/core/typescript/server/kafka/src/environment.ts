@@ -1,7 +1,7 @@
 import {
   NumberFromString,
   emptyString
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import * as zod from "zod";
 
 export const KafkaConfigModel = zod.object({

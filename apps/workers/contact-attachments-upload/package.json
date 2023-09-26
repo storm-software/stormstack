@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/worker-contact-attachments-upload",
+  "name": "@stormstack/worker-contact-attachments-upload",
   "version": "0.0.1",
   "scripts": {
     "build": "esbuild --bundle --out ../../../dist/workers/contact-attachments-upload/worker-contact-attachments-upload.js ./src/index.ts"

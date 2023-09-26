@@ -2,13 +2,13 @@
 
 import {
   RelayResponseCache,
-  createRelayUtilities,
-} from "@open-system/core-shared-data-access";
+  createRelayUtilities
+} from "@stormstack/core-shared-data-access";
 import type {
   Client,
   ClientResponse,
   ResponseError,
-  SubscriptionRequestOptions,
+  SubscriptionRequestOptions
 } from "@wundergraph/sdk/client";
 import { FC, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -16,7 +16,7 @@ import {
   PreloadedQuery,
   RelayEnvironmentProvider,
   useRelayEnvironment,
-  usePreloadedQuery as useRelayPreloadedQuery,
+  usePreloadedQuery as useRelayPreloadedQuery
 } from "react-relay";
 import {
   ConcreteRequest,
@@ -24,7 +24,7 @@ import {
   IEnvironment,
   OperationType,
   createOperationDescriptor,
-  getRequest,
+  getRequest
 } from "relay-runtime";
 import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
 import { SerializablePreloadedQuery } from "../types";
@@ -64,7 +64,7 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
       liveQuery,
       subscribeOnce,
       onSuccess,
-      onError,
+      onError
     } = props;
     const startedAtRef = useRef<number | null>(null);
     const onSuccessRef = useRef(onSuccess);
@@ -72,7 +72,7 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
 
     const [state, setState] = useState({
       isLoading: false,
-      isSubscribed: false,
+      isSubscribed: false
     });
 
     const [data, setData] = useState<ClientResponse["data"]>();
@@ -111,7 +111,7 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
           onAbort() {
             setState({ isLoading: false, isSubscribed: false });
             startedAtRef.current = null;
-          },
+          }
         });
       }
 
@@ -123,7 +123,7 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
     return {
       data,
       error,
-      ...state,
+      ...state
     };
   };
 
@@ -131,7 +131,7 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
     query,
     queryReference,
     enabled = true,
-    options = {},
+    options = {}
   }: {
     query: GraphQLTaggedNode;
     queryReference: PreloadedQuery<TQuery>;
@@ -152,7 +152,7 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
       input: variables,
       ...options,
       enabled: enabled ?? false,
-      liveQuery: enabled ?? false,
+      liveQuery: enabled ?? false
     });
 
     useEffect(() => {
@@ -163,7 +163,7 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
 
     return {
       ...subscriptionResponse,
-      data: data,
+      data: data
     };
   };
 
@@ -228,7 +228,7 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
       variables: preloadQuery.variables,
       dispose: () => {
         return;
-      },
+      }
     };
   };
 
@@ -237,6 +237,6 @@ export const createRelayHooks = ({ client }: CreateWunderGraphRelayOptions) => {
     useSubscribeTo,
     useSerializablePreloadedQuery,
     useLiveQuery,
-    useEnvironment,
+    useEnvironment
   };
 };

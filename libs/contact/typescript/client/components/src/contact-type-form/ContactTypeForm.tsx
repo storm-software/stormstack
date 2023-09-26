@@ -1,7 +1,7 @@
 "use client";
 
-import { Radio } from "@open-system/core-client-form";
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { Radio } from "@stormstack/core-client-form";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { BaseContactForm } from "../base-contact-form";
 
 export function ContactTypeForm({
@@ -14,7 +14,7 @@ export function ContactTypeForm({
       title="Contact Reason"
       description="What do you want to talk about?"
       sideContent={
-        <p className="text-lg font-body-1 text-slate-400">
+        <p className="text-lg text-slate-400 font-body-1">
           I generally try to respond back to all requests within 1 or 2 business
           days.
         </p>
@@ -27,18 +27,18 @@ export function ContactTypeForm({
         options={[
           {
             name: "I have a business/employment opportunity",
-            value: "business",
+            value: "business"
           },
           {
             name: "I would like help on an upcoming open source project",
-            value: "project",
+            value: "project"
           },
           { name: "I have a question to ask", value: "question" },
           {
             name: "I'm interested in learning more about Pat Sullivan",
-            value: "interest",
+            value: "interest"
           },
-          { name: "Other", value: "other" },
+          { name: "Other", value: "other" }
         ]}
       />
     </BaseContactForm>

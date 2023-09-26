@@ -1,4 +1,4 @@
-import { parseBoolean } from "@open-system/core-shared-utilities";
+import { parseBoolean } from "@stormstack/core-shared-utilities";
 import { cookies } from "next/headers";
 import "server-only";
 
@@ -17,6 +17,6 @@ export const getUserCookie = () => {
 
   return {
     userId,
-    hasAgreedToPrivacyPolicy,
+    hasAgreedToPrivacyPolicy
   };
 };

@@ -1,4 +1,4 @@
-import { lowerCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
+import { lowerCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   ArrayExpr,
   DataModel,
@@ -7,8 +7,8 @@ import {
   LiteralExpr,
   ReferenceExpr,
   isDataModel
-} from "@open-system/tools-storm-language/ast";
-import { isForeignKeyField } from "@open-system/tools-storm-schema/sdk/utils";
+} from "@stormstack/tools-storm-language/ast";
+import { isForeignKeyField } from "@stormstack/tools-storm-schema/sdk/utils";
 
 export abstract class SchemaGenerator {
   public abstract readonly tableMethod: string;

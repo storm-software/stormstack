@@ -1,4 +1,4 @@
-import { isDevelopment } from "@open-system/core-shared-utilities";
+import { isDevelopment } from "@stormstack/core-shared-utilities";
 import { WritableAtom, atom } from "jotai";
 
 export function atomWithToggle(

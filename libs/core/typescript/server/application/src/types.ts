@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { IEntity } from "@open-system/core-server-domain/types";
+import { IEntity } from "@stormstack/core-server-domain/types";
 export const MESSAGE_BROKER_TOKEN = Symbol.for("MESSAGE_BROKER_TOKEN");
 export const EVENT_PUBLISHER_TOKEN = Symbol.for("EVENT_PUBLISHER_TOKEN");
 export const EVENT_STORE_TOKEN = Symbol.for("EVENT_STORE_TOKEN");

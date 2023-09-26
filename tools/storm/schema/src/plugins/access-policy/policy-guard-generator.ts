@@ -1,4 +1,4 @@
-import { lowerCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
+import { lowerCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   DataModel,
   Expression,
@@ -13,11 +13,11 @@ import {
   isUnaryExpr,
   MemberAccessExpr,
   Model
-} from "@open-system/tools-storm-language";
+} from "@stormstack/tools-storm-language";
 import type {
   PolicyKind,
   PolicyOperationKind
-} from "@open-system/tools-storm-runtime";
+} from "@stormstack/tools-storm-runtime";
 import { streamAllContents } from "langium";
 import { join } from "path";
 import {

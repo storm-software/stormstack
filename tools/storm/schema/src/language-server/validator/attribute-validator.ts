@@ -1,4 +1,4 @@
-import { Attribute } from "@open-system/tools-storm-language/ast";
+import { Attribute } from "@stormstack/tools-storm-language/ast";
 import { ValidationAcceptor } from "langium";
 import { AstValidator } from "../types";
 

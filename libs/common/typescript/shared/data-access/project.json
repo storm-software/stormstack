@@ -5,16 +5,13 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/common/typescript/shared/data-access",
         "tsConfig": "libs/common/typescript/shared/data-access/tsconfig.lib.json",
         "project": "libs/common/typescript/shared/data-access/package.json",
-        "entryFile": "libs/common/typescript/shared/data-access/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
-        "rollupConfig": "@nx/react/plugins/bundle-rollup",
-        "compiler": "swc",
+        "main": "libs/common/typescript/shared/data-access/src/index.ts",
         "assets": [
           {
             "glob": "libs/common/typescript/shared/data-access/README.md",
@@ -22,7 +19,12 @@
             "output": "."
           }
         ],
-        "updateBuildableProjectDepsInPackageJson": true
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "platform": "neutral"
       }
     },
     "lint": {
@@ -58,5 +60,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": ["core-shared-utilities"]
 }

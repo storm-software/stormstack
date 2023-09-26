@@ -1,6 +1,6 @@
-import { MessageBroker } from "@open-system/core-server-application";
-import { Provider } from "@open-system/core-shared-injection";
-import { Logger, UniqueIdGenerator } from "@open-system/core-shared-utilities";
+import { MessageBroker } from "@stormstack/core-server-application";
+import { Provider } from "@stormstack/core-shared-injection";
+import { Logger, UniqueIdGenerator } from "@stormstack/core-shared-utilities";
 import { Consumer, Kafka, Message, Producer } from "kafkajs";
 import { KafkaConfig } from "../environment";
 import {

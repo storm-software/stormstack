@@ -5,9 +5,9 @@ import {
   NumberNullableFilter,
   StringNullableFilter,
   WhereParams
-} from "@open-system/core-server-application/types";
-import { IEntity } from "@open-system/core-server-domain/types";
-import { ConsoleLogger } from "@open-system/core-shared-logging/console";
+} from "@stormstack/core-server-application/types";
+import { IEntity } from "@stormstack/core-server-domain/types";
+import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import {
   SQL,
   and,

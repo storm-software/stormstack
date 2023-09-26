@@ -1,5 +1,5 @@
-import { ConsoleLogger } from "@open-system/core-shared-logging/console";
-import type { PolicyOperationKind } from "@open-system/tools-storm-runtime";
+import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
+import type { PolicyOperationKind } from "@stormstack/tools-storm-runtime";
 import fs from "fs";
 import path from "path";
 
@@ -51,7 +51,7 @@ export function ensureDefaultOutputFolder() {
 export function getDefaultOutputFolder() {
   let modulesFolder = process.env.STORM_RUNTIME_MODULE;
   if (!modulesFolder) {
-    const runtimeModuleFolder = "@open-system/tools-storm-runtime";
+    const runtimeModuleFolder = "@stormstack/tools-storm-runtime";
     ConsoleLogger.debug(
       `Searching for Storm Runtime in ${runtimeModuleFolder}`
     );
@@ -62,17 +62,17 @@ export function getDefaultOutputFolder() {
     if (process.env.STORM_TEST === "1") {
       // handling the case when running as tests, resolve relative to CWD
       runtimeModulePath = path.resolve(
-        path.join(process.cwd(), "node_modules", "@open-system", "runtime")
+        path.join(process.cwd(), "node_modules", "@stormstack", "runtime")
       );
     }
 
     ConsoleLogger.debug(`Loading Storm Runtime from ${runtimeModulePath}`);
 
     if (runtimeModulePath) {
-      // start with the parent folder of @open-system, supposed to be a node_modules folder
+      // start with the parent folder of @stormstack, supposed to be a node_modules folder
       let depth = 0;
       while (
-        !runtimeModulePath.endsWith("@open-system") &&
+        !runtimeModulePath.endsWith("@stormstack") &&
         runtimeModulePath !== "/" &&
         depth++ < MAX_PATH_SEARCH_DEPTH
       ) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithBase } from "@open-system/design-system-components";
+import { PropsWithBase } from "@stormstack/design-system-components";
 import { useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { TechnologyGroupDetails } from "./technologies";
@@ -18,7 +18,7 @@ export default function TechnologyGroup({
   name,
   summary,
   setCurrentGroup,
-  children,
+  children
 }: TechnologyGroupProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { margin: "-25%" });
@@ -29,8 +29,8 @@ export default function TechnologyGroup({
   return (
     <div
       ref={ref}
-      className="relative flex h-[45rem] w-fit flex-col justify-center gap-10">
-      <div className="flex flex-row items-center justify-center gap-10">
+      className="w-fit gap-10 relative flex h-[45rem] flex-col justify-center">
+      <div className="gap-10 flex flex-row items-center justify-center">
         {children}
       </div>
     </div>

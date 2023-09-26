@@ -1,4 +1,4 @@
-import { JsonParser } from "@open-system/core-shared-serialization/parser";
+import { JsonParser } from "@stormstack/core-shared-serialization/parser";
 import {
   BaseError,
   DateTime,
@@ -10,7 +10,7 @@ import {
   isObject,
   isProduction,
   isString
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 
 /**
  * `formatLog` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`

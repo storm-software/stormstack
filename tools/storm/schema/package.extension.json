@@ -5,13 +5,13 @@
   "publisher": "pat-sullivan",
   "license": "BSD 2-Clause \"Simplified\" License",
   "description": "A toolkit for building secure CRUD apps with Next.js + GraphQL built on Prisma and Zenstack.",
-  "homepage": "https://sullivanpj.github.io/open-system/",
+  "homepage": "https://stormstack.github.io/stormstack/",
   "repository": {
     "type": "github",
-    "url": "https://github.com/sullivanpj/open-system.git"
+    "url": "https://github.com/stormstack/stormstack.git"
   },
   "bugs": {
-    "url": "https://github.com/sullivanpj/open-system/issues"
+    "url": "https://github.com/stormstack/stormstack/issues"
   },
   "author": {
     "email": "contact@patsullivan.org",

@@ -1,6 +1,6 @@
 "use client";
 
-import { isFunction } from "@open-system/core-shared-utilities";
+import { isFunction } from "@stormstack/core-shared-utilities";
 import clsx from "clsx";
 import { MouseEventHandler, useRef } from "react";
 import { PropsWithBase } from "../types";
@@ -44,7 +44,7 @@ export const Badge = ({
   glow = false,
   variant = BadgeVariants.SECONDARY,
   borderThickness = BadgeBorderThickness.NORMAL,
-  onClick,
+  onClick
 }: BadgeProps) => {
   const ref = useRef<HTMLDivElement>(null);
   useRipple(ref);
@@ -53,35 +53,35 @@ export const Badge = ({
     <div
       className={clsx(
         { "group": isFunction(onClick) },
-        { "shadow-[0_0_8px_2px_rgba(0,0,0,0.01)] transition-shadow": glow },
+        { "transition-shadow shadow-[0_0_8px_2px_rgba(0,0,0,0.01)]": glow },
         {
-          "shadow-primary": variant === BadgeVariants.PRIMARY && glow,
+          "shadow-primary": variant === BadgeVariants.PRIMARY && glow
         },
         {
-          "shadow-secondary": variant === BadgeVariants.SECONDARY && glow,
+          "shadow-secondary": variant === BadgeVariants.SECONDARY && glow
         },
         {
-          "shadow-tertiary": variant === BadgeVariants.TERTIARY && glow,
+          "shadow-tertiary": variant === BadgeVariants.TERTIARY && glow
         },
         {
-          "shadow-quaternary": variant === BadgeVariants.QUATERNARY && glow,
+          "shadow-quaternary": variant === BadgeVariants.QUATERNARY && glow
         },
         {
-          "shadow-inverse": variant === BadgeVariants.INVERSE && glow,
+          "shadow-inverse": variant === BadgeVariants.INVERSE && glow
         },
         {
-          "shadow-warning": variant === BadgeVariants.WARNING && glow,
+          "shadow-warning": variant === BadgeVariants.WARNING && glow
         },
         {
-          "shadow-error": variant === BadgeVariants.ERROR && glow,
+          "shadow-error": variant === BadgeVariants.ERROR && glow
         },
         {
-          "shadow-info": variant === BadgeVariants.INFO && glow,
+          "shadow-info": variant === BadgeVariants.INFO && glow
         },
         {
-          "shadow-success": variant === BadgeVariants.SUCCESS && glow,
+          "shadow-success": variant === BadgeVariants.SUCCESS && glow
         },
-        "relative h-fit w-fit overflow-hidden rounded-full",
+        "h-fit w-fit rounded-full relative overflow-hidden",
         className
       )}>
       <div
@@ -89,8 +89,8 @@ export const Badge = ({
         onClick={onClick}
         className={clsx(
           {
-            "ripple-container relative overflow-hidden active:scale-95":
-              isFunction(onClick),
+            "ripple-container active:scale-95 relative overflow-hidden":
+              isFunction(onClick)
           },
           { "border-[0px]": borderThickness === BadgeBorderThickness.NONE },
           { "border-[1px]": borderThickness === BadgeBorderThickness.THIN },
@@ -98,31 +98,31 @@ export const Badge = ({
           { "border-[4px]": borderThickness === BadgeBorderThickness.THICK },
           "h-fit w-fit rounded-full px-5 pb-1 pt-0.5 transition-all duration-100",
           {
-            "border-primary": variant === BadgeVariants.PRIMARY,
+            "border-primary": variant === BadgeVariants.PRIMARY
           },
           {
-            "border-secondary": variant === BadgeVariants.SECONDARY,
+            "border-secondary": variant === BadgeVariants.SECONDARY
           },
           {
-            "border-tertiary": variant === BadgeVariants.TERTIARY,
+            "border-tertiary": variant === BadgeVariants.TERTIARY
           },
           {
-            "border-quaternary": variant === BadgeVariants.QUATERNARY,
+            "border-quaternary": variant === BadgeVariants.QUATERNARY
           },
           {
-            "border-inverse": variant === BadgeVariants.INVERSE,
+            "border-inverse": variant === BadgeVariants.INVERSE
           },
           {
-            "border-warning": variant === BadgeVariants.WARNING,
+            "border-warning": variant === BadgeVariants.WARNING
           },
           {
-            "border-error": variant === BadgeVariants.ERROR,
+            "border-error": variant === BadgeVariants.ERROR
           },
           {
-            "border-info": variant === BadgeVariants.INFO,
+            "border-info": variant === BadgeVariants.INFO
           },
           {
-            "border-success": variant === BadgeVariants.SUCCESS,
+            "border-success": variant === BadgeVariants.SUCCESS
           },
           borderColorClassName
         )}>
@@ -131,33 +131,33 @@ export const Badge = ({
             typeof children === "string" ? (
               <p
                 className={clsx(
-                  "text-md font-label-3 font-bold",
+                  "text-md font-bold font-label-3",
                   {
-                    "text-primary": variant === BadgeVariants.PRIMARY,
+                    "text-primary": variant === BadgeVariants.PRIMARY
                   },
                   {
-                    "text-secondary": variant === BadgeVariants.SECONDARY,
+                    "text-secondary": variant === BadgeVariants.SECONDARY
                   },
                   {
-                    "text-tertiary": variant === BadgeVariants.TERTIARY,
+                    "text-tertiary": variant === BadgeVariants.TERTIARY
                   },
                   {
-                    "text-quaternary": variant === BadgeVariants.QUATERNARY,
+                    "text-quaternary": variant === BadgeVariants.QUATERNARY
                   },
                   {
-                    "text-inverse": variant === BadgeVariants.INVERSE,
+                    "text-inverse": variant === BadgeVariants.INVERSE
                   },
                   {
-                    "text-warning": variant === BadgeVariants.WARNING,
+                    "text-warning": variant === BadgeVariants.WARNING
                   },
                   {
-                    "text-error": variant === BadgeVariants.ERROR,
+                    "text-error": variant === BadgeVariants.ERROR
                   },
                   {
-                    "text-info": variant === BadgeVariants.INFO,
+                    "text-info": variant === BadgeVariants.INFO
                   },
                   {
-                    "text-success": variant === BadgeVariants.SUCCESS,
+                    "text-success": variant === BadgeVariants.SUCCESS
                   }
                 )}>
                 {children}

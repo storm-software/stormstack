@@ -8,6 +8,11 @@ uplinks:
     maxage: 60m
 
 packages:
+  '@stormstack/*':
+    access: $all
+    publish: $all
+    proxy: http://localhost:4873
+
   '@*/*':
     # scoped packages
     access: $all

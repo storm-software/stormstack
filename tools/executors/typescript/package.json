@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/tools-executors-typescript",
+  "name": "@stormstack/tools-executors-typescript",
   "executors": "./executors.json",
   "version": "1.0.0",
   "main": "./index.js",

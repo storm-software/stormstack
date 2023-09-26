@@ -8,7 +8,7 @@ import {
   readProjectConfiguration
 } from "@nx/devkit";
 import { applicationGenerator } from "@nx/node";
-import { ConsoleLogger } from "@open-system/core-shared-logging/console";
+import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import { CloudflareWorkerGeneratorSchema } from "./schema";
 
 export default async function (
@@ -88,7 +88,7 @@ export default async function (
       ...(projectConfiguration.targets ?? {}),
       build: {
         executor:
-          "@open-system/tools-executors-typescript:cloudflare-worker-build",
+          "@stormstack/tools-executors-typescript:cloudflare-worker-build",
         options: {
           outputPath: `../../../dist/${packageRoot}`,
           tsConfig: `${packageRoot}/tsconfig.json`,
@@ -98,11 +98,11 @@ export default async function (
       },
       serve: {
         executor:
-          "@open-system/tools-executors-typescript:cloudflare-worker-serve"
+          "@stormstack/tools-executors-typescript:cloudflare-worker-serve"
       },
       deploy: {
         executor:
-          "@open-system/tools-executors-typescript:cloudflare-worker-deploy"
+          "@stormstack/tools-executors-typescript:cloudflare-worker-deploy"
       },
       "semantic-release": {
         executor: "@theunderscorer/nx-semantic-release:semantic-release",

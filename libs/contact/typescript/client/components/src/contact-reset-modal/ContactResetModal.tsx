@@ -1,19 +1,19 @@
 "use client";
 
-import { useSetContactFormProgress } from "@open-system/contact-client-data-access";
+import { useSetContactFormProgress } from "@stormstack/contact-client-data-access";
 import {
   Modal,
   ModalProps,
-  ModalReference,
-} from "@open-system/core-client-components";
+  ModalReference
+} from "@stormstack/core-client-components";
 import {
   Button,
   ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
   ButtonTypes,
   ButtonVariants,
-  ModalVariants,
-} from "@open-system/design-system-components";
+  ModalVariants
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { ForwardedRef, MutableRefObject, forwardRef, useCallback } from "react";
@@ -54,20 +54,20 @@ export const ContactResetModal = forwardRef<
         variant={ModalVariants.WARNING}
         title="Reset Contact Information"
         onClose={handleClose}>
-        <div className="flex flex-col gap-10">
-          <div className="flex flex-1 grow">
-            <div className="flex flex-col gap-2">
-              <p className="whitespace-pre-wrap text-xl font-label-1 text-primary">
+        <div className="gap-10 flex flex-col">
+          <div className="flex-1 grow flex">
+            <div className="gap-2 flex flex-col">
+              <p className="text-xl text-primary whitespace-pre-wrap font-label-1">
                 Are you sure you want to remove all of your previously entered
                 input?
               </p>
-              <p className="whitespace-pre-wrap text-lg font-body-1 text-body-1">
+              <p className="text-lg text-body-1 whitespace-pre-wrap font-body-1">
                 Selecting &quot;Reset&quot; below will start the contact process
                 from the beginning.
               </p>
             </div>
           </div>
-          <div className="shink flex flex-row-reverse gap-8">
+          <div className="shink gap-8 flex flex-row-reverse">
             <Button
               variant={ButtonVariants.PRIMARY}
               type={ButtonTypes.RESET}

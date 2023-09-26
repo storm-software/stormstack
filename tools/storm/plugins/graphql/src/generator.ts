@@ -3,13 +3,13 @@ import * as typescriptPlugin from "@graphql-codegen/typescript";
 import * as typescriptResolversPlugin from "@graphql-codegen/typescript-resolvers";
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { loadSchema } from "@graphql-tools/load";
-import { ConsoleLogger } from "@open-system/core-shared-logging";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import {
   constantCase,
   kebabCase,
   lowerCaseFirst,
   upperCaseFirst
-} from "@open-system/core-shared-utilities/common/string-fns";
+} from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   ApiModel,
   DataModel,
@@ -21,8 +21,8 @@ import {
   OperationGroup,
   isDataModel,
   isEnum
-} from "@open-system/tools-storm-language/ast";
-import { getDefaultOutputFolder } from "@open-system/tools-storm-schema/plugins/plugin-utils";
+} from "@stormstack/tools-storm-language/ast";
+import { getDefaultOutputFolder } from "@stormstack/tools-storm-schema/plugins/plugin-utils";
 import {
   AUXILIARY_FIELDS,
   PluginOptions,
@@ -32,7 +32,7 @@ import {
   getFileHeader,
   resolvePath,
   saveProject
-} from "@open-system/tools-storm-schema/sdk";
+} from "@stormstack/tools-storm-schema/sdk";
 import { existsSync, promises as fs } from "fs";
 import { mkdir } from "fs/promises";
 import { parse, printSchema } from "graphql";
@@ -196,13 +196,13 @@ function generateResolvers(
       .join(", ")}
 } from "./types"`);
   writer.writeLine(
-    'import { extractRepository } from "@open-system/core-server-application/context/context";'
+    'import { extractRepository } from "@stormstack/core-server-application/context/context";'
   );
   writer.writeLine(
-    'import { FindManyParams, FindUniqueParams, UserContext } from "@open-system/core-server-application/types";'
+    'import { FindManyParams, FindUniqueParams, UserContext } from "@stormstack/core-server-application/types";'
   );
   writer.writeLine(
-    'import { GraphQLServerContext } from "@open-system/core-server-graphql/types";'
+    'import { GraphQLServerContext } from "@stormstack/core-server-graphql/types";'
   );
 
   writer.writeLine("");
@@ -351,9 +351,9 @@ async function generateGraphQLTypes(
               JSON: "{ [key: string]: any }"
             },
             contextType:
-              "@open-system/core-server-graphql/types#GraphQLServerContext",
+              "@stormstack/core-server-graphql/types#GraphQLServerContext",
             mappers: {
-              IEntity: "@open-system/core-server-domain/types#IEntity"
+              IEntity: "@stormstack/core-server-domain/types#IEntity"
             }
           }
         }
@@ -397,9 +397,9 @@ ${typesOutput}`),
               JSON: "{ [key: string]: any }"
             },
             contextType:
-              "@open-system/core-server-graphql/types#GraphQLServerContext",
+              "@stormstack/core-server-graphql/types#GraphQLServerContext",
             mappers: {
-              IEntity: "@open-system/core-server-domain/types#IEntity"
+              IEntity: "@stormstack/core-server-domain/types#IEntity"
             }
           },
           typescriptResolvers: {
@@ -411,9 +411,9 @@ ${typesOutput}`),
             defaultMapper: "any",
             optionalResolveType: false,
             contextType:
-              "@open-system/core-server-graphql/types#GraphQLServerContext",
+              "@stormstack/core-server-graphql/types#GraphQLServerContext",
             mappers: {
-              IEntity: "@open-system/core-server-domain/types#IEntity"
+              IEntity: "@stormstack/core-server-domain/types#IEntity"
             }
           }
         }
@@ -434,7 +434,7 @@ ${typesOutput}`),
       await formatString(`/* eslint-disable */
 ${getFileHeader("GraphQL Schema", "//")}
 
-// import { GraphQLServerContext } from "@open-system/core-server-graphql/types";
+// import { GraphQLServerContext } from "@stormstack/core-server-graphql/types";
 import { Maybe, Scalars, ${dataModels
         .map(dataModel => dataModel.name)
         .join(", ")}, ${inputs.map(input => input.name).join(", ")}, ${enums
@@ -518,7 +518,7 @@ async function generateEntities(
 
       writer.write(`/* eslint-disable */
 
-import { IEntity } from "@open-system/core-server-domain/types";
+import { IEntity } from "@stormstack/core-server-domain/types";
 import { ${enumFields
         .map(enumField => `${enumField.type.reference?.ref?.name}`)
         .join(", ")} } from "../types";
@@ -560,7 +560,7 @@ ${content}`);
 
       writer.write(`/* eslint-disable */
 
-import { Entity } from "@open-system/core-server-domain/entities";
+import { Entity } from "@stormstack/core-server-domain/entities";
 import { I${upperCaseFirst(dataModel.name)}Entity } from "./${kebabCase(
         dataModel.name
       )}-entity.interface";

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Provider } from "@open-system/core-shared-injection/decorators";
-import { BaseUtilityClass } from "@open-system/core-shared-utilities/common";
+import { Provider } from "@stormstack/core-shared-injection/decorators";
+import { BaseUtilityClass } from "@stormstack/core-shared-utilities/common";
 import chalk from "chalk";
 import { LOGGER_SYMBOL } from "../types";
 

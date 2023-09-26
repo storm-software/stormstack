@@ -1,5 +1,5 @@
 import { ExecutorContext } from "@nx/devkit";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import {
   existsSync,
   lstatSync,

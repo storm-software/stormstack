@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Injectable,
-  InjectableContext,
-} from "@open-system/core-shared-injection";
+  InjectableContext
+} from "@stormstack/core-shared-injection";
 import { IntegrationEvent } from "./integration-event";
 
 export const Event = () => {

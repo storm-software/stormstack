@@ -5,7 +5,7 @@ import {
   isEnum,
   isInput,
   isInterface
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 
 export class EntityGenerator {
   // Usage flags
@@ -31,7 +31,7 @@ export class EntityGenerator {
     let imports = "";
     if (this.hasDateTime) {
       imports +=
-        'import { DateTime } from "@open-system/core-shared-utilities/common/date-time";\n';
+        'import { DateTime } from "@stormstack/core-shared-utilities/common/date-time";\n';
     }
     if (this.hasDecimal) {
       imports += 'import { Decimal } from "decimal.js";\n';

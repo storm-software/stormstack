@@ -3,9 +3,9 @@ import { createLockFile, createPackageJson, getLockFileName } from "@nx/js";
 import {
   copyFile,
   copyFiles,
-  executeAsync,
-} from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+  executeAsync
+} from "@stormstack/core-server-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import { ensureDirSync, existsSync, writeFileSync } from "fs-extra";
 import type { PackageJson } from "nx/src/utils/package-json";
 import Path from "path";
@@ -22,7 +22,7 @@ export default async function (
     const {
       includeDevDependenciesInPackageJson,
       outputPath,
-      generateLockfile,
+      generateLockfile
     } = options;
 
     /*const buildTarget =
@@ -115,13 +115,13 @@ export default async function (
       {
         target: context.targetName,
         root: context.root,
-        isProduction: !includeDevDependenciesInPackageJson,
+        isProduction: !includeDevDependenciesInPackageJson
       }
     );
 
     // Update `package.json` to reflect how users should run the build artifacts
     builtPackageJson.scripts = {
-      start: "next start",
+      start: "next start"
     };
 
     updatePackageJson(builtPackageJson, context);
@@ -130,7 +130,7 @@ export default async function (
     if (generateLockfile) {
       const lockFile = createLockFile(builtPackageJson);
       writeFileSync(`${distPath}/${getLockFileName()}`, lockFile, {
-        encoding: "utf-8",
+        encoding: "utf-8"
       });
     }
 
@@ -167,7 +167,7 @@ export default async function (
         distPath
       )} npx next build `,
       {
-        cwd: distPath,
+        cwd: distPath
       }
     );
 

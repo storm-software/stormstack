@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { Link } from "../link";
 
@@ -11,7 +11,7 @@ export function LinkedInLink({ className, ...props }: BaseComponentProps) {
       inNewTab={true}
       href="https://www.linkedin.com/in/patrick-sullivan-865526b0">
       <svg
-        className="h-[6rem] w-[6rem] fill-primary opacity-100 transition-all hover:translate-y-0.5 hover:scale-110 hover:fill-secondary"
+        className="fill-primary opacity-100 transition-all hover:translate-y-0.5 hover:scale-110 hover:fill-secondary h-[6rem] w-[6rem]"
         viewBox="0 0 100 100"
         width="100px"
         height="100px">

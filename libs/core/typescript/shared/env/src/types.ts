@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseError, MaybePromise } from "@open-system/core-shared-utilities";
+import { BaseError, MaybePromise } from "@stormstack/core-shared-utilities";
 
 export const ENV_TOKEN = Symbol.for("ENV_TOKEN");
 

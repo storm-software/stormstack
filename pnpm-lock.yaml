@@ -112,6 +112,9 @@ importers:
       '@release-it/bumper':
         specifier: ^5.1.0
         version: 5.1.0(release-it@16.2.0)
+      '@stormstack/tools-devops-config':
+        specifier: workspace:*
+        version: link:tools/devops/config
       '@storybook/theming':
         specifier: ^7.4.5
         version: 7.4.5(react-dom@18.2.0)(react@18.2.0)
@@ -958,6 +961,9 @@ importers:
       path:
         specifier: ^0.12.7
         version: 0.12.7
+      semver:
+        specifier: ^7.5.4
+        version: 7.5.4
 
   libs/core/typescript/shared/data-access: {}
 

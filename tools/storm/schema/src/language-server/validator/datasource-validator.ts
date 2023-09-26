@@ -1,7 +1,7 @@
 import {
   DataSource,
-  isInvocationExpr,
-} from "@open-system/tools-storm-language/ast";
+  isInvocationExpr
+} from "@stormstack/tools-storm-language/ast";
 import { ValidationAcceptor } from "langium";
 import { SUPPORTED_PROVIDERS } from "../constants";
 import { AstValidator } from "../types";
@@ -22,7 +22,7 @@ export default class DataSourceValidator implements AstValidator<DataSource> {
     const provider = ds.fields.find(f => f.name === "provider");
     if (!provider) {
       accept("error", 'datasource must include a "provider" field', {
-        node: ds,
+        node: ds
       });
       return;
     }
@@ -30,7 +30,7 @@ export default class DataSourceValidator implements AstValidator<DataSource> {
     const value = getStringLiteral(provider.value);
     if (!value) {
       accept("error", '"provider" must be set to a string literal', {
-        node: provider.value,
+        node: provider.value
       });
     } else if (!SUPPORTED_PROVIDERS.includes(value)) {
       accept(
@@ -47,7 +47,7 @@ export default class DataSourceValidator implements AstValidator<DataSource> {
     const url = ds.fields.find(f => f.name === "url");
     if (!url) {
       accept("error", 'datasource must include a "url" field', {
-        node: ds,
+        node: ds
       });
     }
 
@@ -68,7 +68,7 @@ export default class DataSourceValidator implements AstValidator<DataSource> {
           "error",
           `"${fieldName}" must be set to a string literal or an invocation of "env" function`,
           {
-            node: field.value,
+            node: field.value
           }
         );
       }

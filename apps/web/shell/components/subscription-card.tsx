@@ -1,11 +1,8 @@
 "use client";
 
 import { SubscriptionModalForm } from "./subscription-modal-form";
-import { ModalReference } from "@open-system/core-client-components";
-import {
-  BaseComponentProps,
-  Card,
-} from "@open-system/design-system-components";
+import { ModalReference } from "@stormstack/core-client-components";
+import { BaseComponentProps, Card } from "@stormstack/design-system-components";
 import { useCallback, useRef } from "react";
 
 export default function SubscriptionCard({
@@ -22,7 +19,7 @@ export default function SubscriptionCard({
     <>
       <Card
         onClick={handleResetOpen}
-        className="h-full min-h-[8rem] cursor-pointer"
+        className="h-full cursor-pointer min-h-[8rem]"
         title="Subscribe"
         details="Receive email notifications on future updates"
         iconType="bell"

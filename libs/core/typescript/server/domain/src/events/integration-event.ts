@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseUtilityClass } from "@open-system/core-shared-utilities";
+import { BaseUtilityClass } from "@stormstack/core-shared-utilities";
 import { IIntegrationEvent, INTEGRATION_EVENT_TOKEN } from "../types";
 
 export abstract class IntegrationEvent

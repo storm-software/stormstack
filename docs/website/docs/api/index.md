@@ -1,8 +1,8 @@
-<p align="center"><img src="./assets/logo-default.svg" width="100%" altText="open-system" /></p>
+<p align="center"><img src="./assets/logo-default.svg" width="100%" altText="stormstack" /></p>
 
 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries.
 
-[![github](https://img.shields.io/github/package-json/v/sullivanpj/open-system?style=for-the-badge)](https://github.com/sullivanpj/open-system)
+[![github](https://img.shields.io/github/package-json/v/stormstack/stormstack?style=for-the-badge)](https://github.com/stormstack/stormstack)
 [![Nx](https://img.shields.io/badge/Nx-14.4.2-lightgrey?style=for-the-badge&logo=nx&logoWidth=20)](http://nx.dev/)
 [![.Net Core](https://img.shields.io/badge/.NET-7.0.3-blue?style=for-the-badge&logo=dotnet&logoWidth=20)](https://dotnet.microsoft.com/en-us/)
 [![NextJs](https://img.shields.io/badge/Next.js-13.0.5-lightgrey?style=for-the-badge&logo=nextdotjs&logoWidth=20)](https://nextjs.org/)
@@ -15,23 +15,23 @@ This repository contains modern and scalable web application code, additional ut
 
 <!--#if GitHubActions-->
 
-[![GitHub Actions Build History](https://buildstats.info/github/chart/sullivanpj/open-system?branch=main&includeBuildsFromPullRequest=false)](https://github.com/sullivanpj/open-system/actions)
+[![GitHub Actions Build History](https://buildstats.info/github/chart/stormstack/stormstack?branch=main&includeBuildsFromPullRequest=false)](https://github.com/stormstack/stormstack/actions)
 
 <!--#endif-->
 
 ## Getting started
 
-Once the code is pulled locally, open a command prompt and run `npm install` in the root repo directory (/open-system).
+Once the code is pulled locally, open a command prompt and run `npm install` in the root repo directory (/stormstack).
 
-More information can be found in the [Open System documentation](https://sullivanpj.github.io/open-system/docs/getting-started/installation).
+More information can be found in the [StormStack documentation](https://stormstack.github.io/stormstack/docs/getting-started/installation).
 
 ## Build
 
-Run `nx build open-system` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `nx build stormstack` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Development server
 
-Run `nx serve open-system` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `nx serve stormstack` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
 # Environment Configuration Help
 
@@ -50,7 +50,7 @@ This repository uses the below plug-ins:
 
 ## Generate an application
 
-Run `nx g @nx/react:app open-system` to generate an application.
+Run `nx g @nx/react:app stormstack` to generate an application.
 
 > You can use any of the plugins above to generate applications as well.
 
@@ -62,21 +62,21 @@ Run `nx g @nx/react:lib my-lib` to generate a library.
 
 > You can also use any of the plugins above to generate libraries as well.
 
-Libraries are shareable across libraries and applications. They can be imported from `@open-system/my-lib`.
+Libraries are shareable across libraries and applications. They can be imported from `@stormstack/my-lib`.
 
 ## Code scaffolding
 
-Run `nx g @nx/react:component my-component --project=open-system` to generate a new component.
+Run `nx g @nx/react:component my-component --project=stormstack` to generate a new component.
 
 ## Running unit tests
 
-Run `nx test open-system` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test stormstack` to execute the unit tests via [Jest](https://jestjs.io).
 
 Run `nx affected:test` to execute the unit tests affected by a change.
 
 ## Running end-to-end tests
 
-Run `nx e2e open-system` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+Run `nx e2e stormstack` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
 
 Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 
@@ -106,7 +106,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/sullivanpj/open-system/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/sullivanpj/open-system/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/sullivanpj/open-system/commits?author=sullivanpj" title="Tests">⚠️</a></td>
+      <td align="center"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Tests">⚠️</a></td>
       <td align="center"><a href="https://tylerbenning.com/"><img src="https://avatars.githubusercontent.com/u/7265547?v=4?s=100" width="100px;" alt="Tyler Benning"/><br /><sub><b>Tyler Benning</b></sub></a><br /><a href="#design-tbenning" title="Design">🎨</a></td>
     </tr>
   </tbody>

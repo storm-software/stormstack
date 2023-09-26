@@ -2,7 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { isEmpty } from "@open-system/core-shared-utilities";
+import { isEmpty } from "@stormstack/core-shared-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,
@@ -11,7 +11,7 @@ import {
   MouseEvent,
   forwardRef,
   useCallback,
-  useRef,
+  useRef
 } from "react";
 import { BaseFieldProps } from "../types";
 import { useRipple } from "../utilities";
@@ -92,43 +92,43 @@ export const RatingOption = forwardRef<HTMLInputElement, BaseFieldProps>(
     );
 
     return (
-      <div className="relative h-10 w-10 cursor-pointer">
+      <div className="h-10 w-10 cursor-pointer relative">
         <div
           ref={innerRef}
           className="ripple-container h-full w-full"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}>
           {context.current >= value && (
-            <div className="absolute left-1/4 top-1/4 h-5 w-5 rounded-full" />
+            <div className="left-1/4 top-1/4 h-5 w-5 rounded-full absolute" />
           )}
           <label
-            className="ripple-inner relative h-full w-full"
+            className="ripple-inner h-full w-full relative"
             htmlFor={value}>
             <svg
               aria-hidden="true"
               className={clsx(
                 "transition-all",
                 {
-                  "hover:rotate-[20deg] hover:scale-[1.60] hover:stroke-primary hover:stroke-[0.8] active:scale-[2.0]":
-                    !disabled && !context.disabled,
+                  "hover:stroke-primary hover:rotate-[20deg] hover:scale-[1.60] hover:stroke-[0.8] active:scale-[2.0]":
+                    !disabled && !context.disabled
                 },
                 {
                   "scale-75 fill-slate-700 stroke-slate-400 stroke-[0.8]":
                     (!displayValue || displayValue <= value - 1) &&
-                    context.current < value,
+                    context.current < value
                 },
                 {
                   "scale-125 fill-yellow-600 stroke-[0.1]":
                     (displayValue >= value ||
                       (displayValue > value - 1 && displayValue < value)) &&
-                    context.current < value,
+                    context.current < value
                 },
                 {
-                  "scale-[1.40] fill-yellow-500 stroke-primary stroke-[0.5]":
-                    context.current >= value,
+                  "fill-yellow-500 stroke-primary scale-[1.40] stroke-[0.5]":
+                    context.current >= value
                 },
                 {
-                  "opacity-75": disabled || context.disabled,
+                  "opacity-75": disabled || context.disabled
                 }
               )}
               viewBox="0 0 20 20">

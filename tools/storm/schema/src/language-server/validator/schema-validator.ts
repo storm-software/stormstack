@@ -1,9 +1,9 @@
-import { Model, isDataSource } from "@open-system/tools-storm-language/ast";
+import { Model, isDataSource } from "@stormstack/tools-storm-language/ast";
 import { LangiumDocuments, ValidationAcceptor } from "langium";
 import {
   getAllDeclarationsFromImports,
   resolveImport,
-  resolveTransitiveImports,
+  resolveTransitiveImports
 } from "../../utils/ast-utils";
 import { PLUGIN_MODULE_NAME, STD_LIB_MODULE_NAME } from "../constants";
 import { AstValidator } from "../types";
@@ -31,7 +31,7 @@ export default class SchemaValidator implements AstValidator<Model> {
           `A ${declaration.name} already exists in an imported module`,
           {
             node: declaration,
-            property: "name",
+            property: "name"
           }
         );
       }
@@ -52,7 +52,7 @@ export default class SchemaValidator implements AstValidator<Model> {
     ).filter(d => isDataSource(d));
     if (dataSources.length > 1) {
       accept("error", "Multiple datasource declarations are not allowed", {
-        node: dataSources[1],
+        node: dataSources[1]
       });
     }
   }
@@ -62,7 +62,7 @@ export default class SchemaValidator implements AstValidator<Model> {
       const importedModel = resolveImport(this.documents, imp);
       if (!importedModel) {
         accept("error", `Cannot find model file ${imp.path}.storm`, {
-          node: imp,
+          node: imp
         });
       }
     });

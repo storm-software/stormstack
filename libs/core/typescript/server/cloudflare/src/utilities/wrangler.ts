@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext } from "@nx/devkit";
-import { executeAsync } from "@open-system/core-server-utilities/execute";
+import { executeAsync } from "@stormstack/core-server-utilities/execute";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import {
   ConfigurationError,
   EMPTY_STRING
-} from "@open-system/core-shared-utilities";
-import { isSet } from "@open-system/core-shared-utilities/common/type-checks";
-import { ConsoleLogger } from "@open-system/core-shared-logging";
+} from "@stormstack/core-shared-utilities";
+import { isSet } from "@stormstack/core-shared-utilities/common/type-checks";
 import { WranglerCommand } from "../types";
 
 export async function runWranglerCommand(

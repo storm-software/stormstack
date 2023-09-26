@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/worker-<%= name %>",
+  "name": "@stormstack/worker-<%= name %>",
   "version": "0.0.1",
   "scripts": {
     "build": "esbuild --bundle --out ../../../dist/workers/<%= name %>/worker-<%= name %>.js ./src/index.ts"

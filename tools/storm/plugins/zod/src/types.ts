@@ -1,5 +1,5 @@
-import { Model } from "@open-system/tools-storm-language/ast";
 import { DMMF as PrismaDMMF } from "@prisma/generator-helper";
+import { Model } from "@stormstack/tools-storm-language/ast";
 import { Project } from "ts-morph";
 
 export type TransformerParams = {

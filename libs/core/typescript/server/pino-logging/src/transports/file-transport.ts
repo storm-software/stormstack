@@ -1,9 +1,9 @@
-import { EnvManager } from "@open-system/core-shared-env/env-manager";
+import { EnvManager } from "@stormstack/core-shared-env/env-manager";
 import {
   DateTime,
   formatDate,
   isString
-} from "@open-system/core-shared-utilities/common";
+} from "@stormstack/core-shared-utilities/common";
 import { tmpdir } from "node:os";
 import Path from "node:path";
 import pino from "pino";
@@ -14,12 +14,12 @@ export const createFileTransport = (env: EnvManager) => {
     : env.get("PINO_LOG_PATH");
 
   if (!logPath || !isString(logPath)) {
-    logPath = Path.join(tmpdir(), "open-system");
+    logPath = Path.join(tmpdir(), "storm");
   }
 
   let logFilePrefix = env.get("LOG_FILE_PREFIX");
   if (!logFilePrefix || !isString(logFilePrefix)) {
-    logFilePrefix = "open-system";
+    logFilePrefix = "storm";
   }
 
   return pino.transport({

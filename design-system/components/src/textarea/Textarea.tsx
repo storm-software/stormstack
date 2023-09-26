@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-shared-utilities";
+import { isEmptyObject } from "@stormstack/core-shared-utilities";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
 import {
@@ -8,7 +8,7 @@ import {
   ForwardedRef,
   forwardRef,
   useCallback,
-  useState,
+  useState
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
 import { InputAutoCompleteTypes, InputProps } from "../input";
@@ -16,7 +16,7 @@ import { FieldReference } from "../types";
 import {
   getInputFillColor,
   getInputTextStyle,
-  getStrokeStyle,
+  getStrokeStyle
 } from "../utilities/field-style-utils";
 import { TextareaSizes } from "./Textarea.types";
 
@@ -109,12 +109,12 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
             ),
             getInputFillColor(disabled),
             {
-              "ring-1 ring-active ring-offset-0": focused,
+              "ring-1 ring-active ring-offset-0": focused
             },
             {
-              "focus:shadow-active-glow": focused && glow,
+              "focus:shadow-active-glow": focused && glow
             },
-            "flex w-full resize-none rounded-xl font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0",
+            "w-full rounded-xl leading-label-1 transition-colors focus:ring-0 focus:ring-active focus:ring-offset-0 flex resize-none font-label-1",
             getInputTextStyle(
               !isEmptyObject(errors),
               !!warning,
@@ -126,11 +126,11 @@ export const Textarea = forwardRef<FieldReference<string>, TextareaProps>(
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
-                !disabled && glow,
+                !disabled && glow
             },
             {
               "hover:border-hover-link-2 hover:ring-0 hover:ring-hover-link-2 hover:ring-offset-0":
-                !disabled,
+                !disabled
             },
             className,
             { "h-[5rem]": size === TextareaSizes.SMALL },

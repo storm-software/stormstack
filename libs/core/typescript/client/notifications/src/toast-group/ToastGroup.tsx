@@ -2,8 +2,8 @@
 
 import {
   ToastMessage,
-  useToastMessagesValue,
-} from "@open-system/core-client-data-access";
+  useToastMessagesValue
+} from "@stormstack/core-client-data-access";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -26,7 +26,7 @@ export const ToastGroup = () => {
     ? createPortal(
         <div
           className={clsx(
-            "fixed z-toast flex h-0 w-full flex-col gap-2 overflow-visible",
+            "h-0 w-full gap-2 fixed z-toast flex flex-col overflow-visible",
             { "pt-6": messages && messages.length }
           )}>
           {messages.map((message: ToastMessage) => (

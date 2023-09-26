@@ -1,4 +1,4 @@
-import { IEntity } from "@open-system/core-server-domain/types";
+import { IEntity } from "@stormstack/core-server-domain/types";
 import { Service } from "../services";
 import {
   ExecutionContext,

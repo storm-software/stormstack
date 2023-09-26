@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { isEmptyObject } from "@open-system/core-shared-utilities";
+import { isEmptyObject } from "@stormstack/core-shared-utilities";
 import {
   FieldError,
   FieldErrorsImpl,
   Merge,
   useFormContext,
-  useFormState,
+  useFormState
 } from "react-hook-form";
 
 export function useIsValid(excludeRequired = true) {
   const {
     control,
-    formState: { errors },
+    formState: { errors }
   } = useFormContext();
   const { isValid } = useFormState({ control });
 

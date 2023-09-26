@@ -2,17 +2,17 @@
 import {
   DEFAULT_OPTIONS as DEFAULT_SHARED_OPTIONS,
   EnvManager
-} from "@open-system/core-shared-env";
+} from "@stormstack/core-shared-env";
 import {
   BaseOptions,
   EnvironmentType
-} from "@open-system/core-shared-env/types";
-import { Provider } from "@open-system/core-shared-injection";
+} from "@stormstack/core-shared-env/types";
+import { Provider } from "@stormstack/core-shared-injection";
 import {
   isEmpty,
   isPromise
-} from "@open-system/core-shared-utilities/common/type-checks";
-import { EnvConfigurationError } from "@open-system/core-shared-utilities/errors/env-configuration-error";
+} from "@stormstack/core-shared-utilities/common/type-checks";
+import { EnvConfigurationError } from "@stormstack/core-shared-utilities/errors/env-configuration-error";
 import { getInfisicalClient } from "./infisical-client";
 
 export const DEFAULT_OPTIONS: BaseOptions = {

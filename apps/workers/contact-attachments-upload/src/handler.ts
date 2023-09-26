@@ -1,10 +1,10 @@
-export { Headers } from "@open-system/core-client-data-access";
+export { Headers } from "@stormstack/core-client-data-access";
 export {
   CloudflareServerBindings,
   R2Bucket,
   R2ListOptions
-} from "@open-system/core-server-cloudflare";
-export { ConsoleLogger } from "@open-system/core-shared-logging";
+} from "@stormstack/core-server-cloudflare";
+export { ConsoleLogger } from "@stormstack/core-shared-logging";
 
 interface Env extends CloudflareServerBindings {
   CONTACT_ATTACHMENTS_BUCKET: R2Bucket;

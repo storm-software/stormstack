@@ -1,4 +1,4 @@
-import { UniqueIdGenerator } from "@open-system/core-shared-utilities";
+import { UniqueIdGenerator } from "@stormstack/core-shared-utilities";
 import { atomWithWebStorage } from "../utilities/atomWithWebStorage";
 
 export const currentUserIdAtom = atomWithWebStorage<string>(

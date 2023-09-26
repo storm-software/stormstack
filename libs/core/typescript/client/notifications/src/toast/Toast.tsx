@@ -1,12 +1,12 @@
 "use client";
 
-import { ModalReference } from "@open-system/core-client-components";
-import { useSetToastMessages } from "@open-system/core-client-data-access";
+import { ModalReference } from "@stormstack/core-client-components";
+import { useSetToastMessages } from "@stormstack/core-client-data-access";
 import {
   Toast as OsToast,
   PropsWithBase,
-  ToastVariants,
-} from "@open-system/design-system-components";
+  ToastVariants
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -14,7 +14,7 @@ import {
   forwardRef,
   useCallback,
   useImperativeHandle,
-  useState,
+  useState
 } from "react";
 
 export type ToastProps = PropsWithBase<{
@@ -61,7 +61,7 @@ export const Toast = forwardRef<ModalReference, ToastProps>(
       () => ({
         opened,
         close: handleClose,
-        open: handleOpen,
+        open: handleOpen
       }),
       [handleClose, handleOpen, opened]
     );
@@ -77,7 +77,7 @@ export const Toast = forwardRef<ModalReference, ToastProps>(
             exit={{ opacity: 0, y: 30 }}
             transition={{
               duration: 1.5,
-              ease: [0, 0.71, 0.2, 1.01],
+              ease: [0, 0.71, 0.2, 1.01]
             }}>
             <OsToast
               variant={type as ToastVariants}

@@ -1,29 +1,29 @@
 /* eslint-disable react/display-name */
 "use client";
 
-import { Contact } from "@open-system/contact-shared-data-access";
+import { Contact } from "@stormstack/contact-shared-data-access";
 import {
   Link,
   Modal,
   ModalProps,
-  ModalReference,
-} from "@open-system/core-client-components";
+  ModalReference
+} from "@stormstack/core-client-components";
 import {
   MessageTypes,
   useForm,
-  useSetNotifications,
-} from "@open-system/core-client-data-access";
+  useSetNotifications
+} from "@stormstack/core-client-data-access";
 import {
   EmailInput,
   FormProvider,
-  SubmitButton,
-} from "@open-system/core-client-form";
+  SubmitButton
+} from "@stormstack/core-client-form";
 import {
   Button,
   ButtonCornerRoundingTypes,
   ButtonTransitionDirections,
-  ButtonVariants,
-} from "@open-system/design-system-components";
+  ButtonVariants
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { ForwardedRef, MutableRefObject, forwardRef, useCallback } from "react";
 import { subscribe } from "../actions/contact";
@@ -64,7 +64,7 @@ export const SubscriptionModalForm = forwardRef<
       addNotification({
         type: MessageTypes.SUCCESS,
         message: "You've successfully subscribed to email notifications!",
-        link: { text: "Details", href: "/about" },
+        link: { text: "Details", href: "/about" }
       });
     }, [addNotification]);
 
@@ -72,10 +72,10 @@ export const SubscriptionModalForm = forwardRef<
       defaultValues: {
         email: "",
         isSubscribed: true,
-        reason: "subscription",
+        reason: "subscription"
       },
       onSuccess: handleSuccess,
-      onSettled: handleClose,
+      onSettled: handleClose
     });
 
     return (
@@ -86,11 +86,11 @@ export const SubscriptionModalForm = forwardRef<
         className={clsx("h-fit min-h-fit w-[50rem]", className)}>
         <FormProvider<Contact> {...context}>
           <form
-            className="flex flex-col gap-3"
+            className="gap-3 flex flex-col"
             {...context.props}
             action={withSubmit(subscribe)}>
-            <div className="flex flex-col gap-6">
-              <p className="font-body-1 text-body-1">
+            <div className="gap-6 flex flex-col">
+              <p className="text-body-1 font-body-1">
                 Once subscribed, you will receive email notifications outlining
                 exciting future updates, interesting projects, and general
                 announcements from this developer.{" "}
@@ -105,7 +105,7 @@ export const SubscriptionModalForm = forwardRef<
                 <EmailInput name="email" required={true} />
               </div>
 
-              <div className="flex flex-row-reverse gap-6">
+              <div className="gap-6 flex flex-row-reverse">
                 <SubmitButton
                   variant={ButtonVariants.SECONDARY}
                   rounding={ButtonCornerRoundingTypes.PARTIAL}>

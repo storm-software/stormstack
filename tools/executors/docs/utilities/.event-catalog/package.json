@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/docs-event-catalog",
+  "name": "@stormstack/docs-event-catalog",
   "version": "0.0.1",
   "publishConfig": {
     "access": "public"

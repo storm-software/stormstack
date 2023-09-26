@@ -1,4 +1,4 @@
-import { NotFoundError } from "@open-system/core-shared-utilities/errors";
+import { NotFoundError } from "@stormstack/core-shared-utilities/errors";
 import { R2Bucket, R2Object, R2ObjectBody } from "../types";
 
 export async function setR2Async(

@@ -65,7 +65,7 @@
       }
     },
     "docgen": {
-      "executor": "@open-system/executors-docs:design-tokens-docgen",
+      "executor": "@stormstack/executors-docs:design-tokens-docgen",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "apps/docs/src/components/DesignTokens/design-tokens-table.mdx",

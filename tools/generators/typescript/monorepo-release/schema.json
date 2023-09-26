@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "monorepo-release",
+  "title": "StormStack - Monorepo Release Generator",
+  "description": "Publish the repository's packages both locally and publicly.",
+  "type": "object",
+  "example": [{
+    "command": "g @stormstack/nx-monorepo:release --local false --version 2.3.4-beta.0",
+    "description": "Run release process for version 2.3.4-beta.0 and publish to NPM."
+  }],
+  "properties": {
+    "dryRun": {
+      "type": "boolean",
+      "description": "Dry-run flag to be passed to all `nx release` commands.",
+      "default": false
+    },
+    "clearLocalRegistry": {
+      "type": "boolean",
+      "description": "Clear existing versions in the local registry so that you can republish the same version.",
+      "default": true
+    },
+    "local": {
+      "type": "boolean",
+      "description": "Publish package locally, not to actual NPM.",
+      "default": true
+    },
+    "force": {
+      "type": "boolean",
+      "description": "For the process to execute. **IMPORTANT: Don't use this unless you really know what it does.**",
+      "default": false
+    },
+    "from": {
+      "type": "string",
+      "description": "Git ref to pass to `nx release changelog`. Not applicable for local publishing or e2e tests."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version to publish. This does not need to be passed and can be inferred."
+    },
+    "gitRemote": {
+      "type": "string",
+      "description": "Alternate git remote name to publish tags to (useful for testing changelog).",
+      "default": "origin"
+    }
+  },
+  "required": ["gitRemote"]
+
+}

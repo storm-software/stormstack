@@ -1,9 +1,9 @@
-import { ConsoleLogger } from "@open-system/core-shared-logging/console";
+import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import {
   isDataSource,
   isPlugin,
   Model
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import chalk from "chalk";
 import fs from "fs";
 import getLatestVersion from "get-latest-version";
@@ -20,7 +20,7 @@ import {
   ensurePackage,
   installPackage,
   PackageManagers
-} from "@open-system/core-server-utilities/package-fns";
+} from "@stormstack/core-server-utilities/package-fns";
 import path from "path";
 import semver from "semver";
 import { URI } from "vscode-uri";
@@ -95,7 +95,7 @@ export async function initProject(
   tag = tag ?? getVersion();
   installPackage("storm", true, packageManager, tag, projectPath);
   installPackage(
-    "@open-system/runtime",
+    "@stormstack/runtime",
     false,
     packageManager,
     tag,
@@ -350,10 +350,10 @@ export async function dumpInfo(projectPath: string) {
   const packages = [
     "storm",
     ...Object.keys(pkgJson.dependencies ?? {}).filter(p =>
-      p.startsWith("@open-system/")
+      p.startsWith("@stormstack/")
     ),
     ...Object.keys(pkgJson.devDependencies ?? {}).filter(p =>
-      p.startsWith("@open-system/")
+      p.startsWith("@stormstack/")
     )
   ];
 

@@ -6,9 +6,9 @@ import {
   UserContext,
   extractRequestHeaders,
   extractSystem
-} from "@open-system/core-server-application/context";
-import { GlobalContext } from "@open-system/core-server-application/context/global-context";
-import { IEntity } from "@open-system/core-server-domain/types";
+} from "@stormstack/core-server-application/context";
+import { GlobalContext } from "@stormstack/core-server-application/context/global-context";
+import { IEntity } from "@stormstack/core-server-domain/types";
 import { GraphQLExecutionContext, GraphQLServerContext } from "../context";
 
 export const useHive = async <

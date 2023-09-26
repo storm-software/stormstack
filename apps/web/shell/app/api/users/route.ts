@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-utilities";
 import "@sentry/tracing";
 import { NextRequest, NextResponse } from "next/server";
 // import { repository } from "../../../state/reaction-repository";
@@ -12,8 +12,8 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     data: {
-      userId: "1234122",
-    },
+      userId: "1234122"
+    }
   });
 }
 

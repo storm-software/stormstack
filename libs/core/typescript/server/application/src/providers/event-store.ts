@@ -1,9 +1,9 @@
-import { IAggregateRoot, IDomainEvent } from "@open-system/core-server-domain";
-import { Logger } from "@open-system/core-shared-logging/logger";
+import { IAggregateRoot, IDomainEvent } from "@stormstack/core-server-domain";
+import { Logger } from "@stormstack/core-shared-logging/logger";
 import {
   ArrayElement,
   BaseUtilityClass
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import { EVENT_STORE_TOKEN } from "../types";
 
 export abstract class EventStore extends BaseUtilityClass {

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EnvManager } from "@open-system/core-shared-env/env-manager";
-import { Injected, Provider } from "@open-system/core-shared-injection";
-import { Logger } from "@open-system/core-shared-logging";
-import { titleCase } from "@open-system/core-shared-utilities/common";
+import { EnvManager } from "@stormstack/core-shared-env/env-manager";
+import { Injected, Provider } from "@stormstack/core-shared-injection";
+import { Logger } from "@stormstack/core-shared-logging";
+import { titleCase } from "@stormstack/core-shared-utilities/common";
 import pino from "pino";
 import { createFileTransport } from "../transports/file-transport";
 

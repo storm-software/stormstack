@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/tools-storm-schema",
+  "name": "@stormstack/tools-storm-schema",
   "version": "0.0.1",
   "contributes": {
     "languages": [

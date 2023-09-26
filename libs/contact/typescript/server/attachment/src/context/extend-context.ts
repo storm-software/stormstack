@@ -4,8 +4,8 @@ import {
   GlobalContext,
   Repository,
   ServerContext
-} from "@open-system/core-server-application";
-import { bindService } from "@open-system/core-shared-injection/utilities/bind-service";
+} from "@stormstack/core-server-application";
+import { bindService } from "@stormstack/core-shared-injection/utilities/bind-service";
 import {
   IContactAttachmentEntity,
   IContactEntity

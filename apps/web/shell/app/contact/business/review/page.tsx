@@ -1,4 +1,4 @@
-import { ContactBusinessReviewForm } from "@open-system/contact-client-components";
+import { ContactBusinessReviewForm } from "@stormstack/contact-client-components";
 
 export default function Page() {
   return <ContactBusinessReviewForm />;

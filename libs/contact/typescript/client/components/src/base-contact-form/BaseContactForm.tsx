@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -24,13 +24,13 @@ export function BaseContactForm({
     <AnimatePresence>
       <div
         className={clsx(
-          "flex flex-row items-center justify-between gap-20",
+          "gap-20 flex flex-row items-center justify-between",
           className
         )}>
-        <div className="flex flex-row items-center gap-8">
+        <div className="gap-8 flex flex-row items-center">
           <div
             className={clsx(
-              "flex flex-col gap-2",
+              "gap-2 flex flex-col",
               { "basis-3/5": !isWide },
               { "basis-1/2": isWide }
             )}>
@@ -39,7 +39,7 @@ export function BaseContactForm({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, delay: 0 }}
-              className="font-header-4 text-2xl text-violet-500">
+              className="text-2xl text-violet-500 font-header-4">
               {title}
             </motion.p>
             <motion.h2
@@ -47,7 +47,7 @@ export function BaseContactForm({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25, delay: 0.25 }}
-              className="font-label-4 text-4xl text-primary">
+              className="text-4xl text-primary font-label-4">
               {description}
             </motion.h2>
             <motion.div

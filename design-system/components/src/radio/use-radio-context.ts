@@ -1,7 +1,7 @@
 import {
   ConsoleLogger,
-  MissingContextError,
-} from "@open-system/core-shared-utilities";
+  MissingContextError
+} from "@stormstack/core-shared-utilities";
 import { useContext } from "react";
 import { RadioContext } from "./Radio.context";
 import { RadioContextState } from "./Radio.types";

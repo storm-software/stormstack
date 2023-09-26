@@ -1,344 +1,343 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@stormstack/tools-devops-config/tsconfig/tsconfig.root.json",
+  "extends": "./dist/tools/devops/config/tsconfig/tsconfig.root.json",
   "display": "StormStack",
   "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
-      "@open-system/common-client-address": [
+      "@stormstack/common-client-address": [
         "libs/common/typescript/client/address/src/index.ts"
       ],
-      "@open-system/common-client-address/*": [
+      "@stormstack/common-client-address/*": [
         "libs/common/typescript/client/address/src/*"
       ],
-      "@open-system/common-client-components": [
+      "@stormstack/common-client-components": [
         "libs/common/typescript/client/components/src/index.ts"
       ],
-      "@open-system/common-client-components/*": [
+      "@stormstack/common-client-components/*": [
         "libs/common/typescript/client/components/src/*"
       ],
-      "@open-system/common-client-data-access": [
+      "@stormstack/common-client-data-access": [
         "libs/common/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/common-client-data-access/*": [
+      "@stormstack/common-client-data-access/*": [
         "libs/common/typescript/client/data-access/src/*"
       ],
-      "@open-system/common-config": ["libs/common/config/src/index.ts"],
-      "@open-system/common-server-auth": [
+      "@stormstack/common-config": ["libs/common/config/src/index.ts"],
+      "@stormstack/common-server-auth": [
         "libs/common/typescript/server/auth/src/index.ts"
       ],
-      "@open-system/common-server-auth/*": [
+      "@stormstack/common-server-auth/*": [
         "libs/common/typescript/server/auth/src/*"
       ],
-      "@open-system/common-server-events": [
+      "@stormstack/common-server-events": [
         "libs/common/typescript/server/events/src/index.ts"
       ],
-      "@open-system/common-server-events/*": [
+      "@stormstack/common-server-events/*": [
         "libs/common/typescript/server/events/src/*"
       ],
-      "@open-system/common-shared-data-access": [
+      "@stormstack/common-shared-data-access": [
         "libs/common/typescript/shared/data-access/src/index.ts"
       ],
-      "@open-system/common-shared-data-access/*": [
+      "@stormstack/common-shared-data-access/*": [
         "libs/common/typescript/shared/data-access/src/*"
       ],
-      "@open-system/contact-client-components": [
+      "@stormstack/contact-client-components": [
         "libs/contact/typescript/client/components/src/index.ts"
       ],
-      "@open-system/contact-client-components/*": [
+      "@stormstack/contact-client-components/*": [
         "libs/contact/typescript/client/components/src/*"
       ],
-      "@open-system/contact-client-data-access": [
+      "@stormstack/contact-client-data-access": [
         "libs/contact/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/contact-client-data-access/*": [
+      "@stormstack/contact-client-data-access/*": [
         "libs/contact/typescript/client/data-access/src/*"
       ],
-      "@open-system/contact-server-attachment": [
+      "@stormstack/contact-server-attachment": [
         "libs/contact/typescript/server/attachment/src/index.ts"
       ],
-      "@open-system/contact-server-attachment/*": [
+      "@stormstack/contact-server-attachment/*": [
         "libs/contact/typescript/server/attachment/src/*"
       ],
-      "@open-system/contact-server-graphql": [
+      "@stormstack/contact-server-graphql": [
         "libs/contact/typescript/server/graphql/src/index.ts"
       ],
-      "@open-system/contact-server-graphql/*": [
+      "@stormstack/contact-server-graphql/*": [
         "libs/contact/typescript/server/graphql/src/*"
       ],
-      "@open-system/contact-shared-data-access": [
+      "@stormstack/contact-shared-data-access": [
         "libs/contact/typescript/shared/data-access/src/index.ts"
       ],
-      "@open-system/contact-shared-data-access/*": [
+      "@stormstack/contact-shared-data-access/*": [
         "libs/contact/typescript/shared/data-access/src/*"
       ],
-      "@open-system/contact/config": ["libs/contact/config/src/index.ts"],
-      "@open-system/core-client-application/*": [
+      "@stormstack/contact/config": ["libs/contact/config/src/index.ts"],
+      "@stormstack/core-client-application/*": [
         "libs/core/typescript/client/application/src/*"
       ],
-      "@open-system/core-client-components": [
+      "@stormstack/core-client-components": [
         "libs/core/typescript/client/components/src/index.ts"
       ],
-      "@open-system/core-client-components/*": [
+      "@stormstack/core-client-components/*": [
         "libs/core/typescript/client/components/src/*"
       ],
-      "@open-system/core-client-data-access": [
+      "@stormstack/core-client-data-access": [
         "libs/core/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/core-client-data-access/*": [
+      "@stormstack/core-client-data-access/*": [
         "libs/core/typescript/client/data-access/src/*"
       ],
-      "@open-system/core-client-form": [
+      "@stormstack/core-client-form": [
         "libs/core/typescript/client/form/src/index.ts"
       ],
-      "@open-system/core-client-form/*": [
+      "@stormstack/core-client-form/*": [
         "libs/core/typescript/client/form/src/*"
       ],
-      "@open-system/core-client-notifications": [
+      "@stormstack/core-client-notifications": [
         "libs/core/typescript/client/notifications/src/index.ts"
       ],
-      "@open-system/core-client-notifications/*": [
+      "@stormstack/core-client-notifications/*": [
         "libs/core/typescript/client/notifications/src/*"
       ],
-      "@open-system/core-client-pdf": [
+      "@stormstack/core-client-pdf": [
         "libs/core/typescript/client/pdf/src/index.ts"
       ],
-      "@open-system/core-client-pdf/*": [
+      "@stormstack/core-client-pdf/*": [
         "libs/core/typescript/client/pdf/src/*"
       ],
-      "@open-system/core-client-utilities": [
+      "@stormstack/core-client-utilities": [
         "libs/core/typescript/client/utilities/src/index.ts"
       ],
-      "@open-system/core-client-utilities/*": [
+      "@stormstack/core-client-utilities/*": [
         "libs/core/typescript/client/utilities/src/*"
       ],
-      "@open-system/core-config": ["libs/core/config/src/index.ts"],
-      "@open-system/core-server-application": [
+      "@stormstack/core-config": ["libs/core/config/src/index.ts"],
+      "@stormstack/core-server-application": [
         "libs/core/typescript/server/application/src/index.ts"
       ],
-      "@open-system/core-server-application/*": [
+      "@stormstack/core-server-application/*": [
         "libs/core/typescript/server/application/src/*"
       ],
-      "@open-system/core-server-cloudflare": [
+      "@stormstack/core-server-cloudflare": [
         "libs/core/typescript/server/cloudflare/src/index.ts"
       ],
-      "@open-system/core-server-cloudflare/*": [
+      "@stormstack/core-server-cloudflare/*": [
         "libs/core/typescript/server/cloudflare/src/*"
       ],
-      "@open-system/core-server-domain": [
+      "@stormstack/core-server-domain": [
         "libs/core/typescript/server/domain/src/index.ts"
       ],
-      "@open-system/core-server-domain/*": [
+      "@stormstack/core-server-domain/*": [
         "libs/core/typescript/server/domain/src/*"
       ],
-      "@open-system/core-server-drizzle": [
+      "@stormstack/core-server-drizzle": [
         "libs/core/typescript/server/drizzle/src/index.ts"
       ],
-      "@open-system/core-server-drizzle/*": [
+      "@stormstack/core-server-drizzle/*": [
         "libs/core/typescript/server/drizzle/src/*"
       ],
-      "@open-system/core-server-graphql": [
+      "@stormstack/core-server-graphql": [
         "libs/core/typescript/server/graphql/src/index.ts"
       ],
-      "@open-system/core-server-graphql/*": [
+      "@stormstack/core-server-graphql/*": [
         "libs/core/typescript/server/graphql/src/*"
       ],
-      "@open-system/core-server-infisical": [
+      "@stormstack/core-server-infisical": [
         "libs/core/typescript/server/infisical/src/index.ts"
       ],
-      "@open-system/core-server-infisical/*": [
+      "@stormstack/core-server-infisical/*": [
         "libs/core/typescript/server/infisical/src/*"
       ],
-      "@open-system/core-server-kafka": [
+      "@stormstack/core-server-kafka": [
         "libs/core/typescript/server/kafka/src/index.ts"
       ],
-      "@open-system/core-server-kafka/*": [
+      "@stormstack/core-server-kafka/*": [
         "libs/core/typescript/server/kafka/src/*"
       ],
-      "@open-system/core-server-pino-logging": [
+      "@stormstack/core-server-pino-logging": [
         "libs/core/typescript/server/pino-logging/src/index.ts"
       ],
-      "@open-system/core-server-pino-logging/*": [
+      "@stormstack/core-server-pino-logging/*": [
         "libs/core/typescript/server/pino-logging/src/*"
       ],
-      "@open-system/core-server-utilities": [
+      "@stormstack/core-server-utilities": [
         "libs/core/typescript/server/utilities/src/index.ts"
       ],
-      "@open-system/core-server-utilities/*": [
+      "@stormstack/core-server-utilities/*": [
         "libs/core/typescript/server/utilities/src/*"
       ],
-      "@open-system/core-shared-data-access": [
+      "@stormstack/core-shared-data-access": [
         "libs/core/typescript/shared/data-access/src/index.ts"
       ],
-      "@open-system/core-shared-data-access/*": [
+      "@stormstack/core-shared-data-access/*": [
         "libs/core/typescript/shared/data-access/src/*"
       ],
-      "@open-system/core-shared-env": [
+      "@stormstack/core-shared-env": [
         "libs/core/typescript/shared/env/src/index.ts"
       ],
-      "@open-system/core-shared-env/*": [
+      "@stormstack/core-shared-env/*": [
         "libs/core/typescript/shared/env/src/*"
       ],
-      "@open-system/core-shared-injection": [
+      "@stormstack/core-shared-injection": [
         "libs/core/typescript/shared/injection/src/index.ts"
       ],
-      "@open-system/core-shared-injection/*": [
+      "@stormstack/core-shared-injection/*": [
         "libs/core/typescript/shared/injection/src/*"
       ],
-      "@open-system/core-shared-logging": [
+      "@stormstack/core-shared-logging": [
         "libs/core/typescript/shared/logging/src/index.ts"
       ],
-      "@open-system/core-shared-logging/*": [
+      "@stormstack/core-shared-logging/*": [
         "libs/core/typescript/shared/logging/src/*"
       ],
-      "@open-system/core-shared-serialization": [
+      "@stormstack/core-shared-serialization": [
         "libs/core/typescript/shared/serialization/src/index.ts"
       ],
-      "@open-system/core-shared-serialization/*": [
+      "@stormstack/core-shared-serialization/*": [
         "libs/core/typescript/shared/serialization/src/*"
       ],
-      "@open-system/core-shared-utilities": [
+      "@stormstack/core-shared-utilities": [
         "libs/core/typescript/shared/utilities/src/index.ts"
       ],
-      "@open-system/core-shared-utilities/*": [
+      "@stormstack/core-shared-utilities/*": [
         "libs/core/typescript/shared/utilities/src/*"
       ],
-      "@open-system/design-system-components": [
+      "@stormstack/design-system-components": [
         "design-system/components/src/index.ts"
       ],
-      "@open-system/design-system-tokens": ["dist/design-system/tokens"],
-      "@open-system/design-system-tokens/*": ["dist/design-system/tokens/*"],
-      "@open-system/engagement-client-data-access": [
+      "@stormstack/design-system-tokens": ["dist/design-system/tokens"],
+      "@stormstack/design-system-tokens/*": ["dist/design-system/tokens/*"],
+      "@stormstack/engagement-client-data-access": [
         "libs/engagement/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/engagement-client-data-access/*": [
+      "@stormstack/engagement-client-data-access/*": [
         "libs/engagement/typescript/client/data-access/src/*"
       ],
-      "@open-system/engagement-client-rating": [
+      "@stormstack/engagement-client-rating": [
         "libs/engagement/typescript/client/rating/src/index.ts"
       ],
-      "@open-system/engagement-client-rating/*": [
+      "@stormstack/engagement-client-rating/*": [
         "libs/engagement/typescript/client/rating/src/*"
       ],
-      "@open-system/engagement-client-reaction": [
+      "@stormstack/engagement-client-reaction": [
         "libs/engagement/typescript/client/reaction/src/index.ts"
       ],
-      "@open-system/engagement-client-reaction/*": [
+      "@stormstack/engagement-client-reaction/*": [
         "libs/engagement/typescript/client/reaction/src/*"
       ],
-      "@open-system/engagement-shared-data-access": [
+      "@stormstack/engagement-shared-data-access": [
         "libs/engagement/typescript/shared/data-access/src/index.ts"
       ],
-      "@open-system/engagement-shared-data-access/*": [
+      "@stormstack/engagement-shared-data-access/*": [
         "libs/engagement/typescript/shared/data-access/src/*"
       ],
-      "@open-system/engagement/config": ["libs/engagement/config/src/index.ts"],
-      "@open-system/portfolio-client-resume": [
+      "@stormstack/engagement/config": ["libs/engagement/config/src/index.ts"],
+      "@stormstack/portfolio-client-resume": [
         "libs/portfolio/typescript/client/resume/src/index.ts"
       ],
-      "@open-system/portfolio-client-resume/*": [
+      "@stormstack/portfolio-client-resume/*": [
         "libs/portfolio/typescript/client/resume/src/*"
       ],
-      "@open-system/tools-async-api-kafka": [
+      "@stormstack/tools-async-api-kafka": [
         "dist/tools/async-api/kafka/index.ts"
       ],
-      "@open-system/tools-async-api-rabbitmq": [
-        "dist/tools/async-api/rabbitmq/index.ts"
-      ],
-      "@open-system/tools-devops-config/*": ["tools/devops/config/src/*"],
-      "@open-system/tools-executors-docs": ["tools/executors/docs/index.ts"],
-      "@open-system/tools-executors-typescript": [
+      "@stormstack/tools-devops-config/*": ["tools/devops/config/src/*"],
+      "@stormstack/tools-executors-docs": ["tools/executors/docs/index.ts"],
+      "@stormstack/tools-executors-typescript": [
         "tools/executors/typescript/index.ts"
       ],
-      "@open-system/tools-generators-typescript": [
+      "@stormstack/tools-generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
-      "@open-system/tools-storm-language": [
+      "@stormstack/tools-storm-language": [
         "tools/storm/language/src/index.ts"
       ],
-      "@open-system/tools-storm-language/ast": ["tools/storm/language/src/ast"],
-      "@open-system/tools-storm-language/module": [
+      "@stormstack/tools-storm-language/ast": ["tools/storm/language/src/ast"],
+      "@stormstack/tools-storm-language/module": [
         "tools/storm/language/src/module"
       ],
-      "@open-system/tools-storm-plugins-drizzle": [
+      "@stormstack/tools-storm-plugins-drizzle": [
         "tools/storm/plugins/drizzle/src/index.ts"
       ],
-      "@open-system/tools-storm-plugins-graphql": [
+      "@stormstack/tools-storm-plugins-graphql": [
         "tools/storm/plugins/graphql/src/index.ts"
       ],
-      "@open-system/tools-storm-plugins-zod": [
+      "@stormstack/tools-storm-plugins-zod": [
         "tools/storm/plugins/zod/src/index.ts"
       ],
-      "@open-system/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
-      "@open-system/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],
-      "@open-system/tools-storm-schema": ["tools/storm/schema/src/index.ts"],
-      "@open-system/tools-storm-schema/*": ["tools/storm/schema/src/*"],
-      "@open-system/tools-storm-schema/cli": [
+      "@stormstack/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
+      "@stormstack/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],
+      "@stormstack/tools-storm-schema": ["tools/storm/schema/src/index.ts"],
+      "@stormstack/tools-storm-schema/*": ["tools/storm/schema/src/*"],
+      "@stormstack/tools-storm-schema/cli": [
         "tools/storm/schema/src/cli/index.ts"
       ],
-      "@open-system/tools-storm-schema/language-server": [
+      "@stormstack/tools-storm-schema/language-server": [
         "tools/storm/schema/src/language-server/main.ts"
       ],
-      "@open-system/tools-storm-schema/plugins/*": [
+      "@stormstack/tools-storm-schema/plugins/*": [
         "tools/storm/schema/src/plugins/*"
       ],
-      "@open-system/tools-storm-schema/plugins/access-policy": [
+      "@stormstack/tools-storm-schema/plugins/access-policy": [
         "tools/storm/schema/src/plugins/access-policy/index.ts"
       ],
-      "@open-system/tools-storm-schema/plugins/model-meta": [
+      "@stormstack/tools-storm-schema/plugins/model-meta": [
         "tools/storm/schema/src/plugins/model-meta/index.ts"
       ],
-      "@open-system/tools-storm-schema/plugins/prisma": [
+      "@stormstack/tools-storm-schema/plugins/prisma": [
         "tools/storm/schema/src/plugins/prisma/index.ts"
       ],
-      "@open-system/user-management-client-components": [
+      "@stormstack/user-management-client-components": [
         "libs/user-management/typescript/client/components/src/index.ts"
       ],
-      "@open-system/user-management-client-components/*": [
+      "@stormstack/user-management-client-components/*": [
         "libs/user-management/typescript/client/components/src/*"
       ],
-      "@open-system/user-management-client-data-access": [
+      "@stormstack/user-management-client-data-access": [
         "libs/user-management/typescript/client/data-access/src/index.ts"
       ],
-      "@open-system/user-management-client-data-access/*": [
+      "@stormstack/user-management-client-data-access/*": [
         "libs/user-management/typescript/client/data-access/src/*"
       ],
-      "@open-system/user-management-config": [
+      "@stormstack/user-management-config": [
         "libs/user-management/config/src/index.ts"
       ],
-      "@open-system/user-management-server-activity": [
+      "@stormstack/user-management-server-activity": [
         "libs/user-management/typescript/server/activity/src/index.ts"
       ],
-      "@open-system/user-management-server-activity/*": [
+      "@stormstack/user-management-server-activity/*": [
         "libs/user-management/typescript/server/activity/src/*"
       ],
-      "@open-system/user-management-server-auth": [
+      "@stormstack/user-management-server-auth": [
         "libs/user-management/typescript/server/auth/src/index.ts"
       ],
-      "@open-system/user-management-server-auth/*": [
+      "@stormstack/user-management-server-auth/*": [
         "libs/user-management/typescript/server/auth/src/*"
       ],
-      "@open-system/user-management-server-core": [
+      "@stormstack/user-management-server-core": [
         "libs/user-management/typescript/server/core/src/index.ts"
       ],
-      "@open-system/user-management-server-core/*": [
+      "@stormstack/user-management-server-core/*": [
         "libs/user-management/typescript/server/core/src/*"
       ],
-      "@open-system/user-management-server-data-access": [
+      "@stormstack/user-management-server-data-access": [
         "libs/user-management/typescript/server/data-access/src/index.ts"
       ],
-      "@open-system/user-management-server-data-access/*": [
+      "@stormstack/user-management-server-data-access/*": [
         "libs/user-management/typescript/server/data-access/src/*"
       ],
-      "@open-system/user-management-server-graphql": [
+      "@stormstack/user-management-server-graphql": [
         "libs/user-management/typescript/server/graphql/src/index.ts"
       ],
-      "@open-system/user-management-server-graphql/*": [
+      "@stormstack/user-management-server-graphql/*": [
         "libs/user-management/typescript/server/graphql/src/*"
       ],
-      "@open-system/user-management-shared-data-access": [
+      "@stormstack/user-management-shared-data-access": [
         "libs/user-management/typescript/shared/data-access/src/index.ts"
       ],
-      "@open-system/user-management-shared-data-access/*": [
+      "@stormstack/user-management-shared-data-access/*": [
         "libs/user-management/typescript/shared/data-access/src/*"
       ]
     }

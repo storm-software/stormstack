@@ -1,4 +1,4 @@
-// import { schemaPrinter } from "@open-system/core-server-graphql";
+// import { schemaPrinter } from "@stormstack/core-server-graphql";
 import { generateAllCrud } from "./__generated__/crud/autocrud";
 import { builder } from "./builder";
 

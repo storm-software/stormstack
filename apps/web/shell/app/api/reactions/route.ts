@@ -1,7 +1,4 @@
-import {
-  ConsoleLogger,
-  parseInteger,
-} from "@open-system/core-shared-utilities";
+import { ConsoleLogger, parseInteger } from "@stormstack/core-shared-utilities";
 import "@sentry/tracing";
 import { NextRequest, NextResponse } from "next/server";
 // import { repository } from "../../../state/reaction-repository";
@@ -81,7 +78,7 @@ export async function GET(req: NextRequest) {
             : !contentId
             ? "contentId"
             : "type"
-        }.`,
+        }.`
       },
       { status: 400 }
     );
@@ -106,7 +103,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         errorCode: 404,
-        errorMessage: "No results found",
+        errorMessage: "No results found"
       },
       { status: 404 }
     );
@@ -123,7 +120,7 @@ export async function GET(req: NextRequest) {
     count,
     total,
     offset: offset + count,
-    isLast: offset + count >= total,
+    isLast: offset + count >= total
   });
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { useEffect, useRef } from "react";
 // import BoxLogo from "../../../../../../assets/box-logo-primary.svg";
 // import { GlitchCanvasManager } from "./Glitch.utils";

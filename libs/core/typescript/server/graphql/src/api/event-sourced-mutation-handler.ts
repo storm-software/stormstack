@@ -5,7 +5,7 @@
   IAggregateRoot,
   ICommand,
   eventSourcedCommandHandler,
-} from "@open-system/core-server-services";
+} from "@stormstack/core-server-services";
 import z from "zod";
 export type GraphQLMutationHandler<
 TRequest,

@@ -1,7 +1,7 @@
 "use client";
 
-import { BaseComponentProps } from "@open-system/design-system-components";
 import { PDFDownloadLink as PDFDownloadLinkExt } from "@react-pdf/renderer";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { PdfDocumentProps } from "../pdf-document";
 import { BlobProviderParams } from "../types";
 

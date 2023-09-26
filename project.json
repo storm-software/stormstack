@@ -1,5 +1,5 @@
 {
-  "name": "stormstack",
+  "name": "@stormstack/root",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "targets": {
     "local-registry": {
@@ -7,7 +7,7 @@
       "options": {
         "port": 4873,
         "config": ".verdaccio/config.yml",
-        "storage": "tmp/local-registry/storage"
+        "storage": "dist/local-registry/storage"
       }
     }
   }

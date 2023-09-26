@@ -1,7 +1,7 @@
 "use client";
 
-import { PropsWithBase } from "@open-system/design-system-components";
-import { LikeButton as LikeButtonInner } from "@open-system/reaction-ui-feature-like/like-button";
+import { PropsWithBase } from "@stormstack/design-system-components";
+import { LikeButton as LikeButtonInner } from "@stormstack/reaction-ui-feature-like/like-button";
 import { useRouter } from "next/navigation";
 import { useEffect, useTransition } from "react";
 

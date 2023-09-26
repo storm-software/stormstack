@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/docs-event-catalog",
+  "name": "@stormstack/docs-event-catalog",
   "version": "0.0.1",
   "dependencies": {
     "@eventcatalog/core": "^1.0.1",

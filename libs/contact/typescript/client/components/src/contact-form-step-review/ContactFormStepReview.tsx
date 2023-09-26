@@ -1,14 +1,14 @@
 "use client";
 
-import { ContactFormSegments } from "@open-system/contact-client-data-access";
-import { Link } from "@open-system/core-client-components";
+import { ContactFormSegments } from "@stormstack/contact-client-data-access";
+import { Link } from "@stormstack/core-client-components";
 import {
   BaseComponentProps,
   Divider,
   DividerDirections,
   DividerSizes,
-  LinkVariants,
-} from "@open-system/design-system-components";
+  LinkVariants
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
@@ -27,9 +27,9 @@ export function ContactFormStepReview({
   const pathname = usePathname();
 
   return (
-    <div className={clsx("flex flex-col gap-1", className)}>
-      <div className="flex flex-row justify-between gap-4">
-        <h3 className="text-md font-label-4 font-bold text-violet-500">
+    <div className={clsx("gap-1 flex flex-col", className)}>
+      <div className="gap-4 flex flex-row justify-between">
+        <h3 className="text-md font-bold text-violet-500 font-label-4">
           {label}
         </h3>
         {pathname && (

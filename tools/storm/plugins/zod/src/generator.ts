@@ -1,4 +1,5 @@
-import { upperCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
+import { ConnectorType, DMMF } from "@prisma/generator-helper";
+import { upperCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   DataModel,
   DataSource,
@@ -7,10 +8,10 @@ import {
   isDataModel,
   isDataSource,
   isEnum
-} from "@open-system/tools-storm-language/ast";
-import { getDefaultOutputFolder } from "@open-system/tools-storm-schema/plugins/plugin-utils";
-import { PrismaModel } from "@open-system/tools-storm-schema/plugins/prisma/prisma-builder";
-import PrismaSchemaGenerator from "@open-system/tools-storm-schema/plugins/prisma/schema-generator";
+} from "@stormstack/tools-storm-language/ast";
+import { getDefaultOutputFolder } from "@stormstack/tools-storm-schema/plugins/plugin-utils";
+import { PrismaModel } from "@stormstack/tools-storm-schema/plugins/prisma/prisma-builder";
+import PrismaSchemaGenerator from "@stormstack/tools-storm-schema/plugins/prisma/schema-generator";
 import {
   AUXILIARY_FIELDS,
   PluginOptions,
@@ -24,12 +25,11 @@ import {
   isForeignKeyField,
   resolvePath,
   saveProject
-} from "@open-system/tools-storm-schema/sdk";
+} from "@stormstack/tools-storm-schema/sdk";
 import {
   addMissingInputObjectTypes,
   resolveAggregateOperationSupport
-} from "@open-system/tools-storm-schema/sdk/dmmf-helpers";
-import { ConnectorType, DMMF } from "@prisma/generator-helper";
+} from "@stormstack/tools-storm-schema/sdk/dmmf-helpers";
 import { promises as fs } from "fs";
 import { join } from "path";
 import { Project } from "ts-morph";

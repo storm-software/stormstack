@@ -1,6 +1,6 @@
 "use client";
 
-//import { AbstractReactionsApi } from "@open-system/reaction-ui-data-access";
+//import { AbstractReactionsApi } from "@stormstack/reaction-ui-data-access";
 //import { parseCookies, setCookie } from "nookies";
 import { useCallback, useState } from "react";
 //import { UserLikeHistoryConstants } from "./constants";
@@ -31,6 +31,6 @@ export function useIsLiked(
         UserLikeHistoryConstants.COOKIE_NAME,
         JSON.stringify(cookie)
       );*/
-    }, [pageId]),
+    }, [pageId])
   ];
 }

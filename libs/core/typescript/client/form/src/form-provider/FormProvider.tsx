@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { FormIdScope } from "@open-system/core-client-data-access";
-import { FormContext } from "@open-system/core-shared-data-access";
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { FormIdScope } from "@stormstack/core-client-data-access";
+import { FormContext } from "@stormstack/core-shared-data-access";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { ScopeProvider } from "jotai-molecules";
 import { FormProvider as RHFormProvider } from "react-hook-form";
 // import { DevTool } from "@hookform/devtools";

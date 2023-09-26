@@ -38,7 +38,7 @@
     "namespace": {
       "type": "string",
       "description": "Name of the package namespace",
-      "default": "open-system"
+      "default": "stormstack"
     },
     "user": {
       "type": "string",

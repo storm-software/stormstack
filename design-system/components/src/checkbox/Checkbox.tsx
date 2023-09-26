@@ -1,13 +1,13 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-shared-utilities";
+import { isEmptyObject } from "@stormstack/core-shared-utilities";
 import clsx from "clsx";
 import {
   ChangeEvent,
   ForwardedRef,
   forwardRef,
   useCallback,
-  useState,
+  useState
 } from "react";
 import { FieldWrapper } from "../field-wrapper";
 import { FieldLabelPlacementTypes } from "../field-wrapper/FieldWrapper.types";
@@ -15,7 +15,7 @@ import { BaseFieldProps } from "../types";
 import {
   getFieldTextStyle,
   getInputFillColor,
-  getStrokeStyle,
+  getStrokeStyle
 } from "../utilities/field-style-utils";
 
 export type CheckboxProps = BaseFieldProps;
@@ -92,9 +92,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             ),
             getInputFillColor(disabled),
             {
-              "focus:shadow-active-glow": focused && glow,
+              "focus:shadow-active-glow": focused && glow
             },
-            "max-w-6 flex h-6 w-6 rounded-md font-label-1 leading-label-1 transition-colors focus:ring-0 focus:ring-offset-0",
+            "max-w-6 h-6 w-6 rounded-md leading-label-1 transition-colors focus:ring-0 focus:ring-offset-0 flex font-label-1",
             disabled
               ? "text-input-fill"
               : getFieldTextStyle(
@@ -106,11 +106,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             { "border-3": disabled },
             {
               "border-1 shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-active-glow":
-                !disabled && glow,
+                !disabled && glow
             },
             {
               "hover:border-hover-link-2 hover:ring-0 hover:ring-hover-link-2 hover:ring-offset-0":
-                !disabled,
+                !disabled
             }
           )}
           type="checkbox"

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { ConsoleLogger } from "@open-system/core-shared-logging/console";
-import { isPlugin, Plugin } from "@open-system/tools-storm-language/ast";
 import type { DMMF } from "@prisma/generator-helper";
+import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
+import { isPlugin, Plugin } from "@stormstack/tools-storm-language/ast";
 import chalk from "chalk";
 import fs from "fs";
 // import ora from "ora";

@@ -3,7 +3,7 @@ main = "src/index.ts"
 assets="../../../dist/apps/workers/<%= name %>"
 
 latest = true
-route = "open-system.io/api<%= route %>"
+route = "stormcloud.services/api<%= route %>"
 
 compatibility_date = "<%= compatibility_date %>"
 

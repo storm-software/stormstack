@@ -1,6 +1,6 @@
 import { addons } from "@storybook/addons";
-import theme from "../../../.storybook/themes/open-system.theme";
+import theme from "../../../.storybook/themes/storm.theme";
 
 addons.setConfig({
-  theme,
+  theme
 });

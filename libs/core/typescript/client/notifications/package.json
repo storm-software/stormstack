@@ -1,5 +1,5 @@
 {
-  "name": "@open-system/core-client-notifications",
+  "name": "@stormstack/core-client-notifications",
   "version": "0.0.1",
   "dependencies": {
     "stacktracey": "^2.1.8"

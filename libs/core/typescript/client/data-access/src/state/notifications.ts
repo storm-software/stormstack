@@ -1,5 +1,5 @@
-import { ScopedObjectState } from "@open-system/core-shared-data-access";
-import { isDevelopment } from "@open-system/core-shared-utilities";
+import { ScopedObjectState } from "@stormstack/core-shared-data-access";
+import { isDevelopment } from "@stormstack/core-shared-utilities";
 import { MessageTypes } from "../types";
 import { atomWithList } from "../utilities/atomWithList";
 
@@ -15,7 +15,7 @@ export interface NotificationMessage extends ScopedObjectState {
 }
 
 export const notificationsAtom = atomWithList<NotificationMessage>([], {
-  allowDuplicates: false,
+  allowDuplicates: false
 });
 if (isDevelopment()) {
   notificationsAtom.debugPrivate = true;

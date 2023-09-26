@@ -2,8 +2,8 @@
 import {
   base64,
   unbase64
-} from "@open-system/core-server-utilities/create-string-hash";
-import { JsonParser } from "@open-system/core-shared-serialization/parser";
+} from "@stormstack/core-server-utilities/create-string-hash";
+import { JsonParser } from "@stormstack/core-shared-serialization/parser";
 import type { ClientOptions, Client as ClientType, ServerOptions } from "memjs";
 import { Client } from "memjs";
 import { CacheClient } from "./cache-client";

@@ -7,9 +7,9 @@ import {
   isIeOrEdge,
   isMIMEType,
   isPropagationStopped,
-  isSecurityError,
-} from "@open-system/core-client-utilities";
-import { isFunction, isSet, noop } from "@open-system/core-shared-utilities";
+  isSecurityError
+} from "@stormstack/core-client-utilities";
+import { isFunction, isSet, noop } from "@stormstack/core-shared-utilities";
 import { FileWithPath, fromEvent } from "file-selector";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { InputTypes } from "../input/Input.types";
@@ -17,7 +17,7 @@ import {
   DropzoneInputProps,
   DropzoneRootProps,
   FileRejection,
-  UseDropzoneParams,
+  UseDropzoneParams
 } from "./FileUpload.types";
 
 /**
@@ -40,7 +40,7 @@ function acceptPropAsAcceptAttr(accept: any): string {
           (a: any, [mimeType, ext]: [mimeType: any, ext: any]) => [
             ...a,
             mimeType,
-            ...ext,
+            ...ext
           ],
           []
         )
@@ -82,7 +82,7 @@ function pickerOptionsFromAccept(accept: any) {
       .reduce(
         (agg, [mimeType, ext]) => ({
           ...agg,
-          [mimeType]: ext,
+          [mimeType]: ext
         }),
         {}
       );
@@ -90,8 +90,8 @@ function pickerOptionsFromAccept(accept: any) {
       {
         // description is required due to https://crbug.com/1264708
         description: "Files",
-        accept: acceptForPicker,
-      },
+        accept: acceptForPicker
+      }
     ];
   }
   return accept;
@@ -104,7 +104,7 @@ const initialState = {
   isDragAccept: false,
   isDragReject: false,
   acceptedFiles: [],
-  fileRejections: [],
+  fileRejections: []
 };
 
 /**
@@ -234,7 +234,7 @@ export function useDropzone({
         ...initialState,
         acceptedFiles: state.acceptedFiles,
         fileRejections: state.fileRejections,
-        isFileDialogActive: true,
+        isFileDialogActive: true
       })),
     []
   );
@@ -249,7 +249,7 @@ export function useDropzone({
         ...state,
         isDragActive,
         isDragAccept,
-        isDragReject,
+        isDragReject
       })),
     []
   );
@@ -259,7 +259,7 @@ export function useDropzone({
       setInputState((state: any) => ({
         ...state,
         acceptedFiles,
-        fileRejections,
+        fileRejections
       }));
     },
     [onAddFiles]
@@ -268,7 +268,7 @@ export function useDropzone({
     onResetFiles();
 
     setInputState({
-      ...initialState,
+      ...initialState
     });
   }, [onResetFiles]);
 
@@ -306,7 +306,7 @@ export function useDropzone({
     isFileDialogActive,
     onFileDialogCancelCb,
     fsAccessApiWorksRef,
-    handleCloseDialog,
+    handleCloseDialog
   ]);
 
   const dragTargetsRef = useRef([]);
@@ -398,7 +398,7 @@ export function useDropzone({
       noDragEventsBubbling,
       handleSetDraggedFiles,
       onDragEnter,
-      onErrCb,
+      onErrCb
     ]
   );
 
@@ -470,9 +470,9 @@ export function useDropzone({
             errors: [
               {
                 code: "too-many-files",
-                message: "Exceeded the number of allowed file uploads",
-              },
-            ],
+                message: "Exceeded the number of allowed file uploads"
+              }
+            ]
           });
         });
         files.splice(0);
@@ -520,7 +520,7 @@ export function useDropzone({
       getFilesFromEvent,
       noDragEventsBubbling,
       setFiles,
-      onErrCb,
+      onErrCb
     ]
   );
 
@@ -534,7 +534,7 @@ export function useDropzone({
       // https://developer.mozilla.org/en-US/docs/Web/API/window/showOpenFilePicker
       const opts = {
         multiple,
-        types: pickerTypes,
+        types: pickerTypes
       };
       isFunction((window as any).showOpenFilePicker) &&
         (window as any)
@@ -586,7 +586,7 @@ export function useDropzone({
     setFiles,
     handleCloseDialog,
     onFileDialogCancelCb,
-    onErrCb,
+    onErrCb
   ]);
 
   // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
@@ -688,7 +688,7 @@ export function useDropzone({
         role: typeof role === "string" && role !== "" ? role : "presentation",
         [refKey]: rootRef,
         ...(!disabled && !noKeyboard ? { tabIndex: 0 } : {}),
-        ...rest,
+        ...rest
       }),
     [
       composeKeyboardHandler,
@@ -703,7 +703,7 @@ export function useDropzone({
       onDragLeaveCb,
       onDropCb,
       disabled,
-      noKeyboard,
+      noKeyboard
     ]
   );
 
@@ -740,7 +740,7 @@ export function useDropzone({
           onDrop,
           onError,
           tabIndex,
-          [refKey]: inputRef,
+          [refKey]: inputRef
         };
       },
     [
@@ -759,7 +759,7 @@ export function useDropzone({
       onDrop,
       onError,
       inputRef,
-      tabIndex,
+      tabIndex
     ]
   );
 
@@ -770,6 +770,6 @@ export function useDropzone({
     getInputProps,
     rootRef,
     inputRef,
-    open: composeHandler(openFileDialog),
+    open: composeHandler(openFileDialog)
   };
 }

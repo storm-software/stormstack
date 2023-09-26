@@ -2,8 +2,8 @@
 
 import {
   ErrorReportProps,
-  GlobalErrorReport,
-} from "@open-system/core-client-notifications";
+  GlobalErrorReport
+} from "@stormstack/core-client-notifications";
 
 export default function GlobalError(props: ErrorReportProps) {
   return (

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IEntity } from "@open-system/core-server-domain";
-import { EnvManager } from "@open-system/core-shared-env";
-import { Injected, Provider } from "@open-system/core-shared-injection";
-import { Logger } from "@open-system/core-shared-logging/logger";
-import { JsonParser } from "@open-system/core-shared-serialization";
+import { IEntity } from "@stormstack/core-server-domain";
+import { EnvManager } from "@stormstack/core-shared-env";
+import { Injected, Provider } from "@stormstack/core-shared-injection";
+import { Logger } from "@stormstack/core-shared-logging/logger";
+import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
   BaseErrorCode,
   BaseUtilityClass,
@@ -13,7 +13,7 @@ import {
   NotFoundError,
   isError,
   isValidInteger
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 import { map } from "radash";
 import {
   BatchLoadKey,

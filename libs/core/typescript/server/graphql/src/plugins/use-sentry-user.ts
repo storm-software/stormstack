@@ -1,9 +1,9 @@
 import type { Plugin } from "@envelop/types";
+import * as Sentry from "@sentry/node";
 import {
   GlobalContext,
   extractUser
-} from "@open-system/core-server-application";
-import * as Sentry from "@sentry/node";
+} from "@stormstack/core-server-application";
 import {
   GraphQLExecutionContext,
   GraphQLServerContext

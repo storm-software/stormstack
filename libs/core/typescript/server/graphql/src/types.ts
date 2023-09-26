@@ -3,12 +3,12 @@
 import type { AllowedOperations } from "@envelop/filter-operation-type";
 import type { GraphQLArmorConfig } from "@escape.tech/graphql-armor-types";
 import { IExecutableSchemaDefinition } from "@graphql-tools/schema/typings/types";
+// import { MergedScalars } from "@pothos/core";
 import {
   CreateGlobalContextParams,
   GlobalContext
-} from "@open-system/core-server-application";
-import { IEntity } from "@open-system/core-server-domain";
-import { MergedScalars } from "@pothos/core";
+} from "@stormstack/core-server-application";
+import { IEntity } from "@stormstack/core-server-domain";
 import { DocumentNode } from "graphql";
 import type {
   FetchAPI,
@@ -47,7 +47,7 @@ export type TableModel<
   TTypename extends keyof TDatabase
 > = AllSelection<TDatabase, TTypename> & { __typename: TTypename | string };*/
 
-export type SchemaScalars = MergedScalars<any> & {
+export type SchemaScalars = {
   UUID: {
     Input: string;
     Output: string;

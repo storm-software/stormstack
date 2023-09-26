@@ -1,5 +1,5 @@
-import { Address } from "@open-system/common-shared-data-access";
-import { DateTime } from "@open-system/core-shared-utilities";
+import { Address } from "@stormstack/common-shared-data-access";
+import { DateTime } from "@stormstack/core-shared-utilities";
 
 export const MAX_ATTACHMENT_SIZE = 90000000;
 
@@ -18,7 +18,7 @@ export const ContactReasonTypes = {
   OTHER: "other" as ContactReasonTypes,
   PROJECT: "project" as ContactReasonTypes,
   INTEREST: "interest" as ContactReasonTypes,
-  SUBSCRIPTION: "subscription" as ContactReasonTypes,
+  SUBSCRIPTION: "subscription" as ContactReasonTypes
 };
 
 export interface Contact extends Partial<Address> {

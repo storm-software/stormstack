@@ -8,9 +8,9 @@ import {
   HttpRequestContext,
   ServerContext,
   UserContext
-} from "@open-system/core-server-application/context";
-import { IEntity } from "@open-system/core-server-domain/types";
-import { MaybePromise } from "@open-system/core-shared-utilities";
+} from "@stormstack/core-server-application/context";
+import { IEntity } from "@stormstack/core-server-domain/types";
+import { MaybePromise } from "@stormstack/core-shared-utilities";
 import { GraphQLParams, YogaInitialContext } from "graphql-yoga";
 
 export type GraphQLRequest<TVariables = any> = HttpRequest<

@@ -2,11 +2,11 @@
 
 import {
   BaseComponentProps,
-  InputAutoCompleteTypes,
-} from "@open-system/design-system-components";
-import { useIsDomesticCountry } from "@open-system/common-client-data-access";
-import { Input, Textarea } from "@open-system/core-client-form";
-import { useFieldValue } from "@open-system/core-client-data-access";
+  InputAutoCompleteTypes
+} from "@stormstack/design-system-components";
+import { useIsDomesticCountry } from "@stormstack/common-client-data-access";
+import { Input, Textarea } from "@stormstack/core-client-form";
+import { useFieldValue } from "@stormstack/core-client-data-access";
 
 export type AddressInputFieldsProps = BaseComponentProps & {
   required?: boolean;
@@ -20,7 +20,7 @@ export function AddressInputFields({
   const isDomesticCountry = useIsDomesticCountry(countryCode);
 
   return (
-    <div className="flex flex-col gap-0">
+    <div className="gap-0 flex flex-col">
       <Input
         name="countryCode"
         label="Country"
@@ -42,7 +42,7 @@ export function AddressInputFields({
         maxLength={50}
         required={countryCode && isDomesticCountry}
       />
-      <div className="flex flex-row gap-4">
+      <div className="gap-4 flex flex-row">
         <div className="basis-3/5">
           <Input
             name="state"

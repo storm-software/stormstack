@@ -1,7 +1,7 @@
 import {
   NumberFromString,
-  emptyString,
-} from "@open-system/core-shared-utilities";
+  emptyString
+} from "@stormstack/core-shared-utilities";
 import zod from "zod";
 
 const EnvironmentModel = zod.object({
@@ -21,17 +21,17 @@ const EnvironmentModel = zod.object({
   AUTH_ORGANIZATION_OIDC: emptyString(
     zod.union([zod.literal("1"), zod.literal("0")]).optional()
   ),
-  RETRY_ATTEMPTS: emptyString(NumberFromString.optional()),
+  RETRY_ATTEMPTS: emptyString(NumberFromString.optional())
 });
 
 const SentryModel = zod.union([
   zod.object({
-    SENTRY: emptyString(zod.literal("0").optional()),
+    SENTRY: emptyString(zod.literal("0").optional())
   }),
   zod.object({
     SENTRY: zod.literal("1"),
-    SENTRY_DSN: zod.string(),
-  }),
+    SENTRY_DSN: zod.string()
+  })
 ]);
 
 const PostgresModel = zod.object({
@@ -42,7 +42,7 @@ const PostgresModel = zod.object({
   POSTGRES_PORT: NumberFromString,
   POSTGRES_DB: zod.string(),
   POSTGRES_USER: zod.string(),
-  POSTGRES_PASSWORD: zod.string(),
+  POSTGRES_PASSWORD: zod.string()
 });
 
 const ClickHouseModel = zod.object({
@@ -50,34 +50,34 @@ const ClickHouseModel = zod.object({
   CLICKHOUSE_HOST: zod.string(),
   CLICKHOUSE_PORT: NumberFromString,
   CLICKHOUSE_USERNAME: zod.string(),
-  CLICKHOUSE_PASSWORD: zod.string(),
+  CLICKHOUSE_PASSWORD: zod.string()
 });
 
 const RedisModel = zod.object({
   REDIS_HOST: zod.string(),
   REDIS_PORT: NumberFromString,
-  REDIS_PASSWORD: emptyString(zod.string().optional()),
+  REDIS_PASSWORD: emptyString(zod.string().optional())
 });
 
 const SuperTokensModel = zod.object({
   SUPERTOKENS_CONNECTION_URI: zod.string().url(),
-  SUPERTOKENS_API_KEY: zod.string(),
+  SUPERTOKENS_API_KEY: zod.string()
 });
 
 const GitHubModel = zod.union([
   zod.object({
-    INTEGRATION_GITHUB: emptyString(zod.literal("0").optional()),
+    INTEGRATION_GITHUB: emptyString(zod.literal("0").optional())
   }),
   zod.object({
     INTEGRATION_GITHUB: zod.literal("1"),
     INTEGRATION_GITHUB_APP_ID: NumberFromString,
-    INTEGRATION_GITHUB_APP_PRIVATE_KEY: zod.string(),
-  }),
+    INTEGRATION_GITHUB_APP_PRIVATE_KEY: zod.string()
+  })
 ]);
 
 const CdnCFModel = zod.union([
   zod.object({
-    CDN_CF: emptyString(zod.literal("0").optional()),
+    CDN_CF: emptyString(zod.literal("0").optional())
   }),
   zod.object({
     CDN_CF: zod.literal("1"),
@@ -85,18 +85,18 @@ const CdnCFModel = zod.union([
     CDN_CF_BASE_PATH: zod.string(),
     CDN_CF_ACCOUNT_ID: zod.string(),
     CDN_CF_AUTH_TOKEN: zod.string(),
-    CDN_CF_NAMESPACE_ID: zod.string(),
-  }),
+    CDN_CF_NAMESPACE_ID: zod.string()
+  })
 ]);
 
 const CdnApiModel = zod.union([
   zod.object({
-    CDN_API: emptyString(zod.literal("0").optional()),
+    CDN_API: emptyString(zod.literal("0").optional())
   }),
   zod.object({
     CDN_API: zod.literal("1"),
-    CDN_API_BASE_URL: zod.string(),
-  }),
+    CDN_API_BASE_URL: zod.string()
+  })
 ]);
 
 const HiveModel = zod.union([
@@ -107,25 +107,25 @@ const HiveModel = zod.union([
     HIVE_USAGE: zod.union([zod.literal("0"), zod.literal("1")]).optional(),
     HIVE_USAGE_ENDPOINT: zod.string().url().optional(),
     HIVE_REPORTING: zod.union([zod.literal("0"), zod.literal("1")]).optional(),
-    HIVE_REPORTING_ENDPOINT: zod.string().url().optional(),
-  }),
+    HIVE_REPORTING_ENDPOINT: zod.string().url().optional()
+  })
 ]);
 
 const AuthLegacyAuth0Model = zod.union([
   zod.object({
-    AUTH_LEGACY_AUTH0: emptyString(zod.literal("0").optional()),
+    AUTH_LEGACY_AUTH0: emptyString(zod.literal("0").optional())
   }),
   zod.object({
     AUTH_LEGACY_AUTH0: zod.literal("1"),
-    AUTH_LEGACY_AUTH0_INTERNAL_API_KEY: zod.string(),
-  }),
+    AUTH_LEGACY_AUTH0_INTERNAL_API_KEY: zod.string()
+  })
 ]);
 
 const PrometheusModel = zod.object({
   PROMETHEUS_METRICS: emptyString(
     zod.union([zod.literal("0"), zod.literal("1")]).optional()
   ),
-  PROMETHEUS_METRICS_LABEL_INSTANCE: emptyString(zod.string().optional()),
+  PROMETHEUS_METRICS_LABEL_INSTANCE: emptyString(zod.string().optional())
 });
 
 const S3Model = zod.object({
@@ -133,7 +133,7 @@ const S3Model = zod.object({
   S3_ACCESS_KEY_ID: zod.string(),
   S3_SECRET_ACCESS_KEY: zod.string(),
   S3_BUCKET_NAME: zod.string(),
-  S3_PUBLIC_URL: emptyString(zod.string().url().optional()),
+  S3_PUBLIC_URL: emptyString(zod.string().url().optional())
 });
 
 const LogModel = zod.object({
@@ -146,13 +146,13 @@ const LogModel = zod.object({
         zod.literal("warn"),
         zod.literal("error"),
         zod.literal("fatal"),
-        zod.literal("silent"),
+        zod.literal("silent")
       ])
       .optional()
   ),
   REQUEST_LOGGING: emptyString(
     zod.union([zod.literal("0"), zod.literal("1")]).optional()
-  ).default("1"),
+  ).default("1")
 });
 
 const config = {
@@ -183,7 +183,7 @@ const config = {
   // eslint-disable-next-line no-process-env
   s3: S3Model.safeParse(process.env),
   // eslint-disable-next-line no-process-env
-  log: LogModel.safeParse(process.env),
+  log: LogModel.safeParse(process.env)
 };
 
 const environmentErrors: Array<string> = [];
@@ -235,7 +235,7 @@ const hiveConfig =
         usage:
           hive.HIVE_USAGE === "1"
             ? { endpoint: hive.HIVE_USAGE_ENDPOINT ?? null }
-            : null,
+            : null
       }
     : null;
 
@@ -248,20 +248,20 @@ export const env = {
   hiveServices: {
     webApp: base.WEB_APP_URL
       ? {
-          url: base.WEB_APP_URL,
+          url: base.WEB_APP_URL
         }
       : null,
     tokens: {
-      endpoint: base.TOKENS_ENDPOINT,
+      endpoint: base.TOKENS_ENDPOINT
     },
     rateLimit: base.RATE_LIMIT_ENDPOINT
       ? {
-          endpoint: base.RATE_LIMIT_ENDPOINT,
+          endpoint: base.RATE_LIMIT_ENDPOINT
         }
       : null,
     schemaPolicy: base.SCHEMA_POLICY_ENDPOINT
       ? {
-          endpoint: base.SCHEMA_POLICY_ENDPOINT,
+          endpoint: base.SCHEMA_POLICY_ENDPOINT
         }
       : null,
     usageEstimator: base.USAGE_ESTIMATOR_ENDPOINT
@@ -270,10 +270,10 @@ export const env = {
     billing: base.BILLING_ENDPOINT ? { endpoint: base.BILLING_ENDPOINT } : null,
     emails: base.EMAILS_ENDPOINT ? { endpoint: base.EMAILS_ENDPOINT } : null,
     webhooks: { endpoint: base.WEBHOOKS_ENDPOINT },
-    schema: { endpoint: base.SCHEMA_ENDPOINT },
+    schema: { endpoint: base.SCHEMA_ENDPOINT }
   },
   http: {
-    port: base.PORT ?? 3001,
+    port: base.PORT ?? 3001
   },
   postgres: {
     host: postgres.POSTGRES_HOST,
@@ -281,29 +281,29 @@ export const env = {
     db: postgres.POSTGRES_DB,
     user: postgres.POSTGRES_USER,
     password: postgres.POSTGRES_PASSWORD,
-    ssl: postgres.POSTGRES_SSL === "1",
+    ssl: postgres.POSTGRES_SSL === "1"
   },
   clickhouse: {
     protocol: clickhouse.CLICKHOUSE_PROTOCOL,
     host: clickhouse.CLICKHOUSE_HOST,
     port: clickhouse.CLICKHOUSE_PORT,
     username: clickhouse.CLICKHOUSE_USERNAME,
-    password: clickhouse.CLICKHOUSE_PASSWORD,
+    password: clickhouse.CLICKHOUSE_PASSWORD
   },
   redis: {
     host: redis.REDIS_HOST,
     port: redis.REDIS_PORT,
-    password: redis.REDIS_PASSWORD ?? "",
+    password: redis.REDIS_PASSWORD ?? ""
   },
   supertokens: {
     connectionURI: supertokens.SUPERTOKENS_CONNECTION_URI,
-    apiKey: supertokens.SUPERTOKENS_API_KEY,
+    apiKey: supertokens.SUPERTOKENS_API_KEY
   },
   github:
     github.INTEGRATION_GITHUB === "1"
       ? {
           appId: github.INTEGRATION_GITHUB_APP_ID,
-          privateKey: github.INTEGRATION_GITHUB_APP_PRIVATE_KEY,
+          privateKey: github.INTEGRATION_GITHUB_APP_PRIVATE_KEY
         }
       : null,
   cdn: {
@@ -315,11 +315,11 @@ export const env = {
               accountId: cdnCf.CDN_CF_ACCOUNT_ID,
               authToken: cdnCf.CDN_CF_AUTH_TOKEN,
               namespaceId: cdnCf.CDN_CF_NAMESPACE_ID,
-              baseUrl: cdnCf.CDN_CF_BASE_URL,
+              baseUrl: cdnCf.CDN_CF_BASE_URL
             }
           : null,
-      api: cdnApi.CDN_API === "1" ? { baseUrl: cdnApi.CDN_API_BASE_URL } : null,
-    },
+      api: cdnApi.CDN_API === "1" ? { baseUrl: cdnApi.CDN_API_BASE_URL } : null
+    }
   },
   s3: {
     bucketName: s3.S3_BUCKET_NAME,
@@ -327,28 +327,28 @@ export const env = {
     publicUrl: s3.S3_PUBLIC_URL ?? null,
     credentials: {
       accessKeyId: s3.S3_ACCESS_KEY_ID,
-      secretAccessKey: s3.S3_SECRET_ACCESS_KEY,
-    },
+      secretAccessKey: s3.S3_SECRET_ACCESS_KEY
+    }
   },
   organizationOIDC: base.AUTH_ORGANIZATION_OIDC === "1",
   legacyAuth0:
     authLegacyAuth0.AUTH_LEGACY_AUTH0 === "1"
       ? {
-          apiKey: authLegacyAuth0.AUTH_LEGACY_AUTH0_INTERNAL_API_KEY,
+          apiKey: authLegacyAuth0.AUTH_LEGACY_AUTH0_INTERNAL_API_KEY
         }
       : null,
   sentry: sentry.SENTRY === "1" ? { dsn: sentry.SENTRY_DSN } : null,
   log: {
     level: log.LOG_LEVEL ?? "info",
-    requests: log.REQUEST_LOGGING === "1",
+    requests: log.REQUEST_LOGGING === "1"
   },
   prometheus:
     prometheus.PROMETHEUS_METRICS === "1"
       ? {
           labels: {
-            instance: prometheus.PROMETHEUS_METRICS_LABEL_INSTANCE ?? "server",
-          },
+            instance: prometheus.PROMETHEUS_METRICS_LABEL_INSTANCE ?? "server"
+          }
         }
       : null,
-  hive: hiveConfig,
+  hive: hiveConfig
 } as const;

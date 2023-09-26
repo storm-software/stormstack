@@ -4,12 +4,12 @@ import {
   useFieldErrors,
   useFieldRegistration,
   useFieldValue,
-  useIsSubmitting,
-} from "@open-system/core-client-data-access";
+  useIsSubmitting
+} from "@stormstack/core-client-data-access";
 import {
   CheckboxProps,
-  Checkbox as OsCheckbox,
-} from "@open-system/design-system-components";
+  Checkbox as OsCheckbox
+} from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
@@ -35,7 +35,7 @@ export function Checkbox({
       {...props}
       {...register({
         required: required ? "This field is required." : undefined,
-        disabled: useIsSubmitting() || disabled,
+        disabled: useIsSubmitting() || disabled
       })}
       value={value}
       errors={errors as Record<string, string>}

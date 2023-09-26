@@ -7,8 +7,8 @@ import {
   Spinner,
   SuccessIcon,
   getButtonSvgFillStyle,
-  getButtonSvgStrokeStyle,
-} from "@open-system/design-system-components";
+  getButtonSvgStrokeStyle
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 
 export interface SubmitButtonIconProps extends BaseComponentProps {
@@ -28,7 +28,7 @@ export function SubmitButtonIcon({
   isSubmitSuccessful,
   isError,
   isDisabled,
-  variant,
+  variant
 }: SubmitButtonIconProps) {
   if ((isSubmitting || isValidating) && !isError) {
     return (

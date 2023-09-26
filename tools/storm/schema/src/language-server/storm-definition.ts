@@ -1,10 +1,10 @@
-import { isModelImport } from "@open-system/tools-storm-language/ast";
+import { isModelImport } from "@stormstack/tools-storm-language/ast";
 import {
   DefaultDefinitionProvider,
   LangiumDocuments,
   LangiumServices,
   LeafCstNode,
-  MaybePromise,
+  MaybePromise
 } from "langium";
 import { DefinitionParams, LocationLink, Range } from "vscode-languageserver";
 import { resolveImport } from "../utils/ast-utils";
@@ -38,7 +38,7 @@ export class StormDefinitionProvider extends DefaultDefinitionProvider {
             previewRange,
             selectionRange,
             sourceCstNode.range
-          ),
+          )
         ];
       }
       return undefined;

@@ -1,7 +1,7 @@
 import {
   InputAutoCompleteTypes,
-  InputTypes,
-} from "@open-system/design-system-components";
+  InputTypes
+} from "@stormstack/design-system-components";
 import { Input, InputProps } from "../input";
 
 export type UrlInputProps = Partial<Omit<InputProps, "min" | "max">>;
@@ -17,7 +17,7 @@ export function UrlInput(props: UrlInputProps) {
         value: new RegExp(
           /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
         ),
-        message: "Invalid URL format provided.",
+        message: "Invalid URL format provided."
       }}
       maxLength={500}
       {...props}

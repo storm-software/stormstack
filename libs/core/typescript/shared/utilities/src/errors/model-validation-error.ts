@@ -13,12 +13,18 @@ export class ModelValidationError extends BaseError {
   public override name = "Model Validation Error";
 
   constructor(
-    fields: FieldValidationError[],
+    fields: FieldValidationError | FieldValidationError[],
+    extendedMessage?: string,
     code: BaseErrorCode = BaseErrorCode.model_validation_error
   ) {
     super(
       code,
-      `The data model has failed one or more validations. Please review the following fields: ${fields
+      `The provided data model has failed one or more validations. Please review the following fields: ${(Array.isArray(
+        fields
+      )
+        ? fields
+        : [fields]
+      )
         .map(field =>
           field.path.map((path, i) =>
             i < field.path.length - 1
@@ -28,9 +34,12 @@ export class ModelValidationError extends BaseError {
               : path
           )
         )
-        .join(", ")}`
+        .join(", ")}`,
+      extendedMessage
     );
 
-    this.issues = fields.map(field => field.toZodIssue());
+    this.issues = (Array.isArray(fields) ? fields : [fields]).map(field =>
+      field.toZodIssue()
+    );
   }
 }

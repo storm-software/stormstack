@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Plugin } from "@envelop/types";
-import { extractSystemInfo } from "@open-system/core-server-application/context";
-import { GlobalContext } from "@open-system/core-server-application/context/global-context";
+import { extractSystemInfo } from "@stormstack/core-server-application/context";
+import { GlobalContext } from "@stormstack/core-server-application/context/global-context";
 import { useReadinessCheck as useReadinessCheckExt } from "graphql-yoga";
 import {
   GraphQLExecutionContext,

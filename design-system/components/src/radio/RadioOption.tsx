@@ -1,6 +1,6 @@
 "use client";
 
-import { isEmptyObject } from "@open-system/core-shared-utilities";
+import { isEmptyObject } from "@stormstack/core-shared-utilities";
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from "clsx";
@@ -9,13 +9,13 @@ import {
   FocusEvent,
   ForwardedRef,
   forwardRef,
-  useCallback,
+  useCallback
 } from "react";
 import { BaseFieldProps } from "../types";
 import {
   getInputFillColor,
   getInputTextStyle,
-  getStrokeStyle,
+  getStrokeStyle
 } from "../utilities/field-style-utils";
 import { useRadioContext } from "./use-radio-context";
 
@@ -70,8 +70,8 @@ export const RadioOption = forwardRef<HTMLInputElement, BaseFieldProps>(
 
     return (
       <div
-        className={clsx("flex w-full flex-row items-center gap-4", {
-          "justify-between": context.isVertical,
+        className={clsx("w-full gap-4 flex flex-row items-center", {
+          "justify-between": context.isVertical
         })}>
         <label
           className={clsx(
@@ -84,7 +84,7 @@ export const RadioOption = forwardRef<HTMLInputElement, BaseFieldProps>(
               disabled || context.disabled,
               value === context.value ? context.value : null
             ),
-            "text-label-1 font-label-1 leading-label-1 antialiased transition-all"
+            "text-label-1 leading-label-1 transition-all font-label-1 antialiased"
           )}
           htmlFor={value}>
           {name}
@@ -105,12 +105,12 @@ export const RadioOption = forwardRef<HTMLInputElement, BaseFieldProps>(
             ),
             getInputFillColor(!!(disabled || context.disabled)),
             {
-              "ring-1 ring-active ring-offset-0": context.focused,
+              "ring-1 ring-active ring-offset-0": context.focused
             },
             {
-              "focus:shadow-active-glow": context.focused && context.glow,
+              "focus:shadow-active-glow": context.focused && context.glow
             },
-            "max-w-5 flex h-5 w-5 cursor-pointer rounded-full font-label-1 leading-label-1 transition focus:ring-0 focus:ring-active focus:ring-offset-0 disabled:bg-disabled-fill",
+            "max-w-5 h-5 w-5 cursor-pointer rounded-full leading-label-1 transition focus:ring-0 focus:ring-active focus:ring-offset-0 disabled:bg-disabled-fill flex font-label-1",
             getInputTextStyle(
               !isEmptyObject(errors),
               !!context.warning,
@@ -122,7 +122,7 @@ export const RadioOption = forwardRef<HTMLInputElement, BaseFieldProps>(
             { "border-3": disabled || context.disabled },
             {
               "border-1 shadow-sm duration-300 ease-in-out hover:shadow-active-glow":
-                !disabled && !context.disabled && context.glow,
+                !disabled && !context.disabled && context.glow
             },
             { "scale-110": value === context.value }
           )}

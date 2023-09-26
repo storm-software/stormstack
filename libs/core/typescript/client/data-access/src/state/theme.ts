@@ -1,4 +1,4 @@
-import { isDevelopment } from "@open-system/core-shared-utilities";
+import { isDevelopment } from "@stormstack/core-shared-utilities";
 import { atom } from "jotai";
 import { atomWithToggle } from "../utilities/atomWithToggle";
 
@@ -12,7 +12,7 @@ if (isDevelopment()) {
   toggleDarkModeAtom.debugPrivate = true;
 }
 
-export const themeAtom = atom("open-system"); // atomWithWebStorage<string>("theme", "open-system");
+export const themeAtom = atom("impact"); // atomWithWebStorage<string>("theme", "impact");
 if (isDevelopment()) {
   themeAtom.debugPrivate = true;
 }

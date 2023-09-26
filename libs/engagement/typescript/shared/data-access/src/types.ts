@@ -1,4 +1,4 @@
-import { ScopedObjectState } from "@open-system/core-shared-data-access";
+import { ScopedObjectState } from "@stormstack/core-shared-data-access";
 
 export interface Rate extends ScopedObjectState {
   contentId: string;

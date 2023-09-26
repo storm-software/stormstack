@@ -10,7 +10,7 @@ export class ConfigurationError extends BaseError {
   ) {
     super(
       BaseErrorCode.invalid_config,
-      `Required configuration data '${configurationName}' is missing.`,
+      `Required configuration data '${configurationName}' is invalid.`,
       extendedMessage
     );
   }

@@ -1,7 +1,7 @@
 "use client";
 
-import { Link } from "@open-system/core-client-components";
-import { Heading } from "@open-system/design-system-components";
+import { Link } from "@stormstack/core-client-components";
+import { Heading } from "@stormstack/design-system-components";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import PuzzlePiece from "../../../public/static/images/puzzle-piece.svg";
@@ -17,40 +17,40 @@ export default function Page() {
   return (
     <section
       ref={ref}
-      className="z-content flex w-full snap-center snap-always flex-col items-center gap-5 pb-20">
-      <div className="relative w-full max-w-[65rem] flex-col justify-center">
+      className="w-full gap-5 pb-20 z-content flex snap-center snap-always flex-col items-center">
+      <div className="w-full relative max-w-[65rem] flex-col justify-center">
         <AnimatePresence>
           {isInView && (
             <motion.div
-              className="z-like sticky right-40 top-36 flex flex-row justify-end"
+              className="z-like right-40 top-36 sticky flex flex-row justify-end"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{
                 duration: 1,
-                delay: 0.2,
+                delay: 0.2
               }}>
               <Heading level={2}>Architecture Style</Heading>
             </motion.div>
           )}
         </AnimatePresence>
-        <div className="flex flex-row items-center gap-14">
+        <div className="gap-14 flex flex-row items-center">
           <div ref={ref} className="mb-32 mt-10 h-96 w-96">
             {isInView && (
               <motion.ul
-                className="relative h-96 w-96"
+                className="h-96 w-96 relative"
                 initial={{ opacity: 0 }}
                 animate="hidden"
                 variants={list}
                 transition={{ duration: 1, delay: 1 }}>
                 <motion.div
-                  className="z-like absolute left-0 top-0"
+                  className="z-like left-0 top-0 absolute"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{
                     duration: 1,
                     delay: 0,
-                    ease: [0, 0.71, 0.2, 1.01],
+                    ease: [0, 0.71, 0.2, 1.01]
                   }}>
                   <PuzzlePiece
                     alt="Puzzle Piece"
@@ -60,13 +60,13 @@ export default function Page() {
                   />
                 </motion.div>
                 <motion.div
-                  className="z-like absolute right-0 top-0"
+                  className="z-like right-0 top-0 absolute"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{
                     duration: 1,
                     delay: 0.5,
-                    ease: [0, 0.71, 0.2, 1.01],
+                    ease: [0, 0.71, 0.2, 1.01]
                   }}>
                   <PuzzlePiece
                     alt="Puzzle Piece"
@@ -76,13 +76,13 @@ export default function Page() {
                   />
                 </motion.div>
                 <motion.div
-                  className="z-like absolute bottom-0 right-0"
+                  className="z-like bottom-0 right-0 absolute"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{
                     duration: 1,
                     delay: 1,
-                    ease: [0, 0.71, 0.2, 1.01],
+                    ease: [0, 0.71, 0.2, 1.01]
                   }}>
                   <PuzzlePiece
                     alt="Puzzle Piece"
@@ -92,13 +92,13 @@ export default function Page() {
                   />
                 </motion.div>
                 <motion.div
-                  className="z-like absolute bottom-0 left-0"
+                  className="z-like bottom-0 left-0 absolute"
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{
                     duration: 1,
                     delay: 1.5,
-                    ease: [0, 0.71, 0.2, 1.01],
+                    ease: [0, 0.71, 0.2, 1.01]
                   }}>
                   <PuzzlePiece
                     alt="Puzzle Piece"
@@ -115,9 +115,9 @@ export default function Page() {
           </Heading>
         </div>
       </div>
-      <div className="flex w-fit max-w-[65rem] flex-col gap-20">
-        <div className="flex flex-col gap-5">
-          <p className="font-body-1 text-body-1">
+      <div className="w-fit gap-20 flex max-w-[65rem] flex-col">
+        <div className="gap-5 flex flex-col">
+          <p className="text-body-1 font-body-1">
             I generally prefer to combine the power of{" "}
             <Link href="https://micro-frontends.org/" inNewTab={true}>
               micro-frontends

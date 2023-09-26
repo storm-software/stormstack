@@ -1,5 +1,5 @@
-import { BaseComponentProps } from "@open-system/design-system-components";
 import { Page } from "@react-pdf/renderer";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { Bookmark, Orientation, PageSize, PdfNodeProps } from "../types";
 
 export type PdfPageProps = BaseComponentProps &

@@ -1,7 +1,7 @@
 "use client";
 
-import { store } from "@open-system/core-client-data-access";
-// import { WunderGraphRelayProvider } from "@open-system/data-catalog-graphql";
+import { store } from "@stormstack/core-client-data-access";
+// import { WunderGraphRelayProvider } from "@stormstack/data-catalog-graphql";
 import { Provider } from "jotai";
 import { ReactNode } from "react";
 

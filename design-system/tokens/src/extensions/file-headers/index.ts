@@ -22,8 +22,8 @@ const customFileHeadersBuilder: CustomFileHeadersBuilder = (
 * updated. Any changes made to this file will be overwritten
 * the next time the design tokens are generated.
 *
-* Repository: https://github.com/sullivanpj/open-system
-* Documentation: https://sullivanpj.github.io/open-system/
+* Repository: https://github.com/stormstack/stormstack
+* Documentation: https://stormstack.github.io/stormstack/
 * Contact: https://patsullivan.org/contact
 *
 ******************************************************************

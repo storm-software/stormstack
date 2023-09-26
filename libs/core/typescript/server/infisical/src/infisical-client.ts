@@ -1,4 +1,4 @@
-import { parseInteger } from "@open-system/core-shared-utilities/common/integer-fns";
+import { parseInteger } from "@stormstack/core-shared-utilities/common/integer-fns";
 import InfisicalClient from "infisical-node";
 import { DEFAULT_CACHE_TTL } from "./types";
 

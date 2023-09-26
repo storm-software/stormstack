@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { atomWithWebStorage } from "@open-system/core-client-data-access";
-import { DateTime } from "@open-system/core-shared-utilities";
-import { UserTypes } from "@open-system/user-management-shared-data-access";
+import { atomWithWebStorage } from "@stormstack/core-client-data-access";
+import { DateTime } from "@stormstack/core-shared-utilities";
+import { UserTypes } from "@stormstack/user-management-shared-data-access";
 import { Getter, Setter, atom } from "jotai";
 
 export const userNameAtom = atomWithWebStorage<string>("user-name", "Guest");

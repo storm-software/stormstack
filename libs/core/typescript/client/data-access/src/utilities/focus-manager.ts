@@ -1,4 +1,4 @@
-import { IsServer } from "@open-system/core-shared-utilities";
+import { IsServer } from "@stormstack/core-shared-utilities";
 import { Subscribable } from "./subscribable";
 
 type SetupFn = (

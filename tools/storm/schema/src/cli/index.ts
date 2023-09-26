@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PackageManagers } from "@open-system/core-server-utilities/package-fns";
-import { StormLanguageMetaData } from "@open-system/tools-storm-language/module";
+import { PackageManagers } from "@stormstack/core-server-utilities/package-fns";
+import { StormLanguageMetaData } from "@stormstack/tools-storm-language/module";
 import chalk from "chalk";
 import { Command, Option } from "commander";
 import fs from "fs";

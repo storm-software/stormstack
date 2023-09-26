@@ -1,7 +1,7 @@
 // Stacktracey requires buffer, which Vite does not polyfill by default
 if (typeof window !== "undefined") {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  window.Buffer = window.Buffer || require("node:buffer").Buffer;
+  window.Buffer = window.Buffer || globalThis?.Buffer; // || require("node:buffer").Buffer;
 }
 
 // eslint-disable-next-line import/first

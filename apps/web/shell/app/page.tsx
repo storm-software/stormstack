@@ -1,10 +1,10 @@
-import { SideTitle } from "@open-system/common-client-components";
+import { SideTitle } from "@stormstack/common-client-components";
 import {
   Link,
   ScrollArrowIndicator,
-  ScrollProgressBar,
-} from "@open-system/core-client-components";
-import { Card } from "@open-system/design-system-components";
+  ScrollProgressBar
+} from "@stormstack/core-client-components";
+import { Card } from "@stormstack/design-system-components";
 import AppTitle from "../components/app-title";
 import HeaderBottom from "../components/header-bottom";
 import SubscriptionCard from "../components/subscription-card";
@@ -13,7 +13,7 @@ import Client from "./client";
 
 export default function Page() {
   return (
-    <div className="relative h-full w-full">
+    <div className="h-full w-full relative">
       <div className="z-progress">
         <ScrollProgressBar />
       </div>
@@ -22,20 +22,20 @@ export default function Page() {
         <ScrollArrowIndicator />
       </div>
 
-      <header className="relative flex h-fit min-h-[220vh] flex-col overflow-hidden lg:min-h-[200vh]">
-        <div className="relative h-[150vh] min-h-screen w-full">
-          <div className="absolute top-0 z-10 h-full w-full overflow-hidden bg-fixed pb-10">
-            <div className="relative h-full w-full">
-              <div className="absolute left-10 top-10 z-30 h-48 w-64 border-l-[10px] border-t-[10px] border-l-gray-500/30 border-t-gray-500/30">
-                <div className="relative m-5 flex flex-row items-center gap-3">
-                  <div className="vhs-text h-8 w-8 animate-flash rounded-full bg-red-800/40" />
+      <header className="h-fit lg:min-h-[200vh] relative flex min-h-[220vh] flex-col overflow-hidden">
+        <div className="min-h-screen w-full relative h-[150vh]">
+          <div className="top-0 z-10 h-full w-full pb-10 absolute overflow-hidden bg-fixed">
+            <div className="h-full w-full relative">
+              <div className="left-10 top-10 z-30 h-48 w-64 border-l-gray-500/30 border-t-gray-500/30 absolute border-l-[10px] border-t-[10px]">
+                <div className="m-5 gap-3 relative flex flex-row items-center">
+                  <div className="vhs-text h-8 w-8 rounded-full bg-red-800/40 animate-flash" />
                   <p className="vhs-text text-6xl font-black text-red-800/40">
                     REC
                   </p>
                 </div>
               </div>
-              <div className="absolute right-10 top-10 z-30 h-48 w-64 border-r-[10px] border-t-[10px] border-r-gray-500/30 border-t-gray-500/30">
-                <div className="relative flex w-full flex-row-reverse items-start pr-10">
+              <div className="right-10 top-10 z-30 h-48 w-64 border-r-gray-500/30 border-t-gray-500/30 absolute border-r-[10px] border-t-[10px]">
+                <div className="w-full pr-10 relative flex flex-row-reverse items-start">
                   <svg
                     className="vhs-text h-20 origin-center -rotate-90 fill-gray-500/30"
                     viewBox="0 0 471.829 471.829">
@@ -53,10 +53,10 @@ export default function Page() {
                 </div>
               </div>
 
-              <div className="absolute bottom-[50vh] left-10 z-30 h-48 w-64 border-b-[10px] border-l-[10px] border-b-gray-500/30 border-l-gray-500/30" />
-              <div className="absolute bottom-[50vh] right-10 z-30 h-48 w-64 border-b-[10px] border-r-[10px] border-b-gray-500/30 border-r-gray-500/30" />
+              <div className="left-10 z-30 h-48 w-64 border-b-gray-500/30 border-l-gray-500/30 absolute bottom-[50vh] border-b-[10px] border-l-[10px]" />
+              <div className="right-10 z-30 h-48 w-64 border-b-gray-500/30 border-r-gray-500/30 absolute bottom-[50vh] border-b-[10px] border-r-[10px]" />
 
-              <div className="absolute bottom-[47vh] left-64 right-64 z-30 flex flex-row items-center">
+              <div className="left-64 right-64 z-30 absolute bottom-[47vh] flex flex-row items-center">
                 <VhsTitleBar />
               </div>
 
@@ -66,51 +66,51 @@ export default function Page() {
                 <div className="green" />
               </div>
 
-              <div className="absolute left-0 top-0 z-20 h-full w-full overflow-hidden after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.75)_100%)] after:content-['']">
-                <div className="tv-static absolute -bottom-52 -left-52 -right-52 -top-52 animate-tv-static opacity-[35%]"></div>
+              <div className="left-0 top-0 z-20 h-full w-full after:bottom-0 after:left-0 after:right-0 after:top-0 absolute overflow-hidden after:absolute after:bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.75)_100%)] after:content-['']">
+                <div className="tv-static -bottom-52 -left-52 -right-52 -top-52 absolute animate-tv-static opacity-[35%]"></div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="absolute left-0 top-20 z-title h-fit w-full">
-          <div className="relative h-fit w-full">
+        <div className="left-0 top-20 h-fit w-full absolute z-title">
+          <div className="h-fit w-full relative">
             <AppTitle />
           </div>
         </div>
 
         <HeaderBottom>
-          <div className="background-gradient flex w-full flex-1 flex-col items-center justify-center px-4 pb-32">
-            <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          <div className="background-gradient w-full flex-1 px-4 pb-32 flex flex-col items-center justify-center">
+            <div className="grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8 grid justify-between">
               <SubscriptionCard />
               <Card
-                className="h-full min-h-[8rem] cursor-pointer"
+                className="h-full cursor-pointer min-h-[8rem]"
                 title="Resume"
                 details="Download a copy of my resume"
                 iconType="download"
               />
               <Card
-                className="h-full min-h-[8rem] cursor-pointer"
+                className="h-full cursor-pointer min-h-[8rem]"
                 title="Articles"
                 details="Read some recent articles I've written"
                 iconType="pencil"
               />
               <Link href="/contact">
                 <Card
-                  className="h-full min-h-[8rem] cursor-pointer"
+                  className="h-full cursor-pointer min-h-[8rem]"
                   title="Contact"
                   details="Reach out to me for anything and everything"
                   iconType="post-box"
                 />
               </Link>
               <Card
-                className="h-full min-h-[8rem] cursor-pointer"
+                className="h-full cursor-pointer min-h-[8rem]"
                 title="Projects"
                 details="Check out some projects I'm currently working on"
                 iconType="list"
               />
               <Card
-                className="h-full min-h-[8rem] cursor-pointer"
+                className="h-full cursor-pointer min-h-[8rem]"
                 title="Design"
                 details="Read about my favorite software design philosophies"
                 badge="New"

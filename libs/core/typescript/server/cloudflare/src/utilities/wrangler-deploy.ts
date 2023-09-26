@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExecutorContext, workspaceRoot } from "@nx/devkit";
-import { formatDate } from "@open-system/core-shared-utilities/common/date-fns";
-import { ConfigurationError } from "@open-system/core-shared-utilities/errors";
-import { ConsoleLogger } from "@open-system/core-shared-logging";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
+import { formatDate } from "@stormstack/core-shared-utilities/common/date-fns";
+import { ConfigurationError } from "@stormstack/core-shared-utilities/errors";
 import Path from "path";
 import { WranglerCommand } from "../types";
 import { runWranglerCommand } from "./wrangler";

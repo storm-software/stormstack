@@ -1,7 +1,7 @@
 "use client";
 
-import { Link } from "@open-system/core-client-components";
-import { Heading } from "@open-system/design-system-components";
+import { Link } from "@stormstack/core-client-components";
+import { Heading } from "@stormstack/design-system-components";
 import { motion, useInView } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import AsyncapiLogo from "../../../public/static/images/external-logos/asyncapi-logo.svg";
@@ -19,22 +19,22 @@ const Types = {
   NONE: "none",
   ASYNC_API: "asyncapi",
   OPEN_API: "openapi",
-  GRAPHQL: "graphql",
+  GRAPHQL: "graphql"
 };
 
 const logoVariants = {
   initial: {
     opacity: 0,
-    scale: 0,
+    scale: 0
   },
   none: {
     opacity: 1,
     scale: 1,
     transition: {
       duration: 1,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const openapiLogoVariants = {
@@ -44,25 +44,25 @@ const openapiLogoVariants = {
     scale: 0.8,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   openapi: {
     opacity: 1,
     scale: 1.2,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   graphql: {
     opacity: 1,
     scale: 0.8,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const asyncapiLogoVariants = {
@@ -71,33 +71,33 @@ const asyncapiLogoVariants = {
     ...logoVariants.none,
     transition: {
       ...logoVariants.none.transition,
-      delay: 1,
-    },
+      delay: 1
+    }
   },
   asyncapi: {
     opacity: 1,
     scale: 1.2,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   openapi: {
     opacity: 1,
     scale: 0.8,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   graphql: {
     opacity: 1,
     scale: 0.8,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const graphqlLogoVariants = {
@@ -106,33 +106,33 @@ const graphqlLogoVariants = {
     ...logoVariants.none,
     transition: {
       ...logoVariants.none.transition,
-      delay: 2,
-    },
+      delay: 2
+    }
   },
   asyncapi: {
     opacity: 1,
     scale: 0.8,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   openapi: {
     opacity: 1,
     scale: 0.8,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   graphql: {
     opacity: 1,
     scale: 1.2,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 const techLogoVariants = {
@@ -141,17 +141,17 @@ const techLogoVariants = {
     scale: 1,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
+      stiffness: 1000
+    }
   },
   closed: {
     opacity: 0,
     scale: 0,
     transition: {
       duration: 0.5,
-      stiffness: 1000,
-    },
-  },
+      stiffness: 1000
+    }
+  }
 };
 
 export default function ApiGeneration() {
@@ -174,9 +174,9 @@ export default function ApiGeneration() {
   }, [type]);
 
   return (
-    <div ref={ref} className="flex max-w-[65rem] flex-col items-center gap-14">
-      <div className="flex flex-row items-center gap-14">
-        <ul className="flex flex-col justify-center gap-1">
+    <div ref={ref} className="gap-14 flex max-w-[65rem] flex-col items-center">
+      <div className="gap-14 flex flex-row items-center">
+        <ul className="gap-1 flex flex-col justify-center">
           <motion.li
             className="cursor-pointer"
             onClick={toggleOpenApi}
@@ -205,29 +205,29 @@ export default function ApiGeneration() {
             <GraphQLLogo alt="GraphQL Logo" height={130} />
           </motion.li>
         </ul>
-        <div className="flex flex-col items-center gap-3">
-          <div className="relative h-48 w-48">
+        <div className="gap-3 flex flex-col items-center">
+          <div className="h-48 w-48 relative">
             <Gear
-              className="absolute right-0 top-0 animate-spin-slow fill-primary"
+              className="right-0 top-0 fill-primary absolute animate-spin-slow"
               height={100}
               width={100}
             />
             <Gear
-              className="absolute bottom-0 left-0 animate-spin-slow fill-primary"
+              className="bottom-0 left-0 fill-primary absolute animate-spin-slow"
               height={115}
               width={115}
             />
           </div>
           {/*<Image src={arrow} alt="Arrow" className="rotate-180" width={300} />*/}
         </div>
-        <div className="relative flex h-80 w-80 flex-col rounded-lg border-4 border-primary">
-          <div className="flex flex-row-reverse items-center gap-2 border-b-4 border-primary p-2">
+        <div className="h-80 w-80 rounded-lg border-4 border-primary relative flex flex-col">
+          <div className="gap-2 border-b-4 border-primary p-2 flex flex-row-reverse items-center">
             <div className="h-3 w-3 rounded-full bg-red-600"></div>
             <div className="h-3 w-3 rounded-full bg-yellow-300"></div>
             <div className="h-3 w-3 rounded-full bg-teal-500"></div>
           </div>
           <motion.div
-            className="absolute left-8 top-10 z-20"
+            className="left-8 top-10 z-20 absolute"
             initial={false}
             variants={techLogoVariants}
             animate={
@@ -240,21 +240,21 @@ export default function ApiGeneration() {
             <DotnetLogo className="h-32 w-32" />
           </motion.div>
           <motion.div
-            className="absolute right-5 top-20 z-20"
+            className="right-5 top-20 z-20 absolute"
             initial={false}
             variants={techLogoVariants}
             animate={type === Types.ASYNC_API ? "opened" : "closed"}>
             <KafkaLogo className="h-36 w-24" />
           </motion.div>
           <motion.div
-            className="absolute bottom-2 left-8 z-20"
+            className="bottom-2 left-8 z-20 absolute"
             initial={false}
             variants={techLogoVariants}
             animate={type === Types.ASYNC_API ? "opened" : "closed"}>
             <RabbitMQLogo className="h-36 w-24" />
           </motion.div>
           <motion.div
-            className="absolute bottom-4 right-8 z-20"
+            className="bottom-4 right-8 z-20 absolute"
             initial={false}
             variants={techLogoVariants}
             animate={
@@ -264,14 +264,14 @@ export default function ApiGeneration() {
             }>
             <ReduxLogo className="h-32 w-32" />
           </motion.div>
-          <ul className="z-10 flex flex-col items-start gap-1 p-4">
+          <ul className="z-10 gap-1 p-4 flex flex-col items-start">
             <motion.li
               className="h-2 w-1/2 rounded-xl bg-slate-300"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 0,
+                delay: 0
               }}></motion.li>
             <motion.li
               className="h-2 w-2/3 rounded-xl bg-slate-300"
@@ -279,7 +279,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 1,
+                delay: 1
               }}></motion.li>
             <motion.li
               className="h-2 w-3/4 rounded-xl bg-slate-300"
@@ -287,7 +287,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 2,
+                delay: 2
               }}></motion.li>
             <motion.li
               className="h-2 w-1/4 rounded-xl bg-slate-300"
@@ -295,7 +295,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 3,
+                delay: 3
               }}></motion.li>
             <motion.li
               className="h-2 w-3/4 rounded-xl bg-slate-300"
@@ -303,7 +303,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 3,
+                delay: 3
               }}></motion.li>
             <motion.li
               className="h-2 w-1/2 rounded-xl bg-slate-300"
@@ -311,7 +311,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 4,
+                delay: 4
               }}></motion.li>
             <motion.li
               className="h-2 w-1/2 rounded-xl bg-slate-300"
@@ -319,7 +319,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 5,
+                delay: 5
               }}></motion.li>
             <motion.li
               className="h-2 w-2/3 rounded-xl bg-slate-300"
@@ -327,7 +327,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 6,
+                delay: 6
               }}></motion.li>
             <motion.li
               className="h-2 w-3/4 rounded-xl bg-slate-300"
@@ -335,7 +335,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 7,
+                delay: 7
               }}></motion.li>
             <motion.li
               className="h-2 w-3/4 rounded-xl bg-slate-300"
@@ -343,7 +343,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 8,
+                delay: 8
               }}></motion.li>
             <motion.li
               className="h-2 w-1/2 rounded-xl bg-slate-300"
@@ -351,7 +351,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 9,
+                delay: 9
               }}></motion.li>
             <motion.li
               className="h-2 w-1/4 rounded-xl bg-slate-300"
@@ -359,7 +359,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 10,
+                delay: 10
               }}></motion.li>
             <motion.li
               className="h-2 w-2/3 rounded-xl bg-slate-300"
@@ -367,7 +367,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 11,
+                delay: 11
               }}></motion.li>
             <motion.li
               className="h-2 w-1/3 rounded-xl bg-slate-300"
@@ -375,7 +375,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 12,
+                delay: 12
               }}></motion.li>
             <motion.li
               className="h-2 w-1/4 rounded-xl bg-slate-300"
@@ -383,7 +383,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 13,
+                delay: 13
               }}></motion.li>
             <motion.li
               className="h-2 w-3/4 rounded-xl bg-slate-300"
@@ -391,7 +391,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 14,
+                delay: 14
               }}></motion.li>
             <motion.li
               className="h-2 w-2/4 rounded-xl bg-slate-300"
@@ -399,7 +399,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 15,
+                delay: 15
               }}></motion.li>
             <motion.li
               className="h-2 w-3/4 rounded-xl bg-slate-300"
@@ -407,7 +407,7 @@ export default function ApiGeneration() {
               whileInView={{ opacity: 1 }}
               transition={{
                 duration: 1,
-                delay: 16,
+                delay: 16
               }}></motion.li>
           </ul>
         </div>
@@ -415,9 +415,9 @@ export default function ApiGeneration() {
       <Heading level={4} className="text-5xl leading-10">
         Use API contracts to generate code
       </Heading>
-      <div className="flex w-fit max-w-[65rem] flex-col gap-20">
-        <div className="flex flex-col gap-5">
-          <p className="font-body-1 text-body-1">
+      <div className="w-fit gap-20 flex max-w-[65rem] flex-col">
+        <div className="gap-5 flex flex-col">
+          <p className="text-body-1 font-body-1">
             I&apos;ve created{" "}
             <Link href="https://micro-frontends.org/" inNewTab={true}>
               custom tools

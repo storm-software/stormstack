@@ -1,7 +1,4 @@
-import {
-  ApiException,
-  ConsoleLogger,
-} from "@open-system/core-shared-utilities";
+import { ApiException, ConsoleLogger } from "@stormstack/core-shared-utilities";
 import { RequestOptions } from "http";
 import { KsqlDBRest } from "../types";
 
@@ -17,12 +14,12 @@ export const runCommand = async (
   const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      ksql: ksqlCommand,
+      ksql: ksqlCommand
     }),
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Basic ${btoa(options.auth)}`,
-    },
+      "Authorization": `Basic ${btoa(options.auth)}`
+    }
   });
   if (!response.ok) {
     throw new ApiException(

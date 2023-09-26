@@ -1,4 +1,4 @@
-import { lowerCaseFirst } from "@open-system/core-shared-utilities/common/string-fns";
+import { lowerCaseFirst } from "@stormstack/core-shared-utilities/common/string-fns";
 import {
   ArrayExpr,
   DataModel,
@@ -9,8 +9,8 @@ import {
   isReferenceExpr,
   Model,
   ReferenceExpr
-} from "@open-system/tools-storm-language/ast";
-import type { RuntimeAttribute } from "@open-system/tools-storm-runtime";
+} from "@stormstack/tools-storm-language/ast";
+import type { RuntimeAttribute } from "@stormstack/tools-storm-runtime";
 import { join } from "path";
 import { CodeBlockWriter, VariableDeclarationKind } from "ts-morph";
 import {

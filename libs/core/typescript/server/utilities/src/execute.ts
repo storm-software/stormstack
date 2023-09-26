@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ConsoleLogger } from "@open-system/core-shared-logging";
-import { isEmptyObject } from "@open-system/core-shared-utilities/common";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
+import { isEmptyObject } from "@stormstack/core-shared-utilities/common";
 import {
   ExecOptions,
   StdioOptions,

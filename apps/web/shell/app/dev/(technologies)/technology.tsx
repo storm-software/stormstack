@@ -3,16 +3,16 @@
 import {
   Link,
   Modal,
-  ModalReference,
-} from "@open-system/core-client-components";
+  ModalReference
+} from "@stormstack/core-client-components";
 import {
   Badge,
   Button,
   ButtonCornerRoundingTypes,
   ButtonVariants,
   Heading,
-  PropsWithBase,
-} from "@open-system/design-system-components";
+  PropsWithBase
+} from "@stormstack/design-system-components";
 import { useCallback, useRef } from "react";
 
 type TechnologyProps = PropsWithBase<{
@@ -29,7 +29,7 @@ export default function Technology({
   experience,
   url,
   children,
-  tags = [],
+  tags = []
 }: TechnologyProps) {
   const ref = useRef<ModalReference>(null);
   const handleOpen = useCallback(
@@ -39,28 +39,28 @@ export default function Technology({
 
   return (
     <div
-      className="group flex h-fit w-fit flex-col justify-center gap-4"
+      className="h-fit w-fit gap-4 group flex flex-col justify-center"
       onClick={handleOpen}>
       <div className="h-fit w-fit cursor-pointer transition-transform group-hover:translate-y-0.5 group-hover:scale-110">
         {children}
       </div>
       <Heading
         level={5}
-        className="cursor-pointer whitespace-nowrap text-center transition-all group-hover:translate-y-0.5 group-hover:scale-110 group-hover:text-text-hover group-hover:underline">
+        className="cursor-pointer transition-all group-hover:translate-y-0.5 group-hover:scale-110 group-hover:text-text-hover whitespace-nowrap text-center group-hover:underline">
         {name}
       </Heading>
 
       <Modal
         ref={ref}
-        className="h-[25rem] min-h-fit max-w-[55rem]"
+        className="min-h-fit h-[25rem] max-w-[55rem]"
         title={
-          <div className="flex flex-row items-center gap-5">
+          <div className="gap-5 flex flex-row items-center">
             {children}
-            <div className="flex flex-1 grow flex-col justify-around gap-6">
+            <div className="flex-1 grow gap-6 flex flex-col justify-around">
               <Heading level={2} className="whitespace-nowrap">
                 {name}
               </Heading>
-              <div className="flex flex-row flex-wrap items-center gap-2">
+              <div className="gap-2 flex flex-row flex-wrap items-center">
                 {tags.map((tag: string, i: number) => (
                   <Badge key={i} variant="primary">
                     {tag}
@@ -70,20 +70,20 @@ export default function Technology({
             </div>
           </div>
         }>
-        <div className="flex h-full flex-1 flex-col gap-5">
+        <div className="h-full flex-1 gap-5 flex flex-col">
           <div className="flex-1 grow flex-col">
-            <div className="text-md flex-1 grow items-start font-body-1 text-body-1">
-              <h2 className="text-lg font-label-1 text-primary underline">
+            <div className="text-md flex-1 grow text-body-1 items-start font-body-1">
+              <h2 className="text-lg text-primary font-label-1 underline">
                 Description
               </h2>
-              <p className="text-md font-body-1 text-body-1">{description}</p>
+              <p className="text-md text-body-1 font-body-1">{description}</p>
             </div>
             {experience && (
               <div className="mt-6 flex flex-col">
-                <h2 className="text-lg font-label-1 text-primary underline">
+                <h2 className="text-lg text-primary font-label-1 underline">
                   Experience
                 </h2>
-                <p className="text-md font-body-1 text-body-1">{experience}</p>
+                <p className="text-md text-body-1 font-body-1">{experience}</p>
               </div>
             )}
           </div>

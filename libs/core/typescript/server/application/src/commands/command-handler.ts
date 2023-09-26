@@ -1,4 +1,4 @@
-/*import { IAggregateRoot } from "@open-system/core-server-domain";
+/*import { IAggregateRoot } from "@stormstack/core-server-domain";
 import { ServerContext } from "../types";
 import { ICommand } from "./command";
 

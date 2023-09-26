@@ -1,7 +1,7 @@
 import type {
   DataModel,
-  DataModelAttribute,
-} from "@open-system/tools-storm-language/ast";
+  DataModelAttribute
+} from "@stormstack/tools-storm-language/ast";
 import { getLiteral } from "./utils";
 import { hasValidationAttributes } from "./validation";
 
@@ -30,7 +30,7 @@ export function analyzePolicies(dataModel: DataModel) {
       create === true && read === true && update === true && del === true,
     denyAll:
       create === false && read === false && update === false && del === false,
-    hasFieldValidation,
+    hasFieldValidation
   };
 }
 

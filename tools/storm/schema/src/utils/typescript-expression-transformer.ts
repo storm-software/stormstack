@@ -12,7 +12,7 @@ import {
   ReferenceExpr,
   ThisExpr,
   UnaryExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import { ExpressionContext } from "../constants";
 import { isFromStdlib } from "../language-server/utils";
 import { isFutureExpr } from "../plugins/access-policy/utils";

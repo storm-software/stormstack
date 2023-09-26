@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import { BaseComponentProps } from "@open-system/design-system-components";
-import { PdfText, pdfTw } from "@open-system/core-client-pdf";
+import { PdfText, pdfTw } from "@stormstack/core-client-pdf";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import clsx from "clsx";
 
 export type PdfResumeParagraphProps = BaseComponentProps;

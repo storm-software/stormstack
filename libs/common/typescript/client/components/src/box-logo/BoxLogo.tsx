@@ -1,4 +1,4 @@
-import { BaseComponentProps } from "@open-system/design-system-components";
+import { BaseComponentProps } from "@stormstack/design-system-components";
 import { ColorSchemeTypes } from "../types";
 
 export interface BoxLogoProps extends BaseComponentProps {
@@ -10,7 +10,7 @@ export interface BoxLogoProps extends BaseComponentProps {
  */
 export function BoxLogo({
   className,
-  colorScheme = ColorSchemeTypes.PRIMARY,
+  colorScheme = ColorSchemeTypes.PRIMARY
 }: BoxLogoProps) {
   if (colorScheme === ColorSchemeTypes.PRIMARY) {
     return (

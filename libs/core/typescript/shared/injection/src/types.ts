@@ -5,7 +5,7 @@ import {
   Clonable,
   MaybePromise,
   Newable
-} from "@open-system/core-shared-utilities/types";
+} from "@stormstack/core-shared-utilities/types";
 
 export type ServiceIdentifier<T = unknown> =
   | string

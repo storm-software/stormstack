@@ -229,7 +229,7 @@ const config: Linter.RulesRecord = {
    *
    * 🔧 Fixable - https://eslint.org/docs/rules/yoda
    */
-  yoda: "warn",
+  yoda: "warn"
 };
 
 export default config;

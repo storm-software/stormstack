@@ -3,8 +3,8 @@ import {
   PdfLink,
   PdfText,
   pdfTw,
-  PdfView,
-} from "@open-system/core-client-pdf";
+  PdfView
+} from "@stormstack/core-client-pdf";
 import titleIcon from "../../assets/title-icon.png";
 
 export function PdfResumeTitle() {

@@ -1,8 +1,8 @@
 import {
   Link as DesignComponentLink,
   LinkProps as DesignComponentLinkProps,
-  PropsWithBase,
-} from "@open-system/design-system-components";
+  PropsWithBase
+} from "@stormstack/design-system-components";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 
 import { HTMLAttributeAnchorTarget } from "react";

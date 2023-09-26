@@ -1,5 +1,5 @@
-import { IEntity } from "@open-system/core-server-domain/types";
-import { isObject, isSet } from "@open-system/core-shared-utilities";
+import { IEntity } from "@stormstack/core-server-domain/types";
+import { isObject, isSet } from "@stormstack/core-shared-utilities";
 import { DrizzleD1Database } from "drizzle-orm/d1";
 import { BaseSQLiteDatabase } from "drizzle-orm/sqlite-core";
 

@@ -1,5 +1,5 @@
 import { GraphQLLiveDirective } from "@envelop/live-query";
-import { ConsoleLogger } from "@open-system/core-shared-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-utilities";
 import { camelCase, camelCaseTransformMerge } from "change-case";
 import {
   GraphQLFloat,
@@ -10,7 +10,7 @@ import {
   GraphQLSchema,
   GraphQLString,
   isInputType,
-  printSchema,
+  printSchema
 } from "graphql";
 import { RequestOptions } from "http";
 import {
@@ -19,7 +19,7 @@ import {
   KSqlDBEntities,
   KsqlDBResponse,
   ResolverFields,
-  SkipStreamList,
+  SkipStreamList
 } from "../types";
 import { KsqlDBMutation, Missing } from "./graphql-object-types";
 import { runCommand } from "./requester";
@@ -36,9 +36,9 @@ const TypeMap = {
     VARCHAR: new GraphQLList(GraphQLString),
     BIGINT: new GraphQLList(GraphQLFloat),
     INTEGER: new GraphQLList(GraphQLFloat),
-    DOUBLE: new GraphQLList(GraphQLFloat),
+    DOUBLE: new GraphQLList(GraphQLFloat)
   },
-  STRUCT: {}, // MemberSchema exclude not excluding this?
+  STRUCT: {} // MemberSchema exclude not excluding this?
 };
 
 const setSchemaType = (ksqlEntities: KSqlDBEntities, field: Field): void => {
@@ -53,14 +53,14 @@ const setSchemaType = (ksqlEntities: KSqlDBEntities, field: Field): void => {
       field.schema.memberSchema.type
     ] as GraphQLScalarType;
     ksqlEntities[field.name] = {
-      type: scalarType,
+      type: scalarType
     };
   } else {
     const scalarType: GraphQLScalarType = TypeMap[
       field.schema.type
     ] as GraphQLScalarType;
     ksqlEntities[field.name] = {
-      type: scalarType,
+      type: scalarType
     };
   }
 };
@@ -77,8 +77,8 @@ const buildSchemaObject = (
       ksqlEntities[field.name] = {
         type: new GraphQLObjectType({
           name: field.name,
-          fields: fields,
-        }),
+          fields: fields
+        })
       };
     } else {
       // eslint-disable-next-line
@@ -90,12 +90,12 @@ const buildSchemaObject = (
 
 export const generateSchemaFromKsql = ({
   name,
-  fields,
+  fields
 }: KsqlDBResponse): GraphQLObjectTypeConfig<void, void> => {
   const schemaFields = fields.reduce(buildSchemaObject, {});
   return {
     name,
-    fields: schemaFields,
+    fields: schemaFields
   };
 };
 
@@ -123,7 +123,7 @@ function generateQueries(
       } else {
         ksqlEntities[query.name] = {
           type: schemaType,
-          args,
+          args
         };
       }
     }
@@ -140,7 +140,7 @@ function generateSubscription(
   const args = generateGraphQLArgs(query.fields);
   ksqlEntities[query.name] = {
     type: schemaType,
-    args,
+    args
   };
   return ksqlEntities;
 }
@@ -152,7 +152,7 @@ function generateMutations(
   const args = generateGraphQLArgs(query.fields);
   ksqlEntities[query.name] = {
     type: KsqlDBMutation,
-    args,
+    args
   };
   return ksqlEntities;
 }
@@ -194,17 +194,17 @@ export const generateSchemaAndFields = (
     schema: new GraphQLSchema({
       query: new GraphQLObjectType({
         name: "Query",
-        fields: queryFields,
+        fields: queryFields
       }),
       subscription: new GraphQLObjectType({
         name: "Subscription",
-        fields: subscriptionFields,
+        fields: subscriptionFields
       }),
       mutation: new GraphQLObjectType({
         name: "Mutation",
-        fields: mutationFields,
+        fields: mutationFields
       }),
-      directives: [GraphQLLiveDirective],
+      directives: [GraphQLLiveDirective]
     }),
     fields: {
       queryFields: Object.keys(queryFields)
@@ -216,8 +216,8 @@ export const generateSchemaAndFields = (
           return ksqlEntities;
         }, {}),
       subscriptionFields,
-      mutationFields,
-    },
+      mutationFields
+    }
   };
 };
 
@@ -229,7 +229,7 @@ const formatField = (field: Field): Field | null => {
   return field
     ? {
         ...field,
-        name: formatName(field.name),
+        name: formatName(field.name)
         /*schema: field.schema
           ? {
               ...field.schema,
@@ -251,7 +251,7 @@ const formatResponses = (
         ret.push({
           ...response,
           name: formatName(response.name),
-          fields: response.fields.map(f => formatField(f)),
+          fields: response.fields.map(f => formatField(f))
         });
 
       return ret;
@@ -324,7 +324,7 @@ export function buildKsqlDBGraphQL({ options }: Config): Promise<{
             schemas: result.schema,
             queryResolvers,
             subscriptionResolvers,
-            mutationResolvers,
+            mutationResolvers
           });
         } else {
           throw new Error("Unable to create schemas and resolvers");

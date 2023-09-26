@@ -12,18 +12,18 @@ const config: CodegenConfig = {
             content: `/* eslint-disable */
 
 import "graphql-import-node";
-import { GraphQLServerContext } from "@open-system/core-server-graphql";
-       `,
-          },
+import { GraphQLServerContext } from "@stormstack/core-server-graphql";
+       `
+          }
         },
         "typescript",
         "typescript-resolvers",
-        "typescript-validation-schema",
+        "typescript-validation-schema"
       ],
       hooks: { afterAllFileWrite: ["eslint --fix", "prettier --write"] },
       presetConfig: {
         baseTypesPath: "../__generated__/types.ts",
-        filename: "__generated__/types.ts",
+        filename: "__generated__/types.ts"
       },
       config: {
         immutableTypes: true,
@@ -46,7 +46,7 @@ import { GraphQLServerContext } from "@open-system/core-server-graphql";
           Longitude: "string",
           Locale: "string",
           SemVer: "string",
-          JWT: "string",
+          JWT: "string"
         },
         strictScalars: true,
         schema: "zod",
@@ -71,11 +71,11 @@ import { GraphQLServerContext } from "@open-system/core-server-graphql";
           Locale: "z.string()",
           SemVer:
             "z.string().regex(/^([0-9]+).([0-9]+).([0-9]+)(?:-([0-9A-Za-z-]+(?:.[0-9A-Za-z-]+)*))?(?:+[0-9A-Za-z-]+)?$/",
-          JWT: "z.string()",
-        },
-      },
-    },
-  },
+          JWT: "z.string()"
+        }
+      }
+    }
+  }
 };
 
 export default config;

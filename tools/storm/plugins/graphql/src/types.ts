@@ -1,3 +1,4 @@
+import { DMMF as PrismaDMMF } from "@prisma/generator-helper";
 import {
   ApiModel,
   DataModel,
@@ -6,8 +7,7 @@ import {
   Interface,
   Model,
   OperationGroup
-} from "@open-system/tools-storm-language/ast";
-import { DMMF as PrismaDMMF } from "@prisma/generator-helper";
+} from "@stormstack/tools-storm-language/ast";
 import { Project } from "ts-morph";
 
 export type TransformerParams = {

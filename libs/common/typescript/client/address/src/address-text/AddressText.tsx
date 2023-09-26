@@ -1,11 +1,11 @@
 "use client";
 
-import { AddressMolecule } from "@open-system/common-client-data-access";
-import { Address } from "@open-system/common-shared-data-access";
+import { AddressMolecule } from "@stormstack/common-client-data-access";
+import { Address } from "@stormstack/common-shared-data-access";
 import {
   FieldText,
-  FieldTextProps,
-} from "@open-system/design-system-components";
+  FieldTextProps
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { useAtomValue } from "jotai";
 import { useMolecule } from "jotai-molecules";
@@ -31,7 +31,7 @@ export function AddressText({
           <FieldText
             {...props}
             className={clsx(
-              "flex flex-col gap-0.5 whitespace-pre-line",
+              "gap-0.5 flex flex-col whitespace-pre-line",
               className
             )}>
             {formattedAddressLines &&

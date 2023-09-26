@@ -1,4 +1,4 @@
-import { BreadcrumbItemType as OsBreadcrumbItemType } from "@open-system/design-system-components";
+import { BreadcrumbItemType as OsBreadcrumbItemType } from "@stormstack/design-system-components";
 
 export type BreadcrumbItemType = Omit<OsBreadcrumbItemType, "name"> & {
   /**

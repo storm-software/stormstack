@@ -1,22 +1,22 @@
 "use client";
 
-import { SubscriptionCheckbox } from "@open-system/contact-client-components";
-import { Contact } from "@open-system/contact-shared-data-access";
+import { SubscriptionCheckbox } from "@stormstack/contact-client-components";
+import { Contact } from "@stormstack/contact-shared-data-access";
 import {
   MessageTypes,
   useForm,
-  useSetNotifications,
-} from "@open-system/core-client-data-access";
+  useSetNotifications
+} from "@stormstack/core-client-data-access";
 import {
   EmailInput,
   FormProvider,
   SubmitButton,
-  Textarea,
-} from "@open-system/core-client-form";
+  Textarea
+} from "@stormstack/core-client-form";
 import {
   BaseComponentProps,
-  ButtonCornerRoundingTypes,
-} from "@open-system/design-system-components";
+  ButtonCornerRoundingTypes
+} from "@stormstack/design-system-components";
 import clsx from "clsx";
 import { useCallback } from "react";
 import { subscribe } from "../actions/contact";
@@ -27,7 +27,7 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
     addNotification({
       type: MessageTypes.SUCCESS,
       message: "You've successfully subscribed to email notifications!",
-      link: { text: "Details", href: "/about" },
+      link: { text: "Details", href: "/about" }
     });
   }, [addNotification]);
 
@@ -36,17 +36,17 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
       email: "",
       details: "",
       isSubscribed: true,
-      reason: "subscription",
+      reason: "subscription"
     },
-    onSuccess: handleSuccess,
+    onSuccess: handleSuccess
   });
 
   return (
-    <div className={clsx("flex flex-1 grow flex-col", className)}>
-      <h1 className="ml-3 text-7xl font-header-1 text-primary">
+    <div className={clsx("flex-1 grow flex flex-col", className)}>
+      <h1 className="ml-3 text-7xl text-primary font-header-1">
         Let&apos;s work{" "}
-        <span className="bg-gradient-to-r from-primary to-primary bg-[length:100%_8px] bg-bottom bg-no-repeat px-1 pb-1">
-          <span className="bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-primary to-primary bg-bottom px-1 pb-1 bg-[length:100%_8px] bg-no-repeat">
+          <span className="bg-gradient-to-r from-purple-600 to-teal-500 text-transparent bg-clip-text">
             together
           </span>
         </span>
@@ -55,7 +55,7 @@ export function ContactFooterForm({ className, ...props }: BaseComponentProps) {
 
       <FormProvider<Contact> {...context}>
         <form
-          className="flex flex-col gap-3"
+          className="gap-3 flex flex-col"
           {...context.props}
           action={withSubmit(subscribe)}>
           <div className="flex flex-col">

@@ -1,6 +1,6 @@
 import { ExecutorContext } from "@nx/devkit";
-import { executeAsync } from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-logging/console";
+import { executeAsync } from "@stormstack/core-server-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import { DesignComponentsCleanExecutorSchema } from "./schema";
 
 export default async function (

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createSchemaBuilder } from "@open-system/core-server-graphql";
 import { Prisma } from "@prisma/client/contact";
+import { createSchemaBuilder } from "@stormstack/core-server-graphql";
 import PrismaTypes from "./__generated__/types";
 import { prisma } from "./client";
 import { ContactApiServerContext } from "./types";

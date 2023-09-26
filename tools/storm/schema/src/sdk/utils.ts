@@ -27,7 +27,7 @@ import {
   isObjectExpr,
   isOperationGroup,
   isReferenceExpr
-} from "@open-system/tools-storm-language/ast";
+} from "@stormstack/tools-storm-language/ast";
 import { dirname, isAbsolute, join } from "path";
 import { ExpressionContext } from "./constants";
 import { PluginOptions } from "./types";

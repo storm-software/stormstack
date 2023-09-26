@@ -1,6 +1,6 @@
 import { Tree } from "@nx/devkit";
-import { executeAsync } from "@open-system/core-server-utilities";
-import { ConsoleLogger } from "@open-system/core-shared-logging/console";
+import { executeAsync } from "@stormstack/core-server-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 // import { ExecOptions, exec } from "child_process";
 import { existsSync } from "fs";
 import Path from "path";
@@ -61,7 +61,7 @@ export default async function (host: Tree, options?: ClientApiGeneratorSchema) {
         generator ?? "open-system-typescript-client"
       } -o ${sourceRoot} --remove-operation-id-prefix --enable-post-process-file --global-property="apiDocs=true" --additional-properties="enumNameSuffix=Types,enumPropertyNaming=UPPERCASE,supportsES6=true,libraryName=${projectName},${
         domainName?.toLowerCase() === "core" ? "isBaseLibrary=true," : ""
-      }withInterfaces=true,useInversify=true,useObjectParameters=true,useRxJS=false,npmName=@open-system/${projectName},npmVersion=0.0.1,gitHost=github.com,gitUserId=sullivanpj,gitRepoId=open-system,projectName=${projectName},sourceRoot=${sourceRoot},specJsonFile=${specJsonFile},domainName=${domainName},modelNameSuffix=Dto" `
+      }withInterfaces=true,useInversify=true,useObjectParameters=true,useRxJS=false,npmName=@stormstack/${projectName},npmVersion=0.0.1,gitHost=github.com,gitUserId=sullivanpj,gitRepoId=open-system,projectName=${projectName},sourceRoot=${sourceRoot},specJsonFile=${specJsonFile},domainName=${domainName},modelNameSuffix=Dto" `
     );
     if (result) {
       ConsoleLogger.error(result);

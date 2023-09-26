@@ -1,12 +1,12 @@
 import {
   ApiException,
-  EnvConfigurationError,
-} from "@open-system/core-shared-utilities";
-import { PropsWithBase } from "@open-system/design-system-components";
+  EnvConfigurationError
+} from "@stormstack/core-shared-utilities";
+import { PropsWithBase } from "@stormstack/design-system-components";
 import {
   DOMAIN_NAME,
   HttpErrorResult,
-  HttpPaginatedResult,
+  HttpPaginatedResult
 } from "../api/reactions/route";
 import LikeButtonClient from "./LikeButtonClient";
 
@@ -40,7 +40,7 @@ export default async function LikeButton({
   url.searchParams.set("type", "like");
 
   const response = await fetch(url, {
-    next: { tags: [DOMAIN_NAME] },
+    next: { tags: [DOMAIN_NAME] }
   });
   if (!response.ok) {
     const error = (await response.json()) as HttpErrorResult;
@@ -54,7 +54,7 @@ export default async function LikeButton({
 
   const result = (await response.json()) as HttpPaginatedResult;
   return (
-    <div className="z-like fixed right-0 top-3/4">
+    <div className="z-like right-0 top-3/4 fixed">
       <LikeButtonClient
         {...props}
         contentId={contentId}

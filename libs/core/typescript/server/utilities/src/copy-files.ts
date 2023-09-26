@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ConsoleLogger } from "@open-system/core-shared-logging";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import fs, { CopyOptionsSync, copyFileSync, copySync } from "fs-extra";
 
 export const copyFiles = (

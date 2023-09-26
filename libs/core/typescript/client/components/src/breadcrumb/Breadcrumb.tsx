@@ -4,8 +4,8 @@
 import {
   Breadcrumb as OsBreadcrumb,
   BreadcrumbProps as OsBreadcrumbProps,
-  LinkVariants,
-} from "@open-system/design-system-components";
+  LinkVariants
+} from "@stormstack/design-system-components";
 import { usePathname } from "next/navigation";
 import { Link } from "../link";
 import { BreadcrumbItemType } from "./Breadcrumb.types";
@@ -60,7 +60,7 @@ export const Breadcrumb = ({
             </Link>
           ) : (
             item.label
-          ),
+          )
       }))}
     />
   );

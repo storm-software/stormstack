@@ -6,7 +6,7 @@ import {
   IIdentity,
   ISequenced,
   IVersioned
-} from "@open-system/core-shared-utilities";
+} from "@stormstack/core-shared-utilities";
 
 export interface IEntity extends ISequenced, IIdentity, IBaseClass {
   /**

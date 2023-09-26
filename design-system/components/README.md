@@ -1,10 +1,10 @@
-<p style="text-align: center; width: 100%;"><img src="../../assets/logo-default.svg" width="100%" altText="open-system"></p>
+<p style="text-align: center; width: 100%;"><img src="../../assets/logo-default.svg" width="100%" altText="StormStack"></p>
 
-[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://github.com/sullivanpj/open-system)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://github.com/stormstack/stormstack)
 
 This repository contains the base design components used by the Open System repository. Individual components can be further explored in the documentation.
 
-# @open-system/design-system-components
+# @stormstack/design-system-components
 
 This library was generated with [Nx](https://nx.dev).
 
