@@ -1,0 +1,55 @@
+{
+  "name": "forecast",
+  "scopeName": "source.forecast",
+  "fileTypes": [".4cast"],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.control.forecast",
+      "match": "\\b(Boolean|datasource|enum|model|type|input|String)\\b"
+    },
+    {
+      "name": "string.quoted.double.forecast",
+      "begin": "\"",
+      "end": "\""
+    },
+    {
+      "name": "string.quoted.single.forecast",
+      "begin": "'",
+      "end": "'"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.forecast",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.forecast"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.forecast"
+            }
+          }
+        },
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.forecast"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.forecast"
+        }
+      ]
+    }
+  }
+}

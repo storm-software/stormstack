@@ -1,0 +1,93 @@
+{
+  "name": "tools-forecast-plugins-zod",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/storm/plugins/zod/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/storm/plugins/zod",
+        "main": "tools/storm/plugins/zod/src/index.ts",
+        "project": "tools/storm/plugins/zod/package.json",
+        "tsConfig": "tools/storm/plugins/zod/tsconfig.json",
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": true,
+        "minify": true,
+        "skipTypeCheck": true,
+        "format": ["esm", "cjs"],
+        "assets": [
+          {
+            "input": "tools/storm/plugins/zod",
+            "glob": "README.md",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "LICENSE",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["pnpm pack dist --pack-destination \"../.build\""],
+        "cwd": "dist/tools/storm/plugins/zod"
+      }
+    },
+    "publish-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm nx run tools-forecast-runtime:build && pnpm publish --tag dev"
+        ],
+        "cwd": "dist/tools/storm/plugins/zod"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/storm/plugins/zod/**/*.ts",
+          "tools/storm/plugins/zod/generators.json",
+          "tools/storm/plugins/zod/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "tools/storm/plugins/zod/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-forecast-plugins-zod-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:tools", "platform:server"],
+  "implicitDependencies": [
+    "core-shared-utilities",
+    "tools-forecast-language",
+    "tools-forecast-schema"
+  ]
+}

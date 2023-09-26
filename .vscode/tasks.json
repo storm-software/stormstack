@@ -3,7 +3,7 @@
   "tasks": [
     {
       "label": "Build storm",
-      "command": "npx nx run tools-storm-language:generate:default",
+      "command": "npx nx run tools-forecast-language:generate:default",
       "type": "shell",
       "group": {
         "kind": "build",

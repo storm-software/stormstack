@@ -1,0 +1,90 @@
+{
+  "name": "tools-forecast-runtime",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/forecast/runtime/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/forecast/runtime",
+        "main": "tools/forecast/runtime/src/index.ts",
+        "project": "tools/forecast/runtime/package.json",
+        "tsConfig": "tools/forecast/runtime/tsconfig.json",
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": false,
+        "minify": true,
+        "skipTypeCheck": true,
+        "format": ["esm", "cjs"],
+        "external": [".prisma/client/index"],
+        "assets": [
+          {
+            "input": "tools/forecast/runtime",
+            "glob": "README.md",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "LICENSE",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["pnpm pack dist --pack-destination \"../.build\""],
+        "cwd": "dist/tools/forecast/runtime"
+      }
+    },
+    "publish-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm nx run tools-forecast-runtime:build && pnpm publish --tag dev"
+        ],
+        "cwd": "dist/tools/forecast/runtime"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/forecast/runtime/**/*.ts",
+          "tools/forecast/runtime/generators.json",
+          "tools/forecast/runtime/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "tools/forecast/runtime/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-forecast-runtime-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:tools", "platform:server"],
+  "implicitDependencies": ["tools-forecast-language", "core-shared-utilities"]
+}

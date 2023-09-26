@@ -251,42 +251,42 @@
       "@stormstack/tools-generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
-      "@stormstack/tools-storm-language": [
+      "@stormstack/tools-forecast-language": [
         "tools/storm/language/src/index.ts"
       ],
-      "@stormstack/tools-storm-language/ast": ["tools/storm/language/src/ast"],
-      "@stormstack/tools-storm-language/module": [
+      "@stormstack/tools-forecast-language/ast": ["tools/storm/language/src/ast"],
+      "@stormstack/tools-forecast-language/module": [
         "tools/storm/language/src/module"
       ],
-      "@stormstack/tools-storm-plugins-drizzle": [
+      "@stormstack/tools-forecast-plugins-drizzle": [
         "tools/storm/plugins/drizzle/src/index.ts"
       ],
-      "@stormstack/tools-storm-plugins-graphql": [
+      "@stormstack/tools-forecast-plugins-graphql": [
         "tools/storm/plugins/graphql/src/index.ts"
       ],
-      "@stormstack/tools-storm-plugins-zod": [
+      "@stormstack/tools-forecast-plugins-zod": [
         "tools/storm/plugins/zod/src/index.ts"
       ],
-      "@stormstack/tools-storm-runtime": ["tools/storm/runtime/src/index.ts"],
-      "@stormstack/tools-storm-runtime/*": ["tools/storm/runtime/src/*"],
-      "@stormstack/tools-storm-schema": ["tools/storm/schema/src/index.ts"],
-      "@stormstack/tools-storm-schema/*": ["tools/storm/schema/src/*"],
-      "@stormstack/tools-storm-schema/cli": [
+      "@stormstack/tools-forecast-runtime": ["tools/storm/runtime/src/index.ts"],
+      "@stormstack/tools-forecast-runtime/*": ["tools/storm/runtime/src/*"],
+      "@stormstack/tools-forecast-schema": ["tools/storm/schema/src/index.ts"],
+      "@stormstack/tools-forecast-schema/*": ["tools/storm/schema/src/*"],
+      "@stormstack/tools-forecast-schema/cli": [
         "tools/storm/schema/src/cli/index.ts"
       ],
-      "@stormstack/tools-storm-schema/language-server": [
+      "@stormstack/tools-forecast-schema/language-server": [
         "tools/storm/schema/src/language-server/main.ts"
       ],
-      "@stormstack/tools-storm-schema/plugins/*": [
+      "@stormstack/tools-forecast-schema/plugins/*": [
         "tools/storm/schema/src/plugins/*"
       ],
-      "@stormstack/tools-storm-schema/plugins/access-policy": [
+      "@stormstack/tools-forecast-schema/plugins/access-policy": [
         "tools/storm/schema/src/plugins/access-policy/index.ts"
       ],
-      "@stormstack/tools-storm-schema/plugins/model-meta": [
+      "@stormstack/tools-forecast-schema/plugins/model-meta": [
         "tools/storm/schema/src/plugins/model-meta/index.ts"
       ],
-      "@stormstack/tools-storm-schema/plugins/prisma": [
+      "@stormstack/tools-forecast-schema/plugins/prisma": [
         "tools/storm/schema/src/plugins/prisma/index.ts"
       ],
       "@stormstack/user-management-client-components": [

@@ -1,0 +1,72 @@
+{
+  "name": "forecast-schema",
+  "displayName": "Forecast Modelling Tools",
+  "version": "0.0.1",
+  "publisher": "pat-sullivan",
+  "license": "BSD 2-Clause \"Simplified\" License",
+  "description": "A toolkit for building secure CRUD apps with Next.js + GraphQL built on Prisma and Zenstack.",
+  "homepage": "https://stormstack.github.io/stormstack/",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/stormstack/stormstack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stormstack/stormstack/issues"
+  },
+  "author": {
+    "email": "contact@stormcloud.dev",
+    "name": "Storm Software",
+    "url": "https://stormcloud.dev"
+  },
+  "keywords": [
+    "forecast",
+    "storm",
+    "stormstack",
+    "fullstack",
+    "react",
+    "typescript",
+    "data modeling",
+    "graphql",
+    "zenstack",
+    "prisma"
+  ],
+  "preview": false,
+  "icon": "assets/logo.png",
+  "publishConfig": {
+    "directory": "dist/tools/forecast/schema",
+    "linkDirectory": true
+  },
+  "engines": {
+    "vscode": "^1.56.0"
+  },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "forecast",
+        "aliases": [
+          "Forecast Model",
+          "storm forecast"
+        ],
+        "extensions": [".4cast"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./assets/logo.png",
+          "dark": "./assets/logo.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "forecast",
+        "scopeName": "source.forecast",
+        "path": "./syntaxes/forecast.tmLanguage.json"
+      }
+    ]
+  },
+  "activationEvents": ["onLanguage:forecast"],
+  "bin": {
+    "forecast": "bin/cli"
+  },
+  "main": "./extension.js"
+}

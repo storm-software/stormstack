@@ -23,7 +23,7 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 <!-- END header -->
 
-# 📦 DevOps Configuration Package
+# ⚡ Storm - Zod Validation Plugin
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -32,7 +32,7 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Table of Contents
 
-- [📦 DevOps Configuration Package](#-devops-configuration-package)
+- [⚡ Storm - Zod Validation Plugin](#-storm---zod-validation-plugin)
   - [Table of Contents](#table-of-contents)
   - [Running unit tests](#running-unit-tests)
   - [Roadmap](#roadmap)
@@ -46,7 +46,7 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Running unit tests
 
-Run `nx test tools-forecast-runtime` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test tools-forecast-plugins-zod` to execute the unit tests via [Jest](https://jestjs.io).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

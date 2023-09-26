@@ -1,0 +1,8 @@
+{
+  "name": "@stormstack/tools-forecast-language",
+  "version": "0.0.1",
+  "dependencies": {
+    "langium": "1.2.1",
+    "langium-cli": "1.2.1"
+  }
+}

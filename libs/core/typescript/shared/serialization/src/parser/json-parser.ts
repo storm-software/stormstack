@@ -5,7 +5,7 @@ import {
   DateTime
 } from "@stormstack/core-shared-utilities";
 import { Decimal } from "decimal.js";
-import { parse, registerCustom, stringify } from "superjson";
+import { deserialize, registerCustom, serialize } from "superjson";
 import { JSON_PARSER_SYMBOL, JsonValue } from "../types";
 
 export class JsonParser extends BaseUtilityClass {
@@ -13,12 +13,21 @@ export class JsonParser extends BaseUtilityClass {
     super(JSON_PARSER_SYMBOL);
   }
 
-  public static parse<TData = any>(json: string): TData {
-    return parse<TData>(json);
+  /**
+   * Serialize the given value with superjson
+   */
+  public static stringify<TData = unknown>(
+    value: TData
+  ): { data: unknown; meta: unknown } {
+    const { json, meta } = serialize(value);
+    return { data: json, meta };
   }
 
-  public static stringify<TData = any>(data: TData): string {
-    return stringify(data);
+  /**
+   * Deserialize the given value with superjson using the given metadata
+   */
+  public static parse<TData = unknown>(value: unknown, meta: any): TData {
+    return deserialize({ json: value as any, meta });
   }
 
   public static register<TData = any, TJsonValue extends JsonValue = JsonValue>(
@@ -53,4 +62,11 @@ JsonParser.register(
   BaseError.stringify,
   BaseError.parse,
   BaseError.isBaseError
+);
+
+JsonParser.register<Buffer, string>(
+  "Bytes",
+  v => v.toString("base64"),
+  v => Buffer.from(v, "base64"),
+  (v): v is Buffer => Buffer.isBuffer(v)
 );

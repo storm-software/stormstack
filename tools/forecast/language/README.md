@@ -23,7 +23,7 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 <!-- END header -->
 
-# 📦 DevOps Configuration Package
+# ⚡ Storm Language Definition
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -32,21 +32,19 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Table of Contents
 
-- [📦 DevOps Configuration Package](#-devops-configuration-package)
-  - [Table of Contents](#table-of-contents)
-  - [Running unit tests](#running-unit-tests)
-  - [Roadmap](#roadmap)
-  - [Support](#support)
-  - [License](#license)
-  - [Changelog](#changelog)
-  - [Contributing](#contributing)
-  - [Contributors](#contributors)
+- [Running unit tests](#running-unit-tests)
+- [Roadmap](#roadmap)
+- [Support](#support)
+- [License](#license)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Running unit tests
 
-Run `nx test tools-forecast-runtime` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test tools-forecast-language` to execute the unit tests via [Jest](https://jestjs.io).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

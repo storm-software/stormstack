@@ -23,17 +23,21 @@ The <b>Open System</b> is a monorepo containing modern, scalable web application
 
 <!-- END header -->
 
-# 📦 DevOps Configuration Package
+# ⚡Forecast Language Tools VS Code Extension
+
+The [Open System](https://stormstack.github.io/stormstack/) is a toolkit that simplifies the development of a web app's backend. It supercharges [Prisma ORM](https://prisma.io) with a powerful access control layer and unleashes its full potential for web development.
+
+This VS Code extension provides code editing helpers for authoring Open System's schema files (.storm files).
 
 This library was generated with [Nx](https://nx.dev).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-## Table of Contents
+'##
 
-- [📦 DevOps Configuration Package](#-devops-configuration-package)
-  - [Table of Contents](#table-of-contents)
+- [⚡Forecast Language Tools VS Code Extension](#forecast-language-tools-vs-code-extension)
+  - [Features](#features)
   - [Running unit tests](#running-unit-tests)
   - [Roadmap](#roadmap)
   - [Support](#support)
@@ -44,9 +48,18 @@ This library was generated with [Nx](https://nx.dev).
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Features
+
+- Syntax highlighting
+- Auto formatting
+- Inline error reporting
+- Go-to definition
+- Hover documentation
+- Code section folding
+
 ## Running unit tests
 
-Run `nx test tools-forecast-runtime` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test tools-forecast-schema` to execute the unit tests via [Jest](https://jestjs.io).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

@@ -1,0 +1,15 @@
+{
+  "name": "@stormstack/tools-forecast-plugins-drizzle",
+  "version": "0.0.1",
+  "dependencies": {
+    "@prisma/generator-helper": "^5.2.0",
+    "drizzle-orm": "^0.28.5",
+    "langium": "1.2.1",
+    "path": "^0.12.7",
+    "semver": "^7.5.4",
+    "ts-morph": "^19.0.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.19.13"
+  }
+}
