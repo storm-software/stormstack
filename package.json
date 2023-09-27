@@ -1,5 +1,6 @@
 {
-  "name": "@stormstack/root",
+  "name": "stormstack",
+  "namespace": "@stormstack",
   "version": "0.0.0",
   "private": true,
   "description": "⚡The Storm Stack monorepo contains utility applications, tools, and various libraries to create modern and scalable web applications.",

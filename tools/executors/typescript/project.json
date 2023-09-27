@@ -106,6 +106,6 @@
     "core-server-utilities",
     "core-server-cloudflare",
     "tools-async-api-kafka",
-    "tools-forecast-schema"
+    "tools-forecast-codegen"
   ]
 }

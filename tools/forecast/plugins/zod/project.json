@@ -88,6 +88,6 @@
   "implicitDependencies": [
     "core-shared-utilities",
     "tools-forecast-language",
-    "tools-forecast-schema"
+    "tools-forecast-codegen"
   ]
 }

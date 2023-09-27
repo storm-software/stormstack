@@ -3,6 +3,7 @@
 stormstack
 stormcloud
 Akka
+favicons
 hasura
 strapi
 npmjs

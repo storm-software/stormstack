@@ -1,31 +1,35 @@
 {
   "name": "tools-forecast-language",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "tools/storm/language/src",
+  "sourceRoot": "tools/forecast/language/src",
   "projectType": "library",
   "targets": {
-    "build": {
+    "compile": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/tools/storm/language",
-        "main": "tools/storm/language/src/index.ts",
+        "outputPath": "dist/tools/forecast/language",
+        "main": "tools/forecast/language/src/language/main.ts",
         "additionalEntryPoints": [
-          "tools/storm/language/src/ast.ts",
-          "tools/storm/language/src/module.ts"
+          "tools/forecast/language/src/language/generated/ast.ts",
+          "tools/forecast/language/src/language/generated/grammar.ts",
+          "tools/forecast/language/src/language/generated/module.ts",
+          "tools/forecast/language/src/language/main-browser.ts"
         ],
-        "project": "tools/storm/language/package.json",
-        "tsConfig": "tools/storm/language/tsconfig.json",
+        "project": "tools/forecast/language/package.json",
+        "tsConfig": "tools/forecast/language/tsconfig.json",
         "platform": "node",
         "deleteOutputPath": true,
+        "metafile": true,
         "bundle": true,
         "sourcemap": true,
-        "minify": true,
+        "minify": false,
         "skipTypeCheck": true,
         "format": ["esm", "cjs"],
+        "external": [".prisma/client/index"],
         "assets": [
           {
-            "input": "tools/storm/language",
+            "input": "tools/forecast/language",
             "glob": "README.md",
             "output": "."
           },
@@ -33,33 +37,180 @@
             "input": ".",
             "glob": "LICENSE",
             "output": "."
+          },
+          {
+            "input": "assets/favicons/light",
+            "glob": "icon.png",
+            "output": "assets/light"
+          },
+          {
+            "input": "assets/favicons/dark",
+            "glob": "icon.png",
+            "output": "assets/dark"
+          },
+          {
+            "input": "tools/forecast/language/syntaxes",
+            "glob": "*.*",
+            "output": "syntaxes"
+          },
+          {
+            "input": "tools/forecast/language/examples",
+            "glob": "*.*",
+            "output": "examples"
           }
         ]
       }
     },
-    "generate": {
+    "compile-extension": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/forecast/extension",
+        "main": "tools/forecast/language/src/extension/main.ts",
+        "additionalEntryPoints": [
+          "tools/forecast/language/src/language/main.ts",
+          "tools/forecast/language/src/language/main-browser.ts"
+        ],
+        "project": "tools/forecast/language/package.json",
+        "tsConfig": "tools/forecast/language/tsconfig.json",
+        "external": ["vscode"],
+        "platform": "node",
+        "metafile": true,
+        "bundle": true,
+        "sourcemap": false,
+        "minify": true,
+        "skipTypeCheck": true,
+        "deleteOutputPath": true,
+        "assets": [
+          {
+            "input": "tools/forecast/language",
+            "glob": "README.md",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "LICENSE",
+            "output": "."
+          },
+          {
+            "input": "tools/forecast/language/src/res",
+            "glob": "*.*",
+            "output": "res"
+          },
+          {
+            "input": "assets/favicons/light",
+            "glob": "icon.png",
+            "output": "assets/light"
+          },
+          {
+            "input": "assets/favicons/dark",
+            "glob": "icon.png",
+            "output": "assets/dark"
+          },
+          {
+            "input": "tools/forecast/language/syntaxes",
+            "glob": "*.*",
+            "output": "syntaxes"
+          },
+          {
+            "input": "tools/forecast/language",
+            "glob": "language-configuration.json",
+            "output": "."
+          },
+          {
+            "input": "tools/forecast/language/examples",
+            "glob": "*.*",
+            "output": "examples"
+          }
+        ]
+      }
+    },
+    "langium": {
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
-      "outputPath": "tools/storm/language",
+      "outputPath": "tools/forecast/language",
       "defaultConfiguration": "default",
       "options": {
-        "commands": ["pnpm langium generate"],
-        "cwd": "tools/storm/language"
+        "commands": ["npx langium generate"],
+        "cwd": "tools/forecast/language"
       },
       "configurations": {
         "default": {
           "options": {
-            "commands": ["pnpm langium generate"],
-            "cwd": "tools/storm/language"
+            "commands": ["npx langium generate"],
+            "cwd": "tools/forecast/language"
+          }
+        },
+        "watch": {
+          "options": {
+            "commands": ["npx langium generate --watch"],
+            "cwd": "tools/forecast/language",
+            "watch": true,
+            "parallel": false
+          }
+        }
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "outputPath": "tools/forecast/language",
+      "defaultConfiguration": "default",
+      "options": {
+        "commands": [
+          "pnpm nx run tools-forecast-language:langium:default",
+          "pnpm nx run tools-forecast-language:compile"
+        ]
+      },
+      "configurations": {
+        "default": {
+          "options": {
+            "commands": [
+              "pnpm nx run tools-forecast-language:langium:default",
+              "pnpm nx run tools-forecast-language:compile"
+            ]
           }
         },
         "watch": {
           "options": {
             "commands": [
-              "concurrently \"langium generate --watch\" \"tsc --watch\""
+              "pnpm nx run tools-forecast-language:langium:watch",
+              "pnpm nx run tools-forecast-language:compile"
             ],
             "watch": true,
-            "cwd": "tools/storm/language"
+            "parallel": false
+          }
+        }
+      }
+    },
+    "build-extension": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "outputPath": "tools/forecast/language",
+      "defaultConfiguration": "default",
+      "options": {
+        "commands": [
+          "pnpm nx run tools-forecast-language:langium:default",
+          "pnpm nx run tools-forecast-language:compile-extension"
+        ]
+      },
+      "configurations": {
+        "default": {
+          "options": {
+            "commands": [
+              "pnpm nx run tools-forecast-language:langium:default",
+              "pnpm nx run tools-forecast-language:compile-extension"
+            ]
+          }
+        },
+        "watch": {
+          "options": {
+            "commands": [
+              "pnpm nx run tools-forecast-language:langium:watch",
+              "pnpm nx run tools-forecast-language:compile-extension"
+            ],
+            "watch": true,
+            "parallel": false
           }
         }
       }
@@ -67,17 +218,30 @@
     "pack": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["pnpm pack dist --pack-destination \"../.build\""],
-        "cwd": "dist/tools/storm/language"
+        "commands": [
+          "pnpm nx run tools-forecast-language:build-extension",
+          "pnpm pack \"./tools/forecast/language\" --pack-destination \"./dist/tools/forecast/extension\""
+        ]
       }
     },
     "publish-dev": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "pnpm nx run tools-forecast-language:build && pnpm publish --tag dev"
-        ],
-        "cwd": "dist/tools/storm/language"
+          "pnpm nx run tools-forecast-language:build-extension",
+          "cd dist/tools/forecast/extension",
+          "pnpm publish --registry http://localhost:4873"
+        ]
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm nx run tools-forecast-language:build-extension",
+          "pnpm vsce package --no-dependencies",
+          "pnpm vsce publish --no-dependencies"
+        ]
       }
     },
     "lint": {
@@ -103,6 +267,15 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "readme-format": {
+      "executor": "@stormstack/tools-executors-docs:readme-format",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "outputPath": "tools/forecast/language",
+        "inputFile": "tools/forecast/language/README.md",
+        "templatePath": "libs/core/config/src/readme-templates"
       }
     },
     "semantic-release": {

@@ -6,6 +6,7 @@
     "target": "ES6",
     "types": ["node"],
     "declaration": true,
+    "strict": false,
     "noImplicitAny": false,
     "moduleResolution": "node",
     "esModuleInterop": true,

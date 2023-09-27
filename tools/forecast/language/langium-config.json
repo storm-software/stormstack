@@ -1,14 +1,17 @@
 {
-  "projectName": "Storm",
+  "projectName": "Forecast",
   "languages": [
     {
-      "id": "storm",
-      "grammar": "src/storm.langium",
-      "fileExtensions": [".storm"],
+      "id": "forecast",
+      "grammar": "src/language/forecast.langium",
+      "fileExtensions": [".4cast"],
       "textMate": {
-        "out": "syntaxes/storm.tmLanguage.json"
+        "out": "syntaxes/forecast.tmLanguage.json"
+      },
+      "monarch": {
+        "out": "syntaxes/forecast.monarch.ts"
       }
     }
   ],
-  "out": "src/generated"
+  "out": "src/language/generated"
 }

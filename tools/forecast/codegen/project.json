@@ -1,0 +1,120 @@
+{
+  "name": "tools-forecast-codegen",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/forecast/codegen/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/forecast/codegen",
+        "main": "tools/forecast/codegen/src/cli/index.ts",
+        "additionalEntryPoints": [
+          "tools/forecast/codegen/src/index.ts",
+          "tools/forecast/codegen/src/language-server/main.ts",
+          "tools/forecast/codegen/src/plugins/access-policy/index.ts",
+          "tools/forecast/codegen/src/plugins/model-meta/index.ts",
+          "tools/forecast/codegen/src/plugins/prisma/index.ts"
+        ],
+        "project": "tools/forecast/codegen/package.json",
+        "tsConfig": "tools/forecast/codegen/tsconfig.json",
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": true,
+        "minify": false,
+        "skipTypeCheck": true,
+        "format": ["esm", "cjs"],
+        "external": [".prisma/client/index"],
+        "assets": [
+          {
+            "input": "tools/forecast/codegen",
+            "glob": "README.md",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "LICENSE",
+            "output": "."
+          },
+          {
+            "input": "tools/forecast/codegen/bin",
+            "glob": "*.*",
+            "output": "bin"
+          },
+          {
+            "input": "tools/forecast/codegen/build",
+            "glob": "*.*",
+            "output": "build"
+          },
+          {
+            "input": "tools/forecast/codegen/src/res",
+            "glob": "*.*",
+            "output": "res"
+          },
+          {
+            "input": "tools/forecast/codegen/assets",
+            "glob": "*.*",
+            "output": "assets"
+          },
+          {
+            "input": "tools/forecast/codegen/syntaxes",
+            "glob": "*.*",
+            "output": "syntaxes"
+          },
+          {
+            "input": "tools/forecast/codegen",
+            "glob": "language-configuration.json",
+            "output": "."
+          },
+          {
+            "input": "tools/forecast/codegen/bin",
+            "glob": ".",
+            "output": "bin"
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/forecast/codegen/**/*.ts",
+          "tools/forecast/codegen/generators.json",
+          "tools/forecast/codegen/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "tools/forecast/codegen/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-forecast-codegen-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:tools", "platform:server"],
+  "implicitDependencies": [
+    "tools-forecast-language",
+    "tools-forecast-runtime",
+    "core-shared-utilities"
+  ]
+}

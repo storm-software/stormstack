@@ -1,8 +1,115 @@
 {
   "name": "@stormstack/tools-forecast-language",
+  "displayName": "Forecast Language Tools",
   "version": "0.0.1",
+  "description": "A toolkit for building secure CRUD apps with Next.js + GraphQL built on Prisma and Zenstack.",
+  "homepage": "https://stormstack.github.io/stormstack/",
+  "keywords": [
+    "forecast",
+    "storm",
+    "stormstack",
+    "fullstack",
+    "react",
+    "typescript",
+    "data modeling",
+    "graphql",
+    "zenstack",
+    "prisma"
+  ],
+  "publisher": "storm-software",
+  "preview": false,
+  "icon": "./assets/dark/icon.png",
+  "galleryBanner": {
+    "color": "#1E1E1E",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/stormstack/stormstack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stormstack/stormstack/issues"
+  },
+  "author": {
+    "email": "contact@stormcloud.dev",
+    "name": "Storm Software",
+    "url": "https://stormcloud.dev"
+  },
+  "files": [
+    "bin"
+  ],
   "dependencies": {
-    "langium": "1.2.1",
-    "langium-cli": "1.2.1"
+    "chalk": "~4.1.2",
+    "commander": "~10.0.0",
+    "express": "~4.18.2",
+    "langium": "~1.2.0",
+    "monaco-editor-workers": "~0.34.2",
+    "monaco-editor-wrapper": "~1.6.0",
+    "pluralize": "^8.0.0",
+    "ts-pattern": "^5.0.5",
+    "vscode": "^1.1.37",
+    "vscode-jsonrpc": "^8.1.0",
+    "vscode-languageclient": "~8.0.2",
+    "vscode-languageserver": "^8.1.0",
+    "vscode-languageserver-textdocument": "^1.0.8",
+    "vscode-uri": "^3.0.7"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "~16.18.11",
+    "@types/vscode": "~1.67.0",
+    "@typescript-eslint/eslint-plugin": "~5.51.0",
+    "@typescript-eslint/parser": "~5.51.0",
+    "esbuild": "^0.16.14",
+    "eslint": "~8.33.0",
+    "langium-cli": "~1.2.0",
+    "shx": "^0.3.4",
+    "typescript": "~4.9.5"
+  },
+  "engines": {
+    "vscode": "^1.71.0",
+    "node": ">=14.0.0"
+  },
+  "publishConfig": {
+    "directory": "dist/tools/forecast/language",
+    "linkDirectory": true
+  },
+  "categories": [
+    "Programming Languages",
+    "Data Science"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "forecast",
+        "aliases": [
+          "Storm",
+          "Forecast Model",
+          "Storm Forecast"
+        ],
+        "extensions": [
+          ".4cast"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./assets/light/icon.png",
+          "dark": "./assets/dark/icon.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "forecast",
+        "scopeName": "source.forecast",
+        "path": "./syntaxes/forecast.tmLanguage.json"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:forecast"
+  ],
+  "main": "./out/extension/main.js",
+  "bin": {
+    "forecast": "./bin/cli"
   }
 }

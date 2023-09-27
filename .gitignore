@@ -7,6 +7,8 @@
 dist
 tmp
 /out-tsc
+out
+
 # build
 
 # dependencies
