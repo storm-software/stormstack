@@ -13,7 +13,8 @@ export type BaseErrorCode =
   | "field_validation_error"
   | "invalid_parameter"
   | "invalid_request"
-  | "type_error";
+  | "type_error"
+  | "processing_error";
 export const BaseErrorCode = {
   ...ZodIssueCode,
   missing_issue_code: "missing_issue_code" as BaseErrorCode,
@@ -27,5 +28,6 @@ export const BaseErrorCode = {
   field_validation_error: "field_validation_error" as BaseErrorCode,
   invalid_parameter: "invalid_parameter" as BaseErrorCode,
   invalid_request: "invalid_request" as BaseErrorCode,
-  type_error: "type_error" as BaseErrorCode
+  type_error: "type_error" as BaseErrorCode,
+  processing_error: "processing_error" as BaseErrorCode
 };

@@ -21,7 +21,7 @@ import {
   isLiteralExpr,
   isObjectExpr,
   isReferenceExpr
-} from "../language/ast";
+} from "../ast";
 import { resolved } from "./server-utils";
 
 /**

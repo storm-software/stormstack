@@ -2,7 +2,7 @@ import type { DMMF } from "@prisma/generator-helper";
 import {
   checkIsModelRelationField,
   checkModelHasManyModelRelation,
-  checkModelHasModelRelation,
+  checkModelHasModelRelation
 } from "./model-helpers";
 
 export function addMissingInputObjectTypesForInclude(
@@ -39,9 +39,9 @@ function generateModelIncludeInputObjectTypes(models: DMMF.Model[]) {
               isList: false,
               type: isList ? `${type}FindManyArgs` : `${type}Args`,
               location: "inputObjectTypes",
-              namespace: "prisma",
-            },
-          ],
+              namespace: "prisma"
+            }
+          ]
         };
         fields.push(field);
       }
@@ -61,19 +61,19 @@ function generateModelIncludeInputObjectTypes(models: DMMF.Model[]) {
     const shouldAddCountField = hasManyRelationToAnotherModel;
     if (shouldAddCountField) {
       const inputTypes: DMMF.SchemaArgInputType[] = [
-        { isList: false, type: "Boolean", location: "scalar" },
+        { isList: false, type: "Boolean", location: "scalar" }
       ];
       inputTypes.push({
         isList: false,
         type: `${modelName}CountOutputTypeArgs`,
         location: "inputObjectTypes",
-        namespace: "prisma",
+        namespace: "prisma"
       });
       const _countField: DMMF.SchemaArg = {
         name: "_count",
         isRequired: false,
         isNullable: false,
-        inputTypes,
+        inputTypes
       };
       fields.push(_countField);
     }
@@ -82,9 +82,9 @@ function generateModelIncludeInputObjectTypes(models: DMMF.Model[]) {
       name: `${modelName}Include`,
       constraints: {
         maxNumFields: null,
-        minNumFields: null,
+        minNumFields: null
       },
-      fields,
+      fields
     };
     modelIncludeInputObjectTypes.push(modelIncludeInputObjectType);
   }

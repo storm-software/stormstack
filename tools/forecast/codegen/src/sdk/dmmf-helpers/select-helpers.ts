@@ -1,7 +1,7 @@
 import type { DMMF } from "@prisma/generator-helper";
 import {
   checkIsModelRelationField,
-  checkModelHasManyModelRelation,
+  checkModelHasManyModelRelation
 } from "./model-helpers";
 
 export function addMissingInputObjectTypesForSelect(
@@ -22,7 +22,7 @@ export function addMissingInputObjectTypesForSelect(
   const generatedInputObjectTypes = [
     modelCountOutputTypeSelectInputObjectTypes,
     modelCountOutputTypeArgsInputObjectTypes,
-    modelSelectInputObjectTypes,
+    modelSelectInputObjectTypes
   ].flat();
 
   for (const inputObjectType of generatedInputObjectTypes) {
@@ -43,13 +43,13 @@ function generateModelCountOutputTypeSelectInputObjectTypes(
   for (const modelCountOutputType of modelCountOutputTypes) {
     const {
       name: modelCountOutputTypeName,
-      fields: modelCountOutputTypeFields,
+      fields: modelCountOutputTypeFields
     } = modelCountOutputType;
     const modelCountOutputTypeSelectInputObjectType: DMMF.InputType = {
       name: `${modelCountOutputTypeName}Select`,
       constraints: {
         maxNumFields: null,
-        minNumFields: null,
+        minNumFields: null
       },
       fields: modelCountOutputTypeFields.map(({ name }) => ({
         name,
@@ -59,10 +59,10 @@ function generateModelCountOutputTypeSelectInputObjectTypes(
           {
             isList: false,
             type: `Boolean`,
-            location: "scalar",
-          },
-        ],
-      })),
+            location: "scalar"
+          }
+        ]
+      }))
     };
     modelCountOutputTypeSelectInputObjectTypes.push(
       modelCountOutputTypeSelectInputObjectType
@@ -81,7 +81,7 @@ function generateModelCountOutputTypeArgsInputObjectTypes(
       name: `${modelCountOutputTypeName}Args`,
       constraints: {
         maxNumFields: null,
-        minNumFields: null,
+        minNumFields: null
       },
       fields: [
         {
@@ -93,11 +93,11 @@ function generateModelCountOutputTypeArgsInputObjectTypes(
               isList: false,
               type: `${modelCountOutputTypeName}Select`,
               location: "inputObjectTypes",
-              namespace: "prisma",
-            },
-          ],
-        },
-      ],
+              namespace: "prisma"
+            }
+          ]
+        }
+      ]
     };
     modelCountOutputTypeArgsInputObjectTypes.push(
       modelCountOutputTypeArgsInputObjectType
@@ -121,7 +121,7 @@ function generateModelSelectInputObjectTypes(models: DMMF.Model[]) {
         name: modelFieldName,
         isRequired: false,
         isNullable: false,
-        inputTypes: [{ isList: false, type: "Boolean", location: "scalar" }],
+        inputTypes: [{ isList: false, type: "Boolean", location: "scalar" }]
       };
 
       if (isRelationField) {
@@ -129,7 +129,7 @@ function generateModelSelectInputObjectTypes(models: DMMF.Model[]) {
           isList: false,
           type: isList ? `${type}FindManyArgs` : `${type}Args`,
           location: "inputObjectTypes",
-          namespace: "prisma",
+          namespace: "prisma"
         };
         field.inputTypes.push(schemaArgInputType);
       }
@@ -151,9 +151,9 @@ function generateModelSelectInputObjectTypes(models: DMMF.Model[]) {
             isList: false,
             type: `${modelName}CountOutputTypeArgs`,
             location: "inputObjectTypes",
-            namespace: "prisma",
-          },
-        ],
+            namespace: "prisma"
+          }
+        ]
       };
       fields.push(_countField);
     }
@@ -162,9 +162,9 @@ function generateModelSelectInputObjectTypes(models: DMMF.Model[]) {
       name: `${modelName}Select`,
       constraints: {
         maxNumFields: null,
-        minNumFields: null,
+        minNumFields: null
       },
-      fields,
+      fields
     };
     modelSelectInputObjectTypes.push(modelSelectInputObjectType);
   }

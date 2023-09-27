@@ -13,7 +13,13 @@ import {
   isUnaryExpr,
   MemberAccessExpr,
   Model
-} from "@stormstack/tools-forecast-language";
+} from "@stormstack/tools-forecast-language/ast";
+import { ExpressionContext } from "@stormstack/tools-forecast-language/constants";
+import {
+  analyzePolicies,
+  hasValidationAttributes,
+  isFromStdlib
+} from "@stormstack/tools-forecast-language/utils";
 import type {
   PolicyKind,
   PolicyOperationKind
@@ -28,17 +34,13 @@ import {
   WriterFunction
 } from "ts-morph";
 import { name } from ".";
-import { isFromStdlib } from "../../language-server/utils";
 import {
-  analyzePolicies,
   createProject,
   emitProject,
-  ExpressionContext,
   getDataModels,
   getFileHeader,
   getLiteral,
   hasAttribute,
-  hasValidationAttributes,
   PluginError,
   PluginOptions,
   resolved,

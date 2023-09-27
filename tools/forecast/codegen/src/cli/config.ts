@@ -1,13 +1,13 @@
+import { ConfigurationError } from "@stormstack/core-shared-utilities";
 import fs from "fs";
 import z, { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { GUARD_FIELD_NAME, TRANSACTION_FIELD_NAME } from "../sdk";
-import { CliError } from "./cli-error";
 
 const schema = z
   .object({
     guardFieldName: z.string().default(GUARD_FIELD_NAME),
-    transactionFieldName: z.string().default(TRANSACTION_FIELD_NAME),
+    transactionFieldName: z.string().default(TRANSACTION_FIELD_NAME)
   })
   .strict();
 
@@ -27,16 +27,23 @@ export function loadConfig(filename: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     if (err?.code === `ENOENT`) {
-      throw new CliError(`Config file could not be found: ${filename}`);
+      throw new ConfigurationError(
+        filename,
+        `Config file could not be found: ${filename}`
+      );
     }
     if (err instanceof SyntaxError) {
-      throw new CliError(`Config is not a valid JSON file: ${filename}`);
+      throw new ConfigurationError(
+        filename,
+        `Config is not a valid JSON file: ${filename}`
+      );
     }
     if (err instanceof ZodError) {
-      throw new CliError(
+      throw new ConfigurationError(
+        fromZodError(err).message,
         `Config file ${filename} is not valid: ${fromZodError(err)}`
       );
     }
-    throw new CliError(`Error loading config: ${filename}`);
+    throw new ConfigurationError(filename, `Error loading config: ${filename}`);
   }
 }

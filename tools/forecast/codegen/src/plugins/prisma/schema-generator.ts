@@ -28,6 +28,10 @@ import {
   isReferenceExpr
 } from "@stormstack/tools-forecast-language/ast";
 import {
+  analyzePolicies,
+  getStringLiteral
+} from "@stormstack/tools-forecast-language/utils";
+import {
   PRISMA_MINIMUM_VERSION,
   getPrismaVersion
 } from "@stormstack/tools-forecast-runtime";
@@ -35,13 +39,11 @@ import { mkdirSync, readFileSync } from "fs";
 import { writeFile } from "fs/promises";
 import { lt } from "semver";
 import { name } from ".";
-import { getStringLiteral } from "../../language-server/validator/utils";
 import {
   GUARD_FIELD_NAME,
   PluginError,
   PluginOptions,
   TRANSACTION_FIELD_NAME,
-  analyzePolicies,
   getDMMF,
   getDataModels,
   getFileHeader,

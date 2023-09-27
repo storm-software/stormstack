@@ -1,9 +1,26 @@
+import {
+  ensurePackage,
+  installPackage,
+  PackageManagers
+} from "@stormstack/core-server-utilities/package-fns";
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
+import {
+  ConfigurationError,
+  ProcessingError
+} from "@stormstack/core-shared-utilities";
 import {
   isDataSource,
   isPlugin,
   Model
 } from "@stormstack/tools-forecast-language/ast";
+import {
+  PLUGIN_MODULE_NAME,
+  STD_LIB_MODULE_NAME
+} from "@stormstack/tools-forecast-language/constants";
+import {
+  createForecastServices,
+  ForecastServices
+} from "@stormstack/tools-forecast-language/forecast-module";
 import chalk from "chalk";
 import fs from "fs";
 import getLatestVersion from "get-latest-version";
@@ -15,23 +32,9 @@ import {
   Mutable
 } from "langium";
 import { NodeFileSystem } from "langium/node";
-// import ora from "ora";
-import {
-  ensurePackage,
-  installPackage,
-  PackageManagers
-} from "@stormstack/core-server-utilities/package-fns";
 import path from "path";
 import semver from "semver";
 import { URI } from "vscode-uri";
-import {
-  PLUGIN_MODULE_NAME,
-  STD_LIB_MODULE_NAME
-} from "../language-server/constants";
-import {
-  createForecastServices,
-  ForecastServices
-} from "../language-server/forecast-module";
 import { getLiteral, PluginError } from "../sdk";
 import { Context } from "../types";
 import {
@@ -40,7 +43,6 @@ import {
   resolveTransitiveImports
 } from "../utils/ast-utils";
 import { getVersion } from "../utils/version-utils";
-import { CliError } from "./cli-error";
 import { PluginRunner } from "./plugin-runner";
 
 /**
@@ -54,14 +56,17 @@ export async function initProject(
 ) {
   if (!fs.existsSync(projectPath)) {
     ConsoleLogger.error(`Path does not exist: ${projectPath}`);
-    throw new CliError("project path does not exist");
+    throw new ConfigurationError("Project Path", "project path does not exist");
   }
 
   const defaultPrismaSchemaLocation = "./prisma/schema.prisma";
   if (prismaSchema) {
     if (!fs.existsSync(prismaSchema)) {
       ConsoleLogger.error(`Prisma schema file does not exist: ${prismaSchema}`);
-      throw new CliError("prisma schema does not exist");
+      throw new ConfigurationError(
+        "Prisma schema",
+        "prisma schema does not exist"
+      );
     }
   } else if (fs.existsSync(defaultPrismaSchemaLocation)) {
     prismaSchema = defaultPrismaSchemaLocation;
@@ -128,12 +133,12 @@ export async function loadDocument(fileName: string): Promise<Model> {
   const extensions = services.LanguageMetaData.fileExtensions;
   if (!extensions.includes(path.extname(fileName))) {
     ConsoleLogger.error(`Please choose a file with extension: ${extensions}.`);
-    throw new CliError("invalid schema file");
+    throw new ConfigurationError("invalid schema file");
   }
 
   if (!fs.existsSync(fileName)) {
     ConsoleLogger.error(`File ${fileName} does not exist.`);
-    throw new CliError("schema file does not exist");
+    throw new ConfigurationError("schema file does not exist");
   }
 
   const stdLibFile = URI.file(
@@ -195,7 +200,7 @@ ${JSON.stringify(file.toJSON())}`);
         } [${document.textDocument.getText(validationError.range)}]`
       );
     }
-    throw new CliError("schema validation errors");
+    throw new ConfigurationError("schema validation errors");
   }
 
   const model = document.parseResult.value as Model;
@@ -216,14 +221,14 @@ function validationAfterMerge(model: Model) {
     ConsoleLogger.error(
       chalk.red("Validation errors: Model must define a datasource")
     );
-    throw new CliError("schema validation errors");
+    throw new ConfigurationError("schema validation errors");
   } else if (dataSources.length > 1) {
     ConsoleLogger.error(
       chalk.red(
         "Validation errors: Multiple datasource declarations are not allowed"
       )
     );
-    throw new CliError("schema validation errors");
+    throw new ConfigurationError("schema validation errors");
   }
 }
 
@@ -328,7 +333,7 @@ export async function runPlugins(options: {
   } catch (err) {
     if (err instanceof PluginError) {
       ConsoleLogger.error(chalk.red(`${err.plugin}: ${err.message}`));
-      throw new CliError(err.message);
+      throw new ProcessingError(err.message);
     } else {
       throw err;
     }
@@ -374,18 +379,17 @@ export async function dumpInfo(projectPath: string) {
 
   if (versions.size > 1) {
     ConsoleLogger.warn(
-      chalk.yellow(
-        "WARNING: Multiple versions of Forecast packages detected. This may cause issues."
-      )
+      "Multiple versions of Forecast packages detected. This may cause issues."
     );
   } else if (versions.size > 0) {
-    // const spinner = ora("Checking npm registry").start();
+    const spinner = ConsoleLogger.spinner("Checking npm registry").start();
+
     const latest = await getLatestVersion("forecast");
 
     if (!latest) {
-      // spinner.fail("unable to check for latest version");
+      spinner.fail("unable to check for latest version");
     } else {
-      // spinner.succeed();
+      spinner.succeed();
       const version = [...versions][0];
       if (semver.gt(latest, version)) {
         ConsoleLogger.info(

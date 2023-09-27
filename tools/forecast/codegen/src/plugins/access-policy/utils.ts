@@ -1,6 +1,6 @@
 import { isInvocationExpr } from "@stormstack/tools-forecast-language/ast";
+import { isFromStdlib } from "@stormstack/tools-forecast-language/utils";
 import { AstNode } from "langium/lib/syntax-tree";
-import { isFromStdlib } from "../../language-server/utils";
 
 /**
  * Returns if the given expression is a "future()" method call.

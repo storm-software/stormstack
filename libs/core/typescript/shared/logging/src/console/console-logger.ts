@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Provider } from "@stormstack/core-shared-injection/decorators";
+import ora from "ora";
 import { formatLog } from "../format";
 import { Logger } from "../logger";
 import {
@@ -12,6 +13,7 @@ import {
   printWarning,
   startGroup
 } from "./print";
+import { ConsoleSpinner } from "./types";
 
 @Provider(Logger)
 export class ConsoleLogger extends Logger {
@@ -100,8 +102,44 @@ export class ConsoleLogger extends Logger {
     startGroup(group);
   }
 
+  /**
+   * The function "groupEnd" ends a group in TypeScript.
+   */
   static groupEnd() {
     endGroup();
+  }
+
+  /**
+   * The function returns a ConsoleSpinner object, which is created using the ora library and takes an
+   * optional text parameter.
+   * @param {string} [text] - The `text` parameter is an optional string that represents the text to be
+   * displayed alongside the spinner.
+   * @returns an instance of the `ConsoleSpinner` class.
+   */
+  static spinner(text?: string): ConsoleSpinner {
+    return ora(text);
+  }
+
+  /**
+   * The function `spinnerStart` returns a ConsoleSpinner object that starts a spinner animation with an
+   * optional text.
+   * @param {string} [text] - The `text` parameter is an optional string that represents the text to be
+   * displayed alongside the spinner. It is used to provide additional context or information to the user
+   * while the spinner is running. If no `text` is provided, the spinner will be displayed without any
+   * accompanying text.
+   * @returns a ConsoleSpinner object.
+   */
+  static spinnerStart(text?: string): ConsoleSpinner {
+    return ConsoleLogger.spinner(text).start();
+  }
+
+  /**
+   * The function stops a console spinner and returns the stopped spinner.
+   * @param {ConsoleSpinner} spinner - The parameter "spinner" is of type "ConsoleSpinner".
+   * @returns the stopped spinner object.
+   */
+  static spinnerStop(spinner: ConsoleSpinner): ConsoleSpinner {
+    return spinner.stop();
   }
 
   public constructor(_name = "root") {

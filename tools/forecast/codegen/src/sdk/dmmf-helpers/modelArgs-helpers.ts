@@ -26,9 +26,9 @@ function generateModelArgsInputObjectTypes(models: DMMF.Model[]) {
           isList: false,
           type: `${modelName}Select`,
           location: "inputObjectTypes",
-          namespace: "prisma",
-        },
-      ],
+          namespace: "prisma"
+        }
+      ]
     };
     fields.push(selectField);
 
@@ -44,9 +44,9 @@ function generateModelArgsInputObjectTypes(models: DMMF.Model[]) {
             isList: false,
             type: `${modelName}Include`,
             location: "inputObjectTypes",
-            namespace: "prisma",
-          },
-        ],
+            namespace: "prisma"
+          }
+        ]
       };
       fields.push(includeField);
     }
@@ -55,9 +55,9 @@ function generateModelArgsInputObjectTypes(models: DMMF.Model[]) {
       name: `${modelName}Args`,
       constraints: {
         maxNumFields: null,
-        minNumFields: null,
+        minNumFields: null
       },
-      fields,
+      fields
     };
     modelArgsInputObjectTypes.push(modelArgsInputObjectType);
   }

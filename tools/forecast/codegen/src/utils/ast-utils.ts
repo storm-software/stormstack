@@ -17,9 +17,9 @@ import {
   isOperation,
   isReferenceExpr
 } from "@stormstack/tools-forecast-language/ast";
+import { isFromStdlib } from "@stormstack/tools-forecast-language/utils";
 import { AstNode, LangiumDocuments, Mutable, getDocument } from "langium";
 import { URI, Utils } from "vscode-uri";
-import { isFromStdlib } from "../language-server/utils";
 
 export function extractDataModelsWithAllowRules(model: Model): DataModel[] {
   return model.declarations.filter(

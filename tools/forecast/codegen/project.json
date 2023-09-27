@@ -12,7 +12,6 @@
         "main": "tools/forecast/codegen/src/cli/index.ts",
         "additionalEntryPoints": [
           "tools/forecast/codegen/src/index.ts",
-          "tools/forecast/codegen/src/language-server/main.ts",
           "tools/forecast/codegen/src/plugins/access-policy/index.ts",
           "tools/forecast/codegen/src/plugins/model-meta/index.ts",
           "tools/forecast/codegen/src/plugins/prisma/index.ts"

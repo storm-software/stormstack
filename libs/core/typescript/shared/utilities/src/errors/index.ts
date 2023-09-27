@@ -11,4 +11,5 @@ export * from "./incorrect-type-error";
 export * from "./missing-context-error";
 export * from "./model-validation-error";
 export * from "./not-found-error";
+export * from "./processing-error";
 export * from "./required-error";

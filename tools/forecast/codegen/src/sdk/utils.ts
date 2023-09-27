@@ -28,8 +28,8 @@ import {
   isOperationGroup,
   isReferenceExpr
 } from "@stormstack/tools-forecast-language/ast";
+import { ExpressionContext } from "@stormstack/tools-forecast-language/constants";
 import { dirname, isAbsolute, join } from "path";
-import { ExpressionContext } from "./constants";
 import { PluginOptions } from "./types";
 
 /**
@@ -147,6 +147,7 @@ export default function indentString(string: string, count = 4): string {
 export function hasAttribute(
   decl:
     | DataModel
+    | ApiModel
     | DataModelField
     | OperationGroup
     | Operation

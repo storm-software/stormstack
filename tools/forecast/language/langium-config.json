@@ -3,7 +3,7 @@
   "languages": [
     {
       "id": "forecast",
-      "grammar": "src/language/forecast.langium",
+      "grammar": "src/forecast.langium",
       "fileExtensions": [".4cast"],
       "textMate": {
         "out": "syntaxes/forecast.tmLanguage.json"
@@ -13,5 +13,5 @@
       }
     }
   ],
-  "out": "src/language/generated"
+  "out": "src/__generated__"
 }

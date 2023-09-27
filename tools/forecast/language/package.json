@@ -35,12 +35,8 @@
     "name": "Storm Software",
     "url": "https://stormcloud.dev"
   },
-  "files": [
-    "bin"
-  ],
+  "main": "./extension/main.js",
   "dependencies": {
-    "chalk": "~4.1.2",
-    "commander": "~10.0.0",
     "express": "~4.18.2",
     "langium": "~1.2.0",
     "monaco-editor-workers": "~0.34.2",
@@ -107,9 +103,5 @@
   },
   "activationEvents": [
     "onLanguage:forecast"
-  ],
-  "main": "./out/extension/main.js",
-  "bin": {
-    "forecast": "./bin/cli"
-  }
+  ]
 }

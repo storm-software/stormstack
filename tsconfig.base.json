@@ -254,7 +254,6 @@
       "@stormstack/tools-forecast-language/*": [
         "tools/forecast/language/src/*"
       ],
-      "@stormstack/tools-forecast-language/ast": ["tools/forecast/language/src/language/ast"],
       "@stormstack/tools-forecast-plugins-drizzle": [
         "tools/forecast/plugins/drizzle/src/index.ts"
       ],

@@ -18,7 +18,7 @@ import {
   isModel,
   isOperation,
   isReferenceExpr
-} from "../language/generated/ast";
+} from "../ast";
 import { isFromStdlib } from "./server-utils";
 
 export function extractDataModelsWithAllowRules(model: Model): DataModel[] {

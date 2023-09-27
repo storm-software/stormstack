@@ -133,7 +133,7 @@ export const PrismaWriteActions = [
   "disconnect",
   "set",
   "delete",
-  "deleteMany",
+  "deleteMany"
 ] as const;
 
 export type PrismaWriteActionType = (typeof PrismaWriteActions)[number];

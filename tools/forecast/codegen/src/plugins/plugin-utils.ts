@@ -1,6 +1,6 @@
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import type { PolicyOperationKind } from "@stormstack/tools-forecast-runtime";
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 
 export const ALL_OPERATION_KINDS: PolicyOperationKind[] = [

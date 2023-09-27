@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PackageManagers } from "@stormstack/core-server-utilities/package-fns";
-import { ForecastLanguageMetaData } from "@stormstack/tools-forecast-language/module";
+import { ProcessingError } from "@stormstack/core-shared-utilities/errors/processing-error";
+import { ForecastLanguageMetaData } from "@stormstack/tools-forecast-language/langium";
 import chalk from "chalk";
 import { Command, Option } from "commander";
 import fs from "fs";
 import * as semver from "semver";
 import { getVersion } from "../utils/version-utils";
-import { CliError } from "./cli-error";
 import { dumpInfo, initProject, runPlugins } from "./cli-util";
 import { loadConfig } from "./config";
 
 // required minimal version of Prisma
 export const requiredPrismaVersion = "4.0.0";
 
-const DEFAULT_CONFIG_FILE = "storm.config.json";
+const DEFAULT_CONFIG_FILE = "forecast.config.json";
 
 export const initAction = async (
   projectPath: string,
@@ -55,7 +55,7 @@ const checkRequiredPackage = (packageName: string, minVersion?: string) => {
     packageVersion = require(`${packageName}/package.json`).version;
   } catch (error) {
     console.error(chalk.red(`${packageName} not found, please install it`));
-    throw new CliError(`${packageName} not found`);
+    throw new ProcessingError(`${packageName} not found`);
   }
 
   if (minVersion && semver.lt(packageVersion, minVersion)) {
@@ -64,12 +64,12 @@ const checkRequiredPackage = (packageName: string, minVersion?: string) => {
         `${packageName} needs to be above ${minVersion}, the installed version is ${packageVersion}, please upgrade it`
       )
     );
-    throw new CliError(`${packageName} version is too low`);
+    throw new ProcessingError(`${packageName} version is too low`);
   }
 };
 
 export function createProgram() {
-  const program = new Command("storm");
+  const program = new Command("forecast");
 
   program.version(getVersion(), "-v --version", "display CLI version");
 

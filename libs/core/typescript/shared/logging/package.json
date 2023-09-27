@@ -2,7 +2,8 @@
   "name": "@stormstack/core-shared-logging",
   "version": "0.0.1",
   "dependencies": {
-    "chalk": "4.1.0"
+    "chalk": "4.1.0",
+    "ora": "^7.0.1"
   },
   "devDependencies": {
     "@types/jest": "29.5.3"

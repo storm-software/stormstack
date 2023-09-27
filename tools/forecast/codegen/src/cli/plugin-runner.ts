@@ -3,9 +3,9 @@
 import type { DMMF } from "@prisma/generator-helper";
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import { isPlugin, Plugin } from "@stormstack/tools-forecast-language/ast";
+import { hasValidationAttributes } from "@stormstack/tools-forecast-language/utils";
 import chalk from "chalk";
 import fs from "fs";
-// import ora from "ora";
 import path from "path";
 import { ensureDefaultOutputFolder } from "../plugins/plugin-utils";
 import {
@@ -13,7 +13,6 @@ import {
   getDMMF,
   getLiteral,
   getLiteralArray,
-  hasValidationAttributes,
   PluginError,
   PluginFunction,
   PluginOptions,
@@ -291,7 +290,10 @@ ${JSON.stringify(plugin)}`
     dmmf: DMMF.Document | undefined,
     warnings: string[]
   ) {
-    //const spinner = ora(`Running plugin ${chalk.cyan(name)}`).start();
+    const spinner = ConsoleLogger.spinner(
+      `Executing plugin ${chalk.bold.cyan(name)}`
+    ).start();
+
     try {
       let result = run(context.schema, options, dmmf, config);
       if (result instanceof Promise) {
@@ -301,10 +303,11 @@ ${JSON.stringify(plugin)}`
         warnings.push(...result);
       }
 
-      // spinner.succeed();
+      spinner.succeed("Plugin completed successfully");
     } catch (err) {
+      spinner.fail("Plugin failed to complete");
       ConsoleLogger.error(err);
-      //spinner.fail();
+
       throw err;
     }
   }

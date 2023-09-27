@@ -13,8 +13,8 @@ import {
   ThisExpr,
   UnaryExpr
 } from "@stormstack/tools-forecast-language/ast";
-import { ExpressionContext } from "../constants";
-import { isFromStdlib } from "../language-server/utils";
+import { ExpressionContext } from "@stormstack/tools-forecast-language/constants";
+import { isFromStdlib } from "@stormstack/tools-forecast-language/utils";
 import { isFutureExpr } from "../plugins/access-policy/utils";
 import { getLiteral } from "../sdk";
 

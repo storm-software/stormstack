@@ -9,12 +9,3 @@ export {
   GUARD_FIELD_NAME,
   TRANSACTION_FIELD_NAME
 } from "@stormstack/tools-forecast-runtime";
-
-/**
- * Expression context
- */
-export enum ExpressionContext {
-  DefaultValue = "DefaultValue",
-  AccessPolicy = "AccessPolicy",
-  ValidationRule = "ValidationRule"
-}

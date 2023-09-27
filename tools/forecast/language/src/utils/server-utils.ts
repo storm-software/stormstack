@@ -1,5 +1,4 @@
 import { AstNode, Reference } from "langium";
-import { ExpressionContext, STD_LIB_MODULE_NAME } from "../constants";
 import {
   ApiModel,
   DataModel,
@@ -13,7 +12,8 @@ import {
   isEnumField,
   isModel,
   isReferenceExpr
-} from "../language/generated/ast";
+} from "../ast";
+import { ExpressionContext, STD_LIB_MODULE_NAME } from "../constants";
 
 export function resolved<T extends AstNode>(ref: Reference<T>): T {
   if (!ref.ref) {

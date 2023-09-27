@@ -19,10 +19,10 @@ import {
   isReferenceExpr,
   isThisExpr
 } from "@stormstack/tools-forecast-language/ast";
+import { ExpressionContext } from "@stormstack/tools-forecast-language/constants";
 import { CodeBlockWriter } from "ts-morph";
 import { name } from ".";
 import {
-  ExpressionContext,
   PluginError,
   getFunctionExpressionContext,
   getLiteral

@@ -9,12 +9,12 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/tools/forecast/language",
-        "main": "tools/forecast/language/src/language/main.ts",
+        "main": "tools/forecast/language/src/main.ts",
         "additionalEntryPoints": [
-          "tools/forecast/language/src/language/generated/ast.ts",
-          "tools/forecast/language/src/language/generated/grammar.ts",
-          "tools/forecast/language/src/language/generated/module.ts",
-          "tools/forecast/language/src/language/main-browser.ts"
+          "tools/forecast/language/src/ast.ts",
+          "tools/forecast/language/src/forecast-module.ts",
+          "tools/forecast/language/src/__generated__/grammar.ts",
+          "tools/forecast/language/src/main-browser.ts"
         ],
         "project": "tools/forecast/language/package.json",
         "tsConfig": "tools/forecast/language/tsconfig.json",
@@ -68,8 +68,8 @@
         "outputPath": "dist/tools/forecast/extension",
         "main": "tools/forecast/language/src/extension/main.ts",
         "additionalEntryPoints": [
-          "tools/forecast/language/src/language/main.ts",
-          "tools/forecast/language/src/language/main-browser.ts"
+          "tools/forecast/language/src/main.ts",
+          "tools/forecast/language/src/main-browser.ts"
         ],
         "project": "tools/forecast/language/package.json",
         "tsConfig": "tools/forecast/language/tsconfig.json",

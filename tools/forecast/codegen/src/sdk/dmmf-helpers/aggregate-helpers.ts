@@ -31,10 +31,10 @@ export function addMissingInputObjectTypesForAggregate(
           {
             isList: false,
             type: "True",
-            location: "scalar",
-          },
-        ],
-      })),
+            location: "scalar"
+          }
+        ]
+      }))
     });
   }
 }
@@ -50,31 +50,31 @@ export function resolveAggregateOperationSupport(
         const model = name.replace("Count", "");
         aggregateOperationSupport[model] = {
           ...aggregateOperationSupport[model],
-          count: true,
+          count: true
         };
       } else if (name.endsWith("Min")) {
         const model = name.replace("Min", "");
         aggregateOperationSupport[model] = {
           ...aggregateOperationSupport[model],
-          min: true,
+          min: true
         };
       } else if (name.endsWith("Max")) {
         const model = name.replace("Max", "");
         aggregateOperationSupport[model] = {
           ...aggregateOperationSupport[model],
-          max: true,
+          max: true
         };
       } else if (name.endsWith("Sum")) {
         const model = name.replace("Sum", "");
         aggregateOperationSupport[model] = {
           ...aggregateOperationSupport[model],
-          sum: true,
+          sum: true
         };
       } else if (name.endsWith("Avg")) {
         const model = name.replace("Avg", "");
         aggregateOperationSupport[model] = {
           ...aggregateOperationSupport[model],
-          avg: true,
+          avg: true
         };
       }
     }
