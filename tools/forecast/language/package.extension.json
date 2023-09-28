@@ -1,5 +1,5 @@
 {
-  "name": "@stormstack/tools-forecast-language",
+  "name": "forecast",
   "displayName": "Forecast Language Tools",
   "version": "0.0.1",
   "description": "A toolkit for building secure CRUD apps with Next.js + GraphQL built on Prisma and Zenstack.",

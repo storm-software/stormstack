@@ -121,6 +121,11 @@
             "input": "tools/forecast/language/examples",
             "glob": "*.*",
             "output": "examples"
+          },
+          {
+            "input": "tools/forecast/language",
+            "glob": "package.extension.json",
+            "output": "."
           }
         ]
       }
@@ -238,10 +243,13 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "pnpm nx run tools-forecast-language:build-extension",
-          "pnpm vsce package --no-dependencies",
-          "pnpm vsce publish --no-dependencies"
-        ]
+          "rimraf /S /Q \"package.json\" ",
+          "renamer --replace --find \"package.extension.json\" --replace \"package.json\" *",
+          "npx vsce package --no-dependencies",
+          "npx vsce publish --no-dependencies"
+        ],
+        "parallel": false,
+        "cwd": "dist/tools/forecast/extension"
       }
     },
     "lint": {
