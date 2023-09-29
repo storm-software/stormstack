@@ -2,7 +2,7 @@ import { ConfigurationError } from "@stormstack/core-shared-utilities";
 import fs from "fs";
 import z, { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
-import { GUARD_FIELD_NAME, TRANSACTION_FIELD_NAME } from "../sdk";
+import { GUARD_FIELD_NAME, TRANSACTION_FIELD_NAME } from "../constants";
 
 const schema = z
   .object({

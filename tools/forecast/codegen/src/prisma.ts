@@ -8,8 +8,8 @@ import {
   isGeneratorDecl,
   isPlugin
 } from "@stormstack/tools-forecast-language/ast";
+import { getLiteral } from "@stormstack/tools-forecast-language/utils";
 import { dirname, isAbsolute, posix, relative, resolve, sep } from "path";
-import { getLiteral } from "./utils";
 
 /**
  * Given a Storm and an import context directory, compute the import spec for the Prisma Client.

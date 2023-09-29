@@ -15,7 +15,6 @@ import {
   Model,
   Operation,
   OperationGroup,
-  Reference,
   ReferenceExpr,
   isApiModel,
   isArrayExpr,
@@ -29,8 +28,13 @@ import {
   isReferenceExpr
 } from "@stormstack/tools-forecast-language/ast";
 import { ExpressionContext } from "@stormstack/tools-forecast-language/constants";
+import {
+  getLiteral,
+  getLiteralArray,
+  resolved
+} from "@stormstack/tools-forecast-language/utils";
 import { dirname, isAbsolute, join } from "path";
-import { PluginOptions } from "./types";
+import { PluginOptions } from "../types";
 
 /**
  * Gets data models that are not ignored
@@ -78,42 +82,6 @@ export function getInputs(model: Model) {
   );
 }
 
-export function resolved<T extends AstNode>(ref: Reference<T>): T {
-  if (!ref.ref) {
-    throw new Error(`Reference not resolved: ${ref.$refText}`);
-  }
-  return ref.ref;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getLiteral<T extends string | number | boolean | any = any>(
-  expr: Expression | undefined
-): T | undefined {
-  if (!isLiteralExpr(expr)) {
-    return getObjectLiteral<T>(expr);
-  }
-  return expr.value as T;
-}
-
-export function getArray(
-  expr: Expression | undefined
-): Expression[] | undefined {
-  return isArrayExpr(expr) ? expr.items : undefined;
-}
-
-export function getLiteralArray<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  T extends string | number | boolean | any = any
->(expr: Expression | undefined): T[] | undefined {
-  const arr = getArray(expr);
-  if (!arr) {
-    return undefined;
-  }
-  return arr
-    .map(item => getLiteral<T>(item))
-    .filter((v): v is T => v !== undefined);
-}
-
 export function getObjectLiteral<T>(
   expr: Expression | undefined
 ): T | undefined {
@@ -148,6 +116,7 @@ export function hasAttribute(
   decl:
     | DataModel
     | ApiModel
+    | Interface
     | DataModelField
     | OperationGroup
     | Operation
@@ -320,13 +289,6 @@ export function isForeignKeyField(field: DataModelField) {
   });
 }
 
-export function resolvePath(_path: string, options: PluginOptions) {
-  if (isAbsolute(_path)) {
-    return _path;
-  } else {
-    return join(dirname(options.schemaPath), _path);
-  }
-}
 
 export function requireOption<T>(options: PluginOptions, name: string): T {
   const value = options[name];

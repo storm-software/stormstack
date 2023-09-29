@@ -45,10 +45,10 @@
       }
     },
     "generate": {
-      "executor": "@stormstack/tools-executors-typescript:storm-generate",
+      "executor": "@stormstack/tools-nx-forecast:generate",
       "options": {
         "outputPath": "libs/contact/typescript/server/attachment/src/__generated__",
-        "schema": "schema.storm",
+        "schema": "schema.4cast",
         "packageManager": "pnpm",
         "dependencyCheck": true
       }

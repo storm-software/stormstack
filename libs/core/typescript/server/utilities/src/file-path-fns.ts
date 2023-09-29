@@ -1,6 +1,6 @@
-import Path from "path";
+import Path, { dirname, isAbsolute, join } from "path";
 
-export const findFileName = (filePath: string): string => {
+export function findFileName(filePath: string): string {
   return (
     filePath
       ?.split(
@@ -12,8 +12,16 @@ export const findFileName = (filePath: string): string => {
       )
       ?.pop() ?? ""
   );
-};
+}
 
-export const findFilePath = (filePath: string): string => {
+export function findFilePath(filePath: string): string {
   return filePath.replace(findFileName(filePath), "");
-};
+}
+
+export function resolvePath(filePath: string, basePath?: string) {
+  if (isAbsolute(filePath)) {
+    return filePath;
+  } else {
+    return join(dirname(basePath), filePath);
+  }
+}

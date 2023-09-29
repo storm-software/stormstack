@@ -16,7 +16,8 @@
         "bundle": true,
         "metafile": true,
         "minify": true,
-        "format": ["esm", "cjs"]
+        "format": ["esm", "cjs"],
+        "thirdParty": true
       }
     },
     "lint": {

@@ -1,5 +1,7 @@
 import { ConsoleLogger } from "@stormstack/core-shared-logging";
-import prettier, { Options } from "prettier";
+import { ProcessingError } from "@stormstack/core-shared-utilities";
+import prettierConfig from "@stormstack/tools-devops-config/prettier";
+import prettier from "prettier";
 import {
   CompilerOptions,
   DiagnosticCategory,
@@ -8,21 +10,6 @@ import {
   ScriptTarget,
   SourceFile
 } from "ts-morph";
-import { PluginError } from "./types";
-
-const prettierConfig: Options = {
-  trailingComma: "none",
-  tabWidth: 2,
-  semi: true,
-  singleQuote: false,
-  quoteProps: "preserve",
-  insertPragma: false,
-  bracketSameLine: true,
-  printWidth: 80,
-  bracketSpacing: true,
-  arrowParens: "avoid",
-  endOfLine: "lf"
-};
 
 export async function formatFile(
   sourceFile: SourceFile,
@@ -100,7 +87,7 @@ export async function emitProject(project: Project) {
       project.formatDiagnosticsWithColorAndContext(errors.slice(0, 10))
     );
     await project.save();
-    throw new PluginError("", `Error compiling generated code`);
+    throw new ProcessingError("Error compiling generated code");
   }
 
   const result = await project.emit();
@@ -114,7 +101,7 @@ export async function emitProject(project: Project) {
       project.formatDiagnosticsWithColorAndContext(emitErrors.slice(0, 10))
     );
     await project.save();
-    throw new PluginError("", `Error emitting generated code`);
+    throw new ProcessingError("Error emitting generated code");
   }
 }
 

@@ -4,10 +4,7 @@ import {
   PackageManagers
 } from "@stormstack/core-server-utilities/package-fns";
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
-import {
-  ConfigurationError,
-  ProcessingError
-} from "@stormstack/core-shared-utilities";
+import { ConfigurationError } from "@stormstack/core-shared-utilities";
 import {
   isDataSource,
   isPlugin,
@@ -21,7 +18,9 @@ import {
   createForecastServices,
   ForecastServices
 } from "@stormstack/tools-forecast-language/forecast-module";
+import { getLiteral } from "@stormstack/tools-forecast-language/utils";
 import chalk from "chalk";
+import { cosmiconfig } from "cosmiconfig";
 import fs from "fs";
 import getLatestVersion from "get-latest-version";
 import {
@@ -35,15 +34,13 @@ import { NodeFileSystem } from "langium/node";
 import path from "path";
 import semver from "semver";
 import { URI } from "vscode-uri";
-import { getLiteral, PluginError } from "../sdk";
-import { Context } from "../types";
 import {
   mergeBaseModel,
   resolveImport,
   resolveTransitiveImports
 } from "../utils/ast-utils";
 import { getVersion } from "../utils/version-utils";
-import { PluginRunner } from "./plugin-runner";
+import { PluginsProcessor } from "./plugins-processor";
 
 /**
  * Initializes an existing project for Forecast
@@ -98,14 +95,20 @@ export async function initProject(
   ensurePackage("@prisma/client", false, packageManager, "latest", projectPath);
 
   tag = tag ?? getVersion();
-  installPackage("forecast", true, packageManager, tag, projectPath);
   installPackage(
+    "@stormstack/tools-forecast-language",
+    true,
+    packageManager,
+    tag,
+    projectPath
+  );
+  /*installPackage(
     "@stormstack/runtime",
     false,
     packageManager,
     tag,
     projectPath
-  );
+  );*/
 
   if (sampleModelGenerated) {
     ConsoleLogger.info(`Sample model generated at: ${chalk.blue(forecastFile)}
@@ -143,7 +146,11 @@ export async function loadDocument(fileName: string): Promise<Model> {
 
   const stdLibFile = URI.file(
     path.resolve(
-      path.join(__dirname, "../../../forecast/schema/res", STD_LIB_MODULE_NAME)
+      path.join(
+        __dirname,
+        "../../../../../forecast/language/res",
+        STD_LIB_MODULE_NAME
+      )
     )
   );
   ConsoleLogger.info(`Loading standard library file from '${stdLibFile.toString()}'
@@ -322,22 +329,17 @@ export async function runPlugins(options: {
 }) {
   const model = await loadDocument(options.schema);
 
-  const context: Context = {
-    schema: model,
-    schemaPath: path.resolve(options.schema),
-    outDir: options?.outDir ?? path.dirname(options.schema)
-  };
+  const explorer = cosmiconfig("forecast");
+  const config = await explorer.search();
 
-  try {
-    await new PluginRunner().run(context);
-  } catch (err) {
-    if (err instanceof PluginError) {
-      ConsoleLogger.error(chalk.red(`${err.plugin}: ${err.message}`));
-      throw new ProcessingError(err.message);
-    } else {
-      throw err;
+  await new PluginsProcessor().process({
+    model,
+    schemaPath: path.resolve(options.schema),
+    config: {
+      outDir: options.outDir,
+      ...config?.config
     }
-  }
+  });
 }
 
 export async function dumpInfo(projectPath: string) {
@@ -352,6 +354,7 @@ export async function dumpInfo(projectPath: string) {
     );
     return;
   }
+
   const packages = [
     "forecast",
     ...Object.keys(pkgJson.dependencies ?? {}).filter(p =>
@@ -382,14 +385,13 @@ export async function dumpInfo(projectPath: string) {
       "Multiple versions of Forecast packages detected. This may cause issues."
     );
   } else if (versions.size > 0) {
-    const spinner = ConsoleLogger.spinner("Checking npm registry").start();
+    ConsoleLogger.info("Checking npm registry");
 
     const latest = await getLatestVersion("forecast");
-
     if (!latest) {
-      spinner.fail("unable to check for latest version");
+      ConsoleLogger.error("unable to check for latest version");
     } else {
-      spinner.succeed();
+      ConsoleLogger.success("Successfully checked npm registry");
       const version = [...versions][0];
       if (semver.gt(latest, version)) {
         ConsoleLogger.info(

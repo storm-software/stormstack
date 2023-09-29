@@ -9,37 +9,9 @@ generator js {
     output   = "../../../../../../node_modules/@prisma/client/contact-attachment"
 }
 
-plugin prisma {
-  provider = "@core/prisma"
-}
-
-plugin meta {
-  provider = "@core/model-meta"
-  output = "src/__generated__/model-meta"
-  compile = false
-}
-
-plugin access {
-  provider = "@core/access-policy"
-  output = "src/__generated__/access-policy"
-  compile = false
-}
-
-plugin zod {
-  provider = "@plugins/zod"
-  output = "src/__generated__/zod"
-  compile = false
-}
-
-plugin drizzle {
-  provider = "@plugins/drizzle"
-  output = "src/__generated__/drizzle"
-  compile = false
-}
-
-plugin graphql {
-  provider = "@plugins/graphql"
-  output = "src/__generated__/graphql"
+plugin crud {
+  provider = "@stormstack/tools-forecast-plugins-crud"
+  output = "src/__generated__/crud"
   compile = false
 }
 

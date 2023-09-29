@@ -1,4 +1,4 @@
-import { AUXILIARY_FIELDS } from "../../sdk";
+import { AUXILIARY_FIELDS } from "@stormstack/tools-forecast-codegen";
 import indentString from "./indent-string";
 
 /**

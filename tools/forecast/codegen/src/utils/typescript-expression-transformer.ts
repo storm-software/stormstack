@@ -14,9 +14,11 @@ import {
   UnaryExpr
 } from "@stormstack/tools-forecast-language/ast";
 import { ExpressionContext } from "@stormstack/tools-forecast-language/constants";
-import { isFromStdlib } from "@stormstack/tools-forecast-language/utils";
-import { isFutureExpr } from "../plugins/access-policy/utils";
-import { getLiteral } from "../sdk";
+import {
+  getLiteral,
+  isFromStdlib
+} from "@stormstack/tools-forecast-language/utils";
+import { isFutureExpr } from "./access-policy-utils";
 
 export class TypeScriptExpressionTransformerError extends Error {
   constructor(message: string) {

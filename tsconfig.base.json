@@ -260,6 +260,12 @@
       "@stormstack/tools-forecast-language/*": [
         "tools/forecast/language/src/*"
       ],
+      "@stormstack/tools-forecast-plugins-crud": [
+        "tools/forecast/plugins/crud/src/index.ts"
+      ],
+      "@stormstack/tools-forecast-plugins-prisma": [
+        "tools/forecast/plugins/prisma/src/index.ts"
+      ],
       "@stormstack/tools-forecast-plugins-drizzle": [
         "tools/forecast/plugins/drizzle/src/index.ts"
       ],

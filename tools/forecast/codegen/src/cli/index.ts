@@ -13,7 +13,7 @@ import { loadConfig } from "./config";
 // required minimal version of Prisma
 export const requiredPrismaVersion = "4.0.0";
 
-const DEFAULT_CONFIG_FILE = "forecast.config.json";
+const DEFAULT_CONFIG_FILE = "forecast.json";
 
 export const initAction = async (
   projectPath: string,
@@ -45,6 +45,7 @@ export const generateAction = async (options: {
     checkRequiredPackage("prisma", requiredPrismaVersion);
     checkRequiredPackage("@prisma/client", requiredPrismaVersion);
   }
+
   return runPlugins(options);
 };
 
@@ -87,7 +88,7 @@ export function createProgram() {
   const schemaOption = new Option(
     "--schema <file>",
     `schema file (with extension ${schemaExtensions})`
-  ).default("./schema.storm");
+  ).default("./schema.4cast");
 
   const configOption = new Option("-c, --config [file]", "config file");
 

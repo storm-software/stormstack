@@ -1,0 +1,8 @@
+{
+  "name": "@stormstack/tools-forecast-plugins-crud",
+  "version": "0.0.1",
+  "dependencies": {
+    "path": "^0.12.7",
+    "ts-morph": "^19.0.0"
+  }
+}

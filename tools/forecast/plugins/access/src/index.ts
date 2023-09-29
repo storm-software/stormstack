@@ -1,5 +1,5 @@
 import { Model } from "@stormstack/tools-forecast-language/ast";
-import { PluginOptions } from "../../sdk";
+import { PluginOptions } from "../../../codegen/src/sdk";
 import PolicyGenerator from "./policy-guard-generator";
 
 export const name = "Access Policy";

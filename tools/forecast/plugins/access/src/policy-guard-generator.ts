@@ -35,6 +35,10 @@ import {
 } from "ts-morph";
 import { name } from ".";
 import {
+  ALL_OPERATION_KINDS,
+  getDefaultOutputFolder
+} from "../../../codegen/src/plugins/plugin-utils";
+import {
   createProject,
   emitProject,
   getDataModels,
@@ -47,13 +51,15 @@ import {
   resolvePath,
   RUNTIME_PACKAGE,
   saveProject
-} from "../../sdk";
-import { getIdFields, isAuthInvocation } from "../../utils/ast-utils";
+} from "../../../codegen/src/sdk";
+import {
+  getIdFields,
+  isAuthInvocation
+} from "../../../codegen/src/utils/ast-utils";
 import {
   TypeScriptExpressionTransformer,
   TypeScriptExpressionTransformerError
-} from "../../utils/typescript-expression-transformer";
-import { ALL_OPERATION_KINDS, getDefaultOutputFolder } from "../plugin-utils";
+} from "../../../codegen/src/utils/typescript-expression-transformer";
 import { ExpressionWriter, FALSE, TRUE } from "./expression-writer";
 import { isFutureExpr } from "./utils";
 

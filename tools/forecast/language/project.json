@@ -39,6 +39,11 @@
             "output": "."
           },
           {
+            "input": "tools/forecast/language/res",
+            "glob": "*.*",
+            "output": "res"
+          },
+          {
             "input": "assets/favicons/light",
             "glob": "icon.png",
             "output": "assets/light"
@@ -93,7 +98,7 @@
             "output": "."
           },
           {
-            "input": "tools/forecast/language/src/res",
+            "input": "tools/forecast/language/res",
             "glob": "*.*",
             "output": "res"
           },
@@ -163,7 +168,7 @@
       "defaultConfiguration": "default",
       "options": {
         "commands": [
-          "pnpm nx run tools-forecast-language:langium:default",
+          "pnpm nx run tools-forecast-language:langium",
           "pnpm nx run tools-forecast-language:compile"
         ]
       },

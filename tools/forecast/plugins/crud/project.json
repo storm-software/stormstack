@@ -1,31 +1,27 @@
 {
-  "name": "tools-forecast-codegen",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "tools/forecast/codegen/src",
+  "name": "tools-forecast-plugins-crud",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/forecast/plugins/crud/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/tools/forecast/codegen",
-        "main": "tools/forecast/codegen/src/index.ts",
-        "additionalEntryPoints": [
-          "tools/forecast/codegen/src/cli/index.ts"
-        ],
-        "project": "tools/forecast/codegen/package.json",
-        "tsConfig": "tools/forecast/codegen/tsconfig.json",
+        "outputPath": "dist/tools/forecast/plugins/crud",
+        "main": "tools/forecast/plugins/crud/src/index.ts",
+        "project": "tools/forecast/plugins/crud/package.json",
+        "tsConfig": "tools/forecast/plugins/crud/tsconfig.json",
         "platform": "node",
         "deleteOutputPath": true,
         "bundle": true,
         "sourcemap": true,
-        "minify": false,
+        "minify": true,
         "skipTypeCheck": true,
         "format": ["esm", "cjs"],
-        "external": [".prisma/client/index"],
         "assets": [
           {
-            "input": "tools/forecast/codegen",
+            "input": "tools/forecast/plugins/crud",
             "glob": "README.md",
             "output": "."
           },
@@ -33,16 +29,6 @@
             "input": ".",
             "glob": "LICENSE",
             "output": "."
-          },
-          {
-            "input": "tools/forecast/codegen/bin",
-            "glob": "*.*",
-            "output": "bin"
-          },
-          {
-            "input": "tools/forecast/codegen/build",
-            "glob": "*.*",
-            "output": "build"
           }
         ]
       }
@@ -51,9 +37,9 @@
       "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "tools/forecast/codegen/**/*.ts",
-          "tools/forecast/codegen/generators.json",
-          "tools/forecast/codegen/package.json"
+          "tools/forecast/plugins/crud/**/*.ts",
+          "tools/forecast/plugins/crud/generators.json",
+          "tools/forecast/plugins/crud/package.json"
         ]
       },
       "outputs": ["{options.outputFile}"]
@@ -62,7 +48,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "tools/forecast/codegen/jest.config.ts",
+        "jestConfig": "tools/forecast/plugins/crud/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -78,14 +64,14 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "tools-forecast-codegen-v${VERSION}"
+        "tagFormat": "tools-forecast-plugins-crud-v${VERSION}"
       }
     }
   },
   "tags": ["scope:tools", "platform:server"],
   "implicitDependencies": [
+    "core-shared-utilities",
     "tools-forecast-language",
-    "tools-forecast-runtime",
-    "core-shared-utilities"
+    "tools-forecast-codegen"
   ]
 }

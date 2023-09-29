@@ -26,12 +26,15 @@ import {
   PluginError,
   getFunctionExpressionContext,
   getLiteral
-} from "../../sdk";
-import { getIdFields, isAuthInvocation } from "../../utils/ast-utils";
+} from "../../../codegen/src/sdk";
+import {
+  getIdFields,
+  isAuthInvocation
+} from "../../../codegen/src/utils/ast-utils";
 import {
   TypeScriptExpressionTransformer,
   TypeScriptExpressionTransformerError
-} from "../../utils/typescript-expression-transformer";
+} from "../../../codegen/src/utils/typescript-expression-transformer";
 import { isFutureExpr } from "./utils";
 
 type ComparisonOperator = "==" | "!=" | ">" | ">=" | "<" | "<=";
