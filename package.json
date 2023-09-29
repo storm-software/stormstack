@@ -94,7 +94,8 @@
   },
   "prettier": "./dist/tools/devops/config/prettier/index.js",
   "resolutions": {
-    "graphql": "^16.8.0"
+    "graphql": "^16.8.0",
+    "minimist": "^1.2.6"
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20230904.0",
