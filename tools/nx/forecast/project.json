@@ -13,7 +13,7 @@
         "project": "tools/nx/forecast/package.json",
         "main": "tools/nx/forecast/index.ts",
         "additionalEntryPoints": [
-          "tools/nx/forecast/src/executors/generate/impl.ts",
+          "tools/nx/forecast/src/executors/project-generate/impl.ts",
           "tools/nx/forecast/src/generators/generate/impl.ts"
         ],
         "deleteOutputPath": true,

@@ -45,7 +45,7 @@
       }
     },
     "generate": {
-      "executor": "@stormstack/tools-nx-forecast:generate",
+      "executor": "@stormstack/tools-nx-forecast:project-generate",
       "options": {
         "outputPath": "libs/contact/typescript/server/attachment/src/__generated__",
         "schema": "schema.4cast",
