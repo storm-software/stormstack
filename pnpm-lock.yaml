@@ -983,9 +983,6 @@ importers:
       chalk:
         specifier: 4.1.0
         version: 4.1.0
-      ora:
-        specifier: ^7.0.1
-        version: 7.0.1
     devDependencies:
       '@types/jest':
         specifier: 29.5.3
@@ -1170,6 +1167,9 @@ importers:
       chalk:
         specifier: 4.1.0
         version: 4.1.0
+      cosmiconfig:
+        specifier: ^8.3.6
+        version: 8.3.6(typescript@5.2.0-beta)
       langium:
         specifier: 1.2.1
         version: 1.2.1
@@ -1233,16 +1233,13 @@ importers:
         version: 0.34.2
       monaco-editor-wrapper:
         specifier: ~1.6.0
-        version: 1.6.1(vscode@1.1.37)
+        version: 1.6.1
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
       ts-pattern:
         specifier: ^5.0.5
         version: 5.0.5
-      vscode:
-        specifier: ^1.1.37
-        version: 1.1.37
       vscode-jsonrpc:
         specifier: ^8.1.0
         version: 8.2.0
@@ -1290,6 +1287,77 @@ importers:
         specifier: ~4.9.5
         version: 4.9.5
     publishDirectory: dist/tools/forecast/language
+
+  tools/forecast/plugins/core/drizzle:
+    dependencies:
+      '@prisma/generator-helper':
+        specifier: ^5.2.0
+        version: 5.3.1
+      drizzle-orm:
+        specifier: ^0.28.5
+        version: 0.28.6(@cloudflare/workers-types@4.20230922.0)(@opentelemetry/api@1.6.0)
+      langium:
+        specifier: 1.2.1
+        version: 1.2.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      semver:
+        specifier: ^7.5.4
+        version: 7.5.4
+      ts-morph:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      drizzle-kit:
+        specifier: ^0.19.13
+        version: 0.19.13
+
+  tools/forecast/plugins/core/graphql:
+    dependencies:
+      '@graphql-tools/graphql-file-loader':
+        specifier: ^8.0.0
+        version: 8.0.0(patch_hash=ommjebcewxw54ruoq3khd3f7b4)(graphql@16.8.1)
+      '@graphql-tools/load':
+        specifier: ^8.0.0
+        version: 8.0.0(patch_hash=exxcxxefaagayysm4sp7c4opby)(graphql@16.8.1)
+      '@prisma/generator-helper':
+        specifier: ^5.2.0
+        version: 5.3.1
+      drizzle-orm:
+        specifier: ^0.28.5
+        version: 0.28.6(@cloudflare/workers-types@4.20230922.0)(@opentelemetry/api@1.6.0)
+      langium:
+        specifier: 1.2.1
+        version: 1.2.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      semver:
+        specifier: ^7.5.4
+        version: 7.5.4
+      ts-morph:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      drizzle-kit:
+        specifier: ^0.19.13
+        version: 0.19.13
+
+  tools/forecast/plugins/core/zod:
+    dependencies:
+      '@prisma/generator-helper':
+        specifier: ^5.2.0
+        version: 5.3.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
+      semver:
+        specifier: ^7.5.4
+        version: 7.5.4
+      ts-morph:
+        specifier: ^19.0.0
+        version: 19.0.0
 
   tools/forecast/plugins/drizzle:
     dependencies:
@@ -1346,6 +1414,10 @@ importers:
       drizzle-kit:
         specifier: ^0.19.13
         version: 0.19.13
+
+  tools/forecast/plugins/internal/access: {}
+
+  tools/forecast/plugins/internal/meta: {}
 
   tools/forecast/plugins/zod:
     dependencies:
@@ -1465,6 +1537,15 @@ importers:
       '@types/glob':
         specifier: ^8.1.0
         version: 8.1.0
+
+  tools/nx/forecast:
+    dependencies:
+      '@nx/devkit':
+        specifier: 16.7.0
+        version: 16.7.0(nx@16.7.0)
+      fsevents:
+        specifier: ^2.3.3
+        version: 2.3.3
 
 packages:
 
@@ -16073,7 +16154,7 @@ packages:
     resolution: {integrity: sha512-oyl4jvAfTGX9Bt6Or4H9ni1Z447/tQuxnZsytsCaExKlmJiU8sFgnIBRzJUpKwB5eWn9HuBYlUlVA74q/yN0eQ==}
     dependencies:
       '@types/connect': 3.4.36
-      '@types/node': 16.18.54
+      '@types/node': 20.7.0
 
   /@types/bonjour@3.5.11:
     resolution: {integrity: sha512-isGhjmBtLIxdHBDl2xGwUzEM8AOyOvWsADWq7rqirdi/ZQoHnLWErHvsThcEzTX8juDRiZtzp2Qkv5bgNh6mAg==}
@@ -16227,7 +16308,7 @@ packages:
   /@types/express-serve-static-core@4.17.37:
     resolution: {integrity: sha512-ZohaCYTgGFcOP7u6aJOhY9uIZQgZ2vxC2yWoArY+FeDXlqeH66ZVBjgvg+RLVAS/DWNq4Ap9ZXu1+SUQiiWYMg==}
     dependencies:
-      '@types/node': 16.18.54
+      '@types/node': 20.7.0
       '@types/qs': 6.9.8
       '@types/range-parser': 1.2.4
       '@types/send': 0.17.2
@@ -16688,7 +16769,7 @@ packages:
     dependencies:
       '@types/http-errors': 2.0.2
       '@types/mime': 3.0.1
-      '@types/node': 16.18.54
+      '@types/node': 20.7.0
 
   /@types/shimmer@1.0.3:
     resolution: {integrity: sha512-F/IjUGnV6pIN7R4ZV4npHJVoNtaLZWvb+2/9gctxjb99wkpI7Ozg8VPogwDiTRyjLwZXAYxjvdg1KS8LTHKdDA==}
@@ -30837,11 +30918,11 @@ packages:
     resolution: {integrity: sha512-MdO1nvAbGNzc7ygyzwACvs5DOPaTOUNDjU/qTQx0Rsw00BrhL88eMi9sWBm+LYfQbPaZf+YBqwJaJUovl3M6bQ==}
     dev: false
 
-  /monaco-editor-wrapper@1.6.1(vscode@1.1.37):
+  /monaco-editor-wrapper@1.6.1:
     resolution: {integrity: sha512-aK7uvsbjPmwo+Odg8oQ6scPfkt2z0lLuykKBfMwKiiGijlq3vzKYvUnuub5/OxalxQCoV6kOhN5Y0HKkXc44tg==}
     dependencies:
       '@types/css-font-loading-module': 0.0.9
-      monaco-languageclient: 4.0.3(vscode@1.1.37)
+      monaco-languageclient: 4.0.3
       normalize-url: 8.0.0
       vscode-languageserver-protocol: 3.17.2
       vscode-ws-jsonrpc: 2.0.1
@@ -30849,13 +30930,12 @@ packages:
       - vscode
     dev: false
 
-  /monaco-languageclient@4.0.3(vscode@1.1.37):
+  /monaco-languageclient@4.0.3:
     resolution: {integrity: sha512-1mGIUb5PFRknITBhNxgH0SnQy1/jntt9oo0cQpOl3HdhYEL/CYK2UrsZZX7Udqmz1PXKyRIzQ3tZ7dJn4mzWtA==}
     engines: {node: '>=16.11.0', npm: '>=8.0.0'}
     peerDependencies:
       vscode: '>= npm:@codingame/monaco-vscode-api@1.69.0 < npm:@codingame/monaco-vscode-api@1.70.0'
     dependencies:
-      vscode: 1.1.37
       vscode-jsonrpc: 8.0.2
       vscode-languageclient: 8.0.2
     dev: false

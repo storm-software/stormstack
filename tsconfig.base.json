@@ -251,6 +251,12 @@
       "@stormstack/tools-generators-typescript": [
         "tools/generators/typescript/index.ts"
       ],
+      "@stormstack/tools-nx-forecast": [
+        "tools/nx/forecast/index.ts"
+      ],
+      "@stormstack/tools-forecast-language": [
+        "tools/forecast/language/src/index.ts"
+      ],
       "@stormstack/tools-forecast-language/*": [
         "tools/forecast/language/src/*"
       ],
@@ -267,21 +273,6 @@
       "@stormstack/tools-forecast-runtime/*": ["tools/forecast/runtime/src/*"],
       "@stormstack/tools-forecast-codegen": ["tools/forecast/codegen/src/index.ts"],
       "@stormstack/tools-forecast-codegen/*": ["tools/forecast/codegen/src/*"],
-      "@stormstack/tools-forecast-codegen/cli": [
-        "tools/forecast/codegen/src/cli/index.ts"
-      ],
-      "@stormstack/tools-forecast-codegen/plugins/*": [
-        "tools/forecast/codegen/src/plugins/*"
-      ],
-      "@stormstack/tools-forecast-codegen/plugins/access-policy": [
-        "tools/forecast/codegen/src/plugins/access-policy/index.ts"
-      ],
-      "@stormstack/tools-forecast-codegen/plugins/model-meta": [
-        "tools/forecast/codegen/src/plugins/model-meta/index.ts"
-      ],
-      "@stormstack/tools-forecast-codegen/plugins/prisma": [
-        "tools/forecast/codegen/src/plugins/prisma/index.ts"
-      ],
       "@stormstack/user-management-client-components": [
         "libs/user-management/typescript/client/components/src/index.ts"
       ],

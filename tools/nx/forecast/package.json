@@ -1,0 +1,12 @@
+{
+  "name": "@stormstack/tools-nx-forecast",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
+  "dependencies": {
+    "@nx/devkit": "16.7.0",
+    "fsevents": "^2.3.3"
+  },
+  "builders": "./executors.json",
+  "schematics": "./generators.json"
+}

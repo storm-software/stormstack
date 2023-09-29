@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "generate",
+  "title": "StormStack - Forecast Generate (Executor)",
+  "description": "⚡ Generate code based on a provided Forecast model schema",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "description": "The `.4cast` file name and path of the Forecast model to use for code generation ⚡",
+      "default": "schema.4cast"
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "Path to the directory where the files will be generated",
+      "default": "src/__generated__"
+    },
+    "packageManager": {
+      "type": "string",
+      "description": "Name of the package manager used by this repository",
+      "options": ["npm", "yarn", "pnpm"],
+      "default": "pnpm"
+    },
+    "dependencyCheck": {
+      "type": "boolean",
+      "description": "Should the currently installed Prisma version be checked",
+      "default": true
+    }
+  },
+  "required": ["schema", "outputPath", "packageManager", "dependencyCheck"]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "@stormstack/tools-nx-forecast",
+  "version": "0.0.1",
+  "executors": {
+    "generate": {
+      "implementation": "../../../dist/tools/nx/forecast/src/executors/generate/impl",
+      "schema": "../../../dist/tools/nx/forecast/src/executors/generate/schema.json",
+      "description": "Generate code based on a provided Forecast model."
+    }
+  }
+}

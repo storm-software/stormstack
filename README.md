@@ -32,6 +32,7 @@ StormStack is built using <a href="https://nx.dev/" target="_blank">Nx</a>, a se
   - [Build](#build)
   - [Development Server](#development-server)
 - [Forecast - Model-Driven Development](#forecast---model-driven-development)
+  - [Visual Studio Code Extension](#visual-studio-code-extension)
 - [Environment Configuration Help](#environment-configuration-help)
   - [Plug-Ins](#plug-ins)
   - [Generate an Application](#generate-an-application)
@@ -101,6 +102,10 @@ In StormStack, ⚡ _forecast_ refers to a collection of applications and librari
 
 More information can be found in the [📓 Documentation](https://stormstack.github.io/stormstack).
 <br /><br />
+
+## Visual Studio Code Extension
+
+Forecast has it's own Visual Studio Code extension to support the language model in the IDE. The extension can be found in the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=storm-software.forecast).
 
 # Environment Configuration Help
 

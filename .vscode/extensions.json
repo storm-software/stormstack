@@ -4,9 +4,7 @@
     "esbenp.prettier-vscode",
     "firsttris.vscode-jest-runner",
     "dbaeumer.vscode-eslint",
-    "ms-vscode-remote.remote-containers",
     "asyncapi.asyncapi-preview",
-    "ms-dotnettools.csharp",
     "streetsidesoftware.code-spell-checker",
     "langium.langium-vscode",
     "pat-sullivan.storm-schema",
@@ -19,9 +17,9 @@
     "meta.relay",
     "bradlc.vscode-tailwindcss",
     "vscode-icons-team.vscode-icons",
-    "knisterpeter.vscode-commitizen",
     "prisma.prisma",
     "capaj.graphql-codegen-vscode",
-    "davidanson.vscode-markdownlint"
+    "davidanson.vscode-markdownlint",
+    "storm-software.forecast"
   ]
 }

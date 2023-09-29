@@ -1,0 +1,108 @@
+{
+  "name": "tools-nx-forecast",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/nx/forecast",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/nx/forecast",
+        "tsConfig": "tools/nx/forecast/tsconfig.json",
+        "project": "tools/nx/forecast/package.json",
+        "main": "tools/nx/forecast/index.ts",
+        "additionalEntryPoints": [
+          "tools/nx/forecast/src/executors/generate/impl.ts",
+          "tools/nx/forecast/src/generators/generate/impl.ts"
+        ],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": true,
+        "minify": false,
+        "skipTypeCheck": true,
+        "format": ["esm", "cjs"],
+        "external": [
+          ".prisma/client/index",
+          "@swc/core",
+          "@swc-node/register",
+          "@nx/nx-win32-x64-msvc",
+          "espree"
+        ],
+        "assets": [
+          {
+            "input": "tools/nx/forecast",
+            "glob": "**/schema.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/forecast",
+            "glob": "executors.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/forecast",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/forecast",
+            "glob": "README.md",
+            "output": "/"
+          },
+          {
+            "input": "tools/nx/forecast",
+            "glob": "CHANGELOG.md",
+            "output": "/"
+          },
+          {
+            "input": "",
+            "glob": "LICENSE",
+            "output": "/"
+          },
+          {
+            "input": "tools/nx/forecast",
+            "glob": "migrations.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/nx/forecast/**/*.ts",
+          "tools/nx/forecast/executors.json",
+          "tools/nx/forecast/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "readme-format": {
+      "executor": "@stormstack/tools-executors-docs:readme-format",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "outputPath": "tools/nx/forecast",
+        "inputFile": "tools/nx/forecast/README.md",
+        "templatePath": "libs/core/config/src/readme-templates"
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-nx-forecast-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:tools", "platform:admin"],
+  "implicitDependencies": [
+    "core-shared-utilities",
+    "core-shared-logging",
+    "core-server-utilities",
+    "tools-forecast-codegen"
+  ]
+}
