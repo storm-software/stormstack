@@ -6,7 +6,7 @@ datasource db {
 generator js {
     provider = "prisma-client-js"
     /// Generate into custom location because this repo has multiple prisma schemas
-    output   = "../../../../../../node_modules/@prisma/client/contact-attachment"
+    output   = "../../../../../node_modules/@prisma/client/contact-attachment"
 }
 
 plugin crud {

@@ -5,7 +5,7 @@
   "typings": "./index.d.ts",
   "dependencies": {
     "@nx/devkit": "16.7.0",
-    "fsevents": "^2.3.3"
+    "fs-extra": "^11.1.1"
   },
   "builders": "./executors.json",
   "schematics": "./generators.json"

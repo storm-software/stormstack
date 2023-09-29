@@ -1,4 +1,5 @@
 packages:
+  - "*"
   - "tools/**"
   - "design-system/**"
   - "libs/**"

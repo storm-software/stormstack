@@ -1,24 +1,41 @@
 {
   "extends": "../../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": [
+    "!**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
       "parserOptions": {
-        "project": ["tools/executors/docs/tsconfig.*?.json"]
+        "project": [
+          "tools/executors/docs/tsconfig.*?.json"
+        ]
       },
       "rules": {}
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
       "rules": {}
     },
     {
-      "files": ["*.js", "*.jsx"],
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
       "rules": {}
     },
     {
-      "files": ["./executors.json"],
+      "files": [
+        "./executors.json"
+      ],
       "parser": "jsonc-eslint-parser",
       "rules": {
         "@nx/nx-plugin-checks": "error"

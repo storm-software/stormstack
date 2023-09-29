@@ -146,6 +146,12 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
+  "defaultBase": "main",
+  "pluginsConfig": {
+    "@nrwl/js": {
+      "analyzeSourceFiles": false
+    }
+  },
   "generators": {
     "@nx/react": {
       "application": {

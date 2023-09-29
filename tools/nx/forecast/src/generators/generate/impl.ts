@@ -45,5 +45,6 @@ export default async function (
   } catch (e) {
     ConsoleLogger.error(`An error occurred executing Nx-Monorepo Release`);
     ConsoleLogger.error(e);
+    return { success: false };
   }
 }

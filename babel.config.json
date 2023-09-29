@@ -7,7 +7,9 @@
     ".",
 
     // Also consider monorepo packages "root" and load their .babelrc.json files.
+    "./apps/*",
     "./libs/*",
+    "./design-system/*",
     "./tools/*"
   ],
   // @see https://babeljs.io/docs/en/options#presets

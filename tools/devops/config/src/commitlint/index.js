@@ -38,7 +38,7 @@ module.exports = {
       2,
       "always",
       [
-        "repo",
+        "monorepo",
         ...(await getProjects(
           ctx,
           ({ name, projectType }) => !name.includes("e2e")
