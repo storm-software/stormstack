@@ -1,6 +1,5 @@
 {
-  "name": "monorepo",
-  "namespace": "@stormstack",
+  "name": "root",
   "version": "0.0.0",
   "private": true,
   "description": "⚡The Storm Stack monorepo contains utility applications, tools, and various libraries to create modern and scalable web applications.",
@@ -111,7 +110,6 @@
     "@js-temporal/polyfill": "^0.4.4",
     "@next/bundle-analyzer": "^13.4.7",
     "@release-it/bumper": "^5.1.0",
-    "@stormstack/tools-devops-config": "workspace:*",
     "@storybook/theming": "^7.4.5",
     "@vercel/analytics": "^1.0.1",
     "@vercel/edge-config": "^0.2.1",
@@ -184,6 +182,7 @@
     "@nx/react": "16.9.1",
     "@nx/rollup": "16.9.1",
     "@nx/storybook": "16.9.1",
+    "@nx/vite": "16.9.1",
     "@nx/web": "16.9.1",
     "@nx/webpack": "16.9.1",
     "@nx/workspace": "16.9.1",
@@ -230,6 +229,8 @@
     "@types/relay-runtime": "^14.1.11",
     "@typescript-eslint/eslint-plugin": "5.60.1",
     "@typescript-eslint/parser": "5.60.1",
+    "@vitejs/plugin-react-swc": "~3.3.2",
+    "@vitest/ui": "~0.32.0",
     "alex": "^11.0.0",
     "all-contributors-cli": "^6.25.0",
     "autoprefixer": "^10.4.14",
@@ -269,6 +270,7 @@
     "jest-cli": "^29.5.0",
     "jest-environment-jsdom": "29.5.0",
     "jest-environment-node": "^29.4.1",
+    "jsdom": "~22.1.0",
     "lint-staged": "^14.0.0",
     "log4brains": "^1.0.1",
     "mustache": "^4.2.0",
@@ -299,6 +301,9 @@
     "typescript": "5.2.0-beta",
     "url-loader": "^4.1.1",
     "verdaccio": "^5.0.4",
+    "vite": "~4.3.9",
+    "vite-plugin-dts": "~2.3.0",
+    "vitest": "~0.32.0",
     "webpack": "^5.81.0",
     "webpack-merge": "^5.8.0",
     "wrangler": "^3.9.0"
@@ -323,6 +328,7 @@
       ]
     }
   },
+  "namespace": "@stormstack",
   "nextBundleAnalysis": {
     "buildOutputDirectory": "dist/apps/web/shell/.next"
   },

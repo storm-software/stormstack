@@ -1,8 +1,8 @@
 packages:
-  - "*"
-  - "tools/**"
-  - "design-system/**"
-  - "libs/**"
-  - "apps/**"
-  - "docs/**"
-  - "!**/test/**"
+  - "root"
+  - "tools/*"
+  - "design-system/*"
+  - "libs/*"
+  - "apps/*"
+  - "docs/*"
+
