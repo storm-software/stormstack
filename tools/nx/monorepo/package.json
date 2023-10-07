@@ -1,5 +1,5 @@
 {
-  "name": "@stormstack/tools-nx-forecast",
+  "name": "@stormstack/tools-nx-monorepo",
   "version": "1.0.0",
   "type": "commonjs",
   "main": "./index.cjs",

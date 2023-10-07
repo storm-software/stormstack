@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "Nx-Monorepo Tools",
+  "version": "0.0.1",
+  "generators": {
+    "format-readme": {
+      "aliases": ["readme"],
+      "factory": "../../../dist/tools/nx/monorepo/src/generators/format-readme/generator.cjs",
+      "schema": "../../../dist/tools/nx/monorepo/src/generators/format-readme/schema.json",
+      "description": "📓 Format the ReadMe files in the workspace using template files from a provided directory."
+    },
+    "release": {
+      "factory": "../../../dist/tools/nx/monorepo/src/generators/release/generator.cjs",
+      "schema": "../../../dist/tools/nx/monorepo/src/generators/release/schema.json",
+      "description": "🎉 Publish the repository's packages both locally and publicly."
+    }
+  }
+}

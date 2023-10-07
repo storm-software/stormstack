@@ -1,0 +1,89 @@
+{
+  "name": "tools-nx-monorepo",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/nx/monorepo",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/nx/monorepo",
+        "tsConfig": "tools/nx/monorepo/tsconfig.json",
+        "project": "tools/nx/monorepo/package.json",
+        "main": "tools/nx/monorepo/index.ts",
+        "additionalEntryPoints": [
+          "tools/nx/monorepo/src/executors/format-readme/impl.ts",
+          "tools/nx/monorepo/src/generators/format-readme/generator.ts",
+          "tools/nx/monorepo/src/generators/release/generator.ts"
+        ],
+        "platform": "node",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "sourcemap": true,
+        "minify": true,
+        "format": ["esm", "cjs"],
+        "external": ["@swc/core", "nx", "espree"],
+        "assets": [
+          {
+            "input": "tools/nx/monorepo",
+            "glob": "**/schema.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/monorepo",
+            "glob": "executors.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/monorepo",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/monorepo",
+            "glob": "README.md",
+            "output": "/"
+          },
+          {
+            "input": "tools/nx/monorepo",
+            "glob": "CHANGELOG.md",
+            "output": "/"
+          },
+          {
+            "input": "",
+            "glob": "LICENSE",
+            "output": "/"
+          },
+          {
+            "input": "tools/nx/monorepo",
+            "glob": "migrations.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/nx/monorepo/**/*.ts",
+          "tools/nx/monorepo/executors.json",
+          "tools/nx/monorepo/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-nx-monorepo-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:tools", "platform:admin"]
+}

@@ -1,9 +1,12 @@
 {
+  "name": "Nx-Forecast Tools",
+  "version": "0.0.1",
   "generators": {
     "generate": {
-      "implementation": "../../../dist/tools/nx/forecast/src/generators/generate/impl",
+      "aliases": ["forecast"],
+      "factory": "../../../dist/tools/nx/forecast/src/generators/generate/generator.cjs",
       "schema": "../../../dist/tools/nx/forecast/src/generators/generate/schema.json",
-      "description": "Generate code based on a provided Forecast model."
+      "description": "⚡ Generate code based on a provided Forecast model."
     }
   }
 }

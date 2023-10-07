@@ -1,8 +1,8 @@
 {
   "executors": {
-    "project-generate": {
-      "implementation": "../../../dist/tools/nx/forecast/src/executors/project-generate/impl",
-      "schema": "../../../dist/tools/nx/forecast/src/executors/project-generate/schema.json",
+    "generate": {
+      "implementation": "../../../dist/tools/nx/forecast/src/executors/generate/impl.cjs",
+      "schema": "../../../dist/tools/nx/forecast/src/executors/generate/schema.json",
       "description": "⚡ Generate code for a specific project based on a provided Forecast model schema"
     }
   }

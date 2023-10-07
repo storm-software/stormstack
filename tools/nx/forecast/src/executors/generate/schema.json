@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "id": "project-generate",
+  "id": "generate",
   "title": "StormStack - Forecast Project Generate (Executor)",
   "description": "⚡ Generate code for a specific project based on a provided Forecast model schema",
   "type": "object",

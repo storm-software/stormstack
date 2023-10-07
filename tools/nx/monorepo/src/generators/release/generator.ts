@@ -10,7 +10,8 @@ import {
   ConfigurationError,
   EnvConfigurationError,
   FieldError,
-  StormError
+  StormError,
+  parseBoolean
 } from "@stormstack/core-shared-utilities";
 import { execSync } from "node:child_process";
 import { rmSync, writeFileSync } from "node:fs";
@@ -23,7 +24,7 @@ const LARGE_BUFFER = 1024 * 1000000;
 export default async function (tree: Tree, options?: ReleaseGeneratorSchema) {
   try {
     ConsoleLogger.showTitle();
-    ConsoleLogger.info("Executing StormStack Nx-Monorepo Release generator...");
+    ConsoleLogger.info("Running 🎉 Nx-Monorepo Release Generator...");
     ConsoleLogger.info(`Current Working Dir: ${process.cwd()}`);
     const { local, force } = options;
 
@@ -52,7 +53,7 @@ export default async function (tree: Tree, options?: ReleaseGeneratorSchema) {
     }
 
     // Perform minimal logging by default
-    let isVerboseLogging = process.env.NX_VERBOSE_LOGGING === "true";
+    let isVerboseLogging = parseBoolean(process.env.NX_VERBOSE_LOGGING);
 
     if (options.clearLocalRegistry) {
       rmSync(join(__dirname, "../dist/local-registry/storage"), {

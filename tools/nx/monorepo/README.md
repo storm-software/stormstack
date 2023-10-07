@@ -25,7 +25,7 @@ StormStack is built using <a href="https://nx.dev/" target="_blank">Nx</a>, a se
 
 <!-- END header -->
 
-# 🛠️ Forecast Code Generation - Nx Tools
+# 🛠️ StormStack - Nx-Monorepo Tools
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -34,7 +34,7 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Table of Contents
 
-- [🛠️ Forecast Code Generation - Nx Tools](#️-forecast-code-generation---nx-tools)
+- [🛠️ StormStack - Nx-Monorepo Tools](#️-stormstack---nx-monorepo-tools)
   - [Table of Contents](#table-of-contents)
   - [Running unit tests](#running-unit-tests)
   - [Roadmap](#roadmap)

@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "executors": {
+    "format-readme": {
+      "implementation": "../../../dist/tools/nx/monorepo/src/executors/format-readme/impl.cjs",
+      "schema": "../../../dist/tools/nx/monorepo/src/executors/format-readme/schema.json",
+      "description": "📓 Format the ReadMe files in the workspace using template files from a provided directory."
+    }
+  }
+}
