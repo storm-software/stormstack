@@ -17,7 +17,7 @@ export type LazyInjectedContext = {
   addInitializer?(initializer: () => void): void;
 };
 
-const { lazyInject } = getDecorators(Injector);
+const { lazyInject } = getDecorators(Injector.container);
 
 export const LazyInjected = <T = any>(
   serviceIdentifier: ServiceIdentifier<T>

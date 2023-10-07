@@ -6,6 +6,18 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
+      "@stormstack/adapters-client-graphql": [
+        "libs/adapters/typescript/client/graphql/src/index.ts"
+      ],
+      "@stormstack/adapters-client-graphql/server": [
+        "libs/adapters/typescript/client/graphql/src/server.ts"
+      ],
+      "@stormstack/adapters-client-relay": [
+        "libs/adapters/typescript/client/relay/src/index.ts"
+      ],
+      "@stormstack/adapters-shared-graphql": [
+        "libs/adapters/typescript/shared/graphql/src/index.ts"
+      ],
       "@stormstack/common-client-address": [
         "libs/common/typescript/client/address/src/index.ts"
       ],
@@ -74,8 +86,11 @@
         "libs/contact/typescript/shared/data-access/src/*"
       ],
       "@stormstack/contact/config": ["libs/contact/config/src/index.ts"],
-      "@stormstack/core-client-application/*": [
-        "libs/core/typescript/client/application/src/*"
+      "@stormstack/core-client-api": [
+        "libs/core/typescript/client/api/src/index.ts"
+      ],
+      "@stormstack/core-client-api/*": [
+        "libs/core/typescript/client/api/src/*"
       ],
       "@stormstack/core-client-components": [
         "libs/core/typescript/client/components/src/index.ts"
@@ -88,6 +103,12 @@
       ],
       "@stormstack/core-client-data-access/*": [
         "libs/core/typescript/client/data-access/src/*"
+      ],
+      "@stormstack/core-client-env": [
+        "libs/core/typescript/client/env/src/index.ts"
+      ],
+      "@stormstack/core-client-env/*": [
+        "libs/core/typescript/client/env/src/*"
       ],
       "@stormstack/core-client-form": [
         "libs/core/typescript/client/form/src/index.ts"
@@ -168,6 +189,12 @@
       "@stormstack/core-server-utilities/*": [
         "libs/core/typescript/server/utilities/src/*"
       ],
+      "@stormstack/core-shared-api": [
+        "libs/core/typescript/shared/api/src/index.ts"
+      ],
+      "@stormstack/core-shared-api/*": [
+        "libs/core/typescript/shared/api/src/*"
+      ],
       "@stormstack/core-shared-data-access": [
         "libs/core/typescript/shared/data-access/src/index.ts"
       ],
@@ -206,6 +233,9 @@
       ],
       "@stormstack/design-system-components": [
         "design-system/components/src/index.ts"
+      ],
+      "@stormstack/design-system-components/*": [
+        "design-system/components/src/*"
       ],
       "@stormstack/design-system-tokens": ["dist/design-system/tokens"],
       "@stormstack/design-system-tokens/*": ["dist/design-system/tokens/*"],
@@ -281,6 +311,7 @@
         "tools/generators/typescript/index.ts"
       ],
       "@stormstack/tools-nx-forecast": ["tools/nx/forecast/index.ts"],
+      "@stormstack/tools-nx-monorepo": ["tools/nx/monorepo/index.ts"],
       "@stormstack/user-management-client-components": [
         "libs/user-management/typescript/client/components/src/index.ts"
       ],

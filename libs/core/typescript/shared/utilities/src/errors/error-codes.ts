@@ -2,6 +2,7 @@ import { ZodIssue, ZodIssueCode } from "zod";
 
 export type BaseErrorCode =
   | ZodIssue["code"]
+  | "success"
   | "missing_issue_code"
   | "invalid_config"
   | "failed_to_load_file"
@@ -14,9 +15,11 @@ export type BaseErrorCode =
   | "invalid_parameter"
   | "invalid_request"
   | "type_error"
-  | "processing_error";
+  | "processing_error"
+  | "user_not_logged_in";
 export const BaseErrorCode = {
   ...ZodIssueCode,
+  success: "success" as BaseErrorCode,
   missing_issue_code: "missing_issue_code" as BaseErrorCode,
   invalid_config: "invalid_config" as BaseErrorCode,
   failed_to_load_file: "failed_to_load_file" as BaseErrorCode,
@@ -29,5 +32,7 @@ export const BaseErrorCode = {
   invalid_parameter: "invalid_parameter" as BaseErrorCode,
   invalid_request: "invalid_request" as BaseErrorCode,
   type_error: "type_error" as BaseErrorCode,
-  processing_error: "processing_error" as BaseErrorCode
+  processing_error: "processing_error" as BaseErrorCode,
+  internal_server_error: "internal_server_error" as BaseErrorCode,
+  user_not_logged_in: "user_not_logged_in" as BaseErrorCode
 };

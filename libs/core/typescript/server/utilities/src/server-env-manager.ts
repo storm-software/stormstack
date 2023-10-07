@@ -32,7 +32,7 @@ export class ServerEnvManager<
   public override get environment(): EnvironmentType {
     let _environment = this.get<EnvironmentType>("NODE_ENV");
     if (isEmpty(_environment)) {
-      // this.logger.error("Environment variable NODE_ENV is not defined.");
+      console.error("Environment variable NODE_ENV is not defined.");
 
       // Default to production since the rules are stricter.
       _environment = EnvironmentType.PRODUCTION;
@@ -60,7 +60,7 @@ export class ServerEnvManager<
     return _isCI;
   }
 
-  public override get repositoryWorker() {
+  public override get repositoryWorker(): string {
     const _repositoryWorker = this.get<string>("CI_REPO_WORKER");
     if (_repositoryWorker && isEmpty(this.get<string>("GITHUB_ACTOR"))) {
       this.set("GITHUB_ACTOR", _repositoryWorker);
@@ -69,7 +69,7 @@ export class ServerEnvManager<
     return _repositoryWorker || "";
   }
 
-  public get githubActor() {
+  public get githubActor(): string {
     let _githubActor = this.get<string>("GITHUB_ACTOR");
     if (!_githubActor) {
       _githubActor = this.get<string>("GH_ACTOR");
@@ -98,20 +98,26 @@ export class ServerEnvManager<
     return _githubActor || "";
   }
 
-  public get githubToken() {
+  public get githubToken(): Promise<string> {
     return this.getAsync<string>("GITHUB_TOKEN");
   }
 
-  public get heliosToken() {
+  public get heliosToken(): Promise<string> {
     return this.getAsync("HS_TOKEN");
   }
 
-  public get heliosEnvironment() {
+  public get heliosEnvironment(): string {
     return this.get("HS_ENVIRONMENT");
   }
 
-  public get heliosServiceName() {
+  public get heliosServiceName(): string {
     return this.get("HS_SERVICE_NAME");
+  }
+
+  public get virusTotalUrl(): URL | undefined {
+    const url = this.get("VIRUS_TOTAL_API_KEY");
+
+    return url ? new URL(url) : undefined;
   }
 
   /*public get helios() {

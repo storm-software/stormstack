@@ -1,4 +1,7 @@
-import { NotFoundError } from "@stormstack/core-shared-utilities/errors";
+import {
+  BaseError,
+  BaseErrorCode
+} from "@stormstack/core-shared-utilities/errors";
 import { R2Bucket, R2Object, R2ObjectBody } from "../types";
 
 export async function setR2Async(
@@ -16,7 +19,10 @@ export async function getR2Async(
   const object = await r2Bucket.get(name);
 
   if (object === null) {
-    throw new NotFoundError(name);
+    throw new BaseError(
+      BaseErrorCode.record_not_found,
+      `No items were found in ${name} bucket`
+    );
   }
 
   /*const headers = new Headers();

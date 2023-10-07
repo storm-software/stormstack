@@ -8,16 +8,11 @@
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/core/typescript/shared/logging",
-        "main": "libs/core/typescript/shared/logging/src/index.ts",
-        "tsConfig": "libs/core/typescript/shared/logging/tsconfig.lib.json",
-        "assets": ["libs/core/typescript/shared/logging/*.md"],
         "deleteOutputPath": true,
         "bundle": true,
         "metafile": true,
         "minify": true,
-        "format": ["esm", "cjs"],
-        "thirdParty": true
+        "format": ["esm", "cjs"]
       }
     },
     "lint": {
@@ -51,6 +46,5 @@
       }
     }
   },
-  "tags": ["scope:core", "platform:shared", "level:utilities"],
-  "implicitDependencies": ["core-shared-utilities"]
+  "tags": ["scope:core", "platform:shared", "level:utilities"]
 }

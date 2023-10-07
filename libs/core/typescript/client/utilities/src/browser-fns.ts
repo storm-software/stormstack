@@ -1,5 +1,9 @@
 import { ConsoleLogger } from "@stormstack/core-shared-logging";
-import { FileLoadingError, isEmpty } from "@stormstack/core-shared-utilities";
+import {
+  BaseError,
+  BaseErrorCode,
+  isEmpty
+} from "@stormstack/core-shared-utilities";
 
 export function readAsTextAsync(file: File) {
   const fr = new FileReader();
@@ -7,7 +11,13 @@ export function readAsTextAsync(file: File) {
   return new Promise((resolve, reject) => {
     fr.onerror = () => {
       fr.abort();
-      reject(new FileLoadingError(file.name, fr.error?.message));
+      reject(
+        new BaseError(
+          BaseErrorCode.failed_to_load_file,
+          `Failed to load file '${file.name}'.
+      ${fr.error?.message}`
+        )
+      );
     };
     fr.onload = () => {
       resolve(fr.result);
@@ -23,7 +33,13 @@ export function readAsDataURLAsync(file: File) {
   return new Promise((resolve, reject) => {
     fr.onerror = () => {
       fr.abort();
-      reject(new FileLoadingError(file.name, fr.error?.message));
+      reject(
+        new BaseError(
+          BaseErrorCode.failed_to_load_file,
+          `Failed to load file '${file.name}'.
+    ${fr.error?.message}`
+        )
+      );
     };
     fr.onload = () => {
       resolve(fr.result);
@@ -49,9 +65,8 @@ export const openFileInNewTab = async (
       type = file.type;
     }
   } catch (e) {
-    error =
-      (e as FileLoadingError)?.message ?? "An error occured reading the file";
-    type = "error/FileLoadingError";
+    error = (e as BaseError)?.message ?? "An error occured reading the file";
+    type = "error/BaseError";
     ConsoleLogger.error(error);
   }
 

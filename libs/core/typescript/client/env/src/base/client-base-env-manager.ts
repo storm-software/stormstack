@@ -4,8 +4,12 @@ import {
   EnvManager
 } from "@stormstack/core-shared-env";
 import { Provider } from "@stormstack/core-shared-injection";
-import { isPromise } from "@stormstack/core-shared-utilities/common/type-checks";
-import { EnvConfigurationError } from "@stormstack/core-shared-utilities/errors/env-configuration-error";
+import {
+  EnvConfigurationError,
+  isPromise,
+  parseBoolean,
+  parseInteger
+} from "@stormstack/core-shared-utilities";
 import { ClientBaseEnvManagerOptions } from "../types";
 
 export const DEFAULT_OPTIONS: ClientBaseEnvManagerOptions = {
@@ -40,7 +44,37 @@ export class ClientBaseEnvManager<
     return this.isProduction ? this.baseUrl : this.options.defaultGateway;
   }
 
-  protected innerGet = <T = any>(name: string): T | undefined => {
+  public get requestTimeoutMs(): number {
+    const threshold = parseInteger(this.get("REQUEST_ERROR_THRESHOLD_MS"));
+    return threshold > 0
+      ? threshold
+      : parseInteger(this.getWithDefault("REQUEST_TIMEOUT_MS", 10000));
+  }
+
+  public get requestWarningMs(): number {
+    const threshold = parseInteger(this.get("REQUEST_WARN_THRESHOLD_MS"));
+    return threshold > 0
+      ? threshold
+      : parseInteger(this.getWithDefault("REQUEST_WARNING_MS", 5000));
+  }
+
+  public get csrfEnabled(): boolean {
+    return parseBoolean(this.get("CSRF_ENABLED"));
+  }
+
+  public get shouldUseSSE(): boolean {
+    return parseBoolean(this.getWithDefault("SHOULD_USE_SSE", true));
+  }
+
+  public get loginUrl() {
+    return this.get("LOGIN_URL");
+  }
+
+  public get logoutUrl() {
+    return this.get("LOGOUT_URL");
+  }
+
+  protected override innerGet = <T = any>(name: string): T | undefined => {
     const value = this.proxy[name] as T | undefined;
     if (isPromise(value)) {
       throw new EnvConfigurationError(
@@ -48,12 +82,13 @@ export class ClientBaseEnvManager<
         `The environment variable "${name}" is not available synchronously.`
       );
     }
+
     return value;
   };
 
-  protected override innerGetAsync = async <T = any>(
+  protected override innerGetAsync = <T = any>(
     name: string
   ): Promise<T | undefined> => {
-    return Promise.resolve(this.proxy[name]) as T | undefined;
+    return Promise.resolve(this.proxy[name]) as Promise<T | undefined>;
   };
 }

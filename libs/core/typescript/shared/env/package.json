@@ -1,4 +1,5 @@
 {
   "name": "@stormstack/core-shared-env",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "type": "commonjs"
 }

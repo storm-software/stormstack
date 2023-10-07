@@ -14,10 +14,7 @@ import {
 } from "@stormstack/core-server-application";
 import { IEntity } from "@stormstack/core-server-domain";
 import { Provider } from "@stormstack/core-shared-injection";
-import {
-  NotFoundError,
-  RequiredError
-} from "@stormstack/core-shared-utilities";
+import { BaseError, BaseErrorCode } from "@stormstack/core-shared-utilities";
 import { sql } from "drizzle-orm";
 import {
   BaseSQLiteDatabase,
@@ -54,7 +51,10 @@ export abstract class DrizzleRepository<
       .from(this.schema)
       .where(formatWhereParams<TEntity>(this.schema, params.where));
     if (!results || results.length === 0) {
-      throw new NotFoundError("records");
+      throw new BaseError(
+        BaseErrorCode.record_not_found,
+        `No records were found`
+      );
     }
 
     return results[0] as TEntity;
@@ -82,7 +82,10 @@ export abstract class DrizzleRepository<
       .from(this.schema)
       .where(formatWhereParams<TEntity>(this.schema, params.where));
     if (!results || results.length === 0) {
-      throw new NotFoundError("records");
+      throw new BaseError(
+        BaseErrorCode.record_not_found,
+        `No records were found`
+      );
     }
 
     return results as TEntity[];
@@ -96,7 +99,10 @@ export abstract class DrizzleRepository<
       .from(this.schema)
       .where(formatWhereParams<TEntity>(this.schema, params.where));
     if (!results || results.length === 0) {
-      throw new NotFoundError("records");
+      throw new BaseError(
+        BaseErrorCode.record_not_found,
+        `No records were found`
+      );
     }
 
     return results[0].count;
@@ -156,7 +162,10 @@ export abstract class DrizzleRepository<
     } else if (params.create) {
       result = await this.db.insert(this.schema).values(params.create);
     } else {
-      throw new RequiredError("No update or create data provided");
+      throw new BaseError(
+        BaseErrorCode.required_field_missing,
+        "No update or create data provided"
+      );
     }
 
     return result;

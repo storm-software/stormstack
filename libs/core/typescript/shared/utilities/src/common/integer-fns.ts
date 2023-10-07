@@ -66,6 +66,6 @@ export const isNumberString = (obj: unknown) =>
   zod.string().regex(/^\d+$/).safeParse(obj).success;
 
 export const formatNumberDisplay = (value: number): string =>
-  Intl.NumberFormat(process.env.DEFAULT_LOCALE ?? "us")
+  Intl.NumberFormat(process.env["DEFAULT_LOCALE"] ?? "us")
     .format(value)
     .toString();

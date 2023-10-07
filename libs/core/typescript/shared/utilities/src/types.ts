@@ -81,38 +81,6 @@ export interface ILogger {
   debug: (...message: any[]) => any;
 }
 
-export interface IBaseClass {
-  /**
-   * A string representation of the class
-   */
-  __typename: string;
-}
-
-export interface IBaseUtilityClass extends IBaseClass {
-  /**
-   * A symbol representing the class type
-   */
-  __symbol: symbol;
-
-  /**
-   * Returns back a hash code to identify this specific instance
-   *
-   * @remarks The combination of class name and Id
-   */
-  getHashCode: () => string;
-
-  /**
-   * The `isEqualInstance` method is comparing the hash codes of two instances of the `BaseUtilityClass`
-   * class. It takes another instance of `BaseClass` as a parameter and checks if the hash code of
-   * the current instance is equal to the hash code of the other instance. If the hash codes are equal,
-   * it means that the two instances are considered equal.
-   *
-   * @param other - The other instance of `BaseClass` to compare with
-   * @returns A boolean value indicating if the two instances are equal
-   */
-  isEqualInstance: (other: any) => boolean;
-}
-
 export interface IError extends Error {
   /**
    * Additional information to display in an extended area below the message bar
@@ -122,56 +90,8 @@ export interface IError extends Error {
 
 export interface AbortError extends IError {
   name: "abort";
-
   message: "Aborted";
 }
-
-export type IResult<
-  TErr extends IError | null = null,
-  TData = unknown
-> = IBaseUtilityClass & {
-  /**
-   * The source of the error
-   */
-  source: ResultSourceTypes;
-
-  /**
-   * Any data returned from the process/function
-   */
-  data?: TData | null;
-
-  /**
-   *  A generic error type.
-   */
-  error: TErr | null;
-
-  /**
-   * Can the application reset the state automatically through the error boundary when the error occurs
-   *
-   * @defaultValue `true`
-   */
-  isResettable: boolean;
-
-  /**
-   * A function to check if the provided object is an error
-   */
-  isError: () => boolean;
-
-  /**
-   * A function to check if the provided object was successful
-   */
-  isSuccess: () => boolean;
-
-  /**
-   * A function to check if the provided object is the same type of result of the calling result
-   */
-  isEqual: (result?: unknown) => boolean;
-
-  /**
-   * The date-time the result occurred
-   */
-  timestamp: IDateTime;
-};
 
 /**
  * Values representing the origin of a result returned/thrown in the application
@@ -256,45 +176,9 @@ export const enum DateTimeFormatTemplates {
 }
 
 /**
- * Wrap the `Temporal.Instant` object so we can re-use it in other places
- */
-export interface IDateTime extends Temporal.Instant, IBaseUtilityClass {
-  /**
-   * It returns the current `DateTime` object as a string for serialization
-   * @returns A `string` to use for serialization
-   */
-  stringify(): string;
-}
-
-/**
- * Represents an HTTP method.
- */
-export type HttpMethod =
-  | "GET"
-  | "HEAD"
-  | "POST"
-  | "PUT"
-  | "DELETE"
-  | "CONNECT"
-  | "OPTIONS"
-  | "TRACE"
-  | "PATCH";
-export const HttpMethod = {
-  GET: "GET" as HttpMethod,
-  HEAD: "HEAD" as HttpMethod,
-  POST: "POST" as HttpMethod,
-  PUT: "PUT" as HttpMethod,
-  DELETE: "DELETE" as HttpMethod,
-  CONNECT: "CONNECT" as HttpMethod,
-  OPTIONS: "OPTIONS" as HttpMethod,
-  TRACE: "TRACE" as HttpMethod,
-  PATCH: "PATCH" as HttpMethod
-};
-
-/**
  * Represents an HTTP file which will be transferred from or to a server.
  */
-export type HttpFile = Blob & { readonly name: string };
+// export type HttpFile = Blob & { readonly name: string };
 
 declare const $NestedValue: unique symbol;
 /**
@@ -320,6 +204,11 @@ export type LiteralUnion<T extends U, U extends BaseType> =
       _?: never;
     });
 
+/**
+ * Matches any [primitive value](https://developer.mozilla.org/en-US/docs/Glossary/Primitive).
+ *
+ * @category Type
+ */
 export type BaseType =
   | null
   | undefined
@@ -343,132 +232,10 @@ export type DeepPartial<T> = T extends BrowserNativeObject | NestedValue
       [K in keyof T]?: DeepPartial<T[K]>;
     };
 
-/**
- *
- * @export
- */
-export const COLLECTION_FORMATS = {
-  csv: ",",
-  ssv: " ",
-  tsv: "\t",
-  pipes: "|"
-};
-
-export interface HttpFetchApi {
-  signal: AbortSignal;
-  abort: (reason?: string) => void;
-  dispatch: (action: any) => any;
-  getState: () => unknown;
-  extra: unknown;
-  endpoint: string;
-  type: "query" | "mutation";
-  /**
-   * Only available for queries: indicates if a query has been forced,
-   * i.e. it would have been fetched even if there would already be a cache entry
-   * (this does not mean that there is already a cache entry though!)
-   *
-   * This can be used to for example add a `Cache-Control: no-cache` header for
-   * invalidated queries.
-   */
-  forced?: boolean;
-}
-
-export type HttpMediaTypes =
-  | "application/json"
-  | "application/octet-stream"
-  | "application/x-www-form-urlencoded"
-  | "text/plain"
-  | "text/html"
-  | "application/graphql-response+json";
-export const HttpMediaTypes = {
-  JSON: "application/json" as HttpMediaTypes,
-  OCTET_STREAM: "application/octet-stream" as HttpMediaTypes,
-  FORM: "application/x-www-form-urlencoded" as HttpMediaTypes,
-  TEXT: "text/plain" as HttpMediaTypes,
-  HTML: "text/html" as HttpMediaTypes,
-  GRAPHQL_RESPONSE_JSON: "application/graphql-response+json" as HttpMediaTypes
-};
-
-export type HttpMethods = "DELETE" | "GET" | "HEAD" | "POST" | "PUT" | "PATCH";
-export const HttpMethods = {
-  DELETE: "DELETE" as HttpMethods,
-  GET: "GET" as HttpMethods,
-  HEAD: "HEAD" as HttpMethods,
-  POST: "POST" as HttpMethods,
-  PUT: "PUT" as HttpMethods,
-  PATCH: "PATCH" as HttpMethods
-};
-
-export type CredentialOption = "include" | "same-origin" | "omit";
-
-export type HttpHeaderTypes = "x-apikey" | "accept" | "content-type";
-export const HttpHeaderTypes = {
-  X_APIKEY: "x-apikey",
-  ACCEPT: "accept",
-  CONTENT_TYPE: "content-type"
-};
-
-export type Headers<
-  TKey extends keyof (HttpHeaderTypes & any) = keyof (HttpHeaderTypes & any)
-> = Record<AnyCase<TKey>, any>;
-
 export type Rollback = Record<
   string,
   (initialValue: any, currentValue: any) => any
 >;
-
-export type QueryOptions = {
-  credentials?: CredentialOption;
-  method?: HttpMethods;
-  headers?: Headers;
-};
-
-/**
- * Contains a page of results for message or presence history, stats, or REST presence requests. A `PaginatedResult` response from a REST API paginated query is also accompanied by metadata that indicates the relative queries available to the `PaginatedResult` object.
- */
-export interface HttpPaginatedResult<T = any> {
-  /**
-   * Contains the current page of results; for example, an array of {@link Message} or {@link PresenceMessage} objects for a channel history request.
-   */
-  data: T[];
-
-  /**
-   * Amount of records returned by request
-   */
-  count: number;
-
-  /**
-   * Total amount of records in the view store
-   */
-  total: number;
-
-  /**
-   * Amount of records to offset the search request
-   */
-  offset: number;
-
-  /**
-   * Returns `true` if this page is the last page and returns `false` if there are more pages available by calling next available.
-   *
-   * @returns Whether or not this is the last page of results.
-   */
-  isLast: boolean;
-}
-
-/**
- * Contains a page of results for message or presence history, stats, or REST presence requests. A `PaginatedResult` response from a REST API paginated query is also accompanied by metadata that indicates the relative queries available to the `PaginatedResult` object.
- */
-export interface HttpErrorResult {
-  /**
-   * The error code in HTTP header is sent in the response.
-   */
-  errorCode: number;
-
-  /**
-   * The error message sent in the response.
-   */
-  errorMessage: string;
-}
 
 export interface FileState extends File {
   fileId: string;
@@ -477,92 +244,102 @@ export interface FileState extends File {
   data?: string;
 }
 
-export type ServerFieldErrorStatus = "error" | "warning" | "info";
-export const ServerFieldErrorStatus = {
-  ERROR: "error" as ServerFieldErrorStatus,
-  WARNING: "warning" as ServerFieldErrorStatus,
-  INFO: "info" as ServerFieldErrorStatus
+/**
+ * Extract all required keys from the given type.
+ *
+ * @remarks This is useful when you want to create a new type that contains different type values for the required keys only or use the list of keys for validation purposes, etc...
+ * @category Utilities
+ */
+export type RequiredKeysOf<BaseType extends object> = Exclude<
+  {
+    [Key in keyof BaseType]: BaseType extends Record<Key, BaseType[Key]>
+      ? Key
+      : never;
+  }[keyof BaseType],
+  undefined
+>;
+
+/**
+ * Returns a boolean for whether the two given types are equal.
+ *
+ * @remarks Use-cases: If you want to make a conditional branch based on the result of a comparison of two types.
+ * @link https://github.com/microsoft/TypeScript/issues/27024#issuecomment-421529650
+ * @link https://stackoverflow.com/questions/68961864/how-does-the-equals-work-in-typescript/68963796#68963796
+ * @category Type Guard
+ * @category Utilities
+ */
+export type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <
+  G
+>() => G extends B ? 1 : 2
+  ? true
+  : false;
+
+type Filter<KeyType, ExcludeType> = IsEqual<KeyType, ExcludeType> extends true
+  ? never
+  : KeyType extends ExcludeType
+  ? never
+  : KeyType;
+
+type ExceptOptions = {
+  /**
+    Disallow assigning non-specified properties.
+
+    Note that any omitted properties in the resulting type will be present in autocomplete as `undefined`.
+
+    @default false
+    */
+  requireExactProps?: boolean;
 };
 
-export interface ServerFieldError {
-  /**
-   * Status code of the server action
-   */
-  status: ServerFieldErrorStatus;
-
-  /**
-   * Result code of the server action
-   */
-  code?: string;
-
-  /**
-   * Result message of a server action
-   */
-  message: string;
-}
-
-export type ServerFieldErrors<
-  TData = Record<string, any>,
-  TKey extends keyof TData = keyof TData
-> = Record<TKey, ServerFieldError>;
+/**
+ * Create a type from an object type without certain keys.
+ *
+ * @remarks We recommend setting the `requireExactProps` option to `true`.
+ * @remarks This type is a stricter version of [`Omit`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-5.html#the-omit-helper-type). The `Omit` type does not restrict the omitted keys to be keys present on the given type, while `Except` does. The benefits of a stricter type are avoiding typos and allowing the compiler to pick up on rename refactors automatically.
+ * @remarks This type was proposed to the TypeScript team, which declined it, saying they prefer that libraries implement stricter versions of the built-in types ([microsoft/TypeScript#30825](https://github.com/microsoft/TypeScript/issues/30825#issuecomment-523668235)).
+ * @category Object
+ */
+export type Except<
+  ObjectType,
+  KeysType extends keyof ObjectType,
+  Options extends ExceptOptions = { requireExactProps: false }
+> = {
+  [KeyType in keyof ObjectType as Filter<
+    KeyType,
+    KeysType
+  >]: ObjectType[KeyType];
+} & (Options["requireExactProps"] extends true
+  ? Partial<Record<KeysType, never>>
+  : {});
 
 /**
- * Contains results for message or presence history, stats, or REST presence requests. A `ServerResult` response from a REST API paginated query is also accompanied by metadata that indicates the relative queries available to the `ServerResult` object.
+ * Useful to flatten the type output to improve type hints shown in editors. And also to transform an interface into a type to aide with assignability.
+ *
+ * @remarks Sometimes it is desired to pass a value as a function argument that has a different type. At first inspection it may seem assignable, and then you discover it is not because the `value`'s type definition was defined as an interface. In the following example, `fn` requires an argument of type `Record<string, unknown>`. If the value is defined as a literal, then it is assignable. And if the `value` is defined as type using the `Simplify` utility the value is assignable.  But if the `value` is defined as an interface, it is not assignable because the interface is not sealed and elsewhere a non-string property could be added to the interface.
+ * @remarks If the type definition must be an interface (perhaps it was defined in a third-party npm package), then the `value` can be defined as `const value: Simplify<SomeInterface> = ...`. Then `value` will be assignable to the `fn` argument.  Or the `value` can be cast as `Simplify<SomeInterface>` if you can't re-declare the `value`.
+ * @link https://github.com/microsoft/TypeScript/issues/15300
+ * @category Object
  */
-export interface ServerResult<TData = Record<string, any>> {
-  /**
-   * Contains the current page of results; for example, an array of {@link Message} or {@link PresenceMessage} objects for a channel history request.
-   */
-  data: TData;
-
-  /**
-   * Status code of the server action
-   */
-  status: number;
-
-  /**
-   * Result code of the server action
-   */
-  code?: string;
-
-  /**
-   * Result message of a server action
-   */
-  message?: string;
-
-  /**
-   * Field errors/warning/info returned as a result of the server call
-   */
-  fields?: ServerFieldErrors<TData>;
-}
+export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & {};
 
 /**
- * Contains a page of results for message or presence history, stats, or REST presence requests. A `PaginatedServerResult` response from a REST API paginated query is also accompanied by metadata that indicates the relative queries available to the `PaginatedServerResult` object.
+ * Create a type that makes the given keys required. The remaining keys are kept as is. The sister of the `SetOptional` type.
+ *
+ * @remarks Use-case: You want to define a single model where the only thing that changes is whether or not some of the keys are required.
+ * @category Object
  */
-export interface PaginatedServerResult<TData = Record<string, any>>
-  extends ServerResult<TData[]> {
-  /**
-   * Amount of records returned by request
-   */
-  count: number;
-
-  /**
-   * Total amount of records in the view store
-   */
-  total: number;
-
-  /**
-   * Amount of records to offset the search request
-   */
-  offset: number;
-
-  /**
-   * Returns `true` if this page is the last page and returns `false` if there are more pages available by calling next available.
-   *
-   * @returns Whether or not this is the last page of results.
-   */
-  isLast: boolean;
-}
+export type SetRequired<BaseType, Keys extends keyof BaseType> =
+  // `extends unknown` is always going to be the case and is used to convert any
+  // union into a [distributive conditional
+  // type](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html#distributive-conditional-types).
+  BaseType extends unknown
+    ? Simplify<
+        // Pick just the keys that are optional from the base type.
+        Except<BaseType, Keys> &
+          // Pick the keys that should be required from the base type and make them required.
+          Required<Pick<BaseType, Keys>>
+      >
+    : never;
 
 export interface IIdentity<T = string> {
   id: T;
@@ -579,8 +356,104 @@ export interface ISequenced {
   sequence: number;
 }
 
-export interface IRelayTypeField {
+export interface ITyped {
+  /**
+   * A string representation of the class
+   */
   __typename: string;
+
+  /**
+   * A string representing the base class
+   *
+   * @remarks This is used when determining how to deserialize the object
+   */
+  __base: string;
+}
+
+export interface IBaseClass extends ITyped {}
+
+export interface IBaseUtilityClass extends IBaseClass {
+  /**
+   * A symbol representing the class type
+   */
+  __symbol: symbol;
+
+  /**
+   * Returns back a hash code to identify this specific instance
+   *
+   * @remarks The combination of class name and Id
+   */
+  getHashCode: () => string;
+
+  /**
+   * The `isEqualInstance` method is comparing the hash codes of two instances of the `BaseUtilityClass`
+   * class. It takes another instance of `BaseClass` as a parameter and checks if the hash code of
+   * the current instance is equal to the hash code of the other instance. If the hash codes are equal,
+   * it means that the two instances are considered equal.
+   *
+   * @param other - The other instance of `BaseClass` to compare with
+   * @returns A boolean value indicating if the two instances are equal
+   */
+  isEqualInstance: (other: any) => boolean;
+}
+
+export type IResult<
+  TErr extends IError | null = null,
+  TData = unknown
+> = IBaseUtilityClass & {
+  /**
+   * The source of the error
+   */
+  source: ResultSourceTypes;
+
+  /**
+   * Any data returned from the process/function
+   */
+  data?: TData | null;
+
+  /**
+   *  A generic error type.
+   */
+  error: TErr | null;
+
+  /**
+   * Can the application reset the state automatically through the error boundary when the error occurs
+   *
+   * @defaultValue `true`
+   */
+  isResettable: boolean;
+
+  /**
+   * A function to check if the provided object is an error
+   */
+  isError: () => boolean;
+
+  /**
+   * A function to check if the provided object was successful
+   */
+  isSuccess: () => boolean;
+
+  /**
+   * A function to check if the provided object is the same type of result of the calling result
+   */
+  isEqual: (result?: unknown) => boolean;
+
+  /**
+   * The date-time the result occurred
+   */
+  timestamp: IDateTime;
+};
+
+/**
+ * Wrap the `Temporal.Instant` object so we can re-use it in other places
+ */
+export interface IDateTime extends Temporal.Instant, IBaseUtilityClass {
+  /**
+   * It returns the current `DateTime` object as a string for serialization
+   * @returns A `string` to use for serialization
+   */
+  stringify(): string;
 }
 
 export const CONFIG_TOKEN = Symbol.for("CONFIG_TOKEN");
+export const MIDDLEWARE_STACK_SYMBOL = Symbol("MIDDLEWARE_STACK_SYMBOL");

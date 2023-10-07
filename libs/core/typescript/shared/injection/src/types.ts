@@ -439,3 +439,5 @@ export interface Injector {
         onDeactivation: BindingDeactivation<TActivated> | null;
         cache: null | TActivated | Promise<TActivated>;
     }*/
+
+export const INJECTOR_SYMBOL = Symbol.for("INJECTOR_SYMBOL");

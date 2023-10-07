@@ -10,9 +10,7 @@ import {
 import {
   BaseError,
   BaseErrorCode,
-  FieldValidationError,
-  ModelValidationError,
-  NotFoundError
+  FieldError
 } from "@stormstack/core-shared-utilities/errors";
 import { UserContext } from "../context";
 import { Repository } from "../repositories/repository";
@@ -100,7 +98,10 @@ export abstract class Service<
 
   private handleResult = <TData = any>(entity: TData | Error): TData => {
     if (isEmpty(entity)) {
-      throw new NotFoundError(this.name);
+      throw new BaseError(
+        BaseErrorCode.record_not_found,
+        `No ${this.name} were found`
+      );
     }
     if (isError(entity) || BaseError.isBaseError(entity)) {
       throw entity as Error;
@@ -117,18 +118,21 @@ export abstract class Service<
     }
 
     if (isEmpty(results) || !Array.isArray(results) || results.length === 0) {
-      throw new NotFoundError(this.name);
+      throw new BaseError(
+        BaseErrorCode.record_not_found,
+        `No ${this.name} were found`
+      );
     }
 
     const { errors, entities } = results.reduce(
       (
         ret: {
-          errors: FieldValidationError[];
+          errors: FieldError[];
           entities: Array<TData>;
         },
         result
       ) => {
-        if (FieldValidationError.isFieldValidationError(result)) {
+        if (FieldError.isFieldError(result)) {
           ret.errors.push(result);
         } else if (isError(result)) {
           throw result;
@@ -141,10 +145,10 @@ export abstract class Service<
       { errors: [], entities: [] }
     );
     if (errors && errors.length > 0) {
-      throw new ModelValidationError(
-        errors,
-        BaseErrorCode.database_query_error
-      );
+      const error = new BaseError(BaseErrorCode.invalid_request);
+      error.addFieldErrors(errors);
+
+      throw error;
     }
 
     return entities as Array<TData>;

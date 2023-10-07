@@ -5,7 +5,7 @@ export class ConfigurationError extends BaseError {
   public override name = "Configuration Error";
 
   public constructor(
-    public configurationName: string,
+    configurationName: string,
     extendedMessage = "This configuration data is required for the system to run properly."
   ) {
     super(

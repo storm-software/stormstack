@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Provider } from "@stormstack/core-shared-injection/decorators";
+import { Provider } from "@stormstack/core-shared-injection";
 import { formatLog } from "../format";
 import { Logger } from "../logger";
 import {
@@ -105,6 +105,15 @@ export class ConsoleLogger extends Logger {
    */
   static groupEnd() {
     endGroup();
+  }
+
+  /**
+   * A string representing the base class
+   *
+   * @remarks This is used when determining how to deserialize the object
+   */
+  public get __base(): string {
+    return "ConsoleLogger";
   }
 
   public constructor(_name = "root") {

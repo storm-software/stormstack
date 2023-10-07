@@ -1,3 +1,18 @@
+export const BooleanConstants = {
+  TRUE: "true",
+  FALSE: "false",
+  YES: "yes",
+  NO: "no",
+  ON: "on",
+  OFF: "off",
+  ONE: "1",
+  ZERO: "0",
+  Y: "y",
+  N: "n",
+  T: "t",
+  F: "f"
+};
+
 /**
  * It converts a boolean value to a string
  * @param {boolean | null} [value] - The value to be converted to a string.

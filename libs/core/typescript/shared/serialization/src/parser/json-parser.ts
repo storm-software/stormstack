@@ -5,41 +5,70 @@ import {
   DateTime
 } from "@stormstack/core-shared-utilities";
 import { Decimal } from "decimal.js";
-import { deserialize, registerCustom, serialize } from "superjson";
-import { JSON_PARSER_SYMBOL, JsonValue } from "../types";
+import {
+  deserialize,
+  parse,
+  registerCustom,
+  serialize,
+  stringify
+} from "superjson";
+import { JSON_PARSER_SYMBOL, JsonParserResult, JsonValue } from "../types";
 
 export class JsonParser extends BaseUtilityClass {
-  constructor() {
-    super(JSON_PARSER_SYMBOL);
+  /**
+   * Stringify the given value with superjson
+   */
+  public static stringify(json: any): string {
+    return stringify(json);
+  }
+
+  /**
+   * Parse the given value with superjson using the given metadata
+   */
+  public static parse<TData = unknown>(strData: string): TData {
+    return parse<TData>(strData);
   }
 
   /**
    * Serialize the given value with superjson
    */
-  public static stringify<TData = unknown>(
-    value: TData
-  ): { data: unknown; meta: unknown } {
-    const { json, meta } = serialize(value);
-    return { data: json, meta };
+  public static serialize(object: JsonValue): JsonParserResult {
+    return serialize(object);
   }
 
   /**
    * Deserialize the given value with superjson using the given metadata
    */
-  public static parse<TData = unknown>(value: unknown, meta: any): TData {
-    return deserialize({ json: value as any, meta });
+  public static deserialize<TData = unknown>(payload: JsonParserResult): TData {
+    return deserialize(payload);
   }
 
-  public static register<TData = any, TJsonValue extends JsonValue = JsonValue>(
+  public static register<
+    TData = any,
+    TJsonObject extends JsonValue = JsonValue
+  >(
     name: string,
-    serialize: (data: TData) => TJsonValue,
-    deserialize: (json: TJsonValue) => TData,
+    serialize: (data: TData) => TJsonObject,
+    deserialize: (json: TJsonObject) => TData,
     isApplicable: (data: any) => data is TData
   ) {
-    return registerCustom<TData, TJsonValue>(
+    return registerCustom<TData, TJsonObject>(
       { isApplicable, serialize, deserialize },
       name
     );
+  }
+
+  /**
+   * A string representing the base class
+   *
+   * @remarks This is used when determining how to deserialize the object
+   */
+  public get __base(): string {
+    return "JsonParser";
+  }
+
+  constructor() {
+    super(JSON_PARSER_SYMBOL);
   }
 }
 

@@ -22,10 +22,10 @@ export default {
   displayName: "core-shared-injection",
   preset: "../../../../../testing/jest.preset.js",
   transform: {
-    "^.+\\.[tj]s$": ["@swc/jest", swcJestConfig],
+    "^.+\\.[tj]s$": ["@swc/jest", swcJestConfig]
   },
   moduleFileExtensions: ["ts", "js", "html"],
   testEnvironment: "node",
   coverageDirectory:
-    "../../../../../coverage/libs/core/typescript/shared/injection",
+    "../../../../../coverage/libs/core/typescript/shared/injection"
 };

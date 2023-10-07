@@ -1,4 +1,4 @@
-import { BaseOptions } from "@stormstack/core-shared-env/types";
+import { BaseOptions } from "@stormstack/core-shared-env";
 
 export type ClientBaseEnvManagerOptions = BaseOptions & {
   defaultGateway: string;

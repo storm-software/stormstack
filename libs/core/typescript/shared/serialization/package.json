@@ -4,6 +4,10 @@
   "type": "commonjs",
   "dependencies": {
     "decimal.js": "^10.4.3",
+    "qs": "^6.11.2",
     "superjson": "^1.13.1"
+  },
+  "devDependencies": {
+    "@types/qs": "^6.9.8"
   }
 }

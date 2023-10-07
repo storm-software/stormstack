@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "monorepo",
   "version": "0.0.0",
   "private": true,
   "description": "⚡The Storm Stack monorepo contains utility applications, tools, and various libraries to create modern and scalable web applications.",
@@ -40,11 +40,12 @@
     "add:contributors": "all-contributors add",
     "add:decisions": "pnpm log4brains adr new",
     "analyze": "cross-env ANALYZE=true npm run build",
-    "build": "pnpm nx run-many -t build --all --parallel 4",
+    "build": "nx run-many -t build --all --parallel 4",
     "build:relay": "relay-compiler ./dist/tools/devops/config/relay",
-    "build:storybook": "cross-env FORCE_COLOR=1 storybook build -s public",
-    "build:tools": "cross-env FORCE_COLOR=1 pnpm nx run tools-executors-typescript:build && pnpm nx run tools-executors-docs:build && pnpm nx run design-system-tokens:build:impact",
+    "build:storybook": "storybook build -s public",
+    "build:tools": "pnpm nx run tools-executors-typescript:build && pnpm nx run tools-executors-docs:build && pnpm nx run design-system-tokens:build:impact",
     "build:tools-ci": "pnpm nx run tools-executors-typescript:build && pnpm nx run design-system-tokens:style-dictionary",
+    "build:types": "nx affected -t build:types",
     "build:web-deploy": "pnpm run build:tools-ci && pnpm nx run web-shell:build:production",
     "clean": "rimraf dist",
     "clean:apps": "rimraf dist/apps",
@@ -64,10 +65,10 @@
     "lint:dependency-versions": "cross-env FORCE_COLOR=1 check-dependency-version-consistency . --fix",
     "lint:language": "cross-env FORCE_COLOR=1 alex . !**/CODE_OF_CONDUCT.md --quiet",
     "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore --config=dist/tools/devops/config/cspell/config.js",
-    "local-registry": "nx local-registry @stormstack/root",
+    "local-registry": "nx local-registry @stormstack/monorepo",
     "nx": "nx",
     "nx-release": "nx generate @stormstack/tools-generators-typescript:monorepo-release --no-interactive",
-    "pre-commit": "lint-staged --concurrent false --config @stormstack/tools-devops-config/lint-staged",
+    "pre-commit": "lint-staged --concurrent false --config ./dist/tools/devops/config/lint-staged/index.js",
     "prepare": "pnpm prepare:husky && npx patch-package -y",
     "prepare:husky": "is-ci || husky install",
     "preview:decisions": "pnpm log4brains preview",
@@ -83,7 +84,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged --concurrent false --config @stormstack/tools-devops-config/lint-staged"
+      "pre-commit": "lint-staged --concurrent false --config ./dist/tools/devops/config/lint-staged/index.js"
     }
   },
   "config": {
@@ -133,6 +134,7 @@
     "lottie-web": "^5.12.0",
     "next": "^13.4.4",
     "next-auth": "^4.22.3",
+    "prettier-plugin-packagejson": "^2.4.6",
     "radash": "^11.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -143,7 +145,6 @@
     "redis": "^4.6.6",
     "redis-om": "^0.4.0-beta.3",
     "regenerator-runtime": "0.14.0",
-    "relay-runtime": "^15.0.0",
     "release-it": "^16.1.5",
     "rimraf": "^5.0.0",
     "schema-dts": "^1.1.2",
@@ -196,6 +197,7 @@
     "@prisma/client": "^5.2.0",
     "@prisma/generator-helper": "^5.2.0",
     "@react-pdf/renderer": "^3.1.9",
+    "@rollup/plugin-url": "^7.0.0",
     "@sentry/nextjs": "^7.50.0",
     "@sentry/tracing": "^7.50.0",
     "@storybook/addon-a11y": "7.1.1",
@@ -340,8 +342,6 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@graphql-hive/client@0.24.1": "patches/@graphql-hive__client@0.24.1.patch",
-      "@graphql-hive/core@0.2.3": "patches/@graphql-hive__core@0.2.3.patch",
       "@graphql-tools/graphql-file-loader@8.0.0": "patches/@graphql-tools__graphql-file-loader@8.0.0.patch",
       "@graphql-tools/import@7.0.0": "patches/@graphql-tools__import@7.0.0.patch",
       "@graphql-tools/load@8.0.0": "patches/@graphql-tools__load@8.0.0.patch",
@@ -351,14 +351,26 @@
       "globby@11.1.0": "patches/globby@11.1.0.patch",
       "@nodelib/fs.stat@2.0.5": "patches/@nodelib__fs.stat@2.0.5.patch",
       "@nodelib/fs.scandir@2.1.5": "patches/@nodelib__fs.scandir@2.1.5.patch",
-      "infisical-node@1.4.3": "patches/infisical-node@1.4.3.patch",
       "merge2@1.4.1": "patches/merge2@1.4.1.patch",
       "path-type@4.0.0": "patches/path-type@4.0.0.patch",
       "resolve-from@5.0.0": "patches/resolve-from@5.0.0.patch",
-      "memjs@1.3.1": "patches/memjs@1.3.1.patch",
-      "graphql-yoga@4.0.4": "patches/graphql-yoga@4.0.4.patch",
-      "esbuild-plugin-polyfill-node@0.3.0": "patches/esbuild-plugin-polyfill-node@0.3.0.patch",
       "busboy@1.6.0": "patches/busboy@1.6.0.patch"
+    },
+    "override": {
+      "@stormstack/tools-devops-config": "workspace:*",
+      "@stormstack/tools-forecast-codegen": "workspace:*",
+      "@stormstack/tools-forecast-language": "workspace:*",
+      "@stormstack/tools-nx-forecast": "workspace:*",
+      "@stormstack/tools-nx-monorepo": "workspace:*",
+      "@stormstack/core-shared-utilities": "workspace:*",
+      "@stormstack/core-shared-logging": "workspace:*",
+      "@stormstack/core-shared-env": "workspace:*",
+      "@stormstack/core-shared-injection": "workspace:*",
+      "@stormstack/core-shared-serialization": "workspace:*",
+      "@stormstack/core-shared-api": "workspace:*",
+      "@stormstack/core-client-env": "workspace:*",
+      "@stormstack/core-client-api": "workspace:*",
+      "@stormstack/core-server-utilities": "workspace:*"
     }
   }
 }

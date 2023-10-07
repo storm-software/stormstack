@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Temporal } from "@js-temporal/polyfill";
 import { IDateTime, Tokens } from "../types";
-import { isBigInt, isDate, isFunction } from "./type-checks";
+import { isBigInt, isDate, isFunction, isNumber } from "./type-checks";
 import { UniqueIdGenerator } from "./unique-id-generator";
 
 /**
@@ -99,6 +99,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
     dateTime:
       | Temporal.Instant
       | string
+      | number
       | bigint
       | Date
       | null
@@ -113,10 +114,20 @@ export class DateTime extends Temporal.Instant implements IDateTime {
     return dateTime.stringify();
   }
 
+  /**
+   * A string representing the base class
+   *
+   * @remarks This is used when determining how to deserialize the object
+   */
+  public get __base(): string {
+    return "DateTime";
+  }
+
   protected constructor(
     dateTime:
       | Temporal.Instant
       | string
+      | number
       | bigint
       | Date
       | null
@@ -125,6 +136,8 @@ export class DateTime extends Temporal.Instant implements IDateTime {
     super(
       isBigInt(dateTime)
         ? dateTime
+        : isNumber(dateTime)
+        ? BigInt(dateTime)
         : DateTime.isDateTime(dateTime)
         ? dateTime.epochNanoseconds
         : DateTime.isJsDate(dateTime) && isFunction(dateTime.toISOString)

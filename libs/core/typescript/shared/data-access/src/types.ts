@@ -14,6 +14,7 @@ import {
   OperationType,
   VariablesOf
 } from "relay-runtime";
+import type { WithInput } from "type-fest";
 
 export type ScopedObjectState = Record<string, any> & {
   id: string;
@@ -167,6 +168,21 @@ export type FormContext<
   >;
 };
 
+export interface OperationRequestOptions<
+  OperationName extends string = any,
+  Input extends object | undefined = object | undefined
+> {
+  operationName: OperationName;
+  /**
+   * If you pass an AbortSignal, the request will be aborted when the signal is aborted.
+   * You are responsible of handling the request timeout if you want to pass a custom AbortSignal.
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal
+   */
+  abortSignal?: AbortSignal;
+
+  input?: Input;
+}
+
 export interface SerializablePreloadedQuery<
   TRequest extends ConcreteRequest,
   TQuery extends OperationType
@@ -177,3 +193,23 @@ export interface SerializablePreloadedQuery<
 }
 
 export const CACHE_TTL = 5 * 1000; // 5 seconds, to resolve preloaded results
+
+export type SubscriptionRequestOptions<
+  OperationName extends string = any,
+  Input extends object | undefined = object | undefined
+> = WithInput<Input, OperationRequestOptions<OperationName, Input>> & {
+  /**
+   * Subscribe to a live query
+   */
+  liveQuery?: Boolean;
+
+  /**
+   * Receive the initial response and then stop the subscription
+   */
+  subscribeOnce?: Boolean;
+};
+
+export interface ClientResponse<Data = any, Error = any> {
+  data?: Data;
+  error?: Error;
+}

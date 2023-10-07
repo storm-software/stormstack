@@ -4,13 +4,13 @@ export default {
   preset: "../../../../../testing/jest.preset.js",
   globals: {
     "ts-jest": {
-      tsconfig: "<rootDir>/tsconfig.spec.json",
-    },
+      tsconfig: "<rootDir>/tsconfig.spec.json"
+    }
   },
   transform: {
-    "^.+\\.[tj]sx?$": "ts-jest",
+    "^.+\\.[tj]sx?$": "ts-jest"
   },
   moduleFileExtensions: ["ts", "js", "html"],
   coverageDirectory:
-    "../../../../../coverage/libs/core/typescript/shared/utilities",
+    "../../../../../coverage/libs/core/typescript/shared/utilities"
 };

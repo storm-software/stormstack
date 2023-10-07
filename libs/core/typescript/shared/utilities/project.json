@@ -8,17 +8,6 @@
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/core/typescript/shared/utilities",
-        "main": "libs/core/typescript/shared/utilities/src/index.ts",
-        "project": "libs/core/typescript/shared/utilities/package.json",
-        "tsConfig": "libs/core/typescript/shared/utilities/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "libs/core/typescript/shared/utilities/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
         "deleteOutputPath": true,
         "bundle": true,
         "metafile": true,

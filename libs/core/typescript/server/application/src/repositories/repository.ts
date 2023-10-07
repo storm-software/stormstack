@@ -5,12 +5,10 @@ import { Injected, Provider } from "@stormstack/core-shared-injection";
 import { Logger } from "@stormstack/core-shared-logging/logger";
 import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
+  BaseError,
   BaseErrorCode,
   BaseUtilityClass,
-  FieldValidationError,
-  IncorrectTypeError,
-  ModelValidationError,
-  NotFoundError,
+  FieldError,
   isError,
   isValidInteger
 } from "@stormstack/core-shared-utilities";
@@ -91,7 +89,10 @@ export abstract class Repository<
       query: QueryType.FIND_UNIQUE
     });
     if (!result || (Array.isArray(result) && result.length === 0)) {
-      return new NotFoundError();
+      return new BaseError(
+        BaseErrorCode.record_not_found,
+        "No records were found"
+      );
     }
 
     return Array.isArray(result) ? result[0] : result;
@@ -210,15 +211,16 @@ export abstract class Repository<
     switch (key.query) {
       case QueryType.FIND_UNIQUE:
         if (!key.selector?.id) {
-          return new ModelValidationError(
-            [
-              new FieldValidationError(
-                ["where", "id"],
-                BaseErrorCode.required_field_missing
-              )
-            ],
-            BaseErrorCode.invalid_request
+          const error = new BaseError(BaseErrorCode.invalid_request);
+
+          error.addField(
+            new FieldError(
+              ["where", "id"],
+              BaseErrorCode.required_field_missing
+            )
           );
+
+          return error;
         }
 
         return () =>
@@ -235,7 +237,8 @@ export abstract class Repository<
       /*case QueryType.AGGREGATE:
         return this.innerAggregate;*/
       default:
-        return new IncorrectTypeError(
+        return new BaseError(
+          BaseErrorCode.type_error,
           `Invalid query type provided to repository - received: "${key.query}"`
         );
     }

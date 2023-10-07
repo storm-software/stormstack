@@ -7,8 +7,6 @@
  * @type {SnowflakeResolvable}
  */
 
-import { IncorrectTypeError } from "../errors/incorrect-type-error";
-
 type SnowflakeResolvable = string;
 
 /**
@@ -148,25 +146,3 @@ export class UniqueIdGenerator {
       : binValue;
   }
 }
-
-export const uniqueIdGenerator = new Proxy<IUniqueIdGenerator>(
-  {} as IUniqueIdGenerator,
-  {
-    get: async (target: IUniqueIdGenerator, prop: string) => {
-      switch (prop) {
-        case "generate":
-          return UniqueIdGenerator.generate;
-        default:
-          throw new IncorrectTypeError("Invalid prop used on JsonParser");
-      }
-    },
-    set: (
-      target: IUniqueIdGenerator,
-      prop: string | symbol,
-      newValue: any,
-      _: any
-    ): boolean => {
-      return true;
-    }
-  }
-);

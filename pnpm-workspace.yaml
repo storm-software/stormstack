@@ -1,8 +1,6 @@
 packages:
-  - "root"
-  - "tools/*"
-  - "design-system/*"
-  - "libs/*"
-  - "apps/*"
-  - "docs/*"
-
+  - "tools/**"
+  - "design-system/**"
+  - "libs/**"
+  - "apps/**"
+  - "docs/**"

@@ -229,6 +229,15 @@ export class Result<TError extends IError | null = any, TData = unknown>
    */
   public timestamp: DateTime = DateTime.current;
 
+  /**
+   * A string representing the base class
+   *
+   * @remarks This is used when determining how to deserialize the object
+   */
+  public get __base(): string {
+    return "Result";
+  }
+
   protected constructor(error: TError | null = null, data?: TData | null) {
     super(Tokens.RESULT);
 

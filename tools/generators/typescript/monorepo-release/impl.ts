@@ -6,10 +6,11 @@ import {
 } from "@stormstack/core-server-utilities/semver-fns";
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import {
+  BaseError,
+  BaseErrorCode,
   ConfigurationError,
   EnvConfigurationError,
-  FieldValidationError,
-  ModelValidationError
+  FieldError
 } from "@stormstack/core-shared-utilities";
 import { execSync } from "node:child_process";
 import { rmSync, writeFileSync } from "node:fs";
@@ -40,10 +41,13 @@ export default async function (tree: Tree, options?: ReleaseGeneratorSchema) {
       }
     } else {
       if (!force && !registryIsLocalhost) {
-        throw new ModelValidationError(
-          new FieldValidationError("local"),
+        const error = new BaseError(
+          BaseErrorCode.invalid_request,
           "--local was passed and registry is not localhost"
         );
+        error.addFieldError(new FieldError("local"));
+
+        throw error;
       }
     }
 

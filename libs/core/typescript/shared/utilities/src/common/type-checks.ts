@@ -8,7 +8,8 @@ import {
 } from "radash";
 import { MutableRefObject } from "react";
 import zod from "zod";
-import { EMPTY_STRING, SelectOption } from "../types";
+import { EMPTY_STRING, ITyped, SelectOption } from "../types";
+import { IMiddleware } from "./middleware";
 
 /**
  * Check if the provided value's type is `number`
@@ -439,13 +440,32 @@ export const isReactElement = (value: any) => {
  * @param obj - The value to type check
  * @returns An indicator specifying if the object provided is "array-like"
  */
-export const isArrayLike = (x: unknown): boolean => {
+export const isArrayLike = (value: any): boolean => {
   return (
-    isObject(x) &&
-    !isEmpty(x) &&
-    "length" in x &&
-    isNumber(x.length) &&
-    (x.length === 0 ||
-      (x.length > 0 && Object.prototype.hasOwnProperty.call(x, x.length - 1)))
+    isObject(value) &&
+    !isEmpty(value) &&
+    "length" in value &&
+    isNumber(value.length) &&
+    (value.length === 0 ||
+      (value.length > 0 &&
+        Object.prototype.hasOwnProperty.call(value, value.length - 1)))
   );
+};
+
+/**
+ * Check if the provided value's type is `IMiddleware`
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the object provided is `IMiddleware`
+ */
+export const isMiddleware = (value: any): value is IMiddleware => {
+  return isObject(value) && "handle" in value && isFunction(value.handle);
+};
+
+/**
+ * Check if the provided value's type is `ITyped`
+ * @param obj - The value to type check
+ * @returns An indicator specifying if the object provided is `ITyped`
+ */
+export const isTyped = (value: any): value is ITyped => {
+  return isObject(value) && "__typename" in value && isString(value.__typename);
 };

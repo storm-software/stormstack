@@ -10,7 +10,7 @@ import StackTracey from "stacktracey";
 export const toVSCodeURL = (entry: StackTracey.Entry) => {
   // To account for folks using vscode-insiders etc
   // This is defined by webpack and vite from .env
-  const scheme = process?.env?.DEV_EDITOR_ID || "vscode";
+  const scheme = process?.env?.["DEV_EDITOR_ID"] || "vscode";
   return `${scheme}://file/${entry.fileShort}:${entry.line}:${entry.column}`;
 };
 

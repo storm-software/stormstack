@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Provider } from "@stormstack/core-shared-injection/decorators";
-import { BaseUtilityClass } from "@stormstack/core-shared-utilities/common";
+import { Provider } from "@stormstack/core-shared-injection";
+import { BaseUtilityClass } from "@stormstack/core-shared-utilities";
 import chalk from "chalk";
 import { LOGGER_SYMBOL } from "../types";
 
-@Provider()
+@Provider(Logger)
 export abstract class Logger extends BaseUtilityClass {
   public get name(): string {
     return this._name;

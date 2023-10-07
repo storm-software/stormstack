@@ -1,4 +1,4 @@
-import { JsonParser } from "@stormstack/core-shared-serialization/parser";
+import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
   BaseError,
   DateTime,

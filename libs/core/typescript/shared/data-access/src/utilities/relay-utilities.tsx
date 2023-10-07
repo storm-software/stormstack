@@ -1,10 +1,4 @@
-import { IsServer } from "@stormstack/core-shared-utilities";
-import type {
-  Client,
-  ClientResponse,
-  ResponseError,
-  SubscriptionRequestOptions
-} from "@wundergraph/sdk/client";
+import { BaseError, IsServer } from "@stormstack/core-shared-utilities";
 // import { fetchQuery as relayFetchQuery } from "react-relay";
 import {
   CacheConfig,
@@ -27,20 +21,24 @@ import {
   getRequest
 } from "relay-runtime";
 import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
-import { SerializablePreloadedQuery } from "../types";
+import {
+  ClientResponse,
+  SerializablePreloadedQuery,
+  SubscriptionRequestOptions
+} from "../types";
 import { RelayResponseCache } from "./relay-response-cache";
 
 export interface SubscribeToOptions extends SubscriptionRequestOptions {
   onResult(response: ClientResponse): void;
   onSuccess?(response: ClientResponse): void;
-  onError?(error: ResponseError): void;
+  onError?(error: BaseError): void;
   onAbort?(): void;
 }
 
 export interface UseSubscribeToProps extends SubscriptionRequestOptions {
   enabled?: boolean;
   onSuccess?(response: ClientResponse): void;
-  onError?(error: ResponseError): void;
+  onError?(error: BaseError): void;
 }
 
 export interface CreateWunderGraphRelayOptions {

@@ -15,56 +15,11 @@ export abstract class EnvManager<
 > extends BaseUtilityClass {
   protected proxy: EnvProxy;
 
-  constructor(public readonly options = DEFAULT_OPTIONS as TOptions) {
-    super(ENV_TOKEN);
-
-    this.proxy = createEnvProxy({ ...DEFAULT_OPTIONS, ...this.options });
-  }
-
-  public get = <T = any>(name: string): T | undefined => {
-    // this.logger?.debug(`Getting environment variable "${name}".`);
-
-    return this.innerGet<T>(name);
-  };
-
-  public getWithDefault<T = any>(name: string, defaultValue: T): T;
-  public getWithDefault<T = any>(
-    name: string,
-    defaultValue: undefined
-  ): T | undefined {
-    //this.logger?.debug(`Getting environment variable "${name}".`);
-
-    const value = this.get<T>(name);
-    if (isNotEmpty(value)) {
-      return defaultValue ?? undefined;
-    }
-
-    return value;
-  }
-
-  public getAsync = <T = any>(name: string): Promise<T | undefined> => {
-    /*this.logger?.debug(
-      `Getting external environment variable/secret "${name}".`
-    );*/
-
-    return this.innerGetAsync<T>(name);
-  };
-
-  public set = <T extends string | boolean | number | undefined = any>(
-    name: string,
-    value: T
-  ) => {
-    /*this.logger?.debug(
-      `Updating environment variable "${name}" to "${value}".`
-    );*/
-    this.proxy[name] = value;
-  };
-
-  public get defaultLocale() {
+  public get defaultLocale(): string {
     return this.getWithDefault<string>("DEFAULT_LOCALE", "en-US");
   }
 
-  public get defaultTimezone() {
+  public get defaultTimezone(): string {
     return this.getWithDefault<string>("DEFAULT_TIMEZONE", "America/New_York");
   }
 
@@ -99,17 +54,24 @@ export abstract class EnvManager<
     );
   }
 
-  public get baseUrl() {
-    return this.isDevelopment
-      ? "http://localhost:3000"
-      : this.getWithDefault<string>("BASE_URL", EMPTY_STRING);
+  public get baseUrl(): URL {
+    let url = this.get<string>("BASE_URL");
+    if (!url || this.isDevelopment) {
+      if (!this.isDevelopment) {
+        console.warn("BASE_URL is not defined. Defaulting to localhost.");
+      }
+
+      url = "http://localhost:3000";
+    }
+
+    return new URL(url);
   }
 
   public get isCI(): boolean {
     return !!this.getWithDefault<boolean>("CI", false);
   }
 
-  public get repositoryOwner() {
+  public get repositoryOwner(): string {
     return this.getWithDefault<string>("CI_REPO_OWNER", "sullivanpj");
   }
 
@@ -121,43 +83,109 @@ export abstract class EnvManager<
     return this.getWithDefault<string>("CI_REPO_NAME", "stormstack");
   }
 
-  public get repositoryUrl(): string {
-    return this.getWithDefault<string>(
+  public get repositoryUrl(): URL {
+    const url = this.getWithDefault<string>(
       "CI_REPO_URL",
       "https://github.com/stormstack/stormstack"
     );
+
+    return new URL(url);
   }
 
   public get branchName(): string {
     return this.getWithDefault<string>("CI_BRANCH", "main");
   }
 
-  public get serviceId() {
+  public get serviceId(): string {
     return this.getWithDefault<string>("SERVICE_ID", EMPTY_STRING);
   }
 
-  public get serviceName() {
+  public get serviceName(): string {
     return this.getWithDefault<string>("SERVICE_NAME", EMPTY_STRING);
   }
 
-  public get serviceUrl() {
-    return this.getWithDefault<string>("SERVICE_URL", EMPTY_STRING);
+  public get serviceUrl(): URL | undefined {
+    const url = this.get<string>("SERVICE_URL");
+
+    return isNotEmpty(url) ? new URL(url) : this.baseUrl;
   }
 
-  public get serviceVersion() {
+  public get serviceVersion(): string {
     return this.getWithDefault<string>("SERVICE_VERSION", "0.0.1");
   }
 
-  public get domainName() {
+  public get domainName(): string {
     return this.getWithDefault<string>("DOMAIN_NAME", "core");
   }
 
-  public get defaultQuerySize() {
+  public get defaultQuerySize(): number {
     return parseInteger(
       this.getWithDefault<number>("DEFAULT_QUERY_SIZE", 100),
       100
     );
   }
+
+  public get sdkVersion(): string {
+    return this.getWithDefault<string>("STORM_SDK_VERSION", "0.0.1");
+  }
+
+  public get tenantId() {
+    return this.get("X_TENANT_ID");
+  }
+
+  /**
+   * A string representing the base class
+   *
+   * @remarks This is used when determining how to deserialize the object
+   */
+  public get __base(): string {
+    return "EnvManager";
+  }
+
+  constructor(public readonly options = DEFAULT_OPTIONS as TOptions) {
+    super(ENV_TOKEN);
+
+    this.proxy = createEnvProxy({ ...DEFAULT_OPTIONS, ...this.options });
+  }
+
+  public get = <T = any>(name: string): T | undefined => {
+    // this.logger?.debug(`Getting environment variable "${name}".`);
+
+    return this.innerGet<T>(name);
+  };
+
+  public getWithDefault<T = any>(name: string, defaultValue: T): T;
+  public getWithDefault<T = any>(
+    name: string,
+    defaultValue: undefined
+  ): T | undefined {
+    //this.logger?.debug(`Getting environment variable "${name}".`);
+
+    const value = this.get<T>(name);
+    if (isNotEmpty(value)) {
+      return defaultValue ?? undefined;
+    }
+
+    return value;
+  }
+
+  public getAsync = <T = any>(name: string): Promise<T | undefined> => {
+    /*this.logger?.debug(
+        `Getting external environment variable/secret "${name}".`
+      );*/
+
+    return this.innerGetAsync<T>(name);
+  };
+
+  public set = <T extends string | boolean | number | undefined = any>(
+    name: string,
+    value: T
+  ) => {
+    /*this.logger?.debug(
+        `Updating environment variable "${name}" to "${value}".`
+      );*/
+    this.proxy[name] = value;
+  };
 
   protected abstract innerGet: <T = any>(name: string) => T | undefined;
 

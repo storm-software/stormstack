@@ -8,10 +8,6 @@
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/core/typescript/shared/env",
-        "main": "libs/core/typescript/shared/env/src/index.ts",
-        "tsConfig": "libs/core/typescript/shared/env/tsconfig.lib.json",
-        "assets": ["libs/core/typescript/shared/env/*.md"],
         "deleteOutputPath": true,
         "bundle": true,
         "metafile": true,
@@ -50,6 +46,5 @@
       }
     }
   },
-  "tags": ["scope:core", "platform:shared", "level:utilities"],
-  "implicitDependencies": ["core-shared-utilities"]
+  "tags": ["scope:core", "platform:shared", "level:utilities"]
 }

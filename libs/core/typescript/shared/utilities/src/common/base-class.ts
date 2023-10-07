@@ -45,6 +45,13 @@ export abstract class BaseClass implements IBaseClass {
   }
 
   /**
+   * A string representing the base class
+   *
+   * @remarks This is used when determining how to deserialize the object
+   */
+  public abstract get __base(): string;
+
+  /**
    * Returns back a hash code to identify this specific instance
    *
    * @remarks The combination of class name and Id

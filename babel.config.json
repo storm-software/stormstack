@@ -79,7 +79,7 @@
     [
       "relay",
       {
-        "artifactDirectory": "./libs/common/client/data-access__generated__/relay",
+        "artifactDirectory": "./libs/common/client/data-access/__generated__/relay",
         "extensions": ["ts", "tsx"]
       }
     ]

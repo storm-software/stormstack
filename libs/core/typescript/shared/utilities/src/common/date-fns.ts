@@ -1,4 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
+import { BaseError, BaseErrorCode } from "../errors";
 import { DateTime } from "./date-time";
 
 /**
@@ -18,7 +19,7 @@ export const formatDateTime = (
   dateTime
     ? `${dateTime
         .toZonedDateTime({
-          timeZone: timeZone ?? process.env.DEFAULT_TIMEZONE ?? "UTC",
+          timeZone: timeZone ?? process.env["DEFAULT_TIMEZONE"] ?? "UTC",
           calendar: "gregory"
         })
         .toString(options)}`
@@ -40,7 +41,9 @@ export const formatDateTimeISO = (
 ): string =>
   dateTime
     ? `${dateTime
-        .toZonedDateTimeISO(timeZone ?? process.env.DEFAULT_TIMEZONE ?? "UTC")
+        .toZonedDateTimeISO(
+          timeZone ?? process.env["DEFAULT_TIMEZONE"] ?? "UTC"
+        )
         .toString(options)}`
     : "";
 
@@ -53,8 +56,8 @@ export const formatDate = (dateTime: DateTime = DateTime.current): string =>
   DateTime.from(dateTime)
     .toZonedDateTimeISO(
       dateTime.toZonedDateTime({
-        timeZone: process.env.DEFAULT_TIMEZONE
-          ? process.env.DEFAULT_TIMEZONE
+        timeZone: process.env["DEFAULT_TIMEZONE"]
+          ? process.env["DEFAULT_TIMEZONE"]
           : "America/New_York",
         calendar: "gregory"
       })
@@ -141,31 +144,36 @@ export const isLeapYear = (year: number): boolean => {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 };
 
-export function parseDateTime(value: number | string | Date): Date {
-  if (value instanceof Date) {
+export function parseDateTime(
+  value: number | string | Date | DateTime
+): DateTime {
+  if (DateTime.isDateTime(value)) {
     return value;
   }
 
   if (typeof value === "string") {
     if (validateDateTime(value)) {
-      return new Date(value);
+      return DateTime.create(value);
     }
-    throw new TypeError(
+    throw new BaseError(
+      BaseErrorCode.type_error,
       `DateTime cannot represent an invalid date-time-string ${value}.`
     );
   }
 
   if (typeof value === "number") {
     try {
-      return new Date(value);
+      return DateTime.create(value);
     } catch (e) {
-      throw new TypeError(
+      throw new BaseError(
+        BaseErrorCode.type_error,
         "DateTime cannot represent an invalid Unix timestamp " + value
       );
     }
   }
 
-  throw new TypeError(
+  throw new BaseError(
+    BaseErrorCode.invalid_arguments,
     "DateTime cannot be serialized from a non string, " +
       "non numeric or non Date type " +
       JSON.stringify(value)

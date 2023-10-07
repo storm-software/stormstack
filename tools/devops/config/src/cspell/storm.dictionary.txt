@@ -17,6 +17,10 @@ APIKEY
 applogs
 appsettings
 ASPNETCORE
+msword
+repeaterjs
+runtimes
+unparseable
 asyncapi
 automerge
 avrogen

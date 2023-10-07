@@ -8,10 +8,6 @@
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/core/typescript/shared/serialization",
-        "main": "libs/core/typescript/shared/serialization/src/index.ts",
-        "tsConfig": "libs/core/typescript/shared/serialization/tsconfig.lib.json",
-        "assets": ["libs/core/typescript/shared/serialization/*.md"],
         "deleteOutputPath": true,
         "bundle": true,
         "metafile": true,
@@ -52,6 +48,5 @@
       }
     }
   },
-  "tags": ["scope:core", "platform:shared", "level:utilities"],
-  "implicitDependencies": ["core-shared-utilities", "core-shared-injection"]
+  "tags": ["scope:core", "platform:shared", "level:utilities"]
 }
