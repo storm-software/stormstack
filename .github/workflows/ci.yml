@@ -62,8 +62,11 @@ jobs:
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"
 
-      - name: Prepare for build
-        run: pnpm build:tools-ci
+      #- name: Prepare for build
+      #  run: pnpm build
+
+      - name: Build repository packages
+        run: pnpm build
 
       #- name: Run Linters
       #  run: pnpm nx affected -t lint --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
@@ -74,8 +77,7 @@ jobs:
       # - run: npx nx affected -t lint --parallel=3
       # - run: npx nx affected -t test --parallel=3 --configuration=ci --base=${{ github.event.before }}
 
-      - name: Build repository packages
-        run: pnpm nx affected -t build --parallel=3 --exclude="core-server-cloudflare,worker-*" --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
+      #  run: pnpm nx affected -t build --parallel=5 --exclude="core-server-cloudflare,worker-*" --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
       #  run: pnpm nx affected -t build --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
 
       #- name: Run Tests

@@ -55,10 +55,10 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: pnpm i
+        run: pnpm ci
 
       - name: Prepare for build
-        run: pnpm build:tools-ci
+        run: pnpm build
 
       - name: Generate TSDocs Markdown with API Extractor
         run: pnpm docs:api-extractor

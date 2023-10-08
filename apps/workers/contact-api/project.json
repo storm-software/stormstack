@@ -5,7 +5,7 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-build",
+      "executor": "@stormstack/tools-nx-cloudflare:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
@@ -47,7 +47,7 @@
       }
     },
     "serve": {
-      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-serve",
+      "executor": "@stormstack/tools-nx-cloudflare:serve",
       "defaultConfiguration": "development",
       "verbose": true,
       "options": {
@@ -62,27 +62,8 @@
         }
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/workers/contact-api/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/workers/contact-api/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
-    },
+    "lint": {},
+    "test": {},
     "deploy-schema": {
       "executor": "nx:run-commands",
       "options": {
@@ -94,7 +75,7 @@
       }
     },
     "deploy": {
-      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-deploy",
+      "executor": "@stormstack/tools-nx-cloudflare:deploy",
       "defaultConfiguration": "production",
       "tsconfig": "apps/workers/contact-api/tsconfig.json",
       "options": {
