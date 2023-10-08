@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "serve",
+  "title": "StormStack - Event Catalog Serve",
+  "description": "📓 Serve the Event Catalog website",
+  "type": "object",
+  "properties": {
+    "port": {
+      "type": "number",
+      "description": "Port to listen on.",
+      "default": 5000,
+      "x-priority": "important"
+    },
+    "hostname": {
+      "type": "string",
+      "description": "Hostname on which the application is served."
+    }
+  },
+  "required": []
+}

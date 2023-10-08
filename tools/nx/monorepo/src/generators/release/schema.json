@@ -3,7 +3,7 @@
   "cli": "nx",
   "id": "release",
   "title": "StormStack - Nx-Monorepo Release Generator",
-  "description": "🎉 Publish the repository's packages both locally and publicly.",
+  "description": "🚀 Publish the repository's packages both locally and publicly.",
   "type": "object",
   "example": [
     {

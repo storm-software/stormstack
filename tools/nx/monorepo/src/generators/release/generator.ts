@@ -24,7 +24,7 @@ const LARGE_BUFFER = 1024 * 1000000;
 export default async function (tree: Tree, options?: ReleaseGeneratorSchema) {
   try {
     ConsoleLogger.showTitle();
-    ConsoleLogger.info("Running 🎉 Nx-Monorepo Release Generator...");
+    ConsoleLogger.info("Running 🚀 Nx-Monorepo Release Generator...");
     ConsoleLogger.info(`Current Working Dir: ${process.cwd()}`);
     const { local, force } = options;
 
@@ -190,7 +190,9 @@ export default async function (tree: Tree, options?: ReleaseGeneratorSchema) {
       });
     }
 
-    ConsoleLogger.success(`StormStack Nx-Monorepo Release successfully ran.`);
+    ConsoleLogger.success(
+      `🎉 StormStack Nx-Monorepo Release successfully ran.`
+    );
   } catch (e) {
     ConsoleLogger.error(`An error occurred executing Nx-Monorepo Release`);
     ConsoleLogger.error(e);

@@ -1,0 +1,19 @@
+{
+  "executors": {
+    "build": {
+      "implementation": "../../../dist/tools/nx/event-catalog/src/executors/build/impl.cjs",
+      "schema": "../../../dist/tools/nx/event-catalog/src/executors/build/schema.json",
+      "description": "📓 Build the Event Catalog website"
+    },
+    "serve": {
+      "implementation": "../../../dist/tools/nx/event-catalog/src/executors/serve/impl.cjs",
+      "schema": "../../../dist/tools/nx/event-catalog/src/executors/serve/schema.json",
+      "description": "📓 Serve the Event Catalog website"
+    },
+    "sync-library": {
+      "implementation": "../../../dist/tools/nx/event-catalog/src/executors/sync-library/impl.cjs",
+      "schema": "../../../dist/tools/nx/event-catalog/src/executors/sync-library/schema.json",
+      "description": "📓 Updates the Event Library package based on AsyncApi spec data"
+    }
+  }
+}

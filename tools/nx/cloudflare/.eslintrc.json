@@ -5,7 +5,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": ["tools/nx/forecast/tsconfig.*?.json"]
+        "project": ["tools/nx/cloudflare/tsconfig.*?.json"]
       },
       "rules": {}
     },

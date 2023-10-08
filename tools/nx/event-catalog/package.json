@@ -1,0 +1,16 @@
+{
+  "name": "@stormstack/tools-nx-event-catalog",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "typings": "./index.d.ts",
+  "dependencies": {
+    "@asyncapi/generator": "^1.10.14",
+    "@nx/devkit": "16.7.0",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
+    "fs-extra": "^11.1.1",
+    "glob": "^10.3.3"
+  },
+  "executors": "./executors.json",
+  "generators": "./generators.json"
+}

@@ -55,7 +55,7 @@ export default async function (
       }
     }
 
-    const packagePath = Path.join(__dirname, ".event-catalog");
+    const packagePath = Path.join(__dirname, "catalog-package");
     if (!existsSync(packagePath)) {
       ConsoleLogger.error(
         `Event Catalog website package path does not exist - "${packagePath}"`

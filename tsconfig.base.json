@@ -311,6 +311,7 @@
         "tools/generators/typescript/index.ts"
       ],
       "@stormstack/tools-nx-cloudflare": ["tools/nx/cloudflare/index.ts"],
+      "@stormstack/tools-nx-event-catalog": ["tools/nx/event-catalog/index.ts"],
       "@stormstack/tools-nx-forecast": ["tools/nx/forecast/index.ts"],
       "@stormstack/tools-nx-monorepo": ["tools/nx/monorepo/index.ts"],
       "@stormstack/user-management-client-components": [

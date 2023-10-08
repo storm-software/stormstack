@@ -3,7 +3,7 @@
   "cli": "nx",
   "id": "format-readme",
   "title": "StormStack - Nx-Monorepo ReadMe Formatter",
-  "description": "📓 Format the ReadMe files in the workspace using template files from a provided directory.",
+  "description": "📰 Format the ReadMe files in the workspace using template files from a provided directory.",
   "type": "object",
   "properties": {
     "templatePath": {

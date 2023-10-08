@@ -12,7 +12,7 @@
     "release": {
       "factory": "../../../dist/tools/nx/monorepo/src/generators/release/generator.cjs",
       "schema": "../../../dist/tools/nx/monorepo/src/generators/release/schema.json",
-      "description": "🎉 Publish the repository's packages both locally and publicly."
+      "description": "🚀 Publish the repository's packages both locally and publicly."
     }
   }
 }

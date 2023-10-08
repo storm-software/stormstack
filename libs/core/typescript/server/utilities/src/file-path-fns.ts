@@ -25,3 +25,18 @@ export function resolvePath(filePath: string, basePath?: string) {
     return join(dirname(basePath), filePath);
   }
 }
+
+/**
+ * Rename the file name with a new name.
+ *
+ * @param filePath The current file path being processed
+ * @param newFileName The updated file name being processed
+ * @returns The modified or unmodified file path.
+ */
+export function renameFile(filePath: string, newFileName: string): string {
+  const file = Path.parse(filePath);
+  return Path.join(
+    file.dir,
+    newFileName.includes(".") ? newFileName : newFileName + file.ext
+  );
+}

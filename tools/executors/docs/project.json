@@ -80,7 +80,7 @@
           },
           {
             "input": "tools/executors/docs/utilities",
-            "glob": ".event-catalog",
+            "glob": "package",
             "output": "."
           }
         ]
