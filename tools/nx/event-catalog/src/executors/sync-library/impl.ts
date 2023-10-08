@@ -25,7 +25,12 @@ export default async function (
     );
     const files = glob.sync(libsDirectory);
 
-    if (!files || files.length === 0) {
+    if (
+      !files ||
+      files.length === 0 ||
+      !context.workspace ||
+      !context.projectName
+    ) {
       ConsoleLogger.error(
         `No Async-API specs could be found in library packages. Searched in directory: '${libsDirectory}'. ** NOTE: Async-API specs must be named with the extension '.async-api.json' **`
       );

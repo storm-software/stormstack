@@ -4,6 +4,12 @@
   "id": "format-readme",
   "title": "StormStack - Nx-Monorepo ReadMe Formatter",
   "description": "📰 Format the ReadMe files in the workspace using template files from a provided directory.",
+  "example": [
+    {
+      "command": "nx g @stormstack/tools-nx-forecast:format-readme --templatePath \"libs/core/config/src/readme-templates\" --outputPath \"docs/website/docs/api\" --clean --prettier",
+      "description": "Format the ReadMe files in the workspace using template files from the `libs/core/config/src/readme-templates` directory and output the formatted files to the `docs/website/docs/api` directory. Delete any previously generated files in the output prior to writing the new markdown content and use prettier to format the README.md files."
+    }
+  ],
   "type": "object",
   "properties": {
     "templatePath": {

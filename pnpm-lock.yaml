@@ -737,7 +737,7 @@ importers:
     dependencies:
       "@eventcatalog/core":
         specifier: ^1.0.1
-        version: 1.1.0(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(tailwindcss@3.3.3)
+        version: 1.1.0(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(tailwindcss@3.3.3)
       "@eventcatalog/plugin-doc-generator-asyncapi":
         specifier: ^0.3.5
         version: 0.3.5
@@ -1138,7 +1138,7 @@ importers:
         version: 16.2.5
       "@eventcatalog/core":
         specifier: ^1.0.1
-        version: 1.1.0(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(tailwindcss@3.3.3)
+        version: 1.1.0(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(tailwindcss@3.3.3)
       "@eventcatalog/types":
         specifier: ^0.4.2
         version: 0.4.2
@@ -1512,6 +1512,9 @@ importers:
 
   tools/nx/monorepo:
     dependencies:
+      "@microsoft/api-extractor":
+        specifier: ^7.38.0
+        version: 7.38.0(@types/node@20.8.2)
       "@nx/devkit":
         specifier: 16.7.0
         version: 16.7.0(nx@16.9.1)
@@ -8919,7 +8922,7 @@ packages:
       }
     engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
 
-  /@eventcatalog/core@1.1.0(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(tailwindcss@3.3.3):
+  /@eventcatalog/core@1.1.0(@babel/core@7.12.9)(@types/react-dom@18.2.7)(@types/react@18.2.20)(tailwindcss@3.3.3):
     resolution:
       {
         integrity: sha512-bT8s4/McOKwhGeqi29TWsD3TxTkUrWtn15onlK6CYPXlIekpsWsucAk9zdC8Q0h4iAnrhF/gkb3eEtmAIHqLnQ==
@@ -8930,7 +8933,7 @@ packages:
       "@headlessui/react": 1.7.17(react-dom@17.0.2)(react@17.0.2)
       "@heroicons/react": 1.0.6(react@17.0.2)
       "@mdx-js/react": 1.6.22(react@17.0.2)
-      "@stoplight/json-schema-viewer": 4.5.0(@babel/core@7.22.10)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.44.2)(@stoplight/mosaic@1.44.2)(react-dom@17.0.2)(react@17.0.2)
+      "@stoplight/json-schema-viewer": 4.5.0(@babel/core@7.12.9)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.44.2)(@stoplight/mosaic@1.44.2)(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/markdown-viewer": 5.6.0(@stoplight/mosaic-code-viewer@1.44.2)(@stoplight/mosaic@1.44.2)(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/mosaic": 1.44.2(react-dom@17.0.2)(react@17.0.2)
       "@stoplight/mosaic-code-viewer": 1.44.2(react-dom@17.0.2)(react@17.0.2)
@@ -8947,7 +8950,7 @@ packages:
       gray-matter: 4.0.3
       lodash.debounce: 4.0.8
       mermaid: 10.3.0
-      next: 12.3.4(@babel/core@7.22.10)(react-dom@17.0.2)(react@17.0.2)
+      next: 12.3.4(@babel/core@7.12.9)(react-dom@17.0.2)(react@17.0.2)
       next-mdx-remote: 3.0.8(react-dom@17.0.2)(react@17.0.2)
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
@@ -11478,7 +11481,6 @@ packages:
       "@rushstack/node-core-library": 3.61.0(@types/node@20.8.2)
     transitivePeerDependencies:
       - "@types/node"
-    dev: true
 
   /@microsoft/api-extractor@7.38.0(@types/node@20.8.2):
     resolution:
@@ -11501,7 +11503,6 @@ packages:
       typescript: 5.0.4
     transitivePeerDependencies:
       - "@types/node"
-    dev: true
 
   /@microsoft/tsdoc-config@0.16.2:
     resolution:
@@ -16495,7 +16496,6 @@ packages:
       resolve: 1.22.6
       semver: 7.5.4
       z-schema: 5.0.5
-    dev: true
 
   /@rushstack/rig-package@0.5.1:
     resolution:
@@ -16505,7 +16505,6 @@ packages:
     dependencies:
       resolve: 1.22.6
       strip-json-comments: 3.1.1
-    dev: true
 
   /@rushstack/ts-command-line@4.16.1:
     resolution:
@@ -16517,7 +16516,6 @@ packages:
       argparse: 1.0.10
       colors: 1.2.5
       string-argv: 0.3.2
-    dev: true
 
   /@semantic-release/changelog@6.0.3(semantic-release@20.1.0):
     resolution:
@@ -17148,7 +17146,7 @@ packages:
       magic-error: 0.0.1
     dev: false
 
-  /@stoplight/json-schema-viewer@4.5.0(@babel/core@7.22.10)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.44.2)(@stoplight/mosaic@1.44.2)(react-dom@17.0.2)(react@17.0.2):
+  /@stoplight/json-schema-viewer@4.5.0(@babel/core@7.12.9)(@stoplight/markdown-viewer@5.6.0)(@stoplight/mosaic-code-viewer@1.44.2)(@stoplight/mosaic@1.44.2)(react-dom@17.0.2)(react@17.0.2):
     resolution:
       {
         integrity: sha512-YtLL+BqyqfcRUMiFFl2w8501b0A7Ae3/RzoYzaHX+y+q/6nGv0/ViwV6W9q2dvC0QXGMjIL+5YhthKyeJ4Px+A==
@@ -17170,7 +17168,7 @@ packages:
       "@stoplight/react-error-boundary": 2.0.0(react-dom@17.0.2)(react@17.0.2)
       "@types/json-schema": 7.0.13
       classnames: 2.3.2
-      jotai: 1.13.1(@babel/core@7.22.10)(react@17.0.2)
+      jotai: 1.13.1(@babel/core@7.12.9)(react@17.0.2)
       lodash: 4.17.21
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
@@ -20492,7 +20490,6 @@ packages:
       {
         integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==
       }
-    dev: true
 
   /@types/aria-query@5.0.2:
     resolution:
@@ -26527,7 +26524,6 @@ packages:
         integrity: sha512-erNRLao/Y3Fv54qUa0LBB+//Uf3YwMUmdJinN20yMXm9zdKKqH9wt7R9IIVZ+K7ShzfpLV/Zg8+VyrBJYB4lpg==
       }
     engines: { node: ">=0.1.90" }
-    dev: true
 
   /columnify@1.6.0:
     resolution:
@@ -26666,7 +26662,6 @@ packages:
       }
     engines: { node: ^12.20.0 || >=14 }
     requiresBuild: true
-    dev: true
 
   /comment-json@4.2.3:
     resolution:
@@ -32958,7 +32953,6 @@ packages:
       graceful-fs: 4.2.11
       jsonfile: 4.0.0
       universalify: 0.1.2
-    dev: true
 
   /fs-extra@8.1.0:
     resolution:
@@ -37657,7 +37651,7 @@ packages:
       - vue
     dev: false
 
-  /jotai@1.13.1(@babel/core@7.22.10)(react@17.0.2):
+  /jotai@1.13.1(@babel/core@7.12.9)(react@17.0.2):
     resolution:
       {
         integrity: sha512-RUmH1S4vLsG3V6fbGlKzGJnLrDcC/HNb5gH2AeA9DzuJknoVxSGvvg8OBB7lke+gDc4oXmdVsaKn/xDUhWZ0vw==
@@ -37700,7 +37694,7 @@ packages:
       jotai-zustand:
         optional: true
     dependencies:
-      "@babel/core": 7.22.10
+      "@babel/core": 7.12.9
       react: 17.0.2
     dev: false
 
@@ -39233,7 +39227,6 @@ packages:
       {
         integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==
       }
-    dev: true
 
   /lodash.isfunction@3.0.9:
     resolution:
@@ -42120,7 +42113,7 @@ packages:
       - webpack
     dev: true
 
-  /next@12.3.4(@babel/core@7.22.10)(react-dom@17.0.2)(react@17.0.2):
+  /next@12.3.4(@babel/core@7.12.9)(react-dom@17.0.2)(react@17.0.2):
     resolution:
       {
         integrity: sha512-VcyMJUtLZBGzLKo3oMxrEF0stxh8HwuW976pAzlHhI3t8qJ4SROjCrSh1T24bhrbjw55wfZXAbXPGwPt5FLRfQ==
@@ -42147,7 +42140,7 @@ packages:
       postcss: 8.4.14
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
-      styled-jsx: 5.0.7(@babel/core@7.22.10)(react@17.0.2)
+      styled-jsx: 5.0.7(@babel/core@7.12.9)(react@17.0.2)
       use-sync-external-store: 1.2.0(react@17.0.2)
     optionalDependencies:
       "@next/swc-android-arm-eabi": 12.3.4
@@ -51328,7 +51321,6 @@ packages:
         integrity: sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==
       }
     engines: { node: ">=0.6.19" }
-    dev: true
 
   /string-env-interpolation@1.0.1:
     resolution:
@@ -51772,7 +51764,7 @@ packages:
       stylis-rule-sheet: 0.0.10(stylis@3.5.4)
     dev: true
 
-  /styled-jsx@5.0.7(@babel/core@7.22.10)(react@17.0.2):
+  /styled-jsx@5.0.7(@babel/core@7.12.9)(react@17.0.2):
     resolution:
       {
         integrity: sha512-b3sUzamS086YLRuvnaDigdAewz1/EFYlHpYBP5mZovKEdQQOIIYq8lApylub3HHZ6xFjV051kkGU7cudJmrXEA==
@@ -51788,7 +51780,7 @@ packages:
       babel-plugin-macros:
         optional: true
     dependencies:
-      "@babel/core": 7.22.10
+      "@babel/core": 7.12.9
       react: 17.0.2
     dev: false
 
@@ -53752,7 +53744,6 @@ packages:
       }
     engines: { node: ">=12.20" }
     hasBin: true
-    dev: true
 
   /typescript@5.1.6:
     resolution:
@@ -54946,7 +54937,6 @@ packages:
         integrity: sha512-Ii+sehpSfZy+At5nPdnyMhx78fEoPDkR2XW/zimHEL3MyGJQOCQ7WeP20jPYRz7ZCpcKLB21NxuXHF3bxjStBQ==
       }
     engines: { node: ">= 0.10" }
-    dev: true
 
   /validator@13.9.0:
     resolution:
@@ -56891,7 +56881,6 @@ packages:
       validator: 13.11.0
     optionalDependencies:
       commander: 9.5.0
-    dev: true
 
   /zenscroll@4.0.2:
     resolution:

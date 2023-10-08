@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "id": "api-extractor",
+  "title": "StormStack - Nx-Monorepo TypeScript API Documentation Generator",
+  "description": "📰 Generate markdown documents based on the `TSDocs` comments provided in the project's files",
+  "example": [
+    {
+      "command": "nx g @stormstack/tools-nx-forecast:api-extractor --outputPath \"docs/website/docs/api\" --clean",
+      "description": "Generate the API extractor markdown documentation files in the `docs/website/docs/api` directory and delete any previously generated files in that directory."
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "configPath": {
+      "type": "string",
+      "description": "The path to the api-extractor.json file to use.",
+      "x-completion-type": "directory",
+      "x-priority": "important",
+      "default": "tools/api-extractor/api-extractor.json"
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "The output path of the generated markdown API documentation files.",
+      "x-completion-type": "directory"
+    },
+    "clean": {
+      "type": "boolean",
+      "description": "Delete previously generated markdown API documentation files in the output prior to writing the new markdown content.",
+      "default": false
+    }
+  },
+  "required": ["templatePath"]
+}

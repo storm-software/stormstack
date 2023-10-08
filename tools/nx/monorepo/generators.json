@@ -13,6 +13,12 @@
       "factory": "../../../dist/tools/nx/monorepo/src/generators/release/generator.cjs",
       "schema": "../../../dist/tools/nx/monorepo/src/generators/release/schema.json",
       "description": "🚀 Publish the repository's packages both locally and publicly."
+    },
+    "api-extractor": {
+      "aliases": ["tsdocs", "docgen"],
+      "factory": "../../../dist/tools/nx/monorepo/src/generators/api-extractor/generator.cjs",
+      "schema": "../../../dist/tools/nx/monorepo/src/generators/api-extractor/schema.json",
+      "description": "📰 Generate markdown documents based on the `TSDocs` comments provided in the project's files"
     }
   }
 }
