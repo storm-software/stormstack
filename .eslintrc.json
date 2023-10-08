@@ -62,6 +62,10 @@
                 "onlyDependOnLibsWithTags": ["scope:core"]
               },
               {
+                "sourceTag": "scope:adapters",
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:adapters"]
+              },
+              {
                 "sourceTag": "scope:tools",
                 "onlyDependOnLibsWithTags": ["scope:core", "scope:tools"]
               },

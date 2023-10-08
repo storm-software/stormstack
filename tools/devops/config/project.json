@@ -14,7 +14,6 @@
         "main": "tools/devops/config/src/nx-release/index.ts",
         "additionalEntryPoints": [
           "tools/devops/config/src/release-it/index.ts",
-          "tools/devops/config/src/relay/index.ts",
           "tools/devops/config/src/eslint/graphql/index.ts",
           "tools/devops/config/src/eslint/javascript/index.ts",
           "tools/devops/config/src/eslint/json/index.ts",

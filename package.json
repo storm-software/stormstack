@@ -46,7 +46,6 @@
     "build:all": "nx run-many -t build --all --parallel=5",
     "prebuild:design-token": "pnpm nx run design-system-tokens:style-dictionary",
     "build:design-token": "pnpm nx run design-system-tokens:build:impact",
-    "build:relay": "relay-compiler ./dist/tools/devops/config/relay",
     "build:storybook": "storybook build -s public",
     "prebuild:tools": "pnpm nx run tools-devops-config:build",
     "build:tools": "pnpm build:design-token && pnpm nx run tools-nx-monorepo:build && pnpm nx run tools-nx-event-catalog:build",
@@ -78,6 +77,10 @@
     "prepare": "pnpm prepare:husky && npx patch-package -y",
     "prepare:husky": "is-ci || husky install",
     "preview:decisions": "pnpm log4brains preview",
+    "relay:compile": "relay-compiler ./dist/libs/adapters/typescript/client/relay/relay.config.js && pnpm relay:push-queries",
+    "relay:persist-queries": "node ./dist/libs/adapters/typescript/client/relay/relayLocalPersisting.js",
+    "relay:push-queries": "node ./dist/libs/adapters/typescript/client/relay/pushQueries.js",
+    "relay:watch": "pnpm relay:compile --watch",
     "repo-check": "pnpm repo-check:manypkg && pnpm repo-check:circular-deps",
     "repo-check:circular-deps": "pnpm exec dpdm ",
     "repo-check:manypkg": "pnpm exec manypkg check",
@@ -85,8 +88,7 @@
     "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
     "test": "nx test",
     "test:storybook": "cross-env FORCE_COLOR=1 test-storybook",
-    "typecheck": "pnpm run -r typecheck",
-    "watch:relay": "pnpm build:relay --watch"
+    "typecheck": "pnpm run -r typecheck"
   },
   "husky": {
     "hooks": {
@@ -379,6 +381,8 @@
       "@stormstack/core-client-env": "workspace:*",
       "@stormstack/core-client-pdf": "workspace:*",
       "@stormstack/core-client-api": "workspace:*",
+      "@stormstack/adapters-client-graphql": "workspace:*",
+      "@stormstack/adapters-client-relay": "workspace:*",
       "@stormstack/core-server-utilities": "workspace:*"
     }
   }

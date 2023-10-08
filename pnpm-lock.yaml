@@ -652,7 +652,7 @@ importers:
         version: 5.2.0-beta
       url-loader:
         specifier: ^4.1.1
-        version: 4.1.1(webpack@5.88.2)
+        version: 4.1.1(file-loader@6.2.0)(webpack@5.88.2)
       verdaccio:
         specifier: ^5.0.4
         version: 5.26.3(typanion@3.14.0)
@@ -771,9 +771,16 @@ importers:
 
   libs/adapters/typescript/client/relay:
     dependencies:
+      react-relay:
+        specifier: 0.0.0-main-72f38f5b
+        version: 0.0.0-main-72f38f5b(react@18.2.0)
       relay-runtime:
-        specifier: ^15.0.0
-        version: 15.0.0
+        specifier: 0.0.0-main-72f38f5b
+        version: 0.0.0-main-72f38f5b
+    devDependencies:
+      relay-compiler:
+        specifier: 0.0.0-main-72f38f5b
+        version: 0.0.0-main-72f38f5b
 
   libs/adapters/typescript/shared/graphql: {}
 
@@ -1128,6 +1135,10 @@ importers:
       stacktracey:
         specifier: ^2.1.8
         version: 2.1.8
+    devDependencies:
+      eslint-plugin-relay:
+        specifier: ^1.8.3
+        version: 1.8.3
 
   tools/executors/docs:
     dependencies:
@@ -12802,7 +12813,7 @@ packages:
     dependencies:
       "@nrwl/devkit": 15.9.7(nx@15.9.7)
       "@parcel/watcher": 2.0.4
-      chalk: 4.1.2
+      chalk: 4.1.0
       chokidar: 3.5.3
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -13209,7 +13220,7 @@ packages:
       next: 13.5.4(@babel/core@7.22.10)(@opentelemetry/api@1.6.0)(react-dom@18.2.0)(react@18.2.0)
       semver: 7.5.3
       tslib: 2.6.2
-      url-loader: 4.1.1(webpack@5.88.2)
+      url-loader: 4.1.1(file-loader@6.2.0)(webpack@5.88.2)
       webpack-merge: 5.9.0
     transitivePeerDependencies:
       - "@babel/core"
@@ -28930,20 +28941,6 @@ packages:
     dependencies:
       ms: 2.0.0
 
-  /debug@3.1.0:
-    resolution:
-      {
-        integrity: sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
-      }
-    peerDependencies:
-      supports-color: "*"
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.0.0
-    dev: true
-
   /debug@3.1.0(supports-color@5.4.0):
     resolution:
       {
@@ -28957,7 +28954,6 @@ packages:
     dependencies:
       ms: 2.0.0
       supports-color: 5.4.0
-    dev: false
 
   /debug@3.2.7(supports-color@8.1.1):
     resolution:
@@ -30280,7 +30276,7 @@ packages:
     dependencies:
       component-emitter: 1.3.0
       component-inherit: 0.0.3
-      debug: 3.1.0
+      debug: 3.1.0(supports-color@5.4.0)
       engine.io-parser: 2.2.1
       has-cors: 1.1.0
       indexof: 0.0.1
@@ -31244,6 +31240,15 @@ packages:
       resolve: 2.0.0-next.4
       semver: 6.3.1
       string.prototype.matchall: 4.0.10
+    dev: true
+
+  /eslint-plugin-relay@1.8.3:
+    resolution:
+      {
+        integrity: sha512-awyrwntUTZ7Z+lJUnniTCnJdZYr1dY2djQDARMx1P1y2BFMsBjtTljBK0lBEM7yiTHPBwVnE2OSnXxcD4yMb0A==
+      }
+    dependencies:
+      graphql: 16.8.1
     dev: true
 
   /eslint-plugin-storybook@0.6.14(eslint@8.46.0)(typescript@5.2.0-beta):
@@ -43071,7 +43076,7 @@ packages:
       "@yarnpkg/parsers": 3.0.0-rc.46
       "@zkochan/js-yaml": 0.0.6
       axios: 1.5.1
-      chalk: 4.1.2
+      chalk: 4.1.0
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
       cliui: 7.0.4
@@ -47559,6 +47564,24 @@ packages:
     engines: { node: ">=0.10.0" }
     dev: true
 
+  /react-relay@0.0.0-main-72f38f5b(react@18.2.0):
+    resolution:
+      {
+        integrity: sha512-MEw83ikgqTgcRMST19RII9M+klGwLuU4pYIXvFpmDtKRJX8mD0ndUhcCwUlQBLRHEgu0sqsvIjRf/WvDNZnizQ==
+      }
+    peerDependencies:
+      react: ^16.9.0 || ^17 || ^18
+    dependencies:
+      "@babel/runtime": 7.23.1
+      fbjs: 3.0.5
+      invariant: 2.2.4
+      nullthrows: 1.1.1
+      react: 18.2.0
+      relay-runtime: 0.0.0-main-72f38f5b
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /react-relay@15.0.0(react@18.2.0):
     resolution:
       {
@@ -48391,6 +48414,14 @@ packages:
       }
     engines: { node: ">= 0.10" }
 
+  /relay-compiler@0.0.0-main-72f38f5b:
+    resolution:
+      {
+        integrity: sha512-VsQSEdJvBjBJGprdpDWeqUd+Z3QyGrlXoUfKBsS1YK30+HdCcKOZLr9qqVioovoP800Ox4BeyPA5eLoLW6R6eQ==
+      }
+    hasBin: true
+    dev: true
+
   /relay-compiler@15.0.0:
     resolution:
       {
@@ -48398,6 +48429,19 @@ packages:
       }
     hasBin: true
     dev: true
+
+  /relay-runtime@0.0.0-main-72f38f5b:
+    resolution:
+      {
+        integrity: sha512-hkfA53/z/29adTsf0yPaE4E6K53J8wV5XOKzzuVktpLDW3xq5fAFbL6GP/JVlG9QpSxECz6e15SYc+5gsN7M2A==
+      }
+    dependencies:
+      "@babel/runtime": 7.23.1
+      fbjs: 3.0.5
+      invariant: 2.2.4
+    transitivePeerDependencies:
+      - encoding
+    dev: false
 
   /relay-runtime@12.0.0:
     resolution:
@@ -50514,7 +50558,7 @@ packages:
       backo2: 1.0.2
       component-bind: 1.0.0
       component-emitter: 1.3.0
-      debug: 3.1.0
+      debug: 3.1.0(supports-color@5.4.0)
       engine.io-client: 3.5.3(bufferutil@4.0.7)(utf-8-validate@5.0.10)
       has-binary2: 1.0.3
       indexof: 0.0.1
@@ -50535,7 +50579,7 @@ packages:
       }
     dependencies:
       component-emitter: 1.3.0
-      debug: 3.1.0
+      debug: 3.1.0(supports-color@5.4.0)
       isarray: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -51937,7 +51981,6 @@ packages:
     engines: { node: ">=4" }
     dependencies:
       has-flag: 3.0.0
-    dev: false
 
   /supports-color@5.5.0:
     resolution:
@@ -54533,26 +54576,6 @@ packages:
       mime-types: 2.1.35
       schema-utils: 3.3.0
       webpack: 5.88.2(@swc/core@1.3.90)(esbuild@0.19.2)
-    dev: false
-
-  /url-loader@4.1.1(webpack@5.88.2):
-    resolution:
-      {
-        integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==
-      }
-    engines: { node: ">= 10.13.0" }
-    peerDependencies:
-      file-loader: "*"
-      webpack: ^4.0.0 || ^5.0.0
-    peerDependenciesMeta:
-      file-loader:
-        optional: true
-    dependencies:
-      loader-utils: 2.0.4
-      mime-types: 2.1.35
-      schema-utils: 3.3.0
-      webpack: 5.88.2(@swc/core@1.3.90)(esbuild@0.19.2)
-    dev: true
 
   /url-parse-lax@3.0.0:
     resolution:

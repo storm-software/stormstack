@@ -1,0 +1,11 @@
+{
+  "name": "adapters-client-graphql",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/adapters/typescript/client/graphql/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {},
+    "test": {}
+  }
+}

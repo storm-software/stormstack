@@ -1,0 +1,31 @@
+{
+  "root": ".",
+  "sources": {
+    "src": "storm_cloud",
+    "app": "storm_cloud"
+  },
+  "projects": {
+    "storm_cloud": {
+      "language": "typescript",
+      "schema": "./.storm/graphql/schema.graphql",
+      "artifactDirectory": "./.storm/graphql/relay/__generated__/",
+      "useImportTypeSyntax": true,
+      "featureFlags": {
+        "relay_resolver_model_syntax_enabled": true,
+        "use_named_imports_for_relay_resolvers": true,
+        "enable_relay_resolver_transform": true,
+        "relay_resolver_enable_terse_syntax": true
+      },
+      "exclude": [
+        "**/node_modules/**",
+        "**/__mocks__/**",
+        "**/__generated__/**"
+      ],
+      "persistConfig": {
+        "file": "./.storm/graphql/relay/persisted_queries.json",
+        "algorithm": "MD5"
+      },
+      "eagerEsModules": true
+    }
+  }
+}

@@ -74,6 +74,14 @@ export class ClientBaseEnvManager<
     return this.get("LOGOUT_URL");
   }
 
+  public get responseCacheMaxSize(): number {
+    return parseInteger(this.getWithDefault("RESPONSE_CACHE_MAX_SIZE", 1000));
+  }
+
+  public get responseCacheTtlMs(): number {
+    return parseInteger(this.getWithDefault("RESPONSE_CACHE_TTL_MS", 5000));
+  }
+
   protected override innerGet = <T = any>(name: string): T | undefined => {
     const value = this.proxy[name] as T | undefined;
     if (isPromise(value)) {

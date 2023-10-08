@@ -11,5 +11,8 @@
     "prettier-plugin-tailwindcss": "^0.3.0",
     "shell-quote": "^1.8.1",
     "stacktracey": "^2.1.8"
+  },
+  "devDependencies": {
+    "eslint-plugin-relay": "^1.8.3"
   }
 }
