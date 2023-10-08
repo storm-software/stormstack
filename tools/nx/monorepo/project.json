@@ -14,6 +14,7 @@
         "main": "tools/nx/monorepo/index.ts",
         "additionalEntryPoints": [
           "tools/nx/monorepo/src/executors/format-readme/impl.ts",
+          "tools/nx/monorepo/src/executors/document-tokens/impl.ts",
           "tools/nx/monorepo/src/generators/format-readme/generator.ts",
           "tools/nx/monorepo/src/generators/release/generator.ts",
           "tools/nx/monorepo/src/generators/api-extractor/generator.ts"

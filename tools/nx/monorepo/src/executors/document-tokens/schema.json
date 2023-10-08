@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "id": "design-tokens-docgen",
-  "title": "Open System - Design Tokens Document Generator",
-  "description": "Create documentation for the design tokens",
+  "id": "document-tokens",
+  "title": "StormStack - Nx-Monorepo Design Tokens Documenter",
+  "description": "📱 Create documentation for the monorepo's design tokens",
   "type": "object",
   "properties": {
     "tokensPath": {

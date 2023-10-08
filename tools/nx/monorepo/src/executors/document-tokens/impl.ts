@@ -9,17 +9,14 @@ import {
 } from "fs";
 import Path from "path";
 import prettier from "prettier";
-import { DesignTokensDocGenExecutorSchema } from "./schema";
+import { DocumentTokensExecutorSchema } from "./schema";
 
 export default async function (
-  options: DesignTokensDocGenExecutorSchema,
+  options: DocumentTokensExecutorSchema,
   context: ExecutorContext
 ) {
   try {
-    ConsoleLogger.info("Executing design-tokens-docgen executor...");
-    ConsoleLogger.info(`Options: ${JSON.stringify(options, null, 2)}`);
-    ConsoleLogger.info(`Current Directory: ${__dirname}`);
-
+    ConsoleLogger.info("Creating 📱 Design Token Documentation...");
     const tokensPath = Path.join(context.root, options.tokensPath);
     const outputPath = Path.join(context.root, options.outputPath);
 
@@ -191,7 +188,9 @@ ${miscTokens.join("\n")}`
       }
     });
 
-    ConsoleLogger.success("Design tokens documentation successfully created.");
+    ConsoleLogger.success(
+      "📱 Design tokens documentation successfully created."
+    );
 
     return { success: true };
   } catch (e) {

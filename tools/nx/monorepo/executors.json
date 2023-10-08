@@ -5,6 +5,11 @@
       "implementation": "../../../dist/tools/nx/monorepo/src/executors/format-readme/impl.cjs",
       "schema": "../../../dist/tools/nx/monorepo/src/executors/format-readme/schema.json",
       "description": "📓 Format the ReadMe files in the workspace using template files from a provided directory."
+    },
+    "document-tokens": {
+      "implementation": "../../../dist/tools/nx/monorepo/src/executors/document-tokens/impl.cjs",
+      "schema": "../../../dist/tools/nx/monorepo/src/executors/document-tokens/schema.json",
+      "description": "📱 Create documentation for the monorepo's design tokens."
     }
   }
 }
