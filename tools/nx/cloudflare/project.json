@@ -64,26 +64,7 @@
         ]
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "tools/nx/cloudflare/**/*.ts",
-          "tools/nx/cloudflare/executors.json",
-          "tools/nx/cloudflare/package.json"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
-    },
-    "readme-format": {
-      "executor": "@stormstack/tools-executors-docs:readme-format",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "outputPath": "tools/nx/cloudflare",
-        "inputFile": "tools/nx/cloudflare/README.md",
-        "templatePath": "libs/core/config/src/readme-templates"
-      }
-    },
+    "lint": {},
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {

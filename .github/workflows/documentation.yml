@@ -60,8 +60,8 @@ jobs:
       - name: Prepare for build
         run: pnpm build:tools-ci
 
-      - name: Build documents executor
-        run: pnpm nx run tools-executors-docs:build
+      - name: Generate TSDocs Markdown with API Extractor
+        run: pnpm docs:api-extractor
 
       - name: Build website
         run: pnpm nx run docs-website:build

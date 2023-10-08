@@ -257,40 +257,8 @@
         "cwd": "dist/tools/forecast/extension"
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "tools/storm/language/**/*.ts",
-          "tools/storm/language/generators.json",
-          "tools/storm/language/package.json"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "tools/storm/language/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
-    },
-    "readme-format": {
-      "executor": "@stormstack/tools-executors-docs:readme-format",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "outputPath": "tools/forecast/language",
-        "inputFile": "tools/forecast/language/README.md",
-        "templatePath": "libs/core/config/src/readme-templates"
-      }
-    },
+    "lint": {},
+    "test": {},
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {

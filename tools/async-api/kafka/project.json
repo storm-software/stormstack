@@ -52,34 +52,8 @@
         ]
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "tools/async-api/kafka/**/*.ts",
-          "tools/async-api/kafka/generators.json",
-          "tools/async-api/kafka/package.json"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "tools/async-api/kafka/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
-    "readme-format": {
-      "executor": "@stormstack/tools-executors-docs:readme-format",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "outputPath": "tools/async-api/kafka",
-        "inputFile": "tools/async-api/kafka/README.md",
-        "templatePath": "libs/core/config/src/readme-templates"
-      }
-    },
+    "lint": {},
+    "test": {},
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {

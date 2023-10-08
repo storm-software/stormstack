@@ -1,28 +1,28 @@
-# [1.12.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.11.0...tools-executors-docs-v1.12.0) (2023-04-24)
+# [1.12.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.11.0...tools-nx-monorepo-v1.12.0) (2023-04-24)
 
 ### Features
 
 - **web-shell:** Major changes for GraphQL implementation ([834802e](https://github.com/stormstack/stormstack/commit/834802eda1c76ae3d236b92a2616c0c6ab061bab))
 
-# [1.11.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.10.0...tools-executors-docs-v1.11.0) (2023-04-18)
+# [1.11.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.10.0...tools-nx-monorepo-v1.11.0) (2023-04-18)
 
 ### Features
 
 - **reaction-dotnet:** Added avro schema validation through kafka ([678fbc9](https://github.com/stormstack/stormstack/commit/678fbc97424f1716826323a9832a82610cdafcfc))
 
-# [1.10.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.9.1...tools-executors-docs-v1.10.0) (2023-04-17)
+# [1.10.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.9.1...tools-nx-monorepo-v1.10.0) (2023-04-17)
 
 ### Features
 
 - **akka-dotnet-core:** Load akka generated events to a kafka topic ([9f81871](https://github.com/stormstack/stormstack/commit/9f818714bb2b5ccb250a58aa746206cc6b4de393))
 
-## [1.9.1](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.9.0...tools-executors-docs-v1.9.1) (2023-04-12)
+## [1.9.1](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.9.0...tools-nx-monorepo-v1.9.1) (2023-04-12)
 
 ### Bug Fixes
 
 - upgrade react-hook-form from 7.43.6 to 7.43.7 ([#124](https://github.com/stormstack/stormstack/issues/124)) ([b47d554](https://github.com/stormstack/stormstack/commit/b47d554517c9d1d61540732a3b29614fc63240e5))
 
-# [1.9.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.8.1...tools-executors-docs-v1.9.0) (2023-04-11)
+# [1.9.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.8.1...tools-nx-monorepo-v1.9.0) (2023-04-11)
 
 ### Bug Fixes
 
@@ -35,56 +35,56 @@
 
 - **core-dotnet-infrastructure:** Re-organization of .net core libraries ([8fca64d](https://github.com/stormstack/stormstack/commit/8fca64d764e36c5baac9dd7fd7a0e2287cc26a37))
 
-## [1.8.1](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.8.0...tools-executors-docs-v1.8.1) (2023-04-03)
+## [1.8.1](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.8.0...tools-nx-monorepo-v1.8.1) (2023-04-03)
 
 ### Bug Fixes
 
 - upgrade @next/font from 13.0.5 to 13.1.2 ([098ad5b](https://github.com/stormstack/stormstack/commit/098ad5bfe8875626943db9c66614c4eb245fe064))
 - upgrade react-router-dom from 6.5.0 to 6.7.0 ([3791f0b](https://github.com/stormstack/stormstack/commit/3791f0bf834f072078cab8bada24d35565d62982))
 
-# [1.8.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.7.0...tools-executors-docs-v1.8.0) (2023-03-13)
+# [1.8.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.7.0...tools-nx-monorepo-v1.8.0) (2023-03-13)
 
 ### Features
 
 - **reaction-ui-data-access:** Updated the reaction request handler code ([aa449d9](https://github.com/stormstack/stormstack/commit/aa449d94ce5f2e16992cfa453a92e20087f52cf2))
 
-# [1.7.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.6.2...tools-executors-docs-v1.7.0) (2023-03-13)
+# [1.7.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.6.2...tools-nx-monorepo-v1.7.0) (2023-03-13)
 
 ### Features
 
 - **reaction-server-infrastructure:** Added code to generate migration scripts ([182208f](https://github.com/stormstack/stormstack/commit/182208f42fdbd8f23ee747243519e232c8b07554))
 
-## [1.6.2](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.6.1...tools-executors-docs-v1.6.2) (2023-03-06)
+## [1.6.2](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.6.1...tools-nx-monorepo-v1.6.2) (2023-03-06)
 
 ### Bug Fixes
 
 - **web-shell:** Resolved issue with nextjs Dockerfile ([daabe80](https://github.com/stormstack/stormstack/commit/daabe80fd0fdb0f5ff876daea40c4976ed43081e))
 
-## [1.6.1](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.6.0...tools-executors-docs-v1.6.1) (2023-02-24)
+## [1.6.1](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.6.0...tools-nx-monorepo-v1.6.1) (2023-02-24)
 
 ### Bug Fixes
 
 - **reaction-server-infrastructure:** Added implementation for server reaction logic ([b27fe67](https://github.com/stormstack/stormstack/commit/b27fe67d5ecd0fa0808d14db5116702c0015d128))
 
-# [1.6.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.5.1...tools-executors-docs-v1.6.0) (2023-02-21)
+# [1.6.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.5.1...tools-nx-monorepo-v1.6.0) (2023-02-21)
 
 ### Features
 
 - **apis-reaction:** Added initial server-side Reaction implementation ([3f95da5](https://github.com/stormstack/stormstack/commit/3f95da5dc2dc46e53af7e1be5c9df1602c36e5ae))
 
-## [1.5.1](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.5.0...tools-executors-docs-v1.5.1) (2023-02-20)
+## [1.5.1](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.5.0...tools-nx-monorepo-v1.5.1) (2023-02-20)
 
 ### Bug Fixes
 
 - **apis-contact:** Minor changes to CORS settings ([a4fecf0](https://github.com/stormstack/stormstack/commit/a4fecf0dbe3f210132009f2b20fa7ed3d2c92608))
 
-# [1.5.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.4.0...tools-executors-docs-v1.5.0) (2023-02-20)
+# [1.5.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.4.0...tools-nx-monorepo-v1.5.0) (2023-02-20)
 
 ### Features
 
 - **contact-ui-data-access:** Added contact API redux slice ([68cb95c](https://github.com/stormstack/stormstack/commit/68cb95c8fb2fae873e62c03c95e77a7983b7386d))
 
-# [1.4.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.3.0...tools-executors-docs-v1.4.0) (2023-02-19)
+# [1.4.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.3.0...tools-nx-monorepo-v1.4.0) (2023-02-19)
 
 ### Bug Fixes
 
@@ -98,13 +98,13 @@
 - **shared-ui-feature-form:** Initial code for the shared form ui library ([dca3bca](https://github.com/stormstack/stormstack/commit/dca3bca186817ca6165c287b3ef9137e12fe2623))
 - **tools-executors-typescript:** Added the redux open-api code generator ([42d487c](https://github.com/stormstack/stormstack/commit/42d487c45d6405f04bd96dd7be3c179e296ee8fc))
 
-# [1.3.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.2.0...tools-executors-docs-v1.3.0) (2023-02-03)
+# [1.3.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.2.0...tools-nx-monorepo-v1.3.0) (2023-02-03)
 
 ### Features
 
 - **portfolio-ui-feature-resume:** Added code to dynamically generate Resume PDF ([6fa4d83](https://github.com/stormstack/stormstack/commit/6fa4d8388d890045b734fb1594250e546278b831))
 
-# [1.2.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.1.0...tools-executors-docs-v1.2.0) (2023-02-01)
+# [1.2.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.1.0...tools-nx-monorepo-v1.2.0) (2023-02-01)
 
 ### Bug Fixes
 
@@ -136,7 +136,7 @@
 - **web-shell:** Added introduction section to the landing page ([8edf186](https://github.com/stormstack/stormstack/commit/8edf186783703d0729362a00c3d7787ae633f2a0))
 - **web-shell:** Enhanements to web application ([0ba6cde](https://github.com/stormstack/stormstack/commit/0ba6cded9f7f5aea8fb205c3fdbd9a9d9daba9b4))
 
-# [1.2.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.1.0...tools-executors-docs-v1.2.0) (2023-02-01)
+# [1.2.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.1.0...tools-nx-monorepo-v1.2.0) (2023-02-01)
 
 ### Bug Fixes
 
@@ -167,7 +167,7 @@
 - **web-shell:** Added introduction section to the landing page ([8edf186](https://github.com/stormstack/stormstack/commit/8edf186783703d0729362a00c3d7787ae633f2a0))
 - **web-shell:** Enhanements to web application ([0ba6cde](https://github.com/stormstack/stormstack/commit/0ba6cded9f7f5aea8fb205c3fdbd9a9d9daba9b4))
 
-# [1.1.0](https://github.com/stormstack/stormstack/compare/tools-executors-docs-v1.0.0...tools-executors-docs-v1.1.0) (2022-11-18)
+# [1.1.0](https://github.com/stormstack/stormstack/compare/tools-nx-monorepo-v1.0.0...tools-nx-monorepo-v1.1.0) (2022-11-18)
 
 ### Features
 
@@ -183,7 +183,7 @@
 - **core:** Updates to test config ([5b3dc4e](https://github.com/stormstack/stormstack/commit/5b3dc4efd4f6decc65323f1d471b6231923c0048))
 - **repo:** Build tools before token project ([89c9556](https://github.com/stormstack/stormstack/commit/89c95563138fbdc3ea520e6c23530bb16210b695))
 - **repo:** Configure tokens as implicitDependency ([fc9e6c2](https://github.com/stormstack/stormstack/commit/fc9e6c20c387f5eaef0a3bb88b615aa6b8a92886))
-- **tools-executors-docs:** Update build config ([74372a1](https://github.com/stormstack/stormstack/commit/74372a12f616da034e2b335cd31b9b8aff8eee38))
+- **tools-nx-monorepo:** Update build config ([74372a1](https://github.com/stormstack/stormstack/commit/74372a12f616da034e2b335cd31b9b8aff8eee38))
 
 ### Features
 

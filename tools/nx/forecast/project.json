@@ -68,26 +68,7 @@
         ]
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "tools/nx/forecast/**/*.ts",
-          "tools/nx/forecast/executors.json",
-          "tools/nx/forecast/package.json"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
-    },
-    "readme-format": {
-      "executor": "@stormstack/tools-executors-docs:readme-format",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "outputPath": "tools/nx/forecast",
-        "inputFile": "tools/nx/forecast/README.md",
-        "templatePath": "libs/core/config/src/readme-templates"
-      }
-    },
+    "lint": {},
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
@@ -99,10 +80,5 @@
     }
   },
   "tags": ["scope:tools", "platform:admin"],
-  "implicitDependencies": [
-    "core-shared-utilities",
-    "core-shared-logging",
-    "core-server-utilities",
-    "tools-forecast-codegen"
-  ]
+  "implicitDependencies": ["tools-forecast-codegen"]
 }

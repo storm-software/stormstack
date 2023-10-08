@@ -5,14 +5,14 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@stormstack/tools-executors-docs:event-catalog-build",
+      "executor": "@stormstack/tools-nx-event-catalog:build",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/docs/event-catalog"
       }
     },
     "serve": {
-      "executor": "@stormstack/tools-executors-docs:event-catalog-serve",
+      "executor": "@stormstack/tools-nx-event-catalog:serve",
       "outputs": ["{options.outputPath}"],
       "options": {
         "port": 5000
@@ -29,5 +29,5 @@
     }
   },
   "tags": ["scope:docs", "platform:admin"],
-  "implicitDependencies": ["tools-executors-docs"]
+  "implicitDependencies": ["tools-nx-event-catalog"]
 }

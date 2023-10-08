@@ -274,10 +274,6 @@
         "dist/tools/async-api/kafka/index.ts"
       ],
       "@stormstack/tools-devops-config/*": ["tools/devops/config/src/*"],
-      "@stormstack/tools-executors-docs": ["tools/executors/docs/index.ts"],
-      "@stormstack/tools-executors-typescript": [
-        "tools/executors/typescript/index.ts"
-      ],
       "@stormstack/tools-forecast-codegen": [
         "tools/forecast/codegen/src/index.ts"
       ],
@@ -307,9 +303,6 @@
         "tools/forecast/runtime/src/index.ts"
       ],
       "@stormstack/tools-forecast-runtime/*": ["tools/forecast/runtime/src/*"],
-      "@stormstack/tools-generators-typescript": [
-        "tools/generators/typescript/index.ts"
-      ],
       "@stormstack/tools-nx-cloudflare": ["tools/nx/cloudflare/index.ts"],
       "@stormstack/tools-nx-event-catalog": ["tools/nx/event-catalog/index.ts"],
       "@stormstack/tools-nx-forecast": ["tools/nx/forecast/index.ts"],
