@@ -6,7 +6,7 @@
 <div align="center"><img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/open-system.logo-green.svg" width="100%" title="Open System" altText="Open System" /></div>
 
 <div align="center">
-<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://github.com/stormstack/stormstack" target="_blank">Repository</a>  |  <a href="https://stormstack.github.io/stormstack/" target="_blank">Documentation</a>  |  <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a> | <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=enhancement&template=feature-request.yml&title=Feature Request%3A+">Request a Feature</a> | <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=documentation&template=documentation.yml&title=Documentation Request%3A+">Request Documentation</a> | <a href="https://github.com/stormstack/stormstack/discussions">Ask a Question</a>
+<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://stormcloud.dev/contact" target="_blank">Contact</a>  |  <a href="https://github.com/stormstack/stormstack" target="_blank">Repository</a>  |  <a href="https://stormstack.github.io/stormstack/" target="_blank">Documentation</a>  |  <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a> | <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=enhancement&template=feature-request.yml&title=Feature Request%3A+">Request a Feature</a> | <a href="https://github.com/stormstack/stormstack/issues/new?assignees=&labels=documentation&template=documentation.yml&title=Documentation Request%3A+">Request Documentation</a> | <a href="https://github.com/stormstack/stormstack/discussions">Ask a Question</a>
 </div>
 
 <br />
@@ -81,13 +81,13 @@ See the [open issues](https://github.com/stormstack/stormstack/issues) for a lis
 
 Reach out to the maintainer at one of the following places:
 
--   [Contact](https://www.patsullivan.org/contact)
+-   [Contact](https://stormcloud.dev/contact)
 -   [GitHub discussions](https://github.com/stormstack/stormstack/discussions)
--   <contact@patsullivan.org>
+-   <support@stormcloud.dev>
 
 ## License
 
-This project is licensed under the **BSD-2-Clause license**. Feel free to edit and distribute this template as you like.
+This project is licensed under the **Apache License 2.0**. Feel free to edit and distribute this template as you like.
 
 See [LICENSE](LICENSE) for more information.
 
@@ -144,7 +144,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
   <img src="https://pub-e71cff0f90204755bc910518d63cacf8.r2.dev/logo-opengraph.gif" width="100%"/>
 </div>
 <div align="center">
-<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://www.patsullivan.org/contact" target="_blank">Contact</a>  |  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  |  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  | <a href="https://github.com/sullivanpj" target="_blank">GitHub</a>  |  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>
+<a href="https://www.patsullivan.org" target="_blank">Website</a>  |  <a href="https://stormcloud.dev/contact" target="_blank">Contact</a>  |  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  |  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  | <a href="https://github.com/sullivanpj" target="_blank">GitHub</a>  |  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>
 </div>
 
 <div align="center">

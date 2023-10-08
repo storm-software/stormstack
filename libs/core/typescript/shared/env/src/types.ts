@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseError, MaybePromise } from "@stormstack/core-shared-utilities";
+import { MaybePromise, StormError } from "@stormstack/core-shared-utilities";
 
 export const ENV_TOKEN = Symbol.for("ENV_TOKEN");
 
@@ -23,7 +23,7 @@ export interface BaseOptions {
    * @param variable The name of the environment variable that is missing.
    * @returns
    */
-  onValidationError?: (variable: string, error?: BaseError) => any;
+  onValidationError?: (variable: string, error?: StormError) => any;
 
   /**
    * Called when a server-side environment variable is accessed on the client.

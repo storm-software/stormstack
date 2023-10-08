@@ -62,7 +62,7 @@ export interface Request {
 
 export interface Context {
   id: number;
-  container: Injector;
+  container: InversifyInjector;
   plan: any;
   currentRequest: Request;
   addPlan(plan: any): void;
@@ -312,8 +312,8 @@ export type ContainerModuleCallBack = (
   isBound: IsBound,
   rebind: Rebind,
   unbindAsync: UnbindAsync,
-  onActivation: Injector["onActivation"],
-  onDeactivation: Injector["onDeactivation"]
+  onActivation: InversifyInjector["onActivation"],
+  onDeactivation: InversifyInjector["onDeactivation"]
 ) => void;
 
 export type AsyncContainerModuleCallBack =
@@ -339,9 +339,9 @@ export interface InjectorOptions {
   skipBaseClassChecks?: boolean;
 }
 
-export interface Injector {
+export interface InversifyInjector {
   id: number;
-  parent: Injector | null;
+  parent: InversifyInjector | null;
   options: InjectorOptions;
   bind<T>(serviceIdentifier: ServiceIdentifier<T>): BindingToSyntax<T>;
   rebind<T>(serviceIdentifier: ServiceIdentifier<T>): BindingToSyntax<T>;
@@ -420,7 +420,20 @@ export interface Injector {
   applyMiddleware(...middleware: Middleware[]): void;
   snapshot(): void;
   restore(): void;
-  createChild(): Injector;
+  createChild(): InversifyInjector;
+}
+
+export interface InjectorProxy {
+  bindService<T = any>(
+    serviceIdentifier: ServiceIdentifier<T>,
+    constant: T
+  ): void;
+  bindConstant<T>(serviceIdentifier: ServiceIdentifier<T>, constant: T): void;
+  unbind(serviceIdentifier: ServiceIdentifier): void;
+  unbindAsync(serviceIdentifier: ServiceIdentifier): Promise<void>;
+  isBound(serviceIdentifier: ServiceIdentifier): boolean;
+  get<T>(serviceIdentifier: ServiceIdentifier<T>): T;
+  getAsync<T>(serviceIdentifier: ServiceIdentifier<T>): Promise<T>;
 }
 
 /* export interface Binding<TActivated> extends Clonable<Binding<TActivated>> {

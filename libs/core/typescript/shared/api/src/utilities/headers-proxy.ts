@@ -1,16 +1,16 @@
 import { isSymbol } from "@stormstack/core-shared-utilities";
-import { HeaderProxy, HeaderTypes } from "../types";
+import { HeadersProxy, HeaderTypes } from "../types";
 import { HeadersMap } from "./headers-map";
 
 export const createApiHeadersProxy = (
   param: Headers | HeadersMap = new Headers()
-): HeaderProxy => {
+): HeadersProxy => {
   const headersMap = HeadersMap.isHeadersMap(param)
     ? param
     : HeadersMap.normalize(param);
 
-  return new Proxy<HeaderProxy>(headersMap as any, {
-    get: async (_: HeaderProxy, prop: string | symbol) => {
+  return new Proxy<HeadersProxy>(headersMap as any, {
+    get: async (_: HeadersProxy, prop: string | symbol) => {
       switch (prop) {
         case "has":
           return (key: string) => headersMap.has(key.toLowerCase());
@@ -21,7 +21,7 @@ export const createApiHeadersProxy = (
             return headersMap.set(key.toLowerCase(), value);
           };
         case "merge":
-          return (params?: HeaderProxy | HeadersMap | Headers) => {
+          return (params?: HeadersProxy | HeadersMap | Headers) => {
             if (params) {
               if (HeadersMap.isHeadersMap(params)) {
                 params.headers.forEach((value, key) => {
@@ -74,7 +74,7 @@ export const createApiHeadersProxy = (
           }
       }
     },
-    set: (_: HeaderProxy, prop: string, newValue: any, __: any): boolean => {
+    set: (_: HeadersProxy, prop: string, newValue: any, __: any): boolean => {
       switch (prop) {
         case "cookie":
           headersMap.set(prop, newValue);

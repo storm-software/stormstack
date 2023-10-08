@@ -134,7 +134,7 @@ const config = {
       announcementBar: {
         id: "alert",
         content:
-          '<b> The developer of this repository is looking for work! If interested, please reach out to <a target="_blank" rel="noopener noreferrer" href="mailto:contact@patsullivan.org">contact@patsullivan.org</a>.</b>',
+          '<b> The developer of this repository is looking for work! If interested, please reach out to <a target="_blank" rel="noopener noreferrer" href="mailto:support@stormcloud.dev">support@stormcloud.dev</a>.</b>',
         backgroundColor: "#371864",
         textColor: "#fff",
         isCloseable: true

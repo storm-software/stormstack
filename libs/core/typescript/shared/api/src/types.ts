@@ -206,13 +206,13 @@ export const HeaderTypes = {
   AUTHORIZATION: "authorization" as HeaderTypes
 };
 
-export type HeaderProxy<
+export type HeadersProxy<
   TKey extends keyof (HeaderTypes & any) = keyof (HeaderTypes & any)
 > = Record<AnyCase<TKey>, any> & {
   has: (key: string) => boolean;
   get: (key: string) => string;
   set: (key: string, value: string) => void;
-  merge: (params?: HeaderProxy<TKey> | HeadersMap | Headers) => void;
+  merge: (params?: HeadersProxy<TKey> | HeadersMap | Headers) => void;
   delete: (key: string) => void;
   cookie: string | undefined;
   keys: IterableIterator<string>;
@@ -221,7 +221,7 @@ export type HeaderProxy<
   forEach: (callbackfn: (value: string, key: string) => void) => void;
   append: (key: string, value: string) => void;
   getAll: (key: string) => string[];
-  clone: () => HeaderProxy<TKey>;
+  clone: () => HeadersProxy<TKey>;
   normalize: (headers: Headers) => HeadersMap;
   headers: Headers;
   [Symbol.iterator]: IterableIterator<[string, string]>;

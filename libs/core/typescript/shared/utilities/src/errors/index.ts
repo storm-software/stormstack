@@ -6,3 +6,4 @@ export * from "./error-fns";
 export * from "./field-error";
 export * from "./missing-context-error";
 export * from "./processing-error";
+export * from "./storm-error";

@@ -1,7 +1,7 @@
-import { BaseError } from "./base-error";
 import { BaseErrorCode } from "./error-codes";
+import { StormError } from "./storm-error";
 
-export class ConfigurationError extends BaseError {
+export class ConfigurationError extends StormError {
   public override name = "Configuration Error";
 
   public constructor(

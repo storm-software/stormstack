@@ -1,0 +1,19 @@
+{
+  "executors": {
+    "build": {
+      "implementation": "../../../dist/tools/nx/cloudflare/src/executors/build/impl.cjs",
+      "schema": "../../../dist/tools/nx/cloudflare/src/executors/build/schema.json",
+      "description": "☁️ Build a Cloudflare Worker package"
+    },
+    "serve": {
+      "implementation": "../../../dist/tools/nx/cloudflare/src/executors/serve/impl.cjs",
+      "schema": "../../../dist/tools/nx/cloudflare/src/executors/serve/schema.json",
+      "description": "☁️ Serve a Cloudflare Worker locally."
+    },
+    "deploy": {
+      "implementation": "../../../dist/tools/nx/cloudflare/src/executors/deploy/impl.cjs",
+      "schema": "../../../dist/tools/nx/cloudflare/src/executors/deploy/schema.json",
+      "description": "☁️ Deploy a Cloudflare Worker to the cloud environment."
+    }
+  }
+}

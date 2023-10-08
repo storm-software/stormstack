@@ -362,6 +362,7 @@
       "@stormstack/tools-forecast-language": "workspace:*",
       "@stormstack/tools-nx-forecast": "workspace:*",
       "@stormstack/tools-nx-monorepo": "workspace:*",
+      "@stormstack/tools-nx-cloudflare": "workspace:*",
       "@stormstack/core-shared-utilities": "workspace:*",
       "@stormstack/core-shared-logging": "workspace:*",
       "@stormstack/core-shared-env": "workspace:*",

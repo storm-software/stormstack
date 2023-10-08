@@ -1,89 +1,80 @@
 {
-  "name": "worker-<%= name %>",
+  "name": "workers-<%= name %>",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/workers/<%= name %>/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-build",
+      "executor": "@stormstack/tools-nx-cloudflare:build-worker",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "platform": "node",
         "outputPath": "dist/apps/workers/<%= name %>",
-        "format": ["cjs"],
-        "bundle": false,
         "main": "apps/workers/<%= name %>/src/index.ts",
         "tsConfig": "apps/workers/<%= name %>/tsconfig.json",
-        "assets": ["apps/workers/<%= name %>/src/assets"],
-        "generatePackageJson": true,
-        "esbuildOptions": {
-          "sourcemap": true,
-          "outExtension": {
-            ".js": ".js"
+        "assets": [
+          {
+            "input": "./apps/workers/<%= name %>",
+            "glob": "**/*.toml",
+            "output": "."
           }
-        }
-      },
-      "configurations": {
-        "development": {},
-        "production": {
-          "esbuildOptions": {
-            "sourcemap": false,
-            "outExtension": {
-              ".js": ".js"
-            }
-          }
-        }
-      }
-    },
-    "serve": {
-      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-serve",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "worker-<%= name %>:serve"
+        ],
+        "skipTypeCheck": true,
+        "polyfillNode": true,
+        "platform": "node"
       },
       "configurations": {
         "development": {
-          "buildTarget": "worker-<%= name %>:serve:development"
+          "minify": false,
+          "esbuildOptions": {
+            "sourcemap": true
+          }
         },
         "production": {
-          "buildTarget": "worker-<%= name %>:serve:production"
+          "minify": true,
+          "esbuildOptions": {
+            "sourcemap": false
+          }
         }
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "dev": {
+      "executor": "nx:run-commands",
       "options": {
-        "lintFilePatterns": ["apps/workers/<%= name %>/**/*.ts"]
+        "commands": ["NO_D1_WARNING=true wrangler dev --env dev"],
+        "cwd": "apps/workers/<%= name %>",
+        "parallel": false
       }
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+    "serve": {
+      "executor": "@stormstack/tools-nx-cloudflare:serve-worker",
+      "defaultConfiguration": "development",
       "options": {
-        "jestConfig": "apps/workers/<%= name %>/jest.config.ts",
-        "passWithNoTests": true
+        "buildTarget": "workers-<%= name %>:serve"
       },
       "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
+        "development": {
+          "buildTarget": "workers-<%= name %>:serve:development"
+        },
+        "production": {
+          "buildTarget": "workers-<%= name %>:serve:production"
         }
       }
     },
+    "lint": {},
+    "test": {},
     "deploy": {
-      "executor": "@stormstack/tools-executors-typescript:cloudflare-worker-deploy",
+      "executor": "@stormstack/tools-nx-cloudflare:deploy-worker",
       "defaultConfiguration": "production",
-      "name": "worker-<%= name %>",
+      "name": "workers-<%= name %>",
       "tsconfig": "apps/workers/<%= name %>/tsconfig.json",
       "minify": true,
       "no-bundle": false,
       "options": {
-        "buildTarget": "worker-<%= name %>:deploy"
+        "buildTarget": "workers-<%= name %>:deploy"
       },
       "production": {
-        "buildTarget": "worker-<%= name %>:deploy:production"
+        "buildTarget": "workers-<%= name %>:deploy:production"
       }
     },
     "semantic-release": {
@@ -92,7 +83,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "worker-<%= name %>-v${VERSION}"
+        "tagFormat": "workers-<%= name %>-v${VERSION}"
       }
     }
   },

@@ -62,7 +62,7 @@ module.exports = {
       .join(" ");
 
     return [
-      'pnpm nx generate @stormstack/tools-generators-typescript:repo-readme-format --templatePath="libs/core/config/src/readme-templates" --no-interactive',
+      'pnpm nx generate @stormstack/tools-nx-monorepo:format-readme --templatePath="libs/core/config/src/readme-templates" --no-interactive',
       `git add ${escapedFileNames}`
     ];
   }

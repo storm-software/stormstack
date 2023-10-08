@@ -5,7 +5,7 @@ import {
 } from "@stormstack/core-server-application/context/execution-context";
 import { GlobalContext } from "@stormstack/core-server-application/context/global-context";
 import { isDrizzleSqliteDB } from "@stormstack/core-server-drizzle/utilities";
-import { bindConstant } from "@stormstack/core-shared-injection/utilities/bind-service";
+import { Injector } from "@stormstack/core-shared-injection/injector";
 import { isSet } from "@stormstack/core-shared-utilities/common/type-checks";
 import { DrizzleD1Database, drizzle } from "drizzle-orm/d1";
 import {
@@ -36,10 +36,9 @@ export const extendCloudflareServerContext = <
     database
   };
 
-  bindConstant<CloudflareServerBindingsContext>(
+  Injector.bindConstant<CloudflareServerBindingsContext>(
     BINDINGS_TOKEN,
-    context.bindings,
-    context.injector
+    context.bindings
   );
 
   return context;

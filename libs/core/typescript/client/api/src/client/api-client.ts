@@ -15,11 +15,11 @@ import {
   QueryParamsParser
 } from "@stormstack/core-shared-serialization";
 import {
-  BaseError,
   BaseErrorCode,
   BaseUtilityClass,
   DateTime,
-  ProcessingError
+  ProcessingError,
+  StormError
 } from "@stormstack/core-shared-utilities";
 import { ApiMiddleware } from "../middleware";
 import { ApiMiddlewareStack } from "../middleware/api-middleware-stack";
@@ -148,7 +148,7 @@ export class ApiClient extends BaseUtilityClass {
   public async query<
     TOptions extends QueryRequestOptions,
     TData = any,
-    TError extends BaseError = BaseError
+    TError extends StormError = StormError
   >(options: TOptions): Promise<ApiClientResult<TData, TError>> {
     return await this.fetch({
       method: HttpMethods.GET,
@@ -167,7 +167,7 @@ export class ApiClient extends BaseUtilityClass {
   public async mutate<
     RequestOptions extends MutationRequestOptions,
     TData = any,
-    TError extends BaseError = BaseError
+    TError extends StormError = StormError
   >(options: RequestOptions): Promise<ApiClientResult<TData, TError>> {
     return await this.fetch({
       method: HttpMethods.POST,
@@ -194,7 +194,7 @@ export class ApiClient extends BaseUtilityClass {
   public subscribe<
     TRequestOptions extends SubscriptionRequestOptions,
     TData = any,
-    TError extends BaseError = BaseError
+    TError extends StormError = StormError
   >(options: TRequestOptions) {
     return new Repeater(async (push, end) => {
       return this.startEventSource<TData, TError>(options, push, end);
@@ -203,7 +203,7 @@ export class ApiClient extends BaseUtilityClass {
 
   protected async *startEventSource<
     TData = any,
-    TError extends BaseError = BaseError
+    TError extends StormError = StormError
   >(
     subscription: SubscriptionRequestOptions,
     push: (data: ApiClientResult<TData, TError>) => void,
@@ -225,7 +225,7 @@ export class ApiClient extends BaseUtilityClass {
 
     eventSource.addEventListener("error", () => {
       end(
-        new BaseError(
+        new StormError(
           ApiErrorCode.subscription_error,
           `An error occured while receiving Server Sent Events`
         ) as TError
@@ -262,7 +262,7 @@ export class ApiClient extends BaseUtilityClass {
     eventSource.close();
   }
 
-  public async fetch<TData = any, TError extends BaseError = BaseError>(
+  public async fetch<TData = any, TError extends StormError = StormError>(
     options: Partial<ApiClientRequest>
   ): Promise<ApiClientResult<TData, TError>> {
     let headers!: HeaderProxy;
@@ -436,7 +436,7 @@ export class ApiClient extends BaseUtilityClass {
         const message = decodeURIComponent(errorMessage || errorCode || "");
         window.history.replaceState({}, window.document.title, nextUrl);
 
-        throw new BaseError(code, message);
+        throw new StormError(code, message);
       }
     }
   }

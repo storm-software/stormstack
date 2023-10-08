@@ -4,7 +4,7 @@ import {
   relocatedError as relocatedErrorExt
 } from "@graphql-tools/utils";
 import { JsonParser } from "@stormstack/core-shared-serialization";
-import { BaseError, BaseErrorCode } from "@stormstack/core-shared-utilities";
+import { BaseErrorCode, StormError } from "@stormstack/core-shared-utilities";
 import {
   isError,
   isString
@@ -37,7 +37,7 @@ export const createGraphQLError = (
       ...options,
       ...error
     });
-  } else if (BaseError.isBaseError(error)) {
+  } else if (StormError.isBaseError(error)) {
     return createGraphQLErrorExt(error.toString(), {
       extensions: {
         name: error.name,
@@ -58,7 +58,7 @@ export const createGraphQLError = (
       originalError: error
     });
   } else {
-    error = new BaseError(
+    error = new StormError(
       BaseErrorCode.type_error,
       "Incorrect type provided when trying to create a GraphQLError"
     );

@@ -1,7 +1,7 @@
-import { BaseError } from "./base-error";
 import { BaseErrorCode } from "./error-codes";
+import { StormError } from "./storm-error";
 
-export class ProcessingError extends BaseError {
+export class ProcessingError extends StormError {
   public override name = "Processing Error";
 
   public constructor(message: string, extendedMessage?: string) {

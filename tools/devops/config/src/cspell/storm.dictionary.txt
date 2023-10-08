@@ -7,6 +7,9 @@ favicons
 hasura
 strapi
 npmjs
+noopener
+noreferrer
+tmpl
 maxage
 unpublish
 preid

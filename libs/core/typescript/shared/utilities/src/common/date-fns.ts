@@ -1,5 +1,5 @@
 import { Temporal } from "@js-temporal/polyfill";
-import { BaseError, BaseErrorCode } from "../errors";
+import { BaseErrorCode, StormError } from "../errors";
 import { DateTime } from "./date-time";
 
 /**
@@ -155,7 +155,7 @@ export function parseDateTime(
     if (validateDateTime(value)) {
       return DateTime.create(value);
     }
-    throw new BaseError(
+    throw new StormError(
       BaseErrorCode.type_error,
       `DateTime cannot represent an invalid date-time-string ${value}.`
     );
@@ -165,14 +165,14 @@ export function parseDateTime(
     try {
       return DateTime.create(value);
     } catch (e) {
-      throw new BaseError(
+      throw new StormError(
         BaseErrorCode.type_error,
         "DateTime cannot represent an invalid Unix timestamp " + value
       );
     }
   }
 
-  throw new BaseError(
+  throw new StormError(
     BaseErrorCode.invalid_arguments,
     "DateTime cannot be serialized from a non string, " +
       "non numeric or non Date type " +

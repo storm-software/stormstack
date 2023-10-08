@@ -1,4 +1,4 @@
-import { BaseError, IsServer } from "@stormstack/core-shared-utilities";
+import { IsServer, StormError } from "@stormstack/core-shared-utilities";
 // import { fetchQuery as relayFetchQuery } from "react-relay";
 import {
   CacheConfig,
@@ -31,14 +31,14 @@ import { RelayResponseCache } from "./relay-response-cache";
 export interface SubscribeToOptions extends SubscriptionRequestOptions {
   onResult(response: ClientResponse): void;
   onSuccess?(response: ClientResponse): void;
-  onError?(error: BaseError): void;
+  onError?(error: StormError): void;
   onAbort?(): void;
 }
 
 export interface UseSubscribeToProps extends SubscriptionRequestOptions {
   enabled?: boolean;
   onSuccess?(response: ClientResponse): void;
-  onError?(error: BaseError): void;
+  onError?(error: StormError): void;
 }
 
 export interface CreateWunderGraphRelayOptions {

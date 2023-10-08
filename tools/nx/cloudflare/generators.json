@@ -1,0 +1,12 @@
+{
+  "name": "Nx-Cloudflare Tools",
+  "version": "0.0.1",
+  "generators": {
+    "generate": {
+      "aliases": ["add-worker"],
+      "factory": "../../../dist/tools/nx/cloudflare/src/generators/worker/generator.cjs",
+      "schema": "../../../dist/tools/nx/cloudflare/src/generators/worker/schema.json",
+      "description": "☁️ Generate a Cloudflare Worker project using the provided parameters."
+    }
+  }
+}

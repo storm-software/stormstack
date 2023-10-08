@@ -8,9 +8,9 @@ import {
   isError
 } from "@stormstack/core-shared-utilities/common";
 import {
-  BaseError,
   BaseErrorCode,
-  FieldError
+  FieldError,
+  StormError
 } from "@stormstack/core-shared-utilities/errors";
 import { UserContext } from "../context";
 import { Repository } from "../repositories/repository";
@@ -98,12 +98,12 @@ export abstract class Service<
 
   private handleResult = <TData = any>(entity: TData | Error): TData => {
     if (isEmpty(entity)) {
-      throw new BaseError(
+      throw new StormError(
         BaseErrorCode.record_not_found,
         `No ${this.name} were found`
       );
     }
-    if (isError(entity) || BaseError.isBaseError(entity)) {
+    if (isError(entity) || StormError.isBaseError(entity)) {
       throw entity as Error;
     }
 
@@ -118,7 +118,7 @@ export abstract class Service<
     }
 
     if (isEmpty(results) || !Array.isArray(results) || results.length === 0) {
-      throw new BaseError(
+      throw new StormError(
         BaseErrorCode.record_not_found,
         `No ${this.name} were found`
       );
@@ -145,7 +145,7 @@ export abstract class Service<
       { errors: [], entities: [] }
     );
     if (errors && errors.length > 0) {
-      const error = new BaseError(BaseErrorCode.invalid_request);
+      const error = new StormError(BaseErrorCode.invalid_request);
       error.addFieldErrors(errors);
 
       throw error;

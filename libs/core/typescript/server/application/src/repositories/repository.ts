@@ -5,10 +5,10 @@ import { Injected, Provider } from "@stormstack/core-shared-injection";
 import { Logger } from "@stormstack/core-shared-logging/logger";
 import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
-  BaseError,
   BaseErrorCode,
   BaseUtilityClass,
   FieldError,
+  StormError,
   isError,
   isValidInteger
 } from "@stormstack/core-shared-utilities";
@@ -89,7 +89,7 @@ export abstract class Repository<
       query: QueryType.FIND_UNIQUE
     });
     if (!result || (Array.isArray(result) && result.length === 0)) {
-      return new BaseError(
+      return new StormError(
         BaseErrorCode.record_not_found,
         "No records were found"
       );
@@ -211,7 +211,7 @@ export abstract class Repository<
     switch (key.query) {
       case QueryType.FIND_UNIQUE:
         if (!key.selector?.id) {
-          const error = new BaseError(BaseErrorCode.invalid_request);
+          const error = new StormError(BaseErrorCode.invalid_request);
 
           error.addField(
             new FieldError(
@@ -237,7 +237,7 @@ export abstract class Repository<
       /*case QueryType.AGGREGATE:
         return this.innerAggregate;*/
       default:
-        return new BaseError(
+        return new StormError(
           BaseErrorCode.type_error,
           `Invalid query type provided to repository - received: "${key.query}"`
         );

@@ -1,5 +1,5 @@
-import { BaseError } from "./base-error";
 import { BaseErrorCode } from "./error-codes";
+import { StormError } from "./storm-error";
 
 /**
  * Represents an error caused by an api call i.e. it has attributes for a HTTP status code
@@ -10,7 +10,7 @@ import { BaseErrorCode } from "./error-codes";
  * => ApiException(404, someErrorMessageObject)
  *
  */
-export class MissingContextError extends BaseError {
+export class MissingContextError extends StormError {
   public override name = "Missing Context Error";
 
   public constructor(public contextName: string) {

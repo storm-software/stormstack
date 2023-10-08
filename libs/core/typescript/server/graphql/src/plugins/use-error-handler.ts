@@ -2,7 +2,7 @@
 import { OnExecuteDoneEventPayload } from "@envelop/core";
 import { GlobalContext } from "@stormstack/core-server-application/context/global-context";
 import { isError, isString } from "@stormstack/core-shared-utilities";
-import { BaseError } from "@stormstack/core-shared-utilities/errors/base-error";
+import { StormError } from "@stormstack/core-shared-utilities/errors/storm-error";
 import { GraphQLError } from "graphql";
 import { handleStreamOrSingleExecutionResult } from "graphql-yoga";
 import { createGraphQLError } from "../api/graphql-error";
@@ -34,7 +34,7 @@ export const useErrorHandler = <
                   let graphQLError: GraphQLError | undefined;
                   if (
                     error.originalError &&
-                    BaseError.isBaseError(error.originalError)
+                    StormError.isBaseError(error.originalError)
                   ) {
                     logger.debug(
                       `'Converting ${error.originalError.name} (error code: ${error.originalError.code}) to GraphQLError`

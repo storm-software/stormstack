@@ -1,8 +1,8 @@
 import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
-  BaseError,
   DateTime,
   NEWLINE_STRING,
+  StormError,
   formatDateTime,
   isBaseType,
   isEmpty,
@@ -107,8 +107,8 @@ export const formatErrorLog = (
   postfix?: string
 ): string => {
   return formatLog(
-    BaseError.isBaseError(error)
-      ? BaseError.stringify(error)
+    StormError.isStormError(error)
+      ? StormError.stringify(error)
       : `${error.name}: ${error.message}`,
     newLine,
     newLineAfter,

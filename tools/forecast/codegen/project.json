@@ -10,9 +10,7 @@
       "options": {
         "outputPath": "dist/tools/forecast/codegen",
         "main": "tools/forecast/codegen/src/index.ts",
-        "additionalEntryPoints": [
-          "tools/forecast/codegen/src/cli/index.ts"
-        ],
+        "additionalEntryPoints": ["tools/forecast/codegen/src/cli/index.ts"],
         "project": "tools/forecast/codegen/package.json",
         "tsConfig": "tools/forecast/codegen/tsconfig.json",
         "platform": "node",
@@ -82,10 +80,5 @@
       }
     }
   },
-  "tags": ["scope:tools", "platform:server"],
-  "implicitDependencies": [
-    "tools-forecast-language",
-    "tools-forecast-runtime",
-    "core-shared-utilities"
-  ]
+  "tags": ["scope:tools", "platform:server"]
 }

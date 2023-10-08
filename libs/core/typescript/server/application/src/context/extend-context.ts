@@ -1,10 +1,10 @@
+import { HttpMethods } from "@stormstack/core-shared-api/types";
+import { HeadersMap } from "@stormstack/core-shared-api/utilities";
 import { DateTime } from "@stormstack/core-shared-utilities/common/date-time";
 import { deepCopy } from "@stormstack/core-shared-utilities/common/deep-copy";
 import { isFunction } from "@stormstack/core-shared-utilities/common/type-checks";
-import {
-  HttpMethod,
-  MaybePromise
-} from "@stormstack/core-shared-utilities/types";
+import { UniqueIdGenerator } from "@stormstack/core-shared-utilities/common/unique-id-generator";
+import { MaybePromise } from "@stormstack/core-shared-utilities/types";
 import { reduce } from "radash";
 import {
   ExecutionContext,
@@ -13,7 +13,6 @@ import {
   UserContext
 } from "./execution-context";
 import { GlobalContext } from "./global-context";
-import { HeaderMap } from "./headers-map";
 
 export type ExtendServerContextFn<
   TGlobalContext extends GlobalContext = GlobalContext,
@@ -58,13 +57,14 @@ export const createServerContext = async <
   user,
   bindings
 }: CreateServerContextParams): Promise<TServerContext> => {
-  const uniqueIdGenerator = globalContext.utils.uniqueIdGenerator;
-  const method = request.method.toUpperCase() as HttpMethod;
+  const method = request.method.toUpperCase() as HttpMethods;
 
   const url = request.url
     ? new URL(request.url)
     : new URL(globalContext.system.info.url);
-  const headers = _headers ? HeaderMap.normalize(_headers) : new HeaderMap();
+  const headers = _headers
+    ? HeadersMap.normalize(new Headers(_headers as HeadersInit))
+    : new HeadersMap(_headers);
 
   const context = {
     ...globalContext,
@@ -73,14 +73,14 @@ export const createServerContext = async <
       correlationId:
         correlationId ??
         headers.get("x-correlation-id") ??
-        uniqueIdGenerator.generate(),
+        UniqueIdGenerator.generate(),
       user,
       request: {
         ...request,
         requestId:
           requestId ??
           headers.get("x-request-id") ??
-          uniqueIdGenerator.generate(),
+          UniqueIdGenerator.generate(),
         method,
         headers,
         url,

@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "build",
+  "title": "StormStack - Cloudflare Worker Build",
+  "description": "📦 Build a Cloudflare Worker package.",
+  "type": "object",
+  "properties": {
+    "polyfillNode": {
+      "type": "boolean",
+      "description": "Should the Node.js polyfill be used. For more info please see [the Cloudflare Docs](https://developers.cloudflare.com/workers/wrangler/configuration/#add-polyfills-using-wrangler).",
+      "default": false
+    },
+    "applyLocalPolyfills": {
+      "type": "boolean",
+      "description": "Should specific Node.js polyfills required to run the worker locally be used.",
+      "default": false
+    }
+  },
+  "required": []
+}

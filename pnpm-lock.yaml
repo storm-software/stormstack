@@ -990,6 +990,8 @@ importers:
         specifier: ^7.5.4
         version: 7.5.4
 
+  libs/core/typescript/shared/api: {}
+
   libs/core/typescript/shared/data-access:
     dependencies:
       type-fest:
@@ -1469,7 +1471,28 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0
 
+  tools/nx/cloudflare:
+    dependencies:
+      "@nx/devkit":
+        specifier: 16.7.0
+        version: 16.7.0(nx@16.9.1)
+      esbuild-plugin-polyfill-node:
+        specifier: ^0.3.0
+        version: 0.3.0(esbuild@0.18.20)
+      fs-extra:
+        specifier: ^11.1.1
+        version: 11.1.1
+
   tools/nx/forecast:
+    dependencies:
+      "@nx/devkit":
+        specifier: 16.7.0
+        version: 16.7.0(nx@16.9.1)
+      fs-extra:
+        specifier: ^11.1.1
+        version: 11.1.1
+
+  tools/nx/monorepo:
     dependencies:
       "@nx/devkit":
         specifier: 16.7.0

@@ -2,7 +2,8 @@
 import {
   BaseError,
   BaseUtilityClass,
-  DateTime
+  DateTime,
+  StormError
 } from "@stormstack/core-shared-utilities";
 import { Decimal } from "decimal.js";
 import {
@@ -91,6 +92,13 @@ JsonParser.register(
   BaseError.stringify,
   BaseError.parse,
   BaseError.isBaseError
+);
+
+JsonParser.register(
+  "StormError",
+  StormError.stringify,
+  StormError.parse,
+  StormError.isStormError
 );
 
 JsonParser.register<Buffer, string>(

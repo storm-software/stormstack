@@ -1,7 +1,7 @@
 import { ConsoleLogger } from "@stormstack/core-shared-logging";
 import {
-  BaseError,
   BaseErrorCode,
+  StormError,
   isEmpty
 } from "@stormstack/core-shared-utilities";
 
@@ -12,7 +12,7 @@ export function readAsTextAsync(file: File) {
     fr.onerror = () => {
       fr.abort();
       reject(
-        new BaseError(
+        new StormError(
           BaseErrorCode.failed_to_load_file,
           `Failed to load file '${file.name}'.
       ${fr.error?.message}`
@@ -34,7 +34,7 @@ export function readAsDataURLAsync(file: File) {
     fr.onerror = () => {
       fr.abort();
       reject(
-        new BaseError(
+        new StormError(
           BaseErrorCode.failed_to_load_file,
           `Failed to load file '${file.name}'.
     ${fr.error?.message}`
@@ -65,7 +65,7 @@ export const openFileInNewTab = async (
       type = file.type;
     }
   } catch (e) {
-    error = (e as BaseError)?.message ?? "An error occured reading the file";
+    error = (e as StormError)?.message ?? "An error occured reading the file";
     type = "error/BaseError";
     ConsoleLogger.error(error);
   }

@@ -19,5 +19,10 @@
     "declarationMap": false
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
-  "include": ["**/*.ts", "**/*.js", "**/*.json"]
+  "include": [
+    "**/*.ts",
+    "**/*.js",
+    "**/*.json",
+    "cloudflare-worker/files/jest.config.ts__tmpl__"
+  ]
 }

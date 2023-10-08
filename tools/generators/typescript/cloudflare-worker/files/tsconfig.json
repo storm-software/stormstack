@@ -2,22 +2,25 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../../dist/apps/workers/<%= name %>",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "esnext",
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom.iterable", "webworker"],
     "alwaysStrict": true,
-    "strict": true,
+    "strict": false,
+    "noEmit": true,
     "preserveConstEnums": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "esModuleInterop": true,
     "types": [
+      "node",
       "@cloudflare/workers-types",
-      "@types/jest",
-      "@types/service-worker-mock"
+      "@whatwg-node/node-fetch",
+      "reflect-metadata"
     ]
   },
   "exclude": [
+    "node_modules",
     "jest.config.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",

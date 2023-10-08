@@ -4,12 +4,7 @@ import { BaseUtilityClass } from "@stormstack/core-shared-utilities/common/base-
 import { Container } from "inversify";
 import * as InjectionInterfaces from "../types";
 import { INJECTOR_SYMBOL } from "../types";
-
-const CONTAINER = new Container({
-  autoBindInjectable: true,
-  skipBaseClassChecks: true,
-  defaultScope: InjectionInterfaces.BindingScopeEnum.SINGLETON
-});
+import { CONTAINER } from "./container";
 
 export class Injector extends BaseUtilityClass {
   private static _container: Container = CONTAINER;
@@ -43,7 +38,6 @@ export class Injector extends BaseUtilityClass {
     container?: Container
   ): T {
     const currentContainer = container || Injector._container;
-
     return currentContainer.get<T>(serviceIdentifier);
   }
 
@@ -52,8 +46,31 @@ export class Injector extends BaseUtilityClass {
     container?: Container
   ): Promise<T> => {
     const currentContainer = container || Injector._container;
-
     return currentContainer.getAsync<T>(serviceIdentifier);
+  };
+
+  public static isBound = (
+    serviceIdentifier: InjectionInterfaces.ServiceIdentifier,
+    container?: Container
+  ): boolean => {
+    const currentContainer = container || Injector._container;
+    return currentContainer.isBound(serviceIdentifier);
+  };
+
+  public static unbind = (
+    serviceIdentifier: InjectionInterfaces.ServiceIdentifier,
+    container?: Container
+  ) => {
+    const currentContainer = container || Injector._container;
+    return currentContainer.unbind(serviceIdentifier);
+  };
+
+  public static unbindAsync = (
+    serviceIdentifier: InjectionInterfaces.ServiceIdentifier,
+    container?: Container
+  ): Promise<void> => {
+    const currentContainer = container || Injector._container;
+    return currentContainer.unbindAsync(serviceIdentifier);
   };
 
   /**

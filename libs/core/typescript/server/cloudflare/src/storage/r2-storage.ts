@@ -1,6 +1,6 @@
 import {
-  BaseError,
-  BaseErrorCode
+  BaseErrorCode,
+  StormError
 } from "@stormstack/core-shared-utilities/errors";
 import { R2Bucket, R2Object, R2ObjectBody } from "../types";
 
@@ -19,7 +19,7 @@ export async function getR2Async(
   const object = await r2Bucket.get(name);
 
   if (object === null) {
-    throw new BaseError(
+    throw new StormError(
       BaseErrorCode.record_not_found,
       `No items were found in ${name} bucket`
     );

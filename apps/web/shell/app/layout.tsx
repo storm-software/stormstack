@@ -35,7 +35,7 @@ const image =
 const contactJsonLd: WithContext<ContactPoint> = {
   "@context": "https://schema.org",
   "@type": "ContactPoint",
-  email: "contact@patsullivan.org",
+  email: "support@stormcloud.dev",
   availableLanguage: "en",
   areaServed: "Worldwide",
   contactOption: "TollFree",

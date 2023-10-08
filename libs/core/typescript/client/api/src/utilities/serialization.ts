@@ -5,7 +5,7 @@ import {
   QueryParamsParser
 } from "@stormstack/core-shared-serialization";
 import {
-  BaseError,
+  StormError,
   isNotEmpty,
   isString
 } from "@stormstack/core-shared-utilities";
@@ -42,7 +42,7 @@ export function serializeRequest(options: ApiClientRequest): ApiClientRequest {
 
 export function deserializeResult<
   TData = any,
-  TError extends BaseError = BaseError
+  TError extends StormError = StormError
 >(response: ApiClientResult<string>): ApiClientResult<TData, TError> {
   let data: TData | undefined;
   let error: TError | undefined;
@@ -52,7 +52,7 @@ export function deserializeResult<
     parsed = JsonParser.parse<TData | TError>(response.data);
   }
 
-  if (BaseError.isBaseError(parsed)) {
+  if (StormError.isBaseError(parsed)) {
     error = parsed as TError;
   } else {
     data = parsed as TData;

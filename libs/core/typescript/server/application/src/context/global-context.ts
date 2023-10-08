@@ -2,17 +2,14 @@
 import { IEntity } from "@stormstack/core-server-domain";
 import { ServerEnvManager } from "@stormstack/core-server-utilities/server-env-manager";
 import { EnvManager, EnvironmentType } from "@stormstack/core-shared-env";
-import { Injector } from "@stormstack/core-shared-injection/injector/injector";
-import { Injector as InjectorType } from "@stormstack/core-shared-injection/types";
-import { bindConstant } from "@stormstack/core-shared-injection/utilities/bind-service";
+import { createInjectorProxy } from "@stormstack/core-shared-injection/injector/injector-proxy";
+import { InjectorProxy } from "@stormstack/core-shared-injection/types";
 import { ConsoleLogger, Logger } from "@stormstack/core-shared-logging";
 import { IJsonParser } from "@stormstack/core-shared-serialization";
 import {
   ArrayElement,
   DateTime,
-  IUniqueIdGenerator,
-  UniqueIdGenerator,
-  uniqueIdGenerator
+  UniqueIdGenerator
 } from "@stormstack/core-shared-utilities";
 import { Service } from "../services";
 import { EntityName, SYSTEM_TOKEN } from "../types";
@@ -35,7 +32,6 @@ import { getGlobalContextStore } from "./global-context-store";
 export type UtilityContext = {
   logger: Logger;
   parser: IJsonParser;
-  uniqueIdGenerator: IUniqueIdGenerator;
 };
 
 export type SystemInfoContext = {
@@ -72,7 +68,7 @@ export type GlobalContext<
   system: SystemContext;
   utils: TUtils;
   env: EnvManager;
-  injector: InjectorType;
+  injector: InjectorProxy;
   services: ServiceMapping<TEntities>;
   bindings?: TBindings;
 };
@@ -81,9 +77,8 @@ export type CreateGlobalContextParams<TBindings = unknown> = {
   environment?: EnvironmentType;
   logger?: Logger;
   parser?: IJsonParser;
-  uniqueIdGenerator?: IUniqueIdGenerator;
   env?: Record<string, string | number | boolean | undefined> | undefined;
-  injector?: InjectorType;
+  injector?: InjectorProxy;
   serviceId?: SystemInfoContext["serviceId"];
   serviceName?: SystemInfoContext["name"];
   domainName?: SystemInfoContext["domainName"];
@@ -126,7 +121,6 @@ export const createGlobalContext = <
   parser,
   env: _env,
   injector: _injector,
-  uniqueIdGenerator: _uniqueIdGenerator,
   serviceId,
   serviceName,
   serviceVersion,
@@ -142,11 +136,10 @@ export const createGlobalContext = <
     return globalContext;
   }
 
-  const injector = _injector ?? Injector;
+  const injector = _injector ?? createInjectorProxy();
   const utils = {
     logger: logger ?? injector.get<Logger>(Logger) ?? ConsoleLogger,
-    parser: parser ?? parser,
-    uniqueIdGenerator: _uniqueIdGenerator ?? uniqueIdGenerator
+    parser: parser ?? parser
   };
 
   const env: EnvManager =
@@ -166,7 +159,7 @@ export const createGlobalContext = <
     startedAt: DateTime.current,
     startedBy: "System"
   };
-  bindConstant(SYSTEM_TOKEN, system, injector);
+  injector.bindConstant(SYSTEM_TOKEN, system);
 
   const newContext = {
     isInitialized: true,

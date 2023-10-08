@@ -1,9 +1,9 @@
 import { HeaderProxy, HttpStatusCode } from "@stormstack/core-shared-api";
 import {
-  BaseError,
   DateTime,
   RequiredKeysOf,
-  SetRequired
+  SetRequired,
+  StormError
 } from "@stormstack/core-shared-utilities";
 
 export type ApiClientResultStatus = "success" | "error" | "pending";
@@ -15,7 +15,7 @@ export const ApiClientResultStatus = {
 
 export interface ApiClientResult<
   TData = any,
-  TError extends BaseError = BaseError
+  TError extends StormError = StormError
 > {
   /**
    * The general, display result label of the API response.
@@ -88,7 +88,7 @@ export const API_CLIENT_SYMBOL = Symbol("api-client");
 
 export type SubscriptionEventHandler<
   TData = any,
-  TError extends BaseError = BaseError
+  TError extends StormError = StormError
 > = (result: ApiClientResult<TData, TError>) => void;
 
 export type RequestOptions<TInput = any> = WithInput<TInput> &

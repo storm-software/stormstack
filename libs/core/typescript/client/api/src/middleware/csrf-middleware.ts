@@ -7,8 +7,8 @@ import {
 import { Injector } from "@stormstack/core-shared-injection";
 import { Logger } from "@stormstack/core-shared-logging";
 import {
-  BaseError,
   MaybePromise,
+  StormError,
   isRuntimeServer,
   isSet,
   isString
@@ -72,7 +72,7 @@ export class CsrfMiddleware extends ApiMiddleware {
 
       this._csrfToken = await res.text();
       if (!this._csrfToken) {
-        throw new BaseError(
+        throw new StormError(
           ApiErrorCode.csrf_token_missing,
           "Failed to get CSRF token. Please make sure you are authenticated."
         );

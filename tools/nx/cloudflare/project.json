@@ -1,0 +1,98 @@
+{
+  "name": "tools-nx-cloudflare",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/nx/cloudflare",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/nx/cloudflare",
+        "tsConfig": "tools/nx/cloudflare/tsconfig.json",
+        "project": "tools/nx/cloudflare/package.json",
+        "main": "tools/nx/cloudflare/index.ts",
+        "additionalEntryPoints": [
+          "tools/nx/cloudflare/src/executors/build/impl.ts",
+          "tools/nx/cloudflare/src/executors/serve/impl.ts",
+          "tools/nx/cloudflare/src/executors/deploy/impl.ts",
+          "tools/nx/cloudflare/src/generators/worker/generator.ts"
+        ],
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": true,
+        "minify": false,
+        "skipTypeCheck": true,
+        "format": ["cjs"],
+        "external": ["@swc/core", "nx", "espree", "esbuild"],
+        "assets": [
+          {
+            "input": "tools/nx/cloudflare",
+            "glob": "**/schema.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/cloudflare",
+            "glob": "executors.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/cloudflare",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "tools/nx/cloudflare",
+            "glob": "README.md",
+            "output": "/"
+          },
+          {
+            "input": "tools/nx/cloudflare",
+            "glob": "CHANGELOG.md",
+            "output": "/"
+          },
+          {
+            "input": "",
+            "glob": "LICENSE",
+            "output": "/"
+          },
+          {
+            "input": "tools/nx/cloudflare",
+            "glob": "migrations.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "tools/nx/cloudflare/**/*.ts",
+          "tools/nx/cloudflare/executors.json",
+          "tools/nx/cloudflare/package.json"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "readme-format": {
+      "executor": "@stormstack/tools-executors-docs:readme-format",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "outputPath": "tools/nx/cloudflare",
+        "inputFile": "tools/nx/cloudflare/README.md",
+        "templatePath": "libs/core/config/src/readme-templates"
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-nx-cloudflare-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:tools", "platform:admin"]
+}
