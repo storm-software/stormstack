@@ -22,14 +22,6 @@
     "**/*.stories.jsx",
     "**/*.stories.tsx"
   ],
-  "paths": {
-    "@stormstack/core-shared-utilities": [
-      "libs/core/typescript/utilities/src/index.ts"
-    ],
-    "@stormstack/core-shared-utilities/*": [
-      "libs/core/typescript/shared/utilities/src/*"
-    ]
-  },
   "references": [
     {
       "path": "./tsconfig.lib.json"

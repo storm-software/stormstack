@@ -1,7 +1,5 @@
-import {
-  ConsoleLogger,
-  MissingContextError
-} from "@stormstack/core-shared-utilities";
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
+import { MissingContextError } from "@stormstack/core-shared-utilities";
 import { useContext } from "react";
 import { RatingContext } from "./Rating.context";
 import { RatingContextState } from "./Rating.types";

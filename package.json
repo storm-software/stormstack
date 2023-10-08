@@ -21,10 +21,10 @@
     "open-system",
     "monorepo"
   ],
-  "homepage": "https://stormstack.github.io/stormstack/",
+  "homepage": "https://stormstack.dev",
   "bugs": {
     "url": "https://github.com/stormstack/stormstack/issues",
-    "email": "contact@stormcloud.dev"
+    "email": "support@stormcloud.dev"
   },
   "repository": {
     "type": "github",
@@ -32,25 +32,25 @@
   },
   "license": "Apache License 2.0",
   "author": {
-    "name": "Storm Software",
-    "email": "contact@stormcloud.dev",
-    "url": "https://stormcloud.dev"
+    "name": "Dark Sky Labs",
+    "email": "contact@darkskylabs.com",
+    "url": "https://darkskylabs.com"
   },
   "scripts": {
     "add:contributors": "all-contributors add",
     "add:decisions": "pnpm log4brains adr new",
     "analyze": "cross-env ANALYZE=true npm run build",
     "prebuild": "pnpm clean && pnpm build:tools",
-    "build": "cross-env nx affected -t build --parallel=5 --exclude='core-server-cloudflare,worker-*' --base=NX_BASE --head=NX_HEAD",
+    "build": "nx affected -t build --parallel=5",
     "postbuild": "pnpm build:types",
-    "build:all": "nx run-many -t build --all --parallel 4",
+    "build:all": "nx run-many -t build --all --parallel=5",
     "prebuild:design-token": "pnpm nx run design-system-tokens:style-dictionary",
     "build:design-token": "pnpm nx run design-system-tokens:build:impact",
     "build:relay": "relay-compiler ./dist/tools/devops/config/relay",
     "build:storybook": "storybook build -s public",
     "prebuild:tools": "pnpm nx run tools-devops-config:build",
     "build:tools": "pnpm build:design-token && pnpm nx run tools-nx-monorepo:build && pnpm nx run tools-nx-event-catalog:build",
-    "build:types": "nx affected -t build:types",
+    "build:types": "nx affected -t build-types --parallel=5",
     "build:web-deploy": "pnpm nx run web-shell:build:production",
     "clean": "rimraf dist",
     "clean:apps": "rimraf dist/apps",
@@ -202,7 +202,6 @@
     "@opentelemetry/semantic-conventions": "^1.14.0",
     "@prisma/client": "^5.2.0",
     "@prisma/generator-helper": "^5.2.0",
-    "@react-pdf/renderer": "^3.1.9",
     "@rollup/plugin-url": "^7.0.0",
     "@sentry/nextjs": "^7.50.0",
     "@sentry/tracing": "^7.50.0",
@@ -291,7 +290,6 @@
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "prisma": "^5.2.0",
-    "react-pdf-tailwind": "^2.1.0",
     "react-refresh": "^0.14.0",
     "reflect-metadata": "^0.1.13",
     "relay-compiler": "^15.0.0",
@@ -366,6 +364,7 @@
       "@stormstack/tools-devops-config": "workspace:*",
       "@stormstack/tools-forecast-codegen": "workspace:*",
       "@stormstack/tools-forecast-language": "workspace:*",
+      "@stormstack/tools-nx-event-catalog": "workspace:*",
       "@stormstack/tools-nx-forecast": "workspace:*",
       "@stormstack/tools-nx-monorepo": "workspace:*",
       "@stormstack/tools-nx-cloudflare": "workspace:*",
@@ -375,7 +374,10 @@
       "@stormstack/core-shared-injection": "workspace:*",
       "@stormstack/core-shared-serialization": "workspace:*",
       "@stormstack/core-shared-api": "workspace:*",
+      "@stormstack/design-system-tokens": "workspace:*",
+      "@stormstack/design-system-components": "workspace:*",
       "@stormstack/core-client-env": "workspace:*",
+      "@stormstack/core-client-pdf": "workspace:*",
       "@stormstack/core-client-api": "workspace:*",
       "@stormstack/core-server-utilities": "workspace:*"
     }

@@ -285,5 +285,5 @@
   "commitizen.capitalizeWindowsDriveLetter": true,
   "commitizen.autoSync": false,
   "commitizen.showOutputChannel": "always",
-  "cSpell.words": ["postbuild"]
+  "cSpell.words": ["postbuild", "ultrabold"]
 }

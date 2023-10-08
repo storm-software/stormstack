@@ -1,4 +1,4 @@
-import { HeaderProxy, HttpStatusCode } from "@stormstack/core-shared-api";
+import { HeadersProxy, HttpStatusCode } from "@stormstack/core-shared-api";
 import {
   DateTime,
   RequiredKeysOf,
@@ -44,7 +44,7 @@ export interface ApiClientResult<
    *
    * @remarks This property can be useful for tracking the timing of API requests and measuring performance.
    */
-  headers: HeaderProxy;
+  headers: HeadersProxy;
 
   /**
    *  The `requestAt` property is used to store the timestamp when the API request was made.
@@ -79,7 +79,7 @@ export interface FetchOptions extends RequestInit {
     init?: RequestInit | undefined
   ) => Promise<Response>;
   url: string | URL;
-  headers: HeaderProxy;
+  headers: HeadersProxy;
   timeoutMs?: number;
   body?: string;
 }

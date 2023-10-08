@@ -1,4 +1,4 @@
-import { HeaderProxy } from "@stormstack/core-shared-api";
+import { HeadersProxy } from "@stormstack/core-shared-api";
 import { Injector } from "@stormstack/core-shared-injection";
 import { Logger } from "@stormstack/core-shared-logging";
 import { JsonParser, JsonValue } from "@stormstack/core-shared-serialization";
@@ -58,7 +58,7 @@ export class LoggingMiddleware extends ApiMiddleware {
     return `Receiving Response - ${response.request.url}`;
   }
 
-  protected writeHeadersLog(headers: HeaderProxy): string {
+  protected writeHeadersLog(headers: HeadersProxy): string {
     const headersLog: string[] = [];
     for (const pair of headers.entries) {
       headersLog.push(`${pair[0]}: ${pair[1]}`);

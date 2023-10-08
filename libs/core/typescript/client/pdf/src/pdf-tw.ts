@@ -12,30 +12,30 @@ const Inter: any = require("../assets/fonts/Inter-Regular.ttf");
 
 Font.register({
   family: "Anybody",
-  src: Anybody,
+  src: Anybody
 });
 
 Font.register({
   family: "Anybody-Bold",
-  src: AnybodyBold,
+  src: AnybodyBold
 });
 
 Font.register({
   family: "Anybody-Light",
-  src: AnybodyLight,
+  src: AnybodyLight
 });
 
 Font.register({
   family: "Inter",
-  src: Inter,
+  src: Inter
 });
 
 Font.register({
   family: "Inter-Bold",
-  src: InterBold,
+  src: InterBold
 });
 
-export const pdfTw = createTw({
+export const pdfTw: any = createTw({
   "theme": {
     "extend": {
       ...extend,
@@ -45,8 +45,8 @@ export const pdfTw = createTw({
         "anybody-light": ["Anybody-Light"],
         "melody": ["Melody"],
         "inter": ["Inter"],
-        "inter-bold": ["Inter-Bold"],
-      },
-    },
-  },
+        "inter-bold": ["Inter-Bold"]
+      }
+    }
+  }
 });

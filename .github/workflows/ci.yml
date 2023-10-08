@@ -50,7 +50,7 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: pnpm i
+        run: pnpm ci
 
       - name: Get appropriate base and head commits for `nx affected` commands
         uses: nrwl/nx-set-shas@v3
@@ -66,7 +66,7 @@ jobs:
       #  run: pnpm build
 
       - name: Build repository packages
-        run: pnpm build
+        run: pnpm build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
 
       #- name: Run Linters
       #  run: pnpm nx affected -t lint --parallel=3 --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}

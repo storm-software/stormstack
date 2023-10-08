@@ -53,6 +53,10 @@ export class FieldProxy<
     }
   };
 
+  public get __base(): string {
+    return "FieldProxy";
+  }
+
   public set name(nextName: string) {
     this.ref && (this.ref.name = nextName);
   }

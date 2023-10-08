@@ -3,38 +3,25 @@
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/core/typescript/client/pdf/src",
   "projectType": "library",
-  "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/core/typescript/client/pdf/**/*.{ts,tsx,js,jsx}"
-        ]
-      }
-    },
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/core/typescript/client/pdf",
-        "tsConfig": "libs/core/typescript/client/pdf/tsconfig.lib.json",
-        "project": "libs/core/typescript/client/pdf/package.json",
-        "entryFile": "libs/core/typescript/client/pdf/src/index.ts",
-        "external": ["react/jsx-runtime"],
-        "rollupConfig": "libs/core/typescript/client/pdf/rollup.config.js",
-        "compiler": "swc",
-        "assets": [
-          {
-            "glob": "libs/core/typescript/client/pdf/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
+        "outputPath": "dist/libs/core/typescript/client/pdf"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
+    "lint": {},
+    "test": {},
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
@@ -44,5 +31,6 @@
         "tagFormat": "core-client-pdf-v${VERSION}"
       }
     }
-  }
+  },
+  "tags": ["scope:core", "platform:client", "level:utilities"]
 }

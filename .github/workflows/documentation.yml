@@ -58,7 +58,7 @@ jobs:
         run: pnpm ci
 
       - name: Prepare for build
-        run: pnpm build
+        run: pnpm build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
 
       - name: Generate TSDocs Markdown with API Extractor
         run: pnpm docs:api-extractor

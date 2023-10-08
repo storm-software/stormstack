@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseUtilityClass } from "@stormstack/core-shared-utilities";
+import { BaseUtilityClass, DateTime } from "@stormstack/core-shared-utilities";
 import {
   DOMAIN_EVENT_TOKEN,
   IAggregateRoot,
@@ -14,7 +14,7 @@ export class DomainEvent<
   extends BaseUtilityClass
   implements IDomainEvent<TAggregateRoot, TIntegrationEvent>
 {
-  public readonly timestamp: Date;
+  public readonly timestamp: DateTime;
 
   public constructor(
     public readonly correlationId: string,
@@ -27,6 +27,6 @@ export class DomainEvent<
   ) {
     super(DOMAIN_EVENT_TOKEN);
 
-    this.timestamp = new Date(Date.now());
+    this.timestamp = DateTime.create();
   }
 }

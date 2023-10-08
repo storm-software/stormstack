@@ -1,3 +1,3 @@
 "use client";
 
-export * from "./text";
+export * from "./Text";

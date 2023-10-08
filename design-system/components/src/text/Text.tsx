@@ -28,7 +28,7 @@ export const FieldText = ({
   children,
   name,
   placeholder = " ",
-  hideWhenEmpty = false,
+  hideWhenEmpty = false
 }: FieldTextProps) => {
   const value = children ?? placeholder;
 
@@ -39,7 +39,7 @@ export const FieldText = ({
         (typeof value === "string" && !value.trim().length)) && (
         <div className="flex flex-col hyphens-auto break-all">
           {name && (
-            <p className="hyphens-auto font-label-3 text-xs font-bold text-slate-500">
+            <p className="text-xs font-bold text-slate-500 hyphens-auto font-label-3">
               {name}
             </p>
           )}
@@ -48,7 +48,7 @@ export const FieldText = ({
               className={clsx(
                 "text-md text-primary hyphens-auto font-body-1",
                 {
-                  "h-8": !children && name,
+                  "h-8": !children && name
                 },
                 className
               )}>

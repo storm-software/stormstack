@@ -68,7 +68,7 @@ export interface IDomainEvent<
   TAggregateRoot extends IAggregateRoot,
   out TIntegrationEvent extends IIntegrationEvent = IIntegrationEvent
 > {
-  timestamp: Date;
+  timestamp: DateTime;
   correlationId: string;
   sourceId: string;
   userId: string;

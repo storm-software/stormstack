@@ -2,8 +2,8 @@ import { Repeater } from "@repeaterjs/repeater";
 import { ClientBaseEnvManager } from "@stormstack/core-client-env";
 import {
   ApiErrorCode,
-  HeaderProxy,
   HeaderTypes,
+  HeadersProxy,
   HttpMethods,
   HttpStatusCode,
   MediaTypes,
@@ -67,7 +67,7 @@ export interface ApiClientOptions extends UploadValidationOptions {
 }
 
 export class ApiClient extends BaseUtilityClass {
-  protected readonly headerProxy: HeaderProxy;
+  protected readonly headersProxy: HeadersProxy;
   protected readonly csrfEnabled: boolean = true;
   protected csrfToken?: string;
   protected middlewareStack: ApiMiddlewareStack;
@@ -99,7 +99,7 @@ export class ApiClient extends BaseUtilityClass {
       );
     }
 
-    this.headerProxy = createApiHeadersProxy(headers);
+    this.headersProxy = createApiHeadersProxy(headers);
 
     this.middlewareStack = new ApiMiddlewareStack();
     if (this.options.middleware) {
@@ -126,7 +126,7 @@ export class ApiClient extends BaseUtilityClass {
    * @param token Bearer token
    */
   public setAuthorizationToken(token: string) {
-    this.headerProxy.set(HeaderTypes.AUTHORIZATION, `Bearer ${token}`);
+    this.headersProxy.set(HeaderTypes.AUTHORIZATION, `Bearer ${token}`);
   }
 
   /**
@@ -135,7 +135,7 @@ export class ApiClient extends BaseUtilityClass {
    * If there was no authorization set, it does nothing.
    */
   public unsetAuthorizationToken() {
-    this.headerProxy.delete(HeaderTypes.AUTHORIZATION);
+    this.headersProxy.delete(HeaderTypes.AUTHORIZATION);
   }
 
   /**
@@ -265,11 +265,11 @@ export class ApiClient extends BaseUtilityClass {
   public async fetch<TData = any, TError extends StormError = StormError>(
     options: Partial<ApiClientRequest>
   ): Promise<ApiClientResult<TData, TError>> {
-    let headers!: HeaderProxy;
+    let headers!: HeadersProxy;
     if (!options.headers) {
-      headers = createApiHeadersProxy(this.headerProxy.headers);
+      headers = createApiHeadersProxy(this.headersProxy.headers);
     } else {
-      headers.merge(this.headerProxy);
+      headers.merge(this.headersProxy);
     }
 
     const response = await this.middlewareStack.run<
