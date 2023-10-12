@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  useFieldErrors,
-  useFieldRegistration,
-  useFieldValue,
-  useIsSubmitting
-} from "@stormstack/core-client-data-access";
-import {
   Textarea as OsTextarea,
   TextareaProps as OsTextareaProps
 } from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "../hooks";
 import { ValidationPropType } from "../types";
 
 export type TextareaProps = Omit<OsTextareaProps, "minLength" | "maxLength"> & {

@@ -1,14 +1,11 @@
 import {
-  HttpStatusCode,
+  ApiClientResult,
+  ApiClientResultStatus,
   createApiHeadersProxy,
   isStatusCodeSuccessful
 } from "@stormstack/core-shared-api";
-import { DateTime, MiddlewareStack } from "@stormstack/core-shared-utilities";
-import {
-  ApiClientRequest,
-  ApiClientResult,
-  ApiClientResultStatus
-} from "../types";
+import { MiddlewareStack } from "@stormstack/core-shared-utilities";
+import { ApiClientRequest } from "../types";
 import { handleFetch } from "../utilities";
 
 /**
@@ -33,22 +30,15 @@ export class ApiMiddlewareStack extends MiddlewareStack<
   protected terminate = async (
     request: ApiClientRequest
   ): Promise<ApiClientResult> => {
-    const requestAt = DateTime.current;
-
     const response = await handleFetch({ ...request });
 
-    const responseAt = DateTime.current;
-
     return {
-      headers: createApiHeadersProxy(response.headers),
+      ...response,
       status: isStatusCodeSuccessful(response.status)
         ? ApiClientResultStatus.SUCCESS
         : ApiClientResultStatus.ERROR,
-      request,
-      requestAt,
-      responseAt,
       data: response,
-      httpStatusCode: response.status as HttpStatusCode
+      headers: createApiHeadersProxy(response.headers)
     };
   };
 }

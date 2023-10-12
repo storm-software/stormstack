@@ -1,11 +1,12 @@
 import { ClientBaseEnvManager } from "@stormstack/core-client-env";
 import {
+  ApiClientResult,
   ApiErrorCode,
-  HeaderTypes,
-  MediaTypes
+  HeaderTypes
 } from "@stormstack/core-shared-api";
 import { Injector } from "@stormstack/core-shared-injection";
 import { Logger } from "@stormstack/core-shared-logging";
+import { MediaTypes } from "@stormstack/core-shared-state";
 import {
   MaybePromise,
   StormError,
@@ -14,7 +15,7 @@ import {
   isString
 } from "@stormstack/core-shared-utilities";
 import { ApiClientOptions } from "../client/api-client";
-import { ApiClientRequest, ApiClientResult } from "../types";
+import { ApiClientRequest } from "../types";
 import { handleFetch } from "../utilities/fetch";
 import { ApiMiddleware } from "./api-middleware";
 
@@ -57,13 +58,11 @@ export class CsrfMiddleware extends ApiMiddleware {
     if (!this._csrfToken) {
       const res = await handleFetch({
         ...this.options,
-        url: this.options.csrfTokenUrl
-          ? this.options.csrfTokenUrl
-          : `${
-              isString(options.url)
-                ? new URL(options.url).origin
-                : options.url.origin
-            }/api/auth/csrf`,
+        url: `${
+          isString(options.url)
+            ? new URL(options.url).origin
+            : options.url.origin
+        }/api/auth/csrf`,
         headers: {
           ...options.headers,
           [HeaderTypes.ACCEPT]: MediaTypes.TEXT_PLAIN

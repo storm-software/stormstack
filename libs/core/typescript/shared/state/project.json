@@ -1,0 +1,22 @@
+{
+  "name": "core-shared-state",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/typescript/shared/state/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "deleteOutputPath": true,
+        "bundle": true,
+        "metafile": true,
+        "minify": true,
+        "format": ["esm", "cjs"]
+      }
+    },
+    "lint": {},
+    "test": {}
+  },
+  "tags": ["scope:core", "platform:shared", "level:utilities"]
+}

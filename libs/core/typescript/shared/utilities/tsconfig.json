@@ -9,7 +9,7 @@
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node", "esnext.AsyncIterable"]
   },
   "files": [],
   "include": [],

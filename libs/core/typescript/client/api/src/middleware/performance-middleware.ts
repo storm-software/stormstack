@@ -1,9 +1,10 @@
 import { ClientBaseEnvManager } from "@stormstack/core-client-env";
+import { ApiClientResult } from "@stormstack/core-shared-api";
 import { Injector } from "@stormstack/core-shared-injection";
 import { Logger } from "@stormstack/core-shared-logging";
 import { DateTime, MaybePromise } from "@stormstack/core-shared-utilities";
 import { ApiClientOptions } from "../client/api-client";
-import { ApiClientRequest, ApiClientResult } from "../types";
+import { ApiClientRequest } from "../types";
 import { ApiMiddleware } from "./api-middleware";
 
 export class PerformanceMiddleware extends ApiMiddleware {

@@ -12,9 +12,6 @@
       "@stormstack/adapters-client-graphql/server": [
         "libs/adapters/typescript/client/graphql/src/server.ts"
       ],
-      "@stormstack/adapters-client-relay": [
-        "libs/adapters/typescript/client/relay/src/index.ts"
-      ],
       "@stormstack/adapters-shared-graphql": [
         "libs/adapters/typescript/shared/graphql/src/index.ts"
       ],
@@ -98,12 +95,6 @@
       "@stormstack/core-client-components/*": [
         "libs/core/typescript/client/components/src/*"
       ],
-      "@stormstack/core-client-data-access": [
-        "libs/core/typescript/client/data-access/src/index.ts"
-      ],
-      "@stormstack/core-client-data-access/*": [
-        "libs/core/typescript/client/data-access/src/*"
-      ],
       "@stormstack/core-client-env": [
         "libs/core/typescript/client/env/src/index.ts"
       ],
@@ -127,6 +118,12 @@
       ],
       "@stormstack/core-client-pdf/*": [
         "libs/core/typescript/client/pdf/src/*"
+      ],
+      "@stormstack/core-client-state": [
+        "libs/core/typescript/client/state/src/index.ts"
+      ],
+      "@stormstack/core-client-state/*": [
+        "libs/core/typescript/client/state/src/*"
       ],
       "@stormstack/core-client-utilities": [
         "libs/core/typescript/client/utilities/src/index.ts"
@@ -224,6 +221,12 @@
       ],
       "@stormstack/core-shared-serialization/*": [
         "libs/core/typescript/shared/serialization/src/*"
+      ],
+      "@stormstack/core-shared-state": [
+        "libs/core/typescript/shared/state/src/index.ts"
+      ],
+      "@stormstack/core-shared-state/*": [
+        "libs/core/typescript/shared/state/src/*"
       ],
       "@stormstack/core-shared-utilities": [
         "libs/core/typescript/shared/utilities/src/index.ts"

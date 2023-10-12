@@ -1,9 +1,9 @@
 import { ClientBaseEnvManager } from "@stormstack/core-client-env";
-import { HeaderTypes } from "@stormstack/core-shared-api";
+import { ApiClientResult, HeaderTypes } from "@stormstack/core-shared-api";
 import { Injector } from "@stormstack/core-shared-injection";
 import { MaybePromise } from "@stormstack/core-shared-utilities";
 import { ApiClientOptions } from "../client/api-client";
-import { ApiClientRequest, ApiClientResult } from "../types";
+import { ApiClientRequest } from "../types";
 import { ApiMiddleware } from "./api-middleware";
 
 export class MultiTenantMiddleware extends ApiMiddleware {

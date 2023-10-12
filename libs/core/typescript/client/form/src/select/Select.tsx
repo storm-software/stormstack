@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  useFieldErrors,
-  useFieldRegistration,
-  useFieldValue,
-  useIsSubmitting
-} from "@stormstack/core-client-data-access";
-import {
   Select as OsSelect,
   SelectProps
 } from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "../hooks";
 
 export function Select({ name, required, disabled, ...props }: SelectProps) {
   const { trigger } = useFormContext();

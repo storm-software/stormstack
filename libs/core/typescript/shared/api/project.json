@@ -18,5 +18,5 @@
     "lint": {},
     "test": {}
   },
-  "tags": ["scope:core", "platform:shared", "level:utilities"]
+  "tags": ["scope:core", "platform:shared", "level:application"]
 }

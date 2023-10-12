@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  useFieldErrors,
-  useFieldRegistration,
-  useFieldValue,
-  useIsSubmitting
-} from "@stormstack/core-client-data-access";
-import {
   CheckboxProps,
   Checkbox as OsCheckbox
 } from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "../hooks";
 
 export function Checkbox({
   name,

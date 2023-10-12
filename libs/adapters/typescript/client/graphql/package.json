@@ -3,6 +3,14 @@
   "version": "0.0.1",
   "dependencies": {
     "@n1ru4l/graphql-live-query-patch-jsondiffpatch": "^0.8.0",
-    "@n1ru4l/push-pull-async-iterable-iterator": "^3.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator": "^3.2.0",
+    "jotai": "^2.4.3",
+    "react-relay": "0.0.0-main-fad7f385",
+    "relay-runtime": "0.0.0-main-fad7f385"
+  },
+  "devDependencies": {
+    "@types/react-relay": "^14.1.6",
+    "@types/relay-runtime": "^14.1.14",
+    "relay-compiler": "^15.0.0"
   }
 }

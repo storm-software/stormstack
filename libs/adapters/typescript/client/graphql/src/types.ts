@@ -1,10 +1,48 @@
-import { RequestOptions } from "@stormstack/core-client-api/types";
+import {
+  MutationRequestOptions,
+  QueryRequestOptions,
+  RequestOptions,
+  SubscriptionRequestOptions,
+  SubscriptionToRequestOptions
+} from "@stormstack/core-client-api";
+import { GraphQLResponse, OperationType, VariablesOf } from "relay-runtime";
+import { ConcreteRequest } from "relay-runtime/lib/util/RelayConcreteNode";
+
+export interface SerializablePreloadedQuery<
+  TRequest extends ConcreteRequest,
+  TQuery extends OperationType
+> {
+  params: TRequest["params"];
+  variables: VariablesOf<TQuery>;
+  response: GraphQLResponse;
+}
 
 export type GraphQLRequestOptions<
   TInput extends Record<string, any> = Record<string, any>
 > = Omit<RequestOptions<TInput>, "method"> & {
   operationName: string;
+
+  operationKind: string;
 };
+
+export type GraphQLQueryRequestOptions<
+  TInput extends Record<string, any> = Record<string, any>
+> = Omit<QueryRequestOptions<TInput>, "method"> & GraphQLRequestOptions<TInput>;
+
+export type GraphQLMutationRequestOptions<
+  TInput extends Record<string, any> = Record<string, any>
+> = Omit<MutationRequestOptions<TInput>, "method"> &
+  GraphQLRequestOptions<TInput>;
+
+export type GraphQLSubscriptionRequestOptions<
+  TInput extends Record<string, any> = Record<string, any>
+> = Omit<SubscriptionRequestOptions<TInput>, "method"> &
+  GraphQLRequestOptions<TInput>;
+
+export type GraphQLSubscriptionToRequestOptions<
+  TInput extends Record<string, any> = Record<string, any>
+> = Omit<SubscriptionToRequestOptions<TInput>, "method"> &
+  GraphQLRequestOptions<TInput>;
 
 export interface IVariables {
   readonly [key: string]: { get(): unknown };

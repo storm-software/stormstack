@@ -1,6 +1,14 @@
-import { CredentialOptions, RequestModes } from "@stormstack/core-shared-api";
+import {
+  ApiClientResult,
+  ApiClientResultStatus,
+  CredentialOptions,
+  RequestModes,
+  createApiHeadersProxy,
+  isStatusCodeSuccessful
+} from "@stormstack/core-shared-api";
 import { isRuntimeServer } from "@stormstack/core-shared-utilities";
-import { FetchOptions } from "../types";
+import { ApiClientRequest, FetchOptions } from "../types";
+import { deserializeResult, serializeRequest } from "./serialization";
 
 export const handleFetch = async <TResponse extends Response = Response>(
   options: FetchOptions
@@ -31,4 +39,19 @@ export const handleFetch = async <TResponse extends Response = Response>(
       clearTimeout(timeout);
     }
   }
+};
+
+export const handleServerFetch = async <TResponse extends Response = Response>(
+  options: ApiClientRequest
+): Promise<ApiClientResult> => {
+  const response = await handleFetch(serializeRequest(options));
+
+  return deserializeResult({
+    ...response,
+    status: isStatusCodeSuccessful(response.status)
+      ? ApiClientResultStatus.SUCCESS
+      : ApiClientResultStatus.ERROR,
+    data: await response.text(),
+    headers: createApiHeadersProxy(response.headers)
+  });
 };

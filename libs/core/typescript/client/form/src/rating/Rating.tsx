@@ -1,18 +1,18 @@
 "use client";
 
 import {
-  useFieldErrors,
-  useFieldRegistration,
-  useFieldValue,
-  useIsSubmitting
-} from "@stormstack/core-client-data-access";
-import {
   Rating as OsRating,
   RatingOption as OsRatingOption,
   RatingProps as OsRatingProps
 } from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "../hooks";
 
 export type RatingProps = OsRatingProps & {
   /**

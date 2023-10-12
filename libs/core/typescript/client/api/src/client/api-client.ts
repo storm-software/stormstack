@@ -1,23 +1,19 @@
 import { Repeater } from "@repeaterjs/repeater";
 import { ClientBaseEnvManager } from "@stormstack/core-client-env";
 import {
+  ApiClientResult,
+  ApiClientResultStatus,
   ApiErrorCode,
   HeaderTypes,
   HeadersProxy,
   HttpMethods,
-  HttpStatusCode,
-  MediaTypes,
+  applyLiveQueryJSONDiffPatch,
   createApiHeadersProxy
 } from "@stormstack/core-shared-api";
-import { Injector } from "@stormstack/core-shared-injection";
+import { QueryParamsParser } from "@stormstack/core-shared-serialization";
+import { MediaTypes } from "@stormstack/core-shared-state";
 import {
-  JsonParser,
-  QueryParamsParser
-} from "@stormstack/core-shared-serialization";
-import {
-  BaseErrorCode,
   BaseUtilityClass,
-  DateTime,
   ProcessingError,
   StormError
 } from "@stormstack/core-shared-utilities";
@@ -26,25 +22,41 @@ import { ApiMiddlewareStack } from "../middleware/api-middleware-stack";
 import {
   API_CLIENT_SYMBOL,
   ApiClientRequest,
-  ApiClientResult,
-  ApiClientResultStatus,
   MutationRequestOptions,
   QueryRequestOptions,
   SubscriptionRequestOptions,
+  SubscriptionToRequestOptions,
   UploadRequestOptions,
   UploadResponse,
   UploadValidationOptions
 } from "../types";
 import { deserializeResult } from "../utilities";
 
+/**
+ * ApiClientOptions is used to configure the ApiClient.
+ */
 export interface ApiClientOptions extends UploadValidationOptions {
-  applicationHash?: string;
+  /**
+   * The base URL of the API server.
+   *
+   * @remarks This is used to construct the full URL for each API request.
+   */
   baseUrl?: string;
 
+  /**
+   * The current SDK version of Storm running.
+   */
   sdkVersion?: string;
+
+  /**
+   * Extra headers to be sent with each request.
+   */
   extraHeaders?: Headers;
+
+  /**
+   * Is CSRF token required for this client?
+   */
   csrfEnabled?: boolean;
-  csrfTokenUrl?: string;
 
   /**
    * How many times should the client try to reconnect before it errors out?
@@ -66,12 +78,15 @@ export interface ApiClientOptions extends UploadValidationOptions {
   middleware?: Array<new (options: ApiClientOptions) => ApiMiddleware>;
 }
 
+/**
+ * ApiClient is a base class including various methods for making requests to the API server.
+ */
 export class ApiClient extends BaseUtilityClass {
   protected readonly headersProxy: HeadersProxy;
   protected readonly csrfEnabled: boolean = true;
-  protected csrfToken?: string;
+
   protected middlewareStack: ApiMiddlewareStack;
-  protected env: ClientBaseEnvManager;
+  protected csrfToken?: string;
 
   /**
    * A string representing the base class
@@ -82,9 +97,11 @@ export class ApiClient extends BaseUtilityClass {
     return "ApiClient";
   }
 
-  constructor(protected options: ApiClientOptions = {}) {
+  constructor(
+    protected env: ClientBaseEnvManager,
+    protected options: ApiClientOptions = {}
+  ) {
     super(API_CLIENT_SYMBOL);
-    this.env = Injector.get(ClientBaseEnvManager);
 
     const headers = new Headers();
     if (this.options.extraHeaders) {
@@ -182,105 +199,99 @@ export class ApiClient extends BaseUtilityClass {
   }
 
   /**
-   * Set up subscriptions over SSE with fallback to web streams.
+   * Subscribe makes a GET request to the server and returns a Repeater that emits the response from the server.
    *
-   * Falls back to web streams if extraHeaders are set,
-   * no callback is supplied or EventSource is not supported.
-   *
-   * When called with subscribeOnce it will return the response directly
-   * without setting up a subscription.
-   * @see https://docs.wundergraph.com/docs/architecture/wundergraph-rpc-protocol-explained#subscriptions
+   * @param options The request options
+   * @returns
    */
   public subscribe<
     TRequestOptions extends SubscriptionRequestOptions,
     TData = any,
     TError extends StormError = StormError
   >(options: TRequestOptions) {
-    return new Repeater(async (push, end) => {
-      return this.startEventSource<TData, TError>(options, push, end);
-    });
-  }
+    return new Repeater<ApiClientResult<TData, TError>>(async (push, end) => {
+      if (options.subscribeOnce) {
+        const result = await this.query<TRequestOptions, TData, TError>(
+          options
+        );
 
-  protected async *startEventSource<
-    TData = any,
-    TError extends StormError = StormError
-  >(
-    subscription: SubscriptionRequestOptions,
-    push: (data: ApiClientResult<TData, TError>) => void,
-    end: (error?: TError) => void
-  ): AsyncGenerator<ApiClientResult<TData, TError>> {
-    if (!("EventSource" in globalThis)) {
-      throw new ProcessingError("EventSource is not supported in this browser");
-    }
-
-    const url = new URL(
-      (subscription.url ? subscription.url : this.baseUrl()).toString()
-    );
-    url.search = QueryParamsParser.stringify(subscription.input);
-
-    const requestAt = DateTime.current;
-    const eventSource = new EventSource(url, {
-      withCredentials: true
-    });
-
-    eventSource.addEventListener("error", () => {
-      end(
-        new StormError(
-          ApiErrorCode.subscription_error,
-          `An error occured while receiving Server Sent Events`
-        ) as TError
-      );
-    });
-
-    eventSource.addEventListener("message", ev => {
-      if (ev.data === "done" || eventSource.readyState === 2) {
+        push?.(result);
         end();
-        return;
-      }
-      if (ev.data == "") {
+
         return;
       }
 
-      const jsonResp = deserializeResult<TData, TError>({
-        data: ev.data,
-        status: ApiClientResultStatus.SUCCESS,
-        headers: createApiHeadersProxy(new Headers()),
-        requestAt,
-        responseAt: DateTime.current,
-        request: subscription,
-        httpStatusCode: HttpStatusCode.OK_200
+      if (!("EventSource" in globalThis)) {
+        throw new ProcessingError(
+          "EventSource is not supported in this browser"
+        );
+      }
+
+      const url = new URL(
+        (options.url ? options.url : this.baseUrl()).toString()
+      );
+      url.search = QueryParamsParser.stringify(options.input);
+
+      const eventSource = new EventSource(url, {
+        withCredentials: true
       });
 
-      push(jsonResp);
+      eventSource.addEventListener("error", () => {
+        end(
+          new StormError(
+            ApiErrorCode.subscription_error,
+            `An error occured while receiving Server Sent Events`
+          ) as TError
+        );
+      });
+
+      eventSource.addEventListener("message", ev => {
+        if (
+          ev.data === "done" ||
+          eventSource.readyState === EventSource.CLOSED
+        ) {
+          end();
+          return;
+        }
+        if (ev.data == "") {
+          return;
+        }
+
+        const jsonResp = deserializeResult<TData, TError>({
+          data: ev.data,
+          status: ApiClientResultStatus.SUCCESS
+        });
+
+        push(jsonResp);
+      });
+
+      if (options.signal) {
+        options.signal.addEventListener("abort", () => eventSource.close());
+      }
+
+      await end;
+      eventSource.close();
     });
-
-    if (subscription.signal) {
-      subscription.signal.addEventListener("abort", () => eventSource.close());
-    }
-
-    await end;
-    eventSource.close();
   }
 
-  public async fetch<TData = any, TError extends StormError = StormError>(
-    options: Partial<ApiClientRequest>
-  ): Promise<ApiClientResult<TData, TError>> {
-    let headers!: HeadersProxy;
-    if (!options.headers) {
-      headers = createApiHeadersProxy(this.headersProxy.headers);
-    } else {
-      headers.merge(this.headersProxy);
+  /**
+   * Subscribe makes a GET request to the server and returns a Repeater that emits the response from the server.
+   *
+   * @param options The request options
+   * @returns
+   */
+  public async subscribeTo<
+    TRequestOptions extends SubscriptionToRequestOptions,
+    TData = any,
+    TError extends StormError = StormError
+  >(options: TRequestOptions) {
+    const result = applyLiveQueryJSONDiffPatch<ApiClientResult<TData, TError>>(
+      this.subscribe<TRequestOptions, TData, TError>(options)
+    );
+
+    for await (const value of result) {
+      options.onResult(value);
     }
-
-    const response = await this.middlewareStack.run<
-      ApiClientResult<TData, TError>
-    >({
-      url: this.baseUrl(),
-      ...options,
-      headers
-    });
-
-    return response;
   }
 
   /**
@@ -378,8 +389,38 @@ export class ApiClient extends BaseUtilityClass {
     };
   }
 
-  public validateFiles(options: UploadRequestOptions) {}
+  /**
+   * Fetch makes a request to the server.
+   *
+   * @param options The request options
+   * @returns
+   */
+  protected async fetch<TData = any, TError extends StormError = StormError>(
+    options: Partial<ApiClientRequest>
+  ): Promise<ApiClientResult<TData, TError>> {
+    let headers!: HeadersProxy;
+    if (!options.headers) {
+      headers = createApiHeadersProxy(this.headersProxy.headers);
+    } else {
+      headers.merge(this.headersProxy);
+    }
 
+    const response = await this.middlewareStack.run<
+      ApiClientResult<TData, TError>
+    >({
+      url: this.baseUrl(),
+      ...options,
+      headers
+    });
+
+    return response;
+  }
+
+  /**
+   * The base URL of the API server.
+   *
+   * @remarks This is used to construct the full URL for each API request.
+   */
   protected baseUrl(): string {
     return this.options.baseUrl
       ? this.options.baseUrl
@@ -387,62 +428,4 @@ export class ApiClient extends BaseUtilityClass {
       ? `${this.env.baseUrl.origin}/${this.env.baseUrl.pathname}`
       : this.env.baseUrl.origin;
   }
-
-  protected addUrlParams(url: string, queryParams: URLSearchParams): string {
-    queryParams.sort();
-    const queryString = this.encodeQueryParams(queryParams);
-
-    return url + (queryString ? `?${queryString}` : "");
-  }
-
-  protected encodeQueryParams(queryParams: URLSearchParams): string {
-    const originalString = queryParams.toString();
-    const withoutEmptyArgs = originalString.replace("=&", "&");
-    return withoutEmptyArgs.endsWith("=")
-      ? withoutEmptyArgs.slice(0, -1)
-      : withoutEmptyArgs;
-  }
-
-  protected stringifyInput(input: any) {
-    const encoded = JsonParser.stringify(input || {});
-    return encoded === "{}" ? undefined : encoded;
-  }
-
-  /**
-   * Handles authentication errors from a failed attempt in a browser context
-   * by examining window.location.href
-   */
-  private handleAuthenticationError() {
-    if (typeof window !== "undefined") {
-      const href = window.location.href;
-      const sep = href.indexOf("?");
-      const query = href.substring(sep);
-      const searchParams = new URLSearchParams(query);
-      const errorCode = searchParams.get("_wg.auth.error.code");
-      const errorMessage = searchParams.get("_wg.auth.error.message");
-      if (errorCode || errorMessage) {
-        searchParams.delete("_wg.auth.error.code");
-        searchParams.delete("_wg.auth.error.message");
-        const newQuery = searchParams.toString();
-        const nonQuery = href.substring(0, sep);
-        let nextUrl: string;
-        if (newQuery) {
-          nextUrl = `${nonQuery}?${newQuery}`;
-        } else {
-          nextUrl = nonQuery;
-        }
-
-        const code = decodeURIComponent(errorCode || "") as BaseErrorCode;
-        const message = decodeURIComponent(errorMessage || errorCode || "");
-        window.history.replaceState({}, window.document.title, nextUrl);
-
-        throw new StormError(code, message);
-      }
-    }
-  }
-
-  /*private isAuthenticatedOperation(operationName: string) {
-    return !!this.options.operationMetadata?.[operationName]
-      ?.requiresAuthentication;
-  }*/
 }

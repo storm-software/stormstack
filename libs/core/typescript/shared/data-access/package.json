@@ -1,7 +1,0 @@
-{
-  "name": "@stormstack/core-shared-data-access",
-  "version": "0.0.1",
-  "dependencies": {
-    "type-fest": "^4.3.2"
-  }
-}

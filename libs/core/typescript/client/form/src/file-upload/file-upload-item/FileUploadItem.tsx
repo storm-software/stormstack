@@ -1,6 +1,5 @@
 "use client";
 
-import { FileUploadState } from "@stormstack/core-client-data-access";
 import { openDataInNewTab } from "@stormstack/core-client-utilities";
 import {
   FileUploadItem as OsFileUploadItem,
@@ -8,9 +7,10 @@ import {
 } from "@stormstack/design-system-components";
 import { Atom, useAtomValue } from "jotai";
 import { useCallback } from "react";
+import { FileUploadFieldState } from "../../types";
 
 export type FileUploadProps = PropsWithBase<{
-  fileAtom: Atom<Promise<FileUploadState>>;
+  fileAtom: Atom<Promise<FileUploadFieldState>>;
   onRemoveFile: (name: string) => void;
 }>;
 

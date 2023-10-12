@@ -1,10 +1,10 @@
-import { HeaderTypes } from "@stormstack/core-shared-api";
+import { ApiClientResult, HeaderTypes } from "@stormstack/core-shared-api";
 import {
   MaybePromise,
   UniqueIdGenerator
 } from "@stormstack/core-shared-utilities";
 import { ApiClientOptions } from "../client/api-client";
-import { ApiClientRequest, ApiClientResult } from "../types";
+import { ApiClientRequest } from "../types";
 import { ApiMiddleware } from "./api-middleware";
 
 export class RequestIdMiddleware extends ApiMiddleware {

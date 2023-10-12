@@ -1,10 +1,10 @@
-import { HeadersProxy } from "@stormstack/core-shared-api";
+import { ApiClientResult, HeadersProxy } from "@stormstack/core-shared-api";
 import { Injector } from "@stormstack/core-shared-injection";
 import { Logger } from "@stormstack/core-shared-logging";
 import { JsonParser, JsonValue } from "@stormstack/core-shared-serialization";
 import { MaybePromise } from "@stormstack/core-shared-utilities";
 import { ApiClientOptions } from "../client/api-client";
-import { ApiClientRequest, ApiClientResult } from "../types";
+import { ApiClientRequest } from "../types";
 import { ApiMiddleware } from "./api-middleware";
 
 export class LoggingMiddleware extends ApiMiddleware {
@@ -36,11 +36,13 @@ export class LoggingMiddleware extends ApiMiddleware {
     // Call next middleware
     const response = await Promise.resolve(next(options));
 
-    this._logger.info(this.writeResponseLog(response));
+    this._logger.info(this.writeResponseLog(options));
 
-    this._logger.debug(
-      `Response Headers: ${this.writeHeadersLog(response.headers)}`
-    );
+    if (response.headers) {
+      this._logger.debug(
+        `Response Headers: ${this.writeHeadersLog(response.headers)}`
+      );
+    }
     this._logger.debug(
       `Response Body: ${JsonParser.stringify(response.data as JsonValue)}`
     );
@@ -54,8 +56,8 @@ export class LoggingMiddleware extends ApiMiddleware {
     } - ${request.url}`;
   }
 
-  protected writeResponseLog(response: ApiClientResult): string {
-    return `Receiving Response - ${response.request.url}`;
+  protected writeResponseLog(request: ApiClientRequest): string {
+    return `Receiving Response - ${request.url}`;
   }
 
   protected writeHeadersLog(headers: HeadersProxy): string {

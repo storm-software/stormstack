@@ -1,18 +1,21 @@
 import { applyLiveQueryJSONDiffPatch } from "@n1ru4l/graphql-live-query-patch-jsondiffpatch";
 import { applyAsyncIterableIteratorToSink } from "@n1ru4l/push-pull-async-iterable-iterator";
+import { GraphQLOperationKind } from "@stormstack/adapters-shared-graphql";
 import {
   ApiClient,
   ApiClientOptions,
+  ApiMiddleware,
+  ApiMiddlewareStack
+} from "@stormstack/core-client-api";
+import { ClientBaseEnvManager } from "@stormstack/core-client-env";
+import {
   ApiClientResult,
   ApiClientResultStatus,
-  ApiMiddleware,
-  ApiMiddlewareStack,
-  RequestOptions
-} from "@stormstack/core-client-api";
-import { ApiErrorCode } from "@stormstack/core-shared-api";
+  ApiErrorCode
+} from "@stormstack/core-shared-api";
 import { StormError } from "@stormstack/core-shared-utilities";
 import { GraphQLSerializationMiddleware } from "../middleware";
-import { IVariables, RequestParameters, Sink } from "../types";
+import { GraphQLRequestOptions, Sink } from "../types";
 
 export interface GraphQLClientOptions extends ApiClientOptions {
   /**
@@ -31,8 +34,11 @@ export interface GraphQLClientOptions extends ApiClientOptions {
 }
 
 export class GraphQLClient extends ApiClient {
-  constructor(protected override options: GraphQLClientOptions = {}) {
-    super(options);
+  constructor(
+    env: ClientBaseEnvManager,
+    protected override options: GraphQLClientOptions = {}
+  ) {
+    super(env, options);
 
     if (this.options.middleware) {
       this.middlewareStack = this.options.middleware.reduce(
@@ -49,59 +55,74 @@ export class GraphQLClient extends ApiClient {
         this.middlewareStack
       );
     }
+
     this.middlewareStack.use(new GraphQLSerializationMiddleware(this.options));
   }
 
-  public observable = <
-    TVariables extends IVariables = IVariables,
-    TRequestOptions extends RequestOptions = RequestOptions,
-    TData = any,
-    TError extends StormError = StormError
-  >(
-    request: RequestParameters<TVariables>,
-    options: TRequestOptions,
+  public graphQLOperation = async (
+    request: GraphQLRequestOptions,
     sink: Sink
   ) => {
-    const {
-      text: operation,
-      name: operationName,
-      operationKind,
-      providedVariables: variables
-    } = request;
+    try {
+      const { input, isLive, operationKind } = request;
 
-    if (operation?.includes("@live") || operationKind === "subscription") {
-      return applyAsyncIterableIteratorToSink(
-        applyLiveQueryJSONDiffPatch(
-          this.subscribe({
-            url: new URL(options.url.toString()),
-            input: { query: operation, variables },
-            headers: this.headersProxy
-          })
-        ),
-        sink
+      if (
+        isLive ||
+        operationKind.toUpperCase() ===
+          GraphQLOperationKind.LIVE_QUERY.toUpperCase() ||
+        operationKind.toUpperCase() ===
+          GraphQLOperationKind.SUBSCRIPTION.toUpperCase()
+      ) {
+        return applyAsyncIterableIteratorToSink(
+          applyLiveQueryJSONDiffPatch(
+            this.subscribe({
+              input: {
+                doc_id: request.operationName,
+                variables: request.input
+              }
+            })
+          ),
+          sink
+        );
+      }
+
+      let result!: ApiClientResult;
+      if (
+        operationKind.toUpperCase() ===
+          GraphQLOperationKind.QUERY.toUpperCase() ||
+        operationKind.toUpperCase() ===
+          GraphQLOperationKind.PRELOADED_QUERY.toUpperCase()
+      ) {
+        result = await this.query({
+          input: {
+            doc_id: request.operationName,
+            variables: request.input
+          }
+        });
+      } else {
+        result = await this.mutate({
+          input: {
+            doc_id: request.operationName,
+            variables: request.input
+          }
+        });
+      }
+      if (result.status === ApiClientResultStatus.ERROR) {
+        sink.error(
+          result.error
+            ? result.error
+            : new StormError(ApiErrorCode.connection_failure)
+        );
+      } else {
+        sink.next(result);
+        sink.complete();
+      }
+    } catch (error) {
+      sink.error(
+        StormError.isStormError(error)
+          ? error
+          : new StormError(ApiErrorCode.connection_failure)
       );
     }
-
-    this.fetch<TData, TError>({
-      ...options,
-      body: {
-        doc_id: request.id,
-        variables,
-        operationName
-      }
-    })
-      .then((result: ApiClientResult<TData, TError>) => {
-        if (result.status === ApiClientResultStatus.ERROR) {
-          sink.error(
-            result.error ?? new StormError(ApiErrorCode.connection_failure)
-          );
-        } else {
-          sink.next(result);
-          sink.complete();
-        }
-      })
-      .catch(error => {
-        sink.error(error);
-      });
   };
 }

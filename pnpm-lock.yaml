@@ -103,9 +103,6 @@ importers:
       "@vercel/otel":
         specifier: ^0.3.0
         version: 0.3.0
-      attr-accept:
-        specifier: ^2.2.2
-        version: 2.2.2
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
@@ -145,12 +142,6 @@ importers:
       inquirer:
         specifier: "8"
         version: 8.2.6
-      jotai:
-        specifier: ^2.1.0
-        version: 2.4.3(@types/react@18.2.20)(react@18.2.0)
-      jotai-molecules:
-        specifier: ^1.1.1
-        version: 1.2.0(react@18.2.0)
       lottie-web:
         specifier: ^5.12.0
         version: 5.12.2
@@ -386,9 +377,6 @@ importers:
       "@svgr/webpack":
         specifier: 8.0.1
         version: 8.0.1(typescript@5.2.0-beta)
-      "@swc-jotai/react-refresh":
-        specifier: ^0.1.0
-        version: 0.1.0
       "@swc-node/register":
         specifier: ^1.6.7
         version: 1.6.8(@swc/core@1.3.90)(typescript@5.2.0-beta)
@@ -431,12 +419,6 @@ importers:
       "@types/react-dom":
         specifier: 18.2.7
         version: 18.2.7
-      "@types/react-relay":
-        specifier: ^14.1.4
-        version: 14.1.6
-      "@types/relay-runtime":
-        specifier: ^14.1.11
-        version: 14.1.14
       "@typescript-eslint/eslint-plugin":
         specifier: 5.60.1
         version: 5.60.1(@typescript-eslint/parser@5.60.1)(eslint@8.46.0)(typescript@5.2.0-beta)
@@ -575,9 +557,6 @@ importers:
       log4brains:
         specifier: ^1.0.1
         version: 1.0.1(@types/react@18.2.20)(typescript@5.2.0-beta)(webpack@5.88.2)
-      mustache:
-        specifier: ^4.2.0
-        version: 4.2.0
       next-intl:
         specifier: ^2.13.1
         version: 2.20.2(next@13.5.4)(react@18.2.0)
@@ -768,9 +747,31 @@ importers:
       "@n1ru4l/push-pull-async-iterable-iterator":
         specifier: ^3.2.0
         version: 3.2.0
+      jotai:
+        specifier: ^2.4.3
+        version: 2.4.3(@types/react@18.2.20)(react@18.2.0)
+      react-relay:
+        specifier: 0.0.0-main-fad7f385
+        version: 0.0.0-main-fad7f385(react@18.2.0)
+      relay-runtime:
+        specifier: 0.0.0-main-fad7f385
+        version: 0.0.0-main-fad7f385
+    devDependencies:
+      "@types/react-relay":
+        specifier: ^14.1.6
+        version: 14.1.6
+      "@types/relay-runtime":
+        specifier: ^14.1.14
+        version: 14.1.14
+      relay-compiler:
+        specifier: ^15.0.0
+        version: 15.0.0
 
   libs/adapters/typescript/client/relay:
     dependencies:
+      jotai:
+        specifier: ^2.1.0
+        version: 2.4.3(@types/react@18.2.20)(react@18.2.0)
       react-relay:
         specifier: 0.0.0-main-72f38f5b
         version: 0.0.0-main-72f38f5b(react@18.2.0)
@@ -778,6 +779,12 @@ importers:
         specifier: 0.0.0-main-72f38f5b
         version: 0.0.0-main-72f38f5b
     devDependencies:
+      "@types/react-relay":
+        specifier: ^14.1.6
+        version: 14.1.6
+      "@types/relay-runtime":
+        specifier: ^14.1.14
+        version: 14.1.14
       relay-compiler:
         specifier: 0.0.0-main-72f38f5b
         version: 0.0.0-main-72f38f5b
@@ -821,11 +828,26 @@ importers:
 
   libs/core/typescript/client/components: {}
 
-  libs/core/typescript/client/data-access: {}
+  libs/core/typescript/client/data-access:
+    dependencies:
+      jotai:
+        specifier: ^2.4.3
+        version: 2.4.3(@types/react@18.2.20)(react@18.2.0)
+    devDependencies:
+      "@swc-jotai/debug-label":
+        specifier: ^0.1.0
+        version: 0.1.0
+      "@swc-jotai/react-refresh":
+        specifier: ^0.1.0
+        version: 0.1.0
 
   libs/core/typescript/client/env: {}
 
-  libs/core/typescript/client/form: {}
+  libs/core/typescript/client/form:
+    dependencies:
+      jotai:
+        specifier: ^2.4.3
+        version: 2.4.3(@types/react@18.2.20)(react@18.2.0)
 
   libs/core/typescript/client/notifications:
     dependencies:
@@ -844,6 +866,19 @@ importers:
       react-pdf-tailwind:
         specifier: ^2.1.0
         version: 2.1.0(react@18.2.0)(ts-node@10.9.1)
+
+  libs/core/typescript/client/state:
+    dependencies:
+      jotai:
+        specifier: ^2.4.3
+        version: 2.4.3(@types/react@18.2.20)(react@18.2.0)
+    devDependencies:
+      "@swc-jotai/debug-label":
+        specifier: ^0.1.0
+        version: 0.1.0
+      "@swc-jotai/react-refresh":
+        specifier: ^0.1.0
+        version: 0.1.0
 
   libs/core/typescript/client/utilities: {}
 
@@ -1001,7 +1036,17 @@ importers:
         specifier: ^7.5.4
         version: 7.5.4
 
-  libs/core/typescript/shared/api: {}
+  libs/core/typescript/shared/api:
+    dependencies:
+      "@n1ru4l/json-patch-plus":
+        specifier: ^0.2.0
+        version: 0.2.0
+      "@repeaterjs/repeater":
+        specifier: ^3.0.4
+        version: 3.0.4
+      fast-json-patch:
+        specifier: ^3.1.1
+        version: 3.1.1
 
   libs/core/typescript/shared/data-access:
     dependencies:
@@ -1048,6 +1093,12 @@ importers:
       "@types/qs":
         specifier: ^6.9.8
         version: 6.9.8
+
+  libs/core/typescript/shared/state:
+    dependencies:
+      attr-accept:
+        specifier: ^2.2.2
+        version: 2.2.2
 
   libs/core/typescript/shared/utilities:
     dependencies:
@@ -19945,6 +19996,13 @@ packages:
       - debug
     dev: false
 
+  /@swc-jotai/debug-label@0.1.0:
+    resolution:
+      {
+        integrity: sha512-Fe0ag02uBaVBIS/ySKkLSyiMhTUKyw3F0pTAcH+Yc29wZgIt//yFuPv1+p0QrlV6n411BJ0sxq2ei89tvwpFXQ==
+      }
+    dev: true
+
   /@swc-jotai/react-refresh@0.1.0:
     resolution:
       {
@@ -25333,24 +25391,6 @@ packages:
     transitivePeerDependencies:
       - debug
     dev: true
-
-  /bunshi@2.0.1(react@18.2.0):
-    resolution:
-      {
-        integrity: sha512-gQPwB08QI3ArdQWptSLKgLO/LSPHL7WJQX+n8k3VDICxaKGTzIP+94gD8T4Y5/kcut5guNdGRMN4p4Ton4g2fA==
-      }
-    engines: { node: ">=10" }
-    peerDependencies:
-      react: ">=16"
-      vue: ">=3"
-    peerDependenciesMeta:
-      react:
-        optional: true
-      vue:
-        optional: true
-    dependencies:
-      react: 18.2.0
-    dev: false
 
   /busboy@1.6.0(patch_hash=2uaic7z7ehdja6rs77q2zutujm):
     resolution:
@@ -37650,21 +37690,6 @@ packages:
         integrity: sha512-IY73F228OXRl9ar3jJagh7Vnuhj/GzBunPiZP13K0lOl7Am9SoWW3kEzq3MCllJMTtZqHTiDXQvoRd4U95aU6A==
       }
 
-  /jotai-molecules@1.2.0(react@18.2.0):
-    resolution:
-      {
-        integrity: sha512-Mrp2IZ6SAQUc3iANBXtcb1tgNUH6IR9I3/oGcsu2SX1jFUHwZPwvhtrOKcGlE1KJ8Coe2LfbBbVUyAozRn7H+Q==
-      }
-    engines: { node: ">=10" }
-    peerDependencies:
-      react: ">=16"
-    dependencies:
-      bunshi: 2.0.1(react@18.2.0)
-      react: 18.2.0
-    transitivePeerDependencies:
-      - vue
-    dev: false
-
   /jotai@1.13.1(@babel/core@7.12.9)(react@17.0.2):
     resolution:
       {
@@ -47582,6 +47607,24 @@ packages:
       - encoding
     dev: false
 
+  /react-relay@0.0.0-main-fad7f385(react@18.2.0):
+    resolution:
+      {
+        integrity: sha512-rsx47r20xG0YtfIkAdT7fyjktWuvMRnkmDCzyMqyd60jAFdeuJJwD5vk59KiDgF1+WGnAQ9Z6vJt5F0MrxyQVQ==
+      }
+    peerDependencies:
+      react: ^16.9.0 || ^17 || ^18
+    dependencies:
+      "@babel/runtime": 7.23.1
+      fbjs: 3.0.5
+      invariant: 2.2.4
+      nullthrows: 1.1.1
+      react: 18.2.0
+      relay-runtime: 0.0.0-main-fad7f385
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /react-relay@15.0.0(react@18.2.0):
     resolution:
       {
@@ -48434,6 +48477,19 @@ packages:
     resolution:
       {
         integrity: sha512-hkfA53/z/29adTsf0yPaE4E6K53J8wV5XOKzzuVktpLDW3xq5fAFbL6GP/JVlG9QpSxECz6e15SYc+5gsN7M2A==
+      }
+    dependencies:
+      "@babel/runtime": 7.23.1
+      fbjs: 3.0.5
+      invariant: 2.2.4
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /relay-runtime@0.0.0-main-fad7f385:
+    resolution:
+      {
+        integrity: sha512-nM96xV0+6wWB11CXkHtN08UJJSSH/bKCacyWv15cx3apUK+BBhax81D9SAxC6jLqTrVG0SVrSe2bJsOBEyjmRA==
       }
     dependencies:
       "@babel/runtime": 7.23.1

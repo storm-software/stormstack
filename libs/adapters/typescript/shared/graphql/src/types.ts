@@ -1,8 +1,27 @@
-import { ApiErrorSeverity, ApiUser } from "@stormstack/core-shared-api/types";
+import {
+  ApiErrorSeverity,
+  ApiUser,
+  HeaderTypes
+} from "@stormstack/core-shared-api/types";
 import {
   JsonParserResult,
   JsonValue
 } from "@stormstack/core-shared-serialization/types";
+
+export type GraphQLHeaderTypes = HeaderTypes | "x-doc-id" | "x-operation-name";
+export const GraphQLHeaderTypes = {
+  ...HeaderTypes,
+  X_DOC_ID: "x-doc-id" as GraphQLHeaderTypes,
+  X_OPERATION_NAME: "x-operation-name" as GraphQLHeaderTypes
+};
+
+export const GraphQLOperationKind = {
+  QUERY: "query",
+  MUTATION: "mutation",
+  SUBSCRIPTION: "subscription",
+  LIVE_QUERY: "liveQuery",
+  PRELOADED_QUERY: "preloadedQuery"
+} as const;
 
 export interface ApiExtensionsPayload {
   message: string;
@@ -69,7 +88,7 @@ export interface ApiResponsePayload<
  * @remarks Extends the `Response` interface from the Fetch API.
  * @link [Response Reference Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Response)
  */
-export interface GraphQLResponse<
+export interface GraphQLResult<
   TData extends JsonValue = JsonValue,
   TExtensions extends ApiExtensionsPayload = ApiExtensionsPayload,
   TError extends ApiErrorPayload = ApiErrorPayload
@@ -80,7 +99,7 @@ export interface GraphQLResponse<
 export interface ApiOperation {
   input?: object;
   liveQuery?: boolean;
-  response: GraphQLResponse;
+  response: GraphQLResult;
   requiresAuthentication: boolean;
 }
 
@@ -93,13 +112,21 @@ export interface ApiOperationMetadata {
 export interface ApiOperationRequestOptions<
   TInput extends Record<string, any> = Record<string, any>
 > {
+  /**
+   * The name of the operation to be executed.
+   */
   operationName: string;
+
   /**
    * If you pass an AbortSignal, the request will be aborted when the signal is aborted.
    * You are responsible of handling the request timeout if you want to pass a custom AbortSignal.
    * @see https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal
    */
   abortSignal?: AbortSignal;
+
+  /**
+   * The input to be passed to the operation.
+   */
   input?: TInput;
 }
 

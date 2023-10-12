@@ -1,14 +1,11 @@
+import { ApiClientResult } from "@stormstack/core-shared-api";
 import {
   BaseUtilityClass,
   IMiddleware,
   MaybePromise
 } from "@stormstack/core-shared-utilities";
 import { ApiClientOptions } from "../client";
-import {
-  API_MIDDLEWARE_SYMBOL,
-  ApiClientRequest,
-  ApiClientResult
-} from "../types";
+import { API_MIDDLEWARE_SYMBOL, ApiClientRequest } from "../types";
 
 export class ApiMiddleware extends BaseUtilityClass implements IMiddleware {
   /**

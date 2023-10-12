@@ -1,18 +1,18 @@
 "use client";
 
 import {
-  useFieldErrors,
-  useFieldRegistration,
-  useFieldValue,
-  useIsSubmitting
-} from "@stormstack/core-client-data-access";
-import {
   Radio as OsRadio,
   RadioOption as OsRadioOption,
   RadioProps as OsRadioProps
 } from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "../hooks";
 import { RadioOption } from "./Radio.types";
 
 export type RadioProps = OsRadioProps & {

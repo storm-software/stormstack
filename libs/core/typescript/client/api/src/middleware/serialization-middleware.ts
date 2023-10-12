@@ -1,6 +1,7 @@
+import { ApiClientResult } from "@stormstack/core-shared-api";
 import { MaybePromise } from "@stormstack/core-shared-utilities";
 import { ApiClientOptions } from "../client/api-client";
-import { ApiClientRequest, ApiClientResult } from "../types";
+import { ApiClientRequest } from "../types";
 import {
   deserializeResult,
   serializeRequest

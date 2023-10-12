@@ -1,5 +1,10 @@
 {
   "name": "@stormstack/core-shared-api",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "@n1ru4l/json-patch-plus": "^0.2.0",
+    "@repeaterjs/repeater": "^3.0.4",
+    "fast-json-patch": "^3.1.1"
+  }
 }

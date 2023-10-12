@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  useFieldErrors,
-  useFieldRegistration,
-  useFieldValue,
-  useIsSubmitting
-} from "@stormstack/core-client-data-access";
-import {
   Input as OsInput,
   InputProps as OsInputProps
 } from "@stormstack/design-system-components";
 import { useEffect } from "react";
 import { UseFormRegisterReturn, useFormContext } from "react-hook-form";
+import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useIsSubmitting
+} from "../hooks";
 import { ValidationPropType } from "../types";
 
 export type InputProps = Omit<

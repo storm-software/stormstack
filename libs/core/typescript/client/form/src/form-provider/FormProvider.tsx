@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { FormIdScope } from "@stormstack/core-client-data-access";
-import { FormContext } from "@stormstack/core-shared-data-access";
+import { ScopeProvider } from "@stormstack/core-client-state";
 import { BaseComponentProps } from "@stormstack/design-system-components";
-import { ScopeProvider } from "jotai-molecules";
 import { FormProvider as RHFormProvider } from "react-hook-form";
+import { formIdAtom } from "../state";
+import { FormContext } from "../types";
 // import { DevTool } from "@hookform/devtools";
 
 export type FormProviderProps<TValues extends Record<string, any>> =
@@ -21,7 +21,7 @@ export function FormProvider<TValues extends Record<string, any>>({
   ...rest
 }: FormProviderProps<TValues>) {
   return (
-    <ScopeProvider scope={FormIdScope} value={formId}>
+    <ScopeProvider atoms={[formIdAtom]}>
       <RHFormProvider<TValues>
         control={control}
         formState={state}

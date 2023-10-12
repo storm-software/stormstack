@@ -1,16 +1,6 @@
 "use client";
 
 import {
-  FileUploadState,
-  useFieldErrors,
-  useFieldRegistration,
-  useFieldValue,
-  useFileUploadErrors,
-  useFileUploadList,
-  useIsSubmitting
-} from "@stormstack/core-client-data-access";
-import { FormFieldConfig } from "@stormstack/core-shared-data-access";
-import {
   FileUploadProps,
   FileUpload as OsFileUpload,
   Skeleton
@@ -18,6 +8,15 @@ import {
 import { Atom } from "jotai";
 import { Suspense, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import {
+  useFieldErrors,
+  useFieldRegistration,
+  useFieldValue,
+  useFileUploadErrors,
+  useFileUploadList,
+  useIsSubmitting
+} from "../hooks";
+import { FileUploadFieldState, FormFieldConfig } from "../types";
 import { FileUploadItem } from "./file-upload-item";
 
 export function FileUpload({
@@ -100,7 +99,7 @@ export function FileUpload({
       disabled={useIsSubmitting() || disabled}>
       {fileAtoms && fileAtoms.length > 0 && (
         <ul className="h-fit gap-1 p-4 pt-0 flex flex-col">
-          {fileAtoms.map((fileAtom: Atom<Promise<FileUploadState>>) => (
+          {fileAtoms.map((fileAtom: Atom<Promise<FileUploadFieldState>>) => (
             <Suspense
               key={`${fileAtom}`}
               fallback={

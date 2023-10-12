@@ -469,3 +469,16 @@ export const isMiddleware = (value: any): value is IMiddleware => {
 export const isTyped = (value: any): value is ITyped => {
   return isObject(value) && "__typename" in value && isString(value.__typename);
 };
+
+/**
+ * Check if the provided value's type is `AsyncIterable`
+ * @param value - The value to type check
+ * @returns An indicator specifying if the object provided is `AsyncIterable`
+ */
+export const isAsyncIterable = (
+  value: unknown
+): value is AsyncIterable<unknown> => {
+  return (
+    typeof value === "object" && value !== null && Symbol.asyncIterator in value
+  );
+};

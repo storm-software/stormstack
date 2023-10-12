@@ -1,10 +1,10 @@
-import { SerializationMiddleware } from "@stormstack/core-client-api/middleware/serialization-middleware";
-import { ApiClientRequest } from "@stormstack/core-client-api/types";
+import { GraphQLHeaderTypes } from "@stormstack/adapters-shared-graphql";
 import {
-  HeaderTypes,
-  HttpMethods,
-  MediaTypes
-} from "@stormstack/core-shared-api/types";
+  ApiClientRequest,
+  SerializationMiddleware
+} from "@stormstack/core-client-api";
+import { HeaderTypes, HttpMethods } from "@stormstack/core-shared-api";
+import { MediaTypes } from "@stormstack/core-shared-state";
 
 export class GraphQLSerializationMiddleware extends SerializationMiddleware {
   /**
@@ -14,7 +14,14 @@ export class GraphQLSerializationMiddleware extends SerializationMiddleware {
    * @returns The request options updated in some way
    */
   public override preSerialize(options: ApiClientRequest): ApiClientRequest {
-    const { text: operation, name, variables } = options.body;
+    const { request, variables } = options.body;
+    const { text: operation, name: operationName } = request;
+
+    options.headers.set(
+      GraphQLHeaderTypes.X_DOC_ID,
+      request.id ?? request.cacheID
+    );
+    options.headers.set(GraphQLHeaderTypes.X_OPERATION_NAME, operationName);
 
     options.method = HttpMethods.POST;
     options.headers = {
@@ -25,7 +32,7 @@ export class GraphQLSerializationMiddleware extends SerializationMiddleware {
     options.body = {
       query: operation,
       variables,
-      operationName: name
+      operationName
     };
 
     return options;

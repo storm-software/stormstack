@@ -1,19 +1,22 @@
-import { HeaderTypes, MediaTypes } from "@stormstack/core-shared-api";
+import {
+  ApiClientResult,
+  ApiClientResultStatus,
+  ApiErrorCode,
+  HeaderTypes
+} from "@stormstack/core-shared-api";
 import {
   JsonParser,
   JsonValue,
   QueryParamsParser
 } from "@stormstack/core-shared-serialization";
+import { MediaTypes } from "@stormstack/core-shared-state";
 import {
+  FieldError,
   StormError,
   isNotEmpty,
   isString
 } from "@stormstack/core-shared-utilities";
-import {
-  ApiClientRequest,
-  ApiClientResult,
-  ApiClientResultStatus
-} from "../types";
+import { ApiClientRequest } from "../types";
 
 export const SERIALIZABLE_MEDIA_TYPES = [
   MediaTypes.JSON,
@@ -47,22 +50,46 @@ export function deserializeResult<
   let data: TData | undefined;
   let error: TError | undefined;
 
+  if (
+    response.status === ApiClientResultStatus.SUCCESS &&
+    !response.data &&
+    !response.error
+  ) {
+    throw new StormError(
+      ApiErrorCode.no_response_from_server,
+      "Could not read the response from the server"
+    );
+  }
+
   let parsed: TData | TError | undefined;
   if (response.data && isString(response.data)) {
     parsed = JsonParser.parse<TData | TError>(response.data);
   }
 
-  if (StormError.isBaseError(parsed)) {
-    error = parsed as TError;
+  if (StormError.isBaseError(parsed) || Array.isArray(parsed)) {
+    if (Array.isArray(parsed)) {
+      error = parsed.reduce((ret: StormError, e: any) => {
+        if (StormError.isBaseError(e)) {
+          if (FieldError.isFieldError(e)) {
+            ret.addFieldError(e);
+          } else {
+            ret.addIssue(e);
+          }
+
+          return ret;
+        }
+      }, new StormError(ApiErrorCode.internal_server_error));
+    } else {
+      error = parsed as TError;
+    }
   } else {
     data = parsed as TData;
   }
 
   return {
     ...response,
-    data,
-    error,
     status: error ? ApiClientResultStatus.ERROR : ApiClientResultStatus.SUCCESS,
-    code: error?.code
+    data,
+    error
   };
 }

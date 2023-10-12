@@ -1,77 +1,20 @@
-import { HeadersProxy, HttpStatusCode } from "@stormstack/core-shared-api";
 import {
-  DateTime,
+  ApiClientResult,
+  HeadersProxy,
+  UploadList
+} from "@stormstack/core-shared-api";
+import {
   RequiredKeysOf,
   SetRequired,
   StormError
 } from "@stormstack/core-shared-utilities";
 
-export type ApiClientResultStatus = "success" | "error" | "pending";
-export const ApiClientResultStatus = {
-  SUCCESS: "success" as ApiClientResultStatus,
-  ERROR: "error" as ApiClientResultStatus,
-  PENDING: "pending" as ApiClientResultStatus
+export type EventSourceState = 0 | 1 | 2;
+export const EventSourceState = {
+  CONNECTING: 0 as EventSourceState,
+  OPEN: 1 as EventSourceState,
+  CLOSED: 2 as EventSourceState
 };
-
-export interface ApiClientResult<
-  TData = any,
-  TError extends StormError = StormError
-> {
-  /**
-   * The general, display result label of the API response.
-   */
-  code?: string;
-
-  /**
-   * The `status` property in the `ApiClientResult` interface is used to indicate the status of the API request.
-   *
-   * @remarks It can have one of three possible values: "success", "error", or "pending".
-   */
-  status: ApiClientResultStatus;
-
-  /**
-   * If the API request is successful and returns a value, it will be stored in the `data` property. If there is no data or if an error occurs during the API request, the `data` property will be undefined.
-   */
-  data?: TData;
-
-  /**
-   * Used to store any error that occurs during the API request. If there is no error, the property will be undefined.
-   */
-  error?: TError;
-
-  /**
-   * The `headers` property is used to store the headers from the API response.
-   *
-   * @remarks This property can be useful for tracking the timing of API requests and measuring performance.
-   */
-  headers: HeadersProxy;
-
-  /**
-   *  The `requestAt` property is used to store the timestamp when the API request was made.
-   *
-   * @remarks This property can be useful for tracking the timing of API requests and measuring performance.
-   */
-  requestAt: DateTime;
-
-  /**
-   * The `responseAt` property is used to store the timestamp when the API response was received.
-   *
-   * @remarks This property can be useful for tracking the timing of API requests and measuring performance.
-   */
-  responseAt?: DateTime;
-
-  /**
-   * Used to store the options for the API request. It allows you to pass additional options such as authentication requirements, user authentication status, and other custom options when making an API request.
-   */
-  request: ApiClientRequest;
-
-  /**
-   * The Http Status code returned by the request.
-   *
-   * @link [MDN Reference](https://developer.mozilla.org/docs/Web/API/Response/status)
-   */
-  httpStatusCode: HttpStatusCode;
-}
 
 export interface FetchOptions extends RequestInit {
   customFetch?: (
@@ -92,7 +35,7 @@ export type SubscriptionEventHandler<
 > = (result: ApiClientResult<TData, TError>) => void;
 
 export type RequestOptions<TInput = any> = WithInput<TInput> &
-  Omit<FetchOptions, "body"> & {
+  Partial<Omit<FetchOptions, "body">> & {
     /**
      * The URL to make the request to
      */
@@ -120,9 +63,40 @@ export type RequestOptions<TInput = any> = WithInput<TInput> &
     /**
      * How many times should the client try to reconnect before it errors out?
      *
-     * @default 5
+     * @default 3
      */
     retryAttempts?: number;
+
+    /**
+     * Subscribe to a live query
+     */
+    isLive?: boolean;
+
+    /**
+     * The `onResult` property is used to store the callback function that is called when the API request is completed.
+     *
+     * @param response The API response
+     */
+    onResult?: (response: ApiClientResult) => void;
+
+    /**
+     * The `onSuccess` property is used to store the callback function that is called when the API request is successful.
+     *
+     * @param response The API response
+     */
+    onSuccess?: (response: ApiClientResult) => void;
+
+    /**
+     * The `onError` property is used to store the callback function that is called when the API request fails.
+     *
+     * @param error The API error
+     */
+    onError?: (error: StormError) => void;
+
+    /**
+     * The `onAbort` property is used to store the callback function that is called when the API request is aborted.
+     */
+    onAbort?: () => void;
   };
 
 export interface ApiClientRequest extends FetchOptions {
@@ -148,23 +122,25 @@ export type QueryRequestOptions<
   TInput extends Record<string, any> = Record<string, any>
 > = RequestOptions<TInput> & {
   /**
-   * Subscribe to a live query
-   */
-  liveQuery?: Boolean;
-
-  /**
    * Receive the initial response and then stop the subscription
    */
-  subscribeOnce?: Boolean;
+  subscribeOnce?: boolean;
 };
 
 export type MutationRequestOptions<TInput = any> = RequestOptions<TInput>;
 
 export type SubscriptionRequestOptions<
   TInput extends Record<string, any> = Record<string, any>
-> = QueryRequestOptions<TInput>;
+> = QueryRequestOptions<TInput> & {
+  enabled?: boolean;
+};
 
-export type UploadRequestOptions = MutationRequestOptions<FileList> &
+export type SubscriptionToRequestOptions<
+  TInput extends Record<string, any> = Record<string, any>
+> = Omit<SubscriptionRequestOptions<TInput>, "onResult"> &
+  Required<Pick<SubscriptionRequestOptions<TInput>, "onResult">>;
+
+export type UploadRequestOptions = MutationRequestOptions<UploadList> &
   UploadValidationOptions;
 
 export type AuthRequestInput = {

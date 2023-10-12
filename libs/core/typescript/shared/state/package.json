@@ -1,0 +1,8 @@
+{
+  "name": "@stormstack/core-shared-state",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "dependencies": {
+    "attr-accept": "^2.2.2"
+  }
+}
