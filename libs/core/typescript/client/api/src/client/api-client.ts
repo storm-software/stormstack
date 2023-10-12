@@ -259,7 +259,8 @@ export class ApiClient extends BaseUtilityClass {
 
         const jsonResp = deserializeResult<TData, TError>({
           data: ev.data,
-          status: ApiClientResultStatus.SUCCESS
+          status: ApiClientResultStatus.SUCCESS,
+          errors: []
         });
 
         push(jsonResp);

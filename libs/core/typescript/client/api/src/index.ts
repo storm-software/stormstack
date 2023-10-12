@@ -1,5 +1,5 @@
 export * from "./client";
-export * from "./contexts";
+export * from "./components";
 export * from "./hooks";
 export * from "./middleware";
 export * from "./types";

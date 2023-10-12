@@ -31,7 +31,8 @@ export const createApplyLiveQueryPatch =
         // no revision means this is no live query patch.
         if ("revision" in next.value && next.value.revision) {
           const valueToPublish: LivePatchApiClientResult = {
-            status: ApiClientResultStatus.PENDING
+            status: ApiClientResultStatus.PENDING,
+            errors: []
           };
 
           if (next.value.revision === 1) {
@@ -73,11 +74,14 @@ export const createApplyLiveQueryPatch =
             lastRevision++;
           }
 
-          if (next.value.error) {
-            valueToPublish.error = next.value.error;
+          if (next.value.errors) {
+            valueToPublish.errors = next.value.errors;
           }
           if (next.value.status) {
             valueToPublish.status = next.value.status;
+          }
+          if (next.value.headers) {
+            valueToPublish.headers = next.value.headers;
           }
 
           await push(valueToPublish as TExecutionResult);

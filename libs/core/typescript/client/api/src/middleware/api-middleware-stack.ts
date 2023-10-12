@@ -38,7 +38,8 @@ export class ApiMiddlewareStack extends MiddlewareStack<
         ? ApiClientResultStatus.SUCCESS
         : ApiClientResultStatus.ERROR,
       data: response,
-      headers: createApiHeadersProxy(response.headers)
+      headers: createApiHeadersProxy(response.headers),
+      errors: []
     };
   };
 }

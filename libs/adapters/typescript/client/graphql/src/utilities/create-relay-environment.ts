@@ -1,4 +1,3 @@
-import { GraphQLClient } from "@stormstack/adapters-client-graphql";
 import { GraphQLOperationKind } from "@stormstack/adapters-shared-graphql";
 import { ApiClient } from "@stormstack/core-client-api";
 import {
@@ -22,7 +21,7 @@ import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
 import { attachGarbageCollectionBehavior } from "./garbage-collection";
 
 const createRelayFetch =
-  (client: ApiClient): any =>
+  (client: ApiClient) =>
   (
     request: RequestParameters,
     variables: Variables,
@@ -73,7 +72,7 @@ const createRelayFetch =
   };
 
 const createRelaySubscribe =
-  (client: ApiClient): any =>
+  (client: ApiClient) =>
   (
     request: RequestParameters,
     variables: Variables,
@@ -107,10 +106,7 @@ export function createStore(queryCacheExpireMs?: number): Store {
 }
 
 let environment: Environment;
-export function getEnvironment(
-  client: GraphQLClient,
-  store?: Store
-): Environment {
+export function getEnvironment(client: ApiClient, store?: Store): Environment {
   if (isRuntimeServer() || !environment) {
     const _environment = new Environment({
       network: Network.create(

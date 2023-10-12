@@ -48,12 +48,12 @@ export function deserializeResult<
   TError extends StormError = StormError
 >(response: ApiClientResult<string>): ApiClientResult<TData, TError> {
   let data: TData | undefined;
-  let error: TError | undefined;
+  let errors: TError[] = [];
 
   if (
     response.status === ApiClientResultStatus.SUCCESS &&
     !response.data &&
-    !response.error
+    !response.errors
   ) {
     throw new StormError(
       ApiErrorCode.no_response_from_server,
@@ -68,19 +68,22 @@ export function deserializeResult<
 
   if (StormError.isBaseError(parsed) || Array.isArray(parsed)) {
     if (Array.isArray(parsed)) {
+      let error = new StormError(ApiErrorCode.internal_server_error);
       error = parsed.reduce((ret: StormError, e: any) => {
         if (StormError.isBaseError(e)) {
           if (FieldError.isFieldError(e)) {
             ret.addFieldError(e);
-          } else {
-            ret.addIssue(e);
+          } else if (StormError.isStormError(e)) {
+            errors.push(e as TError);
           }
 
           return ret;
         }
-      }, new StormError(ApiErrorCode.internal_server_error));
+      });
+
+      errors.unshift(error as TError);
     } else {
-      error = parsed as TError;
+      errors = [parsed as TError];
     }
   } else {
     data = parsed as TData;
@@ -88,8 +91,11 @@ export function deserializeResult<
 
   return {
     ...response,
-    status: error ? ApiClientResultStatus.ERROR : ApiClientResultStatus.SUCCESS,
+    status:
+      errors && errors.length > 0
+        ? ApiClientResultStatus.ERROR
+        : ApiClientResultStatus.SUCCESS,
     data,
-    error
+    errors
   };
 }

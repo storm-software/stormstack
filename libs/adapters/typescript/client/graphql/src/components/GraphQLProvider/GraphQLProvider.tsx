@@ -1,11 +1,18 @@
+import { GraphQLSerializationMiddleware } from "@stormstack/adapters-client-graphql";
+import {
+  ApiClientProvider,
+  ApiClientProviderProps
+} from "@stormstack/core-client-api";
 import { BaseComponentProps } from "@stormstack/design-system-components";
-import { RelayEnvironmentProvider } from "react-relay";
-import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
-import { useEnvironment } from "../../hooks";
+import { useMemo } from "react";
+import {
+  EnvironmentProvider,
+  EnvironmentProviderProps
+} from "../EnvironmentProvider";
 
-export type RelayProviderProps = BaseComponentProps & {
-  initialRecords?: RecordMap;
-};
+export type GraphQLProviderProps = BaseComponentProps &
+  EnvironmentProviderProps &
+  ApiClientProviderProps;
 
 /**
  * A component that provides the environment for the application
@@ -13,13 +20,25 @@ export type RelayProviderProps = BaseComponentProps & {
 export const GraphQLProvider = ({
   children,
   initialRecords,
+  options,
   ...props
-}: RelayProviderProps) => {
-  const environment = useEnvironment(initialRecords);
+}: GraphQLProviderProps) => {
+  const middleware = useMemo(() => {
+    const result = [];
+    if (options?.middleware) {
+      result.push(...options.middleware);
+    }
+
+    result.push(GraphQLSerializationMiddleware);
+
+    return result;
+  }, [options?.middleware]);
 
   return (
-    <RelayEnvironmentProvider environment={environment}>
-      {children}
-    </RelayEnvironmentProvider>
+    <ApiClientProvider options={{ ...options, middleware }}>
+      <EnvironmentProvider initialRecords={initialRecords}>
+        {children}
+      </EnvironmentProvider>
+    </ApiClientProvider>
   );
 };

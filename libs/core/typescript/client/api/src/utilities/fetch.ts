@@ -52,6 +52,7 @@ export const handleServerFetch = async <TResponse extends Response = Response>(
       ? ApiClientResultStatus.SUCCESS
       : ApiClientResultStatus.ERROR,
     data: await response.text(),
-    headers: createApiHeadersProxy(response.headers)
+    headers: createApiHeadersProxy(response.headers),
+    errors: []
   });
 };

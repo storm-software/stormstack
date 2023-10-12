@@ -1,11 +1,11 @@
+import { useApiClient } from "@stormstack/core-client-api";
 import { useMemo } from "react";
 import { RecordSource } from "relay-runtime";
 import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
 import { getEnvironment } from "../utilities/create-relay-environment";
-import { useGraphQLClient } from "./useGraphQLClient";
 
 export const useEnvironment = (initialRecords?: RecordMap) => {
-  const client = useGraphQLClient();
+  const client = useApiClient();
   const environment = useMemo(() => {
     const _environment = getEnvironment(client);
 

@@ -1,16 +1,15 @@
+import { ApiClient, useApiClient } from "@stormstack/core-client-api";
 import { ApiClientResult, ApiErrorCode } from "@stormstack/core-shared-api";
 import { StormError } from "@stormstack/core-shared-utilities";
 import { useEffect, useRef, useState } from "react";
 import { OperationType } from "relay-runtime";
-import { GraphQLClient } from "../client";
-import { useGraphQLClient } from "../hooks";
 import {
   GraphQLSubscriptionRequestOptions,
   GraphQLSubscriptionToRequestOptions
 } from "../types";
 
 const subscribeTo = (
-  client: GraphQLClient,
+  client: ApiClient,
   options: GraphQLSubscriptionToRequestOptions
 ) => {
   const abort = new AbortController();
@@ -31,9 +30,9 @@ export const useSubscribeTo = <TQuery extends OperationType>(
   isLoading: boolean;
   isSubscribed: boolean;
   data?: TQuery["response"];
-  error?: ApiClientResult["error"];
+  errors?: ApiClientResult["errors"];
 } => {
-  const client = useGraphQLClient();
+  const client = useApiClient();
 
   const {
     input,
@@ -55,7 +54,7 @@ export const useSubscribeTo = <TQuery extends OperationType>(
   });
 
   const [data, setData] = useState<ApiClientResult["data"]>();
-  const [error, setError] = useState<ApiClientResult["error"]>();
+  const [errors, setErrors] = useState<ApiClientResult["errors"]>();
 
   useEffect(() => {
     if (enabled) {
@@ -73,7 +72,7 @@ export const useSubscribeTo = <TQuery extends OperationType>(
         subscribeOnce,
         operationKind,
         operationName,
-        onError(error: ApiClientResult["error"]) {
+        onError(error: StormError) {
           setState({ isLoading: false, isSubscribed: false });
           onErrorRef.current?.(
             error ??
@@ -81,7 +80,7 @@ export const useSubscribeTo = <TQuery extends OperationType>(
           );
           startedAtRef.current = null;
         },
-        onResult(result: ApiClientResult["data"]) {
+        onResult(result: ApiClientResult) {
           if (!startedAtRef.current) {
             setState({ isLoading: false, isSubscribed: true });
             onSuccessRef.current?.(result);
@@ -89,7 +88,7 @@ export const useSubscribeTo = <TQuery extends OperationType>(
           }
 
           setData(result.data);
-          setError(result.error);
+          setErrors(result.errors);
         },
         onAbort() {
           setState({ isLoading: false, isSubscribed: false });
@@ -105,7 +104,7 @@ export const useSubscribeTo = <TQuery extends OperationType>(
 
   return {
     data,
-    error,
+    errors,
     ...state
   };
 };

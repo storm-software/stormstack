@@ -33,7 +33,8 @@ export const createLiveQueryPatchGenerator =
         }
 
         const valueToPublish: LivePatchApiClientResult = {
-          status: ApiClientResultStatus.PENDING
+          status: ApiClientResultStatus.PENDING,
+          errors: []
         };
         if (previousValue) {
           const currentValue = next.value.data ?? {};
@@ -53,11 +54,14 @@ export const createLiveQueryPatchGenerator =
           }
         }
 
-        if ("error" in next.value) {
-          valueToPublish.error = next.value.error;
+        if ("errors" in next.value) {
+          valueToPublish.errors = next.value.errors;
         }
         if ("status" in next.value) {
           valueToPublish.status = next.value.status;
+        }
+        if ("headers" in next.value) {
+          valueToPublish.headers = next.value.headers;
         }
 
         valueToPublish.revision = revision;
@@ -66,7 +70,7 @@ export const createLiveQueryPatchGenerator =
           !valueToPublish.status ||
           valueToPublish.status === ApiClientResultStatus.PENDING
         ) {
-          valueToPublish.status = valueToPublish.error
+          valueToPublish.status = valueToPublish.errors
             ? ApiClientResultStatus.ERROR
             : ApiClientResultStatus.SUCCESS;
         }

@@ -40,9 +40,9 @@ export interface ApiClientResult<
   data?: TData;
 
   /**
-   * Used to store any error that occurs during the API request. If there is no error, the property will be undefined.
+   * Used to store any errors that occurs during the API request. If there is no error, the property will be undefined.
    */
-  error?: TError;
+  errors: TError[];
 }
 
 /**

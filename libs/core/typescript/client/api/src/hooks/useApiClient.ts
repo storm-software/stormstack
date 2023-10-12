@@ -1,11 +1,15 @@
+import { MissingContextError } from "@stormstack/core-shared-utilities";
 import { useContext } from "react";
 import { ApiClient } from "../client/api-client";
-import { ApiClientContext } from "../contexts/api-client.context";
+import { ApiClientContext } from "../components/ApiClientProvider";
 
 export const useApiClient = <
   TApiClient extends ApiClient = ApiClient
->(): ApiClient | null => {
-  const { client } = useContext(ApiClientContext);
+>(): ApiClient => {
+  const context = useContext(ApiClientContext);
+  if (!context) {
+    throw new MissingContextError("ApiClientContext");
+  }
 
-  return client as TApiClient;
+  return context.client as TApiClient;
 };

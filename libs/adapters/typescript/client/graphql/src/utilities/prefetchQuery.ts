@@ -1,5 +1,3 @@
-import { GraphQLClient } from "@stormstack/adapters-client-graphql";
-import { ClientPrivateEnvManager } from "@stormstack/core-client-env/server";
 import {
   CacheConfig,
   fetchQuery,
@@ -8,9 +6,10 @@ import {
   OperationType
 } from "relay-runtime";
 import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
+import { getApiClient } from "./create-api-client";
 import { getEnvironment } from "./create-relay-environment";
 
-const client = new GraphQLClient(new ClientPrivateEnvManager());
+const client = getApiClient();
 export const prefetchQuery = async <T extends OperationType>(
   query: GraphQLTaggedNode,
   variables: T["variables"] = {},
