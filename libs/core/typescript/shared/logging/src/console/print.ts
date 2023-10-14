@@ -83,7 +83,9 @@ export const printWarning = (
       message,
       newLine,
       newLineAfter,
-      chalk.bold.yellow("> " + chalk.bgYellow.blackBright(" ▲ ") + " WARN -"),
+      chalk.bold.yellow(
+        "> " + chalk.bgYellow.blackBright(" ▲ ") + " WARNING -"
+      ),
       undefined,
       stackTrace
     )

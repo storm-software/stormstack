@@ -12,13 +12,15 @@
         "main": "tools/forecast/plugins/crud/src/index.ts",
         "project": "tools/forecast/plugins/crud/package.json",
         "tsConfig": "tools/forecast/plugins/crud/tsconfig.json",
-        "platform": "node",
         "deleteOutputPath": true,
         "bundle": true,
         "sourcemap": true,
-        "minify": true,
+        "minify": false,
         "skipTypeCheck": true,
-        "format": ["esm", "cjs"],
+        "thirdParty": true,
+        "platform": "node",
+        "format": ["cjs"],
+        "external": [".prisma/client/index"],
         "assets": [
           {
             "input": "tools/forecast/plugins/crud",

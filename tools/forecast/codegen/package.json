@@ -1,8 +1,14 @@
 {
   "name": "@stormstack/tools-forecast-codegen",
   "displayName": "Forecast CodeGen",
-  "description": "Forecast Code Generator Tools",
   "version": "0.0.1",
+  "description": "Forecast Code Generator Tools",
+  "bin": {
+    "forecast": "bin/cli"
+  },
+  "files": [
+    "bin"
+  ],
   "dependencies": {
     "@prisma/client": "^5.2.0",
     "@vscode/vsce": "^2.20.1",
@@ -15,9 +21,11 @@
     "path": "^0.12.7",
     "pluralize": "^8.0.0",
     "prettier": "2.8.8",
+    "require-module": "^0.1.0",
     "semver": "^7.5.4",
     "ts-morph": "^19.0.0",
     "ts-pattern": "^5.0.5",
+    "vm": "^0.1.0",
     "vscode": "^1.1.37",
     "vscode-jsonrpc": "^8.1.0",
     "vscode-languageclient": "^8.1.0",
@@ -28,11 +36,5 @@
   "devDependencies": {
     "@prisma/internals": "^5.1.1",
     "@types/vscode": "^1.81.0"
-  },
-  "files": [
-    "bin"
-  ],
-  "bin": {
-    "forecast": "bin/cli"
   }
 }

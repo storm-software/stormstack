@@ -2,7 +2,13 @@
   "name": "@stormstack/tools-forecast-plugins-crud",
   "version": "0.0.1",
   "dependencies": {
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "path": "^0.12.7",
     "ts-morph": "^19.0.0"
+  },
+  "devDependencies": {
+    "@stormstack/core-shared-utilities": "workspace:*",
+    "@stormstack/tools-forecast-codegen": "workspace:*",
+    "@stormstack/tools-forecast-language": "workspace:*"
   }
 }

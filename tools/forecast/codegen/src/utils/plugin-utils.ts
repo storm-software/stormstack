@@ -12,6 +12,7 @@ export const ALL_OPERATION_KINDS: PolicyOperationKind[] = [
 ];
 
 const MAX_PATH_SEARCH_DEPTH = 30;
+let depth = 0;
 
 /**
  * Gets the nearest "node_modules" folder by walking up from start path.
@@ -22,7 +23,7 @@ export function getNodeModulesFolder(startPath?: string): string | undefined {
     return startPath;
   } else if (fs.existsSync(path.join(startPath, "node_modules"))) {
     return path.join(startPath, "node_modules");
-  } else if (startPath !== "/") {
+  } else if (startPath !== "/" && depth++ < MAX_PATH_SEARCH_DEPTH) {
     const parent = path.join(startPath, "..");
     return getNodeModulesFolder(parent);
   } else {
@@ -49,7 +50,9 @@ export function ensureDefaultOutputFolder() {
  * @returns
  */
 export function getDefaultOutputFolder() {
-  let modulesFolder = process.env.STORM_RUNTIME_MODULE;
+  depth = 0;
+
+  let modulesFolder = process.env.FORECAST_RUNTIME_MODULE;
   if (!modulesFolder) {
     const runtimeModuleFolder = "@stormstack/tools-forecast-runtime";
     ConsoleLogger.debug(
@@ -59,7 +62,7 @@ export function getDefaultOutputFolder() {
     // Find the real runtime module path, it might be a symlink in pnpm
     let runtimeModulePath = require.resolve(runtimeModuleFolder);
 
-    if (process.env.STORM_TEST === "1") {
+    if (process.env.FORECAST_TEST === "1") {
       // handling the case when running as tests, resolve relative to CWD
       runtimeModulePath = path.resolve(
         path.join(process.cwd(), "node_modules", "@stormstack", "runtime")
@@ -70,7 +73,6 @@ export function getDefaultOutputFolder() {
 
     if (runtimeModulePath) {
       // start with the parent folder of @stormstack, supposed to be a node_modules folder
-      let depth = 0;
       while (
         !runtimeModulePath.endsWith("@stormstack") &&
         runtimeModulePath !== "/" &&

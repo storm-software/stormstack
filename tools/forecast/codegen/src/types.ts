@@ -1,4 +1,6 @@
+import { MaybePromise } from "@stormstack/core-shared-utilities";
 import { AstNode, Model } from "@stormstack/tools-forecast-language/ast";
+import { HelperOptions } from "handlebars/runtime";
 
 export interface Context {
   /**
@@ -36,24 +38,16 @@ export interface IGenerator<TOptions extends PluginOptions = PluginOptions> {
 
 export const GENERATOR_SYMBOL = Symbol("Generator");
 
-export interface IPluginRunner<TOptions extends PluginOptions = PluginOptions> {
-  run(
-    options: TOptions,
-    context: Context,
-    generator: IGenerator<TOptions>
-  ): Promise<void>;
-}
-
 export type PluginHandler<TOptions extends PluginOptions = PluginOptions> = (
   options: TOptions,
   context: Context,
   generator: IGenerator<TOptions>
-) => Promise<void>;
+) => MaybePromise<void>;
 
 export type PluginExtend<TOptions extends PluginOptions = PluginOptions> = (
   options: TOptions,
   context: Context
-) => Promise<Model>;
+) => MaybePromise<Model>;
 
 export const PLUGIN_RUNNER_SYMBOL = Symbol("PluginRunner");
 
@@ -106,7 +100,7 @@ export type TemplatePluginPaths = {
   /**
    * The path to the template files. This can include a [glob](https://www.npmjs.com/package/glob) pattern.
    */
-  templatePath: string | string[];
+  templatePath?: string | string[];
 
   /**
    * The path to the data model template files. For each data model a file will be generated.
@@ -117,6 +111,11 @@ export type TemplatePluginPaths = {
    * The path to the input template files. For each input a file will be generated.
    */
   inputTemplatePath?: string | string[];
+
+  /**
+   * The path to the operation group template files. For each operation group a file will be generated.
+   */
+  operationGroupsTemplatePath?: string | string[];
 
   /**
    * The path to the API model template files. For each API model a file will be generated.
@@ -140,14 +139,41 @@ export type TemplatePluginPaths = {
 export type TemplatePluginOptions = PluginOptions &
   Partial<TemplatePluginPaths>;
 
+export type TemplateGeneratorHelper = (
+  getContext: () => Context,
+  getOptions: () => TemplatePluginOptions,
+  context?: any,
+  arg1?: any,
+  arg2?: any,
+  arg3?: any,
+  arg4?: any,
+  arg5?: any,
+  options?: HelperOptions
+) => any;
+
 /**
  * Plugin module structure used in codegen
  */
 export type PluginModule<TOptions extends PluginOptions = PluginOptions> = {
   /**
-   * A reference to the plugin generator.
+   * The display name of the plugin
    */
-  generator: IGenerator<TOptions>;
+  name?: string;
+
+  /**
+   * The default options for the plugin
+   */
+  options?: TOptions;
+
+  /**
+   * A reference to the plugin extend function to extend the model based on pre-defined logic
+   */
+  extend?: PluginExtend<TOptions>;
+
+  /**
+   * A reference to the plugin generator used to generate the code based on the forecast model
+   */
+  generator?: IGenerator<TOptions>;
 
   /**
    * A reference to the plugin runner
@@ -158,11 +184,6 @@ export type PluginModule<TOptions extends PluginOptions = PluginOptions> = {
    * A list of dependencies that should be installed
    */
   dependencies?: string[];
-
-  /**
-   * The default options for the plugin
-   */
-  options?: PluginOptions;
 };
 
 /**

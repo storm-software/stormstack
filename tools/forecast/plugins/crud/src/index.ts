@@ -2,19 +2,17 @@ import {
   constantCase,
   lowerCaseFirst,
   upperCaseFirst
-} from "@stormstack/core-shared-utilities/common/string-fns";
+} from "@stormstack/core-shared-utilities";
 import {
   Context,
   PluginExtend,
-  PluginOptions
-} from "@stormstack/tools-forecast-codegen/types";
-import {
+  PluginOptions,
   getApiModels,
   getDataModels,
   getInputs,
   getInterfaces,
   getOperationGroups
-} from "@stormstack/tools-forecast-codegen/utils";
+} from "@stormstack/tools-forecast-codegen";
 import {
   ApiModel,
   DataModel,
@@ -33,9 +31,9 @@ import {
 } from "@stormstack/tools-forecast-language/ast";
 import { ENTITY_CLASS_FIELDS, EntityClassFields } from "./types";
 
-export const name = "CRUD Operations Enhancer Plugin";
+export const name = "CRUD Operations Extension Plugin";
 
-export const enhance: PluginExtend<PluginOptions> = async (
+export const extend: PluginExtend<PluginOptions> = async (
   options: PluginOptions,
   context: Context
 ): Promise<Model> => {

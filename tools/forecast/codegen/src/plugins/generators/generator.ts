@@ -15,15 +15,19 @@ export abstract class Generator<TOptions extends PluginOptions = PluginOptions>
   extends BaseUtilityClass
   implements IGenerator
 {
-  constructor() {
-    super(GENERATOR_SYMBOL);
-  }
-
   public abstract get name(): string;
 
   public abstract get fileExtension(): string;
 
   public abstract get commentStart(): string;
+
+  public get __base(): string {
+    return "Generator";
+  }
+
+  constructor() {
+    super(GENERATOR_SYMBOL);
+  }
 
   public abstract generate(
     options: TOptions,

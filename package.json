@@ -39,7 +39,7 @@
   "scripts": {
     "add:contributors": "all-contributors add",
     "add:decisions": "pnpm log4brains adr new",
-    "analyze": "cross-env ANALYZE=true npm run build",
+    "analyze": "cross-env ANALYZE=true pnpm build",
     "prebuild": "pnpm clean && pnpm build:tools",
     "build": "nx affected -t build --parallel=5",
     "postbuild": "pnpm build:types",
@@ -67,9 +67,9 @@
     "preinstall": "node -e \"if(process.env.CI == 'true') {console.log('Skipping preinstall...'); process.exit(1)}\" || npx -y only-allow pnpm",
     "install:csb": "corepack enable && pnpm install --frozen-lockfile",
     "lint": "pnpm lint:language && lint:dependency-versions",
-    "lint:dependency-versions": "cross-env FORCE_COLOR=1 check-dependency-version-consistency . --fix",
-    "lint:language": "cross-env FORCE_COLOR=1 alex . !**/CODE_OF_CONDUCT.md --quiet",
-    "lint:spellcheck": "cross-env FORCE_COLOR=1 cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore --config=dist/tools/devops/config/cspell/config.js",
+    "lint:dependency-versions": "check-dependency-version-consistency . --fix",
+    "lint:language": "pnpm alex . !**/CODE_OF_CONDUCT.md --quiet",
+    "lint:spellcheck": "pnpm cspell lint \"**/*.{txt,js,jsx,ts,tsx,md,mdx}\" --cache --no-progress --relative --dot --gitignore --config=dist/tools/devops/config/cspell/config.js",
     "local-registry": "nx local-registry @stormstack/monorepo",
     "nx": "nx",
     "nx-release": "nx g @stormstack/tools-nx-monorepo:release --no-interactive",
@@ -85,9 +85,9 @@
     "repo-check:circular-deps": "pnpm exec dpdm ",
     "repo-check:manypkg": "pnpm exec manypkg check",
     "start": "nx serve",
-    "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
+    "storybook": "pnpm storybook dev -p 6006",
     "test": "nx test",
-    "test:storybook": "cross-env FORCE_COLOR=1 test-storybook",
+    "test:storybook": "pnpm test-storybook",
     "typecheck": "pnpm run -r typecheck"
   },
   "husky": {
@@ -359,6 +359,7 @@
       "@stormstack/tools-devops-config": "workspace:*",
       "@stormstack/tools-forecast-codegen": "workspace:*",
       "@stormstack/tools-forecast-language": "workspace:*",
+      "@stormstack/tools-forecast-plugins-crud": "workspace:*",
       "@stormstack/tools-nx-event-catalog": "workspace:*",
       "@stormstack/tools-nx-forecast": "workspace:*",
       "@stormstack/tools-nx-monorepo": "workspace:*",
@@ -377,7 +378,6 @@
       "@stormstack/core-client-form": "workspace:*",
       "@stormstack/core-client-api": "workspace:*",
       "@stormstack/adapters-client-graphql": "workspace:*",
-      "@stormstack/adapters-client-relay": "workspace:*",
       "@stormstack/core-server-utilities": "workspace:*"
     }
   }

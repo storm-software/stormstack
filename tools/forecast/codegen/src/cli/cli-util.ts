@@ -40,7 +40,7 @@ import {
   resolveTransitiveImports
 } from "../utils/ast-utils";
 import { getVersion } from "../utils/version-utils";
-import { PluginsProcessor } from "./plugins-processor";
+import { PluginManager } from "./plugin-manager";
 
 /**
  * Initializes an existing project for Forecast
@@ -332,7 +332,7 @@ export async function runPlugins(options: {
   const explorer = cosmiconfig("forecast");
   const config = await explorer.search();
 
-  await new PluginsProcessor().process({
+  await new PluginManager().process({
     model,
     schemaPath: path.resolve(options.schema),
     config: {

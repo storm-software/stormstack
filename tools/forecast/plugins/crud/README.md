@@ -25,7 +25,7 @@ StormStack is built using <a href="https://nx.dev/" target="_blank">Nx</a>, a se
 
 <!-- END header -->
 
-# ⚡ Forecast Modelling Language - StormStack
+# ⚡ Forecast - CRUD Operations Extension Plugin
 
 This library was generated with [Nx](https://nx.dev).
 
@@ -34,7 +34,7 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Table of Contents
 
-- [⚡ Forecast Modelling Language - StormStack](#-forecast-modelling-language---stormstack)
+- [⚡ Forecast - CRUD Operations Extension Plugin](#-forecast---crud-operations-extension-plugin)
   - [Table of Contents](#table-of-contents)
   - [Running unit tests](#running-unit-tests)
   - [Roadmap](#roadmap)

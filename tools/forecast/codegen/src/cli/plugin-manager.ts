@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import type { DMMF } from "@prisma/generator-helper";
 import { resolvePath } from "@stormstack/core-server-utilities/file-path-fns";
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
-import { ProcessingError } from "@stormstack/core-shared-utilities";
+import { JsonParser } from "@stormstack/core-shared-serialization";
+import { isSet, ProcessingError } from "@stormstack/core-shared-utilities";
 import { isPlugin, Plugin } from "@stormstack/tools-forecast-language/ast";
 import { getLiteral } from "@stormstack/tools-forecast-language/utils";
 import chalk from "chalk";
@@ -12,21 +12,22 @@ import type {
   Context,
   ForecastConfig,
   IGenerator,
-  IPluginRunner,
+  PluginExtend,
+  PluginHandler,
   PluginModule,
   PluginOptions
 } from "../types";
 import { ensureDefaultOutputFolder } from "../utils/plugin-utils";
 import { getVersion } from "../utils/version-utils";
-import { config } from "./config";
 
-type PluginInfo = {
+type PluginInfo<TOptions extends PluginOptions = PluginOptions> = {
   name: string;
   dependencyOf?: string;
   provider: string;
-  options: PluginOptions;
-  generator: IGenerator;
-  runner: IPluginRunner;
+  options: TOptions;
+  generator?: IGenerator;
+  extend?: PluginExtend<TOptions>;
+  handle?: PluginHandler<TOptions>;
   dependencies: string[];
   module: any;
 };
@@ -34,7 +35,7 @@ type PluginInfo = {
 /**
  * Storm plugin runner
  */
-export class PluginsProcessor {
+export class PluginManager {
   private _plugins: PluginInfo[] = [];
 
   /**
@@ -80,7 +81,7 @@ export class PluginsProcessor {
           );
         }
 
-        const pluginInfoList = this.getPluginInfo(
+        const pluginInfoList = await this.getPluginInfo(
           pluginProvider,
           context.config.defaultOptions
         );
@@ -98,7 +99,7 @@ export class PluginsProcessor {
       }
 
       ConsoleLogger.info(
-        `Running ${this._plugins} plugins (${
+        `Running ${this._plugins.length} plugins (${
           pluginDecls.length
         } specified in model, ${
           this._plugins.length - pluginDecls.length
@@ -112,6 +113,30 @@ export class PluginsProcessor {
           )
           .join("\r\n")
       );
+
+      for (const pluginInfo of this._plugins) {
+        if (pluginInfo.extend) {
+          ConsoleLogger.info(
+            `Extending model via plugin ${chalk.bold.cyan(pluginInfo.name)}`
+          );
+
+          context.model = await Promise.resolve(
+            pluginInfo.extend(pluginInfo.options, context)
+          );
+        }
+      }
+
+      for (const pluginInfo of this._plugins) {
+        if (pluginInfo.handle && pluginInfo.generator) {
+          ConsoleLogger.info(
+            `Running plugin ${chalk.bold.cyan(pluginInfo.name)}`
+          );
+
+          await Promise.resolve(
+            pluginInfo.handle(pluginInfo.options, context, pluginInfo.generator)
+          );
+        }
+      }
 
       /*for (const pluginInfo of this._plugins) {
         let pluginModule: PluginModule;
@@ -332,7 +357,7 @@ ${JSON.stringify(plugin)}`
     return getLiteral<string>(providerField?.value);
   }
 
-  private async runPlugin(
+  /*private async runPlugin(
     name: string,
     run: PluginFunction,
     context: Context,
@@ -355,26 +380,37 @@ ${JSON.stringify(plugin)}`
 
       throw err;
     }
-  }
+  }*/
 
   private getPluginModulePath(provider: string) {
     let pluginModulePath = provider;
-    if (pluginModulePath.startsWith("@core/")) {
+    if (pluginModulePath.startsWith("@stormstack/")) {
+      pluginModulePath = `file://${path.join(
+        pluginModulePath.replace(
+          "@stormstack/tools-forecast-plugins-",
+          path.join(__dirname, "../../../../../forecast/plugins/")
+        ),
+        "index.cjs"
+      )}`;
+    }
+
+    /*if (pluginModulePath.startsWith("@core/")) {
       pluginModulePath = pluginModulePath.replace(
         /^@core\//,
-        path.join(__dirname, "../../../forecast/schema/plugins/")
+        path.join(__dirname, "../../../forecast/plugins/")
       );
-    }
-    if (pluginModulePath.startsWith("@plugins/")) {
+    }*/
+    /*if (pluginModulePath.startsWith("@plugins/")) {
       pluginModulePath = pluginModulePath.replace(
         /^@plugins\//,
         path.join(__dirname, "../../../forecast/plugins/")
       );
-    }
+    }*/
+
     return pluginModulePath;
   }
 
-  private getPluginModule(pluginProvider: string): PluginModule {
+  private async getPluginModule(pluginProvider: string): Promise<PluginModule> {
     if (!pluginProvider) {
       ConsoleLogger.error(
         `Plugin ${pluginProvider} has invalid provider option`
@@ -384,85 +420,109 @@ ${JSON.stringify(plugin)}`
       );
     }
 
-    const pluginModulePath = this.getPluginModulePath(pluginProvider);
-
     let pluginModule: PluginModule;
     try {
-      pluginModule = require(pluginModulePath);
-    } catch (err) {
-      ConsoleLogger.error(
-        `Unable to load plugin module ${pluginProvider}: ${pluginModulePath}, ${err}`
+      pluginModule = await import(pluginProvider);
+    } catch (origError) {
+      ConsoleLogger.warn(
+        `Unable to load plugin module ${pluginProvider}: Tried to import from "${pluginProvider}", ${origError}`
       );
-      throw new ProcessingError(
-        `Unable to load plugin module ${pluginProvider}`
-      );
+
+      const pluginModulePath = this.getPluginModulePath(pluginProvider);
+
+      try {
+        pluginModule = await import(pluginModulePath);
+      } catch (error) {
+        ConsoleLogger.warn(
+          `Unable to load plugin module ${pluginProvider}: Tried to import from "${pluginModulePath}", ${error}`
+        );
+
+        ConsoleLogger.error(
+          `Unable to load plugin module ${pluginProvider}: ${origError}`
+        );
+        throw new ProcessingError(
+          `Unable to load plugin module ${pluginProvider}`,
+          isSet(origError)
+            ? `Error: ${JsonParser.stringify(origError)}`
+            : undefined
+        );
+      }
     }
 
     if (!pluginModule) {
       ConsoleLogger.error(`Plugin provider ${pluginProvider} is missing`);
       throw new ProcessingError(`Plugin provider ${pluginProvider} is missing`);
     }
-    if (!pluginModule.generator) {
-      ConsoleLogger.error(
-        `Plugin provider ${pluginProvider} is missing a "generator" export`
-      );
-      throw new ProcessingError(
-        `Plugin provider ${pluginProvider} is missing a "generator" export`
+
+    if (!pluginModule.name) {
+      ConsoleLogger.warn(
+        `Plugin provider ${pluginProvider} is missing a "name" export`
       );
     }
-    if (!pluginModule.runner) {
+
+    if (
+      (pluginModule.handle && !pluginModule.generator) ||
+      (!pluginModule.handle && pluginModule.generator)
+    ) {
       ConsoleLogger.error(
-        `Plugin provider ${pluginProvider} is missing a "runner" export`
+        `Plugin provider ${pluginProvider} is missing a "generator" or "handle" export. If a one of the "generator" or "handle" exports are set, then both "generator" and "handle" must be set.`
       );
       throw new ProcessingError(
-        `Plugin provider ${pluginProvider} is missing a "runner" export`
+        `Plugin provider ${pluginProvider} is missing a "generator" or "handle" export. If a one of the "generator" or "handle" exports are set, then both "generator" and "handle" must be set.`
+      );
+    }
+
+    if (!pluginModule.handle && !pluginModule.extend) {
+      ConsoleLogger.warn(
+        `Plugin provider ${pluginProvider} is missing both the "handle" and "extend" exports. If a plugin does not have a "handle" or "extend" export, then it will be ignored.`
       );
     }
 
     return pluginModule;
   }
 
-  private getPluginInfo(
+  private async getPluginInfo(
     pluginProvider: string,
     pluginOptions: ForecastConfig["defaultOptions"]
-  ): PluginInfo[] {
-    const module: PluginModule = this.getPluginModule(pluginProvider);
+  ): Promise<PluginInfo[]> {
+    const module: PluginModule = await this.getPluginModule(pluginProvider);
     const name = this.getPluginName(module, pluginProvider);
 
     const dependencies = this.getPluginDependenciesList(module);
     const pluginInfo: PluginInfo = {
+      ...module,
+      module,
       name,
       provider: pluginProvider,
-      module,
       options: {
         ...module.options,
         ...pluginOptions
       },
-      generator: module.generator,
-      runner: module.runner,
       dependencies
     };
     if (!dependencies) {
       return [pluginInfo];
     }
 
-    return [
-      ...dependencies.reduce((ret: PluginInfo[], dep: string) => {
-        if (
-          !this._plugins.some(p => p.provider === dep) &&
-          !ret.some(p => p.provider === dep)
-        ) {
-          ret.push(
-            ...{
-              ...this.getPluginInfo(dep, pluginInfo.options),
-              dependencyOf: name
-            }
-          );
-        }
+    const pluginInfoList: PluginInfo[] = [];
+    for (const dependency of dependencies) {
+      if (
+        !this._plugins.some(p => p.provider === dependency) &&
+        !pluginInfoList.some(p => p.provider === dependency)
+      ) {
+        const pluginInfoListItem = await this.getPluginInfo(
+          dependency,
+          pluginInfo.options
+        );
+        pluginInfoList.push(
+          ...{
+            ...pluginInfoListItem,
+            dependencyOf: name
+          }
+        );
+      }
+    }
 
-        return ret;
-      }, []),
-      pluginInfo
-    ];
+    return [...pluginInfoList, pluginInfo];
   }
 }
