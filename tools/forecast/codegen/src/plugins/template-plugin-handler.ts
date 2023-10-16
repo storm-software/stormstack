@@ -315,7 +315,9 @@ export const getTemplates = async (
 
 const formatFileName = (fileName: string, node?: AstNode): string => {
   let result = TEMPLATE_EXTENSIONS.reduce((ret: string, ext: string) => {
-    ret.endsWith(ext);
+    if (ret.endsWith(ext)) {
+      return ret.replace(`.${ext}`, "");
+    }
 
     return ret;
   }, fileName).replace("templates", "");
