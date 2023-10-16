@@ -1,3 +1,4 @@
+import { join } from "path";
 import { CompilerOptions, Project } from "ts-morph";
 import {
   createProject,
@@ -46,15 +47,19 @@ export abstract class TypescriptGenerator<
     fileName: string,
     fileExtension = this.fileExtension
   ) {
-    const extension = fileExtension.startsWith(".")
-      ? fileExtension
-      : `.${fileExtension}`;
-    const file = this.project.createSourceFile(
+    const extension =
+      fileExtension === "*"
+        ? ""
+        : fileExtension.startsWith(".")
+        ? fileExtension
+        : `.${fileExtension}`;
+
+    const filePath = join(
+      options.output,
       fileName.endsWith(extension) ? fileName : `${fileName}${extension}`
     );
-
-    file.replaceWithText(writer => {
-      writer.write(fileContent);
+    const file = this.project.createSourceFile(filePath, fileContent, {
+      overwrite: true
     });
 
     if (options.prettier !== false) {

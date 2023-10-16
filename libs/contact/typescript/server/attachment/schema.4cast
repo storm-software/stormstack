@@ -11,7 +11,11 @@ generator js {
 
 plugin crud {
   provider = "@stormstack/tools-forecast-plugins-crud"
-  output = "src/__generated__/crud"
+}
+
+plugin drizzle {
+  provider = "@stormstack/tools-forecast-plugins-drizzle"
+  output = "drizzle"
   compile = false
 }
 

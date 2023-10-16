@@ -1,5 +1,15 @@
+import { ConsoleLogger } from "@stormstack/core-shared-logging";
+import {
+  isApiModel,
+  isDataModel,
+  isEnum,
+  isInput,
+  isInterface,
+  isOperationGroup
+} from "@stormstack/tools-forecast-language/ast";
 import * as Handlebars from "handlebars";
 import { HelperOptions } from "handlebars";
+import { utils } from "handlebars-utils";
 import { AstNode } from "langium";
 import { CompilerOptions } from "ts-morph";
 import {
@@ -8,6 +18,7 @@ import {
   TemplatePluginOptions,
   TypescriptPluginOptions
 } from "../../types";
+import { TemplateDetails } from "../template-plugin-handler";
 import { TypescriptGenerator } from "./typescript-generator";
 
 /**
@@ -23,6 +34,10 @@ export class TemplateGenerator<
     return "TemplateGenerator";
   }
 
+  public get fileExtension() {
+    return "*";
+  }
+
   public get handlebars(): typeof Handlebars {
     return Handlebars;
   }
@@ -31,18 +46,25 @@ export class TemplateGenerator<
 
   constructor(compilerOptions?: CompilerOptions) {
     super(compilerOptions);
+
+    this.handlebars.registerHelper("isDataModel", this.isDataModel);
+    this.handlebars.registerHelper("isApiModel", this.isApiModel);
+    this.handlebars.registerHelper("isInterface", this.isInterface);
+    this.handlebars.registerHelper("isInput", this.isInput);
+    this.handlebars.registerHelper("isOperationGroup", this.isOperationGroup);
+    this.handlebars.registerHelper("isEnum", this.isEnum);
   }
 
   public generate = async (
     options: TOptions,
     node: AstNode,
     context: Context,
-    params: { name: string; template: string }
+    params: TemplateDetails
   ): Promise<string> => {
     this._context = context;
     this._options = options;
 
-    const template = await this.getTemplate(params.name, params.template);
+    const template = await this.getTemplate(params);
 
     return template(node);
   };
@@ -85,18 +107,46 @@ export class TemplateGenerator<
   };
 
   protected getTemplate = async (
-    name: string,
-    template: string
+    template: TemplateDetails
   ): Promise<HandlebarsTemplateDelegate> => {
-    let compiled = this.templates.get(name);
+    let compiled = this.templates.get(template.name);
     if (!compiled) {
-      compiled = this.handlebars.compile(template, this.compilerOptions);
-      this.templates.set(name, compiled);
+      ConsoleLogger.info(
+        `Compiling template for ${template.name}:
+${template.content}`
+      );
+
+      compiled = this.handlebars.compile(
+        template.content,
+        this.compilerOptions
+      );
+      this.templates.set(template.name, compiled);
     }
 
     return compiled;
   };
 
-  /*private isDataModel = (node: AstNode, options: HelperOptions) => {
-  }*/
+  private isDataModel = (node: AstNode, options: HelperOptions) => {
+    utils.value(isDataModel(node), options);
+  };
+
+  private isApiModel = (node: AstNode, options: HelperOptions) => {
+    utils.value(isApiModel(node), options);
+  };
+
+  private isInterface = (node: AstNode, options: HelperOptions) => {
+    utils.value(isInterface(node), options);
+  };
+
+  private isInput = (node: AstNode, options: HelperOptions) => {
+    utils.value(isInput(node), options);
+  };
+
+  private isOperationGroup = (node: AstNode, options: HelperOptions) => {
+    utils.value(isOperationGroup(node), options);
+  };
+
+  private isEnum = (node: AstNode, options: HelperOptions) => {
+    utils.value(isEnum(node), options);
+  };
 }

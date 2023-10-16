@@ -11,7 +11,7 @@
       "description": "The `.4cast` file name and path of the Forecast model to use for code generation ⚡",
       "default": "schema.4cast"
     },
-    "outputPath": {
+    "output": {
       "type": "string",
       "description": "Path to the directory where the files will be generated",
       "default": "src/__generated__"
@@ -28,5 +28,5 @@
       "default": true
     }
   },
-  "required": ["schema", "outputPath", "packageManager", "dependencyCheck"]
+  "required": ["schema", "output", "packageManager", "dependencyCheck"]
 }

@@ -7,8 +7,19 @@ import {
   isSymbol as isSymbolExternal
 } from "radash";
 import { MutableRefObject } from "react";
+import typeDetect from "type-detect";
 import zod from "zod";
-import { EMPTY_STRING, ITyped, SelectOption } from "../types";
+import {
+  Collection,
+  EMPTY_STRING,
+  ITyped,
+  SelectOption,
+  TYPE_ARGUMENTS,
+  TYPE_ARRAY,
+  TYPE_MAP,
+  TYPE_OBJECT,
+  TYPE_SET
+} from "../types";
 import { IMiddleware } from "./middleware";
 
 /**
@@ -482,3 +493,57 @@ export const isAsyncIterable = (
     typeof value === "object" && value !== null && Symbol.asyncIterator in value
   );
 };
+
+export const isBufferExists = typeof Buffer !== "undefined";
+
+/**
+ * is it Buffer?
+ *
+ * @private
+ */
+export const isBuffer: typeof Buffer.isBuffer = isBufferExists
+  ? Buffer.isBuffer.bind(Buffer)
+  : /**
+     * return false every time if Buffer unsupported
+     *
+     * @private
+     */
+    function isBuffer(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      obj: Parameters<typeof Buffer.isBuffer>[0]
+    ): obj is Buffer {
+      return false;
+    };
+
+/**
+ * Detect value type
+ *
+ * @param value
+ */
+export function detectType(value: any): string {
+  // NOTE: isBuffer must execute before type-detect,
+  // because type-detect returns 'Uint8Array'.
+  if (isBuffer(value)) {
+    return "Buffer";
+  }
+
+  return typeDetect(value);
+}
+
+const collectionTypeSet = new Set([
+  TYPE_ARGUMENTS,
+  TYPE_ARRAY,
+  TYPE_MAP,
+  TYPE_OBJECT,
+  TYPE_SET
+]);
+
+/**
+ * is it Collection?
+ *
+ * @private
+ * @param valueType
+ */
+export function isCollection(value: any): value is Collection {
+  return collectionTypeSet.has(detectType(value));
+}

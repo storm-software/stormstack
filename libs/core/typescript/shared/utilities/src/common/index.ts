@@ -1,5 +1,6 @@
 export * from "./base-utility-class";
 export * from "./boolean-fns";
+export * from "./color-utilities";
 export * from "./date-fns";
 export * from "./date-time";
 export * from "./debounce";

@@ -17,7 +17,7 @@ export abstract class Generator<TOptions extends PluginOptions = PluginOptions>
 {
   public abstract get name(): string;
 
-  public abstract get fileExtension(): string;
+  public abstract get fileExtension(): string | "*";
 
   public abstract get commentStart(): string;
 

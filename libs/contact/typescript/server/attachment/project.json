@@ -47,7 +47,7 @@
     "generate": {
       "executor": "@stormstack/tools-nx-forecast:generate",
       "options": {
-        "outputPath": "libs/contact/typescript/server/attachment/src/__generated__",
+        "output": "libs/contact/typescript/server/attachment/src/__generated__",
         "schema": "schema.4cast",
         "packageManager": "pnpm",
         "dependencyCheck": true

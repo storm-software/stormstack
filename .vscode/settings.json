@@ -285,5 +285,11 @@
   "commitizen.capitalizeWindowsDriveLetter": true,
   "commitizen.autoSync": false,
   "commitizen.showOutputChannel": "always",
-  "cSpell.words": ["uploadables", "visibillitychange"]
+  "cSpell.words": [
+    "cockroachdb",
+    "jdbc",
+    "sqlserver",
+    "uploadables",
+    "visibillitychange"
+  ]
 }

@@ -1,6 +1,20 @@
+import { ConnectorType as PrismaConnectorType } from "@prisma/generator-helper";
+import { PackageManagers } from "@stormstack/core-server-utilities/package-fns";
 import { MaybePromise } from "@stormstack/core-shared-utilities";
 import { AstNode, Model } from "@stormstack/tools-forecast-language/ast";
 import { HelperOptions } from "handlebars/runtime";
+
+export interface PluginContext {
+  /**
+   * The current plugin being used
+   */
+  current?: string;
+
+  /**
+   * The details of the plugins that are being used
+   */
+  details: Record<string, PluginInfo>;
+}
 
 export interface Context {
   /**
@@ -18,6 +32,11 @@ export interface Context {
    * that is read from the forecast config file
    */
   config: ForecastConfig;
+
+  /**
+   * The context of the plugins that are being used
+   */
+  plugins: PluginContext;
 }
 
 export interface IGenerator<TOptions extends PluginOptions = PluginOptions> {
@@ -70,6 +89,19 @@ export type PluginOptions = {
    */
   output?: string;
 } & Record<string, OptionValue | OptionValue[]>;
+
+export type PluginInfo<TOptions extends PluginOptions = PluginOptions> = {
+  pluginId: string;
+  name: string;
+  dependencyOf?: string;
+  provider: string;
+  options: TOptions;
+  generator?: IGenerator;
+  extend?: PluginExtend<TOptions>;
+  handle?: PluginHandler<TOptions>;
+  dependencies: string[];
+  module: PluginModule<TOptions>;
+};
 
 /**
  * TypeScript Plugin configuration options
@@ -184,6 +216,11 @@ export type PluginModule<TOptions extends PluginOptions = PluginOptions> = {
    * A list of dependencies that should be installed
    */
   dependencies?: string[];
+
+  /**
+   * The path/url/package name the plugin was resolved at
+   */
+  resolvedPath: string;
 };
 
 /**
@@ -199,4 +236,27 @@ export type ForecastConfig = {
    * The output directory
    */
   outDir: string;
+
+  /**
+   * The package manager to use
+   */
+  packageManager: PackageManagers | undefined;
 } & Record<string, OptionValue | OptionValue[]>;
+
+export const ConnectorType = {
+  MYSQL: "mysql" as PrismaConnectorType,
+  MONGO_DB: "mongodb" as PrismaConnectorType,
+  SQLITE: "sqlite" as PrismaConnectorType,
+  POSTGRESQL: "postgresql" as PrismaConnectorType,
+  POSTGRES: "postgres" as PrismaConnectorType,
+  SQL_SERVER: "sqlserver" as PrismaConnectorType,
+  COCKROACH_DB: "cockroachdb" as PrismaConnectorType,
+  JDBC_SQL_SERVER: "jdbc:sqlserver" as PrismaConnectorType
+};
+
+export const TEMPLATE_EXTENSIONS = [
+  "hbs",
+  "handlebars",
+  "template",
+  "mustache"
+];

@@ -43,7 +43,7 @@ export default async function (
       }
     }
 
-    const outputPath = Path.join(workspaceRoot, buildTarget.options.outputPath);
+    const outputPath = Path.join(workspaceRoot, options.output);
     if (existsSync(outputPath)) {
       removeSync(outputPath);
     }

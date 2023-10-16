@@ -336,9 +336,10 @@ export async function runPlugins(options: {
     model,
     schemaPath: path.resolve(options.schema),
     config: {
-      outDir: options.outDir,
-      ...config?.config
-    }
+      ...config?.config,
+      outDir: options.outDir
+    },
+    plugins: { details: {} }
   });
 }
 

@@ -115,6 +115,20 @@ export type ReducerFunction<TState, TAction> = (
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
+// NOTE: for the file size optimization
+export const TYPE_ARGUMENTS = "Arguments";
+export const TYPE_ARRAY = "Array";
+export const TYPE_OBJECT = "Object";
+export const TYPE_MAP = "Map";
+export const TYPE_SET = "Set";
+
+export type Collection =
+  | IArguments
+  | Array<unknown>
+  | Map<unknown, unknown>
+  | Record<string | number | symbol, unknown>
+  | Set<unknown>;
+
 export interface SelectOption {
   /**
    * 	The string value to display in the field

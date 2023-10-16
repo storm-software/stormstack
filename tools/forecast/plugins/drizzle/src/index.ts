@@ -1,14 +1,21 @@
-import type { DMMF } from "@prisma/generator-helper";
-import { Model } from "@stormstack/tools-forecast-language/ast";
-import { PluginOptions } from "@stormstack/tools-forecast-schema/sdk";
-import { generate } from "./generator";
+import {
+  PluginHandler,
+  TemplateGenerator,
+  createTemplatePluginHandler
+} from "@stormstack/tools-forecast-codegen";
+import { DrizzlePluginOptions } from "./types";
+import { filterDrizzleTemplates } from "./utils";
 
-export const name = "Drizzle";
+export const name = "Drizzle ORM";
 
-export default async function run(
-  model: Model,
-  options: PluginOptions,
-  dmmf: DMMF.Document
-) {
-  return generate(model, options, dmmf);
-}
+export const generator = new TemplateGenerator<DrizzlePluginOptions>();
+
+export const handle: PluginHandler<DrizzlePluginOptions> =
+  createTemplatePluginHandler(
+    {
+      templatePath: "templates/**",
+      dataModelTemplatePath: "templates/schemas/**",
+      enumTemplatePath: "templates/enums/**"
+    },
+    filterDrizzleTemplates
+  );

@@ -26,16 +26,16 @@ export default async function (
       }
     }
 
-    const outputPath = Path.join(workspaceRoot, options.outputPath);
-    if (existsSync(outputPath)) {
-      removeSync(outputPath);
+    const outDir = Path.join(workspaceRoot, options.output);
+    if (existsSync(outDir)) {
+      removeSync(outDir);
     }
 
     await generateAction({
       schema: schemaPath,
       packageManager: options.packageManager,
       dependencyCheck: options.dependencyCheck,
-      outDir: outputPath
+      outDir
     });
 
     ConsoleLogger.success(

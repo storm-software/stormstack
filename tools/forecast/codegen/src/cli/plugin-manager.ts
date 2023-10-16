@@ -1,36 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { resolvePath } from "@stormstack/core-server-utilities/file-path-fns";
+import { findFilePath } from "@stormstack/core-server-utilities/file-path-fns";
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import { JsonParser } from "@stormstack/core-shared-serialization";
-import { isSet, ProcessingError } from "@stormstack/core-shared-utilities";
-import { isPlugin, Plugin } from "@stormstack/tools-forecast-language/ast";
-import { getLiteral } from "@stormstack/tools-forecast-language/utils";
+import {
+  ProcessingError,
+  getPrimaryColor,
+  isSet
+} from "@stormstack/core-shared-utilities";
+import { Plugin, isPlugin } from "@stormstack/tools-forecast-language/ast";
+import {
+  getLiteral,
+  getLiteralArray
+} from "@stormstack/tools-forecast-language/utils";
 import chalk from "chalk";
-import path from "path";
+import path, { join } from "path";
 import type {
   Context,
   ForecastConfig,
-  IGenerator,
-  PluginExtend,
-  PluginHandler,
-  PluginModule,
-  PluginOptions
+  PluginInfo,
+  PluginModule
 } from "../types";
 import { ensureDefaultOutputFolder } from "../utils/plugin-utils";
 import { getVersion } from "../utils/version-utils";
-
-type PluginInfo<TOptions extends PluginOptions = PluginOptions> = {
-  name: string;
-  dependencyOf?: string;
-  provider: string;
-  options: TOptions;
-  generator?: IGenerator;
-  extend?: PluginExtend<TOptions>;
-  handle?: PluginHandler<TOptions>;
-  dependencies: string[];
-  module: any;
-};
 
 /**
  * Storm plugin runner
@@ -44,24 +36,22 @@ export class PluginManager {
   public async process(context: Context): Promise<void> {
     const version = getVersion();
     ConsoleLogger.info(
-      chalk.bold(`⌛️ Forecast CLI v${version} - Processing Plugins`)
+      chalk.bold(
+        `⌛️ ${chalk
+          .hex(getPrimaryColor())
+          .bold(`Forecast CLI v${version}`)} - Processing Plugins`
+      )
     );
 
     ConsoleLogger.debug("Ensuring default output folder exists and is empty");
     ensureDefaultOutputFolder();
 
-    const plugins: PluginInfo[] = [];
     const pluginDecls = context.model.declarations.filter((d): d is Plugin =>
       isPlugin(d)
     );
 
     ConsoleLogger.debug(
       `Loading Forecast schema from ${chalk.bold(context.schemaPath)}`
-    );
-
-    let prismaOutput = resolvePath(
-      "./prisma/schema.prisma",
-      context.schemaPath
     );
 
     const warnings: string[] = [];
@@ -81,15 +71,42 @@ export class PluginManager {
           );
         }
 
+        const options = { ...context.config.defaultOptions };
+        pluginDecl.fields.forEach(f => {
+          const value = getLiteral(f.value) ?? getLiteralArray(f.value);
+          if (value === undefined) {
+            throw new ProcessingError(
+              `${pluginDecl.name} Plugin: Invalid option value for ${f.name}`
+            );
+          }
+          options[f.name] = value;
+        });
+
         const pluginInfoList = await this.getPluginInfo(
           pluginProvider,
-          context.config.defaultOptions
+          options
         );
 
         this._plugins = pluginInfoList.reduce(
           (ret: PluginInfo[], pluginInfo: PluginInfo) => {
-            if (!ret.some(p => p.provider === pluginInfo.provider)) {
-              ret.push(pluginInfo);
+            if (
+              !ret.some(p => p.provider === pluginInfo.provider) ||
+              pluginInfo.provider === pluginProvider
+            ) {
+              pluginInfo.options.output = pluginInfo.options.output
+                ? join(
+                    context.config.outDir,
+                    pluginInfo.options.output as string
+                  )
+                : context.config.outDir;
+
+              ret.push({
+                ...pluginInfo,
+                pluginId:
+                  pluginInfo.provider === pluginProvider
+                    ? pluginDecl.name
+                    : pluginInfo.provider
+              });
             }
 
             return ret;
@@ -114,10 +131,28 @@ export class PluginManager {
           .join("\r\n")
       );
 
+      // Format the plugins context
+      context.plugins = {
+        details: {}
+      };
+
+      context.plugins.details = this._plugins.reduce(
+        (ret: Record<string, PluginInfo>, plugin: PluginInfo) => {
+          ret[plugin.pluginId] = plugin;
+
+          return ret;
+        },
+        {}
+      );
+
       for (const pluginInfo of this._plugins) {
+        context.plugins.current = pluginInfo.pluginId;
+
         if (pluginInfo.extend) {
           ConsoleLogger.info(
-            `Extending model via plugin ${chalk.bold.cyan(pluginInfo.name)}`
+            `Extending model with ${chalk
+              .hex(getPrimaryColor())
+              .bold(pluginInfo.name)} plugin`
           );
 
           context.model = await Promise.resolve(
@@ -127,9 +162,13 @@ export class PluginManager {
       }
 
       for (const pluginInfo of this._plugins) {
+        context.plugins.current = pluginInfo.pluginId;
+
         if (pluginInfo.handle && pluginInfo.generator) {
           ConsoleLogger.info(
-            `Running plugin ${chalk.bold.cyan(pluginInfo.name)}`
+            `Generating code with ${chalk
+              .hex(getPrimaryColor())
+              .bold(pluginInfo.name)} plugin`
           );
 
           await Promise.resolve(
@@ -324,12 +363,14 @@ ${JSON.stringify(plugin)}`
       }*/
     } else {
       ConsoleLogger.warn(
-        `No plugins specified for this model. Skipping plugin processing (please ensure this is correct).`
+        "No plugins specified for this model. No processing will be performed (please ensure this is expected)."
       );
     }
 
     ConsoleLogger.log(
-      chalk.green(chalk.bold("\n⚡ All plugins completed successfully!"))
+      chalk.hex(getPrimaryColor())(
+        chalk.bold("\n⚡ All plugins completed successfully!")
+      )
     );
 
     warnings.forEach(w => ConsoleLogger.warn(chalk.yellow(w)));
@@ -421,20 +462,22 @@ ${JSON.stringify(plugin)}`
     }
 
     let pluginModule: PluginModule;
+    let resolvedPath!: string;
     try {
-      pluginModule = await import(pluginProvider);
+      resolvedPath = pluginProvider;
+      pluginModule = await import(resolvedPath);
     } catch (origError) {
-      ConsoleLogger.warn(
+      ConsoleLogger.debug(
         `Unable to load plugin module ${pluginProvider}: Tried to import from "${pluginProvider}", ${origError}`
       );
 
-      const pluginModulePath = this.getPluginModulePath(pluginProvider);
+      resolvedPath = this.getPluginModulePath(pluginProvider);
 
       try {
-        pluginModule = await import(pluginModulePath);
+        pluginModule = await import(resolvedPath);
       } catch (error) {
-        ConsoleLogger.warn(
-          `Unable to load plugin module ${pluginProvider}: Tried to import from "${pluginModulePath}", ${error}`
+        ConsoleLogger.debug(
+          `Unable to load plugin module ${pluginProvider}: Tried to import from "${resolvedPath}", ${error}`
         );
 
         ConsoleLogger.error(
@@ -478,7 +521,7 @@ ${JSON.stringify(plugin)}`
       );
     }
 
-    return pluginModule;
+    return { ...pluginModule, resolvedPath: findFilePath(resolvedPath) };
   }
 
   private async getPluginInfo(
@@ -492,6 +535,7 @@ ${JSON.stringify(plugin)}`
     const pluginInfo: PluginInfo = {
       ...module,
       module,
+      pluginId: pluginProvider,
       name,
       provider: pluginProvider,
       options: {

@@ -1,56 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import typeDetect from "type-detect";
 
-// NOTE: for the file size optimization
-export const typeArguments = "Arguments";
-export const typeArray = "Array";
-export const typeObject = "Object";
-export const typeMap = "Map";
-export const typeSet = "Set";
-
-/**
- * detect value type
- *
- * @param value
- */
-export function detectType(value: unknown): string {
-  // NOTE: isBuffer must execute before type-detect,
-  // because type-detect returns 'Uint8Array'.
-  if (/*#__INLINE__*/ isBuffer(value)) {
-    return "Buffer";
-  }
-
-  return typeDetect(value);
-}
-export type Collection =
-  | IArguments
-  | Array<unknown>
-  | Map<unknown, unknown>
-  | Record<string | number | symbol, unknown>
-  | Set<unknown>;
-
-/**
- * Collection types
- *
- * @private
- */
-const collectionTypeSet = new Set([
-  typeArguments,
-  typeArray,
-  typeMap,
-  typeObject,
-  typeSet
-]);
-
-/**
- * is it Collection?
- *
- * @private
- * @param valueType
- */
-export function isCollection(valueType: string): boolean {
-  return /*#__INLINE__*/ collectionTypeSet.has(valueType);
-}
+import {
+  Collection,
+  TYPE_ARGUMENTS,
+  TYPE_ARRAY,
+  TYPE_MAP,
+  TYPE_OBJECT,
+  TYPE_SET
+} from "../types";
+import { detectType, isBufferExists, isCollection } from "./type-checks";
 
 /**
  * get keys from Collection
@@ -64,17 +22,17 @@ export function getKeys(
   collectionType: string
 ): Array<string | symbol> {
   switch (collectionType) {
-    case typeArguments:
-    case typeArray:
+    case TYPE_ARGUMENTS:
+    case TYPE_ARRAY:
       return Object.keys(collection as string[]);
-    case typeObject:
+    case TYPE_OBJECT:
       return ([] as Array<string | symbol>).concat(
         // NOTE: Object.getOwnPropertyNames can get all own keys.
         Object.keys(collection as Record<string, unknown>),
         Object.getOwnPropertySymbols(collection as Record<symbol, unknown>)
       );
-    case typeMap:
-    case typeSet:
+    case TYPE_MAP:
+    case TYPE_SET:
       return Array.from((collection as Set<string | symbol>).keys());
     default:
       return [];
@@ -95,13 +53,13 @@ export function getValue(
   collectionType: string
 ): any {
   switch (collectionType) {
-    case typeArguments:
-    case typeArray:
-    case typeObject:
+    case TYPE_ARGUMENTS:
+    case TYPE_ARRAY:
+    case TYPE_OBJECT:
       return (collection as Record<string, unknown>)[key as string];
-    case typeMap:
+    case TYPE_MAP:
       return (collection as Map<unknown, unknown>).get(key);
-    case typeSet:
+    case TYPE_SET:
       // NOTE: Set.prototype.keys is alias of Set.prototype.values. It means key equals to value.
       return key;
     default:
@@ -125,15 +83,15 @@ export function setValue(
   collectionType: string
 ): Collection {
   switch (collectionType) {
-    case typeArguments:
-    case typeArray:
-    case typeObject:
+    case TYPE_ARGUMENTS:
+    case TYPE_ARRAY:
+    case TYPE_OBJECT:
       (collection as Record<string, unknown>)[key as string] = value;
       break;
-    case typeMap:
+    case TYPE_MAP:
       (collection as Map<unknown, unknown>).set(key, value);
       break;
-    case typeSet:
+    case TYPE_SET:
       (collection as Set<unknown>).add(value);
       break;
     default:
@@ -141,27 +99,6 @@ export function setValue(
 
   return collection;
 }
-
-const isBufferExists = typeof Buffer !== "undefined";
-
-/**
- * is it Buffer?
- *
- * @private
- */
-export const isBuffer: typeof Buffer.isBuffer = isBufferExists
-  ? Buffer.isBuffer.bind(Buffer)
-  : /**
-     * return false every time if Buffer unsupported
-     *
-     * @private
-     */
-    function isBuffer(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      obj: Parameters<typeof Buffer.isBuffer>[0]
-    ): obj is Buffer {
-      return false;
-    };
 
 /**
  * clone Buffer
@@ -267,21 +204,21 @@ export function clone(value: unknown, valueType: string): unknown {
 
     // collections
     // NOTE: return empty value: because recursively copy later.
-    case typeArguments:
+    case TYPE_ARGUMENTS:
       return [];
-    case typeArray:
+    case TYPE_ARRAY:
       return [];
-    case typeMap:
+    case TYPE_MAP:
       return new Map<unknown, unknown>();
-    case typeObject:
+    case TYPE_OBJECT:
       return {};
-    case typeSet:
+    case TYPE_SET:
       return new Set<unknown>();
 
     // NOTE: type-detect returns following types
     // 'Location'
     // 'Document'
-    // 'MimeTypeArray'
+    // 'MimeTYPE_ARRAY'
     // 'PluginArray'
     // 'HTMLQuoteElement'
     // 'HTMLTableDataCellElement'
@@ -396,16 +333,14 @@ function recursiveCopy(
 export type Options = { customizer?: Customizer };
 
 /**
- * deep copy value
+ * Deep copy an object/array/value
  *
- * @param value
- * @param options
+ * @param value - The value to copy
+ * @param options - The options
  */
 export function deepCopy<T>(value: T, options?: Options): T {
   const {
-    // TODO: before/after customizer
     customizer = null
-    // TODO: max depth
     // depth = Infinity,
   } = options || {};
 

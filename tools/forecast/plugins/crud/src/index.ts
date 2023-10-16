@@ -31,7 +31,7 @@ import {
 } from "@stormstack/tools-forecast-language/ast";
 import { ENTITY_CLASS_FIELDS, EntityClassFields } from "./types";
 
-export const name = "CRUD Operations Extension Plugin";
+export const name = "CRUD Operations Extension";
 
 export const extend: PluginExtend<PluginOptions> = async (
   options: PluginOptions,

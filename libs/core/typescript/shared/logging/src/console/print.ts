@@ -1,3 +1,9 @@
+import {
+  getErrorColor,
+  getInfoColor,
+  getSuccessColor,
+  getWarningColor
+} from "@stormstack/core-shared-utilities";
 import chalk from "chalk";
 import { formatLog } from "../format";
 
@@ -20,7 +26,12 @@ export const printInfo = (
       message,
       newLine,
       newLineAfter,
-      chalk.bold.blue("> " + chalk.bgBlue.whiteBright(" i ") + " INFO -"),
+      chalk.bold(
+        "> " +
+          chalk.bgHex(getInfoColor()).whiteBright(" i ") +
+          chalk.hex(getInfoColor())(" INFO ") +
+          "-"
+      ),
       undefined,
       stackTrace
     )
@@ -57,9 +68,7 @@ export const printSuccess = (
       message,
       newLine,
       newLineAfter,
-      chalk.bold.green(
-        "> " + chalk.bold.bgGreen.whiteBright(" ✓ ") + " SUCCESS -"
-      ),
+      chalk.bold("> " + chalk.hex(getSuccessColor())(" SUCCESS ✓ ") + "-"),
       undefined,
       stackTrace
     )
@@ -83,8 +92,11 @@ export const printWarning = (
       message,
       newLine,
       newLineAfter,
-      chalk.bold.yellow(
-        "> " + chalk.bgYellow.blackBright(" ▲ ") + " WARNING -"
+      chalk.bold(
+        "> " +
+          chalk.bgHex(getWarningColor()).blackBright(" ▲ ") +
+          chalk.hex(getWarningColor())(" WARNING ") +
+          "-"
       ),
       undefined,
       stackTrace
@@ -113,10 +125,10 @@ export const printError = (
       error?.message ? error.message : message,
       newLine,
       newLineAfter,
-      chalk.bold.red(
-        `> ${chalk.bgRed.whiteBright(" ! ")} ${prefix} ${chalk.italic(
-          error?.name ? `(${error.name}) ` : ""
-        )}-`
+      chalk.bold(
+        `> ${chalk.bgHex(getErrorColor()).whiteBright(" ! ")} ${chalk.hex(
+          getErrorColor()
+        )(`${prefix} ${chalk.italic(error?.name ? `(${error.name}) ` : "")}`)}-`
       ),
       undefined,
       stackTrace !== false ? error.stack : false

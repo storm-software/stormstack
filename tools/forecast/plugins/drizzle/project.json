@@ -1,27 +1,29 @@
 {
   "name": "tools-forecast-plugins-drizzle",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "tools/storm/plugins/drizzle/src",
+  "sourceRoot": "tools/forecast/plugins/drizzle/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/tools/storm/plugins/drizzle",
-        "main": "tools/storm/plugins/drizzle/src/index.ts",
-        "project": "tools/storm/plugins/drizzle/package.json",
-        "tsConfig": "tools/storm/plugins/drizzle/tsconfig.json",
-        "platform": "node",
+        "outputPath": "dist/tools/forecast/plugins/drizzle",
+        "main": "tools/forecast/plugins/drizzle/src/index.ts",
+        "project": "tools/forecast/plugins/drizzle/package.json",
+        "tsConfig": "tools/forecast/plugins/drizzle/tsconfig.json",
         "deleteOutputPath": true,
         "bundle": true,
         "sourcemap": true,
-        "minify": true,
+        "minify": false,
         "skipTypeCheck": true,
-        "format": ["esm", "cjs"],
+        "thirdParty": true,
+        "platform": "node",
+        "format": ["cjs"],
+        "external": [".prisma/client/index"],
         "assets": [
           {
-            "input": "tools/storm/plugins/drizzle",
+            "input": "tools/forecast/plugins/drizzle",
             "glob": "README.md",
             "output": "."
           },
@@ -29,51 +31,17 @@
             "input": ".",
             "glob": "LICENSE",
             "output": "."
+          },
+          {
+            "input": "tools/forecast/plugins/drizzle",
+            "glob": "**/*.hbs",
+            "output": "."
           }
         ]
       }
     },
-    "pack": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": ["pnpm pack dist --pack-destination \"../.build\""],
-        "cwd": "dist/tools/storm/plugins/drizzle"
-      }
-    },
-    "publish-dev": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "pnpm nx run tools-forecast-runtime:build && pnpm publish --tag dev"
-        ],
-        "cwd": "dist/tools/storm/plugins/drizzle"
-      }
-    },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "tools/storm/plugins/drizzle/**/*.ts",
-          "tools/storm/plugins/drizzle/generators.json",
-          "tools/storm/plugins/drizzle/package.json"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "tools/storm/plugins/drizzle/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
-    },
+    "lint": {},
+    "test": {},
     "semantic-release": {
       "executor": "@theunderscorer/nx-semantic-release:semantic-release",
       "options": {
