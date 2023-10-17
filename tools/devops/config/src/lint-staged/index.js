@@ -9,14 +9,15 @@ const escape = input => {
 };
 
 module.exports = {
-  "!(tools/devops/docker/**/*)/*.*": fileNames => {
-    const escapedFileNames = fileNames
-      .map(filename => (isWin ? filename : escape(filename)))
-      .join(" ");
+  "!(tools/{devops/docker/**/*,forecast/plugins/**/*.hbs})/**/*.*":
+    fileNames => {
+      const escapedFileNames = fileNames
+        .map(filename => (isWin ? filename : escape(filename)))
+        .join(" ");
 
-    return ["pnpm nx format", `git add ${escapedFileNames}`];
-  },
-  "**/*.{js,jsx,ts,tsx,json,css,scss,md,mdx,yml,yaml,graphql,html,prisma,storm}":
+      return ["pnpm nx format", `git add ${escapedFileNames}`];
+    },
+  "**/*.{js,jsx,ts,tsx,json,css,scss,md,mdx,yml,yaml,graphql,html,prisma,4cast}":
     fileNames => {
       const escapedFileNames = fileNames
         .map(filename => (isWin ? filename : escape(filename)))

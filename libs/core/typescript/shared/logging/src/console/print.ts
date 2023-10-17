@@ -2,10 +2,11 @@ import {
   getErrorColor,
   getInfoColor,
   getSuccessColor,
-  getWarningColor
+  getWarningColor,
+  isString
 } from "@stormstack/core-shared-utilities";
 import chalk from "chalk";
-import { formatLog } from "../format";
+import { formatLog, formatStacktrace, formatTimestamp } from "../format";
 
 /**
  * It takes a message, a boolean for whether or not to print a new line before the message, a boolean
@@ -22,19 +23,19 @@ export const printInfo = (
   stackTrace: boolean | undefined = false
 ) => {
   console.info(
-    formatLog(
-      message,
+    formatLog(message, {
       newLine,
       newLineAfter,
-      chalk.bold(
+      prefix: chalk.bold(
         "> " +
           chalk.bgHex(getInfoColor()).whiteBright(" i ") +
           chalk.hex(getInfoColor())(" INFO ") +
           "-"
       ),
-      undefined,
-      stackTrace
-    )
+      stackTrace:
+        isString(stackTrace) && stackTrace ? chalk.dim(stackTrace) : stackTrace,
+      timestamp: chalk.dim(`Timestamp: ${formatTimestamp()}`)
+    })
   );
 };
 
@@ -64,14 +65,18 @@ export const printSuccess = (
   stackTrace: boolean | undefined = false
 ) => {
   console.info(
-    formatLog(
-      message,
+    formatLog(message, {
       newLine,
       newLineAfter,
-      chalk.bold("> " + chalk.hex(getSuccessColor())(" SUCCESS ✓ ") + "-"),
-      undefined,
-      stackTrace
-    )
+      prefix: chalk.bold(
+        "> " + chalk.hex(getSuccessColor())(" SUCCESS ✓ ") + "-"
+      ),
+      stackTrace:
+        isString(stackTrace) && stackTrace
+          ? chalk.dim(formatStacktrace(stackTrace))
+          : stackTrace,
+      timestamp: chalk.dim(`Timestamp: ${formatTimestamp()}`)
+    })
   );
 };
 
@@ -88,19 +93,21 @@ export const printWarning = (
   stackTrace: boolean | undefined = true
 ) => {
   console.warn(
-    formatLog(
-      message,
+    formatLog(message, {
       newLine,
       newLineAfter,
-      chalk.bold(
+      prefix: chalk.bold(
         "> " +
           chalk.bgHex(getWarningColor()).blackBright(" ▲ ") +
           chalk.hex(getWarningColor())(" WARNING ") +
           "-"
       ),
-      undefined,
-      stackTrace
-    )
+      stackTrace:
+        isString(stackTrace) && stackTrace
+          ? chalk.dim(formatStacktrace(stackTrace))
+          : stackTrace,
+      timestamp: chalk.dim(`Timestamp: ${formatTimestamp()}`)
+    })
   );
 };
 
@@ -119,20 +126,20 @@ export const printError = (
   prefix = "ERROR"
 ) => {
   const error = message as Error;
+
   console.error(message);
   console.error(
-    formatLog(
-      error?.message ? error.message : message,
+    formatLog(error?.message ? error.message : message, {
       newLine,
       newLineAfter,
-      chalk.bold(
+      prefix: chalk.bold(
         `> ${chalk.bgHex(getErrorColor()).whiteBright(" ! ")} ${chalk.hex(
           getErrorColor()
         )(`${prefix} ${chalk.italic(error?.name ? `(${error.name}) ` : "")}`)}-`
       ),
-      undefined,
-      stackTrace !== false ? error.stack : false
-    )
+      stackTrace: chalk.dim(formatStacktrace(stackTrace, error)),
+      timestamp: chalk.dim(`Timestamp: ${formatTimestamp()}`)
+    })
   );
 };
 

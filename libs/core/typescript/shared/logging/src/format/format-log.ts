@@ -1,6 +1,8 @@
 import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
+  BaseError,
   DateTime,
+  EMPTY_STRING,
   NEWLINE_STRING,
   StormError,
   formatDateTime,
@@ -11,6 +13,15 @@ import {
   isProduction,
   isString
 } from "@stormstack/core-shared-utilities";
+
+export type FormatLogOptions = {
+  newLine?: boolean;
+  newLineAfter?: boolean;
+  prefix?: string;
+  postfix?: string;
+  stackTrace?: string | boolean;
+  timestamp?: string | boolean;
+};
 
 /**
  * `formatLog` is a function that takes a `message` of type `string`, a `newLine` of type `boolean`
@@ -23,40 +34,33 @@ import {
  */
 export const formatLog = (
   message: unknown | unknown[],
-  newLine = true,
-  newLineAfter = true,
-  prefix?: string,
-  postfix?: string,
-  stackTrace: string | boolean | undefined = false
+  options: FormatLogOptions = {
+    newLine: true,
+    newLineAfter: true,
+    stackTrace: false
+  }
 ): string => {
-  return `${newLine ? NEWLINE_STRING : ""}${prefix ? `${prefix} ` : ""}${
+  return `${options.newLine ? NEWLINE_STRING : ""}${
+    (!isProduction() && options.timestamp !== false) || options.timestamp
+      ? (isString(options.timestamp)
+          ? options.timestamp
+          : "Timestamp: " + formatTimestamp()) + NEWLINE_STRING
+      : EMPTY_STRING
+  }${options.prefix ? `${options.prefix} ` : EMPTY_STRING}${
     Array.isArray(message)
       ? message.reduce((ret, m, i) => {
           ret +=
             formatLogLine(m) + (i < message.length - 1 ? NEWLINE_STRING : "");
           return ret;
-        }, "")
+        }, EMPTY_STRING)
       : formatLogLine(message)
-  }${postfix ? postfix : ""}${
-    !isProduction()
-      ? NEWLINE_STRING +
-        "Timestamp: " +
-        formatDateTime(
-          DateTime.current,
-          { smallestUnit: "milliseconds", calendarName: "never" },
-          "UTC"
-        ) +
-        (stackTrace !== false
-          ? NEWLINE_STRING +
-            `Stack Trace: ${NEWLINE_STRING}` +
-            (typeof stackTrace === "string"
-              ? stackTrace
-              : (message as Error)?.stack
-              ? (message as Error)?.stack
-              : new Error().stack?.substring(6) ?? "")
-          : "")
-      : ""
-  }${newLineAfter ? NEWLINE_STRING : ""}`;
+  }${options.postfix ? options.postfix : EMPTY_STRING}${
+    options.stackTrace !== false && (!isProduction() || options.stackTrace)
+      ? isString(options.stackTrace) && options.stackTrace
+        ? options.stackTrace
+        : formatStacktrace(options.stackTrace, message as BaseError)
+      : EMPTY_STRING
+  }${options.newLineAfter ? NEWLINE_STRING : EMPTY_STRING}`;
 };
 
 /**
@@ -71,7 +75,8 @@ export const formatLog = (
 const formatLogLine = (message: unknown): string =>
   Array.isArray(message)
     ? message.reduce((ret, m, i) => {
-        ret += formatLogLine(m) + (i < message.length - 1 ? ", " : "");
+        ret +=
+          formatLogLine(m) + (i < message.length - 1 ? ", " : EMPTY_STRING);
         return ret;
       }, "")
     : isEmpty(message)
@@ -110,10 +115,37 @@ export const formatErrorLog = (
     StormError.isStormError(error)
       ? StormError.stringify(error)
       : `${error.name}: ${error.message}`,
-    newLine,
-    newLineAfter,
-    prefix,
-    postfix,
-    error.stack ?? true
+    { newLine, newLineAfter, prefix, postfix, stackTrace: error.stack ?? true }
   );
+};
+
+export const formatTimestamp = (
+  dateTime: DateTime = DateTime.current
+): string => {
+  return formatDateTime(
+    dateTime,
+    { smallestUnit: "milliseconds", calendarName: "never" },
+    "UTC"
+  );
+};
+
+export const formatStacktrace = (
+  stackTrace?: string | boolean,
+  error?: Error
+): string => {
+  const stack =
+    stackTrace === false
+      ? EMPTY_STRING
+      : isString(stackTrace) && stackTrace
+      ? stackTrace
+      : isError(error) && (error as Error)?.stack
+      ? (error as Error)?.stack
+      : new Error().stack?.substring(6)
+      ? new Error().stack?.substring(6)
+      : EMPTY_STRING;
+
+  return stack
+    ? `Stack Trace: ${NEWLINE_STRING}
+${stack}`
+    : EMPTY_STRING;
 };

@@ -48,6 +48,10 @@
    ******************************/
   "editor.formatOnSave": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "*.hbs": "handlebars",
+    "*.4cast": "forecast"
+  },
 
   "eslint.validate": [
     "javascript",
@@ -115,11 +119,19 @@
   },
 
   /******************************
-   * Storm
+   * Forecast
    ******************************/
-  "[storm]": {
+  "[forecast]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "Prisma.prisma"
+  },
+
+  /******************************
+   * Handlebars
+   ******************************/
+  "[handlebars]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
   /******************************
@@ -285,11 +297,5 @@
   "commitizen.capitalizeWindowsDriveLetter": true,
   "commitizen.autoSync": false,
   "commitizen.showOutputChannel": "always",
-  "cSpell.words": [
-    "cockroachdb",
-    "jdbc",
-    "sqlserver",
-    "uploadables",
-    "visibillitychange"
-  ]
+  "cSpell.words": []
 }

@@ -80,7 +80,13 @@ export class ConsoleLogger extends Logger {
    * @param {string} message - The message to be printed.
    */
   static log(...message: any[]) {
-    console.log(formatLog(message, false, false, undefined, undefined, false));
+    console.log(
+      formatLog(message, {
+        newLine: false,
+        newLineAfter: false,
+        stackTrace: false
+      })
+    );
   }
 
   /**
@@ -180,7 +186,7 @@ export class ConsoleLogger extends Logger {
    * @returns Nothing.
    */
   public debug = (...message: any[]) => {
-    printInfo(message, true, true, true);
+    printInfo(message, true, true, false);
   };
 
   /**
@@ -197,7 +203,13 @@ export class ConsoleLogger extends Logger {
    * @returns A promise that resolves to void.
    */
   public log = (...message: any[]) => {
-    console.log(formatLog(message, false, false, undefined, undefined, false));
+    console.log(
+      formatLog(message, {
+        newLine: false,
+        newLineAfter: false,
+        stackTrace: false
+      })
+    );
   };
 
   /**

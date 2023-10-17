@@ -10,5 +10,6 @@
 **/tools/docker/**
 **/__snapshots__/**
 **/catalog-package/**
+**/*.hbs
 
 # tailwind.config.js

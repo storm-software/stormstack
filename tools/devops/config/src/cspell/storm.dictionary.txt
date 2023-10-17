@@ -12,6 +12,12 @@ noreferrer
 tmpl
 maxage
 unpublish
+changecase
+cockroachdb
+jdbc
+sqlserver
+uploadables
+visibillitychange
 preid
 nxrelease
 Ponyfill
