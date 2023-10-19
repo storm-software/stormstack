@@ -6,7 +6,7 @@
       "type": "extensionHost",
       "request": "launch",
       "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/dist/tools/storm/schema"
+        "--extensionDevelopmentPath=${workspaceFolder}/dist/tools/forecast/codegen"
       ]
     },
     {
@@ -23,7 +23,7 @@
       "request": "attach",
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/dist/tools/storm/schema/**/*.js"]
+      "outFiles": ["${workspaceFolder}/dist/tools/forecast/codegen/**/*.js"]
     }
   ]
 }

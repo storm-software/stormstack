@@ -130,7 +130,7 @@
    * Handlebars
    ******************************/
   "[handlebars]": {
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
@@ -296,6 +296,5 @@
    ******************************/
   "commitizen.capitalizeWindowsDriveLetter": true,
   "commitizen.autoSync": false,
-  "commitizen.showOutputChannel": "always",
-  "cSpell.words": []
+  "commitizen.showOutputChannel": "always"
 }

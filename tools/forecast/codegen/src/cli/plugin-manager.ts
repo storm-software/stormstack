@@ -4,6 +4,7 @@ import { findFilePath } from "@stormstack/core-server-utilities/file-path-fns";
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
+  NEWLINE_STRING,
   ProcessingError,
   getPrimaryColor,
   isSet
@@ -99,6 +100,7 @@ export class PluginManager {
                     pluginInfo.options.output as string
                   )
                 : context.config.outDir;
+              pluginInfo.options.headerName ??= pluginInfo.name;
 
               ret.push({
                 ...pluginInfo,
@@ -369,15 +371,15 @@ ${JSON.stringify(plugin)}`
 
     ConsoleLogger.log(
       chalk.hex(getPrimaryColor())(
-        chalk.bold("\n⚡ All plugins completed successfully!")
-      )
+        chalk.bold("⚡ All plugins completed successfully!")
+      ) +
+        chalk.gray(
+          NEWLINE_STRING +
+            "Don't forget to restart your dev server to let the changes take effect"
+        )
     );
 
     warnings.forEach(w => ConsoleLogger.warn(chalk.yellow(w)));
-
-    ConsoleLogger.log(
-      `Don't forget to restart your dev server to let the changes take effect.`
-    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -2,50 +2,50 @@
 // Learn how to model you app: https://stormcloud.dev/#/modeling-your-app.
 
 /**
- * A sample data source using local sqlite db.
- * See how to use a different db: https://stormcloud.dev/#/storm-data-source.
- */
+* A sample data source using local sqlite db.
+* See how to use a different db: https://stormcloud.dev/#/storm-data-source.
+*/
 datasource db {
-    provider = 'sqlite'
-    url = 'file:./dev.db'
+  provider = 'sqlite'
+  url = 'file:./dev.db'
 }
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 /**
- * User model
- */
+* User model
+*/
 model User {
-    id String @id @default(cuid())
-    email String @unique @email
-    password String @password @omit @length(8, 16)
-    posts Post[]
+  id       String @id @default(cuid())
+  email    String @unique @email
+  password String @password @omit @length(8, 16)
+  posts    Post[]
 
-    // everybody can sign-up
-    @@allow('create', true)
+  // everybody can sign-up
+  @@allow('create', true)
 
-    // full access by self
-    @@allow('all', auth() == this)
+  // full access by self
+  @@allow('all', auth() == this)
 }
 
 /**
- * Post model
- */
+* Post model
+*/
 model Post {
-    id String @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    title String @length(1, 256)
-    content String
-    published Boolean @default(false)
-    author User? @relation(fields: [authorId], references: [id])
-    authorId String?
+  id        String   @id @default(snowflake())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @length(1, 256)
+  content   String
+  published Boolean  @default(false)
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  String?
 
-    // allow read for all sign-in users
-    @@allow('read', auth() != null && published)
+  // allow read for all sign-in users
+  @@allow('read', auth() != null && published)
 
-    // full access by author
-    @@allow('all', author == auth())
+  // full access by author
+  @@allow('all', author == auth())
 }

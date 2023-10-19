@@ -1,15 +1,7 @@
 import { ConsoleLogger } from "@stormstack/core-shared-logging";
-import {
-  isApiModel,
-  isDataModel,
-  isEnum,
-  isInput,
-  isInterface,
-  isOperationGroup
-} from "@stormstack/tools-forecast-language/ast";
+import {} from "@stormstack/core-shared-utilities";
 import * as Handlebars from "handlebars";
 import { HelperOptions } from "handlebars";
-import { utils } from "handlebars-utils";
 import { AstNode } from "langium";
 import { CompilerOptions } from "ts-morph";
 import {
@@ -18,6 +10,48 @@ import {
   TemplatePluginOptions,
   TypescriptPluginOptions
 } from "../../types";
+import {
+  camelCaseHelper,
+  capitalizeHelper,
+  constantCaseHelper,
+  forEachAttributeArgsHelper,
+  forEachHelper,
+  isApiModelHelper,
+  isArrayFieldHelper,
+  isArrayHelper,
+  isArrayLengthHelper,
+  isBigIntFieldHelper,
+  isBooleanFieldHelper,
+  isBytesFieldHelper,
+  isCuidHelper,
+  isDataModelFieldHelper,
+  isDataModelHelper,
+  isDateTimeFieldHelper,
+  isDecimalFieldHelper,
+  isDefaultAttributeHelper,
+  isEnumHelper,
+  isEnumReferenceHelper,
+  isFloatFieldHelper,
+  isFunctionDeclHelper,
+  isIdAttributeHelper,
+  isInputHelper,
+  isIntegerFieldHelper,
+  isInterfaceHelper,
+  isInvocationHelper,
+  isJsonFieldHelper,
+  isLiteralHelper,
+  isNowHelper,
+  isOperationGroupHelper,
+  isOptionalFieldHelper,
+  isReferenceExprHelper,
+  isRelationAttributeHelper,
+  isSnowflakeHelper,
+  isStringFieldHelper,
+  isUniqueAttributeHelper,
+  isUnsupportedFieldHelper,
+  isUuidHelper,
+  pascalCaseHelper
+} from "../../utils/template-helpers";
 import { TemplateDetails } from "../template-plugin-handler";
 import { TypescriptGenerator } from "./typescript-generator";
 
@@ -31,7 +65,7 @@ export class TemplateGenerator<
   private _options?: TOptions;
 
   public get name(): string {
-    return "TemplateGenerator";
+    return "Template Generator";
   }
 
   public get fileExtension() {
@@ -47,12 +81,68 @@ export class TemplateGenerator<
   constructor(compilerOptions?: CompilerOptions) {
     super(compilerOptions);
 
-    this.handlebars.registerHelper("isDataModel", this.isDataModel);
-    this.handlebars.registerHelper("isApiModel", this.isApiModel);
-    this.handlebars.registerHelper("isInterface", this.isInterface);
-    this.handlebars.registerHelper("isInput", this.isInput);
-    this.handlebars.registerHelper("isOperationGroup", this.isOperationGroup);
-    this.handlebars.registerHelper("isEnum", this.isEnum);
+    this.handlebars.registerHelper("isDataModel", isDataModelHelper);
+    this.handlebars.registerHelper("isApiModel", isApiModelHelper);
+    this.handlebars.registerHelper("isInterface", isInterfaceHelper);
+    this.handlebars.registerHelper("isInput", isInputHelper);
+    this.handlebars.registerHelper("isOperationGroup", isOperationGroupHelper);
+    this.handlebars.registerHelper("isEnum", isEnumHelper);
+
+    this.handlebars.registerHelper("isArrayField", isArrayFieldHelper);
+    this.handlebars.registerHelper("isOptionalField", isOptionalFieldHelper);
+    this.handlebars.registerHelper(
+      "isUnsupportedField",
+      isUnsupportedFieldHelper
+    );
+
+    this.handlebars.registerHelper("isDataModelField", isDataModelFieldHelper);
+    this.handlebars.registerHelper("isIntegerField", isIntegerFieldHelper);
+    this.handlebars.registerHelper("isFloatField", isFloatFieldHelper);
+    this.handlebars.registerHelper("isDecimalField", isDecimalFieldHelper);
+    this.handlebars.registerHelper("isBigIntField", isBigIntFieldHelper);
+    this.handlebars.registerHelper("isStringField", isStringFieldHelper);
+    this.handlebars.registerHelper("isBooleanField", isBooleanFieldHelper);
+    this.handlebars.registerHelper("isDateTimeField", isDateTimeFieldHelper);
+    this.handlebars.registerHelper("isBytesField", isBytesFieldHelper);
+    this.handlebars.registerHelper("isJsonField", isJsonFieldHelper);
+
+    this.handlebars.registerHelper(
+      "isDefaultAttribute",
+      isDefaultAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isUniqueAttribute",
+      isUniqueAttributeHelper
+    );
+    this.handlebars.registerHelper("isIdAttribute", isIdAttributeHelper);
+    this.handlebars.registerHelper(
+      "isRelationAttribute",
+      isRelationAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "forEachAttributeArgs",
+      forEachAttributeArgsHelper
+    );
+
+    this.handlebars.registerHelper("isNow", isNowHelper);
+    this.handlebars.registerHelper("isUuid", isUuidHelper);
+    this.handlebars.registerHelper("isCuid", isCuidHelper);
+    this.handlebars.registerHelper("isSnowflake", isSnowflakeHelper);
+
+    this.handlebars.registerHelper("isInvocation", isInvocationHelper);
+    this.handlebars.registerHelper("isLiteral", isLiteralHelper);
+    this.handlebars.registerHelper("isFunctionDecl", isFunctionDeclHelper);
+    this.handlebars.registerHelper("isReferenceExpr", isReferenceExprHelper);
+    this.handlebars.registerHelper("isEnumReference", isEnumReferenceHelper);
+
+    this.handlebars.registerHelper("capitalize", capitalizeHelper);
+    this.handlebars.registerHelper("camelCase", camelCaseHelper);
+    this.handlebars.registerHelper("pascalCase", pascalCaseHelper);
+    this.handlebars.registerHelper("constantCase", constantCaseHelper);
+
+    this.handlebars.registerHelper("isArray", isArrayHelper);
+    this.handlebars.registerHelper("isArrayLength", isArrayLengthHelper);
+    this.handlebars.registerHelper("forEach", forEachHelper);
   }
 
   public generate = async (
@@ -66,7 +156,7 @@ export class TemplateGenerator<
 
     const template = await this.getTemplate(params);
 
-    return template(node);
+    return template({ node, options });
   };
 
   public getContext(): Context {
@@ -111,10 +201,7 @@ export class TemplateGenerator<
   ): Promise<HandlebarsTemplateDelegate> => {
     let compiled = this.templates.get(template.name);
     if (!compiled) {
-      ConsoleLogger.info(
-        `Compiling template for ${template.name}:
-${template.content}`
-      );
+      ConsoleLogger.info(`Compiling template for ${template.name}`);
 
       compiled = this.handlebars.compile(
         template.content,
@@ -124,29 +211,5 @@ ${template.content}`
     }
 
     return compiled;
-  };
-
-  private isDataModel = (node: AstNode, options: HelperOptions) => {
-    utils.value(isDataModel(node), options);
-  };
-
-  private isApiModel = (node: AstNode, options: HelperOptions) => {
-    utils.value(isApiModel(node), options);
-  };
-
-  private isInterface = (node: AstNode, options: HelperOptions) => {
-    utils.value(isInterface(node), options);
-  };
-
-  private isInput = (node: AstNode, options: HelperOptions) => {
-    utils.value(isInput(node), options);
-  };
-
-  private isOperationGroup = (node: AstNode, options: HelperOptions) => {
-    utils.value(isOperationGroup(node), options);
-  };
-
-  private isEnum = (node: AstNode, options: HelperOptions) => {
-    utils.value(isEnum(node), options);
   };
 }

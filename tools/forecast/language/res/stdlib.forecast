@@ -94,6 +94,14 @@ function cuid(): String {
 } @@@expressionContext([DefaultValue])
 
 /**
+ * Generates a globally unique identifier based on the Twitter Snowflake spec.
+ *
+ * @remarks Additional details about the Snowflake spec. can be found in [the Twitter announcing blog post](https://blog.twitter.com/engineering/en_us/a/2010/announcing-snowflake.html) and [an article written by Akash Rajpurohit](https://akashrajpurohit.com/blog/snowflake-id-generating-unique-ids-for-distributed-systems/)
+ */
+function snowflake(): String {
+} @@@expressionContext([DefaultValue])
+
+/**
  * Creates a sequence of integers in the underlying database and assign the incremented
  * values to the ID values of the created records based on the sequence.
  */

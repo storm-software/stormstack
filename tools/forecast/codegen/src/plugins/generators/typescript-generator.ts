@@ -7,6 +7,7 @@ import {
   saveProject
 } from "../../code-gen";
 import { TypescriptPluginOptions } from "../../types";
+import { DirectoryTracker } from "./directory-tracker";
 import { Generator } from "./generator";
 
 /**
@@ -16,6 +17,7 @@ export abstract class TypescriptGenerator<
   TOptions extends TypescriptPluginOptions = TypescriptPluginOptions
 > extends Generator<TOptions> {
   protected project: Project;
+  protected directoryTracker: DirectoryTracker | undefined;
 
   public get fileExtension(): string {
     return "ts";
@@ -27,10 +29,18 @@ export abstract class TypescriptGenerator<
 
   constructor(protected compilerOptions?: CompilerOptions) {
     super();
+
     this.project = createProject(compilerOptions);
   }
 
   public async save(options: TOptions) {
+    if (this.directoryTracker && options.generateIndexFiles !== false) {
+      const indexFiles = this.directoryTracker.getIndexFile();
+      for (const indexFile of indexFiles) {
+        await this.write(options, indexFile.fileContent, indexFile.fileName);
+      }
+    }
+
     const shouldCompile = options.compile !== false;
     if (!shouldCompile || options.preserveTsFiles === true) {
       // save ts files
@@ -64,6 +74,11 @@ export abstract class TypescriptGenerator<
 
     if (options.prettier !== false) {
       await formatFile(file, this.getParserFromExtension(extension));
+    }
+
+    if (options.generateIndexFiles !== false) {
+      this.directoryTracker ??= new DirectoryTracker("/");
+      this.directoryTracker.addFile(filePath.replace(options.output, ""));
     }
   }
 

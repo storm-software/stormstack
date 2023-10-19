@@ -20,6 +20,7 @@
     "prisma.prisma",
     "capaj.graphql-codegen-vscode",
     "davidanson.vscode-markdownlint",
-    "storm-software.forecast"
+    "storm-software.forecast",
+    "andrejunges.handlebars"
   ]
 }

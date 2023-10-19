@@ -40,7 +40,6 @@ export interface Context {
 }
 
 export interface IGenerator<TOptions extends PluginOptions = PluginOptions> {
-  extendModel(context: Context): Promise<Model>;
   generate(
     options: TOptions,
     node: AstNode,
@@ -88,7 +87,8 @@ export type PluginOptions = {
    * The output directory
    */
   output?: string;
-} & Record<string, OptionValue | OptionValue[]>;
+} & GeneratorOptions &
+  Record<string, OptionValue | OptionValue[]>;
 
 export type PluginInfo<TOptions extends PluginOptions = PluginOptions> = {
   pluginId: string;
@@ -123,7 +123,16 @@ export type TypescriptPluginOptions = PluginOptions & {
    * @default true
    */
   prettier?: boolean;
+
+  /**
+   * Should index files be created for each directory that contains generated files
+   *
+   * @default true
+   */
+  generateIndexFiles?: boolean;
 };
+
+export const DIRECTORY_TRACKER_SYMBOL = Symbol("DirectoryTracker");
 
 /**
  * Paths to template files for a Template Plugin
@@ -256,7 +265,33 @@ export const ConnectorType = {
 
 export const TEMPLATE_EXTENSIONS = [
   "hbs",
+  "hbr",
   "handlebars",
+  "tpl",
   "template",
   "mustache"
 ];
+
+/**
+ * Generator Write function options
+ */
+export type GeneratorOptions = {
+  /**
+   * The display name of the file being written. This will be added in the file's header
+   */
+  headerName?: string;
+
+  /**
+   * The header string to add to the file. If set to `true` the default header will be used. If set to `false` no header will be added.
+   *
+   * @default true
+   */
+  header?: string | boolean;
+
+  /**
+   * The footer string to add to the file. If set to `false` no header will be added.
+   *
+   * @default false
+   */
+  footer?: string | boolean;
+} & Record<string, any>;

@@ -222,12 +222,6 @@ const generateNodeTemplates = async <
   for (const node of nodes) {
     let nodeTemplates = Array.from(templates);
 
-    ConsoleLogger.info(
-      `Filtering the following templates: ${nodeTemplates
-        .map(nodeTemplate => nodeTemplate.name)
-        .join(", ")}`
-    );
-
     // Allow the plugin to filter the templates to be used
     // based on the options and context
     if (filterTemplates) {
@@ -278,9 +272,6 @@ export const getGeneratedContent = async <
       ),
     node
   );
-
-  ConsoleLogger.info(`Generated file "${name}":
-${content}`);
 
   return {
     name,

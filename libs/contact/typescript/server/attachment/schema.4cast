@@ -1,148 +1,147 @@
 datasource db {
-    provider = "sqlite"
-    url      = "file:./dev.db"
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 generator js {
-    provider = "prisma-client-js"
-    /// Generate into custom location because this repo has multiple prisma schemas
-    output   = "../../../../../node_modules/@prisma/client/contact-attachment"
+  provider = "prisma-client-js"
+  /// Generate into custom location because this repo has multiple prisma schemas
+  output   = "../../../../../node_modules/@prisma/client/contact-attachment"
 }
 
 plugin crud {
-  provider = "@stormstack/tools-forecast-plugins-crud"
+provider = "@stormstack/tools-forecast-plugins-crud"
 }
 
 plugin drizzle {
-  provider = "@stormstack/tools-forecast-plugins-drizzle"
-  output = "drizzle"
-  compile = false
+provider = "@stormstack/tools-forecast-plugins-drizzle"
+output = "drizzle"
+compile = false
 }
 
 enum ContactReason {
-    Business
-    Question
-    Other
-    Project
-    Interest
-    Subscribe
+  Business
+  Question
+  Other
+  Project
+  Interest
+  Subscribe
 }
 
 enum AttachmentStatus {
-    Pending
-    Approved
-    Rejected
-    Removed
+  Pending
+  Approved
+  Rejected
+  Removed
 }
 
 model Contact {
-    /// The unique identifier for the Contact
-    id String @id @default(uuid())
+  /// The unique identifier for the Contact
+  id String @id @default(snowflake())
 
-    /// A timestamp of when the Contact was created
-    createdAt DateTime @default(now())
+  /// A timestamp of when the Contact was created
+  createdAt DateTime @default(now())
 
-    /// The user who created the Contact
-    createdBy String
+  /// The user who created the Contact
+  createdBy String
 
-    /// A timestamp of when the Contact was last updated
-    updatedAt DateTime? @updatedAt
+  /// A timestamp of when the Contact was last updated
+  updatedAt DateTime? @updatedAt
 
-    /// The user who last updated the Contact
-    updatedBy String?
+  /// The user who last updated the Contact
+  updatedBy String?
 
-    /// The current sequence if the Contact record
-    sequence Int
+  /// The current sequence if the Contact record
+  sequence Int
 
-    /// The reason of the Contact
-    reason ContactReason @default(Other)
+  /// The reason of the Contact
+  reason ContactReason @default(Other)
 
-    /// The details of the Contact
-    details String? @length(1, 100)
+  /// The details of the Contact
+  details String? @length(1, 100)
 
-    /// The provided email to respond back to the Contact request
-    email String @email
+  /// The provided email to respond back to the Contact request
+  email String @email
 
-    /// The provided phone number to respond back to the Contact request
-    phoneNumber String? @phoneNumber @length(1, 20)
+  /// The provided phone number to respond back to the Contact request
+  phoneNumber String? @phoneNumber @length(1, 20)
 
-    /// The provided first name of the Contact
-    firstName String? @length(1, 50)
+  /// The provided first name of the Contact
+  firstName String? @length(1, 50)
 
-    /// The provided first name of the Contact
-    lastName String? @length(1, 50)
+  /// The provided first name of the Contact
+  lastName String? @length(1, 50)
 
-    /// The provided address of the Contact
-    addressLine1 String? @length(1, 100)
+  /// The provided address of the Contact
+  addressLine1 String? @length(1, 100)
 
-    /// The provided address of the Contact
-    addressLine2 String? @length(1, 100)
+  /// The provided address of the Contact
+  addressLine2 String? @length(1, 100)
 
-    /// The provided postal code of the Contact
-    postalCode String? @postalCode @length(1, 20)
+  /// The provided postal code of the Contact
+  postalCode String? @postalCode @length(1, 20)
 
-    /// The provided city of the Contact
-    city String? @length(1, 50)
+  /// The provided city of the Contact
+  city String? @length(1, 50)
 
-    /// The provided state of the Contact
-    state String? @length(1, 50)
+  /// The provided state of the Contact
+  state String? @length(1, 50)
 
-    /// The provided country code of the Contact
-    countryCode String? @countryCode @length(1, 2)
+  /// The provided country code of the Contact
+  countryCode String? @countryCode @length(1, 2)
 
-    /// The provided title of the Contact
-    title String? @length(1, 50)
+  /// The provided title of the Contact
+  title String? @length(1, 50)
 
-    /// The provided company name of the Contact
-    companyName String? @length(1, 50)
+  /// The provided company name of the Contact
+  companyName String? @length(1, 50)
 
-    /// The provided URL of the Contact
-    url String? @url
+  /// The provided URL of the Contact
+  url String? @url
 
-    /// A list of file attachments included by the Contact
-    attachments ContactAttachment[]
+  /// A list of file attachments included by the Contact
+  attachments ContactAttachment[]
 
-    /// everyone can send contact data
-    @@allow('create,update,delete,read', true)
+  /// everyone can send contact data
+  @@allow('create,update,delete,read', true)
 }
 
 model ContactAttachment {
-    /// The unique identifier for the ContactAttachment
-    id String @id @default(uuid())
+  /// The unique identifier for the ContactAttachment
+  id String @id @default(snowflake())
 
-    /// A timestamp of when the ContactAttachment was created
-    createdAt DateTime @default(now())
+  /// A timestamp of when the ContactAttachment was created
+  createdAt DateTime @default(now())
 
-    /// The user who created the ContactAttachment
-    createdBy String
+  /// The user who created the ContactAttachment
+  createdBy String
 
-    /// A timestamp of when the ContactAttachment was last updated
-    updatedAt DateTime? @updatedAt
+  /// A timestamp of when the ContactAttachment was last updated
+  updatedAt DateTime? @updatedAt
 
-    /// The user who last updated the ContactAttachment
-    updatedBy String?
+  /// The user who last updated the ContactAttachment
+  updatedBy String?
 
-    /// The current sequence if the ContactAttachment record
-    sequence Int
+  /// The current sequence if the ContactAttachment record
+  sequence Int
 
-    /// The name of the file
-    name String @length(1, 100)
+  /// The name of the file
+  name String @length(1, 100)
 
-    /// The path of the file
-    path String @url @length(1, 100)
+  /// The path of the file
+  path String @url @length(1, 100)
 
-    /// The status of the file
-    status AttachmentStatus @default(Pending)
+  /// The status of the file
+  status AttachmentStatus @default(Pending)
 
-    /// The Contact the attachment belongs to
-    contact Contact @relation(fields: [contactId], references: [id])
+  /// The Contact the attachment belongs to
+  contact Contact @relation(fields: [contactId], references: [id])
 
-    /// The Contact (Id) the attachment belongs to
-    contactId String
+  /// The Contact (Id) the attachment belongs to
+  contactId String
 
-    /// everyone can send contact data
-    @@allow('create,update,delete,read', true)
+  /// everyone can send contact data
+  @@allow('create,update,delete,read', true)
 
-    @@unique([name, path])
+  @@unique([name, path])
 }
-

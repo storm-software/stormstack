@@ -1,5 +1,9 @@
 module.exports = {
-  plugins: ["prettier-plugin-packagejson", "prettier-plugin-tailwindcss"],
+  plugins: [
+    "prettier-plugin-packagejson",
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-prisma"
+  ],
   trailingComma: "none",
   tabWidth: 2,
   semi: true,
@@ -15,7 +19,13 @@ module.exports = {
     {
       files: "**/*.hbs",
       options: {
-        parser: "angular"
+        parser: "html"
+      }
+    },
+    {
+      files: "**/*.4cast",
+      options: {
+        parser: "prisma-parse"
       }
     }
   ]

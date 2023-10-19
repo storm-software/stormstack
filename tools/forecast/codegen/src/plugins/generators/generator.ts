@@ -1,6 +1,10 @@
-import { BaseUtilityClass } from "@stormstack/core-shared-utilities";
-import { AstNode, Model } from "@stormstack/tools-forecast-language/ast";
-import { getFileHeader } from "../../code-gen";
+import {
+  BaseUtilityClass,
+  EMPTY_STRING,
+  isString
+} from "@stormstack/core-shared-utilities";
+import { AstNode } from "@stormstack/tools-forecast-language/ast";
+import { getFileFooter, getFileHeader } from "../../code-gen";
 import {
   Context,
   GENERATOR_SYMBOL,
@@ -45,11 +49,11 @@ export abstract class Generator<TOptions extends PluginOptions = PluginOptions>
     return this.innerWrite(
       options,
       `
-${this.getFileHeader()}
+${this.getFileHeader(options)}
 
 ${fileContent}
 
-${this.getFileFooter()}
+${this.getFileFooter(options)}
   `,
       fileName,
       fileExtension ? fileExtension : this.fileExtension
@@ -58,10 +62,6 @@ ${this.getFileFooter()}
 
   public abstract save(options: TOptions): Promise<void>;
 
-  public async extendModel(context: Context): Promise<Model> {
-    return context.model;
-  }
-
   protected abstract innerWrite(
     options: TOptions,
     fileContent: string,
@@ -69,11 +69,22 @@ ${this.getFileFooter()}
     fileExtension: string
   ): Promise<void>;
 
-  protected getFileHeader(): string {
-    return getFileHeader(this.name, this.commentStart);
+  protected getFileHeader(options: TOptions): string {
+    return options.header === false
+      ? EMPTY_STRING
+      : isString(options.header)
+      ? options.header
+      : getFileHeader(
+          options.headerName ? options.headerName : this.name,
+          this.commentStart
+        );
   }
 
-  protected getFileFooter(): string {
-    return "";
+  protected getFileFooter(options: TOptions): string {
+    return options.footer === false
+      ? EMPTY_STRING
+      : isString(options.footer)
+      ? options.footer
+      : getFileFooter(this.commentStart);
   }
 }

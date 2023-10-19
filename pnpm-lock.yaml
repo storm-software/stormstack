@@ -1180,6 +1180,9 @@ importers:
       prettier-plugin-packagejson:
         specifier: ^2.4.5
         version: 2.4.6(prettier@2.8.8)
+      prettier-plugin-prisma:
+        specifier: ^5.0.0
+        version: 5.0.0(prettier@2.8.8)
       prettier-plugin-tailwindcss:
         specifier: ^0.3.0
         version: 0.3.0(prettier@2.8.8)
@@ -15820,6 +15823,13 @@ packages:
       - encoding
       - supports-color
     dev: true
+
+  /@prisma/prisma-schema-wasm@4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584:
+    resolution:
+      {
+        integrity: sha512-JFdsnSgBPN8reDTLOI9Vh/6ccCb2aD1LbY/LWQnkcIgNo6IdpzvuM+qRVbBuA6IZP2SdqQI8Lu6RL2P8EFBQUA==
+      }
+    dev: false
 
   /@prisma/prisma-schema-wasm@5.3.1-2.61e140623197a131c2a6189271ffee05a7aa9a59:
     resolution:
@@ -46214,6 +46224,19 @@ packages:
       prettier: 2.8.8
       sort-package-json: 2.6.0
       synckit: 0.8.5
+    dev: false
+
+  /prettier-plugin-prisma@5.0.0(prettier@2.8.8):
+    resolution:
+      {
+        integrity: sha512-jTJV04D9+yF7ziOOMs7CJe4ijgAH7DEGjt0SAWAToGNRy1H6BEhvcKA2UQH6gC6KVW5zeeOSAvsoiDDTt9oKXg==
+      }
+    engines: { node: ">=14", npm: ">=8" }
+    peerDependencies:
+      prettier: ">=2 || >=3"
+    dependencies:
+      "@prisma/prisma-schema-wasm": 4.17.0-26.6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
+      prettier: 2.8.8
     dev: false
 
   /prettier-plugin-tailwindcss@0.3.0(prettier@2.8.8):
