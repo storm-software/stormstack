@@ -3,11 +3,18 @@ import {
   constantCase,
   isSet,
   isString,
-  pascalCase
+  pascalCase,
+  snakeCase
 } from "@stormstack/core-shared-utilities";
 import {
+  ArrayExpr,
   AstNode,
   Attribute,
+  AttributeArg,
+  DataModel,
+  DataModelAttribute,
+  DataModelField,
+  DataModelFieldAttribute,
   DataModelFieldType,
   Enum,
   Expression,
@@ -18,6 +25,7 @@ import {
   ReferenceExpr,
   isApiModel,
   isDataModel,
+  isDataModelAttribute,
   isEnum,
   isInput,
   isInterface,
@@ -25,6 +33,8 @@ import {
 } from "@stormstack/tools-forecast-language/ast";
 import { HelperOptions } from "handlebars";
 import { utils } from "handlebars-utils";
+import { Context } from "../types";
+import { getDataModels } from "./utils";
 
 /**************************
  * Model Node helpers
@@ -38,6 +48,18 @@ import { utils } from "handlebars-utils";
  */
 export function isDataModelHelper(astNode: AstNode) {
   return isDataModel(astNode);
+}
+
+/**
+ * Check if a top-level node object represents a `DataModel`
+ *
+ * @param astNode The top-level node object to check
+ * @returns Indicator specifying if the top-level node object represents a `DataModel`
+ */
+export function eachDataModelHelper(context: Context, options: HelperOptions) {
+  return getDataModels(context.model)
+    .map((model: DataModel) => options.fn(model))
+    .join("");
 }
 
 /**
@@ -88,6 +110,28 @@ export function isOperationGroupHelper(astNode: AstNode) {
  */
 export function isEnumHelper(astNode: AstNode) {
   return isEnum(astNode);
+}
+
+/**
+ * Check if a type string represents an object model in the schema
+ *
+ * @remarks In Forecast we consider a node to be a model if it's type is a `DataModel`, `ApiModel`, `Input`, `Interface`, or `OperationGroup`
+ *
+ * @param type A string with the name of the type to check
+ * @returns Indicator specifying if the type is a model
+ */
+export function isModelHelper(type: string) {
+  return (
+    isString(type) &&
+    type &&
+    [
+      "DataModel".toLowerCase(),
+      "ApiModel".toLowerCase(),
+      "Input".toLowerCase(),
+      "Interface".toLowerCase(),
+      "OperationGroup".toLowerCase()
+    ].includes(type?.toLowerCase())
+  );
 }
 
 /**************************
@@ -154,6 +198,22 @@ export function isLiteralHelper(
   );
 }
 
+/**
+ * Check if an expression is a array type expression
+ *
+ * @param expression The expression to check
+ * @returns Indicator specifying if the expression is a array type expression
+ */
+export function isArrayExprHelper(
+  expression: Expression
+): expression is ArrayExpr {
+  return (
+    isSet(expression?.$type) &&
+    expression.$type?.toLowerCase() === "ArrayExpr".toLowerCase() &&
+    isSet((expression as ArrayExpr)?.items)
+  );
+}
+
 /**************************
  * Function Declaration helpers
  *************************/
@@ -208,25 +268,57 @@ export function isUnsupportedFieldHelper(field: DataModelFieldType) {
 }
 
 /**
- * Check if a field's type is a DataModel in the schema
+ * Check if a field's type is a object model in the schema
  *
  * @example A field on the `User` DataModel type is named `account`. The `account` field has the type `UserAccount`, which is also a DataModel.
+ * @remarks In Forecast we consider a node to be a model if its type is a DataModel, ApiModel, Input, Interface, or OperationGroup
  *
  * @param field The field to check
- * @returns Indicator specifying if the field's type is a DataModel
+ * @returns Indicator specifying if the field's type is a model
  */
-export function isDataModelFieldHelper(field: DataModelFieldType) {
-  return (
-    isString(field?.reference?.ref?.$type) &&
-    field?.reference?.ref?.$type &&
-    [
-      "DataModel".toLowerCase(),
-      "ApiModel".toLowerCase(),
-      "Input".toLowerCase(),
-      "Interface".toLowerCase(),
-      "OperationGroup".toLowerCase()
-    ].includes(field?.reference?.ref?.$type?.toLowerCase())
-  );
+export function isModelFieldHelper(field: DataModelFieldType) {
+  return isModelHelper(field?.reference?.ref.$type);
+}
+
+/**
+ * Check if a field is a Foreign Key for another model in the schema
+ *
+ * @example A field on the `User` DataModel type is named `accountId` which has the same value as a field named `id` on the `UserAccount` DataModel.
+ *
+ * @param field The field to check
+ * @returns Indicator specifying if the field is a Foreign Key for another model in the schema
+ */
+export function isForeignKeyFieldHelper(
+  field: DataModelField,
+  astNode: AstNode
+) {
+  if (isModelHelper(astNode.$type)) {
+    return ((astNode as DataModel)?.fields ?? []).some(
+      (modelField: DataModelField) =>
+        modelField.attributes.some((attribute: DataModelFieldAttribute) => {
+          let foreignKey = attribute.args.find(
+            (arg: AttributeArg) => arg.name === "fields"
+          );
+          if (!foreignKey || (attribute.args.length > 0 && attribute.args[0])) {
+            foreignKey = attribute.args[0];
+          }
+
+          if (isArrayExprHelper(foreignKey?.value)) {
+            return foreignKey.value.items.some(
+              (item: Expression) =>
+                isReferenceExprHelper(item) &&
+                item.target.ref.name === field.name
+            );
+          } else if (isReferenceExprHelper(foreignKey?.value)) {
+            return foreignKey.value.target.ref.name === field.name;
+          }
+
+          return false;
+        })
+    );
+  }
+
+  return false;
 }
 
 /**
@@ -319,6 +411,134 @@ export function isJsonFieldHelper(field: DataModelFieldType) {
   return field?.type?.toLowerCase() === "json";
 }
 
+export type ForeignKeyReferenceColumn = { model: string; name: string };
+export type ForeignKeyReference = {
+  name: string;
+  tableColumns: ForeignKeyReferenceColumn[];
+  foreignColumns: ForeignKeyReferenceColumn[];
+};
+
+/**
+ * Check if a field is a Foreign Key for another model in the schema
+ *
+ * @example A field on the `User` DataModel type is named `accountId` which has the same value as a field named `id` on the `UserAccount` DataModel.
+ *
+ * @param field The field to check
+ * @returns Indicator specifying if the field is a Foreign Key for another model in the schema
+ */
+export function withForeignKeyHelper(
+  astNode: AstNode,
+  context: Context,
+  options: HelperOptions
+) {
+  const foreignKeyFields = ((astNode as DataModel)?.fields ?? []).filter(
+    (field: DataModelField) => isForeignKeyFieldHelper(field, astNode)
+  );
+
+  return options.fn({
+    references: foreignKeyFields.reduce(
+      (result: ForeignKeyReference[], foreignKeyField: DataModelField) => {
+        return ((astNode as DataModel)?.fields ?? []).reduce(
+          (ret: ForeignKeyReference[], field: DataModelField) => {
+            return field.attributes
+              .filter(attribute => isRelationAttributeHelper(attribute.decl))
+              .reduce(
+                (
+                  fkRefs: ForeignKeyReference[],
+                  attribute: DataModelFieldAttribute
+                ) => {
+                  let fields = attribute.args.find(
+                    (arg: AttributeArg) => arg.name === "fields"
+                  );
+                  if (
+                    !fields &&
+                    attribute.args.length > 0 &&
+                    attribute.args[0]
+                  ) {
+                    fields = attribute.args[0];
+                  }
+
+                  let references = attribute.args.find(
+                    (arg: AttributeArg) => arg.name === "references"
+                  );
+                  if (
+                    !references &&
+                    attribute.args.length > 1 &&
+                    attribute.args[1]
+                  ) {
+                    references = attribute.args[1];
+                  }
+
+                  let foreignColumn!: string;
+                  if (
+                    isArrayExprHelper(fields?.value) &&
+                    isArrayExprHelper(references?.value)
+                  ) {
+                    const index = fields.value?.items.findIndex(
+                      (item: Expression) =>
+                        isReferenceExprHelper(item) &&
+                        item.target.ref.name === foreignKeyField.name
+                    );
+                    if (
+                      isSet(index) &&
+                      index >= 0 &&
+                      index < references?.value?.items.length &&
+                      isReferenceExprHelper(references.value.items[index])
+                    ) {
+                      foreignColumn = (
+                        references.value?.items[index] as ReferenceExpr
+                      )?.target?.ref?.name;
+                    }
+                  } else if (
+                    isReferenceExprHelper(fields?.value) &&
+                    isReferenceExprHelper(references?.value) &&
+                    fields.value?.target.ref.name === field.name
+                  ) {
+                    foreignColumn = references.value?.target.ref.name;
+                  }
+
+                  if (foreignColumn) {
+                    const foreignModel =
+                      getDataModels(context.model).find(
+                        (dataModel: DataModel) =>
+                          dataModel.name === field.type.reference.ref.name
+                      ).name ?? field.name;
+
+                    let fkRef = ret.find(
+                      (item: ForeignKeyReference) => item.name === field.name
+                    );
+                    if (!fkRef) {
+                      fkRef = {
+                        name: field.name,
+                        tableColumns: [],
+                        foreignColumns: []
+                      };
+                      fkRefs.push(fkRef);
+                    }
+
+                    fkRef.tableColumns.push({
+                      model: (astNode as DataModel)?.name,
+                      name: foreignKeyField.name
+                    });
+                    fkRef.foreignColumns.push({
+                      model: foreignModel,
+                      name: foreignColumn
+                    });
+                  }
+
+                  return fkRefs;
+                },
+                ret
+              );
+          },
+          result
+        );
+      },
+      []
+    )
+  });
+}
+
 /**************************
  * Attribute helpers
  *************************/
@@ -330,7 +550,7 @@ export function isJsonFieldHelper(field: DataModelFieldType) {
  * @returns Indicator specifying if the attribute is the `@default` attribute
  */
 export function isDefaultAttributeHelper(attribute: Reference<Attribute>) {
-  return attribute?.ref?.name?.toLowerCase() === "@default";
+  return attribute?.ref?.name?.toLowerCase()?.replaceAll("@", "") === "default";
 }
 
 /**
@@ -340,7 +560,7 @@ export function isDefaultAttributeHelper(attribute: Reference<Attribute>) {
  * @returns Indicator specifying if the attribute is the `@unique` attribute
  */
 export function isUniqueAttributeHelper(attribute: Reference<Attribute>) {
-  return attribute?.ref?.name?.toLowerCase() === "@unique";
+  return attribute?.ref?.name?.toLowerCase().replaceAll("@", "") === "unique";
 }
 
 /**
@@ -350,7 +570,7 @@ export function isUniqueAttributeHelper(attribute: Reference<Attribute>) {
  * @returns Indicator specifying if the attribute is the `@id` attribute
  */
 export function isIdAttributeHelper(attribute: Reference<Attribute>) {
-  return attribute?.ref?.name?.toLowerCase() === "@id";
+  return attribute?.ref?.name?.toLowerCase().replaceAll("@", "") === "id";
 }
 
 /**
@@ -360,7 +580,7 @@ export function isIdAttributeHelper(attribute: Reference<Attribute>) {
  * @returns Indicator specifying if the attribute is the `@relation` attribute
  */
 export function isRelationAttributeHelper(attribute: Reference<Attribute>) {
-  return attribute?.ref?.name?.toLowerCase() === "@relation";
+  return attribute?.ref?.name?.toLowerCase().replaceAll("@", "") === "relation";
 }
 
 /**
@@ -369,8 +589,10 @@ export function isRelationAttributeHelper(attribute: Reference<Attribute>) {
  * @param attribute The field's `@default` attribute object
  * @returns If the default value is a function, return the function reference. Otherwise, return the literal value.
  */
-export function forEachAttributeArgsHelper(options: HelperOptions) {
-  return forEachHelper(this.args, options);
+export function isDataModelAttributeHelper(
+  attribute: any
+): attribute is DataModelAttribute {
+  return isDataModelAttribute(attribute);
 }
 
 /**
@@ -507,6 +729,22 @@ export function constantCaseHelper(str: any) {
 }
 
 /**
+ * Convert a string to snake-case
+ *
+ * @example this_is_an_example
+ *
+ * @param str The string to convert to snake-case
+ * @returns The snake-case string
+ */
+export function snakeCaseHelper(str: any) {
+  if (!isString(str)) {
+    return "";
+  }
+
+  return snakeCase(str);
+}
+
+/**
  * Check if a value is an array
  *
  * @param array The value to check if it is an array
@@ -551,7 +789,7 @@ export function forEachHelper(array: any[], options: HelperOptions) {
   let buffer = "";
   let i = -1;
   while (++i < args.length) {
-    var item = array[i];
+    let item = array[i];
     data.index = i;
     item.index = i + 1;
     item.total = args.length;

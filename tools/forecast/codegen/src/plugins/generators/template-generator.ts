@@ -14,9 +14,10 @@ import {
   camelCaseHelper,
   capitalizeHelper,
   constantCaseHelper,
-  forEachAttributeArgsHelper,
+  eachDataModelHelper,
   forEachHelper,
   isApiModelHelper,
+  isArrayExprHelper,
   isArrayFieldHelper,
   isArrayHelper,
   isArrayLengthHelper,
@@ -24,7 +25,6 @@ import {
   isBooleanFieldHelper,
   isBytesFieldHelper,
   isCuidHelper,
-  isDataModelFieldHelper,
   isDataModelHelper,
   isDateTimeFieldHelper,
   isDecimalFieldHelper,
@@ -32,6 +32,7 @@ import {
   isEnumHelper,
   isEnumReferenceHelper,
   isFloatFieldHelper,
+  isForeignKeyFieldHelper,
   isFunctionDeclHelper,
   isIdAttributeHelper,
   isInputHelper,
@@ -40,6 +41,8 @@ import {
   isInvocationHelper,
   isJsonFieldHelper,
   isLiteralHelper,
+  isModelFieldHelper,
+  isModelHelper,
   isNowHelper,
   isOperationGroupHelper,
   isOptionalFieldHelper,
@@ -50,7 +53,9 @@ import {
   isUniqueAttributeHelper,
   isUnsupportedFieldHelper,
   isUuidHelper,
-  pascalCaseHelper
+  pascalCaseHelper,
+  snakeCaseHelper,
+  withForeignKeyHelper
 } from "../../utils/template-helpers";
 import { TemplateDetails } from "../template-plugin-handler";
 import { TypescriptGenerator } from "./typescript-generator";
@@ -87,6 +92,9 @@ export class TemplateGenerator<
     this.handlebars.registerHelper("isInput", isInputHelper);
     this.handlebars.registerHelper("isOperationGroup", isOperationGroupHelper);
     this.handlebars.registerHelper("isEnum", isEnumHelper);
+    this.handlebars.registerHelper("isModel", isModelHelper);
+
+    this.handlebars.registerHelper("eachDataModel", eachDataModelHelper);
 
     this.handlebars.registerHelper("isArrayField", isArrayFieldHelper);
     this.handlebars.registerHelper("isOptionalField", isOptionalFieldHelper);
@@ -94,8 +102,12 @@ export class TemplateGenerator<
       "isUnsupportedField",
       isUnsupportedFieldHelper
     );
+    this.handlebars.registerHelper(
+      "isForeignKeyField",
+      isForeignKeyFieldHelper
+    );
 
-    this.handlebars.registerHelper("isDataModelField", isDataModelFieldHelper);
+    this.handlebars.registerHelper("isModelField", isModelFieldHelper);
     this.handlebars.registerHelper("isIntegerField", isIntegerFieldHelper);
     this.handlebars.registerHelper("isFloatField", isFloatFieldHelper);
     this.handlebars.registerHelper("isDecimalField", isDecimalFieldHelper);
@@ -119,10 +131,7 @@ export class TemplateGenerator<
       "isRelationAttribute",
       isRelationAttributeHelper
     );
-    this.handlebars.registerHelper(
-      "forEachAttributeArgs",
-      forEachAttributeArgsHelper
-    );
+    this.handlebars.registerHelper("withForeignKey", withForeignKeyHelper);
 
     this.handlebars.registerHelper("isNow", isNowHelper);
     this.handlebars.registerHelper("isUuid", isUuidHelper);
@@ -133,12 +142,14 @@ export class TemplateGenerator<
     this.handlebars.registerHelper("isLiteral", isLiteralHelper);
     this.handlebars.registerHelper("isFunctionDecl", isFunctionDeclHelper);
     this.handlebars.registerHelper("isReferenceExpr", isReferenceExprHelper);
+    this.handlebars.registerHelper("isArrayExpr", isArrayExprHelper);
     this.handlebars.registerHelper("isEnumReference", isEnumReferenceHelper);
 
     this.handlebars.registerHelper("capitalize", capitalizeHelper);
     this.handlebars.registerHelper("camelCase", camelCaseHelper);
     this.handlebars.registerHelper("pascalCase", pascalCaseHelper);
     this.handlebars.registerHelper("constantCase", constantCaseHelper);
+    this.handlebars.registerHelper("snakeCase", snakeCaseHelper);
 
     this.handlebars.registerHelper("isArray", isArrayHelper);
     this.handlebars.registerHelper("isArrayLength", isArrayLengthHelper);
@@ -156,7 +167,7 @@ export class TemplateGenerator<
 
     const template = await this.getTemplate(params);
 
-    return template({ node, options });
+    return template({ node, options, context });
   };
 
   public getContext(): Context {
