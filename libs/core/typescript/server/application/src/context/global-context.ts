@@ -154,7 +154,7 @@ export const createGlobalContext = <
       version: serviceVersion ?? env?.serviceVersion,
       url: serviceUrl ?? env?.serviceUrl,
       domainName: domainName ?? env?.domainName,
-      instanceId: instanceId ?? UniqueIdGenerator.generate()
+      instanceId: instanceId ?? UniqueIdGenerator.snowflake()
     },
     startedAt: DateTime.current,
     startedBy: "System"

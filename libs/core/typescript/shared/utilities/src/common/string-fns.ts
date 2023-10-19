@@ -1,4 +1,4 @@
-import { dash, pascal, snake, title } from "radash";
+import { dash, snake, title } from "radash";
 
 /**
  * Upper case the first character of an input string.
@@ -50,8 +50,25 @@ export const titleCase = (input?: string): string | undefined => {
 
 /**
  * Convert the input string to pascal case.
- * @example thisIsAnExample
+ * @example ThisIsAnExample
  */
 export const pascalCase = (input?: string): string | undefined => {
-  return input ? pascal(input).toUpperCase() : input;
+  return input
+    ? input
+        .split(" ")
+        .map(i =>
+          i.length > 0
+            ? i.trim().charAt(0).toUpperCase() + i.trim().slice(1)
+            : ""
+        )
+        .join("")
+    : input;
+};
+
+/**
+ * Convert the input string to camel case.
+ * @example thisIsAnExample
+ */
+export const camelCase = (input?: string): string | undefined => {
+  return input ? lowerCaseFirst(pascalCase(input)) : input;
 };

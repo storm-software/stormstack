@@ -1,8 +1,13 @@
 {
   "name": "@stormstack/core-shared-utilities",
   "version": "0.0.1",
+  "browser": {
+    "node:crypto": false,
+    "./crypto": "./crypto.js"
+  },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.4",
+    "@noble/hashes": "^1.3.2",
     "stacktracey": "^2.1.8",
     "type-detect": "^4.0.8"
   },

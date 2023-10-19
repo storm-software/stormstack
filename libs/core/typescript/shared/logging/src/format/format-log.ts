@@ -58,7 +58,8 @@ export const formatLog = (
     options.stackTrace !== false && (!isProduction() || options.stackTrace)
       ? isString(options.stackTrace) && options.stackTrace
         ? options.stackTrace
-        : formatStacktrace(options.stackTrace, message as BaseError)
+        : NEWLINE_STRING +
+          formatStacktrace(options.stackTrace, message as BaseError)
       : EMPTY_STRING
   }${options.newLineAfter ? NEWLINE_STRING : EMPTY_STRING}`;
 };
@@ -145,7 +146,7 @@ export const formatStacktrace = (
       : EMPTY_STRING;
 
   return stack
-    ? `Stack Trace: ${NEWLINE_STRING}
-${stack}`
+    ? `
+Stack Trace: ${stack}`
     : EMPTY_STRING;
 };

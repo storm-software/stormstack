@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { UniqueIdGenerator } from "../crypto/unique-id-generator";
 import { IBaseClass } from "../types";
 import { DateTime } from "./date-time";
-import { UniqueIdGenerator } from "./unique-id-generator";
 
 const BASE_CLASS_SYMBOL = Symbol.for("BaseClass");
 
@@ -30,7 +30,7 @@ export abstract class BaseClass implements IBaseClass {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  protected __id = UniqueIdGenerator.generate();
+  protected __id = UniqueIdGenerator.snowflake();
 
   /**
    * Internal timestamp field used to identify the time this specific object instance was initialized

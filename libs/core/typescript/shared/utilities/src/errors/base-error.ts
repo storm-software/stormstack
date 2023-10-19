@@ -50,7 +50,8 @@ export class BaseError extends ZodError implements IError {
       issues: [] as string[],
       code: String(baseError.code),
       message: baseError.message,
-      extendedMessage: baseError.extendedMessage
+      extendedMessage: baseError.extendedMessage,
+      stack: baseError.stack
     };
 
     if (

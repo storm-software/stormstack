@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Temporal } from "@js-temporal/polyfill";
+import { UniqueIdGenerator } from "../crypto/unique-id-generator";
 import { IDateTime, Tokens } from "../types";
 import { isBigInt, isDate, isFunction, isNumber } from "./type-checks";
-import { UniqueIdGenerator } from "./unique-id-generator";
 
 /**
  * A wrapper of the and Date class
@@ -196,7 +196,7 @@ export class DateTime extends Temporal.Instant implements IDateTime {
   /**
    * Internal identifier field used by architecture to identify the specific object
    */
-  public readonly __id = UniqueIdGenerator.generate();
+  public readonly __id = UniqueIdGenerator.snowflake();
 
   /**
    * The string identifier of this specific class type

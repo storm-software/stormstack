@@ -24,7 +24,7 @@ export const aggregateFactory =
   ): TAggregate => {
     const id = (request as IIdentity)?.id
       ? (request as IIdentity).id
-      : UniqueIdGenerator.generate();
+      : UniqueIdGenerator.snowflake();
 
     logger.debug(
       `Creating aggregate for ${correlationId}${id ? " - " + id : ""}`

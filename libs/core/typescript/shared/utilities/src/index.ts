@@ -2,5 +2,6 @@
 
 export * from "./common";
 export * from "./cookie-utilities";
+export * from "./crypto";
 export * from "./errors";
 export * from "./types";

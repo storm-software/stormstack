@@ -12,6 +12,10 @@ noreferrer
 tmpl
 maxage
 unpublish
+Akash
+Hernández
+Rajpurohit
+Rajpurohit's
 changecase
 cockroachdb
 jdbc

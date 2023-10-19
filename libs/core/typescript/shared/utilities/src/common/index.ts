@@ -18,4 +18,3 @@ export * from "./result";
 export * from "./string-fns";
 export * from "./throttle";
 export * from "./type-checks";
-export * from "./unique-id-generator";
