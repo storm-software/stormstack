@@ -1,16 +1,15 @@
 {{#with node as | node |}}
 
-
 import { UniqueIdGenerator } from "@stormstack/core-shared-utilities";
-import { sqliteTable, integer, text, blob, real, foreignKey, unique } from "drizzle-orm/sqlite-core";
-{{#each fields}}{{#if (isEnum type.reference.ref)}} import { {{ type.reference.ref.name }} } from "../enums/{{type.reference.ref.name}}.enum";{{/if}}{{/each}}
-{{#each fields}}{{#if (isModelField type)}} import { {{camelCase type.reference.ref.name}} } from "./{{type.reference.ref.name}}.sqlite.schema";{{/if}}{{/each}}
+import { sqliteTable, integer, text, blob, real, foreignKey, unique } from "drizzle-orm/sqlite-core";{{#each fields}}{{#if (isEnum type.reference.ref)}}
+import { {{ type.reference.ref.name }} } from "../enums/{{type.reference.ref.name}}.enum";{{/if}}{{/each}} {{#each fields}}{{#if (isModelField type)}}
+import { {{camelCase type.reference.ref.name}} } from "./{{type.reference.ref.name}}.sqlite.schema";{{/if}}{{/each}}
 
 /**
-* A Drizzle table schema definition for the {{ node.name }} Data Model.
-*
-* @remarks Additional details about Drizzle ORM and it's column-types can be found [in their documentation](https://orm.drizzle.team/docs/column-types/sqlite).
-*/
+ * A Drizzle table schema definition for the {{ node.name }} Data Model.
+ *
+ * @remarks Additional details about Drizzle ORM and it's column-types can be found[in their documentation](https://orm.drizzle.team/docs/column-types/sqlite).
+ */
 export const {{camelCase node.name}} = sqliteTable("{{ node.name }}", {
 {{#each fields as | field |}}{{#unless (isModelField type)}}{{camelCase name}}: {{#if (isEnum type.reference.ref)}}text("{{ name }}", { enum: [ {{#each type.reference.ref.fields}}{{../type.reference.ref.name}}.{{constantCase name}}{{#unless @last}},{{/unless}}{{/each}}] })
 {{else if (isIntegerField type)}}integer("{{ name }}", { mode: "number" })
@@ -39,5 +38,9 @@ export const {{camelCase node.name}} = sqliteTable("{{ node.name }}", {
     {{#each node.attributes}}{{#if (isUniqueAttribute decl)}}unq{{@index}}: unique("{{snakeCase node.name}}_unique").on({{#each args}}{{#if (isArrayExpr value)}}{{#each value.items}}table.{{target.ref.name}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{/each}}){{#unless @last}},{{/unless}}{{/if}}{{/each}}
   }
 });
+
+
+export type SelectUser = typeof {{camelCase node.name}}.$inferSelect;
+export type InsertUser = typeof {{camelCase node.name}}.$inferInsert;
 
 {{/with}}

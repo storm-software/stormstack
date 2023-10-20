@@ -19,7 +19,7 @@ module.exports = {
     {
       files: "**/*.hbs",
       options: {
-        parser: "angular"
+        parser: "html"
       }
     },
     {
