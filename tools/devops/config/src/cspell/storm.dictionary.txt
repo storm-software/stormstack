@@ -5,6 +5,7 @@ stormcloud
 Akka
 autoincrement
 favicons
+valibot
 hasura
 strapi
 npmjs

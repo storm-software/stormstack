@@ -6,7 +6,7 @@ import {
 import { DrizzlePluginOptions } from "./types";
 import { filterDrizzleTemplates } from "./utils";
 
-export const name = "Drizzle ORM";
+export const name = "Drizzle ORM Generator";
 
 export const generator = new TemplateGenerator<DrizzlePluginOptions>();
 
