@@ -9,6 +9,10 @@ generator js {
   output   = "../../../../../node_modules/@prisma/client/contact-attachment"
 }
 
+plugin entityFields {
+provider = "@stormstack/tools-forecast-plugins-entity-fields"
+}
+
 plugin crud {
 provider = "@stormstack/tools-forecast-plugins-crud"
 }
@@ -38,21 +42,6 @@ enum AttachmentStatus {
 model Contact {
   /// The unique identifier for the Contact
   id String @id @default(snowflake())
-
-  /// A timestamp of when the Contact was created
-  createdAt DateTime @default(now())
-
-  /// The user who created the Contact
-  createdBy String
-
-  /// A timestamp of when the Contact was last updated
-  updatedAt DateTime? @updatedAt
-
-  /// The user who last updated the Contact
-  updatedBy String?
-
-  /// The current sequence if the Contact record
-  sequence Int
 
   /// The reason of the Contact
   reason ContactReason @default(Other)
@@ -107,24 +96,6 @@ model Contact {
 }
 
 model ContactAttachment {
-  /// The unique identifier for the ContactAttachment
-  id String @id @default(snowflake())
-
-  /// A timestamp of when the ContactAttachment was created
-  createdAt DateTime @default(now())
-
-  /// The user who created the ContactAttachment
-  createdBy String
-
-  /// A timestamp of when the ContactAttachment was last updated
-  updatedAt DateTime? @updatedAt
-
-  /// The user who last updated the ContactAttachment
-  updatedBy String?
-
-  /// The current sequence if the ContactAttachment record
-  sequence Int
-
   /// The name of the file
   name String @length(1, 100)
 

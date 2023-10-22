@@ -293,6 +293,9 @@
       "@stormstack/tools-forecast-plugins-drizzle": [
         "tools/forecast/plugins/drizzle/src/index.ts"
       ],
+      "@stormstack/tools-forecast-plugins-entity-fields": [
+        "tools/forecast/plugins/entity-fields/src/index.ts"
+      ],
       "@stormstack/tools-forecast-plugins-graphql": [
         "tools/forecast/plugins/graphql/src/index.ts"
       ],

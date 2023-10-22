@@ -1,46 +1,48 @@
-{{#with node as | node |}}
-
-import { UniqueIdGenerator } from "@stormstack/core-shared-utilities";
-import { sqliteTable, integer, text, blob, real, foreignKey, unique } from "drizzle-orm/sqlite-core";{{#each fields}}{{#if (isEnum type.reference.ref)}}
-import { {{ type.reference.ref.name }} } from "../enums/{{type.reference.ref.name}}.enum";{{/if}}{{/each}} {{#each fields}}{{#if (isModelField type)}}
-import { {{camelCase type.reference.ref.name}} } from "./{{type.reference.ref.name}}.sqlite.schema";{{/if}}{{/each}}
-
-/**
- * A Drizzle table schema definition for the {{ node.name }} Data Model.
- *
- * @remarks Additional details about Drizzle ORM and it's column-types can be found[in their documentation](https://orm.drizzle.team/docs/column-types/sqlite).
- */
-export const {{camelCase node.name}} = sqliteTable("{{ node.name }}", {
-{{#each fields as | field |}}{{#unless (isModelField type)}}{{camelCase name}}: {{#if (isEnum type.reference.ref)}}text("{{ name }}", { enum: [ {{#each type.reference.ref.fields}}{{../type.reference.ref.name}}.{{constantCase name}}{{#unless @last}},{{/unless}}{{/each}}] })
-{{else if (isIntegerField type)}}integer("{{ name }}", { mode: "number" })
-{{else if (isFloatField type)}}real("{{ name }}")
-{{else if (isDecimalField type)}}real("{{ name }})
-{{else if (isBigIntField type)}}blob("{{ name }}", { mode: "bigint" })
-{{else if (isStringField type)}}text("{{ name }}")
-{{else if (isBooleanField type)}}integer("{{ name }}", { mode: "boolean" })
-{{else if (isDateTimeField type)}}integer("{{ name }}", { mode: "timestamp" })
-{{else if (isBytesField type)}}blob("{{ name }}", { mode: "buffer" })
-{{else}}text("{{ name }}"){{/if}}
-{{#unless (isOptionalField type)}}.notNull(){{/unless}}{{#each attributes}}{{#if (isIdAttribute decl)}}.primaryKey(){{/if}}{{#if (isUniqueAttribute decl)}}.unique(){{/if}}{{#if (isDefaultAttribute decl)}}{{#each args}}{{#with value as | argument |}}{{#if (isLiteral argument)}}.default({{argument.value}})
-{{else if (isReferenceExpr argument)}}{{#if (isEnumReference argument)}}.default({{argument.$resolvedType.decl.name}}.{{constantCase argument.target.ref.name}}){{/if}}
-{{else if (isInvocation argument)}}{{#if (isNow argument.function.ref)}}.$defaultFn(() => new Date())
-{{else if (isUuid argument.function.ref)}}.$defaultFn(() => UniqueIdGenerator.uuid())
-{{else if (isCuid argument.function.ref)}}.$defaultFn(() => UniqueIdGenerator.cuid())
-{{else if (isSnowflake argument.function.ref)}}.$defaultFn(() => UniqueIdGenerator.snowflake()){{/if}}{{/if}}{{/with}}{{/each}}{{/if}}{{/each}}{{#unless @last}},{{/unless}}{{/unless}}{{/each}}
-},
-(table) => {
-  return {
-    {{#withForeignKey node ../context}}{{#if (isArrayLength references 1)}}{{#each references}}
-    {{name}}Reference: foreignKey(() => ({
-      columns: [{{#each tableColumns}}table.{{name}}{{#unless @last}},{{/unless}}{{/each}}],
-      foreignColumns: [{{#each foreignColumns}}{{camelCase model}}.{{name}}{{#unless @last}},{{/unless}}{{/each}}]
-    })),{{/each}}{{/if}}{{/withForeignKey}}
-    {{#each node.attributes}}{{#if (isUniqueAttribute decl)}}unq{{@index}}: unique("{{snakeCase node.name}}_unique").on({{#each args}}{{#if (isArrayExpr value)}}{{#each value.items}}table.{{target.ref.name}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{/each}}){{#unless @last}},{{/unless}}{{/if}}{{/each}}
-  }
-});
-
-
-export type SelectUser = typeof {{camelCase node.name}}.$inferSelect;
-export type InsertUser = typeof {{camelCase node.name}}.$inferInsert;
-
-{{/with}}
+{{#with node as | node |}} import { UniqueIdGenerator } from
+"@stormstack/core-shared-utilities"; import { sqliteTable, integer, text, blob,
+real, foreignKey, unique } from "drizzle-orm/sqlite-core";{{#each fields}}{{#if
+(isEnum type.reference.ref)}} import { {{ type.reference.ref.name }} } from
+"../enums/{{type.reference.ref.name}}.enum";{{/if}}{{/each}} {{#each
+fields}}{{#if (isModelField type)}} import { {{camelCase
+type.reference.ref.name}} } from
+"./{{type.reference.ref.name}}.sqlite.schema";{{/if}}{{/each}} /** * A Drizzle
+table schema definition for the {{ node.name }} Data Model. * * @remarks
+Additional details about Drizzle ORM and it's column-types can be found[in their
+documentation](https://orm.drizzle.team/docs/column-types/sqlite). */ export
+const {{camelCase node.name}} = sqliteTable("{{ node.name }}", { {{#each fields
+as | field |}}{{#unless (isModelField type)}}{{camelCase name}}: {{#if (isEnum
+type.reference.ref)}}text("{{ name }}", { enum: [ {{#each
+type.reference.ref.fields}}{{../type.reference.ref.name}}.{{constantCase
+name}}{{#unless @last}},{{/unless}}{{/each}}] }) {{else if (isIntegerField
+type)}}integer("{{ name }}", { mode: "number" }) {{else if (isFloatField
+type)}}real("{{ name }}") {{else if (isDecimalField type)}}real("{{ name }})
+{{else if (isBigIntField type)}}blob("{{ name }}", { mode: "bigint" }) {{else if
+(isStringField type)}}text("{{ name }}") {{else if (isBooleanField
+type)}}integer("{{ name }}", { mode: "boolean" }) {{else if (isDateTimeField
+type)}}integer("{{ name }}", { mode: "timestamp" }) {{else if (isBytesField
+type)}}blob("{{ name }}", { mode: "buffer" }) {{else}}text("{{ name }}"){{/if}}
+{{#unless (isOptionalField type)}}.notNull(){{/unless}}{{#each attributes}}{{#if
+(isIdAttribute decl)}}.primaryKey(){{/if}}{{#if (isUniqueAttribute
+decl)}}.unique(){{/if}}{{#if (isDefaultAttribute decl)}}{{#each args}}{{#with
+value as | argument |}}{{#if (isLiteral argument)}}.default({{argument.value}})
+{{else if (isReferenceExpr argument)}}{{#if (isEnumReference
+argument)}}.default({{argument.$resolvedType.decl.name}}.{{constantCase
+argument.target.ref.name}}){{/if}} {{else if (isInvocation argument)}}{{#if
+(isNow argument.function.ref)}}.$defaultFn(() => new Date()) {{else if (isUuid
+argument.function.ref)}}.$defaultFn(() => UniqueIdGenerator.uuid()) {{else if
+(isCuid argument.function.ref)}}.$defaultFn(() => UniqueIdGenerator.cuid())
+{{else if (isSnowflake argument.function.ref)}}.$defaultFn(() =>
+UniqueIdGenerator.snowflake()){{/if}}{{/if}}{{/with}}{{/each}}{{/if}}{{/each}}{{#unless
+@last}},{{/unless}}{{/unless}}{{/each}} }, (table) => { return {
+{{#withForeignKey node ../context}}{{#if (isArrayLength references 1)}}{{#each
+references}} {{name}}Reference: foreignKey(() => ({ columns: [{{#each
+tableColumns}}table.{{name}}{{#unless @last}},{{/unless}}{{/each}}],
+foreignColumns: [{{#each foreignColumns}}{{camelCase model}}.{{name}}{{#unless
+@last}},{{/unless}}{{/each}}] })),{{/each}}{{/if}}{{/withForeignKey}} {{#each
+node.attributes}}{{#if (isUniqueAttribute decl)}}unq{{@index}}:
+unique("{{snakeCase node.name}}_unique").on({{#each args}}{{#if (isArrayExpr
+value)}}{{#each value.items}}table.{{target.ref.name}}{{#unless
+@last}},{{/unless}}{{/each}}{{/if}}{{/each}}){{#unless
+@last}},{{/unless}}{{/if}}{{/each}} } }); export type SelectUser = typeof
+{{camelCase node.name}}.$inferSelect; export type InsertUser = typeof
+{{camelCase node.name}}.$inferInsert; {{/with}}

@@ -198,8 +198,8 @@ const addQueries = (
 
   const stringFilterEqualsField: DataModelField = {
     name: "equals",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -215,8 +215,8 @@ const addQueries = (
 
   const stringFilterInField: DataModelField = {
     name: "in",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -232,8 +232,8 @@ const addQueries = (
 
   const stringFilterNotInField: DataModelField = {
     name: "notIn",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -249,8 +249,8 @@ const addQueries = (
 
   const stringFilterLtField: DataModelField = {
     name: "lt",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -266,8 +266,8 @@ const addQueries = (
 
   const stringFilterLteField: DataModelField = {
     name: "lte",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -283,8 +283,8 @@ const addQueries = (
 
   const stringFilterGtField: DataModelField = {
     name: "gt",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -300,8 +300,8 @@ const addQueries = (
 
   const stringFilterGteField: DataModelField = {
     name: "gte",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -317,8 +317,8 @@ const addQueries = (
 
   const stringFilterContainsField: DataModelField = {
     name: "contains",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -334,8 +334,8 @@ const addQueries = (
 
   const stringFilterStartsWithField: DataModelField = {
     name: "startsWith",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -351,8 +351,8 @@ const addQueries = (
 
   const stringFilterEndsWithField: DataModelField = {
     name: "endsWith",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -368,8 +368,8 @@ const addQueries = (
 
   const stringFilterNotField: DataModelField = {
     name: "not",
-    "$container": stringFilter,
-    "$type": "DataModelField",
+    $container: stringFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -396,8 +396,8 @@ const addQueries = (
 
   const dateTimeFilterEqualsField: DataModelField = {
     name: "equals",
-    "$container": dateTimeFilter,
-    "$type": "DataModelField",
+    $container: dateTimeFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -413,8 +413,8 @@ const addQueries = (
 
   const dateTimeFilterInField: DataModelField = {
     name: "in",
-    "$container": dateTimeFilter,
-    "$type": "DataModelField",
+    $container: dateTimeFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -430,8 +430,8 @@ const addQueries = (
 
   const dateTimeFilterNotInField: DataModelField = {
     name: "notIn",
-    "$container": dateTimeFilter,
-    "$type": "DataModelField",
+    $container: dateTimeFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -447,8 +447,8 @@ const addQueries = (
 
   const dateTimeFilterLtField: DataModelField = {
     name: "lt",
-    "$container": dateTimeFilter,
-    "$type": "DataModelField",
+    $container: dateTimeFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -464,8 +464,8 @@ const addQueries = (
 
   const dateTimeFilterLteField: DataModelField = {
     name: "lte",
-    "$container": dateTimeFilter,
-    "$type": "DataModelField",
+    $container: dateTimeFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -481,8 +481,8 @@ const addQueries = (
 
   const dateTimeFilterGtField: DataModelField = {
     name: "gt",
-    "$container": dateTimeFilter,
-    "$type": "DataModelField",
+    $container: dateTimeFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -498,8 +498,8 @@ const addQueries = (
 
   const dateTimeFilterGteField: DataModelField = {
     name: "gte",
-    "$container": dateTimeFilter,
-    "$type": "DataModelField",
+    $container: dateTimeFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -515,8 +515,8 @@ const addQueries = (
 
   const dateTimeFilterNotField: DataModelField = {
     name: "not",
-    "$container": dateTimeFilter,
-    "$type": "DataModelField",
+    $container: dateTimeFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -543,8 +543,8 @@ const addQueries = (
 
   const boolFilterEqualsField: DataModelField = {
     name: "equals",
-    "$container": boolFilter,
-    "$type": "DataModelField",
+    $container: boolFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -560,8 +560,8 @@ const addQueries = (
 
   const boolFilterNotField: DataModelField = {
     name: "not",
-    "$container": boolFilter,
-    "$type": "DataModelField",
+    $container: boolFilter,
+    $type: "DataModelField",
     attributes: [],
     comments: [],
     type: undefined
@@ -661,13 +661,15 @@ const addQueries = (
   apiModels.push(pageInfo);
 
   dataModels.forEach(dataModel => {
-    const selectObjectSchema: Input = {
+    const selectSchema: Input = {
       $container: rootContainer,
       $type: "Input",
       attributes: [],
-      comments: [],
+      comments: [
+        `Select specific fields to fetch from the ${dataModel.name} data model`
+      ],
       fields: [],
-      name: `${dataModel.name}SelectObjectSchema`,
+      name: `${dataModel.name}SelectSchema`,
       superTypes: [],
       $resolvedFields: []
     };
@@ -675,10 +677,10 @@ const addQueries = (
     dataModel.fields.forEach(field => {
       const selectField: DataModelField = {
         name: field.name,
-        "$container": selectObjectSchema,
-        "$type": "DataModelField",
+        $container: selectSchema,
+        $type: "DataModelField",
         attributes: [],
-        comments: [],
+        comments: [`Include the ${field.name} field in the result set`],
         type: undefined
       };
       selectField.type = {
@@ -688,15 +690,16 @@ const addQueries = (
         optional: true,
         type: "Boolean"
       } as DataModelFieldType;
-      selectObjectSchema.fields.push(selectField);
+
+      selectSchema.fields.push(selectField);
     });
 
     const countSelectField: DataModelField = {
       name: "_count",
-      "$container": selectObjectSchema,
-      "$type": "DataModelField",
+      $container: selectSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Include the count of items in the result set"],
       type: undefined
     };
     countSelectField.type = {
@@ -707,16 +710,18 @@ const addQueries = (
       type: "Boolean"
     } as DataModelFieldType;
 
-    selectObjectSchema.fields.push(countSelectField);
-    inputs.push(selectObjectSchema);
+    selectSchema.fields.push(countSelectField);
+    inputs.push(selectSchema);
 
-    const includeObjectSchema: Input = {
+    const includeSchema: Input = {
       $container: rootContainer,
       $type: "Input",
       attributes: [],
-      comments: [],
+      comments: [
+        "Include specific sub-model fields from the related data models"
+      ],
       fields: [],
-      name: `${dataModel.name}IncludeObjectSchema`,
+      name: `${dataModel.name}IncludeSchema`,
       superTypes: [],
       $resolvedFields: []
     };
@@ -726,10 +731,10 @@ const addQueries = (
       .forEach(field => {
         const includeField: DataModelField = {
           name: field.name,
-          "$container": includeObjectSchema,
-          "$type": "DataModelField",
+          $container: includeSchema,
+          $type: "DataModelField",
           attributes: [],
-          comments: [],
+          comments: [`Include the related ${field.name} data model`],
           type: undefined
         };
         includeField.type = {
@@ -739,15 +744,15 @@ const addQueries = (
           optional: true,
           type: "Boolean"
         } as DataModelFieldType;
-        includeObjectSchema.fields.push(includeField);
+        includeSchema.fields.push(includeField);
       });
 
     const countIncludeField: DataModelField = {
       name: "_count",
-      "$container": includeObjectSchema,
-      "$type": "DataModelField",
+      $container: includeSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Include the count of items in the result set"],
       type: undefined
     };
     countIncludeField.type = {
@@ -758,326 +763,306 @@ const addQueries = (
       type: "Boolean"
     } as DataModelFieldType;
 
-    includeObjectSchema.fields.push(countIncludeField);
-    inputs.push(includeObjectSchema);
+    includeSchema.fields.push(countIncludeField);
+    inputs.push(includeSchema);
 
-    const whereManyInputObjectSchema: Input = {
+    const whereManyInputSchema: Input = {
       $container: rootContainer,
       $type: "Input",
       attributes: [],
-      comments: [],
+      comments: ["Filter the result set"],
       fields: [],
-      name: `${dataModel.name}WhereManyInputObjectSchema`,
+      name: `${dataModel.name}WhereManyInputSchema`,
       superTypes: [],
       $resolvedFields: []
     };
 
-    const whereManyInputObjectSchemaAndField: DataModelField = {
+    const whereManyInputSchemaAndField: DataModelField = {
       name: "AND",
-      "$container": whereManyInputObjectSchema,
-      "$type": "DataModelField",
+      $container: whereManyInputSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Combine multiple filters with the AND operator"],
       type: undefined
     };
-    whereManyInputObjectSchemaAndField.type = {
-      $container: whereManyInputObjectSchemaAndField,
+    whereManyInputSchemaAndField.type = {
+      $container: whereManyInputSchemaAndField,
       $type: "DataModelFieldType",
       array: true,
       optional: true,
       reference: {
-        ref: whereManyInputObjectSchema,
-        $refText: "whereManyInputObjectSchema"
+        ref: whereManyInputSchema,
+        $refText: "whereManyInputSchema"
       }
     };
-    whereManyInputObjectSchema.fields.push(whereManyInputObjectSchemaAndField);
+    whereManyInputSchema.fields.push(whereManyInputSchemaAndField);
 
-    const whereManyInputObjectSchemaOrField: DataModelField = {
+    const whereManyInputSchemaOrField: DataModelField = {
       name: "OR",
-      "$container": whereManyInputObjectSchema,
-      "$type": "DataModelField",
+      $container: whereManyInputSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Combine multiple filters with the OR operator"],
       type: undefined
     };
-    whereManyInputObjectSchemaOrField.type = {
-      $container: whereManyInputObjectSchemaOrField,
+    whereManyInputSchemaOrField.type = {
+      $container: whereManyInputSchemaOrField,
       $type: "DataModelFieldType",
       array: true,
       optional: true,
       reference: {
-        ref: whereManyInputObjectSchema,
-        $refText: "whereManyInputObjectSchema"
+        ref: whereManyInputSchema,
+        $refText: "whereManyInputSchema"
       }
     };
-    whereManyInputObjectSchema.fields.push(whereManyInputObjectSchemaOrField);
+    whereManyInputSchema.fields.push(whereManyInputSchemaOrField);
 
-    const whereManyInputObjectSchemaNotField: DataModelField = {
+    const whereManyInputSchemaNotField: DataModelField = {
       name: "NOT",
-      "$container": whereManyInputObjectSchema,
-      "$type": "DataModelField",
+      $container: whereManyInputSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Negate a filter with the NOT operator"],
       type: undefined
     };
-    whereManyInputObjectSchemaNotField.type = {
-      $container: whereManyInputObjectSchemaNotField,
+    whereManyInputSchemaNotField.type = {
+      $container: whereManyInputSchemaNotField,
       $type: "DataModelFieldType",
       array: true,
       optional: true,
       reference: {
-        ref: whereManyInputObjectSchema,
-        $refText: "whereManyInputObjectSchema"
+        ref: whereManyInputSchema,
+        $refText: "whereManyInputSchema"
       }
     };
-    whereManyInputObjectSchema.fields.push(whereManyInputObjectSchemaNotField);
+    whereManyInputSchema.fields.push(whereManyInputSchemaNotField);
 
     dataModel.fields.forEach(field => {
       if (field.type.type === "DateTime") {
-        const whereInputObjectSchemaDateTimeField: DataModelField = {
+        const whereInputSchemaDateTimeField: DataModelField = {
           name: field.name,
-          "$container": whereManyInputObjectSchema,
-          "$type": "DataModelField",
+          $container: whereManyInputSchema,
+          $type: "DataModelField",
           attributes: [],
-          comments: [],
+          comments: ["Filter by the date and time"],
           type: undefined
         };
-        whereInputObjectSchemaDateTimeField.type = {
-          $container: whereInputObjectSchemaDateTimeField,
+        whereInputSchemaDateTimeField.type = {
+          $container: whereInputSchemaDateTimeField,
           $type: "DataModelFieldType",
           array: false,
           optional: true,
           reference: { ref: dateTimeFilter, $refText: "dateTimeFilter" }
         };
-        whereManyInputObjectSchema.fields.push(
-          whereInputObjectSchemaDateTimeField
-        );
+        whereManyInputSchema.fields.push(whereInputSchemaDateTimeField);
       } else if (field.type.type === "Boolean") {
-        const whereInputObjectSchemaBooleanField: DataModelField = {
+        const whereInputSchemaBooleanField: DataModelField = {
           name: field.name,
-          "$container": whereManyInputObjectSchema,
-          "$type": "DataModelField",
+          $container: whereManyInputSchema,
+          $type: "DataModelField",
           attributes: [],
-          comments: [],
+          comments: [`Filter by the ${field.name} boolean value`],
           type: undefined
         };
-        whereInputObjectSchemaBooleanField.type = {
-          $container: whereInputObjectSchemaBooleanField,
+        whereInputSchemaBooleanField.type = {
+          $container: whereInputSchemaBooleanField,
           $type: "DataModelFieldType",
           array: false,
           optional: true,
           reference: { ref: boolFilter, $refText: "boolFilter" }
         };
-        whereManyInputObjectSchema.fields.push(
-          whereInputObjectSchemaBooleanField
-        );
+        whereManyInputSchema.fields.push(whereInputSchemaBooleanField);
       } else {
-        const whereInputObjectSchemaStringField: DataModelField = {
+        const whereInputSchemaStringField: DataModelField = {
           name: field.name,
-          "$container": whereManyInputObjectSchema,
-          "$type": "DataModelField",
+          $container: whereManyInputSchema,
+          $type: "DataModelField",
           attributes: [],
-          comments: [],
+          comments: [`Filter by the ${field.name} string value`],
           type: undefined
         };
-        whereInputObjectSchemaStringField.type = {
-          $container: whereInputObjectSchemaStringField,
+        whereInputSchemaStringField.type = {
+          $container: whereInputSchemaStringField,
           $type: "DataModelFieldType",
           array: false,
           optional: true,
           reference: { ref: stringFilter, $refText: "stringFilter" }
         };
-        whereManyInputObjectSchema.fields.push(
-          whereInputObjectSchemaStringField
-        );
+        whereManyInputSchema.fields.push(whereInputSchemaStringField);
       }
     });
 
-    inputs.push(whereManyInputObjectSchema);
+    inputs.push(whereManyInputSchema);
 
-    const whereUniqueInputObjectSchema: Input = {
+    const whereUniqueInputSchema: Input = {
       $container: rootContainer,
       $type: "Input",
       attributes: [],
-      comments: [],
+      comments: ["Filter the result set"],
       fields: [],
-      name: `${dataModel.name}WhereUniqueInputObjectSchema`,
+      name: `${dataModel.name}WhereUniqueInputSchema`,
       superTypes: [],
       $resolvedFields: []
     };
 
-    const whereUniqueInputObjectSchemaIdField: DataModelField = {
+    const whereUniqueInputSchemaIdField: DataModelField = {
       name: "id",
-      "$container": whereUniqueInputObjectSchema,
-      "$type": "DataModelField",
+      $container: whereUniqueInputSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Filter by the unique identifier"],
       type: undefined
     };
-    whereUniqueInputObjectSchemaIdField.type = {
-      $container: whereUniqueInputObjectSchemaIdField,
+    whereUniqueInputSchemaIdField.type = {
+      $container: whereUniqueInputSchemaIdField,
       $type: "DataModelFieldType",
       array: false,
       optional: true,
       type: "String"
     };
-    whereUniqueInputObjectSchema.fields.push(
-      whereUniqueInputObjectSchemaIdField
-    );
+    whereUniqueInputSchema.fields.push(whereUniqueInputSchemaIdField);
 
-    const whereUniqueInputObjectSchemaAndField: DataModelField = {
+    const whereUniqueInputSchemaAndField: DataModelField = {
       name: "AND",
-      "$container": whereUniqueInputObjectSchema,
-      "$type": "DataModelField",
+      $container: whereUniqueInputSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Combine multiple filters with the AND operator"],
       type: undefined
     };
-    whereUniqueInputObjectSchemaAndField.type = {
-      $container: whereUniqueInputObjectSchemaAndField,
+    whereUniqueInputSchemaAndField.type = {
+      $container: whereUniqueInputSchemaAndField,
       $type: "DataModelFieldType",
       array: true,
       optional: true,
       reference: {
-        ref: whereUniqueInputObjectSchema,
-        $refText: "whereUniqueInputObjectSchema"
+        ref: whereUniqueInputSchema,
+        $refText: "whereUniqueInputSchema"
       }
     };
-    whereUniqueInputObjectSchema.fields.push(
-      whereUniqueInputObjectSchemaAndField
-    );
+    whereUniqueInputSchema.fields.push(whereUniqueInputSchemaAndField);
 
-    const whereUniqueInputObjectSchemaOrField: DataModelField = {
+    const whereUniqueInputSchemaOrField: DataModelField = {
       name: "OR",
-      "$container": whereUniqueInputObjectSchema,
-      "$type": "DataModelField",
+      $container: whereUniqueInputSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Combine multiple filters with the OR operator"],
       type: undefined
     };
-    whereUniqueInputObjectSchemaOrField.type = {
-      $container: whereUniqueInputObjectSchemaOrField,
+    whereUniqueInputSchemaOrField.type = {
+      $container: whereUniqueInputSchemaOrField,
       $type: "DataModelFieldType",
       array: true,
       optional: true,
       reference: {
-        ref: whereUniqueInputObjectSchema,
-        $refText: "whereUniqueInputObjectSchema"
+        ref: whereUniqueInputSchema,
+        $refText: "whereUniqueInputSchema"
       }
     };
-    whereUniqueInputObjectSchema.fields.push(
-      whereUniqueInputObjectSchemaOrField
-    );
+    whereUniqueInputSchema.fields.push(whereUniqueInputSchemaOrField);
 
-    const whereUniqueInputObjectSchemaNotField: DataModelField = {
+    const whereUniqueInputSchemaNotField: DataModelField = {
       name: "NOT",
-      "$container": whereUniqueInputObjectSchema,
-      "$type": "DataModelField",
+      $container: whereUniqueInputSchema,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: ["Negate a filter with the NOT operator"],
       type: undefined
     };
-    whereUniqueInputObjectSchemaNotField.type = {
-      $container: whereUniqueInputObjectSchemaNotField,
+    whereUniqueInputSchemaNotField.type = {
+      $container: whereUniqueInputSchemaNotField,
       $type: "DataModelFieldType",
       array: true,
       optional: true,
       reference: {
-        ref: whereUniqueInputObjectSchema,
-        $refText: "whereUniqueInputObjectSchema"
+        ref: whereUniqueInputSchema,
+        $refText: "whereUniqueInputSchema"
       }
     };
-    whereUniqueInputObjectSchema.fields.push(
-      whereUniqueInputObjectSchemaNotField
-    );
+    whereUniqueInputSchema.fields.push(whereUniqueInputSchemaNotField);
 
     dataModel.fields.forEach(field => {
       if (field.name !== "id") {
         if (field.type.type === "DateTime") {
-          const whereInputObjectSchemaDateTimeField: DataModelField = {
+          const whereInputSchemaDateTimeField: DataModelField = {
             name: field.name,
-            "$container": whereUniqueInputObjectSchema,
-            "$type": "DataModelField",
+            $container: whereUniqueInputSchema,
+            $type: "DataModelField",
             attributes: [],
-            comments: [],
+            comments: [`Filter by the ${field.name} date and time`],
             type: undefined
           };
-          whereInputObjectSchemaDateTimeField.type = {
-            $container: whereInputObjectSchemaDateTimeField,
+          whereInputSchemaDateTimeField.type = {
+            $container: whereInputSchemaDateTimeField,
             $type: "DataModelFieldType",
             array: false,
             optional: true,
             reference: { ref: dateTimeFilter, $refText: "dateTimeFilter" }
           };
-          whereUniqueInputObjectSchema.fields.push(
-            whereInputObjectSchemaDateTimeField
-          );
+          whereUniqueInputSchema.fields.push(whereInputSchemaDateTimeField);
         } else if (field.type.type === "Boolean") {
-          const whereInputObjectSchemaBooleanField: DataModelField = {
+          const whereInputSchemaBooleanField: DataModelField = {
             name: field.name,
-            "$container": whereUniqueInputObjectSchema,
-            "$type": "DataModelField",
+            $container: whereUniqueInputSchema,
+            $type: "DataModelField",
             attributes: [],
-            comments: [],
+            comments: [`Filter by the ${field.name} boolean value`],
             type: undefined
           };
-          whereInputObjectSchemaBooleanField.type = {
-            $container: whereInputObjectSchemaBooleanField,
+          whereInputSchemaBooleanField.type = {
+            $container: whereInputSchemaBooleanField,
             $type: "DataModelFieldType",
             array: false,
             optional: true,
             reference: { ref: boolFilter, $refText: "boolFilter" }
           };
-          whereUniqueInputObjectSchema.fields.push(
-            whereInputObjectSchemaBooleanField
-          );
+          whereUniqueInputSchema.fields.push(whereInputSchemaBooleanField);
         } else {
-          const whereInputObjectSchemaStringField: DataModelField = {
+          const whereInputSchemaStringField: DataModelField = {
             name: field.name,
-            "$container": whereUniqueInputObjectSchema,
-            "$type": "DataModelField",
+            $container: whereUniqueInputSchema,
+            $type: "DataModelField",
             attributes: [],
-            comments: [],
+            comments: [`Filter by the ${field.name} string value`],
             type: undefined
           };
-          whereInputObjectSchemaStringField.type = {
-            $container: whereInputObjectSchemaStringField,
+          whereInputSchemaStringField.type = {
+            $container: whereInputSchemaStringField,
             $type: "DataModelFieldType",
             array: false,
             optional: true,
             reference: { ref: stringFilter, $refText: "stringFilter" }
           };
-          whereUniqueInputObjectSchema.fields.push(
-            whereInputObjectSchemaStringField
-          );
+          whereUniqueInputSchema.fields.push(whereInputSchemaStringField);
         }
       }
     });
 
-    inputs.push(whereUniqueInputObjectSchema);
+    inputs.push(whereUniqueInputSchema);
 
-    const orderByObjectSchema: Input = {
+    const orderBySchema: Input = {
       $container: rootContainer,
       $type: "Input",
       attributes: [],
       comments: [],
       fields: [],
-      name: `${dataModel.name}OrderByObjectSchema`,
+      name: `${dataModel.name}OrderBySchema`,
       superTypes: [],
       $resolvedFields: []
     };
 
     dataModel.fields.forEach(field => {
-      const orderByObjectSchemaField: DataModelField = {
+      const orderBySchemaField: DataModelField = {
         name: field.name,
-        "$container": orderByObjectSchema,
-        "$type": "DataModelField",
+        $container: orderBySchema,
+        $type: "DataModelField",
         attributes: [],
-        comments: [],
+        comments: ["Sort the result set"],
         type: undefined
       };
-      orderByObjectSchemaField.type = {
-        $container: orderByObjectSchemaField,
+      orderBySchemaField.type = {
+        $container: orderBySchemaField,
         $type: "DataModelFieldType",
         array: false,
         optional: true,
@@ -1086,17 +1071,17 @@ const addQueries = (
           $refText: "sortOrderEnum"
         }
       };
-      orderByObjectSchema.fields.push(orderByObjectSchemaField);
+      orderBySchema.fields.push(orderBySchemaField);
     });
 
-    inputs.push(orderByObjectSchema);
+    inputs.push(orderBySchema);
 
     const modelFieldEnum: Enum = {
       name: `${upperCaseFirst(dataModel.name)}Field`,
       $container: rootContainer,
       $type: "Enum",
       attributes: [],
-      comments: [],
+      comments: [`The fields of the ${dataModel.name} enum model`],
       fields: []
     };
 
@@ -1118,7 +1103,7 @@ const addQueries = (
       $container: rootContainer,
       $type: "Input",
       attributes: [],
-      comments: [],
+      comments: ["Find a single record by the unique identifier"],
       fields: [],
       name: `${upperCaseFirst(dataModel.name)}SelectorInput`,
       superTypes: [],
@@ -1127,10 +1112,12 @@ const addQueries = (
 
     const findUniqueSelectField: DataModelField = {
       name: "select",
-      "$container": findUniqueSelectorInput,
-      "$type": "DataModelField",
+      $container: findUniqueSelectorInput,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: [
+        `Select specific fields to fetch from the ${dataModel.name} data model`
+      ],
       type: undefined
     };
     findUniqueSelectField.type = {
@@ -1139,18 +1126,20 @@ const addQueries = (
       array: false,
       optional: true,
       reference: {
-        ref: selectObjectSchema,
-        $refText: "selectObjectSchema"
+        ref: selectSchema,
+        $refText: "selectSchema"
       }
     } as DataModelFieldType;
     findUniqueSelectorInput.fields.push(findUniqueSelectField);
 
     const findUniqueIncludeField: DataModelField = {
       name: "include",
-      "$container": findUniqueSelectorInput,
-      "$type": "DataModelField",
+      $container: findUniqueSelectorInput,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: [
+        `Include specific ${dataModel.name} sub-model fields from the related data models`
+      ],
       type: undefined
     };
     findUniqueIncludeField.type = {
@@ -1159,18 +1148,18 @@ const addQueries = (
       array: false,
       optional: true,
       reference: {
-        ref: includeObjectSchema,
-        $refText: "includeObjectSchema"
+        ref: includeSchema,
+        $refText: "includeSchema"
       }
     } as DataModelFieldType;
     findUniqueSelectorInput.fields.push(findUniqueIncludeField);
 
     const findUniqueWhereField: DataModelField = {
       name: "where",
-      "$container": findUniqueSelectorInput,
-      "$type": "DataModelField",
+      $container: findUniqueSelectorInput,
+      $type: "DataModelField",
       attributes: [],
-      comments: [],
+      comments: [`Filter the ${dataModel.name} result set`],
       type: undefined
     };
     findUniqueWhereField.type = {
@@ -1179,8 +1168,8 @@ const addQueries = (
       array: false,
       optional: false,
       reference: {
-        ref: whereUniqueInputObjectSchema,
-        $refText: "whereUniqueInputObjectSchema"
+        ref: whereUniqueInputSchema,
+        $refText: "whereUniqueInputSchema"
       }
     } as DataModelFieldType;
     findUniqueSelectorInput.fields.push(findUniqueWhereField);
@@ -1192,7 +1181,7 @@ const addQueries = (
       $container: rootContainer,
       $type: "Input",
       attributes: [],
-      comments: [],
+      comments: [`Find multiple ${dataModel.name} records`],
       fields: [],
       name: `${upperCaseFirst(dataModel.name)}sSelectorInput`,
       superTypes: [],
@@ -1201,8 +1190,8 @@ const addQueries = (
 
     const findManySelectField: DataModelField = {
       name: "select",
-      "$container": findManySelectorInput,
-      "$type": "DataModelField",
+      $container: findManySelectorInput,
+      $type: "DataModelField",
       attributes: [],
       comments: [],
       type: undefined
@@ -1213,16 +1202,16 @@ const addQueries = (
       array: false,
       optional: true,
       reference: {
-        ref: selectObjectSchema,
-        $refText: "selectObjectSchema"
+        ref: selectSchema,
+        $refText: "selectSchema"
       }
     } as DataModelFieldType;
     findManySelectorInput.fields.push(findManySelectField);
 
     const findManyIncludeField: DataModelField = {
       name: "include",
-      "$container": findManySelectorInput,
-      "$type": "DataModelField",
+      $container: findManySelectorInput,
+      $type: "DataModelField",
       attributes: [],
       comments: [],
       type: undefined
@@ -1233,16 +1222,16 @@ const addQueries = (
       array: false,
       optional: true,
       reference: {
-        ref: includeObjectSchema,
-        $refText: "includeObjectSchema"
+        ref: includeSchema,
+        $refText: "includeSchema"
       }
     } as DataModelFieldType;
     findManySelectorInput.fields.push(findManyIncludeField);
 
     const findManyWhereField: DataModelField = {
       name: "where",
-      "$container": findManySelectorInput,
-      "$type": "DataModelField",
+      $container: findManySelectorInput,
+      $type: "DataModelField",
       attributes: [],
       comments: [],
       type: undefined
@@ -1253,16 +1242,16 @@ const addQueries = (
       array: false,
       optional: true,
       reference: {
-        ref: whereManyInputObjectSchema,
-        $refText: "whereManyInputObjectSchema"
+        ref: whereManyInputSchema,
+        $refText: "whereManyInputSchema"
       }
     } as DataModelFieldType;
     findManySelectorInput.fields.push(findManyWhereField);
 
     const findManyOrderByField: DataModelField = {
       name: "orderBy",
-      "$container": findManySelectorInput,
-      "$type": "DataModelField",
+      $container: findManySelectorInput,
+      $type: "DataModelField",
       attributes: [],
       comments: [],
       type: undefined
@@ -1273,16 +1262,16 @@ const addQueries = (
       array: true,
       optional: true,
       reference: {
-        ref: orderByObjectSchema,
-        $refText: "orderByObjectSchema"
+        ref: orderBySchema,
+        $refText: "orderBySchema"
       }
     } as DataModelFieldType;
     findManySelectorInput.fields.push(findManyOrderByField);
 
     const findManyCursorField: DataModelField = {
       name: "cursor",
-      "$container": findManySelectorInput,
-      "$type": "DataModelField",
+      $container: findManySelectorInput,
+      $type: "DataModelField",
       attributes: [],
       comments: [],
       type: undefined
@@ -1293,16 +1282,16 @@ const addQueries = (
       array: false,
       optional: true,
       reference: {
-        ref: whereUniqueInputObjectSchema,
-        $refText: "whereUniqueInputObjectSchema"
+        ref: whereUniqueInputSchema,
+        $refText: "whereUniqueInputSchema"
       }
     } as DataModelFieldType;
     findManySelectorInput.fields.push(findManyCursorField);
 
     const findManyTakeField: DataModelField = {
       name: "take",
-      "$container": findManySelectorInput,
-      "$type": "DataModelField",
+      $container: findManySelectorInput,
+      $type: "DataModelField",
       attributes: [],
       comments: [],
       type: undefined
@@ -1318,8 +1307,8 @@ const addQueries = (
 
     const findManySkipField: DataModelField = {
       name: "skip",
-      "$container": findManySelectorInput,
-      "$type": "DataModelField",
+      $container: findManySelectorInput,
+      $type: "DataModelField",
       attributes: [],
       comments: [],
       type: undefined
@@ -1335,8 +1324,8 @@ const addQueries = (
 
     const findManyDistinctField: DataModelField = {
       name: "distinct",
-      "$container": findManySelectorInput,
-      "$type": "DataModelField",
+      $container: findManySelectorInput,
+      $type: "DataModelField",
       attributes: [],
       comments: [],
       type: undefined
@@ -1396,7 +1385,7 @@ const addQueries = (
     findUniqueOperation.params.push(findUniqueOperationParam);
     queryOperationGroup.fields.push(findUniqueOperation);
 
-    const edgeObjectSchema = {
+    const edgeSchema = {
       $container: rootContainer,
       $type: "ApiModel",
       attributes: [],
@@ -1411,16 +1400,16 @@ const addQueries = (
       $resolvedFields: []
     } as ApiModel;
 
-    const edgeNodeObjectSchema: DataModelField = {
-      $container: edgeObjectSchema,
+    const edgeNodeSchema: DataModelField = {
+      $container: edgeSchema,
       $type: "DataModelField",
       attributes: [],
       comments: [],
       name: "node",
       type: undefined
     };
-    edgeNodeObjectSchema.type = {
-      $container: edgeNodeObjectSchema,
+    edgeNodeSchema.type = {
+      $container: edgeNodeSchema,
       $type: "DataModelFieldType",
       array: false,
       optional: false,
@@ -1429,28 +1418,28 @@ const addQueries = (
         $refText: dataModel.name
       }
     } as DataModelFieldType;
-    edgeObjectSchema.fields.push(edgeNodeObjectSchema);
+    edgeSchema.fields.push(edgeNodeSchema);
 
-    const edgeCursorObjectSchema: DataModelField = {
-      $container: edgeObjectSchema,
+    const edgeCursorSchema: DataModelField = {
+      $container: edgeSchema,
       $type: "DataModelField",
       attributes: [],
       comments: [],
       name: "cursor",
       type: undefined
     };
-    edgeCursorObjectSchema.type = {
-      $container: edgeCursorObjectSchema,
+    edgeCursorSchema.type = {
+      $container: edgeCursorSchema,
       $type: "DataModelFieldType",
       array: false,
       optional: false,
       type: "String"
     } as DataModelFieldType;
-    edgeObjectSchema.fields.push(edgeCursorObjectSchema);
+    edgeSchema.fields.push(edgeCursorSchema);
 
-    apiModels.push(edgeObjectSchema);
+    apiModels.push(edgeSchema);
 
-    const connectionObjectSchema = {
+    const connectionSchema = {
       $container: rootContainer,
       $type: "ApiModel",
       attributes: [],
@@ -1465,36 +1454,36 @@ const addQueries = (
       $resolvedFields: []
     } as ApiModel;
 
-    const connectionEdgesObjectSchema: DataModelField = {
-      $container: connectionObjectSchema,
+    const connectionEdgesSchema: DataModelField = {
+      $container: connectionSchema,
       $type: "DataModelField",
       attributes: [],
       comments: [],
       name: "edges",
       type: undefined
     };
-    connectionEdgesObjectSchema.type = {
-      $container: connectionEdgesObjectSchema,
+    connectionEdgesSchema.type = {
+      $container: connectionEdgesSchema,
       $type: "DataModelFieldType",
       array: true,
       optional: false,
       reference: {
-        ref: edgeObjectSchema,
-        $refText: edgeObjectSchema.name
+        ref: edgeSchema,
+        $refText: edgeSchema.name
       }
     } as DataModelFieldType;
-    connectionObjectSchema.fields.push(connectionEdgesObjectSchema);
+    connectionSchema.fields.push(connectionEdgesSchema);
 
-    const connectionPageInfoObjectSchema: DataModelField = {
-      $container: connectionObjectSchema,
+    const connectionPageInfoSchema: DataModelField = {
+      $container: connectionSchema,
       $type: "DataModelField",
       attributes: [],
       comments: [],
       name: "pageInfo",
       type: undefined
     };
-    connectionPageInfoObjectSchema.type = {
-      $container: connectionPageInfoObjectSchema,
+    connectionPageInfoSchema.type = {
+      $container: connectionPageInfoSchema,
       $type: "DataModelFieldType",
       array: false,
       optional: false,
@@ -1503,26 +1492,26 @@ const addQueries = (
         $refText: pageInfo.name
       }
     } as DataModelFieldType;
-    connectionObjectSchema.fields.push(connectionPageInfoObjectSchema);
+    connectionSchema.fields.push(connectionPageInfoSchema);
 
-    const connectionTotalCountObjectSchema: DataModelField = {
-      $container: connectionObjectSchema,
+    const connectionTotalCountSchema: DataModelField = {
+      $container: connectionSchema,
       $type: "DataModelField",
       attributes: [],
       comments: [],
       name: "totalCount",
       type: undefined
     };
-    connectionTotalCountObjectSchema.type = {
-      $container: connectionTotalCountObjectSchema,
+    connectionTotalCountSchema.type = {
+      $container: connectionTotalCountSchema,
       $type: "DataModelFieldType",
       array: false,
       optional: false,
       type: "Int"
     } as DataModelFieldType;
-    connectionObjectSchema.fields.push(connectionTotalCountObjectSchema);
+    connectionSchema.fields.push(connectionTotalCountSchema);
 
-    apiModels.push(connectionObjectSchema);
+    apiModels.push(connectionSchema);
 
     const findManyOperation: Operation = {
       $container: queryOperationGroup,
@@ -1539,8 +1528,8 @@ const addQueries = (
       array: false,
       optional: false,
       reference: {
-        ref: connectionObjectSchema,
-        $refText: connectionObjectSchema.name
+        ref: connectionSchema,
+        $refText: connectionSchema.name
       }
     } as DataModelFieldType;
 
@@ -1603,8 +1592,8 @@ const addMutations = (
       if (!ENTITY_CLASS_FIELDS.includes(field.name as EntityClassFields)) {
         const createDataModelInputDataField: DataModelField = {
           name: field.name,
-          "$container": createDataModelInput,
-          "$type": "DataModelField",
+          $container: createDataModelInput,
+          $type: "DataModelField",
           attributes: [],
           comments: [],
           type: undefined

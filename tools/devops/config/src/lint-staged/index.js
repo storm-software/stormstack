@@ -9,14 +9,13 @@ const escape = input => {
 };
 
 module.exports = {
-  "!(tools/{devops/docker/**/*,forecast/plugins/**/*.hbs})/**/*.*":
-    fileNames => {
-      const escapedFileNames = fileNames
-        .map(filename => (isWin ? filename : escape(filename)))
-        .join(" ");
+  "!(tools/devops/docker/**/*)/**/*.*": fileNames => {
+    const escapedFileNames = fileNames
+      .map(filename => (isWin ? filename : escape(filename)))
+      .join(" ");
 
-      return ["pnpm nx format", `git add ${escapedFileNames}`];
-    },
+    return ["pnpm nx format", `git add ${escapedFileNames}`];
+  },
   "**/*.{js,jsx,ts,tsx,json,css,scss,md,mdx,yml,yaml,graphql,html,prisma,4cast}":
     fileNames => {
       const escapedFileNames = fileNames
@@ -66,5 +65,12 @@ module.exports = {
       'pnpm nx generate @stormstack/tools-nx-monorepo:format-readme --templatePath="libs/core/config/src/readme-templates" --no-interactive',
       `git add ${escapedFileNames}`
     ];
+  },
+  "**/*.hbs": fileNames => {
+    const escapedFileNames = fileNames
+      .map(filename => (isWin ? filename : escape(filename)))
+      .join(" ");
+
+    return [`git add ${escapedFileNames}`];
   }
 };

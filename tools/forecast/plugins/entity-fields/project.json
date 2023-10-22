@@ -1,0 +1,56 @@
+{
+  "name": "tools-forecast-plugins-entity-fields",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/forecast/plugins/entity-fields/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/forecast/plugins/entity-fields",
+        "main": "tools/forecast/plugins/entity-fields/src/index.ts",
+        "project": "tools/forecast/plugins/entity-fields/package.json",
+        "tsConfig": "tools/forecast/plugins/entity-fields/tsconfig.json",
+        "deleteOutputPath": true,
+        "bundle": true,
+        "sourcemap": true,
+        "minify": false,
+        "skipTypeCheck": true,
+        "thirdParty": true,
+        "platform": "node",
+        "format": ["cjs"],
+        "external": [".prisma/client/index"],
+        "assets": [
+          {
+            "input": "tools/forecast/plugins/entity-fields",
+            "glob": "README.md",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": "LICENSE",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {},
+    "test": {},
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release",
+      "options": {
+        "github": true,
+        "npm": false,
+        "changelog": true,
+        "tagFormat": "tools-forecast-plugins-crud-v${VERSION}"
+      }
+    }
+  },
+  "tags": ["scope:tools", "platform:server"],
+  "implicitDependencies": [
+    "core-shared-utilities",
+    "tools-forecast-language",
+    "tools-forecast-codegen"
+  ]
+}

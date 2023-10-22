@@ -13,8 +13,7 @@ export const ENTITY_CLASS_FIELDS = [
   "createdAt",
   "createdBy",
   "updatedAt",
-  "updatedBy",
-  "sequence"
+  "updatedBy"
 ] as const;
 
 export type EntityClassFields = (typeof ENTITY_CLASS_FIELDS)[number];
