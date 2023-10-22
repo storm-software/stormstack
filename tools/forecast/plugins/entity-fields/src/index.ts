@@ -17,28 +17,42 @@ import {
 import {
   ENTITY_CLASS_FIELDS,
   EntityFieldsPluginOptions,
-  IdentityFieldGenerator
+  IdFieldFormat
 } from "./types";
 
 export const name = "Entity Fields Extension";
 
 export const options = {
-  identityGenerator: IdentityFieldGenerator.SNOWFLAKE
+  idName: "id",
+  idFormat: IdFieldFormat.UUID,
+  createdAtName: "createdAt",
+  createdByName: "createdBy",
+  updatedAtName: "updatedAt",
+  updatedByName: "updatedBy",
+  sequenceName: "sequence"
 };
 
 export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
-  options: EntityFieldsPluginOptions,
+  {
+    idName,
+    idFormat,
+    createdAtName,
+    createdByName,
+    updatedAtName,
+    updatedByName,
+    sequenceName
+  }: EntityFieldsPluginOptions,
   context: Context
 ): Promise<Model> => {
   const model = context.model;
 
   getDataModels(model).forEach(dataModel => {
     let idField: DataModelField = dataModel.fields.find(
-      field => field.name?.toLowerCase() === "id".toLowerCase()
+      field => field.name?.toLowerCase() === idName.toLowerCase()
     );
     if (!idField) {
       idField = {
-        name: "id",
+        name: idName,
         $container: dataModel,
         $type: "DataModelField",
         attributes: [],
@@ -104,17 +118,17 @@ export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
       addDefaultValue(
         model,
         idField,
-        options.identityGenerator ?? IdentityFieldGenerator.SNOWFLAKE,
+        idFormat ?? IdFieldFormat.UUID,
         "FunctionDecl"
       );
     }
 
     let createdAtField: DataModelField = dataModel.fields.find(
-      field => field.name?.toLowerCase() === "createdAt".toLowerCase()
+      field => field.name?.toLowerCase() === createdAtName.toLowerCase()
     );
     if (!createdAtField) {
       createdAtField = {
-        name: "createdAt",
+        name: createdAtName,
         $container: dataModel,
         $type: "DataModelField",
         attributes: [],
@@ -133,11 +147,11 @@ export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
     }
 
     let createdByField: DataModelField = dataModel.fields.find(
-      field => field.name?.toLowerCase() === "createdBy".toLowerCase()
+      field => field.name?.toLowerCase() === createdByName.toLowerCase()
     );
     if (!createdByField) {
       createdByField = {
-        name: "createdBy",
+        name: createdByName,
         $container: dataModel,
         $type: "DataModelField",
         attributes: [],
@@ -154,11 +168,11 @@ export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
     }
 
     let updatedAtField: DataModelField = dataModel.fields.find(
-      field => field.name?.toLowerCase() === "updatedAt".toLowerCase()
+      field => field.name?.toLowerCase() === updatedAtName.toLowerCase()
     );
     if (!updatedAtField) {
       updatedAtField = {
-        name: "updatedAt",
+        name: updatedAtName,
         $container: dataModel,
         $type: "DataModelField",
         attributes: [],
@@ -177,11 +191,11 @@ export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
     }
 
     let updatedByField: DataModelField = dataModel.fields.find(
-      field => field.name?.toLowerCase() === "updatedBy".toLowerCase()
+      field => field.name?.toLowerCase() === updatedByName.toLowerCase()
     );
     if (!updatedByField) {
       updatedByField = {
-        name: "updatedBy",
+        name: updatedByName,
         $container: dataModel,
         $type: "DataModelField",
         attributes: [],
@@ -198,11 +212,11 @@ export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
     }
 
     let sequenceField: DataModelField = dataModel.fields.find(
-      field => field.name?.toLowerCase() === "sequence".toLowerCase()
+      field => field.name?.toLowerCase() === sequenceName.toLowerCase()
     );
     if (!sequenceField) {
       sequenceField = {
-        name: "sequence",
+        name: sequenceName,
         $container: dataModel,
         $type: "DataModelField",
         attributes: [],
