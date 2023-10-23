@@ -25,6 +25,7 @@ export const name = "Entity Fields Extension";
 export const options = {
   idName: "id",
   idFormat: IdFieldFormat.UUID,
+  isDeletedName: "isDeleted",
   createdAtName: "createdAt",
   createdByName: "createdBy",
   updatedAtName: "updatedAt",
@@ -36,6 +37,7 @@ export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
   {
     idName,
     idFormat,
+    isDeletedName,
     createdAtName,
     createdByName,
     updatedAtName,
@@ -121,6 +123,29 @@ export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
         idFormat ?? IdFieldFormat.UUID,
         "FunctionDecl"
       );
+    }
+
+    let isDeletedField: DataModelField = dataModel.fields.find(
+      field => field.name?.toLowerCase() === isDeletedName.toLowerCase()
+    );
+    if (!isDeletedField) {
+      isDeletedField = {
+        name: isDeletedName,
+        $container: dataModel,
+        $type: "DataModelField",
+        attributes: [],
+        comments: [
+          `An indicator specifying if the ${dataModel.name} record has been removed`
+        ],
+        type: undefined
+      };
+      isDeletedField.type = {
+        $container: isDeletedField,
+        $type: "DataModelFieldType",
+        array: false,
+        optional: false,
+        type: "Boolean"
+      } as DataModelFieldType;
     }
 
     let createdAtField: DataModelField = dataModel.fields.find(
@@ -237,6 +262,7 @@ export const extend: PluginExtend<EntityFieldsPluginOptions> = async (
     dataModel.fields = [
       idField,
       sequenceField,
+      isDeletedField,
       createdAtField,
       createdByField,
       updatedAtField,

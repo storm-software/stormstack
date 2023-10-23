@@ -427,8 +427,6 @@ attribute @phoneNumber(_ message: String?) @@@targetField([StringField]) @@@vali
  */
 attribute @semver(_ message: String?) @@@targetField([StringField]) @@@validation
 
-
-
 /**
  * Validates a string field value is a valid country code as defined by [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
  */
@@ -493,6 +491,11 @@ attribute @lt(_ value: Int, _ message: String?) @@@targetField([IntField, FloatF
  * Validates a number field is less than or equal to the given value.
  */
 attribute @lte(_ value: Int, _ message: String?) @@@targetField([IntField, FloatField, DecimalField]) @@@validation
+
+/**
+ * Validates a number field is a multiple of the given value.
+ */
+attribute @multipleOf(_ value: Int, _ message: String?) @@@targetField([IntField, FloatField, DecimalField]) @@@validation
 
 /**
  * Validates the entity with a complex condition.

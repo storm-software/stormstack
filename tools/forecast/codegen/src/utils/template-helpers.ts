@@ -46,7 +46,7 @@ import { getDataModels } from "./utils";
  * @param astNode The top-level node object to check
  * @returns Indicator specifying if the top-level node object represents a `DataModel`
  */
-export function isDataModelHelper(astNode: AstNode) {
+export function isDataModelHelper(astNode: AstNode = this) {
   return isDataModel(astNode);
 }
 
@@ -68,7 +68,7 @@ export function eachDataModelHelper(context: Context, options: HelperOptions) {
  * @param astNode The top-level node object to check
  * @returns Indicator specifying if the top-level node object represents a `ApiModel`
  */
-export function isApiModelHelper(astNode: AstNode) {
+export function isApiModelHelper(astNode: AstNode = this) {
   return isApiModel(astNode);
 }
 
@@ -78,7 +78,7 @@ export function isApiModelHelper(astNode: AstNode) {
  * @param astNode The top-level node object to check
  * @returns Indicator specifying if the top-level node object represents a `Interface`
  */
-export function isInterfaceHelper(astNode: AstNode) {
+export function isInterfaceHelper(astNode: AstNode = this) {
   return isInterface(astNode);
 }
 
@@ -88,7 +88,7 @@ export function isInterfaceHelper(astNode: AstNode) {
  * @param astNode The top-level node object to check
  * @returns Indicator specifying if the top-level node object represents a `Input`
  */
-export function isInputHelper(astNode: AstNode) {
+export function isInputHelper(astNode: AstNode = this) {
   return isInput(astNode);
 }
 
@@ -98,7 +98,7 @@ export function isInputHelper(astNode: AstNode) {
  * @param astNode The top-level node object to check
  * @returns Indicator specifying if the top-level node object represents a `OperationGroup`
  */
-export function isOperationGroupHelper(astNode: AstNode) {
+export function isOperationGroupHelper(astNode: AstNode = this) {
   return isOperationGroup(astNode);
 }
 
@@ -108,7 +108,7 @@ export function isOperationGroupHelper(astNode: AstNode) {
  * @param astNode The top-level node object to check
  * @returns Indicator specifying if the top-level node object represents a `Enum`
  */
-export function isEnumHelper(astNode: AstNode) {
+export function isEnumHelper(astNode: AstNode = this) {
   return isEnum(astNode);
 }
 
@@ -243,7 +243,7 @@ export function isFunctionDeclHelper(
  * @param field The field to check
  * @returns Indicator specifying if the field is an array
  */
-export function isArrayFieldHelper(field: DataModelFieldType) {
+export function isArrayFieldHelper(field: DataModelFieldType = this) {
   return field?.array;
 }
 
@@ -253,7 +253,7 @@ export function isArrayFieldHelper(field: DataModelFieldType) {
  * @param field The field to check
  * @returns Indicator specifying if the field is marked as optional
  */
-export function isOptionalFieldHelper(field: DataModelFieldType) {
+export function isOptionalFieldHelper(field: DataModelFieldType = this) {
   return field?.optional;
 }
 
@@ -263,7 +263,7 @@ export function isOptionalFieldHelper(field: DataModelFieldType) {
  * @param field The field to check
  * @returns Indicator specifying if the field is marked as unsupported
  */
-export function isUnsupportedFieldHelper(field: DataModelFieldType) {
+export function isUnsupportedFieldHelper(field: DataModelFieldType = this) {
   return field?.unsupported;
 }
 
@@ -276,7 +276,7 @@ export function isUnsupportedFieldHelper(field: DataModelFieldType) {
  * @param field The field to check
  * @returns Indicator specifying if the field's type is a model
  */
-export function isModelFieldHelper(field: DataModelFieldType) {
+export function isModelFieldHelper(field: DataModelFieldType = this) {
   return isModelHelper(field?.reference?.ref.$type);
 }
 
@@ -409,6 +409,16 @@ export function isBytesFieldHelper(field: DataModelFieldType) {
  */
 export function isJsonFieldHelper(field: DataModelFieldType) {
   return field?.type?.toLowerCase() === "json";
+}
+
+/**
+ * Check if a field is an internal field (ex: `AND`, `OR`, `NOT`)
+ *
+ * @param field The field to check
+ * @returns Indicator specifying if the field is an internal field
+ */
+export function isInternalFieldHelper(field: DataModelField = this) {
+  return field?.name && ["AND", "OR", "NOT"].includes(field.name.toUpperCase());
 }
 
 export type ForeignKeyReferenceColumn = { model: string; name: string };
@@ -550,7 +560,10 @@ export function withForeignKeyHelper(
  * @returns Indicator specifying if the attribute is the `@default` attribute
  */
 export function isDefaultAttributeHelper(attribute: Reference<Attribute>) {
-  return attribute?.ref?.name?.toLowerCase()?.replaceAll("@", "") === "default";
+  return (
+    attribute?.ref?.name?.toLowerCase()?.replaceAll("@", "") === "default" &&
+    isArrayLengthHelper(this?.args, 1)
+  );
 }
 
 /**
@@ -580,7 +593,400 @@ export function isIdAttributeHelper(attribute: Reference<Attribute>) {
  * @returns Indicator specifying if the attribute is the `@relation` attribute
  */
 export function isRelationAttributeHelper(attribute: Reference<Attribute>) {
-  return attribute?.ref?.name?.toLowerCase().replaceAll("@", "") === "relation";
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "relation".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `email` attribute
+ *
+ * @remarks The `email` attribute is used to specify that a field's format should be a valid email address
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@email` attribute
+ */
+export function isEmailAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "email".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `ip` attribute
+ *
+ * @remarks The `ip` attribute is used to specify that a field's format should be a valid IP address
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@ip` attribute
+ */
+export function isIpAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "ip".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `mac` attribute
+ *
+ * @remarks The `mac` attribute is used to specify that a field's format should be a valid MAC address
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@mac` attribute
+ */
+export function isMacAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "mac".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `phoneNumber` attribute
+ *
+ * @remarks The `phoneNumber` attribute is used to specify that a field's format should be a valid Phone Number
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@phoneNumber` attribute
+ */
+export function isPhoneNumberAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "phoneNumber".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `semver` attribute
+ *
+ * @remarks The `semver` attribute is used to specify that a field's format should be a valid Semantic Version
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@semver` attribute
+ */
+export function isSemverAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "semver".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `postalCode` attribute
+ *
+ * @remarks The `postalCode` attribute is used to specify that a field's format should be a valid Postal Code
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@postalCode` attribute
+ */
+export function isPostalCodeAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "postalCode".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `latitude` attribute
+ *
+ * @remarks The `latitude` attribute is used to specify that a field's format should be a valid Latitude
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@latitude` attribute
+ */
+export function isLatitudeAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "latitude".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `longitude` attribute
+ *
+ * @remarks The `longitude` attribute is used to specify that a field's format should be a valid Longitude
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@longitude` attribute
+ */
+export function isLongitudeAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "longitude".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `countryCode` attribute
+ *
+ * @remarks The `countryCode` attribute is used to specify that a field's format should be a valid Country Code
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@countryCode` attribute
+ */
+export function isCountryCodeAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "countryCode".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `timeZone` attribute
+ *
+ * @remarks The `timeZone` attribute is used to specify that a field's format should be a valid Time Zone
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@timeZone` attribute
+ */
+export function isTimeZoneAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "timeZone".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `datetime` attribute
+ *
+ * @remarks The `datetime` attribute is used to specify that a field's format should be a valid DateTime
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@datetime` attribute
+ */
+export function isDatetimeAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "datetime".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `has` attribute
+ *
+ * @remarks The `has` attribute is used to specify that a field should have a certain value in it (uses `includes` function)
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@has` attribute
+ */
+export function isHasAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "has".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `hasEvery` attribute
+ *
+ * @remarks The `hasEvery` attribute is used to specify that every item of a field should have a certain value in it (uses the `every` and `includes` functions)
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@hasEvery` attribute
+ */
+export function isHasEveryAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "hasEvery".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `hasSome` attribute
+ *
+ * @remarks The `hasSome` attribute is used to specify that some item of a field should have a certain value in it (uses the `some` and `includes` functions)
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@hasSome` attribute
+ */
+export function isHasSomeAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "hasSome".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `isEmpty` attribute
+ *
+ * @remarks The `isEmpty` attribute is used to specify that a field's value is empty
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@isEmpty` attribute
+ */
+export function isIsEmptyAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "isEmpty".toLowerCase()
+  );
+}
+
+/**
+ * Check if an attribute is the `regex` attribute
+ *
+ * @remarks The `regex` attribute is used to specify that a field's value should match the specified value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@regex` attribute
+ */
+export function isRegexAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "regex".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `length` attribute
+ *
+ * @remarks The `length` attribute is used to specify that a field's length should be between two specified values provided in parameters (ex: `@length(1, 10)`)
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@length` attribute
+ */
+export function isLengthAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "length".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `gte` attribute
+ *
+ * @remarks The `gte` attribute is used to specify that a field's value is greater than or equal to a provided value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@gte` attribute
+ */
+export function isGteAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "gte".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `gt` attribute
+ *
+ * @remarks The `gt` attribute is used to specify that a field's value is greater than a provided value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@gt` attribute
+ */
+export function isGtAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "gt".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `lte` attribute
+ *
+ * @remarks The `lte` attribute is used to specify that a field's value is less than or equal to a provided value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@lte` attribute
+ */
+export function isLteAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "lte".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `lt` attribute
+ *
+ * @remarks The `lt` attribute is used to specify that a field's value is less than a provided value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@lt` attribute
+ */
+export function isLtAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "lt".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `multipleOf` attribute
+ *
+ * @remarks The `multipleOf` attribute is used to specify that a field's value is a multiple of the provided value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@multipleOf` attribute
+ */
+export function isMultipleOfAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "multipleOf".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `contains` attribute
+ *
+ * @remarks The `contains` attribute is used to specify that a field's format should contains the specified value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@contains` attribute
+ */
+export function isContainsAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "contains".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `startsWith` attribute
+ *
+ * @remarks The `startsWith` attribute is used to specify that a field's format should start with the specified value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@startsWith` attribute
+ */
+export function isStartsWithAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "startsWith".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `endsWith` attribute
+ *
+ * @remarks The `endsWith` attribute is used to specify that a field's format should end with the specified value
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@endsWith` attribute
+ */
+export function isEndsWithAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+      "endsWith".toLowerCase() && isArrayLengthHelper(this?.args, 1)
+  );
+}
+
+/**
+ * Check if an attribute is the `url` attribute
+ *
+ * @remarks The `url` attribute is used to specify that a field's format should be a valid URL address
+ *
+ * @param attribute The attribute to check
+ * @returns Indicator specifying if the attribute is the `@url` attribute
+ */
+export function isUrlAttributeHelper(attribute: Reference<Attribute>) {
+  return (
+    attribute?.ref?.name?.toLowerCase().replaceAll("@", "") ===
+    "url".toLowerCase()
+  );
 }
 
 /**
@@ -742,6 +1148,17 @@ export function snakeCaseHelper(str: any) {
   }
 
   return snakeCase(str);
+}
+
+/**
+ * Check if a value is equal to another value
+ *
+ * @param item1 The first item to compare
+ * @param item2 The second item to compare
+ * @returns Indicator specifying if the two items are equal
+ */
+export function isEqualHelper(item1: any, item2: any) {
+  return item1 === item2;
 }
 
 /**

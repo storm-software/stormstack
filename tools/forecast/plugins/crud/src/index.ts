@@ -1,8 +1,4 @@
-import {
-  constantCase,
-  lowerCaseFirst,
-  upperCaseFirst
-} from "@stormstack/core-shared-utilities";
+import { lowerCaseFirst, pascalCase } from "@stormstack/core-shared-utilities";
 import {
   Context,
   PluginExtend,
@@ -10,24 +6,24 @@ import {
   getApiModels,
   getDataModels,
   getInputs,
-  getInterfaces,
-  getOperationGroups
+  getMutations,
+  getQueries,
+  getSubscriptions
 } from "@stormstack/tools-forecast-codegen";
 import {
   ApiModel,
-  DataModel,
   DataModelField,
   DataModelFieldType,
   Enum,
   EnumField,
   Input,
-  Interface,
   Model,
   Operation,
-  OperationGroup,
   OperationInputParam,
   isDataModel,
-  isEnum
+  isEnum,
+  isInput,
+  isOperationGroup
 } from "@stormstack/tools-forecast-language/ast";
 import { ENTITY_CLASS_FIELDS, EntityClassFields } from "./types";
 
@@ -37,63 +33,22 @@ export const extend: PluginExtend<PluginOptions> = async (
   options: PluginOptions,
   context: Context
 ): Promise<Model> => {
-  const model = context.model;
+  let model = addDefaultOperationGroups(context.model);
 
-  const dataModels = getDataModels(model);
-  let operationGroups = getOperationGroups(model);
-  const inputs = getInputs(model);
-  const apiModels = getApiModels(model);
-  const interfaces = getInterfaces(model);
-
-  const enums: Enum[] = model.declarations.reduce((ret, decl) => {
-    if (decl.$type === Enum) {
-      ret.push(decl as Enum);
-    }
-
-    return ret;
-  }, []);
-
-  operationGroups = addDefaultOperationGroups(
-    model,
-    apiModels,
-    operationGroups
-  );
-
-  addQueries(
-    model,
-    dataModels,
-    operationGroups,
-    inputs,
-    apiModels,
-    interfaces,
-    enums
-  );
-
-  addMutations(
-    model,
-    dataModels,
-    operationGroups,
-    inputs,
-    apiModels,
-    interfaces,
-    enums
-  );
+  model = addQueries(model);
+  model = addMutations(model);
 
   return model;
 };
 
-const addDefaultOperationGroups = (
-  model: Model,
-  apiModels: ApiModel[],
-  operationGroups: OperationGroup[]
-): OperationGroup[] => {
+const addDefaultOperationGroups = (model: Model): Model => {
+  const apiModels = getApiModels(model);
+
   const rootContainer =
     apiModels.length > 0 ? apiModels[0].$container : undefined;
 
-  // Add operation
-  let queryOperationGroup: OperationGroup = operationGroups.find(
-    operationGroup => operationGroup.name === "Query"
-  );
+  // Add missing operation groups
+  let queryOperationGroup = getQueries(model);
   if (!queryOperationGroup) {
     queryOperationGroup = {
       $container: rootContainer,
@@ -107,16 +62,9 @@ const addDefaultOperationGroups = (
       $resolvedFields: []
     };
     model.declarations.push(queryOperationGroup);
-    operationGroups.push(queryOperationGroup);
   }
-  /*queryOperationGroup.comments.length === 0 &&
-          queryOperationGroup.comments.push(
-            "The root query typ which gives access to read operations."
-          );*/
 
-  let mutationOperationGroup: OperationGroup = operationGroups.find(
-    operationGroup => operationGroup.name === "Mutation"
-  );
+  let mutationOperationGroup = getMutations(model);
   if (!mutationOperationGroup) {
     mutationOperationGroup = {
       $container: rootContainer,
@@ -130,31 +78,44 @@ const addDefaultOperationGroups = (
       $resolvedFields: []
     };
     model.declarations.push(mutationOperationGroup);
-    operationGroups.push(mutationOperationGroup);
   }
-  /*mutationOperationGroup.comments.length === 0 &&
-          mutationOperationGroup.comments.push(
-            "The root mutation type which gives access to write operations."
-          );*/
 
-  return operationGroups;
+  let subscriptionOperationGroup = getSubscriptions(model);
+  if (!subscriptionOperationGroup) {
+    subscriptionOperationGroup = {
+      $container: rootContainer,
+      $type: "OperationGroup",
+      attributes: [],
+      comments: [],
+      name: "Subscription",
+      fields: [],
+      isExtend: true,
+      superTypes: [],
+      $resolvedFields: []
+    };
+    model.declarations.push(subscriptionOperationGroup);
+  }
+
+  return model;
 };
 
-const addQueries = (
-  model: Model,
-  dataModels: DataModel[],
-  operationGroups: OperationGroup[],
-  inputs: Input[],
-  apiModels: ApiModel[],
-  interfaces: Interface[],
-  enums: Enum[]
-) => {
+const addQueries = (model: Model): Model => {
+  const dataModels = getDataModels(model);
+  const inputs = getInputs(model);
+  const apiModels = getApiModels(model);
+
+  const enums: Enum[] = model.declarations.reduce((ret, decl) => {
+    if (decl.$type === Enum) {
+      ret.push(decl as Enum);
+    }
+
+    return ret;
+  }, []);
+
   const rootContainer =
     apiModels.length > 0 ? apiModels[0].$container : undefined;
 
-  const queryOperationGroup: OperationGroup = operationGroups.find(
-    operationGroup => operationGroup.name === "Query"
-  );
+  const queryOperationGroup = getQueries(model);
 
   const sortOrderEnum: Enum = {
     name: "SortOrder",
@@ -166,7 +127,7 @@ const addQueries = (
   };
 
   const sortOrderAscEnumField: EnumField = {
-    name: "ASC",
+    name: "asc",
     $container: sortOrderEnum,
     $type: "EnumField",
     attributes: [],
@@ -175,7 +136,7 @@ const addQueries = (
   sortOrderEnum.fields.push(sortOrderAscEnumField);
 
   const sortOrderDescEnumField: EnumField = {
-    name: "DESC",
+    name: "desc",
     $container: sortOrderEnum,
     $type: "EnumField",
     attributes: [],
@@ -1077,7 +1038,7 @@ const addQueries = (
     inputs.push(orderBySchema);
 
     const modelFieldEnum: Enum = {
-      name: `${upperCaseFirst(dataModel.name)}Field`,
+      name: `${pascalCase(dataModel.name)}Field`,
       $container: rootContainer,
       $type: "Enum",
       attributes: [],
@@ -1087,7 +1048,7 @@ const addQueries = (
 
     dataModel.fields.forEach(field => {
       const modelFieldEnumField: EnumField = {
-        name: constantCase(field.name),
+        name: pascalCase(field.name),
         $container: modelFieldEnum,
         $type: "EnumField",
         attributes: [],
@@ -1105,7 +1066,7 @@ const addQueries = (
       attributes: [],
       comments: ["Find a single record by the unique identifier"],
       fields: [],
-      name: `${upperCaseFirst(dataModel.name)}SelectorInput`,
+      name: `${pascalCase(dataModel.name)}SelectorInput`,
       superTypes: [],
       $resolvedFields: []
     };
@@ -1183,7 +1144,7 @@ const addQueries = (
       attributes: [],
       comments: [`Find multiple ${dataModel.name} records`],
       fields: [],
-      name: `${upperCaseFirst(dataModel.name)}sSelectorInput`,
+      name: `${pascalCase(dataModel.name)}sSelectorInput`,
       superTypes: [],
       $resolvedFields: []
     };
@@ -1395,7 +1356,7 @@ const addQueries = (
       fields: [],
       implements: [],
       isExtend: false,
-      name: `${upperCaseFirst(dataModel.name)}Edge`,
+      name: `${pascalCase(dataModel.name)}Edge`,
       superTypes: [],
       $resolvedFields: []
     } as ApiModel;
@@ -1449,7 +1410,7 @@ const addQueries = (
       fields: [],
       implements: [],
       isExtend: false,
-      name: `${upperCaseFirst(dataModel.name)}Connection`,
+      name: `${pascalCase(dataModel.name)}Connection`,
       superTypes: [],
       $resolvedFields: []
     } as ApiModel;
@@ -1558,30 +1519,48 @@ const addQueries = (
   inputs.push(dateTimeFilter);
   inputs.push(boolFilter);
   inputs.push(stringFilter);
+
+  model.declarations = [
+    ...model.declarations.filter(
+      declaration =>
+        (!isOperationGroup(declaration) ||
+          queryOperationGroup.name !== declaration.name) &&
+        (!isInput(declaration) ||
+          !inputs.some(input => input.name === declaration.name)) &&
+        (!isInput(declaration) ||
+          !apiModels.some(apiModel => apiModel.name === declaration.name)) &&
+        (!isEnum(declaration) ||
+          !enums.some(enumDecl => enumDecl.name === declaration.name))
+    ),
+    queryOperationGroup,
+    ...enums,
+    ...inputs,
+    ...apiModels
+  ];
+
+  return model;
 };
 
-const addMutations = (
-  model: Model,
-  dataModels: DataModel[],
-  operationGroups: OperationGroup[],
-  inputs: Input[],
-  apiModels: ApiModel[],
-  interfaces: Interface[],
-  enums: Enum[]
-) => {
+const addMutations = (model: Model): Model => {
+  const dataModels = getDataModels(model);
+  const inputs = getInputs(model);
+  const apiModels = getApiModels(model);
+
+  const mutationOperationGroup = getMutations(model);
+
   const rootContainer =
     apiModels.length > 0 ? apiModels[0].$container : undefined;
-
-  const mutationOperationGroup: OperationGroup = operationGroups.find(
-    operationGroup => operationGroup.name === "Mutation"
-  );
 
   dataModels.forEach(dataModel => {
     const createDataModelInput: Input = {
       $container: rootContainer,
       $type: "Input",
       attributes: [],
-      comments: [],
+      comments: [
+        `Input parameters used to create a new ${pascalCase(
+          dataModel.name
+        )} record`
+      ],
       fields: [],
       name: `Create${dataModel.name}Input`,
       superTypes: [],
@@ -1595,7 +1574,13 @@ const addMutations = (
           $container: createDataModelInput,
           $type: "DataModelField",
           attributes: [],
-          comments: [],
+          comments: [
+            `${
+              field.name
+            } field on the Input parameters used to create a new ${pascalCase(
+              dataModel.name
+            )} record`
+          ],
           type: undefined
         };
         if (
@@ -1632,9 +1617,9 @@ const addMutations = (
       $container: mutationOperationGroup,
       $type: "Operation",
       attributes: [],
-      comments: [],
+      comments: [`Create a new ${pascalCase(dataModel.name)} record`],
       params: [],
-      name: `create${upperCaseFirst(dataModel.name)}`,
+      name: `create${pascalCase(dataModel.name)}`,
       resultType: undefined
     };
     createDataModelOperation.resultType = {
@@ -1670,12 +1655,20 @@ const addMutations = (
     mutationOperationGroup.fields.push(createDataModelOperation);
   });
 
-  return {
-    dataModels,
-    operationGroups,
-    inputs,
-    apiModels,
-    interfaces,
-    enums
-  };
+  model.declarations = [
+    ...model.declarations.filter(
+      declaration =>
+        (!isOperationGroup(declaration) ||
+          mutationOperationGroup.name !== declaration.name) &&
+        (!isInput(declaration) ||
+          !inputs.some(input => input.name === declaration.name)) &&
+        (!isInput(declaration) ||
+          !apiModels.some(apiModel => apiModel.name === declaration.name))
+    ),
+    mutationOperationGroup,
+    ...inputs,
+    ...apiModels
+  ];
+
+  return model;
 };

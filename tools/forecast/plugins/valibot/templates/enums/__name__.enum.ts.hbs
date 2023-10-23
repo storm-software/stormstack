@@ -1,0 +1,5 @@
+{{#with node as | node |}} export type {{pascalCase node.name}} = {{#each
+fields}}"{{ name }}"{{#unless @last}} | {{/unless}}{{/each}}; export const
+{{pascalCase node.name}} = { {{#each fields}} {{constantCase name}}: "{{ name
+}}" as {{pascalCase node.name}}{{#unless @last}},{{/unless}} {{/each}} };
+{{/with}}

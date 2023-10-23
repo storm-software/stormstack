@@ -24,6 +24,12 @@ output = "drizzle"
 compile = false
 }
 
+plugin valibot {
+provider = "@stormstack/tools-forecast-plugins-valibot"
+output = "valibot"
+compile = false
+}
+
 enum ContactReason {
   Business
   Question

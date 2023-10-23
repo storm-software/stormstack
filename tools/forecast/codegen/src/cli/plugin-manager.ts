@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { findFilePath } from "@stormstack/core-server-utilities/file-path-fns";
+import { findFilePath } from "@stormstack/core-server-utilities";
 import { ConsoleLogger } from "@stormstack/core-shared-logging/console";
 import { JsonParser } from "@stormstack/core-shared-serialization";
 import {
   NEWLINE_STRING,
   ProcessingError,
+  getErrorColor,
   getPrimaryColor,
+  getSuccessColor,
   isSet
 } from "@stormstack/core-shared-utilities";
 import { Plugin, isPlugin } from "@stormstack/tools-forecast-language/ast";
@@ -22,11 +24,22 @@ import type {
   PluginInfo,
   PluginModule
 } from "../types";
+import {
+  getApiModels,
+  getDataModels,
+  getInputs,
+  getInterfaces,
+  getMutations,
+  getQueries,
+  getSubscriptions
+} from "../utils";
 import { ensureDefaultOutputFolder } from "../utils/plugin-utils";
 import { getVersion } from "../utils/version-utils";
 
+type PluginError = { plugin: string; error: Error };
+
 /**
- * Storm plugin runner
+ * Forecast plugin Manager class
  */
 export class PluginManager {
   private _plugins: PluginInfo[] = [];
@@ -55,7 +68,7 @@ export class PluginManager {
       `Loading Forecast schema from ${chalk.bold(context.schemaPath)}`
     );
 
-    const warnings: string[] = [];
+    const issues: PluginError[] = [];
     if (pluginDecls.length > 0) {
       ConsoleLogger.debug(
         `Loading ${pluginDecls.length} plugins specified in model`
@@ -148,34 +161,82 @@ export class PluginManager {
       );
 
       for (const pluginInfo of this._plugins) {
-        context.plugins.current = pluginInfo.pluginId;
+        try {
+          context.plugins.current = pluginInfo.pluginId;
 
-        if (pluginInfo.extend) {
-          ConsoleLogger.info(
-            `Extending model with ${chalk
-              .hex(getPrimaryColor())
-              .bold(pluginInfo.name)} plugin`
-          );
+          if (pluginInfo.extend) {
+            ConsoleLogger.info(
+              `Extending model with ${chalk
+                .hex(getPrimaryColor())
+                .bold(pluginInfo.name)} plugin`
+            );
 
-          context.model = await Promise.resolve(
-            pluginInfo.extend(pluginInfo.options, context)
-          );
+            context.model = await Promise.resolve(
+              pluginInfo.extend(pluginInfo.options, context)
+            );
+          }
+        } catch (e) {
+          ConsoleLogger.error(e);
+          issues.push({ plugin: pluginInfo.provider, error: e });
         }
       }
 
+      const dataModels = getDataModels(context.model);
+      const inputs = getInputs(context.model);
+      const apiModels = getApiModels(context.model);
+      const interfaces = getInterfaces(context.model);
+      const queryOperationGroup = getQueries(context.model);
+      const mutationOperationGroup = getMutations(context.model);
+      const subscriptionOperationGroup = getSubscriptions(context.model);
+
+      ConsoleLogger.info(
+        `⚡ The Forecast schema contains ${chalk
+          .hex(getPrimaryColor())
+          .bold(`${dataModels?.length ?? 0} Data Models`)}, ${chalk
+          .hex(getPrimaryColor())
+          .bold(`${apiModels?.length ?? 0} API Models`)}, ${chalk
+          .hex(getPrimaryColor())
+          .bold(`${inputs?.length ?? 0} Inputs`)}, ${chalk
+          .hex(getPrimaryColor())
+          .bold(`${interfaces?.length ?? 0} Interfaces`)}, ${chalk
+          .hex(getPrimaryColor())
+          .bold(
+            `${queryOperationGroup?.fields?.length ?? 0} Query Operations`
+          )}, ${chalk
+          .hex(getPrimaryColor())
+          .bold(
+            `${mutationOperationGroup?.fields?.length ?? 0} Mutation Operations`
+          )}, and ${chalk
+          .hex(getPrimaryColor())
+          .bold(
+            `${
+              subscriptionOperationGroup?.fields?.length ?? 0
+            } Subscription Operations`
+          )} that will be used to generate code.`
+      );
+
       for (const pluginInfo of this._plugins) {
-        context.plugins.current = pluginInfo.pluginId;
+        try {
+          context.plugins.current = pluginInfo.pluginId;
 
-        if (pluginInfo.handle && pluginInfo.generator) {
-          ConsoleLogger.info(
-            `Generating code with ${chalk
-              .hex(getPrimaryColor())
-              .bold(pluginInfo.name)} plugin`
-          );
+          if (pluginInfo.handle && pluginInfo.generator) {
+            ConsoleLogger.info(
+              `Generating code with ${chalk
+                .hex(getPrimaryColor())
+                .bold(pluginInfo.name)} plugin`
+            );
 
-          await Promise.resolve(
-            pluginInfo.handle(pluginInfo.options, context, pluginInfo.generator)
-          );
+            await Promise.resolve(
+              pluginInfo.handle(
+                pluginInfo.options,
+                context,
+                pluginInfo.generator
+              )
+            );
+          }
+        } catch (e) {
+          ConsoleLogger.error(e);
+          issues.push({ plugin: pluginInfo.provider, error: e });
         }
       }
     } else {
@@ -184,17 +245,51 @@ export class PluginManager {
       );
     }
 
-    ConsoleLogger.log(
-      chalk.hex(getPrimaryColor())(
-        chalk.bold("⚡ All plugins completed successfully!")
-      ) +
-        chalk.gray(
-          NEWLINE_STRING +
-            "Don't forget to restart your dev server to let the changes take effect"
-        )
-    );
+    const resultsLineWidth = this._plugins.reduce((ret: number, plugin) => {
+      return plugin.provider.length > ret ? plugin.provider.length : ret;
+    }, 75);
 
-    warnings.forEach(w => ConsoleLogger.warn(chalk.yellow(w)));
+    ConsoleLogger.info(
+      `${chalk
+        .hex(getPrimaryColor())
+        .bold(
+          issues.length === 0
+            ? `⚡ All ${this._plugins.length} Forecast plugins completed successfully!`
+            : `⚡ Forecast Codegen CLI completed running ${this._plugins.length} plugins!`
+        )}${NEWLINE_STRING}${NEWLINE_STRING}${this._plugins
+        .map(
+          (plugin: PluginInfo, i: number) =>
+            `${chalk.gray(`${i + 1}.`)} ${
+              issues.some(issue => issue.plugin === plugin.provider)
+                ? `${chalk.hex(getErrorColor()).bold(
+                    `${plugin.provider} ${Array.from(
+                      Array(resultsLineWidth - plugin.provider.length - 11)
+                    )
+                      .map(_ => "-")
+                      .join("")} FAILED X`
+                  )}${NEWLINE_STRING}${chalk.hex(getErrorColor())(
+                    `   -> ${
+                      issues.find(issue => issue.plugin === plugin.provider)
+                        .error
+                    }`
+                  )}`
+                : `${chalk.hex(getSuccessColor()).bold(
+                    `${plugin.provider} ${Array.from(
+                      Array(resultsLineWidth - plugin.provider.length - 11)
+                    )
+                      .map(_ => "-")
+                      .join("")} SUCCESS ✓`
+                  )}`
+            }`
+        )
+        .join(
+          NEWLINE_STRING
+        )}${NEWLINE_STRING}${NEWLINE_STRING}${chalk.gray.bold(
+        "Please Note:"
+      )} ${chalk.gray(
+        "Don't forget to restart your dev server to allow the changes take effect"
+      )}`
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

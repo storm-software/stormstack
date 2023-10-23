@@ -1,0 +1,12 @@
+import { enumType, bigint, number, safeInteger, integer, boolean, date,
+isoDateTime, url, ip, uuid, cuid2, minLength, maxLength, length, regex,
+startsWith, endsWith, contains, email, object, optional, array, string } from
+"valibot"; {{#each fields}}{{#if (isEnum type.reference.ref)}}import { {{
+type.reference.ref.name }} } from
+"../enums/{{type.reference.ref.name}}.enum";{{/if}}{{/each}} {{#each
+fields}}{{#if (isModelField type)}} import { {{#with type.reference.ref}}{{>
+model-name.partial}}{{/with}} } from "../{{#if (isDataModel
+type.reference.ref)}}data-models{{else if (isApiModel
+type.reference.ref)}}api-models{{else if (isInput
+type.reference.ref)}}inputs{{else if (isInterface
+type.reference.ref)}}interfaces{{/if}}/{{type.reference.ref.name}}.schema";{{/if}}{{/each}}

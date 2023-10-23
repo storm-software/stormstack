@@ -1,13 +1,13 @@
+import { findFileName } from "@stormstack/core-server-utilities";
 import { ConsoleLogger } from "@stormstack/core-shared-logging";
-import {} from "@stormstack/core-shared-utilities";
 import * as Handlebars from "handlebars";
 import { HelperOptions } from "handlebars";
 import { AstNode } from "langium";
-import { CompilerOptions } from "ts-morph";
 import {
   Context,
   TemplateGeneratorHelper,
   TemplatePluginOptions,
+  TypeScriptGeneratorConfig,
   TypescriptPluginOptions
 } from "../../types";
 import {
@@ -24,34 +24,62 @@ import {
   isBigIntFieldHelper,
   isBooleanFieldHelper,
   isBytesFieldHelper,
+  isContainsAttributeHelper,
+  isCountryCodeAttributeHelper,
   isCuidHelper,
   isDataModelHelper,
   isDateTimeFieldHelper,
+  isDatetimeAttributeHelper,
   isDecimalFieldHelper,
   isDefaultAttributeHelper,
+  isEmailAttributeHelper,
+  isEndsWithAttributeHelper,
   isEnumHelper,
   isEnumReferenceHelper,
+  isEqualHelper,
   isFloatFieldHelper,
   isForeignKeyFieldHelper,
   isFunctionDeclHelper,
+  isGtAttributeHelper,
+  isGteAttributeHelper,
+  isHasAttributeHelper,
+  isHasEveryAttributeHelper,
+  isHasSomeAttributeHelper,
   isIdAttributeHelper,
   isInputHelper,
   isIntegerFieldHelper,
   isInterfaceHelper,
+  isInternalFieldHelper,
   isInvocationHelper,
+  isIpAttributeHelper,
+  isIsEmptyAttributeHelper,
   isJsonFieldHelper,
+  isLatitudeAttributeHelper,
+  isLengthAttributeHelper,
   isLiteralHelper,
+  isLongitudeAttributeHelper,
+  isLtAttributeHelper,
+  isLteAttributeHelper,
+  isMacAttributeHelper,
   isModelFieldHelper,
   isModelHelper,
+  isMultipleOfAttributeHelper,
   isNowHelper,
   isOperationGroupHelper,
   isOptionalFieldHelper,
+  isPhoneNumberAttributeHelper,
+  isPostalCodeAttributeHelper,
   isReferenceExprHelper,
+  isRegexAttributeHelper,
   isRelationAttributeHelper,
+  isSemverAttributeHelper,
   isSnowflakeHelper,
+  isStartsWithAttributeHelper,
   isStringFieldHelper,
+  isTimeZoneAttributeHelper,
   isUniqueAttributeHelper,
   isUnsupportedFieldHelper,
+  isUrlAttributeHelper,
   isUuidHelper,
   pascalCaseHelper,
   snakeCaseHelper,
@@ -82,9 +110,10 @@ export class TemplateGenerator<
   }
 
   protected templates = new Map<string, HandlebarsTemplateDelegate>();
+  protected partials: string[] = [];
 
-  constructor(compilerOptions?: CompilerOptions) {
-    super(compilerOptions);
+  constructor(config?: TypeScriptGeneratorConfig) {
+    super(config);
 
     this.handlebars.registerHelper("isDataModel", isDataModelHelper);
     this.handlebars.registerHelper("isApiModel", isApiModelHelper);
@@ -117,6 +146,7 @@ export class TemplateGenerator<
     this.handlebars.registerHelper("isDateTimeField", isDateTimeFieldHelper);
     this.handlebars.registerHelper("isBytesField", isBytesFieldHelper);
     this.handlebars.registerHelper("isJsonField", isJsonFieldHelper);
+    this.handlebars.registerHelper("isInternalField", isInternalFieldHelper);
 
     this.handlebars.registerHelper(
       "isDefaultAttribute",
@@ -131,6 +161,81 @@ export class TemplateGenerator<
       "isRelationAttribute",
       isRelationAttributeHelper
     );
+    this.handlebars.registerHelper("isEmailAttribute", isEmailAttributeHelper);
+    this.handlebars.registerHelper("isUrlAttribute", isUrlAttributeHelper);
+    this.handlebars.registerHelper("isIpAttribute", isIpAttributeHelper);
+    this.handlebars.registerHelper("isMacAttribute", isMacAttributeHelper);
+    this.handlebars.registerHelper(
+      "isPhoneNumberAttribute",
+      isPhoneNumberAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isSemverAttribute",
+      isSemverAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isPostalCodeAttribute",
+      isPostalCodeAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isLatitudeAttribute",
+      isLatitudeAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isLongitudeAttribute",
+      isLongitudeAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isCountryCodeAttribute",
+      isCountryCodeAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isTimeZoneAttribute",
+      isTimeZoneAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isDatetimeAttribute",
+      isDatetimeAttributeHelper
+    );
+    this.handlebars.registerHelper("isHasAttribute", isHasAttributeHelper);
+    this.handlebars.registerHelper(
+      "isHasEveryAttribute",
+      isHasEveryAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isHasSomeAttribute",
+      isHasSomeAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isIsEmptyAttribute",
+      isIsEmptyAttributeHelper
+    );
+    this.handlebars.registerHelper("isRegexAttribute", isRegexAttributeHelper);
+    this.handlebars.registerHelper(
+      "isLengthAttribute",
+      isLengthAttributeHelper
+    );
+    this.handlebars.registerHelper("isGteAttribute", isGteAttributeHelper);
+    this.handlebars.registerHelper("isGtAttribute", isGtAttributeHelper);
+    this.handlebars.registerHelper("isLteAttribute", isLteAttributeHelper);
+    this.handlebars.registerHelper("isLtAttribute", isLtAttributeHelper);
+    this.handlebars.registerHelper(
+      "isMultipleOfAttribute",
+      isMultipleOfAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isContainsAttribute",
+      isContainsAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isStartsWithAttribute",
+      isStartsWithAttributeHelper
+    );
+    this.handlebars.registerHelper(
+      "isEndsWithAttribute",
+      isEndsWithAttributeHelper
+    );
+
     this.handlebars.registerHelper("withForeignKey", withForeignKeyHelper);
 
     this.handlebars.registerHelper("isNow", isNowHelper);
@@ -151,6 +256,7 @@ export class TemplateGenerator<
     this.handlebars.registerHelper("constantCase", constantCaseHelper);
     this.handlebars.registerHelper("snakeCase", snakeCaseHelper);
 
+    this.handlebars.registerHelper("isEqual", isEqualHelper);
     this.handlebars.registerHelper("isArray", isArrayHelper);
     this.handlebars.registerHelper("isArrayLength", isArrayLengthHelper);
     this.handlebars.registerHelper("forEach", forEachHelper);
@@ -207,6 +313,28 @@ export class TemplateGenerator<
     );
   };
 
+  public registerPartial = (partial: TemplateDetails, name?: string) => {
+    const partialName = name ? name : partial.name;
+
+    if (!this.partials.includes(partialName)) {
+      this.handlebars.registerPartial(partialName, partial.content);
+
+      this.partials.push(partialName);
+    }
+  };
+
+  public registerPartials = async (partials: Array<TemplateDetails>) =>
+    Promise.all(
+      partials.map(partial =>
+        Promise.resolve(
+          this.handlebars.registerPartial(
+            findFileName(partial.name).replace(".hbs", ""),
+            partial.content
+          )
+        )
+      )
+    );
+
   protected getTemplate = async (
     template: TemplateDetails
   ): Promise<HandlebarsTemplateDelegate> => {
@@ -216,7 +344,7 @@ export class TemplateGenerator<
 
       compiled = this.handlebars.compile(
         template.content,
-        this.compilerOptions
+        this.config.compiler
       );
       this.templates.set(template.name, compiled);
     }

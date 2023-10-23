@@ -20,7 +20,7 @@
         "minify": false,
         "skipTypeCheck": true,
         "format": ["esm", "cjs"],
-        "external": [".prisma/client/index"],
+        "external": [".prisma/client/index", "espree"],
         "assets": [
           {
             "input": "tools/forecast/codegen",

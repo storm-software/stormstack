@@ -1,0 +1,5 @@
+{{#with node as | node |}} {{> imports.partial}} /** * A Valibot schema
+definition for the {{ node.name }} Input schema. * * @remarks Additional details
+about validation schemas and the reference API can be found [in the Valibot
+documentation](https://valibot.dev/guides/schemas/). */ export const {{>
+model-name.partial}} = {{> object.partial}} {{/with}}

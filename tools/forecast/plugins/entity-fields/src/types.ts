@@ -35,6 +35,13 @@ export type EntityFieldsPluginOptions = PluginOptions & {
   idFormat?: IdFieldFormat;
 
   /**
+   * The name of the `isDeleted` field.
+   *
+   * @default "isDeleted"
+   */
+  isDeleted?: boolean;
+
+  /**
    * The name of the `createdAt` field.
    *
    * @default "createdAt"

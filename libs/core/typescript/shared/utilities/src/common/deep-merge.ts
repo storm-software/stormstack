@@ -76,7 +76,11 @@ export const mergeObject = (
   return destination;
 };
 
-export const deepMerge: any = (target: any, source: any, options: any = {}) => {
+export const deepMerge = (target: any, source: any, options: any = {}) => {
+  if (!target || !source) {
+    return target ? target : source;
+  }
+
   options = options || {};
   options.arrayMerge = options.arrayMerge || defaultArrayMerge;
   options.isMergeableObject = options.isMergeableObject || isMergeableObject;

@@ -20,7 +20,7 @@
         "thirdParty": true,
         "platform": "node",
         "format": ["cjs"],
-        "external": [".prisma/client/index"],
+        "external": [".prisma/client/index", "espree"],
         "assets": [
           {
             "input": "tools/forecast/plugins/crud",

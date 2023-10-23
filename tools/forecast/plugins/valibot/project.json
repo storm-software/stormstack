@@ -1,17 +1,17 @@
 {
-  "name": "tools-forecast-plugins-entity-fields",
+  "name": "tools-forecast-plugins-valibot",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "tools/forecast/plugins/entity-fields/src",
+  "sourceRoot": "tools/forecast/plugins/valibot/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/tools/forecast/plugins/entity-fields",
-        "main": "tools/forecast/plugins/entity-fields/src/index.ts",
-        "project": "tools/forecast/plugins/entity-fields/package.json",
-        "tsConfig": "tools/forecast/plugins/entity-fields/tsconfig.json",
+        "outputPath": "dist/tools/forecast/plugins/valibot",
+        "main": "tools/forecast/plugins/valibot/src/index.ts",
+        "project": "tools/forecast/plugins/valibot/package.json",
+        "tsConfig": "tools/forecast/plugins/valibot/tsconfig.json",
         "deleteOutputPath": true,
         "bundle": true,
         "sourcemap": true,
@@ -23,13 +23,18 @@
         "external": [".prisma/client/index", "espree"],
         "assets": [
           {
-            "input": "tools/forecast/plugins/entity-fields",
+            "input": "tools/forecast/plugins/valibot",
             "glob": "README.md",
             "output": "."
           },
           {
             "input": ".",
             "glob": "LICENSE",
+            "output": "."
+          },
+          {
+            "input": "tools/forecast/plugins/valibot",
+            "glob": "**/*.hbs",
             "output": "."
           }
         ]
@@ -43,7 +48,7 @@
         "github": true,
         "npm": false,
         "changelog": true,
-        "tagFormat": "tools-forecast-plugins-crud-v${VERSION}"
+        "tagFormat": "tools-forecast-plugins-valibot-v${VERSION}"
       }
     }
   },

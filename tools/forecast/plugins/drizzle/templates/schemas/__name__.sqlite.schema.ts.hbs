@@ -7,11 +7,11 @@ fields}}{{#if (isModelField type)}} import { {{camelCase
 type.reference.ref.name}} } from
 "./{{type.reference.ref.name}}.sqlite.schema";{{/if}}{{/each}} /** * A Drizzle
 table schema definition for the {{ node.name }} Data Model. * * @remarks
-Additional details about Drizzle ORM and it's column-types can be found[in their
-documentation](https://orm.drizzle.team/docs/column-types/sqlite). */ export
-const {{camelCase node.name}} = sqliteTable("{{ node.name }}", { {{#each fields
-as | field |}}{{#unless (isModelField type)}}{{camelCase name}}: {{#if (isEnum
-type.reference.ref)}}text("{{ name }}", { enum: [ {{#each
+Additional details about the ORM schemas and column-type APIs can be found[in
+the Drizzle documentation](https://orm.drizzle.team/docs/column-types/sqlite).
+*/ export const {{camelCase node.name}} = sqliteTable("{{ node.name }}", {
+{{#each fields as | field |}}{{#unless (isModelField type)}}{{camelCase name}}:
+{{#if (isEnum type.reference.ref)}}text("{{ name }}", { enum: [ {{#each
 type.reference.ref.fields}}{{../type.reference.ref.name}}.{{constantCase
 name}}{{#unless @last}},{{/unless}}{{/each}}] }) {{else if (isIntegerField
 type)}}integer("{{ name }}", { mode: "number" }) {{else if (isFloatField

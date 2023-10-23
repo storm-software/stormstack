@@ -1,0 +1,50 @@
+object({ {{#each fields as | field |}} {{#if
+isInternalField}}{{name}}{{else}}{{camelCase name}}{{/if}}: {{#if
+(isOptionalField field.type)}} optional( {{/if}}{{#if (isArrayField
+field.type)}} array( {{/if}}{{#if (isEnum type.reference.ref)}} enumType([
+{{#each type.reference.ref.fields}}{{../type.reference.ref.name}}.{{constantCase
+name}}{{#unless @last}},{{/unless}} {{/each}} ]){{else if (isModelField type)}}
+{{#with type.reference.ref}}{{#if (isEqual field.name name)}}recursive(() => {{>
+model-name.partial}} ){{else}}{{>
+model-name.partial}}{{/if}}{{/with}}{{else}}{{#if (isIntegerField type)}}
+number{{else if (isFloatField type)}} number{{else if (isDecimalField type)}}
+number{{else if (isBigIntField type)}} bigint{{else if (isStringField type)}}
+string{{else if (isBooleanField type)}} boolean{{else if (isDateTimeField
+type)}} date{{else if (isJsonField type)}} record{{else}} any{{/if}}([ {{#each
+attributes}}{{#if (isEmailAttribute decl)}} email(){{else if (isUrlAttribute
+decl)}} url(){{else if (isIpAttribute decl)}} ip(){{else if (isDatetimeAttribute
+decl)}} isoDateTime(){{else if (isStartsWithAttribute decl)}}
+startsWith({{args.[0].value.value}}){{else if (isEndsWithAttribute decl)}}
+endsWith({{args.[0].value.value}}){{else if (isContainsAttribute decl)}}
+contains({{args.[0].value.value}}){{else if (isRegexAttribute decl)}}
+regex({{args.[0].value.value}}){{else if (isMacAttribute decl)}}
+regex(/^(?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})$/){{else if
+(isPhoneNumberAttribute decl)}}
+regex(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/){{else if
+(isSemverAttribute decl)}}
+regex(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/){{else
+if (isPostalCodeAttribute decl)}} regex(/^[0-9]{5}(?:-[0-9]{4})?$/){{else if
+(isLatitudeAttribute decl)}} regex(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)/){{else
+if (isLongitudeAttribute decl)}}
+regex(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)/){{else if (isCountryCodeAttribute
+decl)}}
+regex(/^(A(D|E|F|G|I|L|M|N|O|R|S|T|Q|U|W|X|Z)|B(A|B|D|E|F|G|H|I|J|L|M|N|O|R|S|T|V|W|Y|Z)|C(A|C|D|F|G|H|I|K|L|M|N|O|R|U|V|X|Y|Z)|D(E|J|K|M|O|Z)|E(C|E|G|H|R|S|T)|F(I|J|K|M|O|R)|G(A|B|D|E|F|G|H|I|L|M|N|P|Q|R|S|T|U|W|Y)|H(K|M|N|R|T|U)|I(D|E|Q|L|M|N|O|R|S|T)|J(E|M|O|P)|K(E|G|H|I|M|N|P|R|W|Y|Z)|L(A|B|C|I|K|R|S|T|U|V|Y)|M(A|C|D|E|F|G|H|K|L|M|N|O|Q|P|R|S|T|U|V|W|X|Y|Z)|N(A|C|E|F|G|I|L|O|P|R|U|Z)|OM|P(A|E|F|G|H|K|L|M|N|R|S|T|W|Y)|QA|R(E|O|S|U|W)|S(A|B|C|D|E|G|H|I|J|K|L|M|N|O|R|T|V|Y|Z)|T(C|D|F|G|H|J|K|L|M|N|O|R|T|V|W|Z)|U(A|G|M|S|Y|Z)|V(A|C|E|G|I|N|U)|W(F|S)|Y(E|T)|Z(A|M|W))$/){{/if}}{{#if
+(isTimeZoneAttribute decl)}} minLength(2), maxLength(3){{else if
+(isLengthAttribute decl)}}{{#if (isArrayLength args 1)}}
+length({{args.[0].value.value}}){{else if (isArrayLength args 2)}}
+minLength({{args.[0].value.value}}),
+maxLength({{args.[1].value.value}}){{/if}}{{else if (isGteAttribute decl)}}
+(input) => input >= {{args.[0].value.value}} ? getOutput(input) :
+getPipeIssues("custom", "Field is under the minimum value", input){{else if
+(isGtAttribute decl)}} minValue({{args.[0].value.value}}){{else if
+(isLteAttribute decl)}} (input) => input <= {{args.[0].value.value}} ?
+getOutput(input) : getPipeIssues("custom", "Field is over the maximum value",
+input){{else if (isLtAttribute decl)}} maxValue({{args.[0].value.value}}){{else
+if (isMultipleOfAttribute decl)}} multipleOf({{args.[0].value.value}}){{else if
+(isIdAttribute decl)}}{{#each field.attributes}}{{#if (isDefaultAttribute
+decl)}}{{#each args}}{{#if (isUuid value.function.ref)}} uuid(){{else if (isCuid
+value.function.ref)}} cuid2(){{else if (isSnowflake value.function.ref)}}
+regex(/^\d{19}$/){{/if}}{{/each}}{{/if}}{{/each}}{{/if}}{{#unless
+@last}},{{/unless}}{{/each}}{{#if (isIntegerField field.type)}} integer(),
+safeInteger(){{/if}} ]) {{/if}}{{#if (isOptionalField field.type)}} )
+{{/if}}{{#if (isArrayField field.type)}} ) {{/if}},{{/each}} });

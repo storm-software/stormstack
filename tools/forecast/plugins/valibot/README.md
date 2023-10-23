@@ -25,18 +25,17 @@ StormStack is built using <a href="https://nx.dev/" target="_blank">Nx</a>, a se
 
 <!-- END header -->
 
-# ☄️ Impact Design System - Design Tokens
+# ⚡ Forecast - Valibot Schema Generator Plugin
 
-The ☄️ Impact design system is a part of the ⚡StormStack monorepo/family of tools. This library was generated with [Nx](https://nx.dev) and includes the Design Tokens used by this design system.
+This library was generated with [Nx](https://nx.dev).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 ## Table of Contents
 
-- [☄️ Impact Design System - Design Tokens](#️-impact-design-system---design-tokens)
+- [⚡ Forecast - Valibot Schema Generator Plugin](#-forecast---valibot-schema-generator-plugin)
   - [Table of Contents](#table-of-contents)
-  - [Figma](#figma)
   - [Running unit tests](#running-unit-tests)
   - [Roadmap](#roadmap)
   - [Support](#support)
@@ -47,16 +46,6 @@ The ☄️ Impact design system is a part of the ⚡StormStack monorepo/family o
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Figma
-
-The design tokens are updated and exported from Figma using the [Tokens Studio for Figma](https://docs.tokens.studio/) plugin.
-
-<div align="center">
-  <img src="https://pub-4661138852db4e5da99a6660fbf9b633.r2.dev/Figma - Design Tokens - Rotated.png" width="75%"/>
-</div>
-
-The Figma file associated with the design tokens can be found in the themes folder of this library.
-
 ## Running unit tests
 
 Run `nx test tools-forecast-language` to execute the unit tests via [Jest](https://jestjs.io).
@@ -64,6 +53,7 @@ Run `nx test tools-forecast-language` to execute the unit tests via [Jest](https
 <!-- START footer -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+
 
 ## Roadmap
 
@@ -123,7 +113,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" size="13px" colspan="7">
         <a href="https://all-contributors.js.org/docs/en/bot/usage">
-            <img src="https://raw.githubusercontent.com/all-contributors/all-contributors-cli/1b8533af435da9854653492b1327a23a4dbd0a10/assets/logo-small.svg" />
             Add your contributions</a>
         </td>
     </tr>

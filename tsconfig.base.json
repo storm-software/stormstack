@@ -302,6 +302,9 @@
       "@stormstack/tools-forecast-plugins-prisma": [
         "tools/forecast/plugins/prisma/src/index.ts"
       ],
+      "@stormstack/tools-forecast-plugins-valibot": [
+        "tools/forecast/plugins/valibot/src/index.ts"
+      ],
       "@stormstack/tools-forecast-plugins-zod": [
         "tools/forecast/plugins/zod/src/index.ts"
       ],

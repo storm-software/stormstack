@@ -33,7 +33,6 @@ import {
   getLiteralArray,
   resolved
 } from "@stormstack/tools-forecast-language/utils";
-import { dirname, isAbsolute, join } from "path";
 import { PluginOptions } from "../types";
 
 /**
@@ -79,6 +78,45 @@ export function getOperationGroups(model: Model) {
 export function getInputs(model: Model) {
   return model.declarations.filter(
     (d): d is Input => isInput(d) && !hasAttribute(d, "@@ignore")
+  );
+}
+
+/**
+ * Gets Query operations that are not ignored
+ *
+ * @param model The model to get the operations from
+ * @returns The query operations
+ */
+export function getQueries(model: Model): OperationGroup | undefined {
+  return getOperationGroups(model).find(
+    operationGroup =>
+      operationGroup.name?.toLowerCase() === "Query"?.toLowerCase()
+  );
+}
+
+/**
+ * Gets Mutation operations that are not ignored
+ *
+ * @param model The model to get the operations from
+ * @returns The mutation operations
+ */
+export function getMutations(model: Model): OperationGroup | undefined {
+  return getOperationGroups(model).find(
+    operationGroup =>
+      operationGroup.name?.toLowerCase() === "Mutation"?.toLowerCase()
+  );
+}
+
+/**
+ * Gets Subscription operations that are not ignored
+ *
+ * @param model The model to get the operations from
+ * @returns The Subscription operations
+ */
+export function getSubscriptions(model: Model): OperationGroup | undefined {
+  return getOperationGroups(model).find(
+    operationGroup =>
+      operationGroup.name?.toLowerCase() === "Subscription"?.toLowerCase()
   );
 }
 
@@ -288,7 +326,6 @@ export function isForeignKeyField(field: DataModelField) {
     return false;
   });
 }
-
 
 export function requireOption<T>(options: PluginOptions, name: string): T {
   const value = options[name];

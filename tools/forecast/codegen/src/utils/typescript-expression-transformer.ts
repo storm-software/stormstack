@@ -45,6 +45,7 @@ function func(name: string) {
     if (!functionHandlers.get(name)) {
       functionHandlers.set(name, descriptor);
     }
+
     return descriptor;
   };
 }

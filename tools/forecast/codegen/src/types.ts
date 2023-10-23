@@ -2,7 +2,9 @@ import { ConnectorType as PrismaConnectorType } from "@prisma/generator-helper";
 import { PackageManagers } from "@stormstack/core-server-utilities/package-fns";
 import { MaybePromise } from "@stormstack/core-shared-utilities";
 import { AstNode, Model } from "@stormstack/tools-forecast-language/ast";
+import { ESLint } from "eslint";
 import { HelperOptions } from "handlebars/runtime";
+import { CompilerOptions } from "ts-morph";
 
 export interface PluginContext {
   /**
@@ -125,11 +127,30 @@ export type TypescriptPluginOptions = PluginOptions & {
   prettier?: boolean;
 
   /**
+   * Should eslint be used to lint/fix the generated code
+   *
+   * @default true
+   */
+  lint?: boolean;
+
+  /**
    * Should index files be created for each directory that contains generated files
    *
    * @default true
    */
   generateIndexFiles?: boolean;
+};
+
+export type TypeScriptGeneratorConfig = {
+  /**
+   * The compiler options to use when compiling the generated code
+   */
+  compiler?: CompilerOptions;
+
+  /**
+   * The options to use when running eslint
+   */
+  eslint?: ESLint.Options;
 };
 
 export const DIRECTORY_TRACKER_SYMBOL = Symbol("DirectoryTracker");
@@ -142,6 +163,11 @@ export type TemplatePluginPaths = {
    * The path to the template files. This can include a [glob](https://www.npmjs.com/package/glob) pattern.
    */
   templatePath?: string | string[];
+
+  /**
+   * The path to [the partial templates](https://handlebarsjs.com/guide/partials.html) that can be referenced in the main template files. This can include a [glob](https://www.npmjs.com/package/glob) pattern.
+   */
+  partialsPath?: string | string[];
 
   /**
    * The path to the data model template files. For each data model a file will be generated.

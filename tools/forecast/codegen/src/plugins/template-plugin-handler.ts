@@ -24,6 +24,7 @@ import {
   getInterfaces,
   getOperationGroups
 } from "../utils";
+import { TemplateGenerator } from "./generators/template-generator";
 import { TypescriptGenerator } from "./generators/typescript-generator";
 
 export type TemplateDetails = {
@@ -40,7 +41,7 @@ export const createTemplatePluginHandler =
     filterTemplates?: (
       options: TOptions,
       context: Context,
-      generator: TypescriptGenerator<TOptions>,
+      generator: TemplateGenerator<TOptions>,
       node: AstNode | null,
       templates: Array<TemplateDetails>
     ) => Array<TemplateDetails>
@@ -48,11 +49,22 @@ export const createTemplatePluginHandler =
   async (
     options: TOptions,
     context: Context,
-    generator: TypescriptGenerator<TOptions>
+    generator: TemplateGenerator<TOptions>
   ) => {
     ConsoleLogger.info(
       `Generating templates with options:
 ${JsonParser.stringify(options)}`
+    );
+
+    const partials = await registerPartials(
+      templatePaths.partialsPath,
+      options,
+      context,
+      generator
+    );
+    const _filterTemplates = await getFilterTemplates(
+      partials,
+      filterTemplates
     );
 
     let templates = await getTemplates(
@@ -63,9 +75,7 @@ ${JsonParser.stringify(options)}`
 
     // Allow the plugin to filter the templates to be used
     // based on the options and context
-    if (filterTemplates) {
-      templates = filterTemplates(options, context, generator, null, templates);
-    }
+    templates = _filterTemplates(options, context, generator, null, templates);
 
     // Remove any templates that are meant to be specific to a model node
     templates = templates.filter(
@@ -96,7 +106,7 @@ ${JsonParser.stringify(options)}`
           context,
           dataModels,
           generator,
-          filterTemplates
+          _filterTemplates
         );
       }
     }
@@ -114,7 +124,7 @@ ${JsonParser.stringify(options)}`
           context,
           apiModels,
           generator,
-          filterTemplates
+          _filterTemplates
         );
       }
     }
@@ -132,7 +142,7 @@ ${JsonParser.stringify(options)}`
           context,
           interfaces,
           generator,
-          filterTemplates
+          _filterTemplates
         );
       }
     }
@@ -150,7 +160,7 @@ ${JsonParser.stringify(options)}`
           context,
           operationGroups,
           generator,
-          filterTemplates
+          _filterTemplates
         );
       }
     }
@@ -168,7 +178,7 @@ ${JsonParser.stringify(options)}`
           context,
           inputs,
           generator,
-          filterTemplates
+          _filterTemplates
         );
       }
     }
@@ -193,13 +203,95 @@ ${JsonParser.stringify(options)}`
           context,
           enums,
           generator,
-          filterTemplates
+          _filterTemplates
         );
       }
     }
 
     await generator.save(options);
   };
+
+const getFilterTemplates = <
+  TOptions extends TemplatePluginOptions = TemplatePluginOptions
+>(
+  partials: Array<TemplateDetails>,
+  filterTemplates?: (
+    options: TOptions,
+    context: Context,
+    generator: TemplateGenerator<TOptions>,
+    node: AstNode | null,
+    templates: Array<TemplateDetails>
+  ) => Array<TemplateDetails>
+) => {
+  const partialTemplates = partials.map(template => template.name);
+
+  return (
+    options: TOptions,
+    context: Context,
+    generator: TemplateGenerator<TOptions>,
+    node: AstNode | null,
+    templates: Array<TemplateDetails>
+  ): Array<TemplateDetails> => {
+    if (!templates || templates.length === 0) {
+      return [];
+    }
+
+    let result = templates;
+    if (filterTemplates) {
+      result = filterTemplates(options, context, generator, node, result);
+    }
+
+    return partialTemplates && partialTemplates.length > 0
+      ? result.filter(
+          template =>
+            !partialTemplates.some(partialTemplate =>
+              template.name.includes(partialTemplate)
+            )
+        )
+      : result;
+  };
+};
+
+const registerPartials = async <
+  TOptions extends TemplatePluginOptions = TemplatePluginOptions
+>(
+  partialsPath: string | string[] = [],
+  options: TOptions,
+  context: Context,
+  generator: TemplateGenerator<TOptions>
+): Promise<Array<TemplateDetails>> => {
+  if (partialsPath && partialsPath.length > 0) {
+    let partials = await getTemplates(context, partialsPath);
+
+    if (options.filterTemplates) {
+      partials = options.filterTemplates(
+        options,
+        context,
+        generator,
+        null,
+        partials
+      );
+    }
+
+    if (partials && partials.length > 0) {
+      ConsoleLogger.info(
+        `Registering the following partials: ${partials
+          .map(partial => partial.name)
+          .join(", ")}`
+      );
+
+      await generator.registerPartials(
+        partials.map(partial => ({
+          ...partial,
+          name: formatFileName(partial.name)
+        }))
+      );
+      return partials;
+    }
+  }
+
+  return [];
+};
 
 const generateNodeTemplates = async <
   TOptions extends TemplatePluginOptions = TemplatePluginOptions
@@ -233,12 +325,6 @@ const generateNodeTemplates = async <
         nodeTemplates
       );
     }
-
-    ConsoleLogger.info(
-      `Generating files for the following templates: ${nodeTemplates
-        .map(nodeTemplate => nodeTemplate.name)
-        .join(", ")}`
-    );
 
     const generated = await Promise.all(
       nodeTemplates.map(nodeTemplate =>
