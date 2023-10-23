@@ -6,7 +6,7 @@ module.exports = {
   basePath: "/event-catalog",
   output: "export",
   editUrl:
-    "https://github.com/stormstack/stormstack/docs/event-catalog/edit/master",
+    "https://github.com/storm-software/stormstack/docs/event-catalog/edit/master",
   homepageLink: "https://stormcloud.dev",
   primaryCTA: {
     label: "Explore Events",
@@ -27,7 +27,7 @@ module.exports = {
     { label: "3D Node Graph", href: "/overview" },
     {
       label: "GitHub",
-      href: "https://github.com/stormstack/stormstack/docs/event-catalog/edit/master"
+      href: "https://github.com/storm-software/stormstack/docs/event-catalog/edit/master"
     }
   ],
   users: [

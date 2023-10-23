@@ -12,14 +12,14 @@ export const VALID_CONNECTOR_TYPES = [
 
 export type ValibotPluginOptions = TypescriptPluginOptions & {
   /**
-   * Should the UniqueIdGenerator from [@stormstack/core-shared-utilities](https://github.com/stormstack/stormstack/tree/main/libs/core/typescript/shared/utilities) be used to generate the default ID values for fields
+   * Should the UniqueIdGenerator from [@stormstack/core-shared-utilities](https://github.com/storm-software/stormstack/tree/main/libs/core/typescript/shared/utilities) be used to generate the default ID values for fields
    *
    * @default true
    */
   useUniqueIdGenerator?: boolean;
 
   /**
-   * Should the DateTime class from [@stormstack/core-shared-utilities](https://github.com/stormstack/stormstack/tree/main/libs/core/typescript/shared/utilities) be used to type DateTime fields. Set to false if you want to use the Date class instead.
+   * Should the DateTime class from [@stormstack/core-shared-utilities](https://github.com/storm-software/stormstack/tree/main/libs/core/typescript/shared/utilities) be used to type DateTime fields. Set to false if you want to use the Date class instead.
    *
    * @default true
    */

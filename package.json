@@ -23,18 +23,18 @@
   ],
   "homepage": "https://stormstack.dev",
   "bugs": {
-    "url": "https://github.com/stormstack/stormstack/issues",
+    "url": "https://github.com/storm-software/stormstack/issues",
     "email": "support@stormcloud.dev"
   },
   "repository": {
     "type": "github",
-    "url": "https://github.com/stormstack/stormstack.git"
+    "url": "https://github.com/storm-software/stormstack.git"
   },
   "license": "Apache License 2.0",
   "author": {
-    "name": "Dark Sky Labs",
-    "email": "contact@darkskylabs.com",
-    "url": "https://darkskylabs.com"
+    "name": "Storm Software",
+    "email": "contact@stormcloud.dev",
+    "url": "https://stormsoftware.org"
   },
   "scripts": {
     "add:contributors": "all-contributors add",

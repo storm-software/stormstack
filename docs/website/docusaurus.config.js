@@ -74,7 +74,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/stormstack/stormstack",
+          editUrl: "https://github.com/storm-software/stormstack",
           exclude: ["**/decisions/**"]
         },
         theme: {
@@ -189,7 +189,7 @@ const config = {
             position: "right"
           },
           {
-            href: "https://github.com/stormstack/stormstack",
+            href: "https://github.com/storm-software/stormstack",
             label: "GitHub",
             position: "right"
           }
@@ -255,7 +255,7 @@ const config = {
               },
               {
                 label: "GitHub",
-                href: "https://github.com/stormstack/stormstack"
+                href: "https://github.com/storm-software/stormstack"
               }
             ]
           }

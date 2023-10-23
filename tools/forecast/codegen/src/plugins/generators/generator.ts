@@ -112,7 +112,7 @@ ${commentStart} free for commercial and private use. For more information, pleas
 ${commentStart} our licensing page.
 ${commentStart}
 ${commentStart}    Website: https://forecastjs.com
-${commentStart}    Repository: https://github.com/stormstack/stormstack
+${commentStart}    Repository: https://github.com/storm-software/stormstack
 ${commentStart}    Documentation: https://forecastjs.com/docs
 ${commentStart}    Contact: https://forecastjs.com/contact
 ${commentStart}    Licensing: https://forecastjs.com/licensing

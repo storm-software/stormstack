@@ -28,6 +28,6 @@ export default create({
   inputBorderRadius: 2,
 
   brandTitle: "StormStack",
-  brandUrl: "https://github.com/stormstack/stormstack",
-  brandImage: require("../../assets/logo/storm-logo.svg"),
+  brandUrl: "https://github.com/storm-software/stormstack",
+  brandImage: require("../../assets/logo/storm-logo.svg")
 });

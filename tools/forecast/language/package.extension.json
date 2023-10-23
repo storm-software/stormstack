@@ -25,10 +25,10 @@
   },
   "repository": {
     "type": "github",
-    "url": "https://github.com/stormstack/stormstack.git"
+    "url": "https://github.com/storm-software/stormstack.git"
   },
   "bugs": {
-    "url": "https://github.com/stormstack/stormstack/issues"
+    "url": "https://github.com/storm-software/stormstack/issues"
   },
   "author": {
     "email": "contact@stormcloud.dev",
@@ -68,22 +68,13 @@
     "directory": "dist/tools/forecast/language",
     "linkDirectory": true
   },
-  "categories": [
-    "Programming Languages",
-    "Data Science"
-  ],
+  "categories": ["Programming Languages", "Data Science"],
   "contributes": {
     "languages": [
       {
         "id": "forecast",
-        "aliases": [
-          "Storm",
-          "Forecast Model",
-          "Storm Forecast"
-        ],
-        "extensions": [
-          ".4cast"
-        ],
+        "aliases": ["Storm", "Forecast Model", "Storm Forecast"],
+        "extensions": [".4cast"],
         "configuration": "./language-configuration.json",
         "icon": {
           "light": "./assets/light/icon.png",
@@ -99,7 +90,5 @@
       }
     ]
   },
-  "activationEvents": [
-    "onLanguage:forecast"
-  ]
+  "activationEvents": ["onLanguage:forecast"]
 }

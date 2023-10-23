@@ -31,7 +31,7 @@ env:
 
 jobs:
   deploy-docs:
-    if: github.repository == 'stormstack/stormstack' && github.ref == 'refs/heads/main'
+    if: github.repository == 'storm-software/stormstack' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

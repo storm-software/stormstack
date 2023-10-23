@@ -86,7 +86,7 @@ export abstract class EnvManager<
   public get repositoryUrl(): URL {
     const url = this.getWithDefault<string>(
       "CI_REPO_URL",
-      "https://github.com/stormstack/stormstack"
+      "https://github.com/storm-software/stormstack"
     );
 
     return new URL(url);

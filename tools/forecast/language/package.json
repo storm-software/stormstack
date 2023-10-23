@@ -3,7 +3,10 @@
   "displayName": "Forecast Language Tools",
   "version": "0.0.1",
   "description": "A toolkit for building secure CRUD apps with Next.js + GraphQL built on Prisma and Zenstack.",
-  "homepage": "https://stormstack.github.io/stormstack/",
+  "categories": [
+    "Programming Languages",
+    "Data Science"
+  ],
   "keywords": [
     "forecast",
     "storm",
@@ -16,26 +19,51 @@
     "zenstack",
     "prisma"
   ],
-  "publisher": "storm-software",
-  "preview": false,
-  "icon": "./assets/light/icon.png",
-  "galleryBanner": {
-    "color": "#1E1E1E",
-    "theme": "dark"
+  "homepage": "https://stormstack.github.io/stormstack/",
+  "bugs": {
+    "url": "https://github.com/storm-software/stormstack/issues"
   },
   "repository": {
     "type": "github",
-    "url": "https://github.com/stormstack/stormstack.git"
-  },
-  "bugs": {
-    "url": "https://github.com/stormstack/stormstack/issues"
+    "url": "https://github.com/storm-software/stormstack.git"
   },
   "author": {
-    "email": "contact@stormcloud.dev",
     "name": "Storm Software",
+    "email": "contact@stormcloud.dev",
     "url": "https://stormcloud.dev"
   },
+  "publisher": "storm-software",
   "main": "./extension/main.js",
+  "contributes": {
+    "grammars": [
+      {
+        "language": "forecast",
+        "scopeName": "source.forecast",
+        "path": "./syntaxes/forecast.tmLanguage.json"
+      }
+    ],
+    "languages": [
+      {
+        "id": "forecast",
+        "aliases": [
+          "Storm",
+          "Forecast Model",
+          "Storm Forecast"
+        ],
+        "extensions": [
+          ".4cast"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./assets/light/icon.png",
+          "dark": "./assets/dark/icon.png"
+        }
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:forecast"
+  ],
   "dependencies": {
     "express": "~4.18.2",
     "langium": "~1.2.0",
@@ -68,38 +96,10 @@
     "directory": "dist/tools/forecast/language",
     "linkDirectory": true
   },
-  "categories": [
-    "Programming Languages",
-    "Data Science"
-  ],
-  "contributes": {
-    "languages": [
-      {
-        "id": "forecast",
-        "aliases": [
-          "Storm",
-          "Forecast Model",
-          "Storm Forecast"
-        ],
-        "extensions": [
-          ".4cast"
-        ],
-        "configuration": "./language-configuration.json",
-        "icon": {
-          "light": "./assets/light/icon.png",
-          "dark": "./assets/dark/icon.png"
-        }
-      }
-    ],
-    "grammars": [
-      {
-        "language": "forecast",
-        "scopeName": "source.forecast",
-        "path": "./syntaxes/forecast.tmLanguage.json"
-      }
-    ]
+  "icon": "./assets/light/icon.png",
+  "galleryBanner": {
+    "color": "#1E1E1E",
+    "theme": "dark"
   },
-  "activationEvents": [
-    "onLanguage:forecast"
-  ]
+  "preview": false
 }

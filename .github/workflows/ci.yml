@@ -24,7 +24,7 @@ env:
 
 jobs:
   build-and-release:
-    if: github.repository == 'stormstack/stormstack' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/beta')
+    if: github.repository == 'storm-software/stormstack' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/beta')
     name: "Build & Release"
     runs-on: ubuntu-latest
     steps:

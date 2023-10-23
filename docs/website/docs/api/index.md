@@ -2,7 +2,7 @@
 
 This repository contains modern and scalable web application code, additional utility applications/tools, and various libraries.
 
-[![github](https://img.shields.io/github/package-json/v/stormstack/stormstack?style=for-the-badge)](https://github.com/stormstack/stormstack)
+[![github](https://img.shields.io/github/package-json/v/storm-software/stormstack?style=for-the-badge)](https://github.com/storm-software/stormstack)
 [![Nx](https://img.shields.io/badge/Nx-14.4.2-lightgrey?style=for-the-badge&logo=nx&logoWidth=20)](http://nx.dev/)
 [![.Net Core](https://img.shields.io/badge/.NET-7.0.3-blue?style=for-the-badge&logo=dotnet&logoWidth=20)](https://dotnet.microsoft.com/en-us/)
 [![NextJs](https://img.shields.io/badge/Next.js-13.0.5-lightgrey?style=for-the-badge&logo=nextdotjs&logoWidth=20)](https://nextjs.org/)
@@ -15,7 +15,7 @@ This repository contains modern and scalable web application code, additional ut
 
 <!--#if GitHubActions-->
 
-[![GitHub Actions Build History](https://buildstats.info/github/chart/stormstack/stormstack?branch=main&includeBuildsFromPullRequest=false)](https://github.com/stormstack/stormstack/actions)
+[![GitHub Actions Build History](https://buildstats.info/github/chart/storm-software/stormstack?branch=main&includeBuildsFromPullRequest=false)](https://github.com/storm-software/stormstack/actions)
 
 <!--#endif-->
 
@@ -106,7 +106,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/stormstack/stormstack/commits?author=sullivanpj" title="Tests">⚠️</a></td>
+      <td align="center"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/storm-software/stormstack/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/storm-software/stormstack/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/storm-software/stormstack/commits?author=sullivanpj" title="Tests">⚠️</a></td>
       <td align="center"><a href="https://tylerbenning.com/"><img src="https://avatars.githubusercontent.com/u/7265547?v=4?s=100" width="100px;" alt="Tyler Benning"/><br /><sub><b>Tyler Benning</b></sub></a><br /><a href="#design-tbenning" title="Design">🎨</a></td>
     </tr>
   </tbody>
