@@ -6,10 +6,10 @@
     "./crypto": "./crypto.js"
   },
   "dependencies": {
-    "@js-temporal/polyfill": "^0.4.4",
-    "@noble/hashes": "^1.3.2",
-    "stacktracey": "^2.1.8",
-    "type-detect": "^4.0.8"
+    "@js-temporal/polyfill": "0.4.4",
+    "@noble/hashes": "1.3.2",
+    "stacktracey": "2.1.8",
+    "type-detect": "4.0.8"
   },
   "devDependencies": {
     "@types/type-detect": "^4.0.1"

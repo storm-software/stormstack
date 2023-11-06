@@ -2,6 +2,6 @@
   "name": "@stormstack/core-client-form",
   "version": "0.0.1",
   "dependencies": {
-    "jotai": "^2.4.3"
+    "jotai": "2.4.3"
   }
 }

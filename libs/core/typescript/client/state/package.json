@@ -2,7 +2,7 @@
   "name": "@stormstack/core-client-state",
   "version": "0.0.1",
   "dependencies": {
-    "jotai": "^2.4.3"
+    "jotai": "2.4.3"
   },
   "devDependencies": {
     "@swc-jotai/debug-label": "^0.1.0",

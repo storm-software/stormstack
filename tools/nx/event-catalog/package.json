@@ -5,11 +5,11 @@
   "main": "./index.cjs",
   "typings": "./index.d.ts",
   "dependencies": {
-    "@asyncapi/generator": "^1.10.14",
+    "@asyncapi/generator": "1.13.1",
     "@nx/devkit": "16.7.0",
-    "esbuild-plugin-polyfill-node": "^0.3.0",
-    "fs-extra": "^11.1.1",
-    "glob": "^10.3.3"
+    "esbuild-plugin-polyfill-node": "0.3.0",
+    "fs-extra": "11.1.1",
+    "glob": "10.3.10"
   },
   "executors": "./executors.json",
   "generators": "./generators.json"

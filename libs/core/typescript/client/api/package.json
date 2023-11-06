@@ -10,6 +10,6 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@repeaterjs/repeater": "^3.0.4"
+    "@repeaterjs/repeater": "3.0.4"
   }
 }

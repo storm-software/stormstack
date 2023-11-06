@@ -2,6 +2,6 @@
   "name": "@stormstack/tools-forecast-plugins-valibot",
   "version": "0.0.1",
   "dependencies": {
-    "langium": "^2.0.2"
+    "langium": "2.0.2"
   }
 }
