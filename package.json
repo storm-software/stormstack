@@ -202,7 +202,7 @@
     "@prisma/client": "^5.2.0",
     "@prisma/generator-helper": "^5.2.0",
     "@rollup/plugin-url": "^7.0.0",
-    "@sentry/nextjs": "^7.50.0",
+    "@sentry/nextjs": "^7.77.0",
     "@sentry/tracing": "^7.50.0",
     "@storybook/addon-a11y": "7.1.1",
     "@storybook/addon-essentials": "7.1.1",
