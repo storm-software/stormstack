@@ -4,6 +4,6 @@
   "dependencies": {
     "@prisma/generator-helper": "^5.2.0",
     "path": "^0.12.7",
-    "ts-morph": "^19.0.0"
+    "ts-morph": "^20.0.0"
   }
 }
