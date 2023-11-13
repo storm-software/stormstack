@@ -31,7 +31,7 @@
     "vscode": "^1.1.37",
     "vscode-jsonrpc": "^8.1.0",
     "vscode-languageclient": "^8.1.0",
-    "vscode-languageserver": "^8.1.0",
+    "vscode-languageserver": "^9.0.0",
     "vscode-languageserver-textdocument": "^1.0.8",
     "vscode-uri": "^3.0.7"
   },
