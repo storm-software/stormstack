@@ -125,7 +125,7 @@
     "@vercel/otel": "^0.3.0",
     "bcryptjs": "^2.4.3",
     "check-dependency-version-consistency": "^4.1.0",
-    "clsx": "^1.1.1",
+    "clsx": "^2.0.0",
     "commitizen": "^4.3.0",
     "core-js": "^3.30.1",
     "dotenv": "^16.0.3",
