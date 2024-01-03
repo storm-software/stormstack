@@ -11,7 +11,7 @@
     "http": "0.0.1-security",
     "process": "^0.11.10",
     "reflect-metadata": "^0.1.13",
-    "wrangler": "^3.9.0",
+    "wrangler": "^3.19.0",
     "zlib": "^1.0.5"
   }
 }
