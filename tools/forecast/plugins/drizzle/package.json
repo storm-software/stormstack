@@ -2,7 +2,7 @@
   "name": "@stormstack/tools-forecast-plugins-drizzle",
   "version": "0.0.1",
   "dependencies": {
-    "@prisma/generator-helper": "^5.2.0",
+    "@prisma/generator-helper": "^5.4.1",
     "drizzle-orm": "^0.28.5",
     "langium": "1.2.1",
     "path": "^0.12.7",

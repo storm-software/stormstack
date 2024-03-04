@@ -7,7 +7,7 @@
     "@total-typescript/ts-reset": "^0.4.2",
     "eslint-plugin-tsdoc": "^0.2.17",
     "prettier": "2.8.8",
-    "prettier-plugin-packagejson": "^2.4.5",
+    "prettier-plugin-packagejson": "^2.4.6",
     "prettier-plugin-prisma": "^5.0.0",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "shell-quote": "^1.8.1",

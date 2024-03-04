@@ -4,7 +4,7 @@
   "dependencies": {
     "@graphql-tools/graphql-file-loader": "^8.0.0",
     "@graphql-tools/load": "^8.0.0",
-    "@prisma/generator-helper": "^5.2.0",
+    "@prisma/generator-helper": "^5.4.1",
     "drizzle-orm": "^0.28.5",
     "langium": "1.2.1",
     "path": "^0.12.7",

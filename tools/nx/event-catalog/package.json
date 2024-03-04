@@ -6,7 +6,7 @@
   "typings": "./index.d.ts",
   "dependencies": {
     "@asyncapi/generator": "^1.10.14",
-    "@nx/devkit": "16.7.0",
+    "@nx/devkit": "16.7.4",
     "esbuild-plugin-polyfill-node": "^0.3.0",
     "fs-extra": "^11.1.1",
     "glob": "^10.3.3"

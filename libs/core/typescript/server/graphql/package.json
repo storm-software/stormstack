@@ -11,7 +11,7 @@
     "@envelop/validation-cache": "^6.0.2",
     "@escape.tech/graphql-armor": "^2.3.1",
     "@escape.tech/graphql-armor-types": "^0.5.0",
-    "@graphql-hive/client": "^0.24.1",
+    "@graphql-hive/client": "^0.24.2",
     "@graphql-tools/graphql-file-loader": "^8.0.0",
     "@graphql-tools/load": "^8.0.0",
     "@graphql-tools/schema": "^10.0.0",

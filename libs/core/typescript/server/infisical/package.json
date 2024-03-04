@@ -2,6 +2,6 @@
   "name": "@stormstack/core-server-infisical",
   "version": "0.0.1",
   "dependencies": {
-    "infisical-node": "^1.4.3"
+    "infisical-node": "^1.5.0"
   }
 }
