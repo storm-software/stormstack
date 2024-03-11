@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "dependencies": {
     "@cloudflare/d1": "^1.4.1",
-    "@cloudflare/workers-types": "^4.20230904.0",
+    "@cloudflare/workers-types": "^4.20231002.0",
     "@envelop/types": "^4.0.0",
-    "@nx/devkit": "16.7.0",
-    "drizzle-orm": "^0.28.5",
+    "@nx/devkit": "16.10.0",
+    "drizzle-orm": "^0.30.0",
     "pnpapi": "^0.0.0",
     "wrangler": "^3.9.0"
   }

@@ -6,8 +6,8 @@
   "typings": "./index.d.ts",
   "dependencies": {
     "@microsoft/api-extractor": "^7.38.0",
-    "@nx/devkit": "16.7.0",
-    "fs-extra": "^11.1.1"
+    "@nx/devkit": "16.10.0",
+    "fs-extra": "^11.2.0"
   },
   "executors": "./executors.json",
   "generators": "./generators.json"
