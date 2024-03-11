@@ -8,6 +8,6 @@
     "superjson": "^1.13.1"
   },
   "devDependencies": {
-    "@types/qs": "^6.9.8"
+    "@types/qs": "6.9.8"
   }
 }
