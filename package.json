@@ -276,7 +276,7 @@
     "jsdom": "~22.1.0",
     "lint-staged": "^14.0.0",
     "log4brains": "^1.0.1",
-    "next-intl": "^2.13.1",
+    "next-intl": "^4.0.0",
     "nx": "16.9.1",
     "nx-cloud": "16.4.0",
     "patch-package": "^7.0.0",
