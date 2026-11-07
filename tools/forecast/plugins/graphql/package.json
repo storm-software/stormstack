@@ -5,7 +5,7 @@
     "@graphql-tools/graphql-file-loader": "^8.0.0",
     "@graphql-tools/load": "^8.0.0",
     "@prisma/generator-helper": "^5.2.0",
-    "drizzle-orm": "^0.28.5",
+    "drizzle-orm": "^0.45.0",
     "langium": "1.2.1",
     "path": "^0.12.7",
     "semver": "^7.5.4",
