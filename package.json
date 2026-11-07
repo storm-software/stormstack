@@ -110,7 +110,7 @@
     "@commitlint/config-nx-scopes": "^17.6.4",
     "@commitlint/cz-commitlint": "^17.7.1",
     "@commitlint/prompt-cli": "^17.7.1",
-    "@envelop/graphql-modules": "^5.0.0",
+    "@envelop/graphql-modules": "^9.0.0",
     "@envelop/live-query": "^6.0.0",
     "@envelop/sentry": "^6.0.0",
     "@graphql-codegen/core": "^4.0.0",
