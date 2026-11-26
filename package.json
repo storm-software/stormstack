@@ -304,7 +304,7 @@
     "verdaccio": "^5.0.4",
     "vite": "~4.3.9",
     "vite-plugin-dts": "~2.3.0",
-    "vitest": "~0.32.0",
+    "vitest": "~3.2.0",
     "webpack": "^5.81.0",
     "webpack-merge": "^5.8.0",
     "wrangler": "^3.9.0"
